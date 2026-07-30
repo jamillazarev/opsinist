@@ -1,0 +1,19 @@
+{
+  "name": "opsinist",
+  "displayName": "Opsinist",
+  "description": "An operations department for AI coding agents, in files — roles, work, cost, evidence and escalation out of one git repository.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Jamil Lazarev"
+  },
+  "homepage": "https://ai.jamillazarev.com/skills/opsinist",
+  "repository": "https://github.com/jamillazarev/opsinist",
+  "license": "Apache-2.0",
+  "keywords": [
+    "operations",
+    "agent-teams",
+    "project-management",
+    "git"
+  ],
+  "skills": "./"
+}

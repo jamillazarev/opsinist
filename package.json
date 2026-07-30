@@ -1,0 +1,21 @@
+{
+  "name": "opsinist",
+  "version": "0.1.0",
+  "description": "Opsinist skills and runtime bootstrap for coding agents",
+  "type": "module",
+  "main": ".opencode/plugins/opsinist.js",
+  "keywords": [
+    "pi-package",
+    "operations",
+    "agent-teams",
+    "project-management"
+  ],
+  "pi": {
+    "extensions": [
+      "./.pi/extensions/opsinist.ts"
+    ],
+    "skills": [
+      "./"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.DS_Store
+company/
+
+# Nothing built belongs here. A site build swept into this tree once, by a `git add -A`
+# during a squash, and shipped 928K of fonts and bundles inside a package that is markdown.
+docs/.vitepress/
+dist/
+node_modules/
+.impeccable/

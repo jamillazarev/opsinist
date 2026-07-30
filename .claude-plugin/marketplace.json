@@ -1,0 +1,12 @@
+{
+  "name": "opsinist",
+  "description": "Opsinist — build and run a team of AI agents out of one git repository, where every entity is a file.",
+  "owner": { "name": "Jamil Lazarev" },
+  "plugins": [
+    {
+      "name": "opsinist",
+      "source": "./",
+      "description": "An operations skill for Claude Code. Roles, work, groups, pipelines, requests and run records are files in one repository — clone it and the project comes with it."
+    }
+  ]
+}
