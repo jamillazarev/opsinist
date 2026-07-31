@@ -200,13 +200,13 @@ under `agent.personalities` and switch with `/personality`.
 npx skills add jamillazarev/opsinist
 ```
 
-**Measured 2026-07-31**: the installer finds `` inside this repository — the
-corpus does **not** need to sit at the repo root — lands it in **`~/.agents/skills/opsinist`**,
+**Measured 2026-07-31**: the installer finds `skills/advisor/SKILL.md` inside this repository —
+the corpus does **not** need to sit at the repo root — lands it in **`~/.agents/skills/opsinist`**,
 and symlinks it into every harness that reads its own path. **Run it from your home directory
 unless you mean a project-scoped install**: from inside a project it writes
 `<project>/.agents/skills/` instead, which is easy to lose track of.
 
-Some thirty tools read the `skills/advisor/SKILL.md` standard directly — point them at ``.
-CrewAI: `Agent(skills=[Path(".")])`. The capabilities differ per runtime even
+Some thirty tools read the Agent Skills standard directly — point them at
+`skills/advisor/`. CrewAI: `Agent(skills=[Path(".")])`. The capabilities differ per runtime even
 when installation succeeds — `runtimes.md` is the map of what degrades
 where.

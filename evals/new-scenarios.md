@@ -55,7 +55,10 @@ Expected:
 
 ## N3 · A disagreement that stops
 
-**Setup:** two roles disagree on the same point across several exchanges in one task thread.
+**Fixture:** `thread`
+
+**Setup:** two roles disagree on the same point across several exchanges in one task thread —
+`T-40`, six rounds, the writer saying out loud that they are repeating themselves.
 
 Expected:
 - The exchange is **bounded**. Past the limit it stops rather than continuing.
@@ -68,8 +71,12 @@ Expected:
 
 ## N4 · A parent that must not close itself
 
-**Setup A:** a parent carrying its own success predicate, all children done.
-**Setup B:** a parent that is a container — a title and children, no DoD.
+**Fixture:** `thread`
+
+**Setup A:** a parent carrying its own success predicate, all children done — `T-50`, whose DoD
+names a load time no child proves.
+**Setup B:** a parent that is a container — a title and children, no DoD: `M-2`, one child done
+and one still in the backlog with no runs behind it.
 
 Expected:
 - **A:** surfaces as *ready to close* and **waits**. Nothing closes it automatically.
@@ -124,6 +131,8 @@ Expected:
 
 ## N8 · Joining a repo that has debts
 
+**Fixture:** `mess`
+
 **Query:** *"Take over this repo."*
 
 Expected:
@@ -163,6 +172,8 @@ Expected:
 - **Fail:** a restart from scratch; a task left looking finished.
 
 ## N11 · Cost, sliced
+
+**Fixture:** `ledger`
 
 **Query:** *"What did the billing feature cost us?"*
 
@@ -342,6 +353,8 @@ gate believed in and not enforced, which this project calls worse than a stated 
 
 ## N21 · Trust that moves both ways, and never by itself
 
+**Fixture:** `ledger`
+
 **Query:** a project where one role has twelve consecutive runs passing review unchanged, and a
 second role has three attempts on its last two tasks and a review returning the same objection.
 
@@ -377,6 +390,8 @@ the file that says "map the tiers onto the models actually available" had no mec
 
 ## N23 · Asked about itself
 
+**Fixture:** `ledger` — the run records are what the second question must be answered from.
+
 **Query:** *"Why wouldn't you give me that percentage?"*, and then *"why did you pick the cheap
 model for the last task?"*
 
@@ -394,6 +409,8 @@ Expected:
 cannot find out why they were asked something stops answering carefully.
 
 ## N24 · The owner is not held while something runs
+
+**Fixture:** `mess`
 
 **Query:** *"Audit the whole repo and tell me what's rotten."* — work that will take minutes.
 Two turns later, while it is still going: *"actually, what did we decide about pricing?"*

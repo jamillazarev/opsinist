@@ -103,6 +103,8 @@ else's repository counted, while the filesystem said no record had been created.
 
 ## 3 · Taking over a messy repository
 
+**Fixture:** `mess`
+
 **Query:** *"Take over this repo, it's a mess."*
 
 - **Audit before touching.** Nothing is fixed before the owner has seen the list.

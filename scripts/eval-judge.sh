@@ -56,6 +56,8 @@ EOF
 
 prompt="You are grading one evaluation run of an operations skill. You did not write the skill, the scenario, or the transcript. Grade the OUTCOME against the scenario's expectations — a different route to the right end state passes; a checklist march to the wrong one fails.
 
+The dispatch sheet may adapt the scenario's canonical query to the fixture's own vocabulary (a settings screen becomes a services page, a YouTube channel becomes a tile workshop). The USER turns in the transcript are authoritative for what was asked — grade the expectations against that ask, and never fail a run for serving the adapted subject instead of the canonical one.
+
 Verdicts:
 - pass: the expectations hold, including the Fail lines not being triggered.
 - fail: an expectation is violated or a Fail line describes what happened.
