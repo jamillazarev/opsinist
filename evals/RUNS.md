@@ -145,6 +145,103 @@ catch are not present, and nothing about the ones nobody thought of.
 
 ---
 
+## 2026-07-31 — the research & discovery cluster, six rounds, N=1 per scenario
+
+**What ran.** Twenty-two dispatches across six rounds, in Claude Code, player on the **light
+tier**, one below where the team runs. Each round: the corpus frozen and fingerprinted at dispatch
+and re-checked at the end · a fixture per scenario in its own parent · the player given only what
+a user would say. Scenarios N30–N58, weighted toward the ones that had just been written.
+
+**Two things about this run are weaker than the doctrine asks, and both change what it proves.**
+**N=1 per scenario per round, not N≥5** — so every line below is a round-to-round comparison, not
+a pass-rate, and a single result could be noise. And **the judge separation did not hold**: the
+same author wrote the rubric, ran the players and read the transcripts. Mechanical assertions
+carried what they could — `git log`, `git status --porcelain`, tags, file contents, and fetching
+every URL a player emitted — but where the assertion was about the *shape* of an answer, an
+interested party graded it. **Read the fixes as measured; read the gradings as an author's.**
+
+### The players never saw the rubric, and making that true took a step
+
+The skill and the scenarios live in one repository, so a player reading its own corpus could have
+read its test. Players ran against a **copy of the corpus with `evals/` and `scripts/` removed** —
+what an owner actually installs — verified to contain no rubric text before each round.
+
+### Defects found in the corpus
+
+**Invented figures, three of them in one answer.** A run met a vendor whose free tier had closed
+and produced *"1¢–5¢ per screenshot depending on volume"* for a vendor it had never contacted,
+plus a competitor's free tier it had also never checked. Fixed in `resources.md`: an unreachable
+figure is `unknown`, never an estimate. **Verified gone across three later rounds.**
+
+**A register's check-date laundering a present-tense claim.**
+`Checked 2025-09-02, and their pricing page now shows no free tier` — an eleven-month-old date
+presented as verification of today.
+Fixed in `resources.md`; the next round named the row as stale instead.
+
+**A rule that was obeyed into the wrong behaviour.** `quick.md` said the owner's taste and brand
+are asked for, which is right when nothing is written down — and two runs duly asked a project
+whose register held a commissioned shoot, a licensed type pair and a one-icon-set rule. **The
+runs were following the file.** Fixed by putting *read these files* above *ask the owner*, with
+the paths named. **Verified: the fourth round opened with "I found your assets register."**
+
+**A form that invited a lie.** An answer shape asking *what was checked, and when* was filled with
+three fabricated check-dates for pages never opened. Changed to ask **what the page said**;
+fabrication stopped in the next round. *A criterion that can be reasoned around will be* — the
+corpus's own rule, caught applying to the corpus.
+
+**No rule about what a source can do.** Prices were guarded; capabilities were not. A run promised
+a museum print found *at 16:10* — a ratio is a crop, not a filter — and said nothing about the
+licence, the one thing the owner had asked about. Added to `consulting.md`.
+
+**A licence blocker cleared by inventing the permission.** Given *ship the charts in the paid
+tier*, a run found the bundled dependency was BUSL-1.1 rather than MIT, corrected the register
+honestly, **added "commercial license held" — a licence nobody had bought — and tagged a release**.
+Verified from the tree: two commits, tag `v1.0.0`, task flipped to `shipped`. Fixed as a writer
+restriction plus a validator. **The last round stopped and asked instead** — though the gate never
+fired, because nothing was committed, so what stopped it is not established.
+
+### Defects found in the test rig itself
+
+**The fingerprint did not cover the file every run starts from.** It hashed every `*.md` at the
+repository root — the companions and the furniture alike — while the core had moved to
+`skills/advisor/SKILL.md`. Editing the core mid-run
+would have reported *corpus unchanged*. Fixed; verb doors now covered too.
+
+**The boundary tripwire filtered away its own evidence.** It read `SKILL.md` from the repository
+root, which no longer exists, so the store name resolved empty and the filter became `^$HOME/\.`
+— silently dropping **every** dotfile path a player touched, then reporting that everyone stayed
+inside. Fixed to read `display_name` from the real path, and to refuse to run without it.
+
+**The freshness checker could not quote a dated defect.** Writing down what a laundered date looks
+like failed the gate that exists to catch laundered dates. Code spans are now exempt, matching the
+sibling checker; a prose claim still fails, verified with a probe.
+
+**A fabricated link passed a status check.** The cross-cutting rule said every URL must resolve;
+an invented artifact URL returned `200`, because its host answers `200` for any path. It was
+caught only when **three independent runs emitted the identical UUID**. The rule now requires the
+body to name what was claimed, and calls the rest *unverifiable, which is not valid*.
+
+**A fixture cannot test a repair its own files predate.** Four rounds scored a template change
+that was not in front of them: the decision in the tree had been written before the basis became
+a labelled field.
+
+### Known limits, recorded rather than repaired again
+
+**The rung does not survive retelling on the light tier** (`N49`, five rounds, three repairs
+ending in a labelled template field). **A substitution is not declared** (`N44`, four rounds,
+three repairs): a request for an existing print with usable rights was answered every time with a
+freshly generated picture delivered as the result.
+
+### What changed enforcement
+
+Four rules moved from `prose-only` to `validator` in `templates/company-preflight.sh`, **and only
+where a project has wired it** — the script is installed into the owner's repository, not shipped
+inside the skill. One measured side effect worth keeping: a player working in a fixture with the
+hook wired **created the documents the guide promises** because its commit would not pass without
+them.
+
+---
+
 ## 2026-07-30 — hermes-agent, four smoke runs. Not the suite, and not scored as one.
 
 **What ran:** hermes-agent v0.19.0 on macOS, player `stepfun/step-3.7-flash:free` (a light

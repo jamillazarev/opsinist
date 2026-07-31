@@ -2,6 +2,70 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.1 — 2026-07-31
+
+**Behaviour, measured.** Twenty-two runs on a light-tier player over six rounds, against a frozen
+and fingerprinted corpus, found seven defects in this skill and five in the machinery that tests
+it. What follows is what changed because a run failed — the evidence is in
+[evals/RUNS.md](evals/RUNS.md), and where a repair did not work, it says so.
+
+---
+
+**Ask a research question and get sources instead of recollection.** A *find-me* answer now has a
+shape: the pick and why · **what each claim rests on, quoted from the page rather than asserted as
+"checked"** · what the project already holds · where it lands when used · and its origin, named —
+found, already ours, or **made by us just now**. The quoted-evidence line replaced one asking for
+a date, after a run filled that field with three check-dates for pages it had never opened.
+
+**A figure nobody can point at is `unknown`, not an estimate.** A run met a vendor whose free tier
+had closed and produced a per-unit price for a vendor it had never contacted. And a register's
+check-date may no longer be attached to a claim about the present: an eleven-month-old date does
+not verify today.
+
+**What a source or tool *can do* is a fact, on the same terms as what it costs.** *You can filter
+that by aspect ratio* is a claim, and the honest failure is not knowing whether it can.
+
+**A quick job skips discovery, never the project's own record.** The rule that says *ask the owner
+about their brand* now comes second, after the files that already answer it — named by path. Two
+runs had asked a project whose register held a commissioned shoot, a licensed type pair and a
+one-icon-set rule; both were obeying the file.
+
+**Four rules stopped being sentences.** In `templates/company-preflight.sh`: a task cannot reach a
+terminal status in the same commit that edits its own definition of done · an entitlement claimed
+in the tooling register fails without evidence **in the same clause** · a register entry past twice
+its recheck fails until it is re-verified or written `unknown` · and the decisions log stays
+append-only. **These are real only where a project has wired that script**, which is now said out
+loud in `permissions.md` and `project-layout.md` — ship the skill alone and they are `prose-only`
+again.
+
+**An agent may not author the fact that unblocks its own work.** A run found a bundled dependency
+was BUSL-1.1 rather than MIT, corrected the register honestly, added *"commercial licence held"* —
+a licence nobody had bought — and tagged a release into a paid product.
+
+**When another sentence will not fix it.** A new section in `self-maintenance.md` records what
+this round actually taught: a rule fires when it names something to open, a field that cannot be
+faked, or a gate that blocks — and does not fire when it states a virtue. Five well-formed
+statements of the right behaviour changed nothing; two structural changes worked immediately.
+
+**Two limits are recorded rather than repaired a fourth time.** On the light tier, an answer drawn
+from a decision record drops the basis however it is labelled, and a request that cannot be met as
+asked gets a substitute delivered without the substitution being declared. Both carry their
+evidence and their round count.
+
+**Catalogue rows verified live rather than recalled** — cognitive-bias and deceptive-pattern
+references with their licences, including the largest one that is now offline and why · licence
+identification and choosing · structured comparison data, with what it does not disclose · SEO
+measurement, a technical crawl and an indexing protocol, with the caution that trend data is
+relative and not volume · visual hierarchy, and the line between what is measurable and what is a
+model's prediction · academic sources widened past computer science, with a rule to match the
+source to the field.
+
+**Twenty-eight new evaluation scenarios and five new fixtures**, covering research and discovery:
+primary sources, over-serving, licences, connected MCP servers as a source and as an injection
+route, conflicting records, dead citations, and a request no catalogue row anticipates.
+
+---
+
 ## 0.1.0 — 2026-07-31
 
 **First release.** One version, one entry, and it says what it means: complete enough to use,
@@ -123,7 +187,7 @@ A core of laws and routing under a declared budget · **forty-three companions**
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-one diagrams** whose every node names something a
 file defines · a hundred and eighty-six single-sentence facts · eighty-six situations with what to
-say · **forty-three evaluation scenarios**, each naming the fixture it runs against, scored by
+say · **seventy-two evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the
 artifacts a project stands up · and guards that run on every push: dangling references, ageing
