@@ -72,6 +72,19 @@ given the task file, writing its result into the same repository. So an advisor 
 place can hand a task to a worker running in another, and the thread it writes to is the same file
 either way.
 
+**The pattern is measured; crossing runtimes is not.** `2026-07-31`: a headless subprocess handed
+nothing but *"read `tasks/T-1.md` and do what its definition of done says"* edited the code, wrote
+its own run line into the task's thread, and set the status — **the repository was the whole
+channel**. The crossing itself could not be exercised on that machine: **Gemini CLI answered
+`IneligibleTierError` — the vendor has withdrawn that client for individual accounts and points at
+Antigravity — and Codex answered `401` on every transport.** Neither is a defect in this
+mechanism, and neither is a reason to write the crossing down as working.
+
+**So check the executor answers before handing it a task.** Both failures above burned time and
+produced nothing a task file would record — the second after ten reconnection attempts. **A dead
+executor and a slow one look identical from outside**, which is the same shape as every other
+silent failure this system guards.
+
 **Count the cost before reaching for it.** A subprocess has none of the runtime's own coordination:
 no shared task list, no lock, no completion hook, no turn cap the runtime enforces. What it has is
 the repository, which is enough for one whole task and not enough for half of one. **So the rule
@@ -124,7 +137,7 @@ and the fastest way to get this wrong is to write down a capability because it w
 
 | Runtime | Profile | Rung |
 |---|---|---|
-| **Claude Code** | every capability above; the runtime this was written in and run against | **measured** — the behavioural suite runs here (`evals/`) |
+| **Claude Code** | every capability above; the runtime this was written in and run against. **One collision to know about:** it ships its own `TaskCreate` / `TaskGet` / `TaskList` for the assistant's **session to-do list** — in memory, gone at session end, no relation to this system's tasks. A task here is a **file**, `T-18` is `tasks/T-18.md`, and there is no task service to query | **measured** — the behavioural suite runs here (`evals/`), including the collision: told *"it's in `T-18` and `T-21`"*, **2 of 5 runs called `TaskGet(taskId: "T-18")`**, got the empty session list back, and reported finding nothing |
 | **Gemini CLI** | agent skills · MCP · hooks · extensions · git worktrees · sandbox · headless · session resume · per-invocation model · a policy engine (the tool-restriction candidate). **Delegation not confirmed.** | **measured** for installation and the surface, `2026-07-28`; **unknown** for behaviour — authentication failed before a run |
 | **Codex CLI** | reads the same skill format; subagents reported | **cited**, not measured — it was not on the machine |
 | **hermes-agent** | a resident harness, not a per-session console: one gateway process behind messaging channels, built-in cron and webhooks, any model provider. Reads this skill unchanged via `skills.external_dirs`; **the router survives its loader** — a forced load and a persona-driven load both walked `SKILL.md` into companions. **Unforced discovery missed once on a light tier**, so the always-on persona is load-bearing there, not decoration | **measured** for loading, resident mode and consult, `2026-07-30` — four smoke runs, N=1 each (`evals/RUNS.md`); the suite has not run here |

@@ -189,6 +189,42 @@ fires, and on a stronger tier these numbers would differ — the doctrine delibe
 weakest realistic executor. What the table forbids is the sentence *"the system escalates on
 age"* said without qualification: on the light tier, measured twice, **it does not**.
 
+## A worker in another runtime — **the pattern works; the runtimes were both shut**
+
+**Promised** (`runtimes.md`): *"A worker can be sent into a different runtime than the one you are
+sitting in. Not as a subagent — that mechanism is per-runtime — but as a **subprocess**: the other
+tool's headless mode, given the task file, writing its result into the same repository."*
+
+**Checked live, `2026-07-31`, and the claim splits cleanly in two.**
+
+**The pattern is real, and it was measured end to end.** A repository with `tasks/T-1.md` carrying
+a definition of done, a stub in `src/export.py`, and a thread line saying the result lands as a
+commit. A headless subprocess was handed nothing but *"read `tasks/T-1.md` and do what its
+definition of done says"* — no explanation of the system, no corpus. It edited the code correctly,
+**appended its own run line to the task's thread**, and set the status. **The repository was the
+entire channel**, exactly as claimed: brief in, result out, no shared session, no mailbox, nothing
+ephemeral crossing.
+
+**Both of the actual other runtimes on this machine refused, for reasons that have nothing to do
+with this system** — and that is the finding worth having:
+
+| Runtime | What happened | What it means |
+|---|---|---|
+| **Gemini CLI** 0.46.0 | `IneligibleTierError: This client is no longer supported for Gemini Code Assist for individuals. To continue using Gemini, please migrate to the Antigravity suite of products` | **the vendor closed the route** for individual accounts. Nothing to fix here; the row moves to unavailable-by-vendor with today's date |
+| **Codex CLI** | `401 Unauthorized` on every transport, five retries then fallback then five more | **not authenticated** — an ordinary and recoverable state, but one that fails **loudly and late**, after two minutes of retry storms |
+
+**So the honest verdict is `works, unmeasured across runtimes`.** The mechanism — subprocess, task
+file, repository as the channel — is **measured**. The *cross-runtime* half is **cited**: on this
+machine it could not be exercised because one vendor withdrew the client and the other seat was
+signed out. **Naming which half is which is the whole point of this audit**, and a row saying
+*"a worker can run in another runtime"* without it would have been true of the pattern and false
+of the day.
+
+**One practical note for the owner, not the corpus.** A dispatch into another runtime should
+**check that the executor answers before handing it a task**, because both failures here consumed
+time and produced nothing a task file would record — the Codex one after ten reconnection
+attempts. A dead executor and a slow one look identical from the outside.
+
 ### Where each verdict lands
 
 - **`no hook`** — the spend cap (rewritten), and *"a schedule survives the session"* on a

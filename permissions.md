@@ -206,6 +206,10 @@ confidence. So the `prose-only` list is written out by name rather than left imp
 - **an unreachable destination stops the operation** — reachability is checked, but nothing
   compels the check to have been run
 - **the graph cache is never the authority for a reference**
+- **an id resolves to a file, never to a task service** — nothing can stop a run reaching for a
+  harness's own task tools instead of the tree, and where those tools exist the names collide.
+  Measured 2 of 5 (`writing-work.md`, `runtimes.md`); **the repair is a hypothesis, not a fix**,
+  and it is written here rather than counted as one
 - **a spend cap, in the half that stays prose** — **nothing halts a run in flight**, and on a
   subscription the authoritative figure is the harness's rather than ours. **The other half is a
   validator now**: a commit recording spend while the ledger sits at or past the envelope is

@@ -3,6 +3,14 @@
 **Load when:** writing a task, editing one, filing something that arrived from outside, or
 deciding what "done" will mean.
 
+**An id resolves to a path, and to nothing else.** `T-18` is `tasks/T-18.md` — open the file.
+**There is no task service to ask**, and where the runtime happens to ship one, it belongs to that
+session and not to this project → `runtimes.md`. **Measured `2026-07-31`:** told a routine was
+recorded in `T-18` and `T-21`, two runs in five called the harness's own `TaskGet` with those ids,
+received an empty session list, and answered that they could not find them — a false *"it does not
+exist"* about two files sitting in the tree. **This rule is `prose-only` and is on that list**: it
+asks rather than blocks, and rules that ask were measured twice this day not to fire.
+
 A **task** is a unit of work: it has an id, an assignee, a thread, runs and a cost. A checklist
 line has none of those. That test decides what becomes a task and what stays a line in a
 description — and it is the same test at every depth, because **subtasks are tasks**.
