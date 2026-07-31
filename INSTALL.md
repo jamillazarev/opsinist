@@ -9,11 +9,11 @@ freshness law — past its recheck a row is a claim to re-verify, not a fact.
 
 | Runtime | Manifest it reads | Verified |
 |---|---|---|
-| Claude Code | `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` | **2026-07-31 · measured end to end** — marketplace added, plugin installed and enabled at 0.1.0 on 2.1.220 |
+| Claude Code | `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` | **2026-07-31 · measured end to end** — installed and enabled at 0.1.0, then **upgraded in place to 0.1.1** with `marketplace update` followed by `plugin update`, on 2.1.220 |
 | Google Antigravity | `plugin.json` (repo root) + `rules/` | 2026-07-30 · cited from antigravity.google/docs/plugins |
-| Codex / ChatGPT | `.codex-plugin/plugin.json` | 2026-07-30 · cited from learn.chatgpt.com/docs/build-plugins |
+| Codex / ChatGPT | `.codex-plugin/plugin.json` | **2026-07-31 · measured end to end** — `codex plugin marketplace upgrade` then `codex plugin add opsinist@opsinist`; installed and enabled at 0.1.1, the config recording the source revision |
 | Kimi Code CLI | `.kimi-plugin/plugin.json` — **which manifest path Kimi reads is unverified** | **2026-07-31 · partly measured**: the command is `kimi plugin install`, and `kimi plugin` is **absent from 0.14.2** here; syntax cited from moonshotai.github.io/kimi-cli |
-| Gemini CLI | `gemini-extension.json` + `GEMINI.md` | **2026-07-31 · measured end to end** — installed and enabled at 0.1.0, resolved **from the GitHub release** (`v0.1.0`), behind Gemini's own third-party confirmation |
+| Gemini CLI | `gemini-extension.json` + `GEMINI.md` | **2026-07-31 · measured end to end** — at 0.1.1, resolved **from the GitHub release** (`v0.1.1`). **`extensions update` reported "already up to date" while sitting at 0.1.0**: this route follows *releases*, and a pushed tag is not one. Publishing the release, then uninstall and reinstall, moved it — the install prompt is interactive and needs `--consent` in a non-interactive shell |
 | OpenCode | `package.json` + `.opencode/plugins/` — or the shared skills path | 2026-07-30 · cited from opencode.ai/docs/skills |
 | Cursor | `.cursor-plugin/plugin.json` | 2026-07-30 · not yet run here |
 | Factory Droid · GitHub Copilot CLI | `.claude-plugin/marketplace.json` (Claude-compatible) | 2026-07-30 · not yet run here |
@@ -27,7 +27,13 @@ claude plugin install opsinist@opsinist
 ```
 
 Verified end to end on Claude Code **2.1.220**, 2026-07-31 · **measured** — the marketplace
-validates against this repository and the plugin installs and enables at 0.1.0.
+validates against this repository and the plugin installs and enables. Upgrading an existing
+install is two commands, and the first is the one people miss:
+
+```sh
+claude plugin marketplace update opsinist
+claude plugin update opsinist@opsinist
+```
 
 **Pick one route per harness, not both.** `npx skills add` copies the whole repository — plugin
 manifest included — so Claude Code would see two plugins of one name; **the installed plugin
