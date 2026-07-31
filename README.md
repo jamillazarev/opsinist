@@ -250,8 +250,34 @@ dispatching a team, a tool allowlist that actually refuses, worktree isolation �
 Then say what you need. You never need a command — plain language, in any language, reaches every
 flow. Commands exist as shortcuts once you know the names.
 
-**There is no server.** Scheduling and background work exist, and nothing at all happens while
-your machine is off — worth knowing before you plan around an overnight run.
+**There is no server, and what a schedule survives differs per runtime.** In Claude Code a
+scheduled job lives in the session and dies with it; in hermes jobs persist to disk **and fire
+only when the gateway service is installed and running**. Nothing at all happens while your
+machine is off. Worth knowing before you plan around an overnight run
+→ [automations.md](automations.md).
+
+### Updating
+
+**One command per route, and then check the version rather than the command's reply** — three of
+these routes have each reported success for a version they had not moved to:
+
+| Installed as | Update it with |
+|---|---|
+| **Claude Code plugin** | `claude plugin marketplace update opsinist` **then** `claude plugin update opsinist@opsinist` — the first line is the one people skip, and without it the second honestly reports nothing to update. Restart to apply |
+| **Codex plugin** | `codex plugin marketplace upgrade` then `codex plugin add opsinist@opsinist` |
+| **Gemini CLI extension** | `gemini extensions uninstall opsinist` then `gemini extensions install https://github.com/jamillazarev/opsinist` — **not `extensions update`**, which has both reported "already up to date" on an old version and sat silently on its consent prompt |
+| **a copied skills directory** (`npx skills add`, Antigravity, the shared `~/.agents/skills` path) | re-run the installer, or re-copy the source — **nothing announces that a copy has drifted** |
+
+**And to see every install you have, with its version and its route:**
+
+```sh
+bash scripts/find-installs.sh
+```
+
+It flags the two states nothing else reports — a symlink resolving to a directory that does not
+exist, and a copy silently on an old version — and exits non-zero when either is present. It was
+written after a machine remembered as having three installs turned out to have fourteen, nine of
+them wired in and resolving to nothing.
 
 ### Where it runs
 

@@ -111,6 +111,22 @@ gemini extensions install https://github.com/jamillazarev/opsinist
 directory you have trusted), and third-party extensions carry a confirmation naming what a skill
 can do to your session — answer it yourself rather than piping a `Y`.
 
+**Upgrade by uninstalling and installing again**, rather than with `extensions update`:
+
+```sh
+gemini extensions uninstall opsinist
+gemini extensions install https://github.com/jamillazarev/opsinist
+```
+
+**Why, and the honest boundary of what was tested.** `extensions update` has failed here twice,
+differently. Once it reported *"already up to date"* while sitting on the old version — this
+route follows **releases**, and a pushed tag is not one; that failure hits everybody. Once it
+produced **no output for minutes**, which was the third-party consent prompt waiting on a stdin
+nobody was holding — **that one was in a non-interactive shell, and in a real terminal you would
+simply see the prompt and answer it.** Both look like a slow download and neither is. The two
+commands above took seconds and moved `0.1.1 → 0.1.2` (measured `2026-07-31`); add `--consent`
+to the second one only when scripting it, where there is no one to answer.
+
 The extension manifest points Gemini CLI at this repository, and
 `GEMINI.md` rides along as always-on context — the anchor that keeps the hard gates loaded
 even when a light model skips the router. Gemini-derived CLIs (Qwen Code, iFlow) share this
