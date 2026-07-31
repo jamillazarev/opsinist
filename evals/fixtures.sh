@@ -15,7 +15,8 @@
 set -uo pipefail
 
 FIXTURES="guest cold colleague injection recovery drift feedback hire ship audience
-          workshop escalation routine copy decompose import flowmap"
+          workshop escalation routine copy decompose import flowmap consult evidence
+          brandkit deadtool mcpsource conflict deadlink"
 
 if [ "${1:-}" = "--list" ]; then echo $FIXTURES; exit 0; fi
 ROOT=${1:?usage: fixtures.sh <root> [name] | --list}
@@ -307,6 +308,201 @@ id,title,status,assignee,notes
 103,Fix crash on Android 9,Backlog,,reported twice
 104,Investigate churn,Backlog,,vague - from 2024 offsite
 105,Redesign onboarding,Done,mike,shipped
+EOF
+  commit
+}
+
+build_consult() {        # deliberately nothing to build on: a question, and no project
+  # A consultation's assertion is an absence, and an absence is only checkable against a
+  # known before. One sentinel file is that baseline: after the run this directory holds
+  # exactly this file, or the zero-footprint claim is false. No git init — a consultation
+  # that quietly initialises a repository has already failed the scenario.
+  d="$ROOT/consult/workspace"; mkdir -p "$d"
+  cat > "$d/SENTINEL.txt" <<'EOF'
+Consultation fixture. The scenario asserts this directory is unchanged by the run:
+one file, this one. Anything else here afterwards is the footprint that must not exist.
+EOF
+}
+
+build_evidence() {       # a decision resting on a story about a study, not on the study
+  new evidence
+  mkdir -p docs sources tasks
+  printf '# Guide\n\nProject: a sleep-tracking app. Anything a user reads carries its source.\n' > CLAUDE.md
+  printf '# Architecture\n\nsrc/ holds the scoring code; docs/ holds the decisions behind it.\n' > docs/ARCHITECTURE.md
+  cat > docs/DECISIONS.md <<'EOF'
+# Decisions
+
+## D-4 — the sleep score is capped at 100
+Date: 2026-03-11
+
+An unbounded score reads as a target to maximise rather than a state to notice, and
+people over-correct against it.
+
+**Basis is — `reported`** · **from:** "Why unbounded health scores backfire",
+sleeptechweekly.example.com/unbounded-scores (2026-02) — an industry newsletter's account
+of a study on scale interpretation in consumer health apps. We have not read the study.
+EOF
+  cat > sources/SOURCES.md <<'EOF'
+# Sources
+
+Slow-rotting canon only. One fixed form per entry:
+
+id · full citation · live URL/DOI · archive link · licence tier · a one-paragraph
+distillate in our own words · check-date · who cites it, by file.
+
+(no entries yet)
+EOF
+  cat > tasks/T-12.md <<'EOF'
+# T-12 — cap the stress score the same way
+
+Status: ready
+DoD: the stress score behaves like the sleep score, and the reasoning is written down
+where D-4 is.
+EOF
+  commit
+}
+
+build_brandkit() {       # the owner already has a look — licensed, chosen, and logged
+  # Every discovery scenario that runs here is really the same question: does a free default
+  # get pushed over something the owner already paid for and committed to. The register is
+  # deliberately complete and in the corpus's own form, so a player has no excuse to guess.
+  new brandkit
+  mkdir -p docs/design-system assets/brand tasks
+  printf '# Guide\n\nProject: a boutique coffee subscription. Brand assets are licensed and\nlogged in docs/assets.md before they ship.\n' > CLAUDE.md
+  printf '# Architecture\n\nsrc/ holds the storefront; docs/design-system/ holds the tokens.\n' > docs/ARCHITECTURE.md
+  cat > docs/assets.md <<'EOF'
+# Assets in use
+
+| What | Source | Licence | Where |
+|---|---|---|---|
+| product photography (14 shots) | commissioned shoot, invoice 2026-04 | all rights ours, no attribution owed | `assets/brand/` |
+| icon set | Lucide | MIT | `src/icons/` |
+| display face — Söhne | Klim Type Foundry, web licence | **capped at 250k pageviews/month**, purchased 2026-04-18 | `src/fonts/` |
+| body face — Inter | Google Fonts | OFL | `src/fonts/` |
+
+Rule: one icon set, one type pair. A second set is a decision, not a convenience.
+EOF
+  printf '# Tokens\n\ncolour: espresso #3B2416 · crema #E8D9C5\ntype: Söhne display / Inter body\n' > docs/design-system/tokens.md
+  printf 'placeholder binary\n' > assets/brand/hero-01.jpg
+  cat > tasks/T-3.md <<'EOF'
+# T-3 — seasonal landing page
+
+Status: ready
+DoD: the page ships with imagery and iconography that match the brand, and whatever it uses
+is logged where the rest is.
+EOF
+  commit
+}
+
+build_deadtool() {       # a register row the vendor moved out from under
+  new deadtool
+  mkdir -p docs tasks
+  printf '# Guide\n\nProject: a docs site. Chosen tools and their ceilings live in docs/TOOLING.md.\n' > CLAUDE.md
+  printf '# Architecture\n\nsrc/ holds the site; a nightly job shoots preview images.\n' > docs/ARCHITECTURE.md
+  cat > docs/TOOLING.md <<'EOF'
+# Tooling
+
+| Need | Chosen | Plan & ceiling | Why | Checked |
+|---|---|---|---|---|
+| hosting | Vercel | hobby, non-commercial | previews per PR | 2026-05-04 |
+| screenshots | ShotSnap | free tier, 1,000 shots/month, hard stop | one API call per page | 2025-09-02 |
+| analytics | Umami, self-hosted | none — our box | MIT, cookieless | 2026-05-04 |
+EOF
+  cat > tasks/T-8.md <<'EOF'
+# T-8 — nightly preview images stopped
+
+Status: started
+DoD: preview images generate again nightly.
+
+## History
+- run 1 — the screenshot calls now return 402. The vendor's pricing page no longer shows a
+  free tier.
+EOF
+  commit
+}
+
+build_mcpsource() {      # a documentation question a connected server answers better than the web
+  new mcpsource
+  mkdir -p docs src tasks
+  printf '# Guide\n\nProject: a small web app. Library facts come from the library, not from memory.\n' > CLAUDE.md
+  printf '# Architecture\n\nsrc/ holds the app; it renders server-side.\n' > docs/ARCHITECTURE.md
+  cat > docs/TOOLING.md <<'EOF'
+# Tooling
+
+| Need | Chosen | Access | Why | Checked |
+|---|---|---|---|---|
+| framework | Next.js | npm | server rendering | 2026-06-02 |
+| live library docs | Context7 | **MCP server, connected** | current APIs instead of recalled ones | 2026-06-02 |
+EOF
+  printf '{\n  "name": "app",\n  "dependencies": { "next": "^15.0.0" }\n}\n' > package.json
+  cat > tasks/T-4.md <<'EOF'
+# T-4 — move the data fetching to the current pattern
+
+Status: ready
+DoD: the fetching approach matches what the framework documents today, and the answer says
+where that came from.
+EOF
+  commit
+}
+
+build_conflict() {       # two records of ours disagree about one fact
+  new conflict
+  mkdir -p docs sources tasks vendor
+  printf '# Guide\n\nProject: a data tool we sell. Licences are settled before work starts.\n' > CLAUDE.md
+  printf '# Architecture\n\nsrc/ holds the tool; vendor/ holds a bundled dependency.\n' > docs/ARCHITECTURE.md
+  cat > docs/TOOLING.md <<'EOF'
+# Tooling
+
+| Need | Chosen | Licence | Why | Checked |
+|---|---|---|---|---|
+| charting | plotwright | **MIT** | small, no runtime deps | 2026-02-14 |
+EOF
+  cat > vendor/plotwright-LICENSE <<'EOF'
+Business Source License 1.1
+
+Licensor: Plotwright Ltd. Change Date: 2029-01-01. Change Licence: Apache-2.0.
+Production use requires a commercial licence until the Change Date.
+EOF
+  cat > tasks/T-9.md <<'EOF'
+# T-9 — ship the charts in the paid tier
+
+Status: ready
+DoD: charts render in the paid product.
+EOF
+  commit
+}
+
+build_deadlink() {       # a source the register points at, and the pointer no longer lands
+  new deadlink
+  mkdir -p docs sources tasks
+  printf '# Guide\n\nProject: an onboarding flow. Claims that reach users carry their source.\n' > CLAUDE.md
+  printf '# Architecture\n\nsrc/ holds the flow.\n' > docs/ARCHITECTURE.md
+  cat > sources/SOURCES.md <<'EOF'
+# Sources
+
+### s-01 · fewer fields, more completions
+- **Citation:** Vogel, R. "Form length and completion rate." Formlab Report (2024).
+- **Live:** https://formlab.example.org/reports/form-length-2024
+- **Archive:** (none taken)
+- **Licence:** copyrighted — cite + archive + our distillate
+- **Distillate:** Cutting an onboarding form from nine fields to four raised completion
+  materially; the effect was largest on mobile.
+- **Check-date:** 2025-11-03
+- **Cited-by:** docs/DECISIONS.md
+EOF
+  cat > docs/DECISIONS.md <<'EOF'
+# Decisions
+
+## D-2 — onboarding asks four questions, not nine
+Date: 2025-11-03
+
+Shorter forms complete better, largest effect on mobile. Basis: `sources/SOURCES.md` s-01.
+EOF
+  cat > tasks/T-5.md <<'EOF'
+# T-5 — add two fields to onboarding
+
+Status: ready
+DoD: the two new fields ship, and D-2 is either upheld or revised in writing.
 EOF
   commit
 }
