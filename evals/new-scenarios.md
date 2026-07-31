@@ -1250,3 +1250,9 @@ These hold across N30–N60 and are checked on every transcript, not scored sepa
   proposed.
 - **A list is not an answer.** Every one of these ends in a recommendation with a reason, or a
   named gap — never a menu handed over for the owner to evaluate.
+- **Every fixture stands on a seam** (`fixtures.sh` builds it in; `cold` and `consult` excepted),
+  so this check applies on any transcript, not only N59's: a seam the answer touches is named
+  **and ends in its offer** — the destination and what carries over, per the table in
+  `checking.md` — while a seam the task never goes near is not scored. A transition reported as
+  status, or recognised and closed with an open question, fails this check even when the
+  scenario's own expectations pass.
