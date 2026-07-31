@@ -74,8 +74,20 @@ $(cat "$post" 2>/dev/null | head -80)
 === TRANSCRIPT (compacted) ===
 $compact"
 
-CLAUDE_CONFIG_DIR="$JHOME" timeout 240 claude --model sonnet -p "$prompt" </dev/null 2>>"$SUITE/logs/$ID-$N.err" \
-  | python3 -c "
+raw=$(CLAUDE_CONFIG_DIR="$JHOME" timeout 240 claude --model sonnet -p "$prompt" </dev/null 2>>"$SUITE/logs/$ID-$N.err")
+
+# The judge has the same failure mode as the player and had no detection for it: a limited
+# judge returns the harness's banner, which parses as nothing and was written down as
+# `void: judge output unparseable` — a verdict about the account wearing a verdict about the
+# run. Measured 2026-07-31: 317 of 370 judgments in one round, every transcript intact.
+# Nothing is written when this fires, so a requeue re-judges exactly these.
+if printf '%s' "$raw" | grep -q "hit your session limit"; then
+  echo "$ID $N judge-limit $(printf '%s' "$raw" | grep -o 'resets [^\"]*' | head -1)" >> "$SUITE/logs/POISONED-JUDGE"
+  echo "$ID/$N JUDGE LIMIT — not graded"
+  exit 4
+fi
+
+printf '%s' "$raw" | python3 -c "
 import json,sys,re
 raw=sys.stdin.read()
 m=re.search(r'\{.*\}',raw,re.S)
