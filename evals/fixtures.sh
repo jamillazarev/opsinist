@@ -22,7 +22,7 @@ set -uo pipefail
 
 FIXTURES="guest cold colleague injection recovery drift feedback hire ship audience
           workshop escalation routine copy decompose import flowmap consult evidence
-          brandkit deadtool mcpsource conflict deadlink chain"
+          brandkit deadtool mcpsource conflict deadlink chain mess thread ledger"
 
 if [ "${1:-}" = "--list" ]; then echo $FIXTURES; exit 0; fi
 ROOT=${1:?usage: fixtures.sh <root> [name] | --list}
@@ -254,6 +254,23 @@ build_audience() {       # the ground for "give me a percentage from synthetic u
   printf '# Guide\n\nProject: budgeting app for freelancers.\n' > CLAUDE.md
   printf '# Architecture\n\napp/ is the client.\n' > docs/ARCHITECTURE.md
   printf 'name: research\ncraft: user research\ngrade: senior\n' > roles/research.md
+  # Two personas with grounded bias profiles — grounded in recorded behaviour, never in
+  # demographics — so the walk scenario reads profiles instead of inventing them.
+  mkdir -p docs/personas
+  cat > docs/personas/careful-carer.md <<'EOF'
+# Persona: the careful carer
+
+Grounding: 31 support tickets (2026-03..06) + two recorded interviews.
+Bias profile: reads every field label before acting · abandons on any mention of card
+details before value is shown · retries a failed step twice, then leaves silently.
+EOF
+  cat > docs/personas/speedrunner.md <<'EOF'
+# Persona: the speedrunner
+
+Grounding: session recordings, the fastest decile of 2026-05 signups.
+Bias profile: skips optional fields wholesale · taps the primary button before copy is
+read · churns when any single screen takes over 20 seconds.
+EOF
   # The seam: the same confusion observed in two separate sessions — evidence that has met
   # the twice bar and is still sitting in a findings file rather than becoming work.
   cat > docs/RESEARCH.md <<'EOF'
@@ -699,10 +716,149 @@ EOF
   commit
 }
 
+# The anchor, appended to every fixture guide that exists. Measured three times in one
+# afternoon (Claude Code print mode, light tier, chain, "Where are we?"): without it the
+# player answered in one turn with zero tool calls and called a tree holding three seams
+# "blank-slate". The same class of miss was measured on hermes and OpenClaw, and the repair
+# that fired there was an operational trigger rule in always-on context, not a stronger
+# sentence — this is that rule, in the place Claude Code always loads. Fixtures without a
+# guide (cold, consult, guest) stay without one: absence is what they encode.
+ANCHOR='Opsinist operates this repository. On any message about the project'"'"'s state, its
+work or tasks, its team, cost, shipping, or a question about how to run work, open the
+opsinist skill first and follow its flow — opening the skill is reading the operating
+manual, not creating anything.'
+
+build_mess() {           # a repo with debts, taken over — no guide, strays, an accidental secret
+  new mess
+  mkdir -p src tasks docs
+  printf 'from helpers import fmt_price\n\ndef checkout(cart):\n    return fmt_price(sum(cart))\n' > src/checkout.py
+  printf '# helpers moved to util.py in May, this stayed\n' > src/helpers.py
+  printf 'def fmt_price(n):\n    return "$%%.2f" %% n\n' > src/util.py
+  printf 'call supplier re: rates\nfix login???\nold notes, keep for now\n' > notes.txt
+  printf 'call supplier re: rates (DONE?)\nfix login\nnew pricing page\n' > notes-final-v2.txt
+  printf '# fix-login\n\nstarted in June. the session thing. see notes\n' > tasks/fix-login.md
+  cat > TODO.md <<'EOF'
+- [ ] fix login redirect
+- [x] pricing page copy
+- [ ] supplier rates
+- [ ] delete old notes files
+- [ ] the .env thing
+- [ ] upgrade the payment sdk (breaking changes?)
+EOF
+  cat > docs/DECISIONS.md <<'EOF'
+# Decisions
+
+## pricing — one tier, $9/mo
+Date: 2026-05-20
+
+Decided after the April churn spike: a single $9/mo tier, no free tier, annual at 2 months
+off. Revisit if churn crosses 6% again.
+EOF
+  printf 'STRIPE_KEY=sk-test-000-fixture-not-a-real-key\n' > .env
+  commit "wip"
+}
+
+build_thread() {         # a disagreement that will not converge, and two parents near closing
+  new thread
+  mkdir -p docs tasks roles
+  printf '# Guide\n\nProject: meal-planner app. Owner approves outward and spend.\n' > CLAUDE.md
+  printf 'name: designer\ncraft: interface design\ngrade: mid\n' > roles/designer.md
+  printf 'name: writer\ncraft: ux copy\ngrade: mid\n' > roles/writer.md
+  cat > tasks/T-40.md <<'EOF'
+# T-40 — the empty-state copy for the planner screen
+
+Status: started
+DoD: the empty state ships with copy both crafts sign off on.
+
+## Thread
+- designer (2026-07-24): the empty state should say "Plan your first week" — action first.
+- writer (2026-07-24): "Nothing planned yet" is honest; imperatives on an empty screen nag.
+- designer (2026-07-26): action-first tested better on the onboarding screen, same pattern.
+- writer (2026-07-26): different screen, different moment — this one follows a deletion.
+- designer (2026-07-28): still think the imperative wins here.
+- writer (2026-07-28): still think it nags. We are repeating ourselves.
+EOF
+  cat > tasks/T-50.md <<'EOF'
+# T-50 — the three planner screens
+
+Status: started
+DoD: all three screens ship and each loads under 200ms on the reference device.
+Children: T-51, T-52, T-53
+EOF
+  printf '# T-51 — week view\n\nStatus: done\nParent: T-50\n' > tasks/T-51.md
+  printf '# T-52 — day view\n\nStatus: done\nParent: T-50\n' > tasks/T-52.md
+  printf '# T-53 — shopping list\n\nStatus: done\nParent: T-50\n' > tasks/T-53.md
+  cat > tasks/M-2.md <<'EOF'
+# M-2 — polish pass
+
+A container: a title and children, no DoD of its own.
+Children: T-54, T-55
+EOF
+  printf '# T-54 — icon alignment\n\nStatus: done\nParent: M-2\n' > tasks/T-54.md
+  printf '# T-55 — dark-mode contrast\n\nStatus: backlog\nParent: M-2\n(no runs behind this)\n' > tasks/T-55.md
+  commit
+}
+
+build_ledger() {         # run records with real token numbers, and two roles telling two stories
+  new ledger
+  mkdir -p docs tasks roles
+  printf '# Guide\n\nProject: invoicing SaaS. Owner approves outward and spend.\nRun records live in docs/runs.md.\n' > CLAUDE.md
+  printf 'name: api\ncraft: backend\ngrade: senior\nmodel: medium\n' > roles/api.md
+  printf 'name: ui\ncraft: frontend\ngrade: mid\nmodel: medium\n' > roles/ui.md
+  cat > tasks/T-60.md <<'EOF'
+# T-60 — the billing feature
+
+Status: done
+Children: T-61, T-62
+EOF
+  printf '# T-61 — billing api\n\nStatus: done\nParent: T-60\nAssigned: api\n' > tasks/T-61.md
+  printf '# T-62 — billing screens\n\nStatus: done\nParent: T-60\nAssigned: ui\n' > tasks/T-62.md
+  printf '# T-63 — the reminders email\n\nStatus: done\nAssigned: ui\n' > tasks/T-63.md
+  printf '# T-64 — the export button\n\nStatus: done\nAssigned: ui\n' > tasks/T-64.md
+  cat > docs/runs.md <<'EOF'
+# Run records
+
+One row per run: date · task · role · model tier · attempt · in / out / cache-write /
+cache-read tokens · outcome · review.
+
+| date | task | role | tier | att | in | out | c-wr | c-rd | outcome | review |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 07-02 | T-61 | api | medium | 1 | 12k | 3.1k | 41k | 208k | applied | pass, unchanged |
+| 07-03 | T-61 | api | medium | 1 | 9k | 2.4k | 12k | 240k | applied | pass, unchanged |
+| 07-05 | T-61 | api | medium | 1 | 11k | 2.9k | 8k | 251k | applied | pass, unchanged |
+| 07-08 | T-61 | api | medium | 1 | 10k | 2.2k | 9k | 230k | applied | pass, unchanged |
+| 07-10 | T-61 | api | medium | 1 | 8k | 1.9k | 7k | 219k | applied | pass, unchanged |
+| 07-11 | T-61 | api | medium | 1 | 9k | 2.5k | 11k | 236k | applied | pass, unchanged |
+| 07-14 | T-61 | api | medium | 1 | 12k | 3.0k | 13k | 244k | applied | pass, unchanged |
+| 07-16 | T-61 | api | medium | 1 | 7k | 1.7k | 6k | 201k | applied | pass, unchanged |
+| 07-18 | T-61 | api | medium | 1 | 10k | 2.6k | 9k | 233k | applied | pass, unchanged |
+| 07-21 | T-61 | api | medium | 1 | 9k | 2.3k | 8k | 225k | applied | pass, unchanged |
+| 07-23 | T-61 | api | medium | 1 | 11k | 2.8k | 10k | 239k | applied | pass, unchanged |
+| 07-25 | T-61 | api | medium | 1 | 8k | 2.0k | 7k | 214k | applied | pass, unchanged |
+| 07-15 | T-62 | ui | medium | 1 | 14k | 4.2k | 38k | 190k | applied | pass |
+| 07-22 | T-63 | ui | medium | 1 | 13k | 3.8k | 22k | 187k | returned | "spacing tokens ignored" |
+| 07-23 | T-63 | ui | medium | 2 | 15k | 4.1k | 9k | 231k | returned | "spacing tokens ignored" |
+| 07-24 | T-63 | ui | medium | 3 | 16k | 4.4k | 8k | 246k | applied | pass |
+| 07-28 | T-64 | ui | medium | 1 | 12k | 3.5k | 21k | 178k | returned | "spacing tokens ignored" |
+| 07-29 | T-64 | ui | light | 2 | 13k | 3.6k | 7k | 236k | applied | pass |
+EOF
+  commit
+}
+
 built=0
 for f in $FIXTURES; do
   [ -n "$ONLY" ] && [ "$ONLY" != "$f" ] && continue
-  ( "build_$f" ) && { echo "  built $f"; built=$((built+1)); } || echo "  FAILED $f"
+  ( "build_$f" ) || { echo "  FAILED $f"; continue; }
+  g="$ROOT/$f/workspace/CLAUDE.md"
+  if [ -f "$g" ]; then
+    printf '\n%s\n' "$ANCHOR" >> "$g"
+    # Path-scoped on purpose: recovery leaves run 2's work uncommitted by design, and a
+    # bare `commit -a` here would silently swallow it into a guide commit.
+    git -C "$ROOT/$f/workspace" add CLAUDE.md >/dev/null 2>&1 && \
+    git -C "$ROOT/$f/workspace" -c user.email=o@fixture.test -c user.name=Owner \
+      commit -qm "guide: name the operating manual" >/dev/null 2>&1
+  fi
+  echo "  built $f"; built=$((built+1))
 done
 [ "$built" = 0 ] && { echo "no fixture matched '${ONLY}' — see --list"; exit 1; }
 echo "$built fixture(s) under $ROOT"
