@@ -89,8 +89,8 @@ not**, and the difference decides whether an automation is real or decorative.
 | Runtime | What a schedule survives | Verified |
 |---|---|---|
 | **Claude Code** | **the session and nothing more** — jobs are in-memory, nothing is written to disk, they vanish when the process exits, they fire only while it is idle, and recurring ones expire after 7 days | **2026-07-31 · measured** from the scheduling tool's own contract, live in this runtime |
-| **hermes-agent** | plausibly the machine — it is a resident gateway process with built-in cron and webhooks, not a per-session console | **cited** `2026-07-30` (`runtimes.md`); **the cron itself has never been run here** |
-| **OpenClaw** | a heartbeat every 30 minutes by default, workspace-driven | **cited** `2026-07-30`; not exercised |
+| **hermes-agent** | **the machine — but only with a daemon the owner installs.** Jobs persist to disk rather than to a session, and `hermes cron status` reports plainly: *"Gateway is not running — cron jobs will NOT fire"*, pointing at `hermes gateway install` | **2026-07-31 · measured** — the cron CLI exists (`list · create · pause · runs · tick`), jobs are stored under `~/.hermes/`, and **on this machine the gateway is not installed, so nothing would fire**. Unattended execution is an install step, never a default |
+| **OpenClaw** | a heartbeat, workspace-driven | **cited** `2026-07-30`; **no heartbeat setting is present in `openclaw.json` on this machine** and the interval was never exercised — treat the default as unknown |
 | everything else | **unknown — treat as session-only** until a row says otherwise | — |
 
 **So a promise like *"it will run tonight"* is false on a per-session runtime**, and the honest

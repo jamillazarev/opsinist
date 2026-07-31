@@ -57,6 +57,20 @@ treated as session-only until a row says otherwise**. The promise *"it will run 
 as false on a per-session runtime, with the honest form given. **The rows for hermes and OpenClaw
 are the next live checks** — both are installed on this machine, so both are checkable.
 
+**hermes, checked live the same day, and the answer is a third thing neither row anticipated.**
+The cron subsystem is real and **persists jobs to disk rather than to a session** — so durability
+across a closed session is genuine there, which Claude Code cannot offer. **And it fires only
+when a gateway daemon is running**, which the tool states itself: *"Gateway is not running — cron
+jobs will NOT fire."* On this machine it is not installed. So the honest row is neither *"hermes
+has cron"* nor *"scheduling is unreliable"*: **unattended execution is an install step the owner
+performs, and until they do, a schedule is stored and silent.** Recorded in `automations.md` with
+the command that reveals the state.
+
+**OpenClaw stays `cited` and got weaker, not stronger.** The heartbeat this project recorded as
+*"on by default at 30 minutes"* has **no corresponding setting in `openclaw.json` here**, and the
+interval has never been exercised. Absence from a config file is not proof it is off — defaults
+can be implicit — so the row now says the default is **unknown**, which is the true state.
+
 ## Spend caps — **no hook, and not on the list**
 
 **Promised** (`cost.md`): *"Warn at a share, **stop at the cap**, and always offer the cheaper
