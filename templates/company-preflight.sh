@@ -254,6 +254,33 @@ because a model reads its own output generously and the thread cannot tell the d
   done
 fi
 
+# 13 · a parent does not close itself. §10 catches a task reaching a terminal status with nothing
+#      pointing at evidence; a parent is the sharper case, because its children being done looks
+#      exactly like the parent being done and is not the same claim. A parent carrying its own
+#      definition of done surfaces as *ready to close* and waits for a person; only a container —
+#      a title and children, no DoD of its own — may close on its own, and then the fact that it
+#      closed automatically is itself recorded. Measured 0 of 10 across two full rounds as prose,
+#      and 1 of 5 after the rule was moved into the always-loaded core, which is why it is here.
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^tasks/.*\.md$' || true); do
+    [ -f "$t" ] || continue
+    grep -qiE '^[[:space:]]*(children|subtasks)[[:space:]]*:' "$t" || continue
+    d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
+    printf '%s' "$d" | grep -qiE '^\+.*status:[[:space:]]*(done|shipped|completed|accepted|closed)' || continue
+    # A container has no predicate of its own — that one may close itself, and says so.
+    grep -qiE '^[[:space:]]*(dod|acceptance|definition of done)[[:space:]]*:' "$t" || {
+      printf '%s' "$d" | grep -qiE 'closed (automatically|by rollup)|container' \
+        || say_warn "$(basename "$t") is a container closing on its children — legitimate, and \
+the fact that it closed automatically is part of the record. Say so in the same change."
+      continue
+    }
+    printf '%s' "$d" | grep -qiE '(approved by|accepted by|signed off|owner (said|confirmed)|evidence)' \
+      || say_fail "$(basename "$t") carries children **and its own definition of done**, and this \
+commit closes it. Children being done is not the parent's predicate being met — it surfaces as \
+ready to close and waits for a person. Point at who accepted it, or leave it open."
+  done
+fi
+
 # 12 · the spend cap, which for months was written as "stop at the cap" and performed by nothing.
 #      Nothing can halt a run already in flight, and on a subscription the authoritative figure
 #      belongs to the harness — so the performable half is the one checkable between runs: a

@@ -136,7 +136,7 @@ is an anecdote, two rounds agreeing is a fact about the corpus.
 | Mechanism | Scenarios, round 1 → round 2 | Verdict |
 |---|---|---|
 | **escalation ageing** — a request has an age and stops an unbounded exchange | `N3` 0/5 → 0/5 · `S10` 0/5 → 0/5 | **claimed, measured twice, never once demonstrated** |
-| **the review gate: author and reviewer differ** | `N4` 0/5 → 0/5 · `N21` 1/5 → 0/5 | **never demonstrated.** The parent closed itself in every round |
+| **the review gate: author and reviewer differ** | `N4` 0/5 → 0/5 · `N21` 1/5 → 0/5 | **was never demonstrated as prose — now a gate.** Signing off your own work has been refused by preflight §11 since 0.1.1; **a parent closing itself is refused by §13 as of today**, verified by mutation: a parent with its own DoD closing with no acceptance **fails**, the same parent closing with `Accepted by:` **passes**, and a container with no predicate of its own gets a nudge rather than a refusal |
 | **routing to another craft** | `N25` 0/4 → 0/2 · `N2` 2/3 → all void | **thin and mostly failing**; `N2`'s round-2 runs are void, so it rests on three valid runs total |
 | **link health** | `N57` 0/5 → 0/5 — **and `scripts/check-links.py` passes, today, in this repo** | **split, and the split is the finding**: as a *script* it is real and green; as a *behaviour* — an agent meeting a dead citation mid-task — it has never happened |
 | **dependency watching, three tiers** | `N19` 1/2 → 0/3 · `N40` 0/5 → 0/5 | **never demonstrated**; the register goes uncorrected even after the run says out loud that it is wrong |
