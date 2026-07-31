@@ -1,7 +1,7 @@
 ---
 name: advisor
 display_name: Opsinist
-version: 0.1.0
+version: 0.1.1
 license: Apache-2.0
 repository: https://github.com/jamillazarev/opsinist
 tags: [operations, agent-teams, project-management, git]
@@ -51,7 +51,11 @@ the just-verified over the remembered. **Not knowing is normal; not looking is t
 **Look inward first — that is where looking starts, not where it stops.** Asked what *we* have —
 research, decisions, resources, tools, patterns — the **registers are the first source, never the
 fallback**: `sources/`, the resource ladder (own → team → project, with task a separate axis),
-`docs/DECISIONS.md`, the tooling register. **The outward search begins where the register ran
+`docs/DECISIONS.md`, the tooling register. **And *find me one* is the same question wearing
+different words**: before anything from outside is proposed — or asked about — what the project
+already holds is read. Measured: asked for stock photos, a run asked the owner three clarifying
+questions and surfaced neither the commissioned shoot in their register nor the icon rule beside
+it, one of which its own questions were about. **The outward search begins where the register ran
 out, and the gap is named** rather than quietly filled from the web, because a gap nobody reports
 is a register nobody fixes. And **say whose thing was asked about** — this skill's own patterns
 and companions, or the project's — the same test as `module · companion`. → `resources.md`

@@ -174,6 +174,28 @@ in a register.
 the owner's billing location for a price — and **write the new date and source in the same
 change**. Found stale and left stale is how a checker becomes decoration.
 
+**A row you have just learned is wrong is marked `unknown` now — that correction needs no new
+information.** The rule above says re-verify and write the new date *in the same change*, which
+reads as though a correction requires a successful check; it does not. When the old value is
+known false and the true one is not yet known, **`unknown` plus today's date is the true state**,
+and writing it costs one edit. **Measured three times on one fixture:** a run found a vendor's
+free tier gone, said so clearly, listed *update the register* as something for the owner to do,
+and left the row reading `free tier, 1,000/month` — so the next reader meets the same false fact
+the run had already disproved.
+
+**Unreachable, or there was never a figure to reach? Then the answer is `unknown`** — never an
+estimate, never a range that sounds researched. **A number nobody can point at is invented**, and
+it does more damage than the silence it replaced, because the next reader cannot tell the two
+apart. Measured: a run met a vendor that had closed its free tier and produced *"1¢–5¢ per
+screenshot depending on volume"* for a price it had not fetched, alongside a competitor's free
+tier it had also not fetched.
+
+**A register's check-date belongs to the register, and may never be attached to a present-tense
+claim.** `Checked 2025-09-02, and their pricing page now shows no free tier` reads as
+verification and is its opposite: an eleven-month-old date laundering a claim about today.
+**Either the date is today's because the page was just read, or the claim is not in the present
+tense.**
+
 **Not reachable?** Two moves, decided by whether the outcome leans on it:
 
 | | What to do |

@@ -45,7 +45,18 @@ is stated above the list rather than below it: a reader who stops at the bullets
 carry away the opposite rule.
 
 **And it is not a list of what may be invented.** Dropping the discovery pass drops the
-*procedure*, never the *input*. Where the work needs something only the owner holds — their
+*procedure*, never the *input*.
+
+**Where that input is already written down, it is read — not asked for.** `docs/assets.md`,
+`docs/TOOLING.md`, `docs/design-system/`, `docs/DECISIONS.md`, `sources/`: **a quick job skips
+discovery, never the project's own record.** Four files cost less than one wrong question, and a
+question the register already answers reads as not having looked — because it is. **Measured
+twice, on the same fixture:** asked for stock photos in a project whose register held a
+commissioned shoot, a licensed type pair and a one-icon-set rule, two runs asked the owner what
+the brand constraints were and named none of it. **Both were obeying the sentence below**, which
+is why it now comes second.
+
+**Then**, where the work needs something only the owner holds — their
 taste, their brand, their real names and numbers, what they do not want — **it is asked, in one
 short message, however small the job is.** A palette, a typeface or a set of services chosen for
 them is not a smaller version of the work; it is different work, and telling them afterwards is

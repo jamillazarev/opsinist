@@ -89,6 +89,72 @@ Reads are free, so spin workers for search and verification freely — **and bri
 narrowly**: specific questions, grep rather than read, a scoped file list. A vague brief turns a
 cheap check into an expensive exploration.
 
+**Research is a craft step, so its tool is chosen for the step — never inherited from the
+session.** *"Find a primary source for this claim"* is a step with its own tooling question, and
+a search tool that happens to be loaded and returns something plausible is not an answer to it.
+**Being inside a consultation does not exempt the step**: the craft branch of the router applies
+here exactly as it does in a build → `choosing-tools.md` (+ `catalogue.md`), whose *Academic &
+research sources* row exists for this one step. The failure it prevents is not choosing wrong — it is **never making
+the choice**, because the first tool already returned links.
+
+**What a source or a tool *can do* is a fact, on the same terms as what it costs.** *"You can
+filter that by aspect ratio"* · *"their free tier is a thousand a month"* · *"that study showed
+X"* — three claims of one kind, and the corpus only ever guarded the middle one. **A capability
+asserted is a capability checked**, and the honest failure is *"I do not know whether it can"*.
+Measured: a run promised a museum print found **at 16:10** — a ratio is a crop, not a search
+filter — and in the same answer said nothing about the licence, which was the only thing the
+owner had actually asked about.
+
+**A secondary source points at the source; it is not one.** A news story, an industry site or a
+vendor page reporting a study is cited as what it is, or replaced by the study it paraphrases.
+Passing a paraphrase off as the evidence is the exact move the rungs exist to catch.
+
+**Ask what changes the answer, and assume the rest out loud.** A *find-me* request arrives
+underspecified almost every time — *"find me photos"* carries a dozen free variables and **one or
+two that actually move the result**: what it is for, and what the owner has already committed to.
+Those are asked. The rest take a default that is **stated as an assumption**, so a wrong one is
+visible and cheap to correct instead of buried in the output. **Both failures are real**: an
+interrogation for a small ask is over-serving (`quick.md`), and asking nothing produces a generic
+list that fits nobody.
+
+**A refinement is a constraint, not a mood.** *"Not like that — warmer, and no people"* narrows
+every later pass and **does not expire**: the rejected direction does not reappear two turns on,
+and the next attempt is **visibly conditioned by the last** rather than being a fresh list of the
+same class with different links. Where a refinement collides with something already settled — the
+brand, a licence rule, a decision — the collision is **named**, not silently resolved in favour of
+whichever was said most recently.
+
+**A *find-me* answer has a shape, and the shape is the check.** Four things, however short — a
+sentence each is fine, and a one-line answer that carries them beats a page that does not:
+
+1. **The pick, and why** — one, or a named condition that decides between two. Not a menu.
+2. **What each claim rests on — quoted, not asserted.** Not *"checked today"*: **what the page
+   actually said**, in enough of its own words to be unwritable from memory. Or `unknown`.
+3. **What the project already holds** on this — from the register, read before the search.
+4. **Where it lands when used** — the asset log, the tooling register, the source register.
+5. **Its origin, named** — `found` (where) · `already ours` (which register says so) · **`made by
+   us just now`**. Handing over something we produced while the ask was for something that
+   exists is a different answer to a different question, and the field is what makes the swap
+   visible: **measured three times**, a request for a museum print with usable rights was
+   answered with a freshly generated picture, delivered as the result, with no line saying so —
+   and twice the same invented link came back, which is what a fabricated one looks like.
+
+**Line 2 says *quoted* for a measured reason, and the measurement was of an earlier version of
+this very form.** It first asked for the page and the date. The next run filled it in —
+`Source checked: pexels.com, 2026-07-31`, three times, for pages it never opened. **A slot invites
+a filled slot**, and *"I checked"* is unfalsifiable and therefore free. What a page *said* is not:
+*"the licence says attribution is not required, and the API terms require it"* cannot be produced
+without reading both. **The corpus's own rule caught the corpus** — a criterion that can be
+reasoned around will be — and the repair is never another sentence, it is making the cheap answer
+impossible to write.
+
+**Cannot be satisfied as asked? That is the answer, and it is a good one.** Say which part cannot
+be had — the format, the licence, the source, the certainty — before offering anything adjacent.
+**A substitute is offered as a substitute, never handed over as the thing**: measured, asked for
+a museum print with usable rights, a run generated its own picture and delivered it as the
+result, mentioning neither that it was new work nor what that did to the provenance the owner had
+asked about.
+
 **Before a heavy fan-out, say what it costs** — how many workers, roughly how long.
 
 **Route verification and search one tier down.** They do not need the top model, and this is the
@@ -97,6 +163,21 @@ capable than the thing it checks.
 
 **Every answer carries its rung** — measured, cited, recalled or judgement — and **a price or a
 version is fetched, never recalled**.
+
+**Answering from the record carries the record's rung.** A decision is evidence of a decision,
+never evidence of the world. Asked *"why did we do that"*, the answer is **what was decided, when,
+and what it rested on — as a basis, at whatever tier that basis actually had.** An industry
+article the record cites is still an industry article; retelling it as *"research shows"* promotes
+the claim, and the promotion is invisible because the words came out of our own file. **Measured
+twice on one question:** the first run named the source and upgraded it, the second dropped the
+source and kept the upgrade — so the weaker answer read as the more authoritative one.
+
+**Zero footprint is not zero provenance.** With no register to write into, a citation still
+carries **the link and the date it was checked**, and a load-bearing claim also carries an
+**archive link**, because the page can change between the answer and the owner acting on it. The
+full register form — distillate, licence tier, who cites it — belongs to a project and is not
+owed by a conversation → `resources.md`. **Offer the stricter form rather than assume it**: a
+throwaway question does not want a bibliography, and a claim someone will spend money on does.
 
 **Validation on request runs and vanishes.** *"Have a look and validate it quickly"* may spin
 personas or experts as temporary runs: direction-only verdicts, provenance carried, and with no

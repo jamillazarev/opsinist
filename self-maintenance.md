@@ -127,6 +127,42 @@ it.
 
 ---
 
+## When another sentence will not fix it
+
+**A rule fires when it names something to open, a field that cannot be faked, or a gate that
+blocks. It does not fire when it states a virtue.** This is not taste — it is the one pattern
+that survived a suite of measured repairs, and the failures are more instructive than the wins.
+
+**What worked, and why:**
+
+- **A list of paths, placed before the alternative.** *"Read `docs/assets.md`, `docs/TOOLING.md`,
+  `docs/DECISIONS.md`"* — set physically above the rule that says *ask the owner* — changed a run
+  that had twice asked about a brand its own register described. The earlier attempt at the same
+  fix was a clause in a law paragraph, and it changed nothing.
+- **A field whose cheap answer is impossible to write.** A form asking *what was checked, and
+  when* was answered with three fabricated check-dates for pages never opened. The same form
+  asking **what the page said** was answered honestly — or left blank — because a quotation cannot
+  be produced from memory without visibly being generic.
+
+**What did not work, five times, in three files:** a well-formed statement of the right
+behaviour. *A substitute is offered as a substitute. The record's rung travels. Look inward
+first.* Each is true, each was read by the player, none survived contact with summarising or with
+a plausible shortcut.
+
+**So the ladder, when a rule keeps failing:** first ask whether it names a **file to open**; then
+whether it demands a **field a liar cannot fill cheaply**; then whether it belongs in a
+**template**, so omitting it leaves a visible hole rather than a silent one; then whether a
+**script** can decide it, which moves it off `prose-only` for good (`permissions.md`); and only
+then, whether it is a **writer restriction** — *who may write this fact* — because some failures
+are not about knowing the rule but about being the wrong party to assert it.
+
+**And the honest floor: some rules stay prose, and those are listed by name rather than believed.**
+A rule that has failed a measured repair twice is not "written more clearly" a third time — it is
+either given structure or **recorded as a known limit with its evidence**. A limit nobody wrote
+down gets rediscovered by a user.
+
+---
+
 ## Running this system on itself
 
 There is no separate ritual for it. **This project's own repository is a project, and its
