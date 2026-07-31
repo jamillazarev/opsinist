@@ -135,9 +135,10 @@ three different answers that must not be blended:
 | what needs me | the open requests — **state** |
 | what happened | the notification feed — **events** |
 | what changed that we did not change | the environment fingerprint → `drift.md` |
+| what outgrew its container | the seams, **each ending in a named offer** → `checking.md` |
 
-The first two are this file. The third is a different question and reporting it in the same list
-would hide it.
+The first two are this file. The last two are different questions and reporting them in the same
+list would hide them.
 
 **One line of state before the narrative.** *"3 need you · 2 running · 1 blocked · 4 closed since
 Tuesday"* — countable, scannable, and answerable at a glance before anyone reads a sentence. A

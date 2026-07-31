@@ -155,7 +155,8 @@ neither. Naming both occasions is part of the proposal.
 task · adding a pattern to this file.
 
 **23 · Promote what outgrew itself; don't nest deeper.** When a part needs parts of its own, it
-stops being a part.
+stops being a part. Seen mid-flight, the promotion is **offered by name** — the destination and
+what carries over — never reported as status → `checking.md`.
 *Applies to:* milestone → release · subtask → task · companion → skill · task resource → project
 resource.
 

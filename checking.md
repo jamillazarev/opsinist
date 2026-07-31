@@ -112,6 +112,31 @@ its evidence attached, and the change that follows is **an event with a record**
 
 ---
 
+## A transition seen is an offer made
+
+**"Where are we?" is where seams surface.** Work that has outgrown its container arrives dressed
+as status — *still going*, *noted again*, *four crafts now* — and reporting it as progress is the
+failure. Measured twice on `2026-07-31`: two runs named every seam unprompted, the recurrence bar
+included, **and moved none of them**, closing with *"finish it as it stands, or step back?"* —
+an answer that reads as competent while the hour quietly keeps becoming a roadmap.
+
+**A seam named in a status answer ends in its offer**, and the offer has slots that cannot be
+filled without opening the destination:
+
+> *\<what outgrew\> becomes \<the named artifact\>, carrying \<what already exists\> — yes?*
+
+| The shape seen | The offer it ends in |
+|---|---|
+| a quick job past its estimate | *becomes a task from `templates/TASK-template.md` — it gets an id and the work already done comes with it — yes?* → `quick.md` |
+| the same note recorded twice | *becomes a `tooling` task in the system stream, with both dates in it — yes?* → `self-maintenance.md` |
+| a milestone that outgrew its shape | *promoted to a release, every id under it kept — yes?* → `grouping.md`, `PATTERNS.md` §23 |
+
+**An open question is not an offer.** *"Step back?"* hands the shape back to the owner to design;
+the offer names the act and asks only for the yes. The owner still chooses — nothing is promoted
+silently — but they choose **between named acts**, not between moods.
+
+---
+
 ## Everything that needs a decision is a request
 
 **The audit's output must not be a report.** A report lives until the end of the scroll, and the

@@ -91,8 +91,11 @@ not blanket authorisation for the next one**.
 **Say so, once, and let the owner choose.** Growth is normal and the failure is not growing — it
 is growing **silently**, so that an hour's job quietly acquires a roadmap.
 
-> *"This is turning into three pieces with a review between them — want me to make it a proper
-> task, or keep going as is?"*
+> *"This is turning into three pieces with a review between them — make it a proper task? It
+> gets an id and the pieces already done come with it. Or keep going as is?"*
+
+The offer names the act and what carries over; a bare *"want me to step back?"* hands the shape
+back to the owner to design, which is the measured failure → `checking.md`.
 
 **If they say yes, the next step has an address:** a task takes its shape from
 `templates/TASK-template.md` and its rules from `writing-work.md`; a whole project starts at
