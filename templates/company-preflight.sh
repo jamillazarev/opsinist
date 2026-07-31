@@ -254,6 +254,65 @@ because a model reads its own output generously and the thread cannot tell the d
   done
 fi
 
+# 12 · the spend cap, which for months was written as "stop at the cap" and performed by nothing.
+#      Nothing can halt a run already in flight, and on a subscription the authoritative figure
+#      belongs to the harness — so the performable half is the one checkable between runs: a
+#      commit that records new spend while the ledger is already at or past the envelope is
+#      refused, which is what "refuse the next dispatch" means in practice (`cost.md`).
+#      Read from docs/BUDGET.md: the envelope from the Amount line, the level from the latest
+#      "Where it stands" row. Percent or currency, either way.
+#      A budget with no numbers yet is silent — a template nobody filled must not block a commit.
+if [ -f docs/BUDGET.md ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
+  if git diff --cached --name-only 2>/dev/null | grep -qE '^(docs/BUDGET\.md|tasks/.*\.md|runs?/.*)$'; then
+    python3 - <<'PY' > /tmp/.pf-budget.$$ 2>/dev/null || true
+import re
+txt = open("docs/BUDGET.md", encoding="utf-8").read()
+def money(s):
+    m = re.search(r"([0-9][0-9,]*\.?[0-9]*)", s.replace(" ", ""))
+    return float(m.group(1).replace(",", "")) if m else None
+# The envelope: the Amount bullet. Braces mean the template is unfilled — say nothing.
+env = None
+for ln in txt.split("\n"):
+    if re.search(r"\*\*Amount\*\*", ln) and "{{" not in ln:
+        env = money(ln.split(":", 1)[-1] if ":" in ln else ln)
+        break
+pause = 100.0
+m = re.search(r"\*\*Pause spend at\*\*[:\s]*\{?\{?([0-9]+)", txt)
+if m and "{{" not in m.group(0):
+    pause = float(m.group(1))
+# The level: the last data row of the standing table — a row whose second cell carries a number.
+level_pct = level_abs = None
+for ln in txt.split("\n"):
+    if not ln.strip().startswith("|") or "{{" in ln:
+        continue
+    cells = [c.strip() for c in ln.strip().strip("|").split("|")]
+    if len(cells) < 3 or cells[0].lower().startswith("read on") or set(cells[0]) <= set("-: "):
+        continue
+    if "%" in cells[2]:
+        p = money(cells[2])
+        if p is not None:
+            level_pct = p
+    a = money(cells[1])
+    if a is not None:
+        level_abs = a
+if level_pct is None and env and level_abs is not None and env > 0:
+    level_pct = 100.0 * level_abs / env
+if level_pct is not None and level_pct >= pause:
+    print(f"OVER:{level_pct:.0f}:{pause:.0f}")
+PY
+    while IFS= read -r l; do
+      case "$l" in
+        OVER:*) pct=$(printf '%s' "$l" | cut -d: -f2); cap=$(printf '%s' "$l" | cut -d: -f3)
+          say_fail "docs/BUDGET.md reads ${pct}% of the envelope against a pause at ${cap}% — \
+this commit records more spend past the cap. Nothing can halt a run already in flight, so the cap \
+is held here: raise the envelope deliberately, or stop dispatching. The cap is \`locked\` — \
+proposed to a human, never edited by whoever works under it.";;
+      esac
+    done < /tmp/.pf-budget.$$
+    rm -f /tmp/.pf-budget.$$
+  fi
+fi
+
 # 5 · a cheap last line on credentials. NOT a secret scanner — gitleaks/trufflehog are,
 #     and they belong in CI. This catches the obvious paste before it reaches history,
 #     where removing it means rewriting history and rotating the key anyway.

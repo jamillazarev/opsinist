@@ -90,12 +90,25 @@ path that still works."*
 **Verdict: no hook — rewrite the verb.** *"Refuse the next dispatch"* is performable and checkable
 by a validator against the ledger; *"stop"* is not. Whatever remains prose goes on the list.
 
-**Resolved `2026-07-31`, both halves.** `cost.md` now reads *"warn at a share, **refuse the next
-dispatch** at the cap"*, with the reason written beside it — nothing halts a run in flight, and on
-a subscription the authoritative figure is not ours. And the cap is **on the `prose-only` list by
-name** in `permissions.md`, where it had been missing while reading as a gate. **Still open: the
-preflight check itself** — the performable half is not yet code, so today the cap is an honest
-rule rather than an enforced one, and it says so.
+**Resolved `2026-07-31`, all three parts.** `cost.md` reads *"warn at a share, **refuse the next
+dispatch** at the cap"*; the unperformable half is named in the `prose-only` list where it had
+been missing while reading as a gate; **and the performable half is code** —
+`templates/company-preflight.sh` §12 refuses a commit that records spend while `docs/BUDGET.md`
+sits at or past its pause threshold.
+
+**Verified by mutation, in both directions, because a gate that cannot fail is not a gate:**
+
+| Planted | Expected | Result |
+|---|---|---|
+| ledger at 71% of a $300 envelope | pass | passed |
+| ledger at 106%, commit touching a task | **refuse** | **refused, with the envelope and threshold quoted** |
+| an unfilled `BUDGET-template.md` (braces, no numbers) | silent | silent |
+| over the cap, commit touching only `README.md` | silent | silent |
+
+The last two matter as much as the second: **a hook that cries wolf is a hook people bypass with
+`--no-verify`**, and a template nobody filled in must never block a commit. **This is the first
+row in this audit to move from a verdict to a mechanism** — from *"this is what we ask for"* to
+*"this is refused"*, wherever a project has wired the script.
 
 ## What the suites already settle
 

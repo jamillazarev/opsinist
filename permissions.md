@@ -206,10 +206,12 @@ confidence. So the `prose-only` list is written out by name rather than left imp
 - **an unreachable destination stops the operation** — reachability is checked, but nothing
   compels the check to have been run
 - **the graph cache is never the authority for a reference**
-- **a spend cap** — **nothing halts a run in flight**, and on a subscription the authoritative
-  figure is the harness's rather than ours. The performable half is *refuse the next dispatch*,
-  which a wired preflight can hold; **unwired, the cap is a rule** (`cost.md`). It was absent
-  from this list while reading as a gate, which is precisely what the list is for
+- **a spend cap, in the half that stays prose** — **nothing halts a run in flight**, and on a
+  subscription the authoritative figure is the harness's rather than ours. **The other half is a
+  validator now**: a commit recording spend while the ledger sits at or past the envelope is
+  refused (`templates/company-preflight.sh` §12) — *and only where a project has wired that
+  script*, which is the standing condition on every row below. It was absent from this list
+  entirely while reading as a gate, which is precisely what the list is for
 - **a tool allowlist, wherever the runtime does not enforce one** — the same line reads `harness`
   in one place and belongs on this list in another, which is why it is resolved per runtime and
   recorded on the run rather than written once → `runtimes.md`
