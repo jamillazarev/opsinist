@@ -248,6 +248,35 @@ halves, so the re-dispatched runs were scored against the same text as the first
 to set up an Android project reaching for the SDK location, not a walk into another repository.
 Recorded rather than dismissed, since the tripwire cannot tell those apart and a person should.
 
+### The measurement that reframes the rate: the corpus was mostly not read
+
+Counted over all 370 transcripts, by what each run actually opened:
+
+| what the run loaded | runs | pass-rate |
+|---|---|---|
+| at least one root companion | 50 · **13%** | 17% |
+| a verb door and no companion | 133 · 36% | 17% |
+| nothing from the corpus at all | 187 · **51%** | 28% |
+
+**Eighty-seven per cent of runs never opened a companion, and half never opened the skill** —
+in fixtures whose guide carries an operational trigger telling them to. **Progressive
+disclosure, which is the architecture this corpus is built on, does not happen on the light
+tier.** So `23%` measures the product as it behaves, and most of the corpus was not under test
+at all this round.
+
+**The inversion is not a finding, and reading it as one would be the error.** Runs that opened
+nothing scored higher, and the samples are confounded: a run only reaches for a companion on a
+scenario hard enough to need one, while the read-nothing bucket is thick with the conversational
+scenarios that pass 5 of 5 (`S1`, `S14`, `N46`). What is honest is the weaker claim — **loading
+the corpus did not predict passing** — and the strong one about coverage: a rule in a companion
+was in front of roughly one run in eight.
+
+**This is where a repair goes to die.** Of five repairs written after this round, four landed in
+`resources.md`, `cost.md`, `checking.md` and a new template — files read by 13% of runs — and one
+in the always-loaded core. **The question to ask before an edit is not whether it is correctly
+worded but whether it reaches the surface the failing run loads**, and this table is the first
+time this project can answer that with a number instead of a guess.
+
 ### What this round did not do
 
 **No repair was written after the numbers came in.** A suite that scores a corpus and then edits
