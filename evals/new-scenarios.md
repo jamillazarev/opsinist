@@ -1255,6 +1255,10 @@ already accepted the case; **the recognition is the input here, not the test.**
 register exists and holds nothing for it.
 
 Expected:
+- **The routine is identified from the tree, not asked about.** `T-18` and `T-21` name it, both
+  with the same steps and the same two hours — *look inward first* is a law, and the register is
+  the first source rather than the fallback. **Fail:** *"which routine do you mean?"* as the whole
+  answer, on a tree that says so twice.
 - **Born modular, and the budget is a number in the frontmatter** — roughly 100 lines for a tool
   skill — **written at creation, not after**. The core is *when to act*, the rules, and a routing
   table; procedures and examples go to companions named for their trigger.
@@ -1273,6 +1277,36 @@ Expected:
 - **Fail:** saved without ever being executed. *Reading a command does not find what running it
   finds* — measured twice in this repository, both on commands read carefully and never run.
 - **Fail:** the author declaring it tested because it produced no error on good input.
+
+> **First dispatch, `2026-07-31`, and it did not reach its own subject.** On one turn, **four of
+> five runs answered by asking which routine was meant** — *"I don't have the context of what
+> you've been doing by hand"* — on a tree whose two task files describe it twice. The fifth built
+> something and never ran a command against a defect. **So the run recorded here measured the
+> look-inward law and not the birth procedure**, and a scenario that cannot reach its subject
+> measures the wrong thing however honestly it is scored.
+>
+> Two things changed, both recorded rather than quietly applied: the asking behaviour became **an
+> expectation with a `Fail:` of its own** — it is a real failure, not an absence — and the
+> dispatch gained **a second turn naming the routine**, so the birth procedure is reachable even
+> when the first turn is spent asking. **The judge also mis-scored those four as `void`**: a run
+> that answers by declining to look has produced a behaviour, and `void` is for a run that
+> measured nothing at all.
+>
+> **Re-dispatched with both turns: 0 of 5, and two separate laws break in every run.**
+>
+> **Look inward first — 5 of 5 asked.** Every run answered turn one with *which routine do you
+> mean*, on a tree that names it in two task files. **And being told did not fix it**: given
+> *"it's in `T-18` and `T-21`"*, two runs still never opened them — they reached for the
+> harness's own task tools, `TaskGet` and `TaskList`, found nothing, and asked a third time.
+> **A player that reaches for a task API rather than the task files has left the premise** —
+> `project = f(repo)` means the files *are* the entities, and this is the first measurement of a
+> run failing on exactly that.
+>
+> **The birth procedure — 0 of 5, counted rather than judged.** Not one transcript contains a
+> command executed against a defective input before the file was saved. One run **declared it
+> tested by reading `test-manual.md`** — which is the corpus's own documented failure, *reading a
+> command does not find what running it finds*, recurring in a player who had the sentence in
+> front of it.
 
 *Why this one exists, and why it is not `N5`.* `N5` scores whether a repetition **becomes a
 `tooling` task** — the intake half, and it scores 0/5 twice. This one starts **after** that is

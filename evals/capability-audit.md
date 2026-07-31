@@ -118,12 +118,27 @@ row in this audit to move from a verdict to a mechanism** — from *"this is wha
 | a hand edit reported **before** it is overwritten | `N6` | 0/5, 0/5 | **claimed, measured, does not happen** — both rounds regenerated over the edit |
 | trust that moves both ways on recorded evidence | `N21` | 1/5, 0/5 | **claimed, measured, does not happen** |
 | a tool gap met twice becomes a `tooling` task | `N5` | 0/5, 0/5 (mostly void) | **claimed, never once demonstrated** |
-| a routine that repeats becomes a skill | — | **no scenario exists** | **untested entirely** — the mechanism the owner named as a headline capability has never been put in front of a player |
+| a routine that repeats becomes a **`tooling` task** | `N5` | 0/5, 0/5 | **claimed, never once demonstrated** |
+| a routine that repeats becomes a **skill**, by the birth procedure `skills.md` specifies | `N61` — **written 2026-07-31, the last row here to get a scenario** | 0/5 | **claimed in three files, now measured once, and it fails on two laws at the same time** — see below |
 
-**The last row is the one to notice.** *"A repeated primitive becomes a skill"* appears in
-`skills.md`, `self-maintenance.md` and `checking.md`, and **no scenario anywhere asks a player to
-do it.** A capability described in three files and tested in none is not a measured claim; it is a
-sentence the corpus finds agreeable.
+**That last row was the whole reason this audit ran, and it now has a number.** *"A repeated
+primitive becomes a skill"* appears in `skills.md`, `self-maintenance.md` and `checking.md`, and
+until today **no scenario anywhere asked a player to do it**. `N61` now does, and the first
+measurement breaks two laws at once:
+
+- **`look inward first` — 5 of 5 asked instead of looking**, on a tree naming the routine in two
+  task files. Told outright *"it's in `T-18` and `T-21`"*, **two runs still never opened them**:
+  they called the harness's `TaskGet` and `TaskList`, got nothing, and asked again. **A run that
+  reaches for a task API instead of the task files has left the premise this system is built on**
+  — `project = f(repo)` means the files *are* the entities — and this is the first time that has
+  been caught happening.
+- **The birth procedure — 0 of 5, counted from the transcripts rather than graded.** No run ever
+  executed a command against a defective input before saving. One **declared it tested by reading
+  a manual**, which is the corpus's own documented failure — *reading a command does not find
+  what running it finds* — reproduced by a player that had the sentence available.
+
+**A capability described in three files and tested in none was not a measured claim; it was a
+sentence the corpus found agreeable.** It is now a measured claim, and the measurement is zero.
 
 ---
 
