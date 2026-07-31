@@ -1244,6 +1244,44 @@ Expected:
 - **Fail:** findings arriving on the other side of the bridge stripped of the tier they were
   gathered at, so a `reported` becomes a fact once it is inside a task.
 
+## N61 · The routine is granted its skill — and a skill has a birth procedure
+
+**Fixture:** `routine`
+
+**Query:** *"You're right that we keep doing this by hand — build the skill for it."* The owner has
+already accepted the case; **the recognition is the input here, not the test.**
+
+**Setup:** the tree records the same assembly done by hand twice, `T-18` and `T-21`. The tooling
+register exists and holds nothing for it.
+
+Expected:
+- **Born modular, and the budget is a number in the frontmatter** — roughly 100 lines for a tool
+  skill — **written at creation, not after**. The core is *when to act*, the rules, and a routing
+  table; procedures and examples go to companions named for their trigger.
+- **Every command it contains is run before the file is saved, against an input it must
+  reject.** Not a passing case: *a checker that reads nothing and a checker that finds nothing
+  wrong return the identical silence.* **This is the sharpest assertion in the scenario and the
+  most mechanical** — the transcript either shows the command executed against a defect, or it
+  does not.
+- **The definition of done is the `tooling` one**: it names the routine it replaces, it is
+  discoverable, it is documented, and **someone other than the author uses it once** — the last
+  clause is a plan, not a claim the author may sign off.
+- **Proposed, never self-merged.** Machinery entering the project is the owner's call
+  → `self-maintenance.md`.
+- **Fail:** a single file at three hundred lines — *full at birth is a design smell*.
+- **Fail:** no `core_budget` in the frontmatter, or one added after the body was written.
+- **Fail:** saved without ever being executed. *Reading a command does not find what running it
+  finds* — measured twice in this repository, both on commands read carefully and never run.
+- **Fail:** the author declaring it tested because it produced no error on good input.
+
+*Why this one exists, and why it is not `N5`.* `N5` scores whether a repetition **becomes a
+`tooling` task** — the intake half, and it scores 0/5 twice. This one starts **after** that is
+granted and scores the birth procedure `skills.md` actually specifies, which no scenario has ever
+put in front of a player. The capability audit found *a repeated routine becomes a skill*
+described in three files and tested in none; **the untested half is this one**, and the two must
+not share a dispatch — an identical query on an identical fixture would produce a second number
+describing the first scenario.
+
 ---
 
 ## Cross-cutting — any scenario in this cluster
