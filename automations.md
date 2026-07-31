@@ -82,9 +82,20 @@ fact you can act on; silence is indistinguishable from success.
 
 ## Honest limits
 
-**There is no server.** Scheduling and background execution do exist: work can run outside the
-terminal, survive it closing, and start on a timer. What does not exist is **anything happening
-while the machine is off**.
+**There is no server, and what survives depends on the runtime — checked, not assumed.**
+Scheduling exists everywhere as *start on a timer*; **surviving the session that created it does
+not**, and the difference decides whether an automation is real or decorative.
+
+| Runtime | What a schedule survives | Verified |
+|---|---|---|
+| **Claude Code** | **the session and nothing more** — jobs are in-memory, nothing is written to disk, they vanish when the process exits, they fire only while it is idle, and recurring ones expire after 7 days | **2026-07-31 · measured** from the scheduling tool's own contract, live in this runtime |
+| **hermes-agent** | plausibly the machine — it is a resident gateway process with built-in cron and webhooks, not a per-session console | **cited** `2026-07-30` (`runtimes.md`); **the cron itself has never been run here** |
+| **OpenClaw** | a heartbeat every 30 minutes by default, workspace-driven | **cited** `2026-07-30`; not exercised |
+| everything else | **unknown — treat as session-only** until a row says otherwise | — |
+
+**So a promise like *"it will run tonight"* is false on a per-session runtime**, and the honest
+form names the condition: *"it fires if this session is still open at that time."* What does not
+exist anywhere is **anything happening while the machine is off**.
 
 So a time trigger fires when a background session picks it up or a scheduled run starts, and
 **inbound events queue and drain at the next pass**. State that plainly rather than implying a

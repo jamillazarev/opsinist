@@ -147,7 +147,17 @@ exists**, name the minimum it would cost and ask, rather than quietly proposing 
 advice **names the cliff**: *"free until March, then about $80 a month."* Otherwise March arrives
 and the project is living on something that ended.
 
-**Warn at a share, stop at the cap, and always offer the cheaper path that still works.**
+**Warn at a share, refuse the next dispatch at the cap, and always offer the cheaper path that
+still works.**
+
+**The verb is *refuse the next dispatch*, and it is deliberate.** *Stop at the cap* was written
+here for months and **nothing could perform it**: no runtime exposes a spend gate, a run already
+in flight cannot be halted from outside, and on a subscription the authoritative number is the
+harness's, not ours. What **is** performable is the check between runs — the ledger's total
+against the cap, before the next dispatch — and that one a script can hold
+(`templates/company-preflight.sh`). Until a project wires it, this line is **`prose-only` and
+listed there by name**: a cap nothing enforces is a rule, and it is worth having as a rule, but
+believing it is a gate is the failure `permissions.md` exists to prevent.
 
 **A shrinking budget re-proposes the stack**, rather than only raising an alarm. An alarm says
 something is wrong; a re-proposal says what to do.

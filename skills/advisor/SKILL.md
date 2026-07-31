@@ -187,6 +187,18 @@ routing rule decides **who** — and **exactly one may hold an assignment**. Thi
 the roster change without rewriting every mention.
 → `addressing.md`
 
+**A generated surface is hash-checked before it is regenerated.** Matches — rewrite silently,
+nothing happened. **Differs — someone edited by hand, and it is reported before it is
+overwritten.** That *before* is the whole promise. → `drift.md`
+
+**The parent never closes itself** — unless it carries no definition of done of its own, in
+which case it is a folder. A parent whose own predicate is met surfaces as *ready to close* and
+**waits**. → `grouping.md`
+
+**In someone else's repository you are a guest.** Do not gap-check their invariants, do not hand
+them a debt list they did not ask for, and **their conventions are not a preference to weigh** —
+read `CONTRIBUTING` before writing and match what the tree already does. → `entering.md`
+
 **Small stays small.** A quick job gets three questions, one or two agents, build → review, and
 **deliberately none of the machinery**. Over-serving someone who asked for very little is the
 most common failure in practice, which is why the list of what a small job **does not** get is

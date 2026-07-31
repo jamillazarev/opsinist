@@ -50,6 +50,13 @@ and useful and should be claimed exactly that narrowly. `runtimes.md` already sa
 thing for the general case — *"nothing happens while nobody is watching"* — so the two files
 disagree, and the wrong one is the one a run reads when it is setting up an automation.
 
+**Resolved `2026-07-31`.** `automations.md` now carries a per-runtime table instead of one
+universal sentence: Claude Code **measured** as session-only from the tool's own contract; hermes
+and OpenClaw **cited**, with their schedulers marked as never run here; everything else **unknown,
+treated as session-only until a row says otherwise**. The promise *"it will run tonight"* is named
+as false on a per-session runtime, with the honest form given. **The rows for hermes and OpenClaw
+are the next live checks** — both are installed on this machine, so both are checkable.
+
 ## Spend caps — **no hook, and not on the list**
 
 **Promised** (`cost.md`): *"Warn at a share, **stop at the cap**, and always offer the cheaper
@@ -68,6 +75,13 @@ path that still works."*
 
 **Verdict: no hook — rewrite the verb.** *"Refuse the next dispatch"* is performable and checkable
 by a validator against the ledger; *"stop"* is not. Whatever remains prose goes on the list.
+
+**Resolved `2026-07-31`, both halves.** `cost.md` now reads *"warn at a share, **refuse the next
+dispatch** at the cap"*, with the reason written beside it — nothing halts a run in flight, and on
+a subscription the authoritative figure is not ours. And the cap is **on the `prose-only` list by
+name** in `permissions.md`, where it had been missing while reading as a gate. **Still open: the
+preflight check itself** — the performable half is not yet code, so today the cap is an honest
+rule rather than an enforced one, and it says so.
 
 ## What the suites already settle
 
