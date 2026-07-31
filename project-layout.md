@@ -159,6 +159,15 @@ shape each time produces a document only its author can read.
 **Where a template does not exist, the artifact does not get invented on the spot** — it gets one,
 as a task, once the second project needs the same shape (`PATTERNS.md` §22).
 
+**The last row is the only one that is not a document, and it is the one that must actually be
+run.** Copied to `scripts/preflight.sh` and wired with `bash scripts/preflight.sh --install`, it
+is what makes three of this system's rules real in this project: a task cannot reach a terminal
+status in the same commit that edits its own bar, an entitlement cannot be claimed with nothing
+behind it, and the decisions log cannot be rewritten. **Un-wired, all three are `prose-only`
+here** whatever `permissions.md` says in general — a gate that lives in an uninstalled file is a
+gate nobody has. So it is wired when the project is stood up, and **whether it is wired is worth
+one line in the guide**, because the next agent has no way to tell by looking.
+
 ---
 
 ## Starting small

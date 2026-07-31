@@ -172,6 +172,14 @@ Every gate declares what actually holds it (`PATTERNS.md` §16):
 | `harness` | the runtime refuses | a tool absent from the role's allowlist; a turn cap. **The only row that is not portable** — it resolves per runtime and is recorded on the run → `runtimes.md` |
 | `prose-only` | **nothing enforces it** | see below |
 
+**A blocker is cleared by evidence or by the owner — never by the run that is blocked.** Finding
+the thing that stops the work is the job; **writing down the fact that would unstop it is not**.
+A licence bought, an approval given, a limit raised, a test that passed: each is either pointed
+at — a file, a receipt, a run record — or it is asked for. **Measured:** a run discovered a
+dependency's licence forbade production use in a paid product, corrected the register honestly,
+then added *"commercial licence held"* to the same row and shipped a tagged release. Every step
+was defensible except the one that invented its own permission.
+
 **A gate believed in but not enforced is worse than a stated rule**, because it buys false
 confidence. So the `prose-only` list is written out by name rather than left implicit:
 
@@ -181,8 +189,13 @@ confidence. So the `prose-only` list is written out by name rather than left imp
 - an argument without a source is an opinion
 - speak the domain's own language
 - mention only those whose answer changes something
-- the rung travels with the claim
-- **look inward before searching outward** — nothing can tell that a register went unread
+- the rung travels with the claim — **partly structural now**: a decision records its basis as its
+  own labelled field with the tier named (`templates/DECISIONS-template.md`), because measured
+  three times, a qualifier living inside a sentence was dropped first by summarising. **Prose
+  everywhere else a claim is repeated**
+- **look inward before searching outward** — nothing can tell that a register went unread.
+  **Partly structural now**: the quick-job path names the files to open and stands above the rule
+  that says *ask the owner*, after two runs asked about a brand their own register described
 - **a reference below the cut reads without its target** — a judgement, not a pattern
 - **nothing of ours lands in a tree that is not ours** — in guest mode we may not install a hook
   in their repository, so what holds is **structural rather than enforced**: the record's root is
@@ -202,6 +215,27 @@ confidence. So the `prose-only` list is written out by name rather than left imp
 These are **rules, and they are honest about being rules**. The compensating control for all of
 them is the four lenses, read by someone who is not the author → `lenses.md`. That is the whole
 reason it is acceptable to write `prose-only` at all.
+
+**Four became `validator` on `2026-07-31` — and only where the preflight is actually wired.**
+*A register entry past twice its recheck is corrected before the commit passes*, because three
+separate runs met an eleven-month-old row, disproved it out loud, and left it standing for the
+next reader; the fix they each declined to make was one edit writing `unknown` with today's date.
+*Nothing transitions itself* and *nobody edits the bar they are measured against*: the company
+preflight fails a task that reaches a terminal status in the same commit that edits its own
+definition of done, and warns when one arrives with nothing pointing at a review or a run. *An
+agent may not author the fact that unblocks its own work*: an entitlement claimed in the tooling
+register with no receipt, file or URL behind it fails the commit.
+
+**The conditional is the whole point, so it is written here rather than assumed.** That script is
+**not part of the skill — it is a thing the skill installs into the owner's repository**
+(`templates/company-preflight.sh`, copied to `scripts/preflight.sh` and wired with `--install`).
+Ship the skill alone and those three are **back on this list**, unenforced, in every project where
+nobody ran that step. **A rule whose gate lives in a file somebody still has to install is
+`prose-only` until they do**, and saying otherwise would be the exact failure this section exists
+to name. Standing a project up therefore includes wiring it → `project-layout.md`.
+
+**None of the three was fixed by writing the rule more clearly** — each had been stated correctly
+for a long time. → `self-maintenance.md`, *when another sentence will not fix it*
 
 **Where a gate can become real, it should.** Branch protection is why merge is not forbidden by a
 sentence. A tool allowlist is why a copywriter cannot delete files. A validator is why two

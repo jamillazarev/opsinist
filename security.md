@@ -99,8 +99,10 @@ alone.
 holding user data or money earns a real penetration test before it ships — automated scanning
 first, a human afterwards.
 
-**Free tooling covers most of it**: secret scanning in CI, static analysis, dependency alerts.
-Record what is wired and where → `tooling.md`.
+**Free tooling covers most of it**: secret scanning in CI, static analysis, dependency alerts,
+and an automated pass before the human pentest. **The named set lives in `catalogue.md`**
+(*Security scanning*) — naming it here too is how one list goes stale in one file. Record what
+is wired and where → `tooling.md`.
 
 ---
 

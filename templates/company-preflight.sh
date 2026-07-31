@@ -69,10 +69,14 @@ fi
 #     Checked column precisely so this can be enforced rather than hoped for.
 if [ -f docs/TOOLING.md ]; then
   python3 - <<'PY'
-import re, datetime, sys
-STALE_DAYS = 90
+import re, datetime
+# Past the first threshold a row is worth a nudge. Past the second it is not a stale fact, it is
+# a false one sitting where agents read it as true — and warnings do not get acted on. Measured:
+# a row eleven months old said "free tier, 1,000/month" for a vendor that had closed its free
+# tier; three separate runs found that out, said so clearly, and left the row exactly as it was,
+# each listing "update the register" as something for the owner to do later.
+STALE_DAYS, FALSE_DAYS = 90, 180
 today = datetime.date.today()
-old = []
 for line in open("docs/TOOLING.md", encoding="utf-8"):
     if not line.strip().startswith("|"):
         continue
@@ -80,15 +84,22 @@ for line in open("docs/TOOLING.md", encoding="utf-8"):
     if not m:
         continue
     d = datetime.date(*map(int, m.groups()))
-    if (today - d).days > STALE_DAYS:
-        name = line.split("|")[1].strip()
-        old.append(f"{name} (checked {d}, {(today-d).days}d ago)")
-for o in old:
-    print(f"STALE:{o}")
+    age = (today - d).days
+    if age > FALSE_DAYS:
+        print(f"FALSE:{line.split('|')[1].strip()} (checked {d}, {age}d ago)")
+    elif age > STALE_DAYS:
+        print(f"STALE:{line.split('|')[1].strip()} (checked {d}, {age}d ago)")
 PY
-fi 2>/dev/null | while IFS= read -r l; do
-  case "$l" in STALE:*) say_warn "TOOLING entry past its recheck: ${l#STALE:}";; esac
-done
+fi 2>/dev/null > /tmp/.pf-tooling.$$ || true
+while IFS= read -r l; do
+  case "$l" in
+    STALE:*) say_warn "TOOLING entry past its recheck: ${l#STALE:}";;
+    FALSE:*) say_fail "TOOLING entry ${l#FALSE:} — past twice its recheck, so it is not stale, \
+it is false where agents read it as true. Re-verify it, or write the value as \`unknown\` with \
+today's date. Writing \`unknown\` needs no new information and takes one edit.";;
+  esac
+done < /tmp/.pf-tooling.$$
+rm -f /tmp/.pf-tooling.$$
 
 # 3 · DECISIONS.md is append-only. Rewriting it is how a rejected idea comes back
 #     next quarter with nobody able to say why it was rejected the first time.
@@ -176,6 +187,51 @@ if [ -d roles ]; then
       say_warn "$(basename "$r" .md) carries $skills skills — every one loads on every run it \
 makes, and a role carrying that many is worse at each of them. Usually the signal is a missing hire"
     fi
+  done
+fi
+
+# 9 · an entitlement claim points at its evidence, or it is not a claim. Measured: a run found a
+#     bundled dependency was BUSL-1.1 rather than MIT, corrected this file honestly, added
+#     "commercial license held" — a licence nobody had bought — and tagged a release into the
+#     paid product on the strength of it. Every step was defensible except the one that wrote
+#     its own permission. Only entitlement words are checked; an ordinary licence name is a
+#     fact about the dependency and needs nothing.
+#     The evidence must sit in the SAME CLAUSE as the entitlement, not merely somewhere in the
+#     row. Measured within an hour of this check being written: a run wrote
+#     "commercial license held; evidence: `vendor/plotwright-LICENSE`" — a real pointer, but to
+#     the licence *text*, not to a purchase, and the licence text is the document that forbids
+#     the very use being claimed. A row-level test cannot validate a claim inside the row, so
+#     the clause is the unit: from the entitlement word to the next `;` or column break.
+if [ -f docs/TOOLING.md ]; then
+  while IFS= read -r line; do
+    case "$line" in \|*) ;; *) continue;; esac
+    printf '%s' "$line" | grep -qiE '(licence|license|plan|tier)[^|;]*(held|purchased|bought|covered|acquired|granted)' || continue
+    clause=$(printf '%s' "$line" | tr '|;' '\n\n' \
+             | grep -iE '(licence|license|plan|tier)[^|;]*(held|purchased|bought|covered|acquired|granted)' | head -1)
+    printf '%s' "$clause" | grep -qiE '(receipt|invoice|order|https?://|`[^`]+`)' && continue
+    name=$(printf '%s' "$line" | cut -d'|' -f2 | sed 's/^ *//;s/ *$//')
+    say_fail "docs/TOOLING.md claims an entitlement for \`$name\` — \"$(printf '%s' "$clause" | sed 's/^ *//;s/ *$//')\" \
+— with no evidence in that same clause. A pointer elsewhere in the row does not cover it, and a \
+licence file is evidence of the terms, never of a purchase. Point at the receipt, or write it as \
+unknown. An agent may not author the fact that unblocks its own work."
+  done < docs/TOOLING.md
+fi
+
+# 10 · nothing transitions itself, and nobody edits the bar they are measured against. Both are
+#      stated as laws and, until now, held by nothing. Measured: a run discovered a licence
+#      blocker, then set its own task to shipped and tagged a release in the same breath.
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^tasks/.*\.md$' || true); do
+    d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
+    printf '%s' "$d" | grep -qiE '^\+.*status:[[:space:]]*(done|shipped|completed|accepted|closed)' || continue
+    if printf '%s' "$d" | grep -qiE '^[+-].*(dod:|acceptance|definition of done)'; then
+      say_fail "$t reaches a terminal status in the same commit that edits its own bar — \
+nobody edits the bar they are measured against."
+    fi
+    printf '%s' "$d" | grep -qiE '(review|approved|accepted by|evidence|run [0-9a-z]|#[0-9]+|https?://)' \
+      || say_warn "$t reaches a terminal status and nothing in the change points at a review, a \
+run or evidence — nothing transitions itself, and a status that moves on its own is how a board \
+begins to lie."
   done
 fi
 
