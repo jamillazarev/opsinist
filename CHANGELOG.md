@@ -2,6 +2,69 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.2 — 2026-07-31
+
+**This release is mostly about knowing what is true.** The behavioural suite ran in full for the
+first time — every scenario, five times each, judged by a separate model that never saw the
+rubric — and the number it produced is **22% on a light tier**. That figure is in
+[evals/rates-2026-07-31.md](evals/rates-2026-07-31.md) with a row per scenario, and the method,
+the confounds and the things it does not prove are in [evals/RUNS.md](evals/RUNS.md). **Nothing
+here claims the number improved.** What changed is that it exists, that two ways of improving it
+were tried and measured as ineffective, and that several promises this skill was making got
+narrowed to what actually happens.
+
+---
+
+**Installs are discovered, not remembered.** `scripts/find-installs.sh` finds every install on a
+machine, prints each one's version and its update route, and flags the two states nothing else
+reports: **a symlink resolving to a directory that does not exist, and a copy sitting silently on
+an old version**. It exits non-zero when either is present. Written after a machine remembered as
+holding three installs turned out to hold fourteen — nine of them wired into harnesses and
+resolving to nothing. `upgrading.md` now runs it as a step *before* updating and again after.
+
+**Scheduling is stated per runtime, because it differs per runtime.** The old sentence promised
+that scheduled work "survives the terminal closing". Checked live: in **Claude Code** jobs are
+in-memory and die with the session; in **hermes** they persist to disk **and fire only when a
+gateway daemon the owner installs is running** — the tool says so itself. Everything else is
+**unknown and treated as session-only**. *"It will run tonight"* is now named as false on a
+per-session runtime.
+
+**A spend cap says what it can do.** *"Stop at the cap"* was unperformable — nothing halts a run
+in flight, and on a subscription the authoritative figure belongs to the harness. It is now
+**"refuse the next dispatch at the cap"**, which a wired preflight can hold, and the cap is
+**named in the `prose-only` list** where it had been missing while reading as a gate.
+
+**An instruction inside a tool's answer is refused more often than it was.** The boundary test
+changed from *where did this come from* to **is this text addressed to me** — the first question
+is unanswerable once a server's reply is cached inside the project, which is exactly where the
+attack landed. Measured on the fixture: the planted command was executed by **3 of 5 runs before
+and 1 of 5 after**, counted from the transcripts rather than graded.
+
+**Transitions end in a named offer.** A quick job past its estimate, a note recorded twice, a
+milestone across four crafts — each now ends in *this becomes that, carrying what exists — yes?*
+rather than an open question handed back. Recognition already worked; taking the step did not.
+
+**What did not work, and is written down as such.** Five well-formed repairs left the aggregate
+flat. Three rules moved **verbatim** into the always-loaded core — location the only variable —
+scored **1 of 15** against 0 of 10 before. So `self-maintenance.md` now records both as measured
+dead ends: **a rule that only asks gets skipped, however well worded and wherever placed.** What
+remains is structure that blocks — a field a liar cannot fill, a template with a hole, a script
+that decides, a restriction on who may assert.
+
+**The suite is a rig now, not a ritual.** Every scenario is bound to a fixture and to its exact
+user turns in `evals/runsheet.tsv`; `eval-suite.sh` shards dispatch across processes (370 runs in
+twenty-four minutes, down from two hours); a session limit is detected by its own banner on both
+the player and the judge side, and those runs are **re-dispatched rather than scored**. Three
+fixtures were added for scenarios that had none, and every fixture now stands on a seam between
+flows.
+
+**A capability audit started**, in [evals/capability-audit.md](evals/capability-audit.md): one row
+per mechanism, asking not whether it is worded well but whether it happens — with a verdict of
+*no hook · hook unwired · works but unmeasured · prose that shapes*. It is unfinished, and the
+mechanisms not yet reached are listed by name.
+
+---
+
 ## 0.1.1 — 2026-07-31
 
 **Behaviour, measured.** Twenty-two runs on a light-tier player over six rounds, against a frozen
