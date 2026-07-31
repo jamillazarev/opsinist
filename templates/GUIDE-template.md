@@ -7,6 +7,17 @@ and write task comments ONLY in {{language}}; artifacts (specs, docs) in
 **Project:** {{one-line: what we make}}. Repo: {{repo_url}}. Source of truth:
 {{spec docs}}; roadmap: `docs/ROADMAP.md`; team: `docs/TEAM.md`.
 
+**Operated by:** {{skill display_name}} **{{0.1.1}}** · format `schema_version` {{1}} ·
+**guard wired:** {{yes — `scripts/preflight.sh`, installed {{date}}}} · last upgrade {{date}}.
+
+> **Three facts nothing else can tell you, so they are stated rather than inferred.** *Which
+> version operated this project* is how a repo that has drifted behind the system becomes visible
+> instead of being discovered by a surprise; **`schema_version` is the format, and the two are not
+> the same thing**. And *whether the guard is wired* decides whether several of this system's
+> rules are gates here or only sentences — the script is installed into this repository, not
+> shipped inside the skill, so **the next agent has no way to find out by looking**
+> (`permissions.md`, `project-layout.md`).
+
 **Address the group, not a person you guessed.** State what you need and why; the group's
 routing rule decides who answers. Several may answer a question; **exactly one may hold an
 assignment**. This is what lets the roster change without rewriting every mention.

@@ -13,10 +13,26 @@ wonder why nothing changed.
 
 | Layer | What moves |
 |---|---|
-| **this system's bytes** | the skill files on the machine |
+| **this system's bytes** | the skill files on the machine — **by a route that differs per install**, below |
 | **the project's format** | `schema_version` and the codemods that move a repo from one to the next |
 | **attached skills** | third-party skills, re-screened |
 | **tooling versions** | the things in the register, checked against their release feeds |
+
+**The first layer has no single command, and assuming it does is how a runtime sits on an old
+version while reporting itself current.** One route per harness was decided at install
+(`INSTALL.md`); **the same choice decides how it updates**, and the table is here because a
+sentence could not hold it. Measured end to end on `2026-07-31`:
+
+| Installed as | What moves it | The trap |
+|---|---|---|
+| **a plugin, Claude Code** | `claude plugin marketplace update <name>` **then** `claude plugin update <plugin>@<marketplace>` | **the first step is the one people skip** — without it the second honestly reports nothing to update. Restart to apply |
+| **a plugin, Codex** | `codex plugin marketplace upgrade` then `codex plugin add <plugin>@<marketplace>` | `add` without `@marketplace` refuses when two marketplaces are configured |
+| **an extension, Gemini CLI** | publish a **GitHub release**, then `gemini extensions install <url> --consent` | **`extensions update` answers "already up to date" while sitting on the old version**: this route follows *releases*, and **a pushed tag is not one**. The install prompt is interactive and hangs in a non-interactive shell without `--consent` |
+| **a copied skills directory** | re-copy the source | nothing announces that the copy drifted; the source is the only truth |
+
+**Verify by reading the installed copy, never the command's output.** Each of the routes above
+reported success at least once for a version it had not moved to — check the version in the
+installed manifest, and that the core and the verb doors are all present.
 
 **Preview first, always.** What would change, what it touches, and what it would require. Then
 apply, then verify.
@@ -26,6 +42,22 @@ and the current one, and act on what they say rather than on the diff.
 
 **Rollback is normal.** The previous commit is the restore point; there is nothing separate to
 keep.
+
+**Outside git there is no previous commit, and that is where a copy gets taken.** Uninstalling a
+plugin, replacing an extension, moving a store: the safe move is to copy first — and **a copy
+taken has exactly two endings, both of which include telling the owner.**
+
+| Outcome | What happens to the copy |
+|---|---|
+| the step **succeeded** | **the copy is removed**, and the owner is told it existed and is gone |
+| the step **failed or was abandoned** | **restore from it first**, verify the restore, **then** remove it — and say what failed, what was put back, and what state things are in now |
+
+**A copy left behind is not caution, it is litter that looks like a backup.** Months later nobody
+can tell a deliberate archive from an abandoned half-migration, and the one thing worse than no
+backup is two states with no record of which is live. **Measured on this system's own release:**
+a Gemini extension was copied before an uninstall, the reinstall succeeded, and the copy sat
+there unmentioned until someone asked — the process had no ending written for the happy path,
+only for the sad one.
 
 **Finish by explaining it in plain language** — what changed, why it helps, what to do differently
 now. That is onboarding a **person** into a release, and it is a different thing from onboarding

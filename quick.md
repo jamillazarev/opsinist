@@ -94,6 +94,11 @@ is growing **silently**, so that an hour's job quietly acquires a roadmap.
 > *"This is turning into three pieces with a review between them — want me to make it a proper
 > task, or keep going as is?"*
 
+**If they say yes, the next step has an address:** a task takes its shape from
+`templates/TASK-template.md` and its rules from `writing-work.md`; a whole project starts at
+`starting.md`. **What was already done comes with it** rather than being redone — the growth is a
+promotion, not a restart.
+
 **Whatever it outgrows is added later**, and nothing is lost by having started small: a quick job
 that becomes a task gets an id then, and the work already done comes with it.
 

@@ -202,7 +202,10 @@ for a project**. If — and only if — the answer itself leads to building some
 
 **And "great, let's build it" is a first-class, expected transition, not an edge case.** At that
 sentence **the zero-footprint rule ends — it is the go**. Propose the right shape with a one-line
-why: a quick job, a project, or straight into the repo that already exists.
+why: a quick job (`quick.md`), a project (`starting.md`), or straight into a repository that
+already exists (`entering.md`) — **and the destination is named, not gestured at.** A transition
+described without the file it lands in is the same defect as a rule that names no artifact: it
+reads as complete and routes nowhere.
 
 **The consultation seeds it. Nothing already settled is re-asked.** Whatever it established —
 the question, the shaping answers, the **research findings with their sources**, a validated

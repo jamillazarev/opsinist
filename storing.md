@@ -232,6 +232,9 @@ anything, inventory what the runtime already has connected** rather than assumin
 `destructive`, because files leave a tracked place · to another repository is `outward` · deletion
 is `destructive` → `permissions.md`.
 
+**A safety copy taken before any of these is finished, not abandoned** — removed on success,
+restored from and then removed on failure, and the owner told either way → `upgrading.md`.
+
 **Deletion of a store record differs in kind, not in volume.** That directory is a git repository
 that was never pushed, so `rm -rf` destroys history that exists nowhere else — unlike deleting
 files from a repository, where the history remains. So deletion **lists what it found per
