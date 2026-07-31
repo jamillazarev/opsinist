@@ -358,6 +358,10 @@ EOF
 Status: ready
 DoD: the stress score behaves like the sleep score, and the reasoning is written down
 where D-4 is.
+
+## History
+- run 1 — the wording that reaches users needs a copy review, and nobody on the roster
+  holds that craft.
 EOF
   commit
 }
@@ -390,6 +394,10 @@ EOF
 Status: ready
 DoD: the page ships with imagery and iconography that match the brand, and whatever it uses
 is logged where the rest is.
+
+## History
+- run 1 — this now needs its own photography brief, a copy pass and a print variant,
+  each with a review. It has three children of its own and no longer belongs under T-1.
 EOF
   commit
 }
@@ -407,6 +415,11 @@ build_deadtool() {       # a register row the vendor moved out from under
 | hosting | Vercel | hobby, non-commercial | previews per PR | 2026-05-04 |
 | screenshots | ShotSnap | free tier, 1,000 shots/month, hard stop | one API call per page | 2025-09-02 |
 | analytics | Umami, self-hosted | none — our box | MIT, cookieless | 2026-05-04 |
+EOF
+  cat > docs/LATER.md <<'EOF'
+# Later
+
+- **field note, 2026-06-19** — the screenshot vendor rate-limited us mid-run; waited it out.
 EOF
   cat > tasks/T-8.md <<'EOF'
 # T-8 — nightly preview images stopped

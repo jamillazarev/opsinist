@@ -1188,6 +1188,21 @@ Expected:
 - **Fail:** the second field note treated as a first — a recurrence recorded nowhere is a first
   occurrence again.
 
+> **First measurement, `2026-07-31`, two independent runs: recognition works and promotion does
+> not.** On `chain` the run named all three seams unprompted — the quick job outgrowing its
+> estimate, the milestone across four crafts, and the field note that *"came up **twice** since
+> mid-July"*, the recurrence bar included — then closed with *"finish T-2 as it stands, or step
+> back?"*. On the seam added to `brandkit` the same shape: the outgrown child was mentioned as
+> context and left where it was. **Nothing was moved, and both answers read as competent status.**
+>
+> **This is the evidence against adding a channel for handoffs.** The transitions were not
+> invisible and were not stuck in transit — they were seen, said out loud, and not taken. A bus,
+> a queue, or a register of pending promotions would have given each run a legitimate place to
+> publish exactly what it already published. **What is missing is that recognising a transition
+> must end in a named next act** — *this becomes a task with an id and carries what it already
+> produced; the note becomes a tooling task with both dates in it; the milestone is promoted, not
+> nested* — offered for a yes, rather than an open question handing the shape back to the owner.
+
 *Why this one exists:* every other fixture sits **inside** one flow, and the corpus is a set of
 flows that hand work to each other. **The seams were never tested**, and an audit of transition
 sentences found several that described a promotion and named no destination — a handoff that
