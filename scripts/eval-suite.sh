@@ -27,11 +27,36 @@ grep -v '^#' evals/runsheet.tsv | cut -f1 | while read -r id; do
   for n in $(seq 1 "$NRUNS"); do echo "$id $n" >> "$jobs"; done
 done
 total=$(wc -l < "$jobs" | tr -d ' ')
-echo "dispatching $total player runs, 5 at a time…"
-xargs -P5 -n2 bash scripts/eval-dispatch.sh "$SUITE" "$CORPUS" "$PHOME" < "$jobs"
+
+# Sharded on purpose. The first full suite ran one pool of five and took two hours of wall clock
+# for 370 runs — and the round is bound by waiting on an API, not by this machine, so the fix is
+# concurrency rather than a faster loop. SHARDS × POOL is the real parallelism; keep the product
+# under about 30, since past that the provider starts shedding requests and a shed request looks
+# exactly like a slow one.
+SHARDS=${SHARDS:-6}; POOL=${POOL:-5}
+echo "dispatching $total player runs · $SHARDS shards × $POOL = $((SHARDS*POOL)) concurrent…"
+pids=()
+for i in $(seq 0 $((SHARDS-1))); do
+  bash scripts/eval-shard.sh "$SUITE" "$CORPUS" "$PHOME" "$i" "$SHARDS" "$POOL" \
+    > "$SUITE/logs/shard-$i.log" 2>&1 &
+  pids+=($!)
+done
+for p in "${pids[@]}"; do wait "$p"; done
+
+# A run the provider cut short is not a result. Requeue whatever the limit ate, once the reset
+# has passed — the alternative is a rate table where the account's ceiling is scored as the
+# corpus's behaviour.
+if [ -s "$SUITE/logs/POISONED" ]; then
+  n=$(wc -l < "$SUITE/logs/POISONED" | tr -d ' ')
+  echo
+  echo "$n run(s) hit the session limit and were not graded:"
+  sort -u "$SUITE/logs/POISONED" | head -3 | sed 's/^/  /'
+  echo "  requeue them with:  SHARDS=$SHARDS POOL=$POOL bash scripts/eval-requeue.sh $SUITE $CORPUS $PHOME $JHOME"
+fi
 
 echo "judging…"
-xargs -P6 -n2 bash scripts/eval-judge.sh "$SUITE" "$JHOME" < "$jobs"
+JPOOL=${JPOOL:-10}
+awk '{print}' "$jobs" | xargs -P"$JPOOL" -n2 bash scripts/eval-judge.sh "$SUITE" "$JHOME"
 
 echo; echo "== boundary tripwire"
 bash scripts/eval-boundary.sh "$SUITE/runs" "$SUITE/logs" || true

@@ -56,6 +56,19 @@ print(sid)")
   [ -n "$sid" ] || break
 done
 
+# A run the provider cut short measured nothing, and it must not reach the judge looking like a
+# refusal. Detected by the banner the harness itself emits, marked in its own file, and the
+# transcript deleted — a poisoned run is re-dispatched after the reset, never graded.
+# Measured 2026-07-31: a session limit ate the last 77 runs of a 370-run suite, and every one of
+# them would have scored as a failure of the corpus rather than of the account.
+if grep -q "hit your session limit" "$out" 2>/dev/null; then
+  reset=$(grep -o "resets [^\"]*" "$out" | head -1)
+  echo "$ID $N limit ${reset:-unknown}" >> "$logs/POISONED"
+  rm -f "$out"
+  echo "$ID/$N LIMIT — requeue after ${reset:-the reset}"
+  exit 4
+fi
+
 # The mechanical post-state: what the run changed is a fact, not a reading of the transcript.
 {
   echo "== git status --porcelain"
