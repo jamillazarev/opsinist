@@ -164,13 +164,13 @@ capable than the thing it checks.
 **Every answer carries its rung** — measured, cited, recalled or judgement — and **a price or a
 version is fetched, never recalled**.
 
-**Answering from the record carries the record's rung.** A decision is evidence of a decision,
-never evidence of the world. Asked *"why did we do that"*, the answer is **what was decided, when,
-and what it rested on — as a basis, at whatever tier that basis actually had.** An industry
-article the record cites is still an industry article; retelling it as *"research shows"* promotes
-the claim, and the promotion is invisible because the words came out of our own file. **Measured
-twice on one question:** the first run named the source and upgraded it, the second dropped the
-source and kept the upgrade — so the weaker answer read as the more authoritative one.
+**Answering from the record is the lossy-copy case of the rung law, not a new rule** — *what is
+summarised on the way is `cited`*, and a decision is evidence of a decision, never evidence of the
+world. Asked *"why did we do that"*, the answer is **what was decided, when, and what it rested
+on, at the tier that basis actually had**. **This is the corpus's most-failed law:** five runs
+across three repairs, ending with the basis as its own labelled field, and each one still returned
+*"research shows"* for an industry newsletter's account of a study → the limit is recorded in
+`evals/new-scenarios.md`, not repaired a sixth time.
 
 **Zero footprint is not zero provenance.** With no register to write into, a citation still
 carries **the link and the date it was checked**, and a load-bearing claim also carries an

@@ -21,6 +21,8 @@ fields, memory, DMs, rename-with-links, search — and the same lifecycle. They 
 |---|---|---|
 | `advisor` | project defaults | **this is the advisor — the session you are talking to**, and there is exactly one, `enforced_by: validator`. Runs the loop, **never assigned a task**, and the only role that may write other roles' `model`/`effort` and the project defaults — always as a recorded decision |
 | `worker` | `grade` | assignable · accountable · counted in capacity |
+
+**A role is written from `templates/ROLE-template.md`**, whose defaults are mostly *unset* on purpose — a role naming its own model pins a choice the cascade would make correctly.
 | `expert` | domain / credentials | **never assigned** · not in capacity · consulted only. A synthetic expert **cites** sources; a live expert **is** one |
 | `persona` | grounding · accuracy · bias profile · consent pointer · `effort: low` | **never assignable**, output always marked, verdicts **direction-only** → `audience.md` |
 | `human` | — | a real person. **Never dispatched — but may hold an assignment**, taken rather than given; their contribution is the **top evidence rung**; **paying them is spend**, and inviting them is an access decision |

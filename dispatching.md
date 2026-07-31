@@ -32,6 +32,14 @@ still there.
 agent A wrote and the evidence rung attached to it — and **may not promote a `recalled` to
 `measured` by quoting it**, which is the most common way a guess becomes a fact inside a team.
 
+**A run sent to find something returns the shape a consultation would** — the pick and why · what
+each claim rests on, quoted rather than asserted · what the project already holds · where it lands
+· and its origin, named. → `consulting.md`. **The shape is not a consulting manner, it is how the
+next agent can tell a checked claim from a confident one**, and a worker's answer is read by
+someone who was not there to watch it being made. Measured on project fixtures, not on questions:
+the runs that invented a price, promised an unchecked capability and shipped on a licence nobody
+had bought were all doing tasks.
+
 **Which models exist is the fastest-rotting fact this system depends on**, and it is the one the
 corpus must never hold. A roster written into a file is wrong within weeks — a new tier lands, a
 name changes, one is retired — and a role pointing at a model that no longer exists fails at

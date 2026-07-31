@@ -235,6 +235,25 @@ begins to lie."
   done
 fi
 
+# 11 · a review is not a review when the author signs it off. "Nobody edits the bar they are
+#      measured against" has a sibling nobody enforced: models judge their own output generously,
+#      and a thread where the only name approving is the name that did the work reads exactly
+#      like a reviewed one. Names, not identities — this is a nudge at the honest case, not an
+#      identity check, and anything stronger belongs in branch protection.
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^tasks/.*\.md$' || true); do
+    d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
+    printf '%s' "$d" | grep -qiE '^\+.*(reviewed by|approved by|accepted by)' || continue
+    who=$(printf '%s' "$d" | grep -ioE '(reviewed|approved|accepted) by[: ]+@?[A-Za-z0-9._-]+' \
+          | sed -E 's/.*by[: ]+@?//' | head -1)
+    author=$(grep -ioE '^(assigned|author|worker)[: ]+@?[A-Za-z0-9._-]+' "$t" 2>/dev/null \
+             | sed -E 's/.*[: ]+@?//' | head -1)
+    [ -n "$who" ] && [ -n "$author" ] && [ "$who" = "$author" ] && \
+      say_fail "$t is signed off by \`$who\`, who did the work — a review goes to someone else, \
+because a model reads its own output generously and the thread cannot tell the difference."
+  done
+fi
+
 # 5 · a cheap last line on credentials. NOT a secret scanner — gitleaks/trufflehog are,
 #     and they belong in CI. This catches the obvious paste before it reaches history,
 #     where removing it means rewriting history and rotating the key anyway.

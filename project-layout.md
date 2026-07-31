@@ -145,6 +145,9 @@ shape each time produces a document only its author can read.
 | `process/types/<type>.md` | `templates/TYPE-template.md` |
 | `docs/DECISIONS.md` | `templates/DECISIONS-template.md` |
 | `docs/ROADMAP.md` | `templates/ROADMAP-template.md` |
+| **a task** → `writing-work.md` | **`templates/TASK-template.md`** |
+| **a role** → `hiring.md` | **`templates/ROLE-template.md`** |
+| **a run record** → `dispatching.md`, `cost.md` | **`templates/RUN-template.md`** |
 | `docs/TEAM.md` | `templates/TEAM-template.md` |
 | `docs/TOOLING.md` | `templates/TOOLING-template.md` |
 | `docs/BUDGET.md` | `templates/BUDGET-template.md` |
@@ -158,6 +161,14 @@ shape each time produces a document only its author can read.
 
 **Where a template does not exist, the artifact does not get invented on the spot** — it gets one,
 as a task, once the second project needs the same shape (`PATTERNS.md` §22).
+
+**The first three rows are new on `2026-07-31`, and their absence was the loudest silence in this
+file.** Eleven artifacts a project writes occasionally each had a template; **the three it writes
+constantly — a task, a role, a run — had none**, and their shape lived as field-definition tables
+inside the companions. A definition table says what a field *means*; **a template is a file you
+copy, where the field you skipped leaves a hole somebody sees.** `cost.md` had already named the
+consequence without being able to prevent it: *a run recorded by the worker itself carries a
+sentence where four numbers belong, which is how a ledger quietly becomes prose.*
 
 **The last row is the only one that is not a document, and it is the one that must actually be
 run.** Copied to `scripts/preflight.sh` and wired with `bash scripts/preflight.sh --install`, it

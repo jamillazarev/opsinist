@@ -47,6 +47,9 @@ These govern every use. Everything else loads on a trigger.
 whatever it lists ages. Every catalogue here is a **seed, never the ceiling**: for *this*
 project go and look — `awesome-{topic}`, registries, official docs, live `--help` — and prefer
 the just-verified over the remembered. **Not knowing is normal; not looking is the failure.**
+**And what cannot be had as asked is said, never quietly swapped**: something adjacent may be
+offered, labelled as the substitute it is — handing it over as the thing answers a question
+nobody asked.
 
 **Look inward first — that is where looking starts, not where it stops.** Asked what *we* have —
 research, decisions, resources, tools, patterns — the **registers are the first source, never the
@@ -82,7 +85,9 @@ Slow-rotting canon traces to `sources/`; a fast-rotting fact — a price, a curr
 session is not caching** — persisting it is; the reused figure carries the timestamp of the
 fetch. **`measured` survives a faithful copy and not a lossy one**: output passed through verbatim
 is still observed, output something summarised on the way is `cited` — you read an account of it.
-→ `dispatching.md`
+**And what a source or a tool *can do* is a claim on this same ladder** — *you can filter that by
+X*, *their free tier is Y*, *that study showed Z* are three of a kind, and the honest answer to an
+unchecked one is `unknown`. → `dispatching.md`
 
 **A second pyramid, for signal about people:** **live › twin › validated persona › proto**.
 Never pooled with the first. Three live interviews and twenty synthetic runs are never "23

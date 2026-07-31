@@ -184,7 +184,9 @@ was defensible except the one that invented its own permission.
 confidence. So the `prose-only` list is written out by name rather than left implicit:
 
 - read the file before acting on its subject
-- report the trend, not the level
+- report the trend, not the level — **partly structural now**: the budget carries a *rate vs the
+  previous read* column and a *runs out* column, so a level quoted alone leaves visible blanks
+  (`templates/BUDGET-template.md`). Prose wherever a number is reported outside that file
 - small stays small
 - an argument without a source is an opinion
 - speak the domain's own language
@@ -216,7 +218,11 @@ These are **rules, and they are honest about being rules**. The compensating con
 them is the four lenses, read by someone who is not the author → `lenses.md`. That is the whole
 reason it is acceptable to write `prose-only` at all.
 
-**Four became `validator` on `2026-07-31` — and only where the preflight is actually wired.**
+**Five became `validator` on `2026-07-31` — and only where the preflight is actually wired.**
+*A review goes to someone else*: a task signed off by the name that did the work fails the commit.
+Names, not identities — a nudge at the honest case, since anything stronger belongs in branch
+protection, and the rule exists because **models read their own output generously** while a thread
+containing one approving name looks exactly like a reviewed one.
 *A register entry past twice its recheck is corrected before the commit passes*, because three
 separate runs met an eleven-month-old row, disproved it out loud, and left it standing for the
 next reader; the fix they each declined to make was one edit writing `unknown` with today's date.

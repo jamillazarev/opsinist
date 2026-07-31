@@ -9,6 +9,18 @@ The envelope every recommendation lives in. the advisor re-proposes the stack wh
 - **Warn at**: {{80}}%  ·  **Pause spend at**: {{100}}%
 - **Exempt** (never blocked): {{e.g. domain renewal, anything already committed}}
 
+## Where it stands — a level and a direction, never a level alone
+
+| Read on | Spent | Of envelope | **Rate vs the previous read** | Runs out |
+|---|---|---|---|---|
+| {{2026-07-31}} | {{$212}} | {{71%}} | **{{doubled · flat · halved}}** | **{{at this rate: 2026-08-04}}** |
+
+**The rate column is why this is a table and not a sentence.** *report the trend, not the level*
+is a law of this system and was on its `prose-only` list, where nothing could tell whether it had
+been followed — *"$212 of $300"* is true, reads as comfortable, and hides that the envelope is
+gone in four days. **A blank rate cell is visible; an omitted clause in a sentence is not.**
+Two reads are enough to fill it, and the first read writes `first read` rather than guessing one.
+
 ## Credits, grants, free months
 
 Runway, not income — each one expires.

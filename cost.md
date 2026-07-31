@@ -40,7 +40,9 @@ input.
 
 ## Four token numbers, never one total
 
-`input` · `output` · `cache_read` · `cache_write`.
+`input` · `output` · `cache_read` · `cache_write`. **The run is written from
+`templates/RUN-template.md`, which gives the four their own cells** — the sentence-where-numbers-belong
+failure below is what a form prevents and a paragraph does not.
 
 **The dispatcher writes them, not the worker.** A worker does not reliably see its own usage —
 the counts come back to whoever spawned it. A run recorded by the worker itself will carry a
