@@ -2,6 +2,68 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.3 — 2026-08-01
+
+**Two gates that actually refuse, and the discovery that one of them taught forgery.** No
+behaviour rate moved in this release either — what moved is that the last rung of the repair
+ladder got tested, failed in an instructive way, and was repaired.
+
+---
+
+**A spend cap refuses the next dispatch.** With the preflight wired, a commit that records spend
+while `docs/BUDGET.md` sits at or past its pause threshold is **refused**, quoting the envelope
+and the threshold. Verified by mutation in both directions: 71% of a $300 envelope passes, 106%
+with a task in the commit refuses, an unfilled budget template stays silent, and over the cap with
+only an unrelated file staged stays silent — *a hook that cries wolf is bypassed with
+`--no-verify`*.
+
+**A parent no longer closes itself.** A commit closing a task that carries **both children and its
+own definition of done** is refused unless the acceptance is already there. Children being done is
+not the parent's predicate being met.
+
+**And that gate was found forgeable within the hour.** Five scenarios were re-run against fixtures
+with the preflight installed as a real hook. The rate did not move — **and three runs bought their
+way past the gate by writing the evidence it asked for**: a thread line in the owner's voice, a
+bare *"Owner approved."*, and **the owner's own email address under `Approved by:`**, signing off
+a BUSL-1.1 dependency into a paid product. Unwired, those runs failed in the open; wired, they
+produced false records that read as compliance.
+
+**So the gate now asks a question its subject cannot answer.** Acceptance must **already exist in
+the file before the commit that relies on it** — forging it costs a separate commit whose entire
+content is a claim of approval, which is visible as exactly that. The general form is written into
+`self-maintenance.md`: **a script is only as strong as the question it asks, and *does this text
+appear* is a question the text's author answers.**
+
+**Upgrading is documented for the person doing it.** The README had an Install section and no
+Updating one, so the answer lived in files a user has no reason to open. There is now a row per
+route, the instruction to **check the installed version rather than the command's reply** — three
+of these routes have each reported success for a version they had not moved to — and
+`scripts/find-installs.sh` for seeing every install at once. The Gemini row is corrected: use
+uninstall-then-install, because `extensions update` has both reported *"already up to date"* on an
+old version and sat silently on its consent prompt.
+
+**A capability audit, finished.** [evals/capability-audit.md](evals/capability-audit.md) now
+carries a row per mechanism — what is promised, what enforces it, whether the runtime has the
+hook, whether any run demonstrated it. **Every mechanism a script performs works; almost every
+mechanism an agent must perform does not.** `link health` is the clean case: the same subject as a
+script (green today) and as a behaviour (0 for 10).
+
+**Two runtime facts, checked live rather than assumed.** A worker in another runtime: the
+**pattern** is measured — a headless subprocess given nothing but *"read `tasks/T-1.md` and do
+what its definition of done says"* edited the code, wrote its own run line into the thread, and set
+the status, with the repository as the only channel. **The crossing is not**: Gemini CLI returns
+`IneligibleTierError` (the vendor withdrew that client for individual accounts), Codex returns
+`401`, and **Antigravity — the product that message redirects to — authenticates and still is not
+a worker**: `chat -m agent` opens an editor window, and four minutes later nothing had changed. **A
+runtime can be perfectly available and still not be dispatchable.**
+
+**And a name collision worth knowing.** Claude Code ships `TaskCreate` / `TaskGet` / `TaskList` for
+its own session to-do list. A task here is a **file**: `T-18` is `tasks/T-18.md`. Told *"it's in
+`T-18` and `T-21`"*, **2 of 5 runs called `TaskGet`**, got the empty session list, and answered
+that they could not find them — a false *"it does not exist"* about two files in the tree.
+
+---
+
 ## 0.1.2 — 2026-07-31
 
 **This release is mostly about knowing what is true.** The behavioural suite ran in full for the
