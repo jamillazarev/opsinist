@@ -18,6 +18,17 @@ wonder why nothing changed.
 | **attached skills** | third-party skills, re-screened |
 | **tooling versions** | the things in the register, checked against their release feeds |
 
+**Discovery precedes updating: run `bash scripts/find-installs.sh` and read the list it prints.**
+It finds every install on the machine, names each one's version and its update route, and
+separately flags the two states nothing else will ever report — a symlink resolving to a
+directory that does not exist, and a copy sitting silently on an old version. Measured
+`2026-07-31`: a machine remembered as holding three installs held **fourteen** — nine of them
+symlinks into a directory that had never existed, so nine harnesses had the skill wired in and
+loading nothing — and hours later the same machine held a config mount pointing at a copy a
+cleanup had just removed, which the script caught and a person had not. **"Updated everywhere" is
+a claim about a generated list, never about memory** — and the same list is re-run after the
+updates, so every row is seen to have moved.
+
 **The first layer has no single command, and assuming it does is how a runtime sits on an old
 version while reporting itself current.** One route per harness was decided at install
 (`INSTALL.md`); **the same choice decides how it updates**, and the table is here because a
@@ -28,7 +39,12 @@ sentence could not hold it. Measured end to end on `2026-07-31`:
 | **a plugin, Claude Code** | `claude plugin marketplace update <name>` **then** `claude plugin update <plugin>@<marketplace>` | **the first step is the one people skip** — without it the second honestly reports nothing to update. Restart to apply |
 | **a plugin, Codex** | `codex plugin marketplace upgrade` then `codex plugin add <plugin>@<marketplace>` | `add` without `@marketplace` refuses when two marketplaces are configured |
 | **an extension, Gemini CLI** | publish a **GitHub release**, then `gemini extensions install <url> --consent` | **`extensions update` answers "already up to date" while sitting on the old version**: this route follows *releases*, and **a pushed tag is not one**. The install prompt is interactive and hangs in a non-interactive shell without `--consent` |
-| **a copied skills directory** | re-copy the source | nothing announces that the copy drifted; the source is the only truth |
+| **a copied skills directory** | re-copy the source | the drift announces itself nowhere, so the announcement is a command: `scripts/find-installs.sh` after every update, and the copy's row shows the new version or the copy did not move |
+
+An earlier version of that row said only *"nothing announces that the copy drifted"* — a
+property, not an instruction — and within the hour the machine it described was caught holding
+exactly such a copy. **A rule that names a property gets nodded at; a rule that names a command
+gets run** — the same ladder as `self-maintenance.md`, applied to this table.
 
 **Verify by reading the installed copy, never the command's output.** Each of the routes above
 reported success at least once for a version it had not moved to — check the version in the
