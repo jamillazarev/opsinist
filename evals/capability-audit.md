@@ -114,12 +114,62 @@ sentence the corpus finds agreeable.
 
 ---
 
-## Not yet reached, named so the gap is visible
+## The remaining fourteen, against two full rounds
 
-drift detection of the environment fingerprint · escalation ageing on requests · the review gate
-where author and reviewer must differ · routing to another craft · link health · dependency
-watching across its three tiers · format migrations and their codemods · import mapping · personas
-and their grounding · the product map · parallel dispatch · the permission trust ladder ·
-deletion's enumeration of destinations · handover.
+Every mechanism below has at least one scenario. The two figures are **the first suite → the
+repaired suite**, each `pass / valid runs` at N=5, `void` excluded. Read them as a pair: one round
+is an anecdote, two rounds agreeing is a fact about the corpus.
 
-**Each gets a row with the same six columns, or it does not count as audited.**
+| Mechanism | Scenarios, round 1 → round 2 | Verdict |
+|---|---|---|
+| **escalation ageing** — a request has an age and stops an unbounded exchange | `N3` 0/5 → 0/5 · `S10` 0/5 → 0/5 | **claimed, measured twice, never once demonstrated** |
+| **the review gate: author and reviewer differ** | `N4` 0/5 → 0/5 · `N21` 1/5 → 0/5 | **never demonstrated.** The parent closed itself in every round |
+| **routing to another craft** | `N25` 0/4 → 0/2 · `N2` 2/3 → all void | **thin and mostly failing**; `N2`'s round-2 runs are void, so it rests on three valid runs total |
+| **link health** | `N57` 0/5 → 0/5 — **and `scripts/check-links.py` passes, today, in this repo** | **split, and the split is the finding**: as a *script* it is real and green; as a *behaviour* — an agent meeting a dead citation mid-task — it has never happened |
+| **dependency watching, three tiers** | `N19` 1/2 → 0/3 · `N40` 0/5 → 0/5 | **never demonstrated**; the register goes uncorrected even after the run says out loud that it is wrong |
+| **format migration with a codemod** | `N12` 1/1 → all void | **untested in practice** — one valid run across two rounds is not a measurement |
+| **import mapping** | `N28` all void → all void · `N8` 0/2 → 0/5 | **untested and failing** — `N28` is void by my own dispatch-sheet defect, and `N8` never audits before touching |
+| **personas and their grounding** | `N7` 1/4 → 2/5 · `S12` 1/5 → 1/4 | **works sometimes** — roughly a third, the best rate of anything in this table |
+| **the product map** | `N29` 0/5 → 1/5 | **barely** — one run in ten refused to map an unshipped move |
+| **parallel dispatch — the owner is not held** | `N24` 0/5 → 0/5 | **never demonstrated.** The audit runs inline every time and the conversation blocks |
+| **the permission trust ladder** | `N21` 1/5 → 0/5 · `N20` 0/4 → 0/5 | **never demonstrated** |
+| **deletion enumerates its destinations** | `N15` 0/4 → 0/2 | **never demonstrated**, on six valid runs |
+| **handover and the guest boundary** | `N13` 0/5 → 0/5 · `N14` 0/3 → 0/4 | **never demonstrated** — and `N13` is one of the three whose rule was later moved into the core, which changed nothing |
+| **recovery after a limit** | `N10` 3/5 → all void · `S4` 0/2 → 2/4 | **works sometimes**, on thin evidence — the round that would have confirmed it produced no valid runs |
+
+### What the table says when you stand back from it
+
+**Every mechanism a script performs works. Almost every mechanism an agent must perform does
+not.** The scripts in this repository — links, structure, freshness — pass today, and
+`templates/company-preflight.sh` guards four things in an owner's repo **where it is wired**: the
+promised docs exist, a recorded fact past its recheck fails the commit, the decisions log stays
+append-only, and the architecture and product maps still describe the repository. Those are the
+green rows in this project, and they are green because **nothing depends on a model choosing to
+do them.**
+
+**`link health` is the clean experiment, because it is both at once.** The same subject, guarded
+by a script and asked of an agent: the script is green today and the behaviour is 0 for 10.
+
+**The two best rates in the table — personas at about a third, recovery at about a half — are the
+two mechanisms where the fixture makes the work impossible to skip.** A persona file with a
+grounded bias profile has to be read to be used; a task history saying *run 2 applied and did not
+commit* is the work. Where the tree forces the step, it happens more often. That is the same
+finding as the ladder, arriving from a different direction.
+
+**None of this says the mechanisms are worthless.** A rule that fires a third of the time still
+fires, and on a stronger tier these numbers would differ — the doctrine deliberately measures the
+weakest realistic executor. What the table forbids is the sentence *"the system escalates on
+age"* said without qualification: on the light tier, measured twice, **it does not**.
+
+### Where each verdict lands
+
+- **`no hook`** — the spend cap (rewritten), and *"a schedule survives the session"* on a
+  per-session runtime (rewritten per runtime).
+- **`hook unwired`** — the cap's preflight check, which is performable and not yet written.
+- **`works, unmeasured`** — format migration, and the hermes and OpenClaw schedulers.
+- **`prose that shapes`** — everything in the table scoring under half, which is most of it. **The
+  honest form of each is *this is what we ask for*, not *this is what happens*.**
+
+**Nothing in this audit was repaired while writing it.** The repairs go in the next round, against
+this baseline, and the ladder now says where to start: not another sentence, and not a better
+place for it — **a field, a template, a script, or a restriction on who may assert.**
