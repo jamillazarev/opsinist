@@ -145,6 +145,42 @@ catch are not present, and nothing about the ones nobody thought of.
 
 ---
 
+## 2026-07-31 — the delivery experiment: location is not the answer either
+
+**The obvious next guess, tested and excluded.** If 87% of runs never open a companion, then
+"the rule was never in front of it" explains every behavioural failure — and it is cheap to
+check. Three rules that had scored **0/5 in both full rounds** were moved **verbatim, not one word
+changed**, from their companions into the always-loaded core, and only those three scenarios were
+re-run at N=5: *report a hand edit before overwriting it* (`N6`) · *a parent with its own
+predicate waits* (`N4`) · *say you are a guest before touching a stranger's tree* (`N13`).
+
+**1 of 15.** Against 0/5 and 0/5 before, that is no movement.
+
+**What the transcripts show is the same act each time.** `N6`: the run read `TEAM.md`, then
+overwrote the hand-edited block and mentioned it afterwards as a correction. `N4`: edited
+`Status: started → done` directly on a parent whose own predicate no child proves. `N13`: opened
+with *"I'll help you fix…"* and went straight to the file. **All three rules ask for a sentence to
+be said before an action that remains fully available**, and nothing stands between the model and
+the action.
+
+**So both cheap hypotheses are now excluded by measurement**: wording (five repairs, aggregate
+flat) and location (three rules relocated, flat). What is left is the part of the ladder in
+`self-maintenance.md` that was always there — a field a liar cannot fill cheaply, a template with
+a visible hole, a script that decides, a restriction on who may assert. **A rule that only asks
+gets skipped, however well it is written and wherever it is put.**
+
+**The core edit was reverted.** It bought nothing measurable and the core is budgeted — every run
+pays for it. Keeping it would have been the same false confidence this file exists to record.
+
+**A rig defect worth its own line: a stale clean-room config outranked a valid credential file.**
+The player's isolated config had accumulated a logged-out state that beat a freshly seeded token,
+so fifteen runs returned `Not logged in` and were correctly scored **void, not failed** — the void
+discipline earning its keep. A virgin config directory with the same token authenticated
+immediately. **The lesson is the general one: an isolated environment ages, and an environment
+that has failed once can keep failing for a reason unrelated to what is being measured.**
+
+---
+
 ## 2026-07-31 — the repaired round: the same 370, and the aggregate did not move
 
 **23% → 22%.** Five structural repairs, then all 74 scenarios re-run at N=5 against the repaired

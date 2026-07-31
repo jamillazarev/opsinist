@@ -151,6 +151,23 @@ behaviour. *A substitute is offered as a substitute. The record's rung travels. 
 first.* Each is true, each was read by the player, none survived contact with summarising or with
 a plausible shortcut.
 
+**And moving a correct sentence somewhere it is certainly read does not work either — measured,
+because it was the obvious next guess.** A round found that **87% of runs open no companion at
+all**, which makes "the rule was never in front of it" the natural explanation for every failure.
+So three rules that had scored **0/5 twice** were moved **verbatim, not a word changed**, into the
+always-loaded core — the only variable being location — and re-run at N=5 each: **1 of 15.**
+
+The three were *report a hand edit before overwriting it* · *a parent with its own predicate
+waits* · *say you are a guest before touching a stranger's tree*. All three share a shape: **they
+ask for a sentence to be said before an action that is otherwise available**, and nothing stops
+the action. The model read them and did the work.
+
+**So neither wording nor placement is a rung.** What remains is what the ladder already said, now
+with both alternatives measured and excluded: **a field a liar cannot fill cheaply · a template
+whose omission leaves a hole · a script that decides · a restriction on who may assert.** A rule
+that only *asks* will be skipped by a light tier no matter how well it is worded or how loudly it
+is placed.
+
 **So the ladder, when a rule keeps failing:** first ask whether it names a **file to open**; then
 whether it demands a **field a liar cannot fill cheaply**; then whether it belongs in a
 **template**, so omitting it leaves a visible hole rather than a silent one; then whether a
