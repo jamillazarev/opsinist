@@ -16,7 +16,7 @@ set -uo pipefail
 
 FIXTURES="guest cold colleague injection recovery drift feedback hire ship audience
           workshop escalation routine copy decompose import flowmap consult evidence
-          brandkit deadtool mcpsource conflict deadlink"
+          brandkit deadtool mcpsource conflict deadlink chain"
 
 if [ "${1:-}" = "--list" ]; then echo $FIXTURES; exit 0; fi
 ROOT=${1:?usage: fixtures.sh <root> [name] | --list}
@@ -503,6 +503,42 @@ EOF
 
 Status: ready
 DoD: the two new fields ship, and D-2 is either upheld or revised in writing.
+EOF
+  commit
+}
+
+build_chain() {          # a job standing exactly on a seam between two flows
+  # Every other fixture sits inside one flow. This one is deliberately placed where work has to
+  # be handed on: a quick job that has outgrown itself, a field note seen for the second time,
+  # and a milestone that outgrew its shape. Each transition is described somewhere in the corpus;
+  # what is scored is whether the handoff lands in a named place or evaporates into a sentence.
+  new chain
+  mkdir -p docs tasks
+  printf '# Guide\n\nProject: a recipe site. Small jobs stay small; work that grows says so.\n\nOperated by: Opsinist 0.1.1 · guard wired: no\n' > CLAUDE.md
+  printf '# Architecture\n\nsrc/ holds the site.\n' > docs/ARCHITECTURE.md
+  cat > docs/ROADMAP.md <<'EOF'
+# Roadmap
+
+## Milestone: "faster pages"
+- covers image handling, the search box, the print stylesheet and the recipe importer
+- four crafts, no end date, three of the four have their own follow-on work
+EOF
+  cat > docs/LATER.md <<'EOF'
+# Later
+
+- **field note, 2026-07-12** — no tool for converting a recipe's units; did it by hand.
+- **field note, 2026-07-28** — no tool for converting a recipe's units; did it by hand again.
+EOF
+  cat > tasks/T-2.md <<'EOF'
+# T-2 — tidy the ingredient list spacing
+
+Status: started
+Type: quick job — no id was meant for this, it was going to take an hour
+
+## History
+- run 1 — the spacing fix turned out to need a parser change, a design call on
+  fractions, and a migration of the stored recipes. Three pieces with a review
+  between them. Still going.
 EOF
   commit
 }

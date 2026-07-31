@@ -37,7 +37,8 @@ label gets more wrong with every level.
 has outgrown being a piece.
 
 **Promote what outgrew itself; do not nest deeper** (`PATTERNS.md` §23). When a child needs
-children of its own and a life of its own, it stops being a child: remove the parent link and it
+children of its own and a life of its own, it stops being a child — it becomes a task in its own
+right (`templates/TASK-template.md`): remove the parent link and it
 is a task. One field, and every link still resolves because links point at the id.
 
 ---

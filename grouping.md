@@ -27,7 +27,8 @@ Neither contains the other, because containment would create **two paths from a 
 releases its tasks landed in. That gives *"Alpha closed across v0.1–v0.3"* with no second
 membership path.
 
-**A milestone that outgrew itself is promoted, not nested** (`PATTERNS.md` §23). Spanning many
+**A milestone that outgrew itself is promoted, not nested** (`PATTERNS.md` §23) — it becomes a
+release, and the tasks under it keep their ids → `shipping.md`. Spanning many
 releases and months usually means it has become an initiative in everything but name — and
 promoting it costs one field, while nesting it costs a level in every rollup forever.
 

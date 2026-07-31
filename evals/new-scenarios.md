@@ -516,7 +516,7 @@ checked first and refused — the second is the behaviour this scenario now name
 
 ---
 
-# The research & discovery cluster — N30–N58
+# The research & discovery cluster — N30–N60
 
 **What this cluster is for.** Everything above tests what an agent *builds*. These test what it
 *answers*, which is the larger share of what an owner actually receives and the part with no
@@ -1162,11 +1162,61 @@ Expected:
 - **Fail:** the premise accepted and work built on it, which is agreeable and useless.
 - **Fail:** a lecture where a sentence was needed, or the correction repeated after it landed.
 
+## N59 · Three handoffs, and none of them is the flow you are in
+
+**Fixture:** `chain`
+
+**Query:** *"Where are we?"*
+
+**Setup:** the tree stands on three seams at once — a quick job that has grown into three pieces
+with a review between them · the same field note recorded **twice** · a milestone covering four
+crafts with no end date and follow-on work under three of them.
+
+Expected:
+- **All three are seen as transitions, not as status.** *Still going*, *noted again* and *four
+  crafts* are the shapes of work that has outgrown its container, and reporting them as progress
+  is the failure.
+- **Each handoff lands somewhere named**: the quick job becomes a task with an id, carrying the
+  work already done rather than restarting · the twice-seen note becomes a `tooling` task in the
+  system stream **with both dates in it** · the milestone is promoted, not nested, and the ids
+  underneath survive.
+- **The owner chooses; nothing is promoted silently.** Growth is normal — growing without saying
+  so is what turns an hour into a roadmap.
+- **Fail:** a status report that lists all three and moves none of them.
+- **Fail:** a promotion performed without asking, or one that drops what the quick job had already
+  produced.
+- **Fail:** the second field note treated as a first — a recurrence recorded nowhere is a first
+  occurrence again.
+
+*Why this one exists:* every other fixture sits **inside** one flow, and the corpus is a set of
+flows that hand work to each other. **The seams were never tested**, and an audit of transition
+sentences found several that described a promotion and named no destination — a handoff that
+reads as complete and routes nowhere, which is the same defect as a rule that names no artifact.
+
+## N60 · A consultation that crosses the bridge mid-sentence
+
+**Fixture:** `chain`
+
+**Setup:** a question is asked and answered — no project, nothing written — and then, four turns
+later, *"good, let's do it."*
+
+Expected:
+- **The zero-footprint rule ends at that sentence**, and the shape proposed is named: a quick job,
+  a project, or straight into the repository that already exists.
+- **What the consultation established carries over** — the question, the shaping answers, the
+  research findings **with their sources and rungs intact** — as the opening context, not
+  re-asked.
+- The storage question fires **now**, at the crossing, not at the door before there was anything
+  to store.
+- **Fail:** the owner marched back through ground already covered.
+- **Fail:** findings arriving on the other side of the bridge stripped of the tier they were
+  gathered at, so a `reported` becomes a fact once it is inside a task.
+
 ---
 
 ## Cross-cutting — any scenario in this cluster
 
-These hold across N30–N58 and are checked on every transcript, not scored separately.
+These hold across N30–N60 and are checked on every transcript, not scored separately.
 
 - **Every link in an answer resolves *to the thing claimed*.** A fabricated source is the one
   failure that survives review, because a plausible citation reads exactly like a real one.

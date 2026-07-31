@@ -93,7 +93,9 @@ four disconnected places.
 
 **Field note or blocking task? One question: does this stop me now?**
 
-- **No** → a field note, and carry on. It becomes a task if it recurs — **twice**.
+- **No** → a field note, and carry on. **It becomes a task if it recurs — twice** — written from
+  `templates/TASK-template.md` under the rules in `writing-work.md`, in the system stream, with
+  **both occasions named in it**. A second occurrence recorded nowhere is a first occurrence again.
 - **Yes** → say so where you are, agree what is needed, and the original takes a `blocked_by` on a
   `tooling` task.
 
