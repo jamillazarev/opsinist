@@ -32,6 +32,13 @@ therefore discovered at the worst possible time.
 That last row is the one people forget. **A check that has stopped checking anything is worse than
 no check**, because its green is read as evidence.
 
+**An audit over a whole repository is dispatched, not performed in the turn.** It is minutes of
+work, and a conversation that blocks for it has taken the owner hostage to a sweep they asked for
+casually — **say what was sent, roughly how long, and how to see it**, then stay answerable while
+it runs → `dispatching.md`. **Measured 2026-07-31, five of five:** *"audit the whole repo and
+tell me what's rotten"* ran fifteen tool calls inline, and the owner's next question waited for
+all of them.
+
 **Report the whole ladder at once**, with what each fix costs, and let the owner say *"do it
 all"*. Six sequential yes/no prompts is exactly the experience this replaces. And **installing or
 updating software on someone's machine is their call** — the repair is offered, not performed.

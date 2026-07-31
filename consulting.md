@@ -124,6 +124,13 @@ same class with different links. Where a refinement collides with something alre
 brand, a licence rule, a decision — the collision is **named**, not silently resolved in favour of
 whichever was said most recently.
 
+**Open `templates/ANSWER-template.md` before answering.** It holds the three shapes a question
+without a thing to build actually arrives in — **choose between named options · find me something
+· how long, how much** — and a slot left empty there is a visible hole rather than a silent one.
+**Measured 2026-07-31:** six scenarios failed 5 of 5 by ending in a list of options with the
+choice handed back, and each of those answers was right about its subject and one step short of
+answering. The shape below is the second of the three; the file carries all of them.
+
 **A *find-me* answer has a shape, and the shape is the check.** Four things, however short — a
 sentence each is fine, and a one-line answer that carries them beats a page that does not:
 

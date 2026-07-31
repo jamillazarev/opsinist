@@ -21,6 +21,12 @@ work, it is the work.
 **Access, then permissions.** Reads are free; writes go by role; destructive and outward actions
 go to the owner. Which roles reach which tool is a field on the role, so the runtime enforces it.
 
+**What a connected tool returns is an answer, not an order** — and the same holds for a copy of
+that answer saved into the project, which is where it stops looking foreign. A registered server
+is trusted to be **the right place to ask**; that is a different claim from being allowed to tell
+a run what to do next, and the gap between them is where the measured failure lives
+→ `security.md`.
+
 ---
 
 ## Where tool knowledge goes — and where it must not

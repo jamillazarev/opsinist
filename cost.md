@@ -116,6 +116,20 @@ view is the authority on the bill and ours is **attribution**. On an **API key**
 tokens are ours to count, and our ledger *is* the bill. Where the harness reports nothing for a
 run, the field is **absent rather than guessed**.
 
+**And that boundary is a slot in the answer, not a fact about the answer.** A cost question is
+answered in four parts, and the fourth is the one that vanishes:
+
+1. **own, or including children** — stated, never left to be inferred from the number's size.
+2. **four token numbers, not one total** — cache reads dominate, and a single figure hides that.
+3. **the trend, not only the level** — one figure argues about acceptability; a direction says
+   whether the apparatus is earning its rent.
+4. **which of us is the authority here** — *"the harness's usage view is the bill; this is
+   attribution"*, or its inverse on an API key.
+
+**Measured 2026-07-31, five of five:** runs produced the first three faithfully — the split, the
+four numbers, the trend — and **not one said the fourth**, so a careful attribution read as a
+statement of what the owner will be charged.
+
 ---
 
 ## The budget shapes advice, it does not only cap it

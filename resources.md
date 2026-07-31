@@ -160,6 +160,36 @@ fact. Citing one past its date **triggers a re-check** rather than being quoted 
 
 ---
 
+## The record is a pointer; the thing it points at outranks it
+
+**Every register here describes something that exists somewhere else** — a licence file, a live
+page, a directory of assets, a block of generated markup, a line of code. **The row is what
+somebody typed about the thing, on the day they typed it.** When the two disagree, the thing
+wins, and it wins silently unless someone opens it.
+
+**So: before acting on what a record says about an artifact, open the artifact — when it is
+reachable, and it usually is.** Reachable means in this tree or one fetch away. Not reachable is
+an answer too, and it is written down as one.
+
+| The record | The thing it points at | What the run opens first |
+|---|---|---|
+| a tooling row naming a licence | the licence file shipped beside the dependency | the file |
+| a source entry with a live URL | the page | the page — a URL that resolves is not a URL that still says it |
+| an asset log | the directory it names | the directory, before proposing anything new |
+| a generated block | what the generator would produce now | both, before regenerating over a hand edit |
+| a task saying something is **built** | the code | the code — *"it works"* is a claim in a file like any other |
+
+**Measured 2026-07-31, five scenarios, every instance:** a run listed `vendor/` and never opened
+the licence sitting in it, so a Business Source License recorded as `MIT` survived into a paid
+product · a run read a source entry and a decision and never fetched the dead link between them ·
+a run fetched stock photography without opening the asset log naming a commissioned shoot one
+directory away · a run regenerated a team table over a hand edit it never inspected · a run
+declared a payment step built without checking that the function it calls is defined nowhere.
+**None of these runs was careless about its own reasoning.** Each of them read a description and
+acted on it, which is the cheapest possible move and looks identical to diligence in a transcript.
+
+---
+
 ## A claim past its check-date, hit mid-task
 
 **The freshness law is not only a release gate.** An agent consulting a source, a catalogue row,
