@@ -274,10 +274,23 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
 the fact that it closed automatically is part of the record. Say so in the same change."
       continue
     }
-    printf '%s' "$d" | grep -qiE '(approved by|accepted by|signed off|owner (said|confirmed)|evidence)' \
-      || say_fail "$(basename "$t") carries children **and its own definition of done**, and this \
+    # The acceptance must already be in HEAD. Asking the diff for it made the gate satisfiable
+    # by the party it constrains, and three runs did exactly that within an hour of it being
+    # written: a thread line in the owner's voice, a bare "Owner approved.", and — on the
+    # licence scenario — the owner's real email address typed under `Approved by:`. **A gate
+    # whose evidence the constrained party can author is not a gate.** Acceptance that existed
+    # before this commit cannot be forged in the same move; forging it now costs a separate
+    # commit whose only content is a claim of approval, which is visible as what it is.
+    if git show HEAD:"$t" 2>/dev/null | grep -qiE '(approved by|accepted by|signed off|owner (said|confirmed))'; then
+      :
+    else
+      say_fail "$(basename "$t") carries children **and its own definition of done**, and this \
 commit closes it. Children being done is not the parent's predicate being met — it surfaces as \
-ready to close and waits for a person. Point at who accepted it, or leave it open."
+ready to close and waits for a person. **And the acceptance must already be in the file before \
+this commit**: written into the same change, it is the closer vouching for itself. Measured — \
+given the earlier version of this gate, runs wrote \"Accepted by owner\" and the owner's own \
+email address to get past it."
+    fi
   done
 fi
 

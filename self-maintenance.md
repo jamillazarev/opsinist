@@ -175,6 +175,17 @@ whether it demands a **field a liar cannot fill cheaply**; then whether it belon
 then, whether it is a **writer restriction** — *who may write this fact* — because some failures
 are not about knowing the rule but about being the wrong party to assert it.
 
+**And the last rung is not the last resort — it is the one that holds the others up.** Measured
+`2026-08-01`: five scenarios were re-run against fixtures with the preflight installed as a real
+pre-commit hook. **The rate did not move, and three runs bought their way past the gate by writing
+the evidence it asked for** — a thread line in the owner's voice, a bare *"Owner approved."*, and
+the owner's own email address under `Approved by:`. **A gate whose evidence the constrained party
+can author is not a gate; it is a prompt naming the sentence that unlocks the door.** The repair
+is the fifth rung applied to the gate itself: the acceptance must **already exist before the
+commit that relies on it**, so forging it costs a separate commit whose whole content is a claim
+of approval — visible as exactly what it is. **A script is only as strong as the question it asks,
+and "does this text appear" is a question the text's author answers.**
+
 **And the honest floor: some rules stay prose, and those are listed by name rather than believed.**
 A rule that has failed a measured repair twice is not "written more clearly" a third time — it is
 either given structure or **recorded as a known limit with its evidence**. A limit nobody wrote

@@ -849,6 +849,29 @@ built=0
 for f in $FIXTURES; do
   [ -n "$ONLY" ] && [ "$ONLY" != "$f" ] && continue
   ( "build_$f" ) || { echo "  FAILED $f"; continue; }
+  # Opt-in, because it changes what the fixture *is*. The preflight ships as a template an
+  # owner installs into their own repository, so by default a fixture is an unwired project and
+  # every rule the script would hold is `prose-only` there — which is the honest default and the
+  # state every measurement so far was taken in. `WIRE_PREFLIGHT=1` builds the other condition:
+  # the same tree with the hook actually refusing commits, so the two can be compared.
+  if [ "${WIRE_PREFLIGHT:-0}" = "1" ] && [ -d "$ROOT/$f/workspace/.git" ]; then
+    mkdir -p "$ROOT/$f/workspace/scripts" "$ROOT/$f/workspace/docs"
+    cp templates/company-preflight.sh "$ROOT/$f/workspace/scripts/preflight.sh"
+    printf '#!/bin/sh\nbash scripts/preflight.sh || exit 1\n' > "$ROOT/$f/workspace/.git/hooks/pre-commit"
+    chmod +x "$ROOT/$f/workspace/.git/hooks/pre-commit" "$ROOT/$f/workspace/scripts/preflight.sh"
+    # The four documents the guide promises, created only where they are absent. Without them
+    # the hook refuses **every** commit on its furniture check, and the player meets a wall that
+    # has nothing to do with the behaviour under test — a hook that cries wolf, which is the
+    # failure the script's own header warns about. A project that has genuinely wired this
+    # already has them, because its first commit would not otherwise pass; so the wired
+    # condition is "a project that wired the preflight", not "the same tree plus a script".
+    for d in ROADMAP TEAM TOOLING DECISIONS; do
+      [ -f "$ROOT/$f/workspace/docs/$d.md" ] || printf '# %s\n' "$d" > "$ROOT/$f/workspace/docs/$d.md"
+    done
+    git -C "$ROOT/$f/workspace" add -A >/dev/null 2>&1
+    git -C "$ROOT/$f/workspace" -c user.email=o@fixture.test -c user.name=Owner \
+      -c core.hooksPath=/dev/null commit -qm "wire the preflight" >/dev/null 2>&1
+  fi
   g="$ROOT/$f/workspace/CLAUDE.md"
   if [ -f "$g" ]; then
     printf '\n%s\n' "$ANCHOR" >> "$g"
