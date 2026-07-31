@@ -80,6 +80,15 @@ channel**. The crossing itself could not be exercised on that machine: **Gemini 
 Antigravity — and Codex answered `401` on every transport.** Neither is a defect in this
 mechanism, and neither is a reason to write the crossing down as working.
 
+**And the product that message redirects to is not a worker either** (`2026-08-01`). Antigravity
+authenticates on the same account that Gemini CLI refuses, so the redirect is real — but
+`antigravity-ide chat -m agent` **opens an editor window** with the prompt in its arguments, and
+four minutes on, the task file, the code and the status were all untouched. **It has no headless
+mode at all**: `chat` offers only window and context flags and prints nothing, and `serve-web`
+serves the same interface to a browser. **A runtime can be perfectly available and still not be
+dispatchable** — the question for this row is never *can I sign in*, it is **can it be handed a
+task file and left alone.**
+
 **So check the executor answers before handing it a task.** Both failures above burned time and
 produced nothing a task file would record — the second after ten reconnection attempts. **A dead
 executor and a slow one look identical from outside**, which is the same shape as every other
