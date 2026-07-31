@@ -16,7 +16,15 @@ set -uo pipefail
 root=${1:?usage: eval-boundary.sh <fixture-root> <transcript-dir>}
 logs=${2:?usage: eval-boundary.sh <fixture-root> <transcript-dir>}
 skill=$(cd "$(dirname "$0")/.." && pwd)
-skill_name=$(sed -n 's/^name:[[:space:]]*//p' "$skill/SKILL.md" | head -1)
+# The store is named from **display_name**, and the file moved to skills/advisor/ in the
+# restructure — eval-clean.sh explains why both matter. Getting either wrong here does not
+# fail loudly: an empty name turns the store filter into `^$HOME/\.`, which silently drops
+# every dotfile path a player touched, and a tripwire that filters away its own evidence
+# reports "everyone stayed inside" for a run that walked out. So it is read the same way and
+# refuses to run without it.
+core="$skill/skills/advisor/SKILL.md"
+skill_name=$(sed -n 's/^display_name:[[:space:]]*//p' "$core" | head -1 | tr '[:upper:]' '[:lower:]')
+[ -n "$skill_name" ] || { echo "no display_name in $core — cannot tell the store from a stray"; exit 1; }
 
 [ -d "$logs" ] || { echo "no transcript directory: $logs"; exit 1; }
 

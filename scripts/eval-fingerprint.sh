@@ -16,8 +16,15 @@ cd "$(dirname "$0")/.." || exit 1
 
 fingerprint() {
   # Sorted so the order of `ls` can never change the answer; content-hashed, not mtime.
-  find . -maxdepth 1 -name '*.md' -type f -print0 \
-    | sort -z \
+  #
+  # The core moved to skills/advisor/SKILL.md in the restructure and this stayed at maxdepth 1,
+  # so for a while it hashed 51 companions and **not the file every run starts from** — the one
+  # text whose edit would invalidate a suite hardest. It reported "corpus unchanged" either way,
+  # which is the failure mode a checker must never have. The verb doors are routable too, so
+  # they count for the same reason the companions do.
+  { find . -maxdepth 1 -name '*.md' -type f -print0
+    find skills -name 'SKILL.md' -type f -print0
+  } | sort -z \
     | xargs -0 shasum -a 256 2>/dev/null \
     | shasum -a 256 \
     | cut -d' ' -f1

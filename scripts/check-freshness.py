@@ -47,6 +47,7 @@ ROTS = re.compile(
 DEFERS = re.compile(r"verify per item|at decision time|at the moment of (?:use|decision)"
                     r"|fetch(?:ed)? (?:current|live|the)", re.I)
 SEPARATOR = re.compile(r"^\s*\|[\s:|-]+\|\s*$")
+SPAN = re.compile(r"`[^`]*`")
 
 findings = []
 
@@ -95,7 +96,18 @@ def check(md, root, today, warn_days, fail_days):
             add("WARN", "FRESH003", rel, lineno,
                 f"«{label}» claims «{claim.group(0)}» with no check-date")
 
+    # A check-date inside a code span is being *shown*, not claimed — the same call
+    # check-structure.py makes for counts, and for the same reason. Without it the corpus cannot
+    # quote a dated defect as an example of the defect: writing down what a laundered date looks
+    # like failed the gate that exists to catch laundered dates. Prose claims stay in scope,
+    # because a real claim in this corpus is never written inside backticks.
+    #
+    # SINGLE-LINE ONLY, deliberately: the span is stripped per line, so a quoted example that
+    # wraps still trips the gate. Caught twice while writing the record that documents this very
+    # exemption — keep the example on one line. Making the stripper multi-line would let one
+    # stray backtick swallow a real claim several lines further down, which is the worse failure.
     for lineno, raw in outside_fences(lines):
+        raw = SPAN.sub("", raw)
         for m in DATE_RE.finditer(raw):
             y, mo, d = (int(g) for g in m.groups())
             try:
