@@ -209,5 +209,17 @@ check "example mode: task pointing at one → allow"     0 "$(ppc "$P/tasks/T-11
 Spec: tests/golden/parse_delimiters.py
 Status: open")"
 
+# The store's own record: created by the flow, two files, no guide — the exact shape this gate
+# read as a takeover until the skill hit it and filed a report about itself.
+ST="$T/.opsinist/projects/thing"; mkdir -p "$ST"
+git -C "$ST" init -q; printf '# record\n' > "$ST/record.md"; printf '# runs\n' > "$ST/runs.md"
+git -C "$ST" add -A >/dev/null 2>&1
+stp() { printf '{"tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"%s","transcript_path":"%s"}' "$1" "$TE"; }
+check "store record: first commit → allow (path)"     0 "$(stp "$ST")"
+SR="$T/elsewhere"; mkdir -p "$SR"; git -C "$SR" init -q
+printf '# record\n' > "$SR/record.md"; printf 'x\n' > "$SR/other.txt"
+git -C "$SR" add -A >/dev/null 2>&1; git -C "$SR" -c user.email=t@t -c user.name=t commit -qm init
+check "a repo carrying record.md → allow (shape)"     0 "$(stp "$SR")"
+
 echo "pass $pass · fail $fail"
 [ "$fail" = 0 ]

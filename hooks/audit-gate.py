@@ -325,6 +325,19 @@ def main():
         except Exception:
             out()
 
+    # 3b · the store's own record is ours by construction and owes nobody a debt list.
+    #      `storing.md` says: create `~/.opsinist/projects/<slug>/`, `git init` it, write
+    #      `record.md` and `runs.md`, **"and no more"** — which produces a repository with no
+    #      guide, no debt list and no collaboration furniture, i.e. exactly the shape this gate
+    #      reads as a takeover. Found by the skill itself, running its own flow, and reported
+    #      through `/opsinist:report` — a first commit into a directory that did not exist
+    #      seconds earlier was refused with *"this repository is being taken over"*.
+    #      Two independent signals, because the store root is a documented default rather than
+    #      a constant: the path, and the two files the flow is forbidden to exceed.
+    real = os.path.realpath(root)
+    if os.path.join(".opsinist", "projects") in real or os.path.isfile(os.path.join(root, "record.md")):
+        out()
+
     # 4 · a guest is not a successor, and `entering.md` is explicit that a guest **does not
     #     produce a debt list** — auditing a stranger's repository unasked is the opposite of
     #     what a contributor does. So the collaboration furniture stands the gate down:
