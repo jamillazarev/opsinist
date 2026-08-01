@@ -192,10 +192,19 @@ Symlink the skill into OpenClaw's skills directory:
 ln -s "$(pwd)" ~/.openclaw/skills/opsinist
 ```
 
-Light models may not open the skill on their own — add a trigger rule to your workspace
-`AGENTS.md` (open the `opsinist` skill before acting on requests about running a team, a
-project, tasks, roles or budgets, **on anything that spends, ships, deletes, or takes a project
-over**, and on questions about how to run work) so the gates hold even when discovery is skipped.
+**Add a trigger rule to your workspace `AGENTS.md`** — open the `opsinist` skill before acting on
+requests about running a team, a project, tasks, roles or budgets, **on anything that spends,
+ships, deletes, or takes a project over**, and on questions about how to run work — so the gates
+hold even when discovery is skipped.
+
+**Both ends of the range need it, and for opposite reasons.** A light model may not open the
+skill because it does not connect the request to it. **A strong one may not open it because it
+does not need to**: measured 2026-08-01, three runs of *"I want to build a macOS app that fixes
+system audio. Set it up."* on a tier above the advisor's floor **never invoked the skill and
+never read a corpus file** — they wrote the app and compiled it. That is a defensible reading of
+the request, and it is exactly why the rule cannot be left to discovery. **Capability suppresses
+recourse to a methodology**, and the anchor is what makes the choice explicit instead of
+implicit.
 
 **The class in that sentence is machinery, not phrasing.** Measured 2026-08-01: on *"Delete this
 project"* — one of the four gated kinds — five runs in five opened nothing at all, in a fixture

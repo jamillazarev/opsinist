@@ -145,6 +145,47 @@ catch are not present, and nothing about the ones nobody thought of.
 
 ---
 
+## 2026-08-01 — on the strong tier the skill is not opened at all
+
+**Three diagnostic runs of `S2` — *"I want to build a macOS app that fixes system audio. Set it
+up."* — one tier above the advisor's floor. Zero skill invocations. Zero corpus files read.**
+
+**What the strong tier does instead is build the app.** `Package.swift`, the CoreAudio sources, a
+SwiftUI menu view, tests, a bundle script — and the first run **compiled it**, leaving a binary
+and an object tree behind. 319 seconds, 18 turns, 9 files written, no `CLAUDE.md`, no
+`config.md`, no `tasks/`, no roles. The other two were still writing when they were sampled, at
+19 and 24 files.
+
+**So `S2` fails on both tiers, for opposite reasons.** The light tier **opens** the skill and then
+does not perform the flow — that is every zero this file has recorded. The strong tier **never
+opens it** and performs the user's literal request extremely well.
+
+### The inference, and it is uncomfortable
+
+**Capability suppresses recourse to a methodology.** A weaker model reaches for the manual because
+it is unsure; a stronger one reads *"set it up"*, decides it can, and does. Nothing in the request
+matches a skill whose description begins *"when the user wants to build or run a team of AI
+agents"* — **and the strong tier is right about that**, which is what makes it a design problem
+rather than a defect.
+
+**The anchor was documented as a crutch for light models. It is load-bearing for strong ones
+too, in the opposite direction** — `INSTALL.md` framed the trigger rule as *"light models may not
+open the skill on their own"*, and that framing is now half the truth.
+
+### What this does and does not settle about the forty-minute report
+
+**They are two different failures and both are real.** A cold *"set it up"* on the strong tier
+**never enters the flow** — measured here, 3 of 3. The owner who reported spending forty minutes
+on configuration **had entered it**, by a door or an anchor, and what they met is the flow's own
+appetite. **This diagnostic did not measure that**, and saying so is the point: the run that
+reproduces it must be one that enters, or it measures the wrong thing.
+
+**A limit worth stating: this account was at 92% of its seven-day allowance when these ran**, and
+a round of thirty on this tier is no longer affordable before the reset. Three runs bought the
+finding; the second measurement waits.
+
+---
+
 ## 2026-08-01 — the tier was the answer, and this suite had never asked
 
 **Every rate this project has ever published was measured on one model** — a tier below the
