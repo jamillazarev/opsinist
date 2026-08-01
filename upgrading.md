@@ -93,6 +93,12 @@ concern them.
 **Nothing is applied before the owner has seen the list**, and it is applied in batches they
 approve.
 
+**The guide's `Operated by` line is the first mechanical item, always** — necessary to finish,
+never sufficient to prove anything (the next section says why). Measured next door at N=3: **not
+one run bumped it**, two then wrote their log line, and a written log is what silences the
+session-start check — leaving a project asserting one version in its log and another in the file
+every session reads. **Bump it in the same breath as writing the log.**
+
 **A document the release adds arrives when it has something to hold, exactly as on day one.** An
 upgrade is the other place this goes wrong, and for the same reason: the release names a file, so
 the migration creates it, and the owner gains an empty `TEAM.md` from a version they installed
@@ -131,17 +137,14 @@ is a half-migration**, and it looks finished.
 
 So the audit reads the artifacts, not only the tree: **how many are affected, what specifically
 is missing from them, and what bringing them into shape costs.** That count is a line in the
-list, in the pile that needs an answer, because rewriting someone's tasks is their call.
+pile that needs an answer, because rewriting someone's tasks is their call.
 
 **Three honest endings, and the upgrade offers all three:** bring them into shape now, in batches;
-bring them **forward only** — new work takes the new form, existing tasks stay as they are, which
-is legitimate and must be recorded as a deliberate split rather than left as drift; or decline,
-with a revisit trigger that is a moment. **What is never acceptable is silence** — a project whose
-setting says one thing and whose tasks say another, with nothing anywhere saying why.
-
-**And the same test applies to any setting that shapes an artifact**, not only this one: if the
-answer would have changed how something was written, then everything already written is in scope,
-and the list says how much.
+bring them **forward only** — new work takes the new form, existing tasks stay, recorded as a
+deliberate split rather than left as drift; or decline, with a revisit trigger that is a moment.
+**What is never acceptable is silence** — a setting saying one thing and the tasks another, with
+nothing saying why. **The same test applies to any setting that shapes an artifact**: if the
+answer would have changed how something was written, everything already written is in scope.
 
 **What the release left behind is in the delta too, and it is the half nobody looks for.** A
 migration adds; it also **strands**. A file a superseded step created, a document the new version
@@ -189,11 +192,11 @@ upgrade from re-opening settled questions.**
 | **it was never used, and the release now makes it load-bearing** | **an adoption, not a migration** | offered with its cost, **declinable**, and the answer recorded |
 | **the owner turned it off or declined it before** | **already decided** | **not raised at all.** `config.md` says which modules are on; `docs/DECISIONS.md` says what was declined and what would reopen it |
 
-**Adoption is the one people get wrong, and it is the case a long-lived project meets most.** A
-release can make something that was optional into something a newer mechanism assumes — and the
-project that never used it is not behind, it **worked differently on purpose**. So it is put as a
-choice with its price, never as a defect: *"pipelines were optional and this release's release
-gate reads them; adopting costs about this much, and here is what happens if you do not."*
+**Adoption is the one people get wrong, and the case a long-lived project meets most.** A release
+can turn something optional into something a newer mechanism assumes — and a project that never
+used it is not behind, it **worked differently on purpose**. So it is put as a choice with its
+price, never as a defect: *"pipelines were optional and this release's gate reads them; adopting
+costs about this much, and here is what happens if you do not."*
 **"We do not work that way" is a complete answer**, recorded with a revisit trigger that is a
 moment, and **not offered again until that moment.**
 
@@ -220,8 +223,7 @@ name the number as an estimate rather than dressing it as a census.
 
 **The counts are in the list, not just the total.** *"Forty-two tasks: thirty closed and
 untouched, eight open and convertible, three started, one in flight"* is a sentence an owner can
-decide on. *"Forty-two tasks affected"* is not, and it makes the safe pile look like the risky
-one.
+decide on. *"Forty-two affected"* is not, and it makes the safe pile look like the risky one.
 
 **A closed task is still allowed to be pointed at.** If the new form wants a document, that
 document may reference what was already built — what it must not do is **claim to have specified
@@ -257,7 +259,7 @@ is a vocabulary nothing can rely on.
 | `applied` | the step ran and the project carries it | nothing |
 | `nothing-required` | checked against this project, no work followed | nothing — **and this line is why later messages are free** |
 | `declined` | the owner said no, and the reason is in `docs/DECISIONS.md` with its revisit-if | **does not re-ask**; the trigger reopens it |
-| `deferred` | agreed, not now; the item is in `LATER.md` with a moment for a trigger | **does not re-ask**; the moment reopens it |
+| `deferred` | agreed, not now (`LATER.md`, with a moment for a trigger) — **and the same word for a delta that stopped to ask**: waiting silently leaves the trace of never having looked, and the owner meets the identical list next session | **does not re-ask**; the moment, or the answer, reopens it — and the line is **replaced, not duplicated** |
 | `failed` | it was attempted and did not complete, with what broke | **retries**, and appends a second line rather than editing the first |
 
 **A version is covered when its newest line is any of the five.** `failed` covers it too — the
@@ -336,11 +338,10 @@ artefacts the pending step reshapes wait**, with the reason said in one line.
 to justify having been asked, or answering from the version string and calling it done.
 
 **Say it, and say what it does and does not mean.** *"You are on the current version"* is a claim
-about a number in a file. **It is not a claim that the project matches that version**: an upgrade
-interrupted halfway, a hand edit, a setting a release introduced and nobody ever answered — all of
-these leave a project whose version line is current and whose tree is not. **A version comparison
-that short-circuits the audit is a check that cannot fail**, and this file has already paid for
-that lesson elsewhere (`self-maintenance.md`).
+about a number in a file, **not a claim that the project matches that version**: an upgrade
+interrupted halfway, a hand edit, a setting nobody ever answered — each leaves a project whose
+version line is current and whose tree is not. **A version comparison that short-circuits the
+audit is a check that cannot fail**, and this file has paid for that lesson (`self-maintenance.md`).
 
 **So the audit still runs — and it is cheap**, because there is no changelog span to walk: read
 what the current version expects and check the tree carries it. Two endings, and both are short:

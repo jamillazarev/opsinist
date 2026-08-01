@@ -127,6 +127,23 @@ printf '# Project configuration\n\n## Migrations\n\n- 0.1.3 → 0.1.4 · 2026-07
 say "session: log misses this version → speaks"  "does not name version" "$R"
 printf -- "- 0.1.4 → %s · 2026-08-01 · nothing-required · t@t\n" "$V" >> "$R/config.md"
 say "session: log names this version → silent"   "EMPTY" "$R"
+
+# The guide's version line. Measured in the sibling project at N=3: the log line got written
+# and this line did not, 0 of 3 — and a written log is exactly what silences the check above,
+# so the disagreement would never be raised again. Each rule refuses the stale guide and stays
+# quiet on the honest twin.
+printf 'Opsinist operates this repository.\n**Operated by:** Opsinist **0.0.1**\n' > "$R/CLAUDE.md"
+say "session: log current, guide stale → speaks"  "the guide is the" "$R"
+printf 'Opsinist operates this repository.\n**Operated by:** Opsinist **%s**\n' "$V" > "$R/CLAUDE.md"
+say "session: log current, guide agrees → silent" "EMPTY" "$R"
+printf 'Opsinist operates this repository.\nWe ran 0.0.1 once and it broke.\n' > "$R/CLAUDE.md"
+say "session: a version in prose is not a claim"  "EMPTY" "$R"
+printf 'Opsinist operates this repository.\n**Operated by:** Opsinist **0.0.1**\n' > "$R/CLAUDE.md"
+rm "$R/config.md"
+say "session: both stale → the no-config message" "no \`config.md\`" "$R"
+printf '# Project configuration\n\n## Migrations\n\n- 0.1.4 → %s · 2026-08-01 · nothing-required · t@t\n' "$V" > "$R/config.md"
+printf 'Opsinist operates this repository.\n' > "$R/CLAUDE.md"
+
 printf '# Contributing\n' > "$R/CONTRIBUTING.md"
 say "session: guest tree → silent"               "EMPTY" "$R"
 rm "$R/CONTRIBUTING.md" "$R/CLAUDE.md" "$R/config.md"

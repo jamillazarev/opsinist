@@ -71,6 +71,32 @@ def migration_log_names(root, version):
         return None
 
 
+def guide_version(root):
+    """The version the project's guide claims to operate it, if it states one.
+
+    Measured in the sibling project 2026-08-01, three runs of the same migration scenario: the
+    log line was written and **the guide's version line was left naming the old version, 0 of 3**
+    — and writing the log is precisely what makes this check go quiet. A project then asserts one
+    version in its log and another in the file every session reads, with nothing left to notice.
+
+    Only a line that says *operated* counts. A version mentioned in prose is not a claim about
+    what runs this project, and a hook that cries wolf is a hook people switch off.
+    """
+    for guide in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
+        p = os.path.join(root, guide)
+        try:
+            if not os.path.isfile(p):
+                continue
+            for line in open(p, encoding="utf-8", errors="replace"):
+                if "operated by" in line.lower():
+                    m = re.search(r"(\d+\.\d+\.\d+)", line)
+                    if m:
+                        return guide, m.group(1)
+        except Exception:
+            return None
+    return None
+
+
 def out(*_a):
     sys.exit(0)  # fail open: a broken gate must not brick every session
 
@@ -171,6 +197,19 @@ def main():
         if not v:
             out()
         named = migration_log_names(root, v)
+        # The guide is compared whether or not the log is current: the two disagreeing is the
+        # failure a written log actively hides, because a written log is what silences this.
+        g = guide_version(root)
+        if g and g[1] != v:
+            name, claimed = g
+            if named is True:
+                sys.stdout.write(
+                    f"Opsinist {v}: the migration log records {v}, but `{name}` still says this "
+                    f"project is operated by **{claimed}**. **They disagree, and the guide is the "
+                    f"one every session reads** — the log being current is why nothing else will "
+                    f"raise this. Reconcile the version line before acting on the project, and "
+                    f"say which one was right.\n")
+                sys.exit(0)
         if named is True:
             out()  # checked already, and recorded — say nothing
         if named is None:
@@ -184,8 +223,9 @@ def main():
                 f"Opsinist {v}: this project's migration log does not name version {v}, so it "
                 f"is not recorded as migrated to the version now running it. Before acting on "
                 f"it, say so, run the migration audit (upgrading.md) — one list split by "
-                f"whether it needs the owner — and append a line to `## Migrations` in "
-                f"`config.md`, `nothing-required` included.\n")
+                f"whether it needs the owner — **bump the version line in the guide**, and "
+                f"append a line to `## Migrations` in `config.md`, `nothing-required` and "
+                f"`deferred` included.\n")
         sys.exit(0)
 
     # The guard against a hook and a model arguing forever. `stop_hook_active` is honoured
