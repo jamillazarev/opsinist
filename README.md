@@ -220,7 +220,7 @@ the failure that happens most.
 
 ## Install
 
-Two ways in, same corpus. **As a plugin** — the nineteen-verb palette, and always-on rules
+Two ways in, same corpus. **As a plugin** — the twenty-verb palette, and always-on rules
 where the runtime honours them (Claude Code shown; Antigravity, Codex / ChatGPT, Kimi, Gemini CLI,
 Cursor, OpenCode, Copilot CLI, Factory Droid and Pi each have their route → **[INSTALL.md](INSTALL.md)**):
 
@@ -311,7 +311,7 @@ which also says what changes when each one is missing.
 ### The commands
 
 You never need one — anything a command does, a sentence reaches. **The palette exists to be
-browsed as much as typed**: the front door plus nineteen verbs, each a door to a flow that
+browsed as much as typed**: the front door plus twenty verbs, each a door to a flow that
 exists anyway, and together the shortest true catalogue of what this system does.
 
 | | What it is for |
@@ -335,6 +335,7 @@ exists anyway, and together the shortest true catalogue of what this system does
 | `/opsinist:upgrade` | move the machinery to a newer version, with the migration named |
 | `/opsinist:migrate` | move a project between machines or runtimes — the repository travels |
 | `/opsinist:recover` | read state back from the record and continue an interrupted run |
+| `/opsinist:report` | **something went wrong, or made the work harder.** You do not have to know whose defect it is — that is what this decides, from the evidence. Friction in your project becomes a field note swept at the next check; friction in the skill is packaged from evidence, de-identified, and **written to a file outside your repository** with the ways to send it named. **It exists as a door because the moment you want it is the moment you least want to compose a request** — and because a capability nobody can find is one nobody uses |
 | `/opsinist:audience` | ask the audience — personas with the signal pyramid kept honest |
 
 **Anything else is a sentence.** *"what's stuck?"*, *"who's idle?"*, *"$50 a month"* — in any

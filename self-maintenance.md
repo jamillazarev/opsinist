@@ -124,6 +124,13 @@ anywhere**. A bug report is by nature full of paths and fragments.
 
 **One artifact, where the owner says.** Same rule as a consultation: nothing written silently.
 
+**And there is a door for it, `/opsinist:report`, because of when it gets used.** The moment
+someone wants to report a defect is the moment they least want to compose a request — they are
+already annoyed, and the capability they need is one they have no reason to know exists. **A
+door is how a capability is found**, and this one also spares them a classification they should
+not have to make: *whose defect is this?* is decided here, from the evidence, not asked of the
+person who just hit it. Saying it in a sentence reaches the same place.
+
 **And it is written whole, to a path that is said out loud.** A report that exists only as
 conversation is a report that scrolls away — the owner comes back an hour later, the session is
 gone, and what remains of a real bug is a memory of having complained.
