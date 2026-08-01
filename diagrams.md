@@ -303,7 +303,7 @@ flowchart TD
   S --> A[audit in the background<br/>· a tier down · session stays usable]
   A --> L[ONE list, split by:<br/>does this need you?]
   L --> M1[needs no answer<br/>applied on approval, reported]
-  L --> M2[needs your answer<br/>asked in ONE batch]
+  L --> M2[needs your answer<br/>ONE batch, native affordance where there is one<br/>· recommendation first · a free answer wins]
   L --> M3[needs nothing<br/>named, so the silence is visible]
   L --> M4[orphans — named, never removed]
   M2 --> W{what is already written?}

@@ -205,6 +205,14 @@ it. A bare choice handed over, which is forbidden even between agents.
 "survives being wrong" check made visible** (`SKILL.md`, the decision loop). Where the runtime has
 a native question affordance, it is used — recommendation first, trade-offs on each option.
 
+**And where several questions are owed at once — an interview wave, a migration's answerable
+pile — the affordance carries the batch, not a queue.** Asked one at a time it becomes the
+sequence of individually reasonable prompts that every flow here forbids; **where the runtime can
+only ask one, they go in a single message rather than one per turn.** The rule is the batch, and
+the affordance is how the batch is delivered where it exists. **A free answer wins over the
+buckets in either form** — an owner who describes their own practice has answered better than the
+options could, and shaping that into a configuration is the advisor's work, not theirs.
+
 **Presented together, consented per line** → `requests.md`.
 
 **Options may be produced in parallel when speed matters** — one worker per option, isolated, the
