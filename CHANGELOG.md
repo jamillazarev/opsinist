@@ -2,6 +2,27 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.9 — 2026-08-02
+
+**A project can no longer claim two versions of itself at once.** The guide's `Operated by` line
+says which version operates this project. The migration log says which version it was migrated
+to. **Nothing compared them until now**, and the failure that gap allows is worse than it sounds:
+write the log line, leave the guide alone, and the session-start check goes quiet **because the
+log is what it reads** — so the disagreement is not merely unfixed, it is made permanently
+invisible.
+
+**Measured in the sibling project, three runs of the same migration scenario: the guide was
+bumped 0 of 3, and two of those runs then wrote their log line.** After the fix — a hook that
+names both files in one fact, and a rule making the guide line the first mechanical item —
+**2 of 3**. The hook still only reports what two files say, so there remains nothing a session
+could forge.
+
+**And a migration that stops to ask now has something to write: `deferred`.** Waiting for the
+owner is right; waiting *silently* leaves the same trace as never having looked, and the next
+session re-derives the whole delta and re-asks. The outcome names what was found, what waits and
+on whom, and is replaced rather than duplicated when the answer comes. **One run met that branch
+after the change and still wrote nothing — recorded as a miss, not as a fix.**
+
 ## 0.1.8 — 2026-08-01
 
 **Ask for a prioritisation framework by name and get that framework.** ICE stays the default,
