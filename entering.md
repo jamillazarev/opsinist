@@ -3,6 +3,12 @@
 **Load when:** taking over a repo, coming back to one after time away, or switching between
 projects.
 
+**This is the one flow with a door named in its own file, and the asymmetry is measured.** Every
+other flow runs inside a project whose guide already names this skill, so something is there to
+fire; **a repository being taken over carries no such guide**, and runs that met one opened
+nothing at all — five times in five. `/opsinist:join` is that flow's delivery, not a shortcut for
+it: *"take this over"* reaches the same place.
+
 **Audit before touching.** Whatever is here was built by someone for reasons that are not written
 down, and the fastest way to lose their trust — and the project's history — is to tidy it.
 
