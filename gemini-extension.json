@@ -1,6 +1,6 @@
 {
   "name": "opsinist",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "An operations department for AI coding agents, in files — roles, work, cost, evidence and escalation out of one git repository.",
   "contextFileName": "GEMINI.md"
 }

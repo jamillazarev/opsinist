@@ -2,6 +2,73 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.7 — 2026-08-01
+
+**The forty minutes an owner reported were measured, and then cut.** This release is mostly one
+number and what it forced.
+
+---
+
+**Day one is four things and the first task.** Measured on the tier an owner actually uses:
+standing a project up took **11–13 minutes of the advisor's own time across three turns** — with
+*"defaults"* answered to everything, the fastest path there is — and produced **ten to thirteen
+files before any work existed**, the first task arriving in the second turn of one run and the
+**third** of the other. **The interview was not the cost**: the first turn ran under ninety
+seconds and did exactly what it should — checks as one list, questions, nothing written. The cost
+was the second turn, 350 to 472 seconds, building a project's worth of scaffolding before there
+was a project. **A `TEAM.md` before a team. A `ROADMAP.md` before a roadmap.**
+
+So day one is now the guide, `config.md` with its migration log line, the pre-commit guard, and
+branch protection where a remote exists — **and the first task, which comes *before* the rest of
+the machinery.** Everything else arrives when it has something to hold: `DECISIONS.md` at the
+first decision, `LATER.md` at the first deferral, `TEAM.md` at the first role. **The paragraph
+used to open *"the invariants, which are small"* while listing ten.** It is four now, and the
+sentence is true.
+
+**A hook holds the order**: while no task file exists, writes into `docs/`, `process/` and
+`roles/` are refused. **Reading a repository is exempt** — a takeover writes its architecture
+note, product map and debt list before it has a single task, by design.
+
+**And the same discipline reaches the upgrade.** A release names a file, so a migration creates
+it, and the owner gains an empty `TEAM.md` from a version they installed rather than a team they
+hired. **The delta now names such a file as available, not as missing.** A migration that leaves
+a project with more empty documents than it had made the project worse, however faithfully it
+followed the changelog.
+
+**A door for reporting: `/opsinist:report`, the twentieth verb.** The moment someone wants to
+report a defect is the moment they least want to compose a request — and the capability is one
+they have no reason to know exists. **A door is how a capability is found**, which today's
+measurements say twice: the `join` door took `N8` from `0/5` to `4/5`, while the same reporting
+flow reachable only by sentence scored `0/5`. It is also wider than *file a bug*: **you do not
+have to know whose defect it is.** Friction in your project becomes a field note, swept at the
+next status check; friction in the skill is packaged from evidence, de-identified, and written
+**outside your repository** with the routes named. That decision is made from the evidence, not
+asked of the person who just hit the problem.
+
+**A false positive in shipped code, found by the skill about itself.** Running its own flow, a
+session opened a store record exactly as `storing.md` prescribes — `git init`, `record.md`,
+`runs.md`, *"and no more"* — and **the takeover gate refused its first commit**: no guide, no debt
+list, no collaboration furniture, one author, which is precisely the shape that gate arms on. The
+store is not a repository being taken over; it was created seconds earlier by us. **The gate's own
+docstring had named this class of miss and it shipped anyway.** Two independent signals now stand
+it down. And the way it surfaced is the point: the skill **wrote a friction report about itself**,
+through the reporting flow added hours before, unprompted.
+
+**Measured and not yet fixed, recorded rather than implied.** A cold *"set it up"* on the strong
+tier **never opens the skill at all** — three runs of three invoked nothing and read nothing,
+writing and compiling the app instead. **Capability suppresses recourse to a methodology**: a
+weaker model reaches for the manual because it is unsure, a stronger one decides it can and does.
+`INSTALL.md` framed the trigger rule as a crutch for light models; that was half the truth, and
+it is load-bearing at both ends for opposite reasons.
+
+**This project now keeps its own `LATER.md`**, by the rule it gives everyone else — a revisit
+trigger that is a moment, not a date. What is in it: **measuring what the day-one cut actually
+bought**, deferred because the account stood at 92% of its seven-day allowance and an honest
+answer costs three runs on the strong tier. The baseline is written down so the comparison cannot
+be fudged, along with what would falsify the fix.
+
+---
+
 ## 0.1.6 — 2026-08-01
 
 **A release made entirely of things a reader found by reading the flow back**, not of things a

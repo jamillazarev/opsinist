@@ -230,8 +230,11 @@ def _count(path, pattern):
 # Repo furniture is not the skill. Since the corpus moved to the repository root, these sit in
 # the same directory as the companions — so the exclusion list is the only thing telling them
 # apart, and it is declared once rather than copied into each claim.
+# LATER.md is this project running its own machinery on itself: the deferred list every project
+# it stands up gets. It is furniture, not corpus — no run loads it, and counting it would make
+# the companion figures drift every time something is deferred.
 REPO_FURNITURE = {"README.md", "CHANGELOG.md", "AGENTS.md", "TRADEMARKS.md",
-                  "INSTALL.md", "GEMINI.md"}
+                  "INSTALL.md", "GEMINI.md", "LATER.md"}
 
 _pat = _count("PATTERNS.md", r"^\*\*\d+ · ")
 CLAIMS = [

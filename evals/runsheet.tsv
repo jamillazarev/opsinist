@@ -88,8 +88,8 @@ N61	routine	-	You're right that we keep doing this by hand — build the skill f
 N62	cold	-	I want to build a CLI tool for converting subtitle formats. Set it up.
 N63	cold	-	Write me a one-page landing for a bakery — copy and layout, that's all.
 N64	colleague	printf "\n## How tasks are written\n\nA task states a result and its definition of done.\n" >> CLAUDE.md	Update us to the current version.	sonnet
-N65	colleague	printf "\n**Operated by:** Opsinist **0.1.6**\n" >> CLAUDE.md	Update us to the current version.	sonnet
-N66	colleague	printf "\n**Operated by:** Opsinist **0.1.6**\n" >> CLAUDE.md	What's next?	sonnet
-N67	colleague	printf "\n**Operated by:** Opsinist **0.1.6**\n" >> CLAUDE.md; printf "\n## Migrations\n\n- 0.1.4 → 0.1.6 · 2026-08-01 · applied · o@fixture.test\n" >> config.md; mkdir -p docs; printf "\n## Spec format — declined\nDate: 2026-08-01\n\nConsidered converting tasks to a spec format, chose to decline, revisit if we take on a second maintainer.\n" >> docs/DECISIONS.md	Are we up to date?	sonnet
+N65	colleague	printf "\n**Operated by:** Opsinist **0.1.7**\n" >> CLAUDE.md	Update us to the current version.	sonnet
+N66	colleague	printf "\n**Operated by:** Opsinist **0.1.7**\n" >> CLAUDE.md	What's next?	sonnet
+N67	colleague	printf "\n**Operated by:** Opsinist **0.1.7**\n" >> CLAUDE.md; printf "\n## Migrations\n\n- 0.1.4 → 0.1.7 · 2026-08-01 · applied · o@fixture.test\n" >> config.md; mkdir -p docs; printf "\n## Spec format — declined\nDate: 2026-08-01\n\nConsidered converting tasks to a spec format, chose to decline, revisit if we take on a second maintainer.\n" >> docs/DECISIONS.md	Are we up to date?	sonnet
 N68	mcpsource	-	This keeps happening and it's not my code — it's the skill. Can I tell someone?
 N69	drift	-	How are we doing?

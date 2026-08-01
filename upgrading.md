@@ -31,41 +31,35 @@ that decided how it was installed decides how it updates. **Verify by reading th
 never the command's output**: every one of those routes has reported success at least once for a
 version it had not moved to.
 
-**Preview first, always** — what would change, what it touches, what it would require; then
-apply, then verify. **The changelog is the migration map**: read the entries between the version
-the project is on and the current one, and act on what they say rather than on the diff.
+**Preview first, always** — what would change, what it touches, what it requires; then apply,
+then verify. **The changelog is the migration map**: read the entries between the project's
+version and the current one, and act on what they say rather than on the diff.
 
-**And the map is read from the new version, not recalled.** Both ends are on disk: the version
-the project is on is in its guide's *Operated by* line and its `config.md`; the version it is
-moving to is the **installed copy of this skill**, which ships its own `CHANGELOG.md`. Read the
-entries **there**, in the files that just arrived — a migration performed from memory is a
-migration against the release you last read about, and the failure mode is silent, because the
-project ends up in a shape nothing describes.
+**And the map is read from the new version, not recalled.** Both ends are on disk: the project's
+version in its guide's *Operated by* line and its `config.md`, the target's in the **installed
+copy's own `CHANGELOG.md`**. Read the entries **there** — a migration performed from memory runs
+against the release you last read about, and fails silently, because the project ends in a shape
+nothing describes.
 
-**Then it is an audit and a delta, never a rebuild.** The temptation on a version that adds
-something is to re-run the interview and regenerate the project; that answers questions the owner
-already answered and overwrites conventions they chose on purpose. **The discipline is the one
-takeovers use** (`entering.md`): read what is here first, then produce **one list** of what this
-release adds that the project has not got.
+**Then it is an audit and a delta, never a rebuild.** Re-running the interview answers questions
+the owner already answered and overwrites conventions they chose on purpose. **The discipline is
+the one takeovers use** (`entering.md`): read what is here first, then produce **one list** of
+what this release adds that the project has not got.
 
 **This is not the other audit, and saying which one you are running is its first line.** A
-**takeover audit** measures a repository you have not operated **against the invariants** and
-produces a debt list (`entering.md`); a **migration audit** measures a project you already operate
-**against a version** and produces a delta. **The yardstick is the difference**, and handing an
-owner who asked to upgrade a list of everything wrong with their project is how an upgrade becomes
-an argument. `GLOSSARY.md` carries the pair.
+**takeover audit** measures a repository you have not operated **against the invariants**; a
+**migration audit** measures one you already operate **against a version**. **The yardstick is
+the difference**, and handing an owner who asked to upgrade a list of everything wrong with their
+project is how an upgrade becomes an argument. `GLOSSARY.md` carries the pair.
 
-**And the owner is not held while it runs.** An upgrade is the same three-part shape as reading a
-repository (`entering.md`), for the same reason: **the arrival is inline** — a new version is
-here, this is the version you are on, this is where both numbers were read from — **seconds**.
-**The audit is background work**, dispatched and a tier down, because it is extraction rather
-than reasoning the advisor could not do itself → `dispatching.md`. **Only the questions block**,
-once, in one batch.
+**And the owner is not held while it runs** — the same three-part shape as reading a repository
+(`entering.md`): **the arrival is inline**, seconds, naming both versions and where each was read
+from; **the audit is background work**, a tier down, being extraction rather than reasoning the
+advisor could not do itself → `dispatching.md`; **only the questions block**, once, in one batch.
 
-**Say all three out loud at the start**, in the order they happen: what arrived, that the audit
-is running and roughly how long, and that the session stays usable. **An owner made to sit
-through a scrolling audit is paying for a wait that had no reason to hold the session**; one
-given no notice at all reads the silence as a crash.
+**Say all three out loud at the start**: what arrived, that the audit is running and roughly how
+long, and that the session stays usable. **An owner made to sit through a scrolling audit pays
+for a wait that had no reason to hold the session**; one given no notice reads silence as a crash.
 
 **The shape of it, because "be transparent" is an instruction nobody can follow:**
 
@@ -92,12 +86,20 @@ concern them.
 
 | Pile | What is in it | What the owner does |
 |---|---|---|
-| **needs no answer** | mechanical and decided: a file the new version generates, a rule that tightened, a check that got stricter | **reads it afterwards.** Applied on approval of the batch, reported as done, never as a question |
+| **needs no answer** | mechanical and decided: a rule that tightened, a check that got stricter | **reads it afterwards.** Applied on approval of the batch, reported as done, never as a question |
 | **needs your answer** | a setting with no honest default *for this project*, a choice the release opened, anything touching the four gated kinds | **answers, once, in one batch** — never one question per message, the same rule and the same reason as the debt list |
 | **needs nothing at all** | additions whose absence already reads as the old behaviour | **nothing.** Named so the list is complete, and so the silence is visible rather than assumed |
 
 **Nothing is applied before the owner has seen the list**, and it is applied in batches they
 approve.
+
+**A document the release adds arrives when it has something to hold, exactly as on day one.** An
+upgrade is the other place this goes wrong, and for the same reason: the release names a file, so
+the migration creates it, and the owner gains an empty `TEAM.md` from a version they installed
+rather than from a team they hired. **The delta names it as available, not as missing** — and it
+is written at the first decision, the first deferral, the first role, whichever the file is for
+(`starting.md`). **A migration that leaves a project with more empty documents than it had is a
+migration that made the project worse**, however faithfully it followed the changelog.
 
 **Only the advisor runs a migration; a worker that notices one escalates.** It edits many
 artefacts at once, which is the owner's call by definition, and a worker holding one task has
@@ -262,13 +264,11 @@ is a vocabulary nothing can rely on.
 attempt is recorded, the retry is the next line, and a step that fails forever is visible as a
 column of `failed` rather than as silence.
 
-**It is a log, not a field, and the difference is load-bearing.** Migrations accumulate: a
-project that has lived through four releases has four lines, and **a single "last migration"
-value would answer *which version* and lose *what happened on the way* — which step was declined,
-which was deferred, which one was re-run after a failure. So it is **append-only, one line per
-step, never edited in place**, the same discipline as `docs/DECISIONS.md` and for the same
-reason. A step re-run after a failure **appends a second line**; it does not overwrite the first,
-because "this was attempted twice" is exactly the fact a later reader needs.
+**It is a log, not a field, and the difference is load-bearing.** Migrations accumulate, and a
+single *"last migration"* value answers **which version** while losing **what happened on the
+way** — which step was declined, deferred, or re-run after a failure. **Append-only, one line per
+step, never edited in place**, the same discipline as `docs/DECISIONS.md`: a re-run **appends**,
+because *"this was attempted twice"* is exactly the fact a later reader needs.
 
 **And it is what makes a multi-version jump answerable afterwards.** *"We came from 0.1.1, four
 steps ran, one was declined, one is deferred until we take on a second maintainer"* is a sentence
@@ -321,9 +321,9 @@ confusion this whole section exists to end.
 there answers for one laptop — and the question is about the project. **The record already travels
 with the repository.**
 
-**A version whose migration never ran announces itself rather than waiting to be asked** — *"this
-project reports version X and nothing records that its migration ran; I am checking what that
-means for you"* — and **runs the audit itself**, on the shape above.
+**A version whose migration never ran announces itself** — *"this project reports version X and
+nothing records that its migration ran; I am checking what that means for you"* — and **runs the
+audit itself**, on the shape above.
 
 **And what waits is what the migration would change, not everything.** Blocking a whole session
 is correctness nobody thanks you for; writing a task in a form the pending step is about to
