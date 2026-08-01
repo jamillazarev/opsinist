@@ -30,6 +30,44 @@ import sys
 # The sentence the Stop refusal opens with. Also how the hook counts its own past refusals in a
 # transcript, so it is a constant rather than a phrase two places have to keep saying the same.
 STOP_MARKER = "you presented deferrable findings and there is no LATER.md"
+SPEC_MARKER = "this project was stood up without answering how work gets described"
+
+PLUGIN_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def skill_version():
+    """The version this copy of the skill is on, from the core's own frontmatter."""
+    try:
+        txt = open(os.path.join(PLUGIN_ROOT, "skills", "advisor", "SKILL.md"),
+                   encoding="utf-8", errors="replace").read(2000)
+        m = re.search(r"^version:\s*(\S+)", txt, flags=re.M)
+        return m.group(1) if m else None
+    except Exception:
+        return None
+
+
+def migration_log_names(root, version):
+    """Does config.md's migration log record any step landing on this version?
+
+    Deliberately loose about the line's shape and strict about the two things that matter: the
+    version appears, and it appears with one of the five outcome words. A log written by a
+    future release must stay readable to this one, so nothing here parses a fixed grammar.
+    """
+    p = os.path.join(root, "config.md")
+    try:
+        if not os.path.isfile(p):
+            return None  # no config.md at all — not the same as "no line"
+        txt = open(p, encoding="utf-8", errors="replace").read()
+        if "## Migrations" not in txt:
+            return False
+        section = txt.split("## Migrations", 1)[1].split("\n## ", 1)[0]
+        outcomes = ("applied", "nothing-required", "declined", "deferred", "failed")
+        for line in section.split("\n"):
+            if version and version in line and any(o in line for o in outcomes):
+                return True
+        return False
+    except Exception:
+        return None
 
 
 def out(*_a):
@@ -45,6 +83,27 @@ def repo_root(path):
         return r.stdout.strip() if r.returncode == 0 else None
     except Exception:
         return None
+
+
+def _wrote_config(body):
+    """Did this session WRITE config.md — not merely read it?
+
+    Reads the transcript's tool_use entries rather than searching for the filename, because a
+    run that opens an existing config.md mentions it exactly as often as one that creates it.
+    """
+    for line in body.split("\n"):
+        if '"tool_use"' not in line or "config.md" not in line:
+            continue
+        try:
+            e = json.loads(line)
+        except Exception:
+            continue
+        msg = e.get("message") or {}
+        for b in msg.get("content", []) if isinstance(msg.get("content"), list) else []:
+            if (b.get("type") == "tool_use" and b.get("name") in ("Write", "Edit")
+                    and str((b.get("input") or {}).get("file_path", "")).endswith("config.md")):
+                return True
+    return False
 
 
 def last_assistant_text(transcript):
@@ -81,6 +140,53 @@ def main():
     cwd = payload.get("cwd", "") or "."
     event = payload.get("hook_event_name", "PreToolUse")
 
+    # SessionStart · the migration state is delivered as a fact rather than left as a rule to
+    #   remember. Measured 2026-08-01: written as prose in the always-loaded core, the check ran
+    #   in 0 of 5 runs — and absence of a log was read as "fresh project, nothing to do", which
+    #   is the exact ambiguity the log exists to end. A SessionStart hook's stdout reaches the
+    #   model's context (probed the same day), so the fact arrives before the first message
+    #   instead of depending on the model choosing to look.
+    #   Silent when there is nothing to say — a hook that speaks every session is noise.
+    if event == "SessionStart":
+        root = repo_root(cwd)
+        if not root:
+            out()
+        # A guest tree gets nothing: no log, no check, no line. Same test as the audit gate.
+        for f in ("CODEOWNERS", ".github/CODEOWNERS", "CONTRIBUTING.md", "CONTRIBUTING",
+                  ".github/pull_request_template.md"):
+            if os.path.exists(os.path.join(root, f)):
+                out()
+        ours = os.path.isfile(os.path.join(root, "config.md"))
+        for guide in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
+            p = os.path.join(root, guide)
+            try:
+                if os.path.isfile(p) and "opsinist" in open(p, encoding="utf-8", errors="replace").read().lower():
+                    ours = True
+            except Exception:
+                out()
+        if not ours:
+            out()  # not a project we operate — nothing to say
+        v = skill_version()
+        if not v:
+            out()
+        named = migration_log_names(root, v)
+        if named is True:
+            out()  # checked already, and recorded — say nothing
+        if named is None:
+            sys.stdout.write(
+                f"Opsinist {v}: this project has no `config.md`, so nothing records whether it "
+                f"was ever migrated — and swapping the plugin's files is not migrating a "
+                f"project. Before acting on it, say so, run the migration audit (upgrading.md), "
+                f"and open the migration log with its result.\n")
+        else:
+            sys.stdout.write(
+                f"Opsinist {v}: this project's migration log does not name version {v}, so it "
+                f"is not recorded as migrated to the version now running it. Before acting on "
+                f"it, say so, run the migration audit (upgrading.md) — one list split by "
+                f"whether it needs the owner — and append a line to `## Migrations` in "
+                f"`config.md`, `nothing-required` included.\n")
+        sys.exit(0)
+
     # The guard against a hook and a model arguing forever. `stop_hook_active` is honoured
     # first — and it is **not** sufficient on its own: measured 2026-08-01, runs were blocked
     # twice with that flag never arriving, so the second guard counts our own refusals in the
@@ -93,8 +199,38 @@ def main():
         try:
             if t and os.path.isfile(t):
                 with open(t, encoding="utf-8", errors="replace") as f:
-                    if sum(1 for ln in f if STOP_MARKER in ln) >= 2:
-                        out()
+                    body = f.read()
+                if body.count(STOP_MARKER) >= 2 or body.count(SPEC_MARKER) >= 2:
+                    out()
+                # A project stood up in THIS session with no `spec_mode` answered is the
+                # interview skipping the one question that decides what every task looks like.
+                # Measured 2026-08-01: written as an interview row, it was asked in 0 of 5 runs.
+                # Scoped to config.md being written here, so an existing project is not nagged
+                # every session and a one-off job — which stands nothing up — never trips it.
+                # Precisely: a Write/Edit whose target is config.md, in THIS session. Matching
+                # the string anywhere in the transcript was the first version and it was wrong
+                # in both directions — measured 2026-08-01: it fired on runs that merely *read*
+                # an existing config.md, hijacking sessions whose owner had asked something
+                # else (N65, N66 and N67 all got worse), and it never fired on the case it was
+                # built for, because that run creates no config.md at all.
+                if _wrote_config(body) and SPEC_MARKER not in body:
+                    root = repo_root(payload.get("cwd", "") or ".")
+                    cfg = os.path.join(root, "config.md") if root else None
+                    if cfg and os.path.isfile(cfg):
+                        txt = open(cfg, encoding="utf-8", errors="replace").read()
+                        if "spec_mode" not in txt:
+                            sys.stderr.write(
+                                "Opsinist audit gate (starting.md · writing-work.md): "
+                                + SPEC_MARKER + ". `config.md` carries no `spec_mode`. It "
+                                "decides what every task looks like — a result stated in the "
+                                "task, a document the task points at and closing updates, or a "
+                                "format the project already runs — and a project that answers "
+                                "it later rewrites the tasks it has already written. Ask it "
+                                "now, in the owner's terms with the recommendation first, and "
+                                "record the answer in `config.md`. If the answer is a format "
+                                "they already run, name the stocked options rather than asking "
+                                "them to invent one.")
+                            sys.exit(2)
         except Exception:
             out()
 
@@ -127,6 +263,58 @@ def main():
     root = repo_root(anchor_dir) or repo_root(cwd)
     if not root:
         out()
+
+    # 2b · Two refusals that fire where a missing decision is USED, rather than asking for it.
+    #      Measured across three rounds: delivering a fact (SessionStart) and demanding an act
+    #      (Stop) each bought nothing — 0/5 and 1/5 — while the one scenario that only ever
+    #      *forbids* something held 5/5 in all three. So the obligation is restated as a
+    #      prohibition at the exact moment the answer would have mattered.
+    if tool in ("Write", "Edit") and target:
+        # realpath on both sides: on macOS a fixture under /tmp and its repo root under
+        # /private/tmp are the same directory spelled two ways, and a prefix test silently
+        # answers "no" — the same trap this file already paid for once, in the tracked check.
+        try:
+            rel = os.path.relpath(os.path.realpath(target), os.path.realpath(root))
+        except Exception:
+            out()
+        cfg_path = os.path.join(root, "config.md")
+        cfg = ""
+        try:
+            if os.path.isfile(cfg_path):
+                cfg = open(cfg_path, encoding="utf-8", errors="replace").read()
+        except Exception:
+            out()
+
+        # Two refusals lived here and were removed by measurement, not by taste: one demanding
+        # `spec_mode` before a task could be written, one demanding the migration log name this
+        # version before any artefact could be. **Both asked the constrained party to author the
+        # evidence that satisfies them**, and the fourth round caught the second one doing
+        # exactly that — runs committed `nothing-required` to the log *without running an
+        # audit*, and one scenario went 1/5 → 0/5 because a forced line is cheaper than a real
+        # check. This is `0.1.3`'s lesson arriving in a new place: **a gate whose evidence its
+        # subject can write is not a gate, it is a lesson in forgery.** What is left below asks
+        # for structure a reader can verify, never for a claim about work having been done.
+        #
+        # (a) on-touch migration, made real. A lazy conversion that only reminds is a lazy
+        #      conversion nobody finishes, so the touch itself is where it is enforced: with a
+        #      spec format declared, a task being written must carry its spec reference. The
+        #      predicate is the one the migration declared — cheap, and checkable by a script,
+        #      which is the whole condition for offering this mode on a large project.
+        if (rel.startswith("tasks/") and rel.endswith(".md")
+                and re.search(r"spec_mode.*\b(spec|custom)\b", cfg)):
+            body = tin.get("content") or tin.get("new_string") or ""
+            if body and not re.search(r"(?im)^\s*(spec|specification)\s*:", body):
+                sys.stderr.write(
+                    "Opsinist audit gate (upgrading.md · writing-work.md): this project runs a "
+                    "spec format and this task carries no spec reference. Under `on-touch` "
+                    "migration the conversion happens the moment work opens an artefact — this "
+                    "is that moment. Add the `Spec:` line pointing at the document this task "
+                    "works from, and say in the task's thread that its shape changed and which "
+                    "version asked. If the document does not exist yet, write it first: a task "
+                    "referencing a spec nobody wrote is the half-migration this mode exists to "
+                    "avoid.")
+                sys.exit(2)
+
 
     # 3 · not a repo we already operate
     for guide in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):

@@ -71,6 +71,16 @@ nothing behind it — and **a destination it cannot reach is a finding, never a 
 **Findings are evidence, not verdicts** (`PATTERNS.md` §15) — and each one names its place, the defect in one sentence,
 and what would fix it. A finding without a location is an opinion.
 
+**The field notes are swept here, and until this line existed nothing swept them.**
+`docs/FIELD-NOTES.md` collects friction the moment it happens, and `self-maintenance.md` has
+always said it is *"swept at natural checkpoints"* — **a status check is the checkpoint**, and
+naming a sweeper is what turns that sentence into an act. Entries go to the backlog,
+deduplicated so a re-sweep is idempotent; **an entry seen twice becomes a task with both
+occasions named in it**; an entry that has shipped is closed with the version.
+
+**An empty sweep still writes itself**, with its scope — the rule and its reasoning live in
+`self-maintenance.md`; what belongs here is that this is where it happens.
+
 ---
 
 ## What the run records make measurable

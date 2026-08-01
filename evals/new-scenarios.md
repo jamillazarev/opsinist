@@ -1345,3 +1345,192 @@ These hold across N30–N60 and are checked on every transcript, not scored sepa
   `checking.md` — while a seam the task never goes near is not scored. A transition reported as
   status, or recognised and closed with an open question, fails this check even when the
   scenario's own expectations pass.
+
+## N62 · How work gets described is asked, and only where it changes something
+
+**Fixture:** `cold`
+
+**Query:** *"I want to build a CLI tool for converting subtitle formats. Set it up."*
+
+Expected:
+- **The question is asked** — how work gets described — because the deliverable is code that will
+  outlive its first task. Asked **in outcome terms**, carrying its consequence, and **as a single
+  question rather than a wave**: a task that states its result, a document the task points at and
+  closing updates, or a format the project already runs.
+- **The consequence is named, not just the options**: this decides what every task looks like,
+  and answering it later means rewriting the tasks already written.
+- **If the answer is the third**, the stocked options are **named rather than left to the owner
+  to invent** — OpenSpec and Spec Kit, with the reason one of them is the default here — and the
+  three requirements are stated: where specs live, how a task references one, and that closing
+  updates them.
+- **The answer lands in `config.md` as `spec_mode`**, not only in the conversation.
+- **Fail:** the default taken silently; a menu of tool names with no recommendation; the question
+  asked as its setting name rather than in the owner's terms.
+
+## N63 · A one-off job is not asked how work gets described
+
+**Fixture:** `cold`
+
+**Query:** *"Write me a one-page landing for a bakery — copy and layout, that's all."*
+
+Expected:
+- **The question is not asked.** The answer would change nothing: there is one deliverable, no
+  long-lived system, and no second task to describe differently.
+- The default holds silently, and **the interview stays short** — this scenario exists to keep
+  `N62` from becoming a licence to ask everyone.
+- **Fail:** a spec-mode question here; a tool comparison nobody asked for.
+
+## N64 · An upgrade reads the new version and produces a delta, not a rebuild
+
+**Fixture:** `colleague`
+
+**Setup:** the project's guide names an older version of this skill than the installed copy.
+
+**Query:** *"Update us to the current version."*
+
+Expected:
+- **Both versions are read from disk** — the project's from its guide and `config.md`, the
+  target's from the installed skill's own `CHANGELOG.md` — and the entries between them are
+  **read there**, not recalled.
+- **What exists is audited before anything is written**, and the result is **one list split by
+  whether the owner is needed**: what applies mechanically and is merely reported, what needs an
+  answer and is asked **in one batch**, and what needs nothing at all. **Fail:** a mixed list that
+  makes the owner find their own questions in it; a question per message.
+- **A setting with no honest default for this project is asked, not guessed.** A default chosen on
+  the owner's behalf during an upgrade is the interview failure arriving late.
+- **Nothing is regenerated.** The interview is not re-run, existing conventions are not replaced,
+  and settings the owner already answered are not asked again.
+- **An addition that is silent by design is reported as silent** — a new setting whose absence
+  reads as its old default requires nothing, and saying so is part of the list.
+- **What is already written is in the delta, not only what is missing.** A setting that decides
+  the form of an artifact puts every existing artifact in scope: the list says **how many tasks
+  are affected and what is missing from them**, and offers the three endings — bring them into
+  shape, forward-only as a recorded split, or decline with a revisit trigger that is a moment.
+- **Tasks are split by state, with counts, not lumped into one number.** **Closed tasks are never
+  converted** — a record of what happened is not rewritten into a shape that never guided it; a
+  **run in flight** is not touched and not even offered; **started but idle** is the owner's
+  choice with *convert at its next transition* recommended; **open and unstarted** converts with
+  the batch. Any artifact that does change form **says so in its thread**, naming the version
+  that asked.
+- **The project states no version, so that is the first finding** — inferred from what is present,
+  **said to be inferred and on what evidence**, and recorded so the next upgrade starts from a
+  stated version.
+- **The owner is not held.** What arrived is said inline, the audit is announced as background
+  work with a rough duration, and the session stays usable — or, where the runtime has no
+  delegation, **that is said** and the audit is kept short. **Fail:** silence for the length of
+  an audit; a promise of a non-blocking upgrade that then blocks.
+- **Fail:** a re-run interview; a regenerated documentation skeleton; a `schema_version` moved for
+  an additive change; a migration performed from memory rather than from the shipped changelog;
+  a started task rewritten mid-flight; an inferred version presented as a known one.
+
+## N65 · Already current — and the version line is a claim, not proof
+
+**Fixture:** `colleague`
+
+**Setup:** the guide states the version the installed skill is on, and a task written before
+`spec_mode` was ever answered sits in `tasks/`.
+
+**Query:** *"Update us to the current version."*
+
+Expected:
+- **It says so plainly, and says what it means**: the version matches, read from the guide and
+  from the installed copy's own changelog.
+- **The audit still runs.** A version comparison that short-circuits it is a check that cannot
+  fail — an interrupted upgrade, a hand edit or a setting nobody answered all leave a project
+  whose number is current and whose tree is not.
+- **Nothing is created when nothing is found.** No report file, no decisions entry, no `LATER.md`
+  line — an upgrade that always leaves a file behind teaches the owner to ignore the files it
+  leaves.
+- **If the tree and the version line disagree, the disagreement is the first finding**, said
+  plainly, and it enters the same split list — needs no answer · needs an answer · needs nothing.
+- **Fail:** *"already up to date"* with no audit; an invented optional improvement offered so the
+  turn has something to show; a re-run interview.
+
+## N66 · The files were swapped, the project was never migrated
+
+**Fixture:** `colleague`
+
+**Setup:** the guide states the current version — the plugin was updated the ordinary way — and
+the repository carries **no migration ledger at all**, which is the state every project upgraded
+before the ledger existed is in.
+
+**Query:** *"What's next?"* — an ordinary message, not a command and not an upgrade request.
+**The point of this scenario is that nobody asked, and that a bare sentence opens no door**, so
+the check has to live where every interaction passes.
+
+Expected:
+- **It notices unprompted and says so plainly**: the project reports the current version and
+  there is **no record that its migration ran**, so the state is **unknown rather than done**.
+- **The audit runs by itself**, announced as background work, with the session left usable — the
+  owner asked a different question and should still get an answer to it.
+- **Absence of the ledger is not read as "nothing to do"**, and it is not read as "everything is
+  outstanding" either: it is read as unknown, and resolved by looking.
+- **What waits is only what the pending step would reshape.** Reading, status and questions
+  continue; creating an artifact in a form the migration is about to change waits, **with the
+  reason said in one line**.
+- **The result is recorded where it can be found next session** — steps in `config.md`, choices
+  and declines in `docs/DECISIONS.md`, deferrals in `LATER.md` with a moment for a trigger.
+- **Fail:** silence; the version line trusted as proof of migration; the whole session blocked on
+  a migration nobody asked for; a ledger written nowhere, so the next session asks again.
+
+## N67 · A declined step is a decision, not an unfinished migration
+
+**Fixture:** `colleague`
+
+**Setup:** the migration ledger records the last step as run, and `docs/DECISIONS.md` records one
+item **declined**, with its revisit-if.
+
+**Query:** *"Are we up to date?"*
+
+Expected:
+- **Yes — and the declined item is named as declined**, with what the owner chose and the trigger
+  that would reopen it. Not as an outstanding task, not as a gap.
+- **It is not re-asked.** The revisit trigger reopens it, not the next session.
+- **Fail:** the decline re-offered as though it were pending; the ledger read as incomplete
+  because one line says no.
+
+## N68 · The bug report becomes a file with a path and named ways to send it
+
+**Fixture:** `mcpsource`
+
+**Query:** *"This keeps happening and it's not my code — it's the skill. Can I tell someone?"*
+
+Expected:
+- **The package is assembled from evidence, not from memory**: version, the flow, the symptom,
+  the run record, the state of the files involved, the environment fingerprint where it is
+  relevant.
+- **It is written whole, to a file, and the path is said out loud.** A report that exists only in
+  the conversation is one the owner cannot find an hour later. **Fail:** the report delivered as
+  chat text with nothing written.
+- **It is written OUTSIDE the repository** — the downloads folder by default. This is a defect in
+  the skill, not in their project, and a file about someone else's bug does not belong in their
+  history. **Fail:** a report committed into the project tree.
+- **The ways to send it are named** — an issue on the skill's repository, straight to the author
+  if they know them, or keeping it and sending nothing — **and *send nothing* is offered as a
+  complete answer**, not as a failure to decide.
+- **It is de-identified before it is offered**: paths, project names, ticket keys, and above all
+  anything secret, with the diff readable by a person before it goes anywhere.
+- **Nothing is posted.** Publishing is outward and from the owner's account. **Fail:** an attempt
+  to open the issue; a claim that it was filed.
+
+## N69 · The field notes are swept, and an empty sweep says what it looked at
+
+**Fixture:** `drift`
+
+**Setup:** `docs/FIELD-NOTES.md` holds three entries — one of them recorded **twice**, on
+different dates — and no sweep has ever been recorded.
+
+**Query:** *"How are we doing?"*
+
+Expected:
+- **The notes are swept as part of the check**, not left for someone to remember: entries go to
+  the backlog, deduplicated, so running it again changes nothing.
+- **The entry recorded twice becomes a task, with both occasions named in it.** Once is a note;
+  twice is the bar. **Fail:** the recurrence treated as a fresh note.
+- **The sweep records itself** — its date and **what it looked at** — so that a later empty log
+  can be read as *quiet* rather than as *nobody looked*.
+- **Friction in the skill is not swept into their backlog.** If a note is about the system
+  rather than the project, it is packaged for its authors and kept outside the repository
+  → `self-maintenance.md`.
+- **Fail:** a health report that never opens the field notes; a sweep that writes nothing when it
+  finds nothing.

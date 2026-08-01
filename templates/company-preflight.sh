@@ -110,6 +110,19 @@ if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f docs/DECISIONS.md ]; then
 removes or rewrites $removed line(s). Add a new entry instead."
 fi
 
+# 3b · the migration log in config.md is append-only for the same reason, and a sharper one:
+#      it is the only thing that can distinguish "the files were swapped" from "the project was
+#      migrated", and a step re-run after a failure must append rather than overwrite — "this
+#      was attempted twice" is exactly the fact a later reader needs. Scoped to the section, so
+#      ordinary edits elsewhere in config.md stay free.
+if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f config.md ] \
+   && grep -q '^## Migrations' config.md; then
+  removed=$(git diff --cached -U0 -- config.md 2>/dev/null \
+            | grep '^-[^-]' | grep -cE '^-[[:space:]]*-.*(→|->)' || true)
+  [ "${removed:-0}" -gt 0 ] && say_fail "the migration log in config.md is append-only — this \
+commit removes or rewrites $removed line(s). A re-run appends a line; it does not replace one."
+fi
+
 # 4 · the architecture map must mention the places work actually happens.
 if [ -f docs/ARCHITECTURE.md ]; then
   for d in $(git ls-files | awk -F/ 'NF>1 {print $1}' | sort -u); do

@@ -32,7 +32,26 @@ ends in the runtime rather than in a private mechanism.
 
 **Every task may resolve to a different model, and that is the ordinary case.** The advisor runs
 on whatever the session runs on; a worker resolves its own at dispatch; a per-task override is one
-dispatch and does not rewrite the role. So a project can have a top tier writing the specification,
+dispatch and does not rewrite the role.
+
+**And the one the cascade cannot reach is the advisor's own — so when its work needs a stronger
+tier, the owner is told before it starts, not after it goes badly.** Dispatched work can be sent
+up a tier by a setting; **the session cannot re-tier itself.** Anything the advisor performs in
+its own turn — a migration audit, a takeover audit, cutting a feature into tasks, a decision loop
+with real consequences — **is the owner's choice of model, made before the session, and usually
+without knowing it was a choice.**
+
+**So it is said plainly, in one line, before the work.** *"This is judgement-heavy and I am doing
+it in this session — if you have a stronger tier available in this runtime, this is the moment to
+switch; if not, I will do it here and say where I am unsure."* **Named as a tier, never as a
+product**: the runtime may not be the one this was written on, its options are its own, and a
+recommendation that names somebody's model is wrong everywhere else and stale here within a
+release.
+
+**It is an offer, not a gate.** The work proceeds either way — refusing to act until the owner
+upgrades is a tool holding its user hostage — and **where it proceeded on a light tier, the
+output says so**, in the same breath as anything it was unsure about. **A limitation stated
+before the work is a choice; the same limitation stated afterwards is an excuse.** So a project can have a top tier writing the specification,
 a cheap tier doing the repetitive half of it, and a persona at low effort reacting to the result.
 
 **They never talk to each other, which is what makes that safe.** Agents do not hold a

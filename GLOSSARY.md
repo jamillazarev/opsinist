@@ -24,6 +24,7 @@ is that file's business; a term used in two is canon, and canon lives here.
 | **advisor** · **team lead** (the harness) | the same thing seen from two sides: the session that spawns and does not hold the work. **Not** the squad leader we removed — that was a role in an org chart, and routing replaced it | is it a *seat* or a *rung*? |
 | **segment** · **cohort** | a segment is a **property of one persona** (SMB, enterprise, novice); a cohort is a **named composition for a run** ("5 SMB, 3 enterprise, 2 churned") | is it *an attribute* or *a group* ? |
 | **release** · **milestone** | a release **ships, has a version and gets measured**; a milestone is **a checkpoint that may ship nothing** | does it leave the building? |
+| **takeover audit** · **migration audit** | the first reads **a repository you have not operated** and produces a **debt list** — blocking or deferrable, against the invariants (`entering.md`); the second reads **a project you already operate** and produces a **delta against a version** — needs no answer · needs an answer · needs nothing (`upgrading.md`) | is the yardstick **the invariants** or **a version**? |
 | **record** · **work** | the record documents **how the work was produced**; the work is **what it produced** | delete it — is the shipped thing now wrong or incomplete? |
 | **guest** · **successor** | a guest does **one bounded piece and leaves nothing of ours behind**; a successor **becomes the project's operator** | are their conventions *binding* or *weighable*? |
 | **import** · **checkout** · **publish** | import is **one-time, we become canonical, the cord is cut**; checkout is **ongoing, they stay canonical, only the working set**; publish is **ongoing, we stay canonical, nothing comes back** | which side is canonical, and does anything return? |
@@ -168,6 +169,17 @@ Fast-rotting facts (a price, a current limit) are **fetched at the moment of use
 here to rot. → `SKILL.md`
 
 ### Machinery
+
+**migration log** — the `## Migrations` section of `config.md`: append-only, one line per step,
+`from → to · date · outcome · who`, outcome one of `applied` · `nothing-required` · `declined` ·
+`deferred` · `failed`. **It is history, not state** — `schema_version` beside it is the state —
+and it is the only thing that distinguishes *the files were swapped* from *the project was
+migrated*. A guest repository has none. → `upgrading.md`
+
+**spec mode** — how work gets described: `outcome` (a task states its result), `spec` (a document
+the task points at, updated when it closes), `custom` (a format the project already runs).
+Cascades like any setting, **and is asked rather than inherited**, because it decides what every
+task looks like. Absent reads as `outcome`. → `writing-work.md`
 
 **pipeline** — a linear stage ladder with gates on its transitions, and `starts:`
 (`manual` · `on-completion` · `schedule:<cron>`) saying what begins the next unit of work.

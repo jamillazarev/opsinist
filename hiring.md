@@ -63,6 +63,18 @@ are missing → `runtimes.md`.
 assumed.** Where the runtime enforces it, `enforced_by: harness` is a fact; where it does not, the
 same line is `prose-only` and **says so at dispatch** rather than being believed.
 
+**And on day one it is not a gate even where the runtime supports it, for a reason that is about
+timing rather than capability.** The harness collects its registry of dispatchable agents **at
+session start**; a role file written later in that same session is not in it, and dispatching by
+its name fails with *agent type not found* — measured 2026-08-01, in the runtime with the best
+support for tool restriction there is. **The run is not blocked by this**: the work goes to a
+general worker with the role's instructions inlined, which is the correct fallback and the
+honest one — **but `tools` restricts nothing in that mode**, and it is said at dispatch like any
+other downgrade (`runtimes.md`). **The restriction becomes real at the next session**, when the
+registry is collected with the role already on disk. **A team created and dispatched in one
+sitting is a team whose allowlists are prose until it is opened again** — worth knowing before
+building a roster around them, and worth saying to an owner who asked for exactly that gate.
+
 **One limit worth knowing before you rely on it:** when a role definition runs as a teammate
 rather than a delegated worker, **`skills` and `mcpServers` are not applied** — teammates load
 those from project and user settings. The load budget below is therefore enforceable for

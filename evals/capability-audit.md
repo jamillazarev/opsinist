@@ -142,6 +142,20 @@ sentence the corpus found agreeable.** It is now a measured claim, and the measu
 
 ---
 
+## Every number below is a claim about a tier
+
+**Read on 2026-08-01, and it changes how the table should be read.** Every rate here was measured
+on a light tier — deliberately, since behaviour that holds there holds everywhere. **But the
+inference runs one way only.** Three migration scenarios re-run one tier up, against the same
+corpus, moved `0/5 → 3/5` and `0/5 → 4/5`, with no edit to the text they read; the third, which
+asks a run to volunteer something nobody requested, did not move at all.
+
+**So an unknown share of the zeros below are the wrong-tier artefact rather than absent
+behaviour** — and the honest response is this paragraph, not a revision. Rewriting fourteen rows
+on the strength of two measurements would be the same error in the opposite direction. **What is
+demonstrated is demonstrated for two scenarios.** The rest is a question with a cheap answer:
+the same suite, the tier column filled in (`RUNS.md`).
+
 ## The remaining fourteen, against two full rounds
 
 Every mechanism below has at least one scenario. The two figures are **the first suite → the

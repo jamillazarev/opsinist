@@ -21,6 +21,14 @@ row=$(grep -v '^#' evals/runsheet.tsv | awk -F'\t' -v id="$ID" '$1==id')
 fixture=$(printf '%s' "$row" | cut -f2)
 setup=$(printf '%s' "$row" | cut -f3)
 turns=$(printf '%s' "$row" | cut -f4)
+# Column five, optional: the tier this scenario is meaningful at. Most rows leave it empty and
+# take the light default — the deliberate floor, because behaviour that holds there holds
+# everywhere. **But a scenario measured where nobody would run it measures nothing**, and some
+# flows are the advisor's own work: the advisor is the session, its model is the one setting the
+# cascade cannot reach, and no owner migrates a project on the cheapest model available. Those
+# rows name their tier, and the rate they produce is a claim about that tier.
+row_model=$(printf '%s' "$row" | cut -f5)
+[ -n "$row_model" ] && PLAYER_MODEL="$row_model"
 
 root="$SUITE/runs/$ID/$N"; logs="$SUITE/logs"; mkdir -p "$logs"
 out="$logs/$ID-$N.output"
@@ -41,7 +49,11 @@ sid=""
 i=0
 printf '%s\n' "$turns" | sed 's/ ||| /\n/g' | while IFS= read -r turn; do
   i=$((i+1))
-  args=( --model haiku -p "$turn" --plugin-dir "$CORPUS" --dangerously-skip-permissions
+  # The player's tier is a variable, defaulting to the light one every published rate was
+  # measured on. It became a variable the day someone asked "will this work?" and the honest
+  # answer was that the suite has only ever answered for one tier — a rate is a claim about a
+  # corpus AND a model, and quoting it without the second half is half a measurement.
+  args=( --model "${PLAYER_MODEL:-haiku}" -p "$turn" --plugin-dir "$CORPUS" --dangerously-skip-permissions
          --max-turns 40 --output-format stream-json --verbose )
   [ -n "$sid" ] && args+=( --resume "$sid" )
   ( cd "$ws" && CLAUDE_CONFIG_DIR="$PHOME" timeout 420 claude "${args[@]}" </dev/null ) >> "$out" 2>>"$logs/$ID-$N.err"

@@ -80,6 +80,35 @@ task references one, and that closing updates them. **The honest trade-off:** ou
 leaves weaker durable documentation. Fine for most projects, wrong for a system that outlives
 its authors.
 
+**And this one is asked rather than inherited, because it decides what a task looks like.**
+Most cascading settings change what work *costs* — this one changes what work *is*: under
+`outcome` a task states the result and its definition of done, under `spec` the task points at
+a document that outlives it and closing the task updates that document, and under `custom` the
+task is a reference into a format the project already runs. **A project that answers this on
+day ninety rewrites every task it has written.** Which is why it belongs in the interview and
+not in the defaults — but **only where the answer changes something**: a deliverable that is
+code or a long-lived system. For a one-off job, a piece of writing or a design pass, the
+default stands and the question is not asked (`starting.md`).
+
+**When the answer is `custom`, name real options rather than asking the owner to invent one.**
+Two are stocked, both MIT, both driving many agents by slash command → `catalogue.md`:
+**OpenSpec** — a change is a folder of plain markdown, archived when done, which is this
+system's own premise already — and **Spec Kit**, phase-gated and heavier, for a project that
+wants those gates. **A project that already has its own format keeps it**; the three
+requirements above are what make any of them work, and they do not change with the tool.
+
+**And look before offering.** A tree that already holds specs — a `specs/` directory, a
+`docs/rfcs/`, an `openspec/` folder — has answered this question in its own files, and proposing
+a tool over the top of it is the *look inward first* law being skipped. **What the project
+already does is read, named back, and confirmed** — the owner's existing choice outranks a
+better default.
+
+**Choosing one is an import, not a preference.** Anything arriving from outside goes through the
+import gate and lands in the tooling register with what it is, why, and its check-date
+(`tooling.md`, `resources.md`) — **a tool agreed in conversation and installed by nobody is the
+commonest way a spec mode becomes a lie**, because the tasks start referencing a format the
+repository has no machinery for. **The setting and the tool land together, or neither does.**
+
 ---
 
 ## Status: six categories, your own stage names

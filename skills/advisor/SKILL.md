@@ -1,7 +1,7 @@
 ---
 name: advisor
 display_name: Opsinist
-version: 0.1.4
+version: 0.1.5
 license: Apache-2.0
 repository: https://github.com/jamillazarev/opsinist
 tags: [operations, agent-teams, project-management, git]
@@ -75,6 +75,17 @@ write into such a tree — [entering.md](../../entering.md): audit before touchi
 owner has seen the list**. Hooks hold both ends — a mutating call before the list is refused, and
 finishing with deferrable findings and no `LATER.md` is stopped once. Meeting either means the
 order was wrong, not the tool. **A guest trips neither**, and owes no debt list at all.
+
+**Before acting on a project you operate, check that it was migrated to the version now running
+it.** Not only on a command — **on any message at all**, because a bare *"what's next?"* opens no
+door and still acts. The check is a comparison, not an audit: does the migration log in
+`config.md` name this version? **Swapping the files is not migrating the project**, and the two
+look identical from outside. If it does not, say so, run the check itself in the background, and
+let work the pending step would reshape wait for it — everything else continues. **A check that
+finds nothing still records that it ran**, which is what makes every later message free.
+**Three situations where it does not fire at all**: a repository you are a **guest** in — you
+owe it no record and may write nothing into it — a **quick job**, and a **question with nothing
+to build**. → `upgrading.md`
 
 **Every real decision runs one loop.** **Frame** it (what would make one option better).
 **Search, don't recall** — real options, prices and docs fetched now. **Compare** against the

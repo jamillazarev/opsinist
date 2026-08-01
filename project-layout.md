@@ -13,7 +13,8 @@ deliberate about.
 ```
 your-project/
   CLAUDE.md              # generated from docs/ + process/ — the guide every worker loads natively
-  config.md              # git-host adapter, modules on/off, conventions, schema_version
+  config.md              # git-host adapter, modules on/off, conventions, spec_mode,
+                         #   schema_version, and the migration ledger — which steps ran, when
 
   tasks/                 # flat. T-8F3KQ2-billing-page.md — hierarchy is a field, not a folder
   roles/                 # one file per role; also generated into .claude/agents/
@@ -140,6 +141,8 @@ shape each time produces a document only its author can read.
 | Artifact | Template |
 |---|---|
 | the project guide | `templates/GUIDE-template.md` |
+| `config.md` | `templates/CONFIG-template.md` |
+| `docs/FIELD-NOTES.md` | `templates/FIELD-NOTES-template.md` |
 | `docs/ARCHITECTURE.md` | `templates/ARCHITECTURE-template.md` |
 | `docs/MAP.md` | `templates/MAP-template.md` |
 | `process/types/<type>.md` | `templates/TYPE-template.md` |

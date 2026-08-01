@@ -30,7 +30,7 @@ Each row is a question to answer about the runtime in front of you, not a featur
 | Capability | What depends on it | Without it |
 |---|---|---|
 | **delegation** — spawning a worker that runs on its own | every dispatch | **the advisor advises and does not dispatch.** Roles, tasks and the record still work; nothing runs unattended |
-| **tool restriction the runtime enforces** | `enforced_by: harness` | that gate **downgrades to `prose-only`** and joins the named list (`permissions.md`) |
+| **tool restriction the runtime enforces** | `enforced_by: harness` | that gate **downgrades to `prose-only`** and joins the named list (`permissions.md`). **And where it is supported it can still be absent for one session**: a registry collected at session start does not contain a role written after it, so a role created and dispatched in the same sitting runs unrestricted → `hiring.md` |
 | **per-worker model and effort** | the cascade's whole point | the cascade resolves to **one setting for everything**; say so rather than writing per-role values nothing reads |
 | **isolated worktrees** | a wave running in parallel | **waves serialise.** The rule that two children in one wave never own the same file stops being enough, because they now share one tree |
 | **lifecycle hooks** | automations that fire on an event, **and the audit gate that holds a takeover to its order** (`entering.md`) | triggers become **manual or scheduled**; an automation with `trigger: on-completion` silently never fires, and the audit gate **downgrades to prose** — the rule stands, nothing performs it |

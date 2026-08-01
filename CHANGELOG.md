@@ -2,6 +2,266 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.5 — 2026-08-01
+
+**Two things a user hit in their first hour, and both were the same mistake in different
+clothes: a decision the system had already made for them, silently.**
+
+---
+
+**How work gets described is now a question, not a default.** `spec_mode` existed — `outcome`,
+`spec`, `custom` — as a cascading setting, and a cascade is inherited rather than asked. So a
+project whose tasks would have been written against a spec got outcome-first tasks and nobody
+was consulted. **It is asked in the interview now, in outcome terms**, because unlike every
+other cascading setting this one does not change what work *costs*, it changes what work *is*:
+a task that states its result, a document the task points at and closing updates, or a
+reference into a format the project already runs. **A project that answers this on day ninety
+rewrites every task it has written.**
+
+**And it is asked only where the answer changes something** — code, or a system meant to
+outlive its first task. A one-off landing page is not interrogated about specification
+strategy, and there is a scenario asserting that it is not, because the other standing failure
+in this suite is a first session that spends forty minutes before any work starts.
+
+**When the answer is *"we already have a format"*, real options are named rather than
+requested.** Two are stocked, both MIT, both driving many agents by slash command:
+**[OpenSpec](https://github.com/Fission-AI/OpenSpec)** — the default here for a structural
+reason rather than a taste one, since a change is a folder of plain markdown, archived when
+done, which is this system's own premise already — and
+**[Spec Kit](https://github.com/github/spec-kit)**, phase-gated and heavier, for a project that
+wants those gates. A project with its own format keeps it; the three requirements are unchanged
+by the choice — where specs live, how a task references one, and that closing updates them.
+
+**Upgrading reads the new version and produces a delta.** The rule was *"the changelog is the
+migration map"*, which said what to read and never said **where from** — so an upgrade could be
+performed from memory, against the release someone last read about, and the failure is silent
+because the project ends in a shape nothing describes. Both ends are now named as files on
+disk: the project's version in its guide and `config.md`, the target's in the **installed
+copy's own changelog**.
+
+**And an upgrade is an audit, never a rebuild.** The temptation on a version that adds something
+is to re-run the interview and regenerate the project — which answers questions the owner
+already answered and overwrites conventions they chose on purpose. It now uses the discipline
+takeovers use: read what is here, then **one list** of what this release adds and this project
+lacks — **split by the only question that matters to the person reading it: does this need you?**
+What is mechanical is applied on approval and reported as done; what needs an answer is asked
+**in one batch**, never one question per message; what needs nothing is named so the silence is
+visible. **A setting with no honest default for this project is asked, not guessed** — a default
+chosen on the owner's behalf during an upgrade is the interview failure arriving late and harder
+to notice. **The delta interview is a delta too** — only what is new *and* unanswered.
+
+**Most additions require nothing, and saying so is part of the list.** `spec_mode` is exactly
+that shape: absent, it reads as `outcome`, which is what every existing project already has. No
+codemod, no `schema_version` move, nothing to run. **An upgrade that reports "three additions,
+none of which require anything from you" is a good upgrade** — and it is the one an owner can
+believe the next time it says something *is* required.
+
+**What is already written is part of the delta, and this is the half that gets skipped.** Missing
+files are the easy side; the side an owner actually feels is the work written under the old
+shape. A project that now answers *"we work from specs"* is not merely missing a setting — **its
+existing tasks lack what that answer requires**, and naming the setting while leaving the tasks
+is a half-migration that looks finished. So the audit reads the artifacts too: how many are
+affected, what is missing from them, what fixing them costs. Three endings are offered — bring
+them into shape, **forward-only as a recorded split** rather than as drift, or decline with a
+revisit trigger that is a moment.
+
+**And tasks are not one pile — the state a task is in decides what may be done to it.** **Closed
+tasks are never converted**: a closed task is a record of what happened under the shape that was
+in force, and rewriting it produces a spec that never guided the work and a history describing a
+process nobody followed. **A run in flight is not touched and not even offered**, because the
+offer would have to interrupt. **Started but idle is the owner's choice**, with *convert at its
+next transition* recommended rather than assumed. **Open and unstarted converts with the batch** —
+that is the safe pile, and leaving it is how a queue ends up holding two forms at once. The
+counts go in the list separately, because *"forty-two tasks affected"* makes the safe pile look
+like the risky one. And any artifact that changes form **says so in its thread**, naming the
+version that asked.
+
+**A jump across several versions is walked, not piled.** Entries apply in order because a later
+one may supersede an earlier one, and a superseded step is **named as skipped** rather than
+silently dropped. It is still **one list** however many versions it spans — the releases in
+between are how it was computed, not how it is presented. **Past some distance it stops being an
+upgrade**: a project far enough behind is closer to a repository being met for the first time,
+and the honest move is to read it as one and say which of the two you are doing. **When the
+project does not state its version at all**, that is the first finding — inferred from what is
+present, said to be inferred and on what evidence, and recorded so the next upgrade starts from
+a stated version.
+
+**Nobody waits through an audit, and nobody is left guessing during one.** An upgrade is the
+same three-part shape as reading a repository: **the arrival is inline** — what came, what you
+are on, where both numbers were read from — **the audit is background work** a tier down, and
+**only the questions block**, once. All three are said at the start, in the order they happen,
+so the session stays usable meanwhile. Where the runtime has no delegation, **that is said** and
+the audit is kept short: a promise of a non-blocking upgrade that blocks is worse than an honest
+wait.
+
+**And the most common case is the one an upgrade handles worst: you are already current.**
+*"Already up to date"* is a claim about a number in a file, not about the project matching it —
+an interrupted upgrade, a hand edit, or a setting nobody ever answered all leave a tree that
+disagrees with its own version line. **So the audit runs anyway**, cheaply, and ends one of two
+ways: nothing found, one sentence, **nothing created** — no report file, no decisions entry,
+because an upgrade that always leaves a file behind teaches you to ignore the files it leaves —
+or something found, in which case **the disagreement between the tree and the version line is
+itself the first finding.**
+
+**And the case that broke all of this open: swapping the files is not migrating the project.**
+Every install route moves a plugin, an extension or a directory — **none of them touches the
+owner's repository.** So a project can carry the newest version number, have received none of
+what that version asked for, and look exactly like one that migrated cleanly. Every project
+upgraded before this release is in that state, by construction, including the one whose owner
+reported the problems above.
+
+**So the state is recorded where every other entity lives — in the repository.** A **migration
+log** in `config.md`: append-only, one line per step, `from → to`, the date, the outcome. It is
+a *log* and not a field because migrations accumulate, and a single "last migration" value would
+answer *which version* while losing *what happened on the way* — which step was declined, which
+deferred, which re-run after a failure. Choices and **declines** go to `docs/DECISIONS.md` in the
+shape it already has, so a recorded *no* is never re-asked; deferrals go to `LATER.md` with a
+moment for a trigger. **A declined step is a completed migration with a no in it, not an
+unfinished one.**
+
+**Any message checks it — not any command.** A bare *"what's next?"* opens no door and still
+acts, so the check is a law in the always-loaded core rather than a rule inside the upgrade
+flow. **It is a comparison, not an audit**: does the log name the version now running? And **a
+check that finds nothing still writes its line** — `0.1.4 → 0.1.5 · nothing required` — because
+that is what makes every later message free, and because a log of changes only would leave
+*checked and clean* and *never checked* looking identical. **No marker file, deliberately**:
+`.index/` is gitignored and rebuildable, so a marker there answers for one laptop, and the
+question is about the project.
+
+**Six scenarios, measured five times against four mechanisms — and one of the six passes.**
+`N63` holds `5/5` in every round; nothing else clears `2/5`. **`N63` is the only one that asks a
+run to *not* do something**, and that is the release's real finding rather than a footnote to it.
+
+**Two mechanisms were built, measured, and removed for teaching forgery.** A refusal that
+demanded the migration log name the current version before any artefact could be written
+produced exactly what `0.1.3` paid to learn: runs wrote `nothing-required` into the log **without
+running an audit**, and one scenario went `1/5` → `0/5` because a forced line is cheaper than a
+real check. **A gate whose evidence its subject can author is not a gate** — removed by
+measurement, with tests asserting they stay removed. What survives asks for **structure a reader
+can verify** — a `Spec:` line, a log the hook only ever *reports* — never for a claim that work
+happened.
+
+**And `N62` marks a boundary worth publishing.** A prohibition catches commission, not omission:
+`N8` failed by *doing* something and a refusal caught it; `N62` fails by *not asking a question*,
+and there is no act to refuse. Five surfaces were tried and it stayed at zero. That is recorded
+as a limit of the method rather than papered over with a sixth attempt.
+
+**What the scenarios assert.** `N62` asserts the question is
+asked for code and its consequence named; `N63` asserts it is **not** asked for a one-off, so
+the repair cannot quietly become a longer interview; `N64` asserts an upgrade reads the shipped
+changelog, audits, and delivers a delta rather than a rebuild; `N65` asserts that being current
+does not skip the audit; `N66` asserts an unmigrated project is noticed **on an ordinary message
+nobody framed as an upgrade**; `N67` asserts a declined step is reported as a decision rather
+than re-offered. **The version `N65` writes into its fixture is guarded by preflight** — a
+scenario depending on a version being current rots the moment a release moves without it,
+verified by mutation in both directions.
+
+**The pieces that make all of the above survive contact:**
+
+- **`config.md` is finally written by something.** The layout has promised it since the
+  restructure and no flow created it — so the file the migration log lives in did not exist.
+  It is an invariant now, with `templates/CONFIG-template.md` behind it, and a project born here
+  **opens its log with a first line** rather than reading as one that was never migrated.
+- **The outcome vocabulary is closed**: `applied` · `nothing-required` · `declined` · `deferred`
+  · `failed`. A log read by a comparison cannot afford prose, and *"mostly done"* is unreadable
+  to a check.
+- **Each line records who ran the step**, from the identity git already knows. **Two clones, two
+  appends, one conflict — and the resolution is always both lines**, in date order.
+- **An older skill meeting a newer project must not lie**: a log line stays readable to a version
+  that has never heard of it, and a project whose log names a version *ahead* of the one running
+  is **reported, not migrated backwards**.
+- **Only the advisor migrates.** A worker that meets the gap escalates as a request with an age —
+  a migration performed by whoever noticed it first is how a project gets migrated twice.
+- **Orphans are part of the delta.** A migration adds and also **strands**: a file a superseded
+  step created, a document nothing reads any more. They are **named, never removed** — deleting
+  routes to the owner, and *"leave it"* is a complete answer that gets recorded rather than
+  re-raised next release.
+- **The tool lands with the setting or neither does.** Choosing OpenSpec is an import: it goes
+  through the import gate and into the tooling register with its check-date. A spec mode whose
+  tool nobody installed is a setting that makes every task reference a format the repository has
+  no machinery for.
+- **And a tree that already holds specs has already answered** — read and named back before
+  anything is proposed, because the owner's existing choice outranks a better default.
+
+**Two audits exist and they are now told apart in the glossary.** A **takeover audit** measures a
+repository you have not operated **against the invariants** and produces a debt list; a
+**migration audit** measures a project you already operate **against a version** and produces a
+delta. Handing an owner who asked to upgrade a list of everything wrong with their project is how
+an upgrade becomes an argument.
+
+**A day-one fact about tool allowlists, measured today and previously written nowhere.** The
+harness collects its registry of dispatchable agents **at session start**, so a role created
+later in that same session cannot be dispatched by name — the work correctly falls back to a
+general worker with the role's instructions inlined, **and `tools` restricts nothing in that
+mode.** The restriction becomes real at the next session. **A team created and dispatched in one
+sitting is a team whose allowlists are prose until it is opened again**, which is worth saying to
+an owner who asked for exactly that gate.
+
+**A bug report you can actually find and send.** The flow for packaging a problem in *this
+system* was thorough about what to assemble and silent about the two things that decide whether
+it ever reaches anyone. **It is now written whole to a file with its path said out loud** —
+`docs/reports/<date>-<flow>.md` by default — because a report that exists only in the
+conversation is one the owner cannot find an hour later, and what remains of a real bug is a
+memory of having complained. **It is written outside the repository** — the downloads folder by
+default — because the defect is in **the skill**, not in the project it was met in, and a file
+about someone else's bug does not belong in your history, reviewed by people it does not concern
+and carried in every clone. *Whose defect is it* decides where it is written, the same rule that
+keeps a guest's record out of a maintainer's tree. **And the ways to send it are named**: an
+issue on the skill's own
+repository, straight to the author if they know them, or **keeping it and sending nothing, which
+is offered as a complete answer** rather than as indecision. *"There is no channel by default"*
+was true and was the sentence that ended in silence. **We still do not post it** — publishing is
+outward, from the owner's account. `N68` measures it.
+
+**And the other half of the feedback loop was a file nobody wrote and nobody read.**
+`docs/FIELD-NOTES.md` — friction recorded the moment it happens — appeared **once in the whole
+corpus**, in a directory listing. No template, no flow created it, and `self-maintenance.md`'s
+promise that it is *"swept at natural checkpoints"* named no sweeper, so nothing swept it. It is
+now an **invariant created on day one** with `templates/FIELD-NOTES-template.md` behind it, and
+**the status check is the sweeper**: entries to the backlog, deduplicated so a re-sweep is
+idempotent, an entry seen **twice** becoming a task with both occasions named, and **a sweep that
+found nothing recording what it looked at** — because *quiet week* and *nobody looked* otherwise
+leave the same trace. `N69` measures it.
+
+**And the biggest finding of the release is not in the corpus at all — it is in how the corpus
+was being measured.** Three migration scenarios were re-run one tier up, against the same text:
+`N64` went `0/5 → 3/5` and `N65` `0/5 → 4/5`, with no edit to anything either of them reads.
+**They were never broken behaviour; they were the wrong tier.** The third — which asks a run to
+notice something nobody requested — did not move, and that is what makes the other two
+believable: a stronger model does the work better, it does not become more willing to volunteer.
+
+**So: yes, migration works — on a tier anyone would actually run it on.** Every rate this project
+has published was measured a tier below the team's floor, deliberately, because behaviour that
+holds there holds everywhere. **The inference runs one way only**, and an unknown share of the
+zeros in `capability-audit.md` are this same artefact. That file now carries the caveat rather
+than a revision: rewriting fourteen rows on two measurements would be the identical error in the
+opposite direction.
+
+**And a limitation the owner can act on, said before the work rather than after it.** Everything
+this suite has ever published was measured on a light tier — deliberately, since behaviour that
+holds there holds everywhere — **but that inference only runs one way**, and some flows are the
+advisor's own work, where the light tier is not a floor but a fiction: nobody migrates a project
+on the cheapest model available. **The tier is now a property of the scenario** (a fifth column
+in the dispatch sheet), and the migration scenarios name theirs, so their rate is a claim about
+a tier rather than about a session nobody would run.
+
+**The same honesty faces the owner.** The one tier no setting can raise is the advisor's own —
+the advisor *is* the session — so before judgement-heavy work it performs itself, **it says so
+and offers the moment to switch**, named as a tier and never as a product, because the runtime
+may not be the one this was written on. **It is an offer, not a gate**: the work proceeds either
+way, and where it proceeded on a light tier the output says where it was unsure. A limitation
+stated before the work is a choice; the same one stated afterwards is an excuse.
+
+**Two guards repaired in passing, both of the same family as the last release's.** The migration
+log joins `docs/DECISIONS.md` under the append-only check in `company-preflight.sh`, scoped to
+its own section so ordinary `config.md` edits stay free. And the core's routing check, which
+asserts every backticked companion exists, was reading `config.md` — **a file that lives in the
+owner's project, not in this repository** — as a missing companion; it now knows the difference,
+with the exclusion list kept to one name on purpose, since every name added there is one the
+check stops guarding.
+
+---
+
 ## 0.1.4 — 2026-08-01
 
 **Taking over somebody's repository is the first behaviour in this project to go from never
@@ -386,9 +646,9 @@ happens — and a sweep that found nothing records what it looked at.
 
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
-instance · the four lenses, defined · **twenty-one diagrams** whose every node names something a
+instance · the four lenses, defined · **twenty-three diagrams** whose every node names something a
 file defines · a hundred and eighty-six single-sentence facts · eighty-six situations with what to
-say · **seventy-five evaluation scenarios**, each naming the fixture it runs against, scored by
+say · **eighty-three evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the
 artifacts a project stands up · and guards that run on every push: dangling references, ageing

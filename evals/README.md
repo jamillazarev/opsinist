@@ -66,6 +66,15 @@ later, and nothing in it says it was a test. **The run names every path it touch
 fixture and out, and removes them.** Measured: a pass in this suite left a record for a
 repository that never existed.
 
+**A rate is a claim about a corpus *and* a model, and quoting it without the second half is half
+a measurement.** The default player is a tier below the team's floor on purpose: behaviour that
+holds there holds everywhere. **But the inference only runs one way** — *fails on the light tier*
+does not mean *fails for the owner*, who is not on it. **And some flows are the advisor's own
+work**, where the light tier is not a floor but a fiction: nobody migrates a project on the
+cheapest model available, so a rate measured there describes a session that will never happen.
+Those scenarios name their tier in the runsheet's fifth column, and **their rate is reported with
+the tier attached.**
+
 **The tree under test is frozen for the run, and that is checked rather than promised.** Take
 `bash scripts/eval-fingerprint.sh <corpus-copy>` at dispatch, pass it back at the end: it hashes
 every companion a player can route to and fails if one moved. **The tree it hashes is the copy

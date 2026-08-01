@@ -56,6 +56,349 @@ apply, then verify.
 **The changelog is the migration map** — read the entries between the version the project is on
 and the current one, and act on what they say rather than on the diff.
 
+**And the map is read from the new version, not recalled.** Both ends are on disk: the version
+the project is on is in its guide's *Operated by* line and its `config.md`; the version it is
+moving to is the **installed copy of this skill**, which ships its own `CHANGELOG.md`. Read the
+entries **there**, in the files that just arrived — a migration performed from memory is a
+migration against the release you last read about, and the failure mode is silent, because the
+project ends up in a shape nothing describes.
+
+**Then it is an audit and a delta, never a rebuild.** The temptation on a version that adds
+something is to re-run the interview and regenerate the project; that answers questions the owner
+already answered and overwrites conventions they chose on purpose. **The discipline is the one
+takeovers use** (`entering.md`): read what is here first, then produce **one list** of what this
+release adds that the project has not got.
+
+**This is not the other audit, and saying which one you are running is the first line of it.**
+Two audits exist and they look alike from a distance: a **takeover audit** reads a repository you
+have not operated and measures it **against the invariants**, producing a debt list that is
+blocking or deferrable (`entering.md`); a **migration audit** reads a project you already operate
+and measures it **against a version**, producing a delta split by whether it needs the owner.
+**The yardstick is the difference** — invariants versus a version — and handing an owner who
+asked to upgrade a list of everything wrong with their project is how an upgrade becomes an
+argument. `GLOSSARY.md` carries the pair.
+
+**And the owner is not held while it runs.** An upgrade is the same three-part shape as reading a
+repository (`entering.md`), for the same reason: **the arrival is inline** — a new version is
+here, this is the version you are on, this is where both numbers were read from — **seconds**.
+**The audit is background work**, dispatched and a tier down, because it is extraction rather
+than reasoning the advisor could not do itself → `dispatching.md`. **Only the questions block**,
+once, in one batch.
+
+**Say all three out loud at the start**, in the order they will happen: what arrived, that the
+audit is running and roughly how long, and that the session stays usable meanwhile. **An owner
+made to sit through a scrolling audit has been charged for a wait that had no reason to hold the
+session**, and an owner given no notice at all reads the silence as a crash.
+
+**The shape of it, because "be transparent" is an instruction nobody can follow:**
+
+> *"You are on 0.1.2 and the skill here is 0.1.5 — I read both from disk, yours from the guide,
+> mine from the installed copy's changelog. Nothing says a migration ran, so I am checking what
+> those three releases mean for **this** project: what applies on its own, what needs a decision
+> from you, and what needs nothing. That runs in the background, a couple of minutes. Keep going
+> — ask me anything meanwhile — and I will come back with **one list**, not a stream of
+> questions."*
+
+Then the list, in the three piles, **and the questions in one batch with the recommendation
+already filled in** — where the runtime offers a native way to ask a small set of named options,
+it is used, recommended first, each carrying its trade-off, with a free answer beating the
+buckets (`arriving.md`, `PATTERNS.md` §26). **Nothing in that message is a status report about
+the tool**: every line says what it means for their project.
+
+**And the end is said as plainly as the start** — what was applied, what they declined, what is
+waiting on a moment, and where all three are written down.
+
+**Where the runtime has no delegation, say that instead of pretending** (`runtimes.md`): the
+audit runs inline, it is kept short, and the owner is told it will take a moment. **A promise of
+a non-blocking upgrade that blocks is worse than an honest wait.**
+
+**The list splits on one question — does this need you? — and that is the whole point of it.**
+An upgrade that hands the owner a mixed list has made them read every line to find the two that
+concern them.
+
+| Pile | What is in it | What the owner does |
+|---|---|---|
+| **needs no answer** | mechanical and decided: a file the new version generates, a rule that tightened, a check that got stricter | **reads it afterwards.** Applied on approval of the batch, reported as done, never as a question |
+| **needs your answer** | a setting with no honest default *for this project*, a choice the release opened, anything touching the four gated kinds | **answers, once, in one batch** — never one question per message, the same rule and the same reason as the debt list |
+| **needs nothing at all** | additions whose absence already reads as the old behaviour | **nothing.** Named so the list is complete, and so the silence is visible rather than assumed |
+
+**Nothing is applied before the owner has seen the list**, and it is applied in batches they
+approve.
+
+**Only the advisor runs a migration, and a worker that notices one escalates instead.** A
+migration edits many artifacts at once across a project, which is the shape of change the owner
+gates by definition — and a worker holding one task has neither the view nor the standing for it.
+**A worker that meets the gap says so and stops**: the finding goes back as a request with an age
+(`requests.md`), the task it was doing continues if the pending step does not touch it, and the
+advisor is the one that proposes the migration to the owner. **A migration performed by whoever
+noticed it first is how two agents migrate the same project twice.** **The middle pile is the one that must not be guessed**: a default chosen on the owner's
+behalf during an upgrade is the same failure as a default chosen during the interview, arriving
+later and harder to notice.
+
+**Most additions are silent by design, and saying so is part of the list.** A new setting whose
+absence reads as its old default costs an existing project nothing — no codemod, no
+`schema_version` move, no action. **An upgrade that reports "three additions, none of which
+require anything from you" is a good upgrade**, and it is the one an owner can trust the next
+time it says something *is* required.
+
+### What is already written is part of the delta, not just what is missing
+
+**The easy half of an upgrade is the files that do not exist yet. The half that gets skipped is
+the work already written under the old shape**, and it is the half the owner actually feels.
+
+**A setting that decides the form of an artifact makes every existing artifact a candidate.**
+When `spec_mode` was inherited rather than asked, tasks were written outcome-first by nobody's
+decision — so a project that now answers *"we work from specs"* is not only missing a setting,
+**it is holding tasks that lack what the answer requires**: the document to point at, the
+reference into it, the closing step that updates it. **Naming the setting and leaving the tasks
+is a half-migration**, and it looks finished.
+
+So the audit reads the artifacts, not only the tree: **how many are affected, what specifically
+is missing from them, and what bringing them into shape costs.** That count is a line in the
+list, in the pile that needs an answer, because rewriting someone's tasks is their call.
+
+**Three honest endings, and the upgrade offers all three:** bring them into shape now, in batches;
+bring them **forward only** — new work takes the new form, existing tasks stay as they are, which
+is legitimate and must be recorded as a deliberate split rather than left as drift; or decline,
+with a revisit trigger that is a moment. **What is never acceptable is silence** — a project whose
+setting says one thing and whose tasks say another, with nothing anywhere saying why.
+
+**And the same test applies to any setting that shapes an artifact**, not only this one: if the
+answer would have changed how something was written, then everything already written is in scope,
+and the list says how much.
+
+**What the release left behind is in the delta too, and it is the half nobody looks for.** A
+migration adds; it also **strands**. A file a superseded step created, a document the new version
+no longer reads, the debris of a run that died halfway — none of it announces itself, and all of
+it looks deliberate to the next reader. **So the audit names orphans as their own line**: what it
+is, which version put it there, and what now reads it — *nothing* being the answer that makes it
+an orphan.
+
+**And naming is where it stops.** Deleting is one of the four kinds that route to the owner, so
+an orphan is **reported, never removed** — and *"leave it"* is a legitimate, complete answer that
+gets recorded as one rather than re-raised next release. **An upgrade that tidies is an upgrade
+that deletes something load-bearing**, eventually, and the owner will not know which release did
+it. When removal is agreed, it enumerates its destinations first (`storing.md`).
+
+**Tasks are not one pile, and the state a task is in decides what may be done to it.** Treating
+them alike is how a migration either disrupts live work or falsifies finished work.
+
+| State | What happens | Why |
+|---|---|---|
+| **closed** | **never converted.** Counted and reported, and that is all | a closed task is a **record of what happened**, written and done under the shape that was in force. Rewriting it produces a spec that never guided the work and a history that describes a process nobody followed — the same reason `docs/DECISIONS.md` is append-only |
+| **a run in flight** | **never touched, and not even offered** | the offer itself would have to interrupt. It converts at its next transition, which is a seam that already exists and already writes to the thread |
+| **started, no live run** | **the owner chooses**, and the recommendation is *convert at its next transition* | it costs nothing and rides a seam that is coming anyway. Converting now is legitimate where the new form would change how the work gets done — but that is a decision, not a default |
+| **open, not started** | **converted with the batch** — this is the safe pile | nobody is holding it, nothing is invalidated, and leaving it is how a project ends up with two forms in its queue |
+
+**On a large project there is a fourth ending, and it is usually the right one: migrate the base
+now, the rest on touch.** Converting nine hundred tasks in a batch is a change nobody can review
+and a diff nobody can read — and *forward-only* gives up on the nine hundred entirely. **On-touch
+splits the difference honestly**: the settings, the files the version needs and the log line land
+now, bounded and reviewable; **every other artefact converts the next time work opens it**, which
+is the moment someone is already reading it and can judge the result.
+
+**And it is only real if "converted" is machine-checkable.** A lazy migration whose predicate
+lives in prose is not lazy, it is abandoned — nothing can tell a converted artefact from an
+untouched one, so nothing can refuse, report or finish. **The migration declares the predicate
+when it chooses this mode**: for a spec format, *a task carries its spec reference*; for a
+renamed field, *the new key is present*. One line, checkable by a script.
+
+**The conversion is enforced where the touch happens, not remembered.** Writing to an artefact
+that is still in the pending scope is **refused, with what is missing and how to supply it** —
+the same shape as every gate here, and the reason this mode works at all. Measured across three
+rounds: a rule that asks a run to convert something buys nothing; a rule that refuses the write
+until it is converted is the one that holds.
+
+**Pending is a state with a count, a trigger and an ending.** The log line says
+`applied-base · pending-on-touch`, the scope is recorded with its predicate and its size, **the
+status check reports how many remain**, and a **revisit trigger that is a moment** — before the
+next release, at the first new maintainer — stops *lazy* from becoming *never*. **When the count
+reaches zero the log gets its closing line**, because a migration that never says it finished is
+one nobody can prove happened.
+
+**The audit is bounded the same way.** On a project this size, reading every artefact to produce
+the delta costs more than the migration: **count and sample instead**, say the sample size, and
+name the number as an estimate rather than dressing it as a census.
+
+**The counts are in the list, not just the total.** *"Forty-two tasks: thirty closed and
+untouched, eight open and convertible, three started, one in flight"* is a sentence an owner can
+decide on. *"Forty-two tasks affected"* is not, and it makes the safe pile look like the risky
+one.
+
+**A closed task is still allowed to be pointed at.** If the new form wants a document, that
+document may reference what was already built — what it must not do is **claim to have specified
+it**.
+
+**And whenever an artifact does change form, its thread says so** — what changed, why, and which
+version asked for it. A task whose shape changed with nothing in its history explaining it is
+indistinguishable from a task somebody quietly rewrote.
+
+### Did the migration ever run? The version line cannot answer that
+
+**Swapping the files is not migrating the project, and the two are indistinguishable from
+outside.** Every install route moves a plugin, an extension or a directory; none touches the
+owner's repository. So a project can carry the newest version number, have received none of what
+that version asked for, and **look exactly like one that migrated cleanly** — which is the state
+every project upgraded before this section existed is in, by construction.
+
+**So it is recorded in the repository, where every other entity lives** — a migration only a
+conversation remembers is one the next session cannot see. Three places, each already existing:
+
+| What | Where | Why there |
+|---|---|---|
+| **which steps ran** | the **migration log** — a `## Migrations` section in `config.md`, one line per step: `from → to · date · outcome · who` | it sits beside `schema_version`, which is the *state*; the log is the *history* that state alone cannot carry |
+| **what the owner chose** — and especially what they **declined** | `docs/DECISIONS.md`, in the shape it already has: considered · chose · rejected · because · revisit-if | a decline is a decision, and re-asking it every session is how an owner learns to ignore the question |
+| **what was deferred** | `LATER.md`, with a revisit trigger that is a moment | the same place every other deferral lives |
+
+**The outcome is one of five words, and the list is closed.** A log read by a comparison cannot
+afford prose: *"mostly done"* is unreadable to a check, and a vocabulary that grows per release
+is a vocabulary nothing can rely on.
+
+| Outcome | What it means | What the next session does |
+|---|---|---|
+| `applied` | the step ran and the project carries it | nothing |
+| `nothing-required` | checked against this project, no work followed | nothing — **and this line is why later messages are free** |
+| `declined` | the owner said no, and the reason is in `docs/DECISIONS.md` with its revisit-if | **does not re-ask**; the trigger reopens it |
+| `deferred` | agreed, not now; the item is in `LATER.md` with a moment for a trigger | **does not re-ask**; the moment reopens it |
+| `failed` | it was attempted and did not complete, with what broke | **retries**, and appends a second line rather than editing the first |
+
+**A version is covered when its newest line is any of the five.** `failed` covers it too — the
+attempt is recorded, the retry is the next line, and a step that fails forever is visible as a
+column of `failed` rather than as silence.
+
+**It is a log, not a field, and the difference is load-bearing.** Migrations accumulate: a
+project that has lived through four releases has four lines, and **a single "last migration"
+value would answer *which version* and lose *what happened on the way* — which step was declined,
+which was deferred, which one was re-run after a failure. So it is **append-only, one line per
+step, never edited in place**, the same discipline as `docs/DECISIONS.md` and for the same
+reason. A step re-run after a failure **appends a second line**; it does not overwrite the first,
+because "this was attempted twice" is exactly the fact a later reader needs.
+
+**And it is what makes a multi-version jump answerable afterwards.** *"We came from 0.1.1, four
+steps ran, one was declined, one is deferred until we take on a second maintainer"* is a sentence
+the log can produce and a version number cannot.
+
+**A declined step is not an incomplete migration.** It is a completed one with a recorded no, and
+the log says so — otherwise every future session reads the gap as work outstanding and asks
+again. **The revisit trigger is what reopens it**, not the next upgrade.
+
+**When the log is absent entirely, no migration has run** — which for a project created before
+the log existed is a fact about this system, not a fault of theirs. The resolution is cheap and
+identical either way: **run the audit**, and against a project that happens to be conformant it
+finds nothing and says so in a sentence.
+
+**A guest repository has none of this and gets none of it.** No log, no check, no line written —
+a contributor passing through owes the maintainers no record of our versions, and
+`entering.md` is absolute about nothing of ours landing in their tree. **The record for guest
+work is kept with you, elsewhere** (`storing.md`), and that is where its version belongs too.
+The same silence applies to a quick job and to a question with nothing to build: **no project,
+no log, nothing to check.**
+
+**Each line records who ran the step**, because a project has more than one pair of hands and
+*"who migrated this and when"* is the first question asked when two clones disagree. The
+identity is the one git already knows — no new notion of a user, and nothing to keep in sync.
+
+**Two clones, two appends, one conflict — and the resolution is always both lines.** An
+append-only log conflicts exactly where two people wrote at the end, and **keeping both entries
+in date order is correct every time**: two people checked, both facts are true, and the log is a
+history rather than a state. Nothing is ever resolved by deleting the other person's line.
+
+**The older skill meeting a newer project is a real case, not a hypothetical** — a rollback, or
+a teammate who has not updated. **It must not break, and it must not lie**: an older version does
+not know what a newer line means, so **a log line is written to stay readable to a version that
+has never heard of it** — a date, two versions, an outcome word, an author. When a project's log
+names a version *ahead* of the one running, **say that plainly**: the project has been somewhere
+this skill has not, and the honest move is to report it rather than migrate backwards. **Nothing
+in this file ever rewrites a line an older or newer version wrote.**
+
+**The log is also the marker, and that is why no marker file exists.** Every command needs to know
+whether this project has been migrated to the version now running it — and **checking must cost
+nothing after the first time**, or the answer is a slower session on every verb. So the check is a
+comparison, not an audit: **does the log's newest step name the version that is running?** One
+line read from a file the session opens anyway.
+
+**Which means a check that finds nothing still writes a line.** `0.1.4 → 0.1.5 · nothing
+required` is what makes the next hundred commands free, and it is also the honest record: *this
+version was checked against this project on this date, and the answer was no work.* **A log of
+changes only would leave "checked and clean" and "never checked" looking identical** — the exact
+confusion this whole section exists to end.
+
+**A cache would have been the wrong shape.** `.index/` holds derived, rebuildable things and is
+gitignored, so a marker there answers only for the machine that wrote it — and the question
+*"has this project been migrated"* is about the project, not about a laptop. **The record already
+travels with the repository; nothing else should be invented to duplicate it.**
+
+**A version whose migration never ran announces itself rather than waiting to be asked.** The
+first session that notices says so plainly — *"this project reports version X, and there is no
+record that its migration ran; I am checking what that means for you"* — and **runs the audit
+itself**, in the background, on the shape above: inline arrival, background audit, questions in
+one batch.
+
+**And what waits is what the migration would change, not everything.** Blocking a whole session
+on a migration is the kind of correctness nobody thanks you for — but writing a new task in a
+form the pending migration is about to change is worse, because it creates more to migrate. So:
+reading, answering, status, cost and anything the migration does not touch **continue
+normally**; **artifacts the pending step reshapes wait for it**, and the reason is said in one
+line when it happens.
+
+### When the project is already on the current version
+
+**This is the common case, and the one an upgrade is most likely to handle badly** — in either
+direction: by manufacturing work to justify having been asked, or by answering from the version
+string alone and calling it done.
+
+**Say it, and say what it does and does not mean.** *"You are on the current version"* is a claim
+about a number in a file. **It is not a claim that the project matches that version**: an upgrade
+interrupted halfway, a hand edit, a setting a release introduced and nobody ever answered — all of
+these leave a project whose version line is current and whose tree is not. **A version comparison
+that short-circuits the audit is a check that cannot fail**, and this file has already paid for
+that lesson elsewhere (`self-maintenance.md`).
+
+**So the audit still runs — and it is cheap**, because there is no changelog span to walk: read
+what the current version expects and check the tree carries it. Two endings, and both are short:
+
+- **Nothing found.** One sentence — the version, where it was read from, and that the artifacts
+  were checked too, not just the number. **Nothing is created.** No report file, no decisions
+  entry, no `LATER.md` line. An upgrade that always leaves a file behind teaches the owner to
+  ignore the files it leaves.
+- **Something found.** Then the version line and the tree disagree, **and that disagreement is
+  itself the first finding** — said plainly, with which of the two is believed and why. It goes
+  into the same split list as any other delta: what needs no answer, what needs one, what needs
+  nothing.
+
+**Neither ending re-runs the interview**, and neither invents an optional improvement to have
+something to show.
+
+### A jump of several versions
+
+**Entries are applied in order, and a later one may supersede an earlier one.** Reading them as a
+pile invites doing work that a subsequent release undid — the map is a sequence, and it is walked.
+
+**One list still, however many versions it spans.** The releases in between are how the list was
+computed, not how it is presented: an owner upgrading across four versions wants *"here is what
+this means for your project"*, not four changelogs. **The pile that needs an answer is the one
+that grows** — and it is still asked in one batch.
+
+**Superseded steps are named as skipped, not silently dropped.** *"0.1.2 asked you to move X;
+0.1.4 removed X entirely, so that step is skipped"* costs one line and prevents the owner
+discovering the contradiction themselves.
+
+**Past some distance this stops being an upgrade.** A project many versions behind, whose
+conventions the corpus has since reorganised, is closer to a repository being met for the first
+time — **read it as one** (`entering.md`), produce the debt list, and let the owner choose the
+order. The threshold is judgement, not a number, and **the honest move is to say which of the two
+you are doing and why** rather than performing a migration whose steps no longer describe the
+tree in front of you.
+
+**When the project does not say which version it is on**, that is the first finding, not an
+obstacle: infer it from what is present — which files exist, which conventions the tree follows,
+what the guide names — **say plainly that it is inferred and on what evidence**, and record the
+result so the next upgrade starts from a stated version rather than inferring again. **An
+inferred origin makes every step below it a judgement**, and the list says so.
+
+**The delta interview is a delta, too.** Only what the new version introduced **and** the project
+has not already answered — the same rule as entering a repository, for the same reason.
+
 **Rollback is normal.** The previous commit is the restore point; there is nothing separate to
 keep.
 

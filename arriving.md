@@ -50,7 +50,7 @@ reflex.
 
 ## What happens before anything else
 
-**Six checks, reported as one list with the fix for each, not six prompts in a row.** Six
+**Seven checks, reported as one list with the fix for each, not seven prompts in a row.** Seven
 sequential yes/no questions is exactly the experience this exists to avoid.
 
 | Check | If it is missing |
@@ -61,6 +61,7 @@ sequential yes/no questions is exactly the experience this exists to avoid.
 | **harness version** | report what is newer and hand over the line; never run it unasked |
 | **environment fingerprint** | what loads from outside this repo — skills, plugins, hooks, settings, MCP servers → `drift.md` |
 | **write access here** | fail early rather than halfway through |
+| **was this project migrated to the version now running it** — a comparison against the migration log, not an audit; **skipped entirely for a guest, a quick job or a question** | say that the log does not name this version, run the check in the background, and let only what the pending step would reshape wait → `upgrading.md` |
 
 **State the whole ladder at once, say what each fix costs, and let them say "do it all."** The one
 exception is the first rung: with no git there is nothing to run any of this with, so the honest

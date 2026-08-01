@@ -291,6 +291,36 @@ deferrable findings and wrote no `LATER.md` is stopped once and asked to write t
 
 ---
 
+## An upgrade, in order
+
+Swapping the files is not migrating the project. The log is what tells the two apart.
+
+```mermaid
+flowchart TD
+  M[the plugin moved] --> R{does the migration log<br/>name this version?}
+  R -- yes --> N[nothing to do — say so, write nothing]
+  R -- no / no log --> S[say so inline:<br/>both versions, read from disk]
+  S --> A[audit in the background<br/>· a tier down · session stays usable]
+  A --> L[ONE list, split by:<br/>does this need you?]
+  L --> M1[needs no answer<br/>applied on approval, reported]
+  L --> M2[needs your answer<br/>asked in ONE batch]
+  L --> M3[needs nothing<br/>named, so the silence is visible]
+  L --> M4[orphans — named, never removed]
+  M2 --> W{what is already written?}
+  W --> W1[closed — never converted]
+  W --> W2[in flight — untouched, converts at its next transition]
+  W --> W3[open — converts with the batch]
+  W --> W4[on-touch — base now,<br/>the rest refused until converted]
+  M1 --> G[append to ## Migrations in config.md:<br/>from → to · date · outcome · who]
+  M3 --> G
+  W3 --> G
+  G --> Z[declined → DECISIONS.md · deferred → LATER.md]
+```
+
+**A guest trips none of this**, and *nothing-required* is a line worth writing → `upgrading.md`.
+
+---
+
 ## Guest or successor
 
 Two arrivals wearing the same clothes. Ambiguity is guest.
@@ -382,6 +412,23 @@ flowchart LR
 
 **"Same as me" is the most expensive default available**, and it hides in the bill as ordinary
 work → `dispatching.md`.
+
+**The one tier no setting can raise is the advisor's own**, because the advisor *is* the session:
+
+```mermaid
+flowchart TD
+  T[work about to start] --> WHO{who performs it?}
+  WHO -- a dispatched worker --> CASC[the cascade picks its tier]
+  WHO -- the advisor, in this turn --> J{judgement-heavy?<br/>a migration or takeover audit,<br/>cutting up a feature, a real decision}
+  J -- no --> GO[just do it]
+  J -- yes --> SAY[say so BEFORE starting:<br/>if a stronger tier exists here,<br/>this is the moment to switch]
+  SAY --> OWNER{the owner switches?}
+  OWNER -- yes --> GO
+  OWNER -- no --> GO2[proceed anyway — an offer, never a gate<br/>and the output says where it was unsure]
+```
+
+**Named as a tier, never as a product** — the runtime may not be the one this was written on.
+**A limitation stated before the work is a choice; the same one stated afterwards is an excuse.**
 
 ---
 

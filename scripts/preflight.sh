@@ -29,6 +29,12 @@ cl=$(grep -m1 '^## [0-9]' "$ROOT/CHANGELOG.md" | sed 's/^## \([0-9.]*\).*/\1/')
 for stray in $(grep -oE '\b[0-9]+\.[0-9]+\.[0-9]+\b' "$ROOT/README.md" | sort -u); do
   [ "$stray" = "$sv" ] || say_fail "README.md states version $stray — declared version is $sv"
 done
+# The runsheet too: N65's setup writes "you are on the current version" into a fixture guide, and
+# a number a scenario depends on being *current* rots the moment a release moves without it. The
+# other rows name older versions on purpose, so only the ones claiming to be current are checked.
+for stray in $(grep -oE 'Operated by:\*\* Opsinist \*\*[0-9]+\.[0-9]+\.[0-9]+' "$ROOT/evals/runsheet.tsv" 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | sort -u); do
+  [ "$stray" = "$sv" ] || say_fail "evals/runsheet.tsv sets a fixture to version $stray as though current — declared version is $sv"
+done
 
 # 2 · the core stays inside the budget it declares
 budget=$(grep -m1 '^core_budget:' skills/advisor/SKILL.md | awk '{print $2}')
@@ -53,6 +59,12 @@ python3 - <<'PY' || FAIL=1
 import re, sys, pathlib
 t = pathlib.Path("skills/advisor/SKILL.md").read_text(encoding="utf-8")
 named = set(re.findall(r'`([a-z][a-z0-9-]*\.md)`', t))
+# The core also names files that live in the *owner's* project, not in this repository, and
+# they are lowercase like the companions are. Uppercase project files (`LATER.md`,
+# `docs/DECISIONS.md`) never collided; this one does. Kept as a short explicit list rather
+# than a pattern, because every name added here is one the check stops guarding — if it grows
+# past a couple of entries, the check is being weakened rather than corrected.
+named -= {"config.md"}
 missing = sorted(n for n in named if not pathlib.Path(n).exists())
 if missing:
     for m in missing:

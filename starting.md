@@ -92,6 +92,7 @@ answered → `arriving.md`.
 | **what you already use** | **asked outright, before anything is proposed** — skills, servers, tools. Discovering them on day three means the team was built around a worse choice. Each goes through the import gate |
 | **integrations** | inventory first, connect-or-create per service → `tooling.md` |
 | **how documentation is written** | markdown, **laid out to open as a vault** — relative links and diagrams, readable both on the host and locally. *Where* it lands is the storage form, asked before the first lasting write → `storing.md` |
+| **how work gets described** — **asked only when the deliverable is code or a long-lived system**, skipped everywhere else | **outcome-first**: a task states its result and its definition of done. The alternatives are offered in one question with their consequence, never as a menu of names — a spec the task points at and closing updates, or a format the project already runs, in which case the stocked options are named rather than invented → `writing-work.md`, `catalogue.md`. **This one is asked rather than defaulted because it decides what every task looks like**, and a project that answers it on day ninety rewrites every task it has written |
 | **modules** | everything beyond the invariants is off until asked for |
 | **language** | conversation language and artifact language, **which may differ on purpose** |
 
@@ -110,7 +111,14 @@ exists. A role is created **when a task needs a craft nobody has**, and the reas
 moment.
 
 **The invariants**, which are small: the project guide, generated into the root instruction file
-so every worker loads it natively · the process files — ladders, gates, labels · the documentation
+so every worker loads it natively · **`config.md`, which the layout has always promised and
+nothing used to write** — the git-host adapter, which modules are on, the conventions,
+`spec_mode`, `schema_version`, and **the migration log opened with its first line**, `— → <this
+version> · <date> · applied · <who>`, so a project born here never reads as one that was never
+migrated (`upgrading.md`) · **`docs/FIELD-NOTES.md`, so friction has somewhere to go from the
+first session** — it is swept at every status check, and a log that appears only once someone
+remembers it exists collects nothing from the days that matter most · the process files —
+ladders, gates, labels · the documentation
 skeleton, only what the interview actually named · **branch protection where a remote exists**,
 because a review gate without it is a sentence rather than a gate · the pre-commit guard that
 keeps the documentation the guide promises from quietly disappearing.

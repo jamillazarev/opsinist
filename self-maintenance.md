@@ -124,8 +124,33 @@ anywhere**. A bug report is by nature full of paths and fragments.
 
 **One artifact, where the owner says.** Same rule as a consultation: nothing written silently.
 
-**We do not send it.** Publishing is outward, from their account. We produce the text; they post
-it.
+**And it is written whole, to a path that is said out loud.** A report that exists only as
+conversation is a report that scrolls away — the owner comes back an hour later, the session is
+gone, and what remains of a real bug is a memory of having complained.
+
+**It is written outside the repository, and that is not a detail.** This report is about **the
+skill**, not about the project it was met in — putting it in their tree makes it a commit in
+somebody else's history, reviewed by people it does not concern, carried in a clone forever.
+**The default is the owner's downloads folder** — `~/Downloads/opsinist-report-<date>-<flow>.md`
+— somewhere they already know how to find, move, attach and delete, and the owner may name
+anywhere else. **The path is stated in the reply** rather than left to be discovered.
+
+**The dividing line, because the two logs look alike:** friction **in this project** is a field
+note and lives in its repository (`docs/FIELD-NOTES.md`); friction **in the system operating it**
+is this package and lives outside. *Whose defect is it* decides where it is written — and it is
+the same rule that keeps a guest's record out of a maintainer's tree (`entering.md`).
+
+**Then the ways to send it are offered, because "there is no channel" is the sentence that ends
+in silence.** Name them and let the owner pick:
+
+| Route | When it fits |
+|---|---|
+| **an issue on the skill's own repository** — `github.com/jamillazarev/opsinist/issues` | the default. It is public, it is where fixes are tracked, and a report there outlives whoever read it |
+| **straight to the author**, if they know them | a short path for something small, urgent, or awkward to say in public |
+| **keep it, send nothing** | **a complete answer.** The file stays, the friction is recorded, and it can go later — a report nobody sends is still worth more than one nobody wrote |
+
+**We do not send it, on any of those routes.** Publishing is outward, from their account. We
+produce the file, we say where it is, we name the ways — **they post it.**
 
 ---
 

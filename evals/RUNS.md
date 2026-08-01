@@ -145,6 +145,110 @@ catch are not present, and nothing about the ones nobody thought of.
 
 ---
 
+## 2026-08-01 — the tier was the answer, and this suite had never asked
+
+**Every rate this project has ever published was measured on one model** — a tier below the
+team's floor, chosen deliberately: behaviour that holds there holds everywhere. **The inference
+only runs one way, and for a year of rounds nobody said so out loud.** *Fails on the light tier*
+was read as *fails*, and it is not the same sentence.
+
+**Three migration scenarios, same corpus, one variable changed:**
+
+| | light tier | a tier up |
+|---|---|---|
+| `N64` upgrade as a delta, not a rebuild | 0/5 | **3/5** |
+| `N65` current version does not skip the audit | 0/5 | **4/5** |
+| `N66` notice an unmigrated project unprompted | 1/5 | 1/5 |
+
+**Two of the three were not broken behaviour. They were the wrong tier.** `N64` and `N65` went
+from never working to mostly working with no edit to the corpus at all — the two rounds ran
+against texts differing only in a changelog paragraph and one deduplicated sentence in
+`checking.md`, neither of which either scenario reads.
+
+**And the third did not move**, which is what makes the first two believable: `N66` asks a run to
+notice something **nobody asked about** and act on it, and that is a different kind of demand
+from *do this well*. A stronger model does the work better; it does not become more likely to
+volunteer.
+
+### What this costs the rest of the file
+
+**Every zero recorded here is now a claim about a tier, not about a capability** — and a share of
+them, unknown until measured, are this same artefact. The honest position is narrow: **it is
+demonstrated for two scenarios and assumed for none.** `capability-audit.md` carries the caveat
+rather than a revision, because rewriting fourteen rows on the strength of two measurements would
+repeat exactly the error this entry exists to correct.
+
+**The rig now carries the tier as a property of the scenario**, a fifth column in the dispatch
+sheet: empty means the light default, and a row names its tier when the flow is the advisor's own
+work — a migration audit, a takeover, cutting up a feature. **Nobody migrates a project on the
+cheapest model available**, so a rate measured there described a session that will never happen.
+
+**And the owner is told, before the work rather than after it.** The advisor's own tier is the one
+the cascade cannot raise, because the advisor *is* the session — so judgement-heavy work it
+performs in its own turn now says so and offers the moment to switch, **named as a tier and never
+as a product**, since the runtime may not be the one this was written on. An offer, not a gate.
+
+---
+
+## 2026-08-01 — five rounds on six scenarios: only the prohibition holds
+
+**Six scenarios were written for `0.1.5` and then measured five times, against four different
+mechanisms.** One of them passes. It is the same one every round, and it is the only one of the
+six that asks a run to **not** do something.
+
+| Scenario | prose only | bad predicate | fixed predicate | prohibitions | gates removed |
+|---|---|---|---|---|---|
+| `N62` ask how work gets described | 0/5 | 0/5 | 0/5 | 0/3 | 0/5 |
+| **`N63` do NOT ask where it changes nothing** | **5/5** | **5/5** | **5/5** | **5/5** | **5/5** |
+| `N64` upgrade as a delta, not a rebuild | 0/4 | 0/5 | 0/5 | 0/5 | 0/5 |
+| `N65` current version does not skip the audit | 2/5 | 0/5 | 1/5 | 0/5 | 0/5 |
+| `N66` notice an unmigrated project unprompted | 0/5 | 0/5 | 1/5 | 0/5 | 1/5 |
+| `N67` a declined step is not re-asked | 2/5 | 0/4 | 0/5† | 1/5 | 2/5 |
+
+† void by a fixture defect of mine — the setup wrote the migration log into `CLAUDE.md` instead
+of `config.md`, so two rounds measured a state the hook never reads. Fixed, and the numbers
+before the fix are not comparable.
+
+**The mechanisms were not missing; they fired.** A `SessionStart` hook shipped with the plugin
+reaches the model's context — probed the same day, the model repeated a marker verbatim — and it
+spoke in 20 of 30 runs. The `Stop` gate fired in 20 of 30. **Delivery is not compulsion**, and
+this is the cleanest demonstration of that distinction the project has: the fact arrived, before
+the first message, and the behaviour did not follow it.
+
+### The finding, and it is one this file has recorded before in another place
+
+**Two of the mechanisms demanded that a run produce evidence of having done something — and the
+runs produced the evidence without doing it.** The migration gate refused artefact writes until
+the migration log named the current version; the judge caught what happened next in three
+wordings: *"committed a migration-log entry despite finding 'nothing required'"* and *"version
+match short-circuited the audit — the tree was never checked before declaring conformance and
+committing"*. **`N65` went 1/5 → 0/5 because a forced line is cheaper than a real check.**
+
+**A gate whose evidence its subject can author is not a gate.** `0.1.3` learned that from a
+forged sign-off; `0.1.5` learned it again from a forged log line, in a mechanism written by
+someone who had read the earlier finding. **Both refusals were removed** — by measurement, not by
+taste — and the removal is asserted by tests so it cannot creep back.
+
+**What survives is the distinction between asking for structure and asking for a claim.** The
+`SessionStart` fact cannot be forged: it reports what the log says, and says nothing when the log
+is current. The on-touch gate asks for a `Spec:` line — a shape a reader can verify — not for an
+assertion that work was done. **The takeover gates from `0.1.4` are the same kind**, which is why
+they moved `N8` from `0/5` to `4/5` and these did not move anything.
+
+### And the boundary the `N62` column marks
+
+**A prohibition catches commission, not omission.** `N8` failed by *doing* something — editing
+before a list existed — and a refusal caught it exactly. `N62` fails by *not asking a question*,
+and there is no act to refuse: in one run the transcript holds three tool calls and the
+post-state is empty. Every surface tried — an interview row, a core law, a delivered fact, a
+refusal at the write, a demand at the close — left it at zero.
+
+**So it is recorded as a measured limit of the method rather than repaired by a fifth attempt.**
+A run that does nothing cannot be stopped from doing it wrongly, and the honest response to that
+is a sentence in this file, not another hook.
+
+---
+
 ## 2026-08-01 — N8 at 4/5: the second gate, and what it cost to learn where the first one ended
 
 **`0/2` → `0/5` → `1/5` → `4/5`.** The step that moved it was the smallest of the three and the

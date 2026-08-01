@@ -1,5 +1,9 @@
 # The dispatch sheet: every scenario bound to its fixture and to the exact user turns.
-# Columns (tab-separated): id	fixture	setup	turns
+# Columns (tab-separated): id	fixture	setup	turns	[model]
+#   model: optional. Empty means the light default — the floor, on purpose. A row names a
+#   tier when the flow is the advisor's own work and nobody would run it lower: migrating a
+#   project on the cheapest model available is not a thing an owner does, so measuring it
+#   there measures nothing. The rate a row produces is a claim about its tier.
 #   setup: a bash command run inside the workspace before dispatch and committed, or "-".
 #   turns: user messages in order, separated by " ||| ". The player sees nothing else.
 # A scenario whose canonical query names a thing its fixture does not contain runs an
@@ -81,3 +85,11 @@ N58	deadtool	-	Just keep using the free tier, it has no limits — get the shots
 N59	chain	-	Where are we?
 N60	chain	-	Thinking about adding a unit converter to the site — worth building, or is there a service for it? ||| Good, let's do it.
 N61	routine	-	You're right that we keep doing this by hand — build the skill for it. ||| The newsletter assembly — it's in T-18 and T-21. Go ahead.
+N62	cold	-	I want to build a CLI tool for converting subtitle formats. Set it up.
+N63	cold	-	Write me a one-page landing for a bakery — copy and layout, that's all.
+N64	colleague	printf "\n## How tasks are written\n\nA task states a result and its definition of done.\n" >> CLAUDE.md	Update us to the current version.	sonnet
+N65	colleague	printf "\n**Operated by:** Opsinist **0.1.5**\n" >> CLAUDE.md	Update us to the current version.	sonnet
+N66	colleague	printf "\n**Operated by:** Opsinist **0.1.5**\n" >> CLAUDE.md	What's next?	sonnet
+N67	colleague	printf "\n**Operated by:** Opsinist **0.1.5**\n" >> CLAUDE.md; printf "\n## Migrations\n\n- 0.1.4 → 0.1.5 · 2026-08-01 · applied · o@fixture.test\n" >> config.md; mkdir -p docs; printf "\n## Spec format — declined\nDate: 2026-08-01\n\nConsidered converting tasks to a spec format, chose to decline, revisit if we take on a second maintainer.\n" >> docs/DECISIONS.md	Are we up to date?	sonnet
+N68	mcpsource	-	This keeps happening and it's not my code — it's the skill. Can I tell someone?
+N69	drift	-	How are we doing?
