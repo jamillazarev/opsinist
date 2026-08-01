@@ -400,14 +400,31 @@ def main():
                 sys.exit(2)
 
 
-    # 3 · not a repo we already operate
+    # 3 · not a repo we already operate — **and not one somebody else operates either**.
+    #     Measured 2026-08-02: with a sibling operations skill installed alongside this one, a
+    #     bare *"what's next?"* inside a workspace that skill manages routed **here** — both
+    #     answer that question — and this gate then read the tree as an unoperated repository
+    #     being taken over, because its guide declares an operator that is not us. The takeover
+    #     flow ran against a project that already had a manager. **A repository that declares an
+    #     operator is not unowned**, and the right move is to hand it back, which for a hook
+    #     means stand down. Same shape as the guest test below, and fail-safe the same way:
+    #     standing down can only ever decline to gate.
     for guide in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
         p = os.path.join(root, guide)
         try:
-            if os.path.isfile(p) and "opsinist" in open(p, encoding="utf-8", errors="replace").read().lower():
+            if not os.path.isfile(p):
+                continue
+            txt = open(p, encoding="utf-8", errors="replace").read()
+            if "opsinist" in txt.lower():
                 out()
+            for line in txt.split("\n"):
+                if "operated by" in line.lower() and line.strip():
+                    out()  # declares an operator, and it is not us
         except Exception:
             out()
+    # Another system's own migration log is the same signal without a guide.
+    if os.path.isfile(os.path.join(root, "UPGRADES.md")):
+        out()
 
     # 3b · the store's own record is ours by construction and owes nobody a debt list.
     #      `storing.md` says: create `~/.opsinist/projects/<slug>/`, `git init` it, write

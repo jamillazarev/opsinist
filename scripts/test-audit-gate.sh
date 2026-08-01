@@ -52,6 +52,19 @@ printf 'Opsinist operates this repository.\n' > "$R/CLAUDE.md"
 check "operated repo (guide names Opsinist) → allow"  0 "$(pl Write "$R/src/util.py" "$TE")"
 rm "$R/CLAUDE.md"
 
+# A repository somebody ELSE operates is not an unoperated one. Measured 2026-08-02: with a
+# sibling operations skill installed alongside this one, a bare "what's next?" in a workspace
+# that skill manages routed here, and the takeover flow ran against a project that had an owner.
+printf '# Tonic\n\nOperated by **another-ops 0.2.0**. Workspace: `x`.\n' > "$R/CLAUDE.md"
+check "guide declares ANOTHER operator → allow"      0 "$(pl Write "$R/src/util.py" "$TE")"
+rm "$R/CLAUDE.md"
+printf '# Upgrades\n\n- 2026-07-24 · another-ops 0.2.0 · applied\n' > "$R/UPGRADES.md"
+check "another system's migration log alone → allow" 0 "$(pl Write "$R/src/util.py" "$TE")"
+rm "$R/UPGRADES.md"
+printf '# Notes\n\nNothing here declares an operator.\n' > "$R/CLAUDE.md"
+check "a guide declaring no operator still gates"    2 "$(pl Write "$R/src/util.py" "$TE")"
+rm "$R/CLAUDE.md"
+
 # A guest owes no debt list (entering.md), so the collaboration furniture stands the gate down.
 # Each signal is shown alone, because any one of them is enough and a bug in one would hide
 # behind the others.

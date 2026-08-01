@@ -31,6 +31,15 @@ that is hard to undo.
 contributor guide exist, whether `docs/` carries recent commits from many hands. **Ambiguity is
 guest** — a guest who turns out to be the successor loses nothing but a copy.
 
+**And there is a third answer: it is already operated, by something that is not us.** A guide
+that says *"Operated by …"* and names another system is not an unowned repository — it is one
+with an operator, and a takeover is the wrong flow for it in both directions: it audits against
+invariants that project never agreed to, and it writes our furniture into a tree that has its
+own. **Say what it is, name the other operator, and hand it back**; if the owner wants to move
+between systems, that is a migration they ask for, not a conclusion drawn from a bare *"what's
+next?"*. Measured 2026-08-02: with two such systems installed side by side, an ordinary question
+routed here and the takeover ran against a workspace that already had a manager.
+
 ### Being a guest
 
 **Do not gap-check the invariants.** You cannot turn on branch protection in someone else's
