@@ -145,6 +145,52 @@ catch are not present, and nothing about the ones nobody thought of.
 
 ---
 
+## 2026-08-01 — the day-one cut, verified: the ordering held, the volume did not
+
+**`LATER.md` wrote the criteria before the run, which is the only reason this entry can say
+"falsified" rather than "improved".** Confirmation was defined as *a task in turn one or two, and
+four files where there were thirteen*; falsification as *the first task still arriving after the
+scaffolding, or the second turn still running past five minutes.*
+
+**Three runs, same shape as the diagnostic: `S2`, strong tier, `defaults` answered.**
+
+| | before the cut | after |
+|---|---|---|
+| turn 1 | 56–87 s, **0 files** | 59–77 s, **0 files** |
+| turn 2 | 350–472 s | **400 s**, both completed runs |
+| files by the end of turn 2 | 10–13 | **10–13** |
+| first task | turn **2** of one run, turn **3** of the other | **turn 2, and written second** — immediately after the id script, before every document |
+| gate refusals | — | **0** |
+
+**The ordering claim is confirmed and the volume claim is falsified.** The task now arrives before
+the scaffolding rather than after it, which is what the hook was built to enforce — and it
+enforced it without ever firing, because a run that writes the task first never meets the
+refusal. **A gate that never has to speak is the good outcome**, and here it is also the whole
+outcome.
+
+**Turn two is still four hundred seconds, which the pre-written criterion calls a failure.** The
+documents still get built: `TEAM.md`, `ROADMAP.md`, `TOOLING.md`, `FIELD-NOTES.md`, `LATER.md`,
+`DECISIONS.md` — the same skeleton, in the same turn, now merely *after* the first task instead of
+before it.
+
+### What the run actually taught
+
+**The cut fixed the order because the gate could see order. It did not fix volume because the
+gate cannot see emptiness.** Its predicate is *does a task exist* — true the moment the task is
+written, after which every document passes. **The corpus says day one is four things; the hook
+enforces something narrower than the corpus, and the gap between them is the thirteen files.**
+
+**The next predicate is knowable and was not tried**: refuse a document that has no content —
+a file whose body is a heading and a template's braces. That is checkable, it is a commission,
+and it is the shape that has worked twice. **Recorded rather than attempted**, because the honest
+order is to write the criterion first and this entry is what that discipline produces.
+
+**Two of three runs completed two turns; the third was still inside turn two when the round
+ended, and no run reached turn three.** So the totals here are not comparable to the baseline's
+three-turn figure, and the comparison above is deliberately per-turn.
+
+---
+
 ## 2026-08-01 — on the strong tier the skill is not opened at all
 
 **Three diagnostic runs of `S2` — *"I want to build a macOS app that fixes system audio. Set it

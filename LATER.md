@@ -10,6 +10,23 @@ work now, which is a task with a blocker instead.
 
 ---
 
+## ~~Measure what the day-one cut actually bought~~ — run 2026-08-01, partly falsified
+
+**Closed by measurement, and the verdict is split.** The **ordering** claim confirmed: the first
+task is now written second, before every document, where it used to arrive after the scaffolding.
+The **volume** and **time** claims **falsified** against the criteria written below before the
+run: still ten to thirteen files, and turn two still at four hundred seconds against a stated
+threshold of three hundred. `evals/RUNS.md` carries the table.
+
+**What it taught, and the next thing to try:** the gate could see *order* and enforced it; it
+cannot see *emptiness*, so once the task exists every document passes. **The corpus says day one
+is four things and the hook enforces something narrower — the gap between them is the thirteen
+files.** The predicate that would close it is *refuse a document whose body is a heading and a
+template's braces*: checkable, a commission, and the shape that has worked twice. **Not
+attempted**, because the criterion comes first.
+
+**The original entry, kept because the criteria are what made the verdict possible:**
+
 ## Measure what the day-one cut actually bought
 
 **Deferred because** the account stood at **92% of its seven-day allowance** on `2026-08-01`, and

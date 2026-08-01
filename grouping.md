@@ -80,13 +80,25 @@ Say which rule applied, out loud, when they disagree.
 
 This is the one place unsourced figures slip in wearing the clothes of rigour.
 
-**Pick the framework per task and say why.** ICE by default. Reach for something else when the
-context demands it — a reach-weighted score when the reach is known and the data exists; a
-delight-versus-baseline split when the question is what to build at all; a scope negotiation
-scale when the conversation is with a client. **A framework the user names is researched and
-applied the same way** — the list is seeds, not a ceiling. And if the named one is wrong for this
-task, **say so with an alternative**: disagreeing when the evidence disagrees is the same law
-here as anywhere.
+**Pick the framework per task and say why.** ICE by default — impact, confidence, ease — because
+it needs no data a small project does not have. **Reach for another when its question is the one
+being asked**, and the names are given here as well as the shapes, because an owner who knows the
+name should not have to recognise a paraphrase:
+
+| Framework | The question it answers | Reach for it when |
+|---|---|---|
+| **ICE** *(default)* | which of these is worth doing first | there is no reach data and the list is short |
+| **RICE** | which reaches more people per unit of effort | reach is **known and sourced** — invented reach makes it ICE with extra arithmetic |
+| **WSJF** | what to do **next** when everything is wanted | there is a real constraint and **delay has a cost** that differs per item |
+| **Kano** | whether to build it **at all** | the argument is delight versus table stakes, not order |
+| **MoSCoW** | what fits in a scope somebody is negotiating | the conversation is with a client or a date |
+| **Eisenhower** | what a **person** does today | the list is somebody's day, not a product's roadmap |
+
+**A framework the user names is researched and applied the same way** — the list is seeds, not a
+ceiling. And if the named one is wrong for this task, **say so with an alternative**: disagreeing
+when the evidence disagrees is the same law here as anywhere. **Never run two and pick the
+flattering answer** — the framework is chosen before the scores, or it is a way of arriving where
+you were already going.
 
 **Every score cites its basis or is marked a judgement call.** Impact from analytics, tickets or
 revenue; ease from comparable past work in the ledger. A number with no basis is an opinion
