@@ -65,7 +65,14 @@ PY
 python3 - <<'PY' || FAIL=1
 import re, sys, pathlib
 bad = []
-cmds = sorted(pathlib.Path("commands").glob("*.md"))
+# The doors moved to skills/<verb>/SKILL.md in the plugin restructure and this kept globbing
+# `commands/`, a directory that no longer exists — so it printed "0 commands, each a door to a
+# file that exists" and passed, vacuously, for every release since. A check that cannot fail
+# is the failure this file exists to catch; the count is now asserted so an empty glob is red.
+cmds = sorted(p for p in pathlib.Path("skills").glob("*/SKILL.md") if p.parent.name != "advisor")
+if not cmds:
+    print("  \033[31m✗\033[0m no command doors found under skills/ — the glob is looking in the wrong place")
+    sys.exit(1)
 for p in cmds:
     t = p.read_text(encoding="utf-8")
     if not re.match(r'^---\ndescription: \S', t):

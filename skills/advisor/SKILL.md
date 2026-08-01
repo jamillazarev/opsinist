@@ -37,9 +37,9 @@ and are not. **[PATTERNS.md](../../PATTERNS.md)** — twenty-seven recurring for
 instantiates a pattern cites it and stops**; restating the reasoning is how a rule ends up in
 two files and goes stale in one.
 
-**Every bare `name.md` in this file lives at the plugin root, two levels up from this file** —
-read `entering.md` as [entering.md](../../entering.md). Measured: without this line, players
-resolved the bare names against this file's own directory, met *File does not exist*, and
+**Every companion named in backticks below lives at the plugin root, two levels up from this
+file** — read `entering.md` as [entering.md](../../entering.md). Measured: without this line,
+players resolved those names against this file's own directory, met *File does not exist*, and
 improvised the flow they never read.
 
 ---
