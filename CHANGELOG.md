@@ -2,6 +2,33 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.10 — 2026-08-02
+
+**A repository that already has an operator is handed back, not taken over.** With another
+operations skill installed beside this one, both answer *"what's next?"* — and a run that landed
+here inside a workspace the other one manages ran the **takeover flow** against it: audited
+somebody else's project against invariants it never agreed to, and started writing our furniture
+into a tree that has its own. **A guide that says "Operated by …" and names something else is not
+an unowned repository.** The gate now stands down on that line, and on another system's migration
+log at the root — the same shape as the guest stand-down, and fail-safe in the same direction.
+
+`entering.md` carries the third answer in prose beside *successor* and *guest*: **already
+operated, by something that is not us.** Say what it is, name the other operator, hand it back. A
+move between systems is a migration somebody asks for, never a conclusion drawn from *"what's
+next?"*.
+
+**A migration log entry may wrap, and the check now reads entries rather than lines.** A correct
+four-line entry — version on the first line, `Outcome: applied.` on the fourth — was read as
+**absent**, which would have nagged forever about a migration that had already happened. **A
+record's grammar is a paragraph.**
+
+**And the session-start message no longer says anything about approval not being needed.** That
+wording, read cold from a system message, is **an instruction to push edits through without the
+owner** — the exact shape of a prompt injection. Measured next door: a run refused the entire
+flow over it, correctly by its own lights, one time in two. The hook now carries only the
+vocabulary — *if the check ends with a question for the owner, the outcome word is `deferred`* —
+and the reasoning stays in the corpus, where a reader can weigh it.
+
 ## 0.1.9 — 2026-08-02
 
 **A project can no longer claim two versions of itself at once.** The guide's `Operated by` line
