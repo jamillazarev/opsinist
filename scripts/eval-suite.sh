@@ -13,9 +13,12 @@ ONLY_N=$#; ONLY="$*"
 cd "$(dirname "$0")/.." || exit 1
 mkdir -p "$SUITE/logs"
 
-fp_start=$(bash scripts/eval-fingerprint.sh)
+# The COPY is what players read, so the copy is what gets frozen. Fingerprinting this repository
+# instead cried wolf over a round whose corpus never moved, and would have stayed silent on the
+# one edit that matters (`eval-fingerprint.sh`).
+fp_start=$(bash scripts/eval-fingerprint.sh "$CORPUS")
 echo "$fp_start" > "$SUITE/fingerprint.at-dispatch"
-echo "corpus fingerprint at dispatch: $fp_start"
+echo "corpus fingerprint at dispatch: $fp_start  ($CORPUS)"
 
 jobs="$SUITE/jobs.txt"; : > "$jobs"
 grep -v '^#' evals/runsheet.tsv | cut -f1 | while read -r id; do
@@ -62,7 +65,7 @@ echo; echo "== boundary tripwire"
 bash scripts/eval-boundary.sh "$SUITE/runs" "$SUITE/logs" || true
 
 echo; echo "== corpus freeze"
-bash scripts/eval-fingerprint.sh "$fp_start" || echo "RESULTS ARE OBSERVATIONS, NOT MEASUREMENTS"
+bash scripts/eval-fingerprint.sh "$CORPUS" "$fp_start" || echo "RESULTS ARE OBSERVATIONS, NOT MEASUREMENTS"
 
 echo; echo "== rates (pass/fail/void per scenario)"
 python3 - "$SUITE" <<'EOF'

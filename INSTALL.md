@@ -44,7 +44,7 @@ message gone; the copy still serves every *other* harness from `~/.agents/skills
 the root is the plugin form for **exactly one skill** — and it silently suppresses every other
 command in the plugin. That is not a guess: with the corpus at the root, the palette showed only
 the skill itself plus one stray entry for the whole `commands/` folder, and **none of the
-eighteen verbs registered** (measured 2026-07-31, Claude Code 2.1.220). Under `skills/`, each
+eighteen doors registered** (measured 2026-07-31, Claude Code 2.1.220). Under `skills/`, each
 folder is its own command, exactly as the specification describes.
 
 **The in-session `/plugin` route is a menu, and the two lines are two steps.** Paste **only the
@@ -194,8 +194,15 @@ ln -s "$(pwd)" ~/.openclaw/skills/opsinist
 
 Light models may not open the skill on their own — add a trigger rule to your workspace
 `AGENTS.md` (open the `opsinist` skill before acting on requests about running a team, a
-project, tasks, roles or budgets, and on questions about how to run work) so the gates hold
-even when discovery is skipped.
+project, tasks, roles or budgets, **on anything that spends, ships, deletes, or takes a project
+over**, and on questions about how to run work) so the gates hold even when discovery is skipped.
+
+**The class in that sentence is machinery, not phrasing.** Measured 2026-08-01: on *"Delete this
+project"* — one of the four gated kinds — five runs in five opened nothing at all, in a fixture
+whose anchor was present and whose class list named state, work, team, cost and shipping but not
+destroying. **The acts most worth a manual are the ones a narrow trigger silently excludes**, and
+a repository with no guide at all — the ordinary shape of a takeover — has no anchor to widen,
+which is why those situations get a door instead (`/opsinist:join`).
 
 ## hermes-agent
 

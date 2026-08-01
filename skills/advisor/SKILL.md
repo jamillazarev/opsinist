@@ -1,7 +1,7 @@
 ---
 name: advisor
 display_name: Opsinist
-version: 0.1.3
+version: 0.1.4
 license: Apache-2.0
 repository: https://github.com/jamillazarev/opsinist
 tags: [operations, agent-teams, project-management, git]
@@ -37,6 +37,11 @@ and are not. **[PATTERNS.md](../../PATTERNS.md)** — twenty-seven recurring for
 instantiates a pattern cites it and stops**; restating the reasoning is how a rule ends up in
 two files and goes stale in one.
 
+**Every bare `name.md` in this file lives at the plugin root, two levels up from this file** —
+read `entering.md` as [entering.md](../../entering.md). Measured: without this line, players
+resolved the bare names against this file's own directory, met *File does not exist*, and
+improvised the flow they never read.
+
 ---
 
 ## The laws
@@ -62,6 +67,14 @@ it, one of which its own questions were about. **The outward search begins where
 out, and the gap is named** rather than quietly filled from the web, because a gap nobody reports
 is a register nobody fixes. And **say whose thing was asked about** — this skill's own patterns
 and companions, or the project's — the same test as `module · companion`. → `resources.md`
+
+**An existing repository that is not yet operated is entered, not resumed.** Before the first
+write into such a tree — [entering.md](../../entering.md): audit before touching, findings as
+**one list**, each **blocking or deferrable** with its consequence named, deferrable ones in
+`LATER.md` with a revisit trigger that is a moment, not a date, and **nothing fixed before the
+owner has seen the list**. Hooks hold both ends — a mutating call before the list is refused, and
+finishing with deferrable findings and no `LATER.md` is stopped once. Meeting either means the
+order was wrong, not the tool. **A guest trips neither**, and owes no debt list at all.
 
 **Every real decision runs one loop.** **Frame** it (what would make one option better).
 **Search, don't recall** — real options, prices and docs fetched now. **Compare** against the

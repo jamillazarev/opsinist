@@ -184,6 +184,28 @@ reason: a sequence of individually reasonable prompts is an unreasonable experie
 **Nothing is fixed before they have seen the list.** A takeover that starts by changing things is
 a takeover nobody asked for.
 
+**And this one sentence is performed rather than promised**, because it is the sentence a run
+under pressure drops first — measured on `N8`, twice, at zero: runs edited source, deleted files
+and committed, all before any list existed. `hooks/audit-gate.py` ships with the plugin and
+**refuses a mutating call in a repository being taken over while no debt list is there** — a
+write or an edit to a *tracked* file, or a mutating shell command. It disarms the moment
+`LATER.md` (or `docs/DEBTS.md`) exists at the root. **Reading is never blocked, and neither is
+creating something new** — the list, a guide, `docs/` — because the gate is about the order of
+the evidence, not about holding the work still.
+
+**And it holds the other end too, at the moment the run tries to finish**: a takeover that
+presented deferrable findings and wrote no `LATER.md` is stopped once and asked to write them
+down. Measured — with only the first half in place, four runs in five said the deferrable half
+and left nothing behind, which is the same failure as fixing before the list, arriving from the
+other side. **A deferral nobody wrote down is a deferral nobody revisits.**
+
+**A guest trips neither half**, because a guest owes no debt list at all: `CODEOWNERS`, a
+contributor guide, a PR template or a history in many hands stand both gates down, and
+*ambiguity is guest* means they stand down on doubt rather than press. Where the runtime does
+not honour hooks this is prose again (`runtimes.md`), and **the gates check the order, never the
+honesty**: a list written to get past one is exactly the forgery a gate cannot see and a reader
+can.
+
 ---
 
 ## Coming back to your own project

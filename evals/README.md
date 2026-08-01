@@ -67,8 +67,11 @@ fixture and out, and removes them.** Measured: a pass in this suite left a recor
 repository that never existed.
 
 **The tree under test is frozen for the run, and that is checked rather than promised.** Take
-`bash scripts/eval-fingerprint.sh` at dispatch, pass it back at the end: it hashes every companion
-a player can route to and fails if one moved. A fix found mid-run waits for the run to finish.
+`bash scripts/eval-fingerprint.sh <corpus-copy>` at dispatch, pass it back at the end: it hashes
+every companion a player can route to and fails if one moved. **The tree it hashes is the copy
+players read, not this repository** — hashing the repo raised a false alarm over a round whose
+copy never moved, and would have said "unchanged" if the copy itself had been edited. A fix found
+mid-run waits for the run to finish.
 **A pass-rate over a corpus that changed underneath it describes nothing**, and without the
 fingerprint nothing afterwards says which text was scored.
 

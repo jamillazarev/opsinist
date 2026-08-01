@@ -102,7 +102,15 @@ files that must then be kept in sync.
 python3 scripts/check-links.py       # file → section, not just file exists
 python3 scripts/check-freshness.py   # check-dates, and rows that have none
 python3 scripts/check-structure.py   # shape and budget
+bash scripts/test-audit-gate.sh      # the shipped hooks, by mutation
 ```
+
+**`hooks/` is machinery, not prose, and it is tested like machinery.** The plugin ships two
+gates that hold a takeover to its order — refusing a mutating call before the debt list exists,
+and stopping a run that presented deferrable findings and wrote no `LATER.md`. **Every rule in
+them is shown refusing the mutant and passing its honest twin**; a rule added without both halves
+is a rule nobody has seen work. They fail open by construction: a broken gate must never brick a
+session.
 
 **`check-links` FAILs are not advisory.** They mean a reference points at something that is not
 there, which is how a rule silently stops being reachable.

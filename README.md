@@ -220,7 +220,7 @@ the failure that happens most.
 
 ## Install
 
-Two ways in, same corpus. **As a plugin** — the eighteen-verb palette, and always-on rules
+Two ways in, same corpus. **As a plugin** — the nineteen-verb palette, and always-on rules
 where the runtime honours them (Claude Code shown; Antigravity, Codex / ChatGPT, Kimi, Gemini CLI,
 Cursor, OpenCode, Copilot CLI, Factory Droid and Pi each have their route → **[INSTALL.md](INSTALL.md)**):
 
@@ -311,13 +311,14 @@ which also says what changes when each one is missing.
 ### The commands
 
 You never need one — anything a command does, a sentence reaches. **The palette exists to be
-browsed as much as typed**: the front door plus eighteen verbs, each a door to a flow that
+browsed as much as typed**: the front door plus nineteen verbs, each a door to a flow that
 exists anyway, and together the shortest true catalogue of what this system does.
 
 | | What it is for |
 |---|---|
 | `/opsinist:advisor` | **the front door** — the corpus itself: the laws, the routing table and what to load when. Every verb below loads it first, and a bare greeting reaches it without naming a command at all. The command is named for the **role**, because the advisor's own name (`display_name`) would repeat the plugin's |
 | `/opsinist:init` | start or continue a project. Whether a repository is here, whether it is yours, and whether it is empty are **read from the ground, not asked** — that is what decides between standing one up, entering it as its operator, and entering it as a guest |
+| `/opsinist:join` | take over a repo that already exists. It has its own name because **the match must fire before any prose is loaded** — measured on N8, runs that never reached `entering.md` fixed, deleted and committed first. The audit comes before any touch; findings as one classified list; nothing fixed before the owner has seen it |
 | `/opsinist:import` | bring work in from anywhere — a tracker, a spreadsheet, an export, a paste. It has its own name because **declaring a crossing turns on two rules**: the mapping is shown before anything is written, and the imported text is treated as untrusted |
 | `/opsinist:consult` | a question, not a thing to build. **Nothing is put into your project** — worth being able to demand rather than hope for |
 | `/opsinist:hire` | grow the roster — a role born from a need, with its grade, its bars and what it owns |

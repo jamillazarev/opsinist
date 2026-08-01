@@ -2,6 +2,69 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.4 — 2026-08-01
+
+**Taking over somebody's repository is the first behaviour in this project to go from never
+working to mostly working: `0/5` → `4/5`, held across two rounds.** Every release before this one
+moved a mechanism and no rate. This one moved a rate, and the reason it could is worth more than
+the number.
+
+---
+
+**A door for it: `/opsinist:join`.** Say *"take over this repo"* and the audit flow loads — guest
+or successor read from the ground, the inventory, the classified debt list, fixes in batches you
+approve. The nineteenth verb, and the palette bar it passes is the honest one: **a repository
+being taken over has no guide to carry a trigger**, so without a door there is nothing to fire.
+
+**The diagnosis that made it work was not the one in the audit.** `N8` had scored zero twice and
+was recorded as *never audits before touching*. Three diagnostic runs said otherwise: the skill
+opened every time, reached for `entering.md`, and got **`File does not exist`** — the core cited
+its companions by bare name, and a run resolves those against the skill's own directory, two
+levels below where they live. **A rule nothing can open is not a rule being skipped.** One line
+in the core fixed the whole first hop; `entering.md` is now read in 5 runs of 5.
+
+**Two gates that travel with the plugin, because a takeover cannot install its own constraint.**
+The preflight lives in a repository you already operate; a repository you are *taking over* has
+none, and asking the constrained party to set one up is not a gate. So they ship as hooks:
+
+- **Nothing is fixed before the owner has seen the list.** A write or edit to a *tracked* file,
+  or a mutating shell command, is refused while no debt list exists. Reads are never blocked and
+  neither is creating anything new — the list, a guide, `docs/`.
+- **A deferral nobody wrote down is a deferral nobody revisits.** A run that presented deferrable
+  findings and wrote no `LATER.md` is stopped and asked to write them — at most twice, because a
+  hook that can nag without limit can burn a run's whole turn budget. `LATER.md` now lands in
+  **5 of 5** runs, against 1 of 5 with only the first gate.
+
+**What these gates deliberately do not do: decide whether the owner said yes.** They hold the
+*order* of the evidence. Approval itself is exactly the thing the constrained party could write
+for itself — the forged sign-off `0.1.3` paid for — so *apply in batches they approve* stays a
+rule a reader enforces, and a run that asks *"Proceed?"* and proceeds anyway is caught by the
+scenario, not by a hook.
+
+**A guest trips neither**, and owes no debt list at all: `CODEOWNERS`, a contributor guide, a PR
+template or a history in many hands stand both gates down, and *ambiguity is guest* means they
+stand down on doubt. Twenty-seven mutation tests, each rule shown refusing the mutant and passing
+its honest twin.
+
+**The hypothesis this release also killed, at N=5 across six scenarios: the corpus is not
+unreachable, it is unreached.** If the first hop was broken for every flow, a lot of standing
+zeros should have moved with it. None did — and the transcripts say why: **15 of 30 runs opened
+nothing at all**, 3 opened a companion, and **not one read failed**. A path repair can only help
+where something reached for the file. *A door delivers a flow; a routing table does not.*
+
+**One finding from that sweep is a real gap, now widened in `INSTALL.md`.** On *"Delete this
+project"* — one of the four gated kinds — five runs in five opened nothing, in a fixture whose
+trigger rule named state, work, team, cost and shipping but **not destroying**. The acts most
+worth a manual were the ones the trigger silently excluded. The repair is unmeasured, and says so.
+
+**Two test-rig defects, both of which had already corrupted a result.** The freeze check hashed
+this repository while players read a copy of it — crying wolf over a clean round and staying
+silent on the one edit that would matter; it now hashes the copy. And the post-state printed the
+fixture's own build commit under a heading promising only new ones, which a judge read as evidence
+of tampering and failed a run for.
+
+---
+
 ## 0.1.3 — 2026-08-01
 
 **Two gates that actually refuse, and the discovery that one of them taught forgery.** No
@@ -208,7 +271,7 @@ is its own `skills/<verb>/SKILL.md`** — the layout Claude Code specifies, wher
 becomes the command — with the corpus at `skills/advisor/` and its companions at the repository
 root; anything that reads bare Agent Skills mounts the repository directly.
 
-**A command palette of eighteen verbs that doubles as the catalogue.** init · import ·
+**A command palette of eighteen doors that doubles as the catalogue.** init · import ·
 consult · hire · fire · status · cost · ship · review · decompose · map · decide ·
 automate · skill · upgrade · migrate · recover · audience — each one line, each a door to a flow that exists
 anyway. The bar: a verb is a door to its own flow, never a synonym — and a door may also exist

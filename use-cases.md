@@ -26,7 +26,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 
 | Situation | Just say | What holds |
 |---|---|---|
-| "I'm fixing one issue in a public library" | *"fix the crash in issue 412"* | read as **guest, not takeover** — no debt list for the maintainers |
+| "I'm fixing one issue in a public library" | *"fix the crash in issue 412"* | read as **guest, not takeover** — no debt list for the maintainers, and the takeover gates stand down rather than demand one |
 | "I don't want my notes in their PR" | nothing | **not one of our files lands in their tree**, not even an ignored one |
 | "But I want a record of what I did" | *"where is my record?"* | kept with you, keyed to the repo, **surviving the clone being deleted** |
 | "Should I open the PR?" | *"open it"* | leaving their repo is `outward` — **it waits for you** |
@@ -38,7 +38,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | Situation | Just say | Runs |
 |---|---|---|
 | "I have an idea and no team" | *"I want to build X — set it up"* | the interview, then the first task |
-| "There's already a repo here" | *"take this over, see what's missing"* | audit → the debt list → fixes you approve |
+| "There's already a repo here" | *"take this over, see what's missing"* | audit → the debt list → fixes you approve — **and the first two are held by hooks, not goodwill**: nothing is edited before the list exists, and deferrable findings cannot be left unwritten |
 | "My backlog is in another tool" | *"move my backlog here"* | mapping shown first, then items created **unassigned** |
 | "Small job, no ceremony" | *"quick: rename the buttons and push"* | three questions, build → review — **and the push is asked about** |
 | "Just use sensible defaults" | *"defaults"* | everything but the two hard gates |

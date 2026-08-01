@@ -33,7 +33,7 @@ Each row is a question to answer about the runtime in front of you, not a featur
 | **tool restriction the runtime enforces** | `enforced_by: harness` | that gate **downgrades to `prose-only`** and joins the named list (`permissions.md`) |
 | **per-worker model and effort** | the cascade's whole point | the cascade resolves to **one setting for everything**; say so rather than writing per-role values nothing reads |
 | **isolated worktrees** | a wave running in parallel | **waves serialise.** The rule that two children in one wave never own the same file stops being enough, because they now share one tree |
-| **lifecycle hooks** | automations that fire on an event | triggers become **manual or scheduled**; an automation with `trigger: on-completion` silently never fires |
+| **lifecycle hooks** | automations that fire on an event, **and the audit gate that holds a takeover to its order** (`entering.md`) | triggers become **manual or scheduled**; an automation with `trigger: on-completion` silently never fires, and the audit gate **downgrades to prose** — the rule stands, nothing performs it |
 | **background or scheduled runs** | anything unattended | **nothing happens while nobody is watching** — which is already true of every runtime when the machine is off |
 | **MCP servers** | tools an agent drives directly | external tools reachable **by CLI only**, which is usually fine and occasionally not |
 

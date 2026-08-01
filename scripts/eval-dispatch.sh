@@ -30,6 +30,10 @@ ws="$root/$fixture/workspace"
 
 if [ "$setup" != "-" ]; then (cd "$ws" && bash -c "$setup") || { echo "$ID/$N: setup failed"; exit 3; }; fi
 
+# The baseline the post-state's commit section is a delta against — taken after setup, so a
+# scenario whose setup commits is not blamed for it either.
+base=$(git -C "$ws" rev-parse HEAD 2>/dev/null || true)
+
 # The turn loop. stream-json keeps every tool call in the transcript — the boundary tripwire
 # and the judge both read it. A resumed turn continues the same session, so a multi-turn
 # scenario is one conversation, not three cold starts.
@@ -74,7 +78,15 @@ fi
   echo "== git status --porcelain"
   git -C "$ws" status --porcelain 2>/dev/null
   echo "== commits beyond the fixture's own"
-  git -C "$ws" log --oneline 2>/dev/null | head -12
+  # A delta, because the header promises one. Printing the whole log put the fixture's own build
+  # commit under a heading that says the run made it — measured 2026-08-01: a judge read `wip`,
+  # built by `fixtures.sh`, as evidence of unaudited changes and failed the run partly for it.
+  # Silence here means the run committed nothing, which is the common and correct case.
+  if [ -n "$base" ]; then
+    git -C "$ws" log --oneline "$base"..HEAD 2>/dev/null | head -12
+  else
+    git -C "$ws" log --oneline 2>/dev/null | head -12   # no baseline: the fixture had no commit
+  fi
   echo "== files now present"
   (cd "$root" && find . -type f -not -path '*/.git/*' | sort)
   echo "== store"

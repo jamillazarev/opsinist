@@ -11,19 +11,20 @@ stops matching its file, the file wins and the diagram is wrong.
 
 ## The front door
 
-Read from the ground, never asked. Three commands exist; none of them is how a route is chosen.
+Read from the ground, never asked. Doors exist for every branch below; none of them is how a
+route is chosen.
 
 ```mermaid
 flowchart TD
   A[a greeting, a situation, a question] --> B{is a repo here?}
-  B -- no --> C[start a project<br/>starting.md]
+  B -- no --> C[start a project<br/>starting.md · /init]
   B -- yes --> D{is it theirs?}
-  D -- yes --> E[enter as a guest<br/>entering.md]
+  D -- yes --> E[enter as a guest<br/>entering.md · /join]
   D -- no --> F{a backlog elsewhere?}
-  F -- yes --> G[import it<br/>importing.md]
-  F -- no --> H[enter it<br/>entering.md]
+  F -- yes --> G[import it<br/>importing.md · /import]
+  F -- no --> H[take it over<br/>entering.md · /join]
   A --> I{anything to build?}
-  I -- no --> J[consult<br/>consulting.md]
+  I -- no --> J[consult<br/>consulting.md · /consult]
   I -- one job --> K[a quick job<br/>quick.md]
 ```
 
@@ -153,10 +154,12 @@ Only one of these moves between runtimes.
 flowchart LR
   G[a gate] --> RQ[request<br/>a human answers]
   G --> VD[validator<br/>a script refuses]
+  G --> HK[hook<br/>the plugin's own script refuses,<br/>in a repo that carries no preflight]
   G --> GH[git-host<br/>branch protection]
   G --> HN[harness<br/>the runtime refuses]
   G --> PO[prose-only<br/>nothing enforces it]
   HN -. absent here .-> PO
+  HK -. no hooks here .-> PO
 ```
 
 **The downgrade is announced at dispatch, not discovered** → `runtimes.md`.
@@ -276,10 +279,15 @@ flowchart LR
   D --> L[the debt list<br/>every finding blocking or deferrable,<br/>with the consequence named]
   L --> P[present it whole, with costs]
   P --> A[apply in batches they approve]
-  L -.->|deferrable| R[deferred, with a revisit trigger<br/>that is a moment, not a date]
+  L -.->|deferrable| R[LATER.md, with a revisit trigger<br/>that is a moment, not a date]
+  G -. "a mutating call before the list<br/>is refused by the hook" .-> L
+  R -. "finishing without writing it<br/>is stopped once" .-> R
 ```
 
-**Nothing is fixed before they have seen the list** → `entering.md`.
+**Nothing is fixed before they have seen the list**, and both ends of that are performed rather
+than promised: a mutating call before the list exists is refused, and a run that presented
+deferrable findings and wrote no `LATER.md` is stopped once and asked to write them
+→ `entering.md`.
 
 ---
 
@@ -297,10 +305,14 @@ flowchart TD
   GU --> G2[their conventions bind]
   GU --> G3[nothing of ours in their tree]
   GU --> G4[the record still gets made — elsewhere]
+  GU --> G5[both takeover gates stand down —<br/>a guest owes no list to demand]
   SU --> S1[audit, then a classified debt list]
+  SU --> S2[the gates are armed until the list exists]
 ```
 
-→ `entering.md`
+**The same signals the reading uses are the ones the hooks read** — `CODEOWNERS`, a contributor
+guide, a PR template, a history in many hands — and on doubt they stand down, because ambiguity
+is guest → `entering.md`.
 
 ---
 

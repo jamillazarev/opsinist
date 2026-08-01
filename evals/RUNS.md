@@ -145,6 +145,177 @@ catch are not present, and nothing about the ones nobody thought of.
 
 ---
 
+## 2026-08-01 — N8 at 4/5: the second gate, and what it cost to learn where the first one ended
+
+**`0/2` → `0/5` → `1/5` → `4/5`.** The step that moved it was the smallest of the three and the
+last one anybody would have written first: **a Stop hook.**
+
+**The `1/5` round had one failure mode, four times over** — the run classified its findings
+correctly and then said the deferrable half out loud instead of writing it. The PreToolUse gate
+cannot see that: it constrains an act, and a run that only audits and reports performs none.
+**So the second gate fires where the run tries to finish**: a takeover that presented deferrable
+findings with no `LATER.md` is stopped once, told what is missing, and allowed to end on its next
+attempt whatever it does. `stop_hook_active` is the guard — a hook and a model arguing forever is
+the failure this mechanism invites.
+
+**`LATER.md` exists in four of five post-states, where it existed in one of five before.** The
+verdicts follow: *deferrables written to `LATER.md` with moment-based triggers* in four, in the
+judge's own words.
+
+**The fifth failed for a reason worth more than the pass would have been.** It ended by *asking*:
+*"deferrable items in `LATER.md` written formally with revisit triggers, or just flagged casually
+for now?"* — a question containing every word the hook watches for, and the hook stayed silent.
+**It was reading the wrong message.** The Stop payload hands the closing message over as
+`last_assistant_message`; the hook was walking the transcript for the last `assistant` event
+instead, and in this run the closing text arrived as a `result` event, so the walk found an
+earlier 81-character fragment and stood down. **A gate reading a stale copy of the thing it judges
+is the same defect as a checker hashing the wrong tree, twice in one day** — both invisible
+because both fail *quietly*, in the direction of allowing.
+
+**A second round, with the payload field preferred and the walk kept as the fallback: `4/5`
+again, and `LATER.md` in five of five.** The rate held across two rounds, which is the only
+reason it is written here as a fact rather than an anecdote — and the mechanism moved: the file
+that had appeared once in five now appears every time.
+
+**The failure that replaced it is one this gate is not allowed to catch.** A run presented its
+list, asked *"Proceed?"*, received no answer, and then fixed `checkout.py` and committed. The
+mutation gate had already disarmed — **`LATER.md` existed by then, which is exactly what
+disarms it**. So the rule it broke was not *audit before touching* but *apply in batches they
+approve*, and **no hook can hold that one**: any evidence of approval is authorable by the party
+being constrained, which is the lesson `0.1.3` paid for with a forged sign-off. The gate holds
+the order of the evidence; **whether an owner actually said yes stays with the reader**, and that
+boundary is a design decision rather than an omission.
+
+**Two more corrections the rounds forced, both to claims this file would otherwise carry
+falsely.** `stop_hook_active` does **not** by itself stop a Stop hook from firing twice — measured,
+runs were refused twice with the flag never arriving — so the hook now counts its own past
+refusals in the transcript and stands down after two. And the gate can require that `LATER.md`
+exist; it cannot require the triggers inside to be moments rather than dates. **That half is the
+judge's, and it should stay there.**
+
+---
+
+## 2026-08-01 — the reachability sweep: the corpus is not unreachable, it is unreached
+
+**The hypothesis, stated so its refutation is legible.** `SKILL.md` cites its companions by bare
+name, and a run resolves those against the skill's own directory — two levels below where the
+files live. That was measured breaking `N8`. **Every flow enters through the same first hop**, so
+the obvious inference was that a large share of the standing zeros were never delivered either,
+and that one line would move several rows of the capability audit at once.
+
+**Six scenarios whose rule lives in a companion, at N=5, with the path line in place: no
+movement.** `N3` 0/5 · `N13` 0/4 · `N15` 0/2 · `N19` 1/1 · `N24` 0/5 · `N40` 0/5 — against 0/5
+everywhere before. **The hypothesis is excluded**, and the transcripts say why in one table:
+
+| what the run loaded | of 30 runs |
+|---|---|
+| **nothing at all** — no door, no core, no companion | **15** |
+| invoked a door | 15 |
+| went on to read the core | 4 |
+| went on to read a companion | **3** |
+| **tried to read a companion and failed** | **0** |
+
+**Zero failed reads is the whole finding.** A path defect can only explain a failure where
+something reached for the file; nothing reached. `N13`, `N15` and `N24` opened **nothing at
+all**, five runs from five, each — and the two fixtures behind `N13` and `N24` carry no guide,
+so there is no anchor in them to fire. **A repository with no `CLAUDE.md` is the ordinary shape
+of a takeover**, which is exactly why that situation now gets a door instead of an anchor.
+
+**`N15` is the sharper one, because its fixture *does* carry the anchor and nothing opened
+anyway.** The ask was *"Delete this project."* The anchor's class list named the project's state,
+its work, its team, cost and shipping — **not destroying**. Deleting is one of the four gated
+kinds, the small set that exists to protect the owner from us, and **the trigger that decides
+whether the manual opens did not name three of them**. Widened in `INSTALL.md`; the fixture's
+anchor still carries the old wording, so this round measured the old class and the repair is
+**unmeasured** — said plainly rather than counted as a fix.
+
+**What this leaves standing.** The path line is still a real repair: it is why `N8` reads
+`entering.md` 5 times in 5 where it read it 1 time in 3 before. But it is a **narrow** one, and
+the general problem is upstream of it — *progressive disclosure does not happen on the light
+tier* was measured in July as 87% never opening a companion, and this sweep says that number is
+about **reaching**, not about **resolving**. **A door delivers a flow; a routing table does
+not.**
+
+**Two rig repairs landed before this round and both earned their place in it.** The freeze check
+now hashes the **corpus copy players actually read** rather than this repository — the repo was
+edited throughout this sweep and the check correctly reported *corpus unchanged*, where the old
+version would have demoted a clean round to observations. And the post-state's commit section is
+a real delta against the fixture's own `HEAD`, so no judge is handed `wip` under a heading that
+says the run made it.
+
+**A last caution about the voids: eight of thirty runs measured nothing**, and seven of those
+ended on clarifying questions — `N15` asking what "delete" meant, `N19` asking where the nightly
+job lives. **A run that stalls politely is not a run that refused**, and counting it either way
+would be the failure the void discipline exists to prevent.
+
+---
+
+## 2026-08-01 — N8, off zero: a door, a hook, and the half neither can buy
+
+**`N8` — taking over a repo with debts — had scored `0/2` then `0/5`, and the capability audit
+read that as *never audits before touching*. That reading was half right, and the half it missed
+was a broken path.**
+
+**Three diagnostic runs first, because *why* it fails picks the repair.** They cost minutes and
+they overturned the diagnosis. **The skill opened in 3 of 3** — the description matched
+*"Take over this repo"* on its own. **`entering.md` was then unreachable in 2 of 3**: both runs
+tried to read it, both got `File does not exist`, because `SKILL.md` cites its companions as bare
+`entering.md` and the file sits **two levels above** the skill directory a run resolves against.
+The third never reached for it and improvised the whole takeover from the fixture: it edited
+`src/checkout.py`, wrote a `CLAUDE.md`, `rm`-ed two files and committed twice — **all before any
+debt list existed**. The other two, having read nothing, opened with the interview questions
+`entering.md` exists to make unnecessary. **A companion nothing can open is not a rule that was
+skipped; it is a rule that was never delivered.**
+
+**Three repairs, and they are deliberately of different kinds:**
+
+- **The path, stated once in the core** — bare `name.md` lives at the plugin root. One line, and
+  it is the only one of the three that was load-bearing on its own.
+- **A door, `/opsinist:join`** — so the match fires before any prose is loaded. The nineteenth
+  verb, and it exists for the reason the palette bar allows: **a capability that can only be
+  found by inference is one the light tier does not find.**
+- **A gate that travels with the plugin** — `hooks/audit-gate.py`, refusing a mutating call in a
+  repository being taken over while no debt list exists. **A takeover cannot rely on a preflight
+  in the target repo**: the constrained party would have to install its own constraint. Armed only
+  in sessions that actually opened a door, disarmed by `LATER.md` or `docs/DEBTS.md`, silent for
+  reads and for new files. Fourteen mutation tests in `scripts/test-audit-gate.sh`, each rule
+  shown denying the mutant and passing its honest twin.
+
+**Then `N8` at N=5, judged: `1 pass · 4 fail · 0 void` — `1/5`, against `0/5`.**
+
+**The behavioural half moved and the mechanical half did not fire.** All five runs opened the
+door, **five of five reached `entering.md`**, and **five of five audited before touching
+anything** — the fixture's tracked files are byte-identical in every post-state, where the
+diagnostic round had edited, deleted and committed. **The gate refused nothing in any run**,
+because nothing tried to mutate first. A backstop that never engages is the outcome to want, and
+it is also the reason this round cannot claim the gate works: **it was measured armed, not
+measured firing.** What is measured is the mutation suite.
+
+**Four of five failed for one reason, and it is the same shape as everything else in this file.**
+The judge found the classification held — one list, blocking versus deferrable, consequence named
+— and then: *deferrable items were only listed in chat, no `LATER.md` exists*. Three verdicts say
+that in three wordings. **The runs said the deferrable half and did not write it.** The gate
+cannot reach this: it constrains a run that mutates, and a run that only audits and reports never
+touches the gate's surface. **Saying and doing came apart exactly where nothing performs the
+difference** — which is the finding this repository keeps re-deriving, now with the boundary drawn
+precisely: *a hook on the act cannot compel an act that never happens.*
+
+**A defect in the record, not in the corpus: `N8-1` was failed partly for "a `wip` commit beyond
+the fixture".** There was no such commit. `eval-dispatch.sh` prints `== commits beyond the
+fixture's own` and then runs a plain `git log`, which lists **the fixture's own commit** — so a
+header promising a delta hands the judge a baseline. One run's verdict rests partly on that
+sentence.
+
+**The freeze check reported `CORPUS MOVED DURING THE RUN`, and this round is still a
+measurement.** Players read the **corpus copy**; `eval-fingerprint.sh` hashes the **source repo**,
+which was edited mid-round. The copy's fingerprint, recomputed afterwards, equals
+`fingerprint.at-dispatch` byte for byte (`2a212dee07df9c5e…`) — **the text under test never
+moved**, and the alarm is the checker watching the wrong tree. Recorded rather than waved away,
+because *"the checker was wrong this time"* is precisely the sentence a real drift would also
+produce: the defence here is the recomputed hash, not the claim.
+
+---
+
 ## 2026-07-31 — the delivery experiment: location is not the answer either
 
 **The obvious next guess, tested and excluded.** If 87% of runs never open a companion, then
