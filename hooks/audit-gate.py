@@ -63,8 +63,25 @@ def migration_log_names(root, version):
             return False
         section = txt.split("## Migrations", 1)[1].split("\n## ", 1)[0]
         outcomes = ("applied", "nothing-required", "declined", "deferred", "failed")
+        # Entries, not physical lines. Measured next door 2026-08-02: a correct entry wrapped
+        # over four lines — version first, `Outcome: applied.` last — read as absent, so the
+        # check would have nagged forever about a migration that had happened. **A record's
+        # grammar is a paragraph**, and a per-line reader is reading a different file.
+        entries, cur = [], []
         for line in section.split("\n"):
-            if version and version in line and any(o in line for o in outcomes):
+            if line.lstrip().startswith(("- ", "* ")):
+                if cur:
+                    entries.append(" ".join(cur))
+                cur = [line.strip()]
+            elif cur and line.strip():
+                cur.append(line.strip())
+            elif cur:
+                entries.append(" ".join(cur))
+                cur = []
+        if cur:
+            entries.append(" ".join(cur))
+        for e in entries:
+            if version and version in e and any(o in e for o in outcomes):
                 return True
         return False
     except Exception:
@@ -224,8 +241,8 @@ def main():
                 f"is not recorded as migrated to the version now running it. Before acting on "
                 f"it, say so, run the migration audit (upgrading.md) — one list split by "
                 f"whether it needs the owner — **bump the version line in the guide**, and "
-                f"append a line to `## Migrations` in `config.md`, `nothing-required` and "
-                f"`deferred` included.\n")
+                f"append a line to `## Migrations` in `config.md`. If the check ends with a "
+                f"question for the owner, the outcome word for that is `deferred`.\n")
         sys.exit(0)
 
     # The guard against a hook and a model arguing forever. `stop_hook_active` is honoured

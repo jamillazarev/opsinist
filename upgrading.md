@@ -38,8 +38,7 @@ version and the current one, and act on what they say rather than on the diff.
 **And the map is read from the new version, not recalled.** Both ends are on disk: the project's
 version in its guide's *Operated by* line and its `config.md`, the target's in the **installed
 copy's own `CHANGELOG.md`**. Read the entries **there** — a migration performed from memory runs
-against the release you last read about, and fails silently, because the project ends in a shape
-nothing describes.
+against the release you last read about and fails silently, leaving a shape nothing describes.
 
 **Then it is an audit and a delta, never a rebuild.** Re-running the interview answers questions
 the owner already answered and overwrites conventions they chose on purpose. **The discipline is
@@ -96,8 +95,7 @@ approve.
 **The guide's `Operated by` line is the first mechanical item, always** — necessary to finish,
 never sufficient to prove anything (the next section says why). Measured next door at N=3: **not
 one run bumped it**, two then wrote their log line, and a written log is what silences the
-session-start check — leaving a project asserting one version in its log and another in the file
-every session reads. **Bump it in the same breath as writing the log.**
+session-start check. **Bump it in the same breath as writing the log.**
 
 **A document the release adds arrives when it has something to hold, exactly as on day one.** An
 upgrade is the other place this goes wrong, and for the same reason: the release names a file, so
@@ -108,17 +106,17 @@ is written at the first decision, the first deferral, the first role, whichever 
 migration that made the project worse**, however faithfully it followed the changelog.
 
 **Only the advisor runs a migration; a worker that notices one escalates.** It edits many
-artefacts at once, which is the owner's call by definition, and a worker holding one task has
-neither the view nor the standing. **It says so and stops** — a request with an age
-(`requests.md`), its own task continuing if the pending step does not touch it. **A migration run
-by whoever noticed it first is how a project gets migrated twice.**
+artefacts at once — the owner's call by definition — and a worker holding one task has neither
+the view nor the standing. **It says so and stops**: a request with an age (`requests.md`), its
+own task continuing if the pending step does not touch it. **A migration run by whoever noticed
+it first is how a project gets migrated twice.**
 
-**The middle pile is the one that must not be guessed**: a default chosen on the owner's
-behalf during an upgrade is the same failure as a default chosen during the interview, arriving
-later and harder to notice.
+**The middle pile is the one that must not be guessed**: a default chosen on the owner's behalf
+during an upgrade is the same failure as one chosen during the interview, arriving later and
+harder to notice.
 
 **Most additions are silent by design, and saying so is part of the list.** A new setting whose
-absence reads as its old default costs an existing project nothing — no codemod, no
+absence reads as its old default costs an existing project nothing: no codemod, no
 `schema_version` move, no action. **An upgrade that reports "three additions, none of which
 require anything from you" is a good upgrade**, and it is the one an owner can trust the next
 time it says something *is* required.
@@ -150,8 +148,7 @@ answer would have changed how something was written, everything already written 
 migration adds; it also **strands**. A file a superseded step created, a document the new version
 no longer reads, the debris of a run that died halfway — none of it announces itself, and all of
 it looks deliberate to the next reader. **So the audit names orphans as their own line**: what it
-is, which version put it there, and what now reads it — *nothing* being the answer that makes it
-an orphan.
+is, which version put it there, and what reads it now — *nothing* being the answer that makes it one.
 
 **And naming is where it stops.** Deleting is one of the four kinds that route to the owner, so
 an orphan is **reported, never removed** — and *"leave it"* is a legitimate, complete answer that
@@ -213,9 +210,8 @@ until it is converted is the one that holds.
 **Pending is a state with a count, a trigger and an ending.** The log line says
 `applied-base · pending-on-touch`, the scope is recorded with its predicate and its size, **the
 status check reports how many remain**, and a **revisit trigger that is a moment** — before the
-next release, at the first new maintainer — stops *lazy* from becoming *never*. **When the count
-reaches zero the log gets its closing line**, because a migration that never says it finished is
-one nobody can prove happened.
+next release, at the first new maintainer — stops *lazy* becoming *never*. **At zero the log gets
+its closing line**, because a migration that never says it finished is one nobody can prove.
 
 **The audit is bounded the same way.** On a project this size, reading every artefact to produce
 the delta costs more than the migration: **count and sample instead**, say the sample size, and
@@ -238,8 +234,8 @@ indistinguishable from a task somebody quietly rewrote.
 **Swapping the files is not migrating the project, and the two are indistinguishable from
 outside.** Every install route moves a plugin, an extension or a directory; none touches the
 owner's repository. So a project can carry the newest version number, have received none of what
-that version asked for, and **look exactly like one that migrated cleanly** — which is the state
-every project upgraded before this section existed is in, by construction.
+that version asked for, and **look exactly like one that migrated cleanly** — the state every
+project upgraded before this section existed is in, by construction.
 
 **So it is recorded in the repository, where every other entity lives** — a migration only a
 conversation remembers is one the next session cannot see. Three places, each already existing:
@@ -282,15 +278,13 @@ again. **The revisit trigger is what reopens it**, not the next upgrade.
 
 **When the log is absent entirely, no migration has run** — which for a project created before
 the log existed is a fact about this system, not a fault of theirs. The resolution is cheap and
-identical either way: **run the audit**, and against a project that happens to be conformant it
-finds nothing and says so in a sentence.
+identical either way: **run the audit**; against a conformant project it finds nothing and says so.
 
 **A guest repository has none of this and gets none of it.** No log, no check, no line written —
-a contributor passing through owes the maintainers no record of our versions, and
-`entering.md` is absolute about nothing of ours landing in their tree. **The record for guest
-work is kept with you, elsewhere** (`storing.md`), and that is where its version belongs too.
-The same silence applies to a quick job and to a question with nothing to build: **no project,
-no log, nothing to check.**
+a contributor passing through owes the maintainers no record of our versions, and `entering.md`
+is absolute about nothing of ours landing in their tree. **The record for guest work is kept with
+you, elsewhere** (`storing.md`), and that is where its version belongs. The same silence covers a
+quick job and a question with nothing to build: **no project, no log, nothing to check.**
 
 **Each line records who ran the step**, because a project has more than one pair of hands and
 *"who migrated this and when"* is the first question asked when two clones disagree. The
@@ -308,16 +302,22 @@ never heard of it — a date, two versions, an outcome word, an author. A log na
 rewrites a line another version wrote.**
 
 **The log is also the marker, and that is why no marker file exists.** Every command needs to know
-whether this project has been migrated to the version now running it — and **checking must cost
-nothing after the first time**, or the answer is a slower session on every verb. So the check is a
-comparison, not an audit: **does the log's newest step name the version that is running?** One
-line read from a file the session opens anyway.
+whether this project was migrated to the version now running it, and **checking must cost nothing
+after the first time** or every verb pays for it. So the check is a comparison, not an audit:
+**does the log's newest step name the running version?** One line, from a file the session opens
+anyway.
 
 **Which means a check that finds nothing still writes a line.** `0.1.4 → 0.1.5 · nothing
 required` is what makes the next hundred commands free, and it is also the honest record: *this
 version was checked against this project on this date, and the answer was no work.* **A log of
 changes only would leave "checked and clean" and "never checked" looking identical** — the exact
 confusion this whole section exists to end.
+
+**And the line is not gated on approval — only applying is.** Two different acts: the line
+records that somebody *looked*, which needs nobody's permission; the changes need the owner's.
+**Treating them as one is what loses the record** — measured next door, a run that built the
+whole delta, asked its one real question and wrote nothing left a project indistinguishable from
+one nobody had opened. Waiting is `deferred`, written when you decide to wait.
 
 **A cache would have been the wrong shape.** `.index/` is gitignored and rebuildable, so a marker
 there answers for one laptop — and the question is about the project. **The record already travels

@@ -144,6 +144,12 @@ say "session: both stale → the no-config message" "no \`config.md\`" "$R"
 printf '# Project configuration\n\n## Migrations\n\n- 0.1.4 → %s · 2026-08-01 · nothing-required · t@t\n' "$V" > "$R/config.md"
 printf 'Opsinist operates this repository.\n' > "$R/CLAUDE.md"
 
+printf '# Project configuration\n\n## Migrations\n\n- 0.1.4 → %s · 2026-08-02 · t@t\n  impact: guide version line only.\n  Outcome: applied.\n' "$V" > "$R/config.md"
+say "session: a wrapped entry counts as a line"  "EMPTY" "$R"
+printf '# Project configuration\n\n## Migrations\n\n- 0.1.4 → %s · 2026-08-02 · t@t\n  impact: none recorded yet.\n' "$V" > "$R/config.md"
+say "session: wrapped but no outcome → speaks"   "does not name version" "$R"
+printf '# Project configuration\n\n## Migrations\n\n- 0.1.4 → %s · 2026-08-01 · nothing-required · t@t\n' "$V" > "$R/config.md"
+
 printf '# Contributing\n' > "$R/CONTRIBUTING.md"
 say "session: guest tree → silent"               "EMPTY" "$R"
 rm "$R/CONTRIBUTING.md" "$R/CLAUDE.md" "$R/config.md"
