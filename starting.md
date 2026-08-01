@@ -110,20 +110,37 @@ waits-for-owner list.
 exists. A role is created **when a task needs a craft nobody has**, and the reason is said at that
 moment.
 
-**The invariants**, which are small: the project guide, generated into the root instruction file
-so every worker loads it natively · **`config.md`, which the layout has always promised and
-nothing used to write** — the git-host adapter, which modules are on, the conventions,
-`spec_mode`, `schema_version`, and **the migration log opened with its first line**, `— → <this
-version> · <date> · applied · <who>`, so a project born here never reads as one that was never
-migrated (`upgrading.md`) · **`docs/FIELD-NOTES.md`, so friction has somewhere to go from the
-first session** — it is swept at every status check, and a log that appears only once someone
-remembers it exists collects nothing from the days that matter most · the process files —
-ladders, gates, labels · the documentation
-skeleton, only what the interview actually named · **branch protection where a remote exists**,
-because a review gate without it is a sentence rather than a gate · the pre-commit guard that
-keeps the documentation the guide promises from quietly disappearing.
+**Four things and the first task. That is day one, and the list is short because it was
+measured.**
 
-**And a first task, so the machinery is exercised once while someone is watching.**
+| Created now | Why it cannot wait |
+|---|---|
+| **the project guide**, generated into the root instruction file | every worker loads it natively; without it nothing that follows is read |
+| **`config.md`** — the git-host adapter, `schema_version`, and **the migration log opened with its first line** (`— → <version> · <date> · applied · <who>`) | a project born without the log reads forever as one that was never migrated → `upgrading.md` |
+| **the pre-commit guard** | it is what makes every other check real rather than stated |
+| **branch protection where a remote exists** | a review gate without it is a sentence, not a gate |
+
+**And the first task — which comes *before* the rest of the machinery, not after it.**
+
+**Everything else arrives when it has something to hold.** `docs/DECISIONS.md` at the first
+decision · `LATER.md` at the first deferral · `docs/TEAM.md` at the first role · `docs/ROADMAP.md`
+when there is a roadmap · `docs/FIELD-NOTES.md` at the first friction or the first sweep · the
+process files when a task needs a ladder or a gate. **A document created before it has content is
+a file the owner has to read past for the rest of the project's life.**
+
+**This was measured, and the number is why the list above is four lines.** On the tier an owner
+actually uses, standing a project up took **11–13 minutes of the advisor's own time across three
+turns** — with *"defaults"* answered to everything, the fastest path there is — and produced
+**ten to thirteen files before any work existed**, with the first task appearing in the second
+turn in one run and **the third in the other**. The interview was not the cost: the first turn was
+under ninety seconds. **The cost was building a project's worth of scaffolding before there was a
+project.** An owner who came to write code spent that time watching documents be created for
+things that did not exist yet — a `TEAM.md` before a team, a `ROADMAP.md` before a roadmap.
+
+**A hook holds the order**: while no task file exists, writes into `docs/`, `process/` and
+`roles/` are refused, and the refusal names the first task as the thing to do instead. The
+outputs of *reading* a repository — the architecture note, the product map, a debt list — are
+exempt, because a takeover produces those before it has any tasks at all.
 
 ---
 

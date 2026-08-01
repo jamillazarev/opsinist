@@ -20,6 +20,7 @@ Creating new files — the list itself, a guide, docs/ — is never blocked; rea
 blocked; every internal error fails open. Known hole, accepted and named: Bash redirection
 (`>`) is not caught — the gate teaches the order, the judge scores the honesty.
 """
+import glob
 import json
 import os
 import re
@@ -295,6 +296,32 @@ def main():
         # subject can write is not a gate, it is a lesson in forgery.** What is left below asks
         # for structure a reader can verify, never for a claim about work having been done.
         #
+        # (a0) the first task comes before the machinery. Measured 2026-08-01 on the tier owners
+        #      actually use: standing a project up took 11–13 minutes of the advisor's own time
+        #      and produced 10–13 files before any work existed — a TEAM.md before a team, a
+        #      ROADMAP.md before a roadmap — with the first task arriving in the second turn of
+        #      one run and the third of the other. The interview was not the cost; the
+        #      scaffolding was. This refuses the scaffolding until a task exists, which is a
+        #      commission — the only shape of rule this project has ever measured working.
+        #      Reading a repository is exempt: a takeover writes its map and its debt list
+        #      before it has a single task, by design (`entering.md`).
+        READ_OUTPUTS = ("docs/ARCHITECTURE.md", "docs/MAP.md", "docs/DEBTS.md")
+        if (rel.split("/")[0] in ("docs", "process", "roles")
+                and rel not in READ_OUTPUTS
+                and not glob.glob(os.path.join(root, "tasks", "*.md"))):
+            sys.stderr.write(
+                "Opsinist audit gate (starting.md): this project has no task yet, and you are "
+                "about to write project scaffolding. **The first task comes before the "
+                "machinery** — measured, standing a project up built ten to thirteen files "
+                "before any work existed, and the owner watched a TEAM.md be created before "
+                "there was a team. Write the first task, then let each document arrive when it "
+                "has something to hold: DECISIONS.md at the first decision, LATER.md at the "
+                "first deferral, TEAM.md at the first role. Reading a repository is exempt — "
+                "the architecture note, the product map and a debt list may be written before "
+                "any task exists."
+            )
+            sys.exit(2)
+
         # (a) on-touch migration, made real. A lazy conversion that only reminds is a lazy
         #      conversion nobody finishes, so the touch itself is where it is enforced: with a
         #      spec format declared, a task being written must carry its spec reference. The

@@ -158,6 +158,9 @@ check "stop: no config.md written this session → allow" 0 "$(stop "$TD")"
 # Measured: a fact delivered at SessionStart and a demand at Stop each bought nothing, while
 # the one scenario that merely forbids held 5/5. These fire where the missing answer is used.
 P="$T/proj"; mkdir -p "$P/tasks" "$P/roles"
+# a task exists here on purpose: the first-task gate is exercised in its own block below, and
+# without one it would answer first and every migration case would pass for the wrong reason.
+printf '# T-0\nStatus: open\n' > "$P/tasks/T-0.md"
 git -C "$P" init -q 2>/dev/null || { mkdir -p "$P"; git -C "$P" init -q; }
 printf 'Opsinist operates this repository.\n' > "$P/CLAUDE.md"
 git -C "$P" add -A >/dev/null 2>&1; git -C "$P" -c user.email=t@t -c user.name=t commit -qm init >/dev/null 2>&1
@@ -220,6 +223,24 @@ SR="$T/elsewhere"; mkdir -p "$SR"; git -C "$SR" init -q
 printf '# record\n' > "$SR/record.md"; printf 'x\n' > "$SR/other.txt"
 git -C "$SR" add -A >/dev/null 2>&1; git -C "$SR" -c user.email=t@t -c user.name=t commit -qm init
 check "a repo carrying record.md → allow (shape)"     0 "$(stp "$SR")"
+
+# The first task before the machinery — measured: 10-13 files built before any work existed.
+FT="$T/fresh"; mkdir -p "$FT/tasks"; git -C "$FT" init -q
+printf 'Opsinist operates this repository.\n' > "$FT/CLAUDE.md"
+printf '# Project configuration\n\n| `spec_mode` | outcome |\n\n## Migrations\n\n' > "$FT/config.md"
+printf -- "- — → %s · 2026-08-01 · applied · t@t\n" "$V" >> "$FT/config.md"
+git -C "$FT" add -A >/dev/null 2>&1; git -C "$FT" -c user.email=t@t -c user.name=t commit -qm init >/dev/null 2>&1
+fpl() { printf '{"tool_name":"Write","tool_input":{"file_path":"%s"},"cwd":"%s","transcript_path":"%s"}' "$1" "$FT" "$TE"; }
+check "no task yet: docs/TEAM.md → deny"            2 "$(fpl "$FT/docs/TEAM.md")"
+check "no task yet: roles/writer.md → deny"         2 "$(fpl "$FT/roles/writer.md")"
+check "no task yet: process/labels.md → deny"       2 "$(fpl "$FT/process/labels.md")"
+check "no task yet: the guide itself → allow"       0 "$(fpl "$FT/CLAUDE.md")"
+check "no task yet: config.md → allow"              0 "$(fpl "$FT/config.md")"
+check "no task yet: a task file → allow"            0 "$(fpl "$FT/tasks/T-1.md")"
+check "reading a repo: docs/ARCHITECTURE.md → allow" 0 "$(fpl "$FT/docs/ARCHITECTURE.md")"
+check "reading a repo: docs/DEBTS.md → allow"        0 "$(fpl "$FT/docs/DEBTS.md")"
+printf '# T-1\nStatus: open\n' > "$FT/tasks/T-1.md"
+check "task exists: docs/TEAM.md → allow"            0 "$(fpl "$FT/docs/TEAM.md")"
 
 echo "pass $pass · fail $fail"
 [ "$fail" = 0 ]
