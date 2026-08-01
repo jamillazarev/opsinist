@@ -4,7 +4,8 @@
 participant is involved.
 
 **Two pyramids, never pooled.** For claims about the world: **measured › cited › recalled ›
-judgement**. For signal about people: **live › twin › validated persona › proto**. A lower rung
+judgement**. The **second pyramid**, the one this document is about, is for signal about people:
+**live › twin › validated persona › proto**. A lower rung
 never borrows a higher one's authority — three live interviews and twenty synthetic runs are
 never "23 responses".
 

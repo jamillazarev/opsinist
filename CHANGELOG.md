@@ -2,6 +2,38 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.8 — 2026-08-01
+
+**Ask for a prioritisation framework by name and get that framework.** ICE stays the default,
+because it needs no data a small project does not have. Beside it now sit **RICE, WSJF, Kano,
+MoSCoW and Eisenhower** — named, not paraphrased, each with the question it answers and the
+condition that makes it the right one. **RICE carries a warning it earned**: invented reach is
+ICE with extra arithmetic. The rule that the framework is chosen *before* the numbers, and said
+out loud, is unchanged — it is what stops a score from being picked to justify an answer.
+
+**`/opsinist:report` is described as what it is.** The tool catalogue still implied the flow
+would one day post into a self-hosted feedback portal. It does not: it writes a file you post
+yourself, and it involves no service at all. The portal row now says so, and stays about
+*customer* intake, which is a different job.
+
+---
+
+**The day-one cut from `0.1.7` was measured, and half of it did not survive.** The criteria were
+written down before the run, which is the only reason this can say *falsified* rather than
+*improved*.
+
+**What held: the ordering.** The first task is now written **second**, before every document,
+where it used to arrive after a project's worth of scaffolding. **What failed: the volume and the
+time.** Still ten to thirteen files, and the second turn still runs about four hundred seconds
+against a stated threshold of three hundred.
+
+**Why, precisely — and it is a limit worth knowing.** The gate can see *order*, and enforced it.
+It cannot see *emptiness*, so once the task exists, every document passes. **The corpus says day
+one is four things; the gate enforces something narrower, and the gap between them is the
+thirteen files.** The next predicate is knowable — refuse a document whose body is a heading and
+a template's braces — and it is **recorded rather than attempted**, because the criterion comes
+first. `LATER.md` carries it with the moment that reopens it.
+
 ## 0.1.7 — 2026-08-01
 
 **The forty minutes an owner reported were measured, and then cut.** This release is mostly one
