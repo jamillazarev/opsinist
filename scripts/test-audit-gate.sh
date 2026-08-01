@@ -199,5 +199,15 @@ printf -- "- — → %s · 2026-08-01 · applied · t@t\n" "$V" >> "$P/config.md
 check "outcome mode: no spec reference wanted → allow" 0 "$(ppc "$P/tasks/T-9.md" "# T-9
 Status: open")"
 
+# `example` mode wants the same structural proof as a spec format: the task points at the
+# artefact rather than restating it.
+printf '# Project configuration\n\n| `spec_mode` | example |\n\n## Migrations\n\n' > "$P/config.md"
+printf -- "- — → %s · 2026-08-01 · applied · t@t\n" "$V" >> "$P/config.md"
+check "example mode: task without its artefact → deny" 2 "$(ppc "$P/tasks/T-11.md" "# T-11
+Status: open")"
+check "example mode: task pointing at one → allow"     0 "$(ppc "$P/tasks/T-11.md" "# T-11
+Spec: tests/golden/parse_delimiters.py
+Status: open")"
+
 echo "pass $pass · fail $fail"
 [ "$fail" = 0 ]

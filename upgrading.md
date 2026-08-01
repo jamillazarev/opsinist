@@ -20,31 +20,16 @@ wonder why nothing changed.
 
 **Discovery precedes updating: run `bash scripts/find-installs.sh` and read the list it prints.**
 It names every install, its version and its route, and flags the two states nothing else reports:
-a symlink into a directory that does not exist, and a copy sitting silently on an old version.
-Measured `2026-07-31`: a machine remembered as holding three installs held **fourteen**, nine of
-them symlinked into a directory that had never existed — wired into nine harnesses, loading in
-none. **"Updated everywhere" is a claim about a generated list, never about memory**, and the
-same list is re-run afterwards so every row is seen to have moved.
+a symlink into a directory that does not exist, and a copy silently on an old version. Measured
+`2026-07-31`: a machine remembered as holding three installs held **fourteen**, nine symlinked
+into a directory that had never existed — wired into nine harnesses, loading in none. **"Updated
+everywhere" is a claim about a generated list, never about memory**, and the list is re-run
+afterwards so every row is seen to have moved.
 
-**The first layer has no single command, and assuming it does is how a runtime sits on an old
-version while reporting itself current.** One route per harness was decided at install
-(`INSTALL.md`); **the same choice decides how it updates**, and the table is here because a
-sentence could not hold it. Measured end to end on `2026-07-31`:
-
-| Installed as | What moves it | The trap |
-|---|---|---|
-| **a plugin, Claude Code** | `claude plugin marketplace update <name>` **then** `claude plugin update <plugin>@<marketplace>` | **the first step is the one people skip** — without it the second honestly reports nothing to update. Restart to apply |
-| **a plugin, Codex** | `codex plugin marketplace upgrade` then `codex plugin add <plugin>@<marketplace>` | `add` without `@marketplace` refuses when two marketplaces are configured |
-| **an extension, Gemini CLI** | **uninstall, then `gemini extensions install <url>`** — after the GitHub release is published; add `--consent` only when scripting | **`extensions update` is not the route.** Twice, differently: it answered *"already up to date"* on an old version — this route follows *releases*, and **a pushed tag is not one**, which hits every user — and it produced **no output for minutes** in a non-interactive shell, where the consent prompt had no one to answer it. Both look like a slow network and neither is. Uninstall-then-install took seconds and moved 0.1.1 → 0.1.2 |
-| **a copied skills directory** | re-copy the source | the drift announces itself nowhere, so the announcement is a command: `scripts/find-installs.sh` after every update, and the copy's row shows the new version or the copy did not move |
-
-An earlier version of that row said only *"nothing announces that the copy drifted"* — a property,
-not an instruction — and within the hour the machine it described was caught holding exactly such
-a copy. **A rule that names a property gets nodded at; a rule that names a command gets run.**
-
-**Verify by reading the installed copy, never the command's output.** Each of the routes above
-reported success at least once for a version it had not moved to — check the version in the
-installed manifest, and that the core and the verb doors are all present.
+**The routes that move the bytes live in `INSTALL.md`**, one per harness with its trap — the file
+that decided how it was installed decides how it updates. **Verify by reading the installed copy,
+never the command's output**: every one of those routes has reported success at least once for a
+version it had not moved to.
 
 **Preview first, always** — what would change, what it touches, what it would require; then
 apply, then verify. **The changelog is the migration map**: read the entries between the version
@@ -97,11 +82,9 @@ buckets (`arriving.md`, `PATTERNS.md` §26). **Nothing in that message is a stat
 the tool**: every line says what it means for their project.
 
 **And the end is said as plainly as the start** — applied, declined, waiting on a moment, and
-where all three are written.
-
-**Where the runtime has no delegation, say that instead of pretending** (`runtimes.md`): the
-audit runs inline, it is kept short, and the owner is told it will take a moment. **A promise of
-a non-blocking upgrade that blocks is worse than an honest wait.**
+where all three are written. **Where the runtime has no delegation, say that instead of
+pretending** (`runtimes.md`): the audit runs inline, kept short, and the owner is told it will
+take a moment. **A promise of a non-blocking upgrade that blocks is worse than an honest wait.**
 
 **The list splits on one question — does this need you? — and that is the whole point of it.**
 An upgrade that hands the owner a mixed list has made them read every line to find the two that
@@ -120,7 +103,9 @@ approve.
 artefacts at once, which is the owner's call by definition, and a worker holding one task has
 neither the view nor the standing. **It says so and stops** — a request with an age
 (`requests.md`), its own task continuing if the pending step does not touch it. **A migration run
-by whoever noticed it first is how a project gets migrated twice.** **The middle pile is the one that must not be guessed**: a default chosen on the owner's
+by whoever noticed it first is how a project gets migrated twice.**
+
+**The middle pile is the one that must not be guessed**: a default chosen on the owner's
 behalf during an upgrade is the same failure as a default chosen during the interview, arriving
 later and harder to notice.
 
@@ -383,6 +368,20 @@ that grows** — and it is still asked in one batch.
 **Superseded steps are named as skipped, not silently dropped.** *"0.1.2 asked you to move X;
 0.1.4 removed X entirely, so that step is skipped"* costs one line and prevents the owner
 discovering the contradiction themselves.
+
+**And the questions are deduplicated across the span, then asked in their newest form.** A jump
+is where the same setting is introduced by one release and widened by a later one — **that is one
+question, not two**, and it is put as the newest release defines it. Asking the older form and
+correcting it a message later is how an owner learns that a migration's questions are noise;
+asking both is worse, because the two answers can disagree and nothing says which wins. **The
+same holds for a question the owner already answered on the way** — if a step's setting is
+present in `config.md`, the later release refines the value, it does not re-ask for it.
+
+**The log gets one line per release that had something to say.** Releases that required nothing
+fold into a single line naming the span — `0.1.1 → 0.1.4 · nothing-required` — because a column
+of empty lines is not history, it is padding. **A release that was declined or deferred always
+gets its own line**, whatever else happened around it: that is the one thing the next session
+must not have to infer.
 
 **Past some distance this stops being an upgrade.** A project many versions behind, whose
 conventions the corpus has since reorganised, is closer to a repository being met for the first

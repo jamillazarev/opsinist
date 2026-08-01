@@ -301,7 +301,7 @@ def main():
         #      predicate is the one the migration declared — cheap, and checkable by a script,
         #      which is the whole condition for offering this mode on a large project.
         if (rel.startswith("tasks/") and rel.endswith(".md")
-                and re.search(r"spec_mode.*\b(spec|custom)\b", cfg)):
+                and re.search(r"spec_mode.*\b(spec|custom|example)\b", cfg)):
             body = tin.get("content") or tin.get("new_string") or ""
             if body and not re.search(r"(?im)^\s*(spec|specification)\s*:", body):
                 sys.stderr.write(

@@ -197,6 +197,26 @@ mode.** The restriction becomes real at the next session. **A team created and d
 sitting is a team whose allowlists are prose until it is opened again**, which is worth saying to
 an owner who asked for exactly that gate.
 
+**A fourth way to describe work, and a wrong sentence in the third.** `spec_mode` now has
+**`example`**: the authoritative description is a **checkable artefact written before the work** —
+a failing test, a golden sample, a reference output — and closing the task means it passes.
+**It earns a mode rather than a style for one reason: it cannot rot silently.** A document drifts
+from reality and says nothing; an example drifts and **fails** — the same distinction this whole
+release keeps arriving at, a thing that can refuse against a claim that must be believed. Not
+software-only: a bakery has a reference batch, a newsletter a model issue, a workshop a gauge
+part. And it is **not the definition of done renamed** — a DoD says what counts as finished,
+`example` says where the description lives, written first, with the task pointing at it.
+
+**And `custom` was asking for the wrong third thing.** It required *"closing updates them"*,
+which is wrong for the option this corpus recommends most: a change-as-a-folder is **archived**
+when done, not updated. It now asks **what closing does to it — updates or archives.**
+
+**Declined on purpose, with reasons**: user stories are a template *inside* a task, not another
+home for the truth; a checklist is what `process/types/` already does; a ticket in someone
+else's tracker is `custom` with a different address. **Each mode costs a branch in an interview
+already under suspicion for its length**, so one was added and three were refused.
+
+
 **A bug report you can actually find and send.** The flow for packaging a problem in *this
 system* was thorough about what to assemble and silent about the two things that decide whether
 it ever reaches anyone. **It is now written whole to a file with its path said out loud** —

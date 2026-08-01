@@ -233,3 +233,27 @@ Some thirty tools read the Agent Skills standard directly — point them at
 `skills/advisor/`. CrewAI: `Agent(skills=[Path(".")])`. The capabilities differ per runtime even
 when installation succeeds — `runtimes.md` is the map of what degrades
 where.
+
+---
+
+## Updating — one route per harness
+
+**There is no single command, and assuming there is one is how a runtime sits on an old version
+while reporting itself current.** The choice made above decides how it updates. Measured end to
+end on `2026-07-31`, and the flow that uses this table is `upgrading.md` — **updating moves the
+bytes; upgrading moves the project.**
+
+| Installed as | What moves it | The trap |
+|---|---|---|
+| **a plugin, Claude Code** | `claude plugin marketplace update <name>` **then** `claude plugin update <plugin>@<marketplace>` | **the first step is the one people skip** — without it the second honestly reports nothing to update. Restart to apply |
+| **a plugin, Codex** | `codex plugin marketplace upgrade` then `codex plugin add <plugin>@<marketplace>` | `add` without `@marketplace` refuses when two marketplaces are configured |
+| **an extension, Gemini CLI** | **uninstall, then `gemini extensions install <url>`** — after the GitHub release is published; add `--consent` only when scripting | **`extensions update` is not the route.** Twice, differently: it answered *"already up to date"* on an old version — this route follows *releases*, and **a pushed tag is not one**, which hits every user — and it produced **no output for minutes** in a non-interactive shell, where the consent prompt had no one to answer it. Both look like a slow network and neither is. Uninstall-then-install took seconds and moved 0.1.1 → 0.1.2 |
+| **a copied skills directory** | re-copy the source | the drift announces itself nowhere, so the announcement is a command: `scripts/find-installs.sh` after every update, and the copy's row shows the new version or the copy did not move |
+
+An earlier version of that row said only *"nothing announces that the copy drifted"* — a property,
+not an instruction — and within the hour the machine it described was caught holding exactly such
+a copy. **A rule that names a property gets nodded at; a rule that names a command gets run.**
+
+**Verify by reading the installed copy, never the command's output.** Each of the routes above
+reported success at least once for a version it had not moved to — check the version in the
+installed manifest, and that the core and the verb doors are all present.

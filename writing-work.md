@@ -73,12 +73,33 @@ executor should trust or re-check each claim, **never inherit a recalled number 
 moment a run dies with its context. The harness enforces this for you: a spawned worker does
 not inherit the conversation that spawned it.
 
-**Spec mode cascades** (`PATTERNS.md` §1) — `outcome` by default; `spec` where a long-lived
-system needs durable documentation and closing a task updates it; `custom` where the project
-already has a format, and then only three things are required of it: where specs live, how a
-task references one, and that closing updates them. **The honest trade-off:** outcome-first
-leaves weaker durable documentation. Fine for most projects, wrong for a system that outlives
-its authors.
+**Spec mode cascades** (`PATTERNS.md` §1) — **four values, and the axis is where the authoritative
+description of the work lives:**
+
+| Mode | The description is | Closing the task |
+|---|---|---|
+| `outcome` **(default)** | in the task: the result and its definition of done | closes the task, nothing else |
+| `spec` | a document the task points at | **updates that document** |
+| `example` | **a checkable artefact** — a failing test, a golden sample, a reference output — written **before** the work | the artefact passes; **that is the proof** |
+| `custom` | a format the project already runs | **updates it, or archives it** — whichever that format does |
+
+**`custom` asks only three things of any format**: where these live, how a task references one,
+and what closing does to it. **The third used to say "updates them" and was wrong for the option
+this file recommends most** — a change-as-a-folder is *archived* when done, not updated.
+
+**`example` is the one that cannot rot silently, and that is why it is a mode rather than a
+style.** A document drifts from reality and says nothing; **an example drifts and fails.** It is
+the same distinction this whole system keeps arriving at — a thing that can refuse against a
+claim that must be believed. It is also not software-only: a bakery has a reference batch, a
+newsletter a model issue, a workshop a gauge part.
+
+**And it is not the definition of done wearing a new name.** A definition of done says *what
+counts as finished*; `example` says *where the description lives*. The test is written **first**
+and the task points at it — under `outcome` with tests in the DoD, the description is still prose
+in the task and the tests check it afterwards.
+
+**The honest trade-off:** outcome-first leaves weaker durable documentation. Fine for most
+projects, wrong for a system that outlives its authors.
 
 **And this one is asked rather than inherited, because it decides what a task looks like.**
 Most cascading settings change what work *costs* — this one changes what work *is*: under

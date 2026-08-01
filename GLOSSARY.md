@@ -177,8 +177,11 @@ here to rot. → `SKILL.md`
 and it is the only thing that distinguishes *the files were swapped* from *the project was
 migrated*. A guest repository has none. → `upgrading.md`
 
-**spec mode** — how work gets described: `outcome` (a task states its result), `spec` (a document
-the task points at, updated when it closes), `custom` (a format the project already runs).
+**spec mode** — how work gets described, on one axis: **where the authoritative description
+lives**. `outcome` (in the task), `spec` (a document it points at, updated when it closes),
+`example` (a checkable artefact written first — a failing test, a golden sample, a gauge — and
+the only mode that **fails** when it drifts instead of going quietly stale), `custom` (a format
+the project already runs, updated *or archived* by closing).
 Cascades like any setting, **and is asked rather than inherited**, because it decides what every
 task looks like. Absent reads as `outcome`. → `writing-work.md`
 

@@ -15,7 +15,7 @@ until `0.1.5` nothing wrote it.**
 
 | Setting | Value | Notes |
 |---|---|---|
-| `spec_mode` | {{outcome}} | how work gets described — `outcome` · `spec` · `custom`. **Absent reads as `outcome`.** Changing it later puts every task already written in scope → `writing-work.md` |
+| `spec_mode` | {{outcome}} | how work gets described — `outcome` · `spec` · `example` · `custom`. **Absent reads as `outcome`.** Changing it later puts every task already written in scope → `writing-work.md` |
 | `read_threshold_lines` | {{10000}} | past this, reading everything is announced rather than performed → `entering.md` |
 | `schema_version` | {{1}} | the format this repository is on |
 
