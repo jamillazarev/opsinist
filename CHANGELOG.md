@@ -711,7 +711,7 @@ happens — and a sweep that found nothing records what it looked at.
 
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
-instance · the four lenses, defined · **twenty-three diagrams** whose every node names something a
+instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
 file defines · a hundred and eighty-six single-sentence facts · eighty-six situations with what to
 say · **eighty-three evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a

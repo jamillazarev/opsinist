@@ -365,6 +365,32 @@ flowchart TD
 
 ---
 
+## Something went wrong — whose defect is it?
+
+**The person who just hit it should not have to classify it.** The door decides, from evidence.
+
+```mermaid
+flowchart TD
+  F[friction: something broke,<br/>or made the work harder] --> Q{does it stop you now?}
+  Q -- yes --> B[a blocking task,<br/>and the work takes a blocked_by]
+  Q -- no --> W{whose defect?<br/>decided here, not asked}
+  W -- the project's --> N[a field note in docs/FIELD-NOTES.md<br/>one line, append-only]
+  N --> S[swept at the next status check<br/>· deduplicated · an empty sweep says what it looked at]
+  S --> T{seen twice?}
+  T -- yes --> TASK[a task, with BOTH occasions named in it]
+  T -- no --> KEEP[stays a note]
+  W -- the skill's --> P[assembled from evidence:<br/>version · flow · symptom · run record · files]
+  P --> D[de-identified, a human reads the diff]
+  D --> FILE[written WHOLE to a file<br/>OUTSIDE the repository · path said out loud]
+  FILE --> R[routes named: an issue · the author · keep it]
+  R --> YOU[[you post it — never us]]
+```
+
+**`/opsinist:report` is the door**, and a sentence reaches the same place →
+`self-maintenance.md`.
+
+---
+
 ## How a change to this system travels
 
 The same tasks, gates and history as any other work — and one extra rule.
