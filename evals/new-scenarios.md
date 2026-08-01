@@ -1359,6 +1359,14 @@ Expected:
   closing updates, or a format the project already runs.
 - **The consequence is named, not just the options**: this decides what every task looks like,
   and answering it later means rewriting the tasks already written.
+- **The recommendation comes from the tasks, not from a menu.** Where tasks already exist, a
+  handful are read and **one is quoted**: terse tasks say outcome-first, tasks already carrying
+  context and acceptance detail say the project writes specs inside its tasks and wants them a
+  home. **Fail:** three options offered with no reading and no reason.
+- **The owner's own description is a complete answer.** *"We keep a one-pager per feature and the
+  task links to it"* is taken, read back in their words, and shaped into the three things `custom`
+  needs — where they live, how a task references one, what closing updates — **as a proposal to
+  confirm**. **Fail:** pushing them back to the buckets after they described their practice.
 - **If the answer is the third**, the stocked options are **named rather than left to the owner
   to invent** — OpenSpec and Spec Kit, with the reason one of them is the default here — and the
   three requirements are stated: where specs live, how a task references one, and that closing

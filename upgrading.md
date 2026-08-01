@@ -19,15 +19,12 @@ wonder why nothing changed.
 | **tooling versions** | the things in the register, checked against their release feeds |
 
 **Discovery precedes updating: run `bash scripts/find-installs.sh` and read the list it prints.**
-It finds every install on the machine, names each one's version and its update route, and
-separately flags the two states nothing else will ever report — a symlink resolving to a
-directory that does not exist, and a copy sitting silently on an old version. Measured
-`2026-07-31`: a machine remembered as holding three installs held **fourteen** — nine of them
-symlinks into a directory that had never existed, so nine harnesses had the skill wired in and
-loading nothing — and hours later the same machine held a config mount pointing at a copy a
-cleanup had just removed, which the script caught and a person had not. **"Updated everywhere" is
-a claim about a generated list, never about memory** — and the same list is re-run after the
-updates, so every row is seen to have moved.
+It names every install, its version and its route, and flags the two states nothing else reports:
+a symlink into a directory that does not exist, and a copy sitting silently on an old version.
+Measured `2026-07-31`: a machine remembered as holding three installs held **fourteen**, nine of
+them symlinked into a directory that had never existed — wired into nine harnesses, loading in
+none. **"Updated everywhere" is a claim about a generated list, never about memory**, and the
+same list is re-run afterwards so every row is seen to have moved.
 
 **The first layer has no single command, and assuming it does is how a runtime sits on an old
 version while reporting itself current.** One route per harness was decided at install
@@ -41,20 +38,17 @@ sentence could not hold it. Measured end to end on `2026-07-31`:
 | **an extension, Gemini CLI** | **uninstall, then `gemini extensions install <url>`** — after the GitHub release is published; add `--consent` only when scripting | **`extensions update` is not the route.** Twice, differently: it answered *"already up to date"* on an old version — this route follows *releases*, and **a pushed tag is not one**, which hits every user — and it produced **no output for minutes** in a non-interactive shell, where the consent prompt had no one to answer it. Both look like a slow network and neither is. Uninstall-then-install took seconds and moved 0.1.1 → 0.1.2 |
 | **a copied skills directory** | re-copy the source | the drift announces itself nowhere, so the announcement is a command: `scripts/find-installs.sh` after every update, and the copy's row shows the new version or the copy did not move |
 
-An earlier version of that row said only *"nothing announces that the copy drifted"* — a
-property, not an instruction — and within the hour the machine it described was caught holding
-exactly such a copy. **A rule that names a property gets nodded at; a rule that names a command
-gets run** — the same ladder as `self-maintenance.md`, applied to this table.
+An earlier version of that row said only *"nothing announces that the copy drifted"* — a property,
+not an instruction — and within the hour the machine it described was caught holding exactly such
+a copy. **A rule that names a property gets nodded at; a rule that names a command gets run.**
 
 **Verify by reading the installed copy, never the command's output.** Each of the routes above
 reported success at least once for a version it had not moved to — check the version in the
 installed manifest, and that the core and the verb doors are all present.
 
-**Preview first, always.** What would change, what it touches, and what it would require. Then
-apply, then verify.
-
-**The changelog is the migration map** — read the entries between the version the project is on
-and the current one, and act on what they say rather than on the diff.
+**Preview first, always** — what would change, what it touches, what it would require; then
+apply, then verify. **The changelog is the migration map**: read the entries between the version
+the project is on and the current one, and act on what they say rather than on the diff.
 
 **And the map is read from the new version, not recalled.** Both ends are on disk: the version
 the project is on is in its guide's *Operated by* line and its `config.md`; the version it is
@@ -69,14 +63,12 @@ already answered and overwrites conventions they chose on purpose. **The discipl
 takeovers use** (`entering.md`): read what is here first, then produce **one list** of what this
 release adds that the project has not got.
 
-**This is not the other audit, and saying which one you are running is the first line of it.**
-Two audits exist and they look alike from a distance: a **takeover audit** reads a repository you
-have not operated and measures it **against the invariants**, producing a debt list that is
-blocking or deferrable (`entering.md`); a **migration audit** reads a project you already operate
-and measures it **against a version**, producing a delta split by whether it needs the owner.
-**The yardstick is the difference** — invariants versus a version — and handing an owner who
-asked to upgrade a list of everything wrong with their project is how an upgrade becomes an
-argument. `GLOSSARY.md` carries the pair.
+**This is not the other audit, and saying which one you are running is its first line.** A
+**takeover audit** measures a repository you have not operated **against the invariants** and
+produces a debt list (`entering.md`); a **migration audit** measures a project you already operate
+**against a version** and produces a delta. **The yardstick is the difference**, and handing an
+owner who asked to upgrade a list of everything wrong with their project is how an upgrade becomes
+an argument. `GLOSSARY.md` carries the pair.
 
 **And the owner is not held while it runs.** An upgrade is the same three-part shape as reading a
 repository (`entering.md`), for the same reason: **the arrival is inline** — a new version is
@@ -85,19 +77,18 @@ here, this is the version you are on, this is where both numbers were read from 
 than reasoning the advisor could not do itself → `dispatching.md`. **Only the questions block**,
 once, in one batch.
 
-**Say all three out loud at the start**, in the order they will happen: what arrived, that the
-audit is running and roughly how long, and that the session stays usable meanwhile. **An owner
-made to sit through a scrolling audit has been charged for a wait that had no reason to hold the
-session**, and an owner given no notice at all reads the silence as a crash.
+**Say all three out loud at the start**, in the order they happen: what arrived, that the audit
+is running and roughly how long, and that the session stays usable. **An owner made to sit
+through a scrolling audit is paying for a wait that had no reason to hold the session**; one
+given no notice at all reads the silence as a crash.
 
 **The shape of it, because "be transparent" is an instruction nobody can follow:**
 
-> *"You are on 0.1.2 and the skill here is 0.1.5 — I read both from disk, yours from the guide,
-> mine from the installed copy's changelog. Nothing says a migration ran, so I am checking what
-> those three releases mean for **this** project: what applies on its own, what needs a decision
-> from you, and what needs nothing. That runs in the background, a couple of minutes. Keep going
-> — ask me anything meanwhile — and I will come back with **one list**, not a stream of
-> questions."*
+> *"You are on 0.1.2, the skill here is 0.1.5 — both read from disk, yours from the guide, mine
+> from the installed copy's changelog. Nothing says a migration ran, so I am checking what those
+> three releases mean for **this** project: what applies on its own, what needs a decision from
+> you, what needs nothing. Background, a couple of minutes — keep going, ask me anything, and I
+> come back with **one list**, not a stream of questions."*
 
 Then the list, in the three piles, **and the questions in one batch with the recommendation
 already filled in** — where the runtime offers a native way to ask a small set of named options,
@@ -105,8 +96,8 @@ it is used, recommended first, each carrying its trade-off, with a free answer b
 buckets (`arriving.md`, `PATTERNS.md` §26). **Nothing in that message is a status report about
 the tool**: every line says what it means for their project.
 
-**And the end is said as plainly as the start** — what was applied, what they declined, what is
-waiting on a moment, and where all three are written down.
+**And the end is said as plainly as the start** — applied, declined, waiting on a moment, and
+where all three are written.
 
 **Where the runtime has no delegation, say that instead of pretending** (`runtimes.md`): the
 audit runs inline, it is kept short, and the owner is told it will take a moment. **A promise of
@@ -125,13 +116,11 @@ concern them.
 **Nothing is applied before the owner has seen the list**, and it is applied in batches they
 approve.
 
-**Only the advisor runs a migration, and a worker that notices one escalates instead.** A
-migration edits many artifacts at once across a project, which is the shape of change the owner
-gates by definition — and a worker holding one task has neither the view nor the standing for it.
-**A worker that meets the gap says so and stops**: the finding goes back as a request with an age
-(`requests.md`), the task it was doing continues if the pending step does not touch it, and the
-advisor is the one that proposes the migration to the owner. **A migration performed by whoever
-noticed it first is how two agents migrate the same project twice.** **The middle pile is the one that must not be guessed**: a default chosen on the owner's
+**Only the advisor runs a migration; a worker that notices one escalates.** It edits many
+artefacts at once, which is the owner's call by definition, and a worker holding one task has
+neither the view nor the standing. **It says so and stops** — a request with an age
+(`requests.md`), its own task continuing if the pending step does not touch it. **A migration run
+by whoever noticed it first is how a project gets migrated twice.** **The middle pile is the one that must not be guessed**: a default chosen on the owner's
 behalf during an upgrade is the same failure as a default chosen during the interview, arriving
 later and harder to notice.
 
@@ -190,18 +179,40 @@ them alike is how a migration either disrupts live work or falsifies finished wo
 | **started, no live run** | **the owner chooses**, and the recommendation is *convert at its next transition* | it costs nothing and rides a seam that is coming anyway. Converting now is legitimate where the new form would change how the work gets done — but that is a decision, not a default |
 | **open, not started** | **converted with the batch** — this is the safe pile | nobody is holding it, nothing is invalidated, and leaving it is how a project ends up with two forms in its queue |
 
-**On a large project there is a fourth ending, and it is usually the right one: migrate the base
-now, the rest on touch.** Converting nine hundred tasks in a batch is a change nobody can review
-and a diff nobody can read — and *forward-only* gives up on the nine hundred entirely. **On-touch
-splits the difference honestly**: the settings, the files the version needs and the log line land
-now, bounded and reviewable; **every other artefact converts the next time work opens it**, which
-is the moment someone is already reading it and can judge the result.
+**On a large project there is a fourth ending, and it is usually the right one: the base now, the
+rest on touch.** Converting nine hundred tasks in a batch is a diff nobody reads; *forward-only*
+gives up on the nine hundred. **On-touch splits it honestly** — settings, the files the version
+needs and the log line land now, bounded; **every other artefact converts the next time work
+opens it**, when someone is already reading it and can judge the result.
 
 **And it is only real if "converted" is machine-checkable.** A lazy migration whose predicate
 lives in prose is not lazy, it is abandoned — nothing can tell a converted artefact from an
 untouched one, so nothing can refuse, report or finish. **The migration declares the predicate
 when it chooses this mode**: for a spec format, *a task carries its spec reference*; for a
 renamed field, *the new key is present*. One line, checkable by a script.
+
+### Absent, and the three reasons — only two of them are findings
+
+**"You do not have X" is not one fact, it is three, and telling them apart is what keeps an
+upgrade from re-opening settled questions.**
+
+| Why it is absent | What it is | What the audit does |
+|---|---|---|
+| **the release just added it** | a genuine delta item | goes in the list, in whichever pile it belongs |
+| **it was never used, and the release now makes it load-bearing** | **an adoption, not a migration** | offered with its cost, **declinable**, and the answer recorded |
+| **the owner turned it off or declined it before** | **already decided** | **not raised at all.** `config.md` says which modules are on; `docs/DECISIONS.md` says what was declined and what would reopen it |
+
+**Adoption is the one people get wrong, and it is the case a long-lived project meets most.** A
+release can make something that was optional into something a newer mechanism assumes — and the
+project that never used it is not behind, it **worked differently on purpose**. So it is put as a
+choice with its price, never as a defect: *"pipelines were optional and this release's release
+gate reads them; adopting costs about this much, and here is what happens if you do not."*
+**"We do not work that way" is a complete answer**, recorded with a revisit trigger that is a
+moment, and **not offered again until that moment.**
+
+**The audit reads the module state before it reports anything missing.** A disabled module
+reported as a gap is the fastest way to teach an owner that the list is noise — and the second
+fastest is offering, every release, the thing they already said no to.
 
 **The conversion is enforced where the touch happens, not remembered.** Writing to an artefact
 that is still in the pending scope is **refused, with what is missing and how to supply it** —
@@ -303,13 +314,11 @@ append-only log conflicts exactly where two people wrote at the end, and **keepi
 in date order is correct every time**: two people checked, both facts are true, and the log is a
 history rather than a state. Nothing is ever resolved by deleting the other person's line.
 
-**The older skill meeting a newer project is a real case, not a hypothetical** — a rollback, or
-a teammate who has not updated. **It must not break, and it must not lie**: an older version does
-not know what a newer line means, so **a log line is written to stay readable to a version that
-has never heard of it** — a date, two versions, an outcome word, an author. When a project's log
-names a version *ahead* of the one running, **say that plainly**: the project has been somewhere
-this skill has not, and the honest move is to report it rather than migrate backwards. **Nothing
-in this file ever rewrites a line an older or newer version wrote.**
+**An older skill meeting a newer project is real** — a rollback, or a teammate who has not
+updated. **It must not break and must not lie**: a log line stays readable to a version that has
+never heard of it — a date, two versions, an outcome word, an author. A log naming a version
+*ahead* of the one running is **reported, not migrated backwards**, and **nothing here ever
+rewrites a line another version wrote.**
 
 **The log is also the marker, and that is why no marker file exists.** Every command needs to know
 whether this project has been migrated to the version now running it — and **checking must cost
@@ -323,29 +332,23 @@ version was checked against this project on this date, and the answer was no wor
 changes only would leave "checked and clean" and "never checked" looking identical** — the exact
 confusion this whole section exists to end.
 
-**A cache would have been the wrong shape.** `.index/` holds derived, rebuildable things and is
-gitignored, so a marker there answers only for the machine that wrote it — and the question
-*"has this project been migrated"* is about the project, not about a laptop. **The record already
-travels with the repository; nothing else should be invented to duplicate it.**
+**A cache would have been the wrong shape.** `.index/` is gitignored and rebuildable, so a marker
+there answers for one laptop — and the question is about the project. **The record already travels
+with the repository.**
 
-**A version whose migration never ran announces itself rather than waiting to be asked.** The
-first session that notices says so plainly — *"this project reports version X, and there is no
-record that its migration ran; I am checking what that means for you"* — and **runs the audit
-itself**, in the background, on the shape above: inline arrival, background audit, questions in
-one batch.
+**A version whose migration never ran announces itself rather than waiting to be asked** — *"this
+project reports version X and nothing records that its migration ran; I am checking what that
+means for you"* — and **runs the audit itself**, on the shape above.
 
 **And what waits is what the migration would change, not everything.** Blocking a whole session
-on a migration is the kind of correctness nobody thanks you for — but writing a new task in a
-form the pending migration is about to change is worse, because it creates more to migrate. So:
-reading, answering, status, cost and anything the migration does not touch **continue
-normally**; **artifacts the pending step reshapes wait for it**, and the reason is said in one
-line when it happens.
+is correctness nobody thanks you for; writing a task in a form the pending step is about to
+change is worse, because it makes more to migrate. **Reading, answering, status and cost continue;
+artefacts the pending step reshapes wait**, with the reason said in one line.
 
 ### When the project is already on the current version
 
-**This is the common case, and the one an upgrade is most likely to handle badly** — in either
-direction: by manufacturing work to justify having been asked, or by answering from the version
-string alone and calling it done.
+**The common case, and the one an upgrade handles badly in both directions**: manufacturing work
+to justify having been asked, or answering from the version string and calling it done.
 
 **Say it, and say what it does and does not mean.** *"You are on the current version"* is a claim
 about a number in a file. **It is not a claim that the project matches that version**: an upgrade
@@ -357,14 +360,12 @@ that lesson elsewhere (`self-maintenance.md`).
 **So the audit still runs — and it is cheap**, because there is no changelog span to walk: read
 what the current version expects and check the tree carries it. Two endings, and both are short:
 
-- **Nothing found.** One sentence — the version, where it was read from, and that the artifacts
-  were checked too, not just the number. **Nothing is created.** No report file, no decisions
-  entry, no `LATER.md` line. An upgrade that always leaves a file behind teaches the owner to
-  ignore the files it leaves.
-- **Something found.** Then the version line and the tree disagree, **and that disagreement is
-  itself the first finding** — said plainly, with which of the two is believed and why. It goes
-  into the same split list as any other delta: what needs no answer, what needs one, what needs
-  nothing.
+- **Nothing found.** One sentence — the version, where it was read from, and that the artefacts
+  were checked too. **Nothing is created**: an upgrade that always leaves a file behind teaches
+  the owner to ignore the files it leaves.
+- **Something found.** The version line and the tree disagree, **and that disagreement is itself
+  the first finding** — said plainly, with which is believed and why, then into the same split
+  list as any other delta.
 
 **Neither ending re-runs the interview**, and neither invents an optional improvement to have
 something to show.

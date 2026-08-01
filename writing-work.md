@@ -97,11 +97,26 @@ system's own premise already — and **Spec Kit**, phase-gated and heavier, for 
 wants those gates. **A project that already has its own format keeps it**; the three
 requirements above are what make any of them work, and they do not change with the tool.
 
-**And look before offering.** A tree that already holds specs — a `specs/` directory, a
-`docs/rfcs/`, an `openspec/` folder — has answered this question in its own files, and proposing
-a tool over the top of it is the *look inward first* law being skipped. **What the project
-already does is read, named back, and confirmed** — the owner's existing choice outranks a
-better default.
+**And look before offering — the recommendation comes from their tasks, not from a menu.** A
+tree that already holds specs (`specs/`, `docs/rfcs/`, an `openspec/` folder) has answered this
+in its own files. **And where it has not, the existing tasks answer it anyway**: read a handful
+and see how work is already described. Tasks that are a line and a definition of done are a
+project working outcome-first, and telling it to adopt a spec format is proposing a rewrite it
+did not ask for. Tasks already carrying context, constraints and acceptance detail are a project
+**already writing specs inside its tasks** — and the honest offer is to give that a home rather
+than to keep it cramped in a title field. **Say which you saw and quote one**, so the
+recommendation is evidence rather than taste, and **the owner's existing choice outranks a better
+default.**
+
+**Their own words are a legitimate answer, and shaping them is the job.** The three modes are
+buckets for a question that does not have to be answered in buckets: an owner who says *"we keep
+a one-pager per feature in Notion and the task links to it"* has given a complete and correct
+answer, and turning that into a working configuration is the advisor's work, not theirs. **Take
+the description, read it back in their words, and land the three things `custom` needs** — where
+these live, how a task references one, what closing updates — **as a proposal to confirm, not as
+a form to fill.** A free answer beats the buckets (`PATTERNS.md` §26), and *"none of those, we do
+it like this"* is the answer most likely to be right, because it comes from a practice that
+already exists.
 
 **Choosing one is an import, not a preference.** Anything arriving from outside goes through the
 import gate and lands in the tooling register with what it is, why, and its check-date
