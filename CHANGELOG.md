@@ -2,6 +2,71 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.6 — 2026-08-01
+
+**A release made entirely of things a reader found by reading the flow back**, not of things a
+run failed at. Four gaps, and none of them would have shown up in a rate.
+
+---
+
+**A fourth way to describe work, and a wrong sentence in the third.** `spec_mode` now has
+**`example`**: the authoritative description is a **checkable artefact written before the work** —
+a failing test, a golden sample, a reference output — and closing the task means it passes.
+**It earns a mode rather than a style for one reason: it cannot rot silently.** A document drifts
+from reality and says nothing; an example drifts and **fails** — the same distinction this whole
+release keeps arriving at, a thing that can refuse against a claim that must be believed. Not
+software-only: a bakery has a reference batch, a newsletter a model issue, a workshop a gauge
+part. And it is **not the definition of done renamed** — a DoD says what counts as finished,
+`example` says where the description lives, written first, with the task pointing at it.
+
+**And `custom` was asking for the wrong third thing.** It required *"closing updates them"*,
+which is wrong for the option this corpus recommends most: a change-as-a-folder is **archived**
+when done, not updated. It now asks **what closing does to it — updates or archives.**
+
+**Declined on purpose, with reasons**: user stories are a template *inside* a task, not another
+home for the truth; a checklist is what `process/types/` already does; a ticket in someone
+else's tracker is `custom` with a different address. **Each mode costs a branch in an interview
+already under suspicion for its length**, so one was added and three were refused.
+
+**"You do not have X" was one fact and is three.** The release just added it · it was never used
+and this release makes it load-bearing · **the owner turned it off or declined it before.** Only
+the first two are findings. The middle one is an **adoption, not a migration** — offered with its
+price, **declinable for good**, and *"we do not work that way"* recorded with a moment for a
+trigger rather than re-offered every release. The audit reads the module state **before** it
+reports anything missing: a disabled module reported as a gap is the fastest way to teach an owner
+that the list is noise. `GLOSSARY.md` carries the pair.
+
+**A jump across versions asks each question once.** Two releases can touch the same setting — one
+introducing it, a later one widening it — and **that is one question, in the newest form.** Asking
+the old form and correcting it a message later teaches an owner that a migration's questions are
+noise; asking both leaves two answers that can disagree with nothing to say which wins. A setting
+already answered in `config.md` gets **refined, not re-asked**. And the log takes **one line per
+release that had something to say**, with the silent ones folded into a line naming the span —
+except a `declined` or `deferred` step, which always keeps its own line, because that is the one
+thing the next session must not infer.
+
+**The spec answer is read from the tasks, not offered as a menu.** Where tasks exist, a handful
+are read and **one is quoted**: terse tasks say outcome-first, and telling that project to adopt
+a spec format proposes a rewrite it did not ask for; tasks already carrying context and
+acceptance detail say it is **already writing specs inside its tasks** and wants them a home.
+**And the owner's own description is a complete answer** — *"we keep a one-pager per feature and
+the task links to it"* is taken, read back in their words, and shaped into a configuration. That
+is the advisor's work, not theirs.
+
+**The native affordance carries the batch, not a queue.** The rule existed for a single
+comparison table and said nothing about the case that matters: several questions owed at once — an
+interview wave, a migration's answerable pile. **Asked one at a time they become the sequence of
+individually reasonable prompts every flow here forbids.** So: the affordance where it exists, a
+single message where it does not, and **a free answer beats the buckets in either form.**
+
+**And a structural repair with no new rule in it.** `upgrading.md` hit its 500-line budget five
+times in one day, and each fix cost a little prose. The sixth was a move instead: the
+**update-route table now lives in `INSTALL.md`**, beside the install routes it mirrors — the file
+that decided how the thing was installed decides how it updates. **Updating moves the bytes;
+upgrading moves the project**, and the two now live where each belongs.
+
+---
+
 ## 0.1.5 — 2026-08-01
 
 **Two things a user hit in their first hour, and both were the same mistake in different
@@ -196,26 +261,6 @@ general worker with the role's instructions inlined, **and `tools` restricts not
 mode.** The restriction becomes real at the next session. **A team created and dispatched in one
 sitting is a team whose allowlists are prose until it is opened again**, which is worth saying to
 an owner who asked for exactly that gate.
-
-**A fourth way to describe work, and a wrong sentence in the third.** `spec_mode` now has
-**`example`**: the authoritative description is a **checkable artefact written before the work** —
-a failing test, a golden sample, a reference output — and closing the task means it passes.
-**It earns a mode rather than a style for one reason: it cannot rot silently.** A document drifts
-from reality and says nothing; an example drifts and **fails** — the same distinction this whole
-release keeps arriving at, a thing that can refuse against a claim that must be believed. Not
-software-only: a bakery has a reference batch, a newsletter a model issue, a workshop a gauge
-part. And it is **not the definition of done renamed** — a DoD says what counts as finished,
-`example` says where the description lives, written first, with the task pointing at it.
-
-**And `custom` was asking for the wrong third thing.** It required *"closing updates them"*,
-which is wrong for the option this corpus recommends most: a change-as-a-folder is **archived**
-when done, not updated. It now asks **what closing does to it — updates or archives.**
-
-**Declined on purpose, with reasons**: user stories are a template *inside* a task, not another
-home for the truth; a checklist is what `process/types/` already does; a ticket in someone
-else's tracker is `custom` with a different address. **Each mode costs a branch in an interview
-already under suspicion for its length**, so one was added and three were refused.
-
 
 **A bug report you can actually find and send.** The flow for packaging a problem in *this
 system* was thorough about what to assemble and silent about the two things that decide whether
