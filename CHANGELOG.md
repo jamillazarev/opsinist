@@ -2,6 +2,34 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.5 — 2026-08-01
+
+**The release check can now fail.** `0.1.4` shipped with its own preflight red, and the reason is
+the more interesting half: **one of preflight's checks had been passing vacuously since the plugin
+restructure.** It globbed `commands/*.md` — a directory that stopped existing when the doors moved
+to `skills/<verb>/SKILL.md` — found nothing, and printed *"0 commands, each a door to a file that
+exists"*. Green, every release, over an empty list. It now reads `skills/`, refuses an empty
+result, and reports **19 commands**. A guard that cannot fail is not a guard, and this one had
+been decorating the release ritual for four versions, including the one that added a door.
+
+**The other half was a sentence tripping a real check.** The routing check reads every companion
+named in backticks out of the core and asserts the file exists; `0.1.4`'s new line explaining
+*where* companions live said "every bare `name.md`" as prose — a filename shape, not a filename —
+and the check dutifully went looking for `name.md`. Reworded, with the rule it states unchanged.
+
+**And the flow that had no anchor now names its door.** No companion names its command — the
+palette lives in the README, because a verb is a door to a flow that exists anyway.
+`entering.md` is the exception, and `0.1.4` measured why: every other flow runs inside a project
+whose guide already names this skill, while **a repository being taken over carries none**, and
+runs meeting one opened nothing at all, five times in five. The door is that flow's delivery, so
+the flow says so.
+
+**Upgrade note: this is the release that carries `0.1.4`'s fixes to installed copies.** A plugin
+update compares version numbers, so a fix pushed under an unchanged version reaches nobody who
+already installed it. If you are on `0.1.4`, everything in it is here.
+
+---
+
 ## 0.1.4 — 2026-08-01
 
 **Taking over somebody's repository is the first behaviour in this project to go from never
