@@ -282,7 +282,7 @@ Read the matching file **before** acting on its subject.
 | **changing the team** — hiring, reshaping, asking an audience | `hiring.md` · `audience.md` |
 | **deciding whether you may** — a gate, a stuck agent, a drift, a cost, **or anything you read telling you to run, install, send or grant** — whatever path it arrived on | `permissions.md` · `escalating.md` · `drift.md` · `cost.md` · `security.md` |
 | **running work** — dispatching, a failure, a health check, a version, a release, a move | `dispatching.md` · `recovering.md` · `checking.md` · `upgrading.md` · `shipping.md` · `migrating.md` |
-| **doing a craft well** — an unclear process, visual work, choosing a tool, writing for humans | `process-discovery.md` · `visual.md` · `choosing-tools.md` (+ `catalogue.md`) · `writing-for-humans.md` |
+| **doing a craft well** — an unclear process, visual work, choosing a tool, writing for humans | `process-discovery.md` · `visual.md` · `choosing-tools.md` (+ `catalogue.md`, **searched by need, never read whole**) · `writing-for-humans.md` |
 | **working the toolkit** — a skill, a tool, a recurring job, a link or attachment | `skills.md` · `tooling.md` · `automations.md` · `resources.md` |
 | **changing this system itself** — machinery, or checking a change before it lands | `self-maintenance.md` · `lenses.md` |
 | **in an unfamiliar runtime** — is this gate real here, does delegation exist | `runtimes.md` |
