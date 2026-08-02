@@ -7,7 +7,7 @@ and write task comments ONLY in {{language}}; artifacts (specs, docs) in
 **Project:** {{one-line: what we make}}. Repo: {{repo_url}}. Source of truth:
 {{spec docs}}; roadmap: `docs/ROADMAP.md`; team: `docs/TEAM.md`.
 
-**Operated by:** {{skill display_name}} **{{0.1.10}}** · format `schema_version` {{1}} ·
+**Operated by:** {{skill display_name}} **{{0.1.11}}** · format `schema_version` {{1}} ·
 **guard wired:** {{yes — `scripts/preflight.sh`, installed {{date}}}} · last upgrade {{date}}.
 
 > **Three facts nothing else can tell you, so they are stated rather than inferred.** *Which

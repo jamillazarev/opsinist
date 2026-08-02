@@ -2,6 +2,32 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.11 — 2026-08-02
+
+**Forty resources added, and a rule that had been costing this catalogue its most useful fact.**
+Prices and free tiers were treated as one thing and excluded together. They rot at different
+speeds: **a rate moves every quarter, and whether something can be used for nothing at all is
+close to stable** — and the second is what decides whether a small team starts today. So a row
+now says **free tier** or **OSS, self-host** and stops there. Never the limit, never the price;
+the ceiling is still verified when you wire the thing.
+
+**Six new categories**, chosen because they are what this catalogue's own readers keep building:
+**agent and chat interface components** · **icon sets** · **data tables** · **billing and pricing
+UI** · **deep research run as a bounded job** · **cloning a page you are allowed to clone**. Then
+**three more**: the **utility layer** between a framework and a component kit, **calling an API by
+hand**, and **review workflow for stacked changes**.
+
+**Three findings are recorded as blockers rather than details.** Several agent-UI libraries
+**state no licence at all** — and copy-paste components become your source, so that is unlicensed
+code in your repository, not a formality. One block library is **paid**, named as the single
+non-free entry rather than quietly dropped. And **Prisma's licence is read at its repository, not
+its site**: the site sells a managed platform and reads proprietary while the ORM has its own
+terms.
+
+**"Load the row, not the file."** The catalogue is the longest document here and almost none of
+it is about your task. The rule sits in the file *and* in the core's routing line, because a rule
+inside a long file is only read after paying for the whole file.
+
 ## 0.1.10 — 2026-08-02
 
 **A repository that already has an operator is handed back, not taken over.** With another
