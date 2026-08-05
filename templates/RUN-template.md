@@ -18,6 +18,7 @@ belong, which is how a ledger quietly becomes prose.*
 | **Model requested** | {{claude-sonnet-5}} |
 | **Model that answered** | {{claude-sonnet-5}} — **fill this from the response, not the request** |
 | **Effort · fast mode** | {{medium}} · {{off}} |
+| **Strategy** | {{standard}} — {{explicit: task · cascade: role · auto: <selector rule>}} → `strategies/` |
 | **Resolved from** | {{project → team → role → task}}, {{which rung won}} |
 
 **A gateway falls back, and the requested name would then be wrong in the ledger, in the

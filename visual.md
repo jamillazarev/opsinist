@@ -91,6 +91,16 @@ already had this naming argument.
 **Design QA checks against the system**: implementations use tokens and components, not hardcoded
 values; **a deviation is either fixed or argued into the system**.
 
+**An annotated overlay carries its labels on the image itself.** A screenshot with marked
+zones — a predicted-attention map, a QA markup — states each zone's kind on the pixels:
+`counted` (a contrast ratio, a tap-target) · `predicted` (a model's guess, and which class of
+model) · `cohort` (personas, direction-only), with the provenance line in a corner. **An image
+separated from its prose is a lossy copy of the claim** — forwarded alone, a prediction travels
+as a fact — and the label on the pixels is the only rung that survives the forward. A
+*continuous* heatmap is a model run, which makes it a tool: it enters through the import gate
+like any tool, never silently inside a consultation (`catalogue.md` — visual hierarchy &
+predicted attention).
+
 **Assets obey the same conformance.** One icon set, one illustration style, one photographic look,
 widening only on a real gap — **mixing reads as amateurish exactly the way hardcoded values do** —
 and **every shipped asset is recorded with its licence**.

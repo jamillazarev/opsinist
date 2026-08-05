@@ -62,10 +62,15 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "I'm done for today" | *"wrapping up"* — the tail written, applied work landed, decisions recorded |
 | "I want to continue in another tool" | *"I'll carry on in Gemini"* — same wrap-up, then open the project there |
 | "Can I just close the terminal?" | *"done?"* — yes, once the wrap-up ran; nothing lives in the session |
+| "I closed it without saying anything" | nothing lost but talk: recovery reads the tree, and **where the runtime resumes, the old session gives up its wrap-up once** |
 | "This is taking ages — did it die?" | *"still going?"* — you are told before you ask, and an overrun says so |
 | "I asked a question and it went quiet" | nothing — an agent with a long answer **says it is looking** and comes back with it |
 | "Don't make me sit here" | *"audit the repo"* — it leaves the turn and you keep talking |
 | "Why did that cost so much?" | *"what ran?"* — every helper is named with its tier |
+| "Close it, the work's done" | *"close T-…"* — **the door checks the ladder and the gates, and a refusal returns as the reason**; acceptance stays with whoever owns it, never the worker |
+| "Show me how work moves here" | *"show the pipeline"* — the ladder drawn from its own block: stages as nodes, gates on the edges |
+| "Spec this one properly" | *"spec it"* — the type's cut decides the shape; where no format is bound, the stock template carries guardrail metrics, prior attempts and a plan per outcome |
+| "Did we already try this?" | *"prior attempts?"* — answered from the spec's own section, **with outcomes named**, including "effect never measured" |
 | "Break this big thing up" | *"split the checkout flow"* — parallel children share a **wave**, and the next one waits |
 | "Run these two at once" | *"do both"* — they never own the same file, decided at decomposition |
 | "Three people told me the same thing" | *"users say the transfer screen is confusing"* — filed as **triage, marked recalled**, not designed off memory |

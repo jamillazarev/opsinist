@@ -127,7 +127,7 @@ time it says something *is* required.
 the work already written under the old shape**, and it is the half the owner actually feels.
 
 **A setting that decides the form of an artifact makes every existing artifact a candidate.**
-When `spec_mode` was inherited rather than asked, tasks were written outcome-first by nobody's
+When `spec_mode` was inherited rather than asked, tasks were written at the floor by nobody's
 decision — so a project that now answers *"we work from specs"* is not only missing a setting,
 **it is holding tasks that lack what the answer requires**: the document to point at, the
 reference into it, the closing step that updates it. **Naming the setting and leaving the tasks

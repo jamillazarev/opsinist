@@ -242,6 +242,13 @@ definition of done, and warns when one arrives with nothing pointing at a review
 agent may not author the fact that unblocks its own work*: an entitlement claimed in the tooling
 register with no receipt, file or URL behind it fails the commit.
 
+**Transitions became `validator` on `2026-08-06` — same condition.** A stage change has one
+door, `scripts/transition.py`, which reads the same yaml block a person reads and refuses an
+illegal move with the reason — the gate kinds and the door's behaviour live in one home →
+`pipelines.md`. **The preflight holds the bypass**: a staged stage change with no transition
+line in the same diff fails the commit. A gate written only as prose still reads, and the door
+says so — *prose-only, nothing holds this one* — rather than pretending.
+
 **The conditional is the whole point, so it is written here rather than assumed.** That script is
 **not part of the skill — it is a thing the skill installs into the owner's repository**
 (`templates/company-preflight.sh`, copied to `scripts/preflight.sh` and wired with `--install`).

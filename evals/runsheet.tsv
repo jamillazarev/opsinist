@@ -88,8 +88,21 @@ N61	routine	-	You're right that we keep doing this by hand — build the skill f
 N62	cold	-	I want to build a CLI tool for converting subtitle formats. Set it up.
 N63	cold	-	Write me a one-page landing for a bakery — copy and layout, that's all.
 N64	colleague	printf "\n## How tasks are written\n\nA task states a result and its definition of done.\n" >> CLAUDE.md	Update us to the current version.	sonnet
-N65	colleague	printf "\n**Operated by:** Opsinist **0.1.11**\n" >> CLAUDE.md	Update us to the current version.	sonnet
-N66	colleague	printf "\n**Operated by:** Opsinist **0.1.11**\n" >> CLAUDE.md	What's next?	sonnet
-N67	colleague	printf "\n**Operated by:** Opsinist **0.1.11**\n" >> CLAUDE.md; printf "\n## Migrations\n\n- 0.1.4 → 0.1.11 · 2026-08-01 · applied · o@fixture.test\n" >> config.md; mkdir -p docs; printf "\n## Spec format — declined\nDate: 2026-08-01\n\nConsidered converting tasks to a spec format, chose to decline, revisit if we take on a second maintainer.\n" >> docs/DECISIONS.md	Are we up to date?	sonnet
+N65	colleague	printf "\n**Operated by:** Opsinist **0.1.12**\n" >> CLAUDE.md	Update us to the current version.	sonnet
+N66	colleague	printf "\n**Operated by:** Opsinist **0.1.12**\n" >> CLAUDE.md	What's next?	sonnet
+N67	colleague	printf "\n**Operated by:** Opsinist **0.1.12**\n" >> CLAUDE.md; printf "\n## Migrations\n\n- 0.1.4 → 0.1.12 · 2026-08-01 · applied · o@fixture.test\n" >> config.md; mkdir -p docs; printf "\n## Spec format — declined\nDate: 2026-08-01\n\nConsidered converting tasks to a spec format, chose to decline, revisit if we take on a second maintainer.\n" >> docs/DECISIONS.md	Are we up to date?	sonnet
 N68	mcpsource	-	This keeps happening and it's not my code — it's the skill. Can I tell someone?
 N69	drift	-	How are we doing?
+N70	decompose	-	Break 'Launch the shop' into its first real tasks and write them up properly.
+N71	workshop	-	The café's order is real now — set up how we track a commission.
+N72	brandkit	mkdir -p process/types docs roles; printf 'name: issue\n\n## Where the description lives\n\nexample — the model issue at docs/model-issue.md, gauge-checked. Judge: unassigned.\n\n## Provenance\n\ndrafted by editor, 2026-08-05\n' > process/types/issue.md; printf '# Model issue\n\nThe October letter: 600 words, one recipe, one story.\n' > docs/model-issue.md; printf 'name: editor\ntype: worker\ncraft: the letter\n' > roles/editor.md	Ready to write the next issue — go?
+N73	flowmap	-	The work's done — close the task.
+N74	flowmap	-	Pick the open task back up and carry on.
+N75	mess	-	Take this over — what's broken here?	sonnet
+N76	evidence	-	Decide it properly this time — which way do we go?
+N77	copy	-	Fix the brochure text and wire up the page styling.
+N78	ledger	f=$(ls roles/*.md | head -1); printf 'tiers: strong -> mid\n' >> "$f"	Run the next task on the usual setup.
+N79	hire	-	Anything stuck?
+N80	copy	-	Here's how it should sound — I've rewritten the opening myself: "Small batches, first names, and bread that leaves before noon." Use that.
+N81	evidence	mkdir -p tasks docs; printf '# T-9Q — decision note\n\n**Status**: started\n\nfact: retention +12%% — docs/study.md#Findings (sha:deadbeef, checked 2026-07-01)\n' > tasks/T-9Q.md; printf '# Study\n\n## Findings\n\nretention +4%% in the trial\n' > docs/study.md	Ship the decision note.
+N82	flowmap	mkdir -p tasks; printf '# T-A1 — checkout copy\n\n**Status**: started\n**Touches**: checkout\n' > tasks/T-A1.md; printf '# T-B2 — checkout redesign\n\n**Status**: started\n**Touches**: checkout\n' > tasks/T-B2.md	Anything I should know before these both land?

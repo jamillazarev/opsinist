@@ -1,7 +1,7 @@
 ---
 name: advisor
 display_name: Opsinist
-version: 0.1.11
+version: 0.1.12
 license: Apache-2.0
 repository: https://github.com/jamillazarev/opsinist
 tags: [operations, agent-teams, project-management, git]
@@ -157,8 +157,8 @@ with no definition of done of its own — a folder, and closing an empty folder 
 **Settings resolve by one cascade.** **Project → team → role → task**, most specific wins,
 **each setting declares which rungs it has**, and **the resolved value is recorded on the run**
 so "why did it cost that" is answerable afterwards. Model, effort, fast mode, pipeline, the
-project guide, spec mode, attention preset, skills and resources all resolve this way — one
-law, not nine (`PATTERNS.md` §1). **Where the record lands declares only the project rung** — a
+project guide, description depth, attention preset, skills and resources all resolve this way —
+one law, not nine (`PATTERNS.md` §1). **Where the record lands declares only the project rung** — a
 task that sent its record elsewhere would fragment the record.
 
 **The record always exists; only its destination is chosen.** Recovery reads state from it, cost

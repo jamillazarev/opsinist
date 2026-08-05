@@ -100,6 +100,17 @@ quoted**, so the owner can judge its age without asking.
 reasoning is, the effort how much of it is spent. **A cheaper model at high effort often beats a
 dearer one at default** — which is why effort is set alongside the model, not later.
 
+**The run's strategy is the third dial, and it resolves like the other two** — explicit on the
+task → role → team → project, **and where every rung is silent, the selector picks from the
+task's own fields** (`strategies/selector.md`): `standard` unless the step's shape positively
+earns more, `self-refine` for writing and analysis, `self-consistent` for a decide with real
+consequences, `cot` only on tiers that do not chain their own thought (`strategies/`). **The
+resolved strategy lands on the run with its source** — explicit, cascade, or the selector rule
+that fired — because *why did it cost 3×* is otherwise unanswerable. Silence is bounded by
+cost: past ~2× of a single pass the selector offers instead of acting, except for the classes
+the project agreed to in config. **The session takes no strategy** — the same law as the
+advisor cannot re-tier itself.
+
 **Effort levels are per model, and the same lookup answers this.** A role can declare a level its
 model does not have, and **the fallback is silent** — which is exactly why it must be warned about: *a role that believes it
 runs at the top level and does not is a lie in a file*. A model the table does not know is
@@ -121,6 +132,14 @@ produce it.
 that actually ran; take the name from there. **Where the response does not say, the record says
 `unknown`** — never the requested name, which is a guess wearing a measurement's clothes.
 
+**A role may declare a fallback chain of tiers — the opposite of the gateway's silent swap.**
+`tiers: strong → mid` on the role: when dispatch cannot reach the first, the next is resolved
+through the runtime **at that moment** — tiers, never model names, which is the fastest-rotting
+fact this system refuses to hold. The fallback lands on the run and reaches the owner in the
+same breath — *"ran on mid: strong was unreachable"* — because a limitation stated before the
+work is a choice, and one discovered in the ledger is a deception. **Absent a declared chain,
+dispatch fails rather than guesses** — today's behaviour, and still the default.
+
 **Effort runs backwards for personas.** For a worker, more effort is a quality lever. For a
 persona it is a **realism lever pointing the other way** — a real user does not deliberate for
 thirty seconds over a landing page; they skim and leave. A persona at maximum effort writes a
@@ -131,6 +150,14 @@ the thing being simulated genuinely is a considered decision.
 improves judgement. The trap there is different: **effort is not a substitute for sources.** An
 expert at maximum effort with nothing to cite produces very convincing invention, which is why
 the bar for an expert is the sourcing rule, not the dial.
+
+**A dispatched worker receives its state block — generated, never recited.**
+`scripts/transition.py <task> --brief` prints the stage, the one legal forward move and what it
+needs, the open returns, and whose act the terminal is not — read from the pipeline's own yaml
+block, so the prompt cannot drift from the door the work will be judged by (`pipelines.md`).
+The block is a view (`PATTERNS.md` §6): printed at dispatch, stored nowhere. A worker handed
+its legal moves does not spend the window rediscovering the methodology, and a stage edited by
+hand instead of through the door is a bypass the company preflight refuses.
 
 ---
 

@@ -95,6 +95,14 @@ along by the larger proposal that happens to mention it.
 has been open, and **what the wait costs** where that is knowable — *"four days, blocking wave 3,
 roughly a day of idle designer per week"*. A cost turns a nag into a decision input.
 
+**Silence past the threshold does only what a grant allows.** By default a pending request
+keeps waiting — surfaced, aged, chased, **never answered for the owner**. Where the owner wants
+otherwise, they say so in advance, as a grant (`PATTERNS.md` §2): `on_timeout: {after: 3d, do:
+proceed-with-default | cancel}` — scoped, visible while it lives, expiring by itself, and the
+run that uses it records that it did. **A timeout that acts was authorised before the silence,
+never inferred from it** — silence is not consent; the grant is, written while the owner was
+still in the room.
+
 **Every escalation is a request** → `escalating.md`. So is every proposal that needs an owner's
 answer: an audit finding, a link that cannot be repaired unambiguously, a deadline at risk, a
 skill worth replacing. **The failure mode all of those share is arriving as a report** — and a

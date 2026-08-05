@@ -24,11 +24,12 @@ names. Two is a coincidence; three is a form. Same evidence bar as making a skil
 **1 · Resolution cascade.** Settings resolve **project → team → role → task**, most specific
 wins, **each setting declares which rungs it has**, and the resolved value is **recorded on the
 run** so "why did it cost that" is answerable afterwards.
-*Applies to:* model · effort · fast · pipeline · project guide · spec mode · attention preset ·
-skills · resources · terseness.
+*Applies to:* model · effort · fast · run strategy · pipeline · project guide · description
+depth (`spec_mode`) · attention preset · skills · resources · terseness.
 *Why the "declares its rungs" clause:* a pipeline has no role rung — it belongs to the work, not
-the worker — and stating that as a declaration rather than an exception keeps the pattern
-whole.
+the worker — and description depth carries a **per-type default on the project rung**, because
+depth belongs to the kind of work. Stating these as declarations rather than exceptions keeps
+the pattern whole.
 
 **2 · One-way tightening, and loosening only by grant.** A lower level may only **raise** the
 bar. Loosening is not a setting but a **grant** — `{right, grantee, scope, duration}` — that
@@ -189,8 +190,9 @@ defaults were already written in the prose beside them) and under-offering (one 
 where two were called for). Substance was right in both; only the shape was wrong.
 
 **27 · Radical transparency: the record says how, not only what.** Anything that produced a
-result is named on the result — the model, the effort, the tools driven, the subprocesses spawned
-and their tiers, the rung of every claim, and what actually enforces a rule. **Where something is
+result is named on the result — the model, the effort, the strategy with its source, the tools
+driven, the subprocesses spawned and their tiers, the rung of every claim, and what actually
+enforces a rule. **Where something is
 unknown or unenforced, that is stated rather than omitted**, because an omission reads as a
 negative and a stated gap reads as a fact.
 *Applies to:* the run record · a thread entry · a decision · a review verdict · `enforced_by` ·

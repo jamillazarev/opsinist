@@ -106,6 +106,13 @@ this system deliberately does not own.
 
 ---
 
+**What is not a runtime, said once so the question stops returning.** A server platform that
+owns execution — the Dify / Flowise / Langflow class: a backend, a database, an admin UI —
+cannot host this system, because the premise here is the inverse of theirs: the project is a
+function of the repository, sessions own nothing, and a handoff is a commit. Their mechanics
+are translated into files where they earn it (`catalogue.md`); the platforms themselves never
+join this table.
+
 ## Moving a project from one runtime to another
 
 **There is nothing to freeze, and that is the point.** Ending a session properly is the whole

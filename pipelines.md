@@ -14,8 +14,13 @@ one describes a path, the other fires → `automations.md`.
 ```yaml
 name: design
 stages: [brief, explore, draft, review, handoff]
+terminal: [handoff]
 gates:
-  review: "every screen state drawn; checked by someone who did not draw them"
+  draft->review:
+    check: "scripts/check-screens.py"   # mechanical — a command that must exit clean
+  review->handoff:
+    review_by: non-author               # a review in History from someone who did not draw them
+    fields: [evidence]                  # fields that must be present on the task
 default_for: [design-task]
 starts: on-completion
 ```
@@ -33,6 +38,22 @@ condition on an edge. Two consequences worth having: a validator can check that 
 terminal stage exists** and that **protected transitions are intact**; and a **hook may act on a
 transition** where a gate only blocks one.
 
+**A gate is data, and three kinds are checkable** — `check` (a command that must exit clean),
+`review_by: non-author` (a review line in History from someone who is not the worker), `fields`
+(named fields present on the task). **The prose beside a gate explains it to a person and is
+never what holds it** — `scripts/transition.py` is the one door a stage change goes through: it
+reads this same block, refuses an illegal move with the reason, and appends the transition to
+History. A gate written only as prose still reads, and is honestly `prose-only` — the validator
+warns rather than blocks on it. **The machine guards; it never advances** — nothing transitions
+itself is untouched by any of this, because the door refuses and records, and starting the next
+step stays a person's or the dispatcher's act.
+
+**The picture of the ladder is drawn from the same block, never beside it.** Where a pipeline
+wants showing — the docs, an owner's *"show me how work moves here"* — the mermaid view is
+generated from this yaml, stages as nodes and gates as edge labels, between markers, a view and
+never a source (`PATTERNS.md` §6, `diagrams.md`). Hand-drawing a second copy of the ladder is
+how the picture and the door drift apart.
+
 **A hook that acts obeys the automation rule: it may create work, never move anyone else's.**
 A post-transition hook that opens a task or a request is fine; one that advances something is the
 automatic transition that makes boards lie.
@@ -45,7 +66,7 @@ This split matters, because collapsing it is what makes team-level overrides imp
 
 | | Owns |
 |---|---|
-| **type** (`process/types/*.md`) | the **definition of done** and the **default pipeline** |
+| **type** (`process/types/*.md`) | the **definition of done**, the **default pipeline**, and the **default cut on the description ladder** (`writing-work.md`) |
 | **pipeline** (`pipelines/*.md`) | the **stages** and the **gates** |
 
 A bug and an article genuinely have different definitions of done, so the DoD belongs to the
@@ -81,7 +102,8 @@ questionnaire at setup, the same law as no roster before a task needs a craft.
 **Research comes before the ask, so the defaults offered are real.** For an unfamiliar craft the
 recommended bars arrive **sourced from the craft's own standards**: empty options hand the
 research to the owner, and researched silence guesses their taste — the wave does neither. The
-answers land in `process/types/<type>.md` (`templates/TYPE-template.md`) with their provenance,
+answers — the bars, and **the type's cut on the description ladder** (`writing-work.md`) — land
+in `process/types/<type>.md` (`templates/TYPE-template.md`) with their provenance,
 and hold **until the owner asks — or the bar itself accumulates the evidence and proposes its own
 change** (`checking.md`), never silently: the bar is a locked surface.
 

@@ -19,8 +19,9 @@
 
 Most tools for running agent teams ask you to trust a dashboard.
 
-**This one is an entire operations department in forty-five markdown files — and every part of it
-is something you can read, diff and delete, including the parts it admits it cannot enforce.**
+**This one is an entire operations department in markdown — a budgeted core, forty-three
+trigger-loaded companions — and every part of it is something you can read, diff and delete,
+including the parts it admits it cannot enforce.**
 
 Roles, work, pipelines, releases, threads, budgets, evidence, escalation, migrations, and a
 supply chain for the agents' own skills. Not a task list with AI bolted on: the machinery a
@@ -54,6 +55,16 @@ exists. **Applied work is never redone.** Hitting a limit stops being a lost aft
 **Nothing moves by itself.** A closed blocker does not start the work. Children finishing does not
 close the parent. Everything surfaces as *ready* and waits. **The board cannot lie to you, because
 nothing moves it except a person or whoever did the work.**
+
+**And since 0.1.12 the door refuses, so the board stays honest without goodwill.** A stage change
+goes through a validator that reads the pipeline's own declaration — an unmet gate, a skipped
+stage, a worker accepting its own work: refused, with the reason — and the picture of the ladder
+is drawn from the same block the door reads, so what you see and what is enforced cannot drift.
+
+**How deeply work is described is one cut on one ladder, owned by the kind of work.** A bug wants
+the reproduction it already demands, a newsletter issue its model issue, a chore the floor — each
+proposed from the craft's own standards, so a recipe, a screen and an exporter live on one board
+without any of them pretending to be the others.
 
 **Every claim carries how it is known** — measured, cited, recalled, or a judgement call — and the
 rung travels with the claim, so one agent cannot promote another's guess into a fact by quoting
@@ -107,8 +118,8 @@ generic version**, because the names alone would tell you nothing.
 
 **Work.** Tasks with an id that survives every rename, because links point at the id and never at
 the name · **six status categories, and you name the stages inside them** — `blocked` is not one
-of them, a blocked task is *started* with a blocker · pipelines as stage ladders with gates on the
-transitions · **waves**, which are barriers between sibling children and a different thing from
+of them, a blocked task is *started* with a blocker · pipelines as stage ladders **whose gates are data and whose one door refuses with the
+reason** · **waves**, which are barriers between sibling children and a different thing from
 stages · relations as typed pairs with one side stored and the other generated · priority that is
 opt-in, where **dates beat priority and priority is not the order** · triage, where raw intake
 lands with four dispositions and stays off the board until someone decides · decomposition where
@@ -125,8 +136,8 @@ the person** · a load budget stated as a share of the window, since windows dif
 rotation so what mattered is lifted before the rest goes · **everything that needs a decision is a
 request with an age**, not a line in a report — a report is where findings go to die.
 
-**Running.** A run record with four token numbers, the resolved settings, and **what the run spent
-outside the model** · resume that reads committed state, where **applied work is never redone** ·
+**Running.** A run record with four token numbers, the resolved settings, the run's strategy
+**with the rule that chose it**, and **what the run spent outside the model** · resume that reads committed state, where **applied work is never redone** ·
 tasks that need the live checkout declare themselves exclusive and take a lock · a turn cap on the
 role, which the runtime enforces and a budget cannot.
 

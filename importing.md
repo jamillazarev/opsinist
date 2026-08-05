@@ -46,6 +46,10 @@ both — surfaced with options and never silently merged → `drift.md`.
 link. **Keep the raw dump** — you will re-map more than once, and re-pulling is slower than
 re-reading.
 
+**Where the source is a tree rather than a tracker, inventory it first** — `scripts/inventory.py`
+gives the measured shape (counts, formats, manifests) the mapping below is then built from,
+deterministically → `entering.md`.
+
 **Map, and show the mapping before writing anything.**
 
 | From the source | To here | Rule |

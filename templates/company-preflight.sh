@@ -267,6 +267,27 @@ because a model reads its own output generously and the thread cannot tell the d
   done
 fi
 
+# 14 · (numbered by arrival, placed by theme — like the rest of this file)
+#      a stage changes through the door, or not at all. transition.py checks the ladder and
+#      the gates and appends the move to History in the same write — so a staged diff that
+#      changes a stage with no transition line beside it is a hand edit around the door.
+#      Forging the line instead is a separate visible claim, which is the same argument §13
+#      makes about acceptance: the gate's job is to make the bypass cost a lie in plain sight.
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+  # The field arrives bold in the stock template — `**Status**: draft` — so the pattern
+  # allows the asterisks, or this net matches nothing while reading as a gate. Measured by
+  # the lenses within a day of it being written: the plain-colon version had zero matches.
+  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^tasks/.*\.md$' || true); do
+    d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
+    printf '%s' "$d" | grep -qiE '^-.*(stage|status)\*{0,2}[[:space:]]*:' || continue
+    printf '%s' "$d" | grep -qiE '^\+.*(stage|status)\*{0,2}[[:space:]]*:' || continue
+    printf '%s' "$d" | grep -qE '^\+.*transition .* (→|->) .*, by ' \
+      || say_fail "$t changes its stage with no transition line in the same change — the door \
+is \`scripts/transition.py\`: it refuses an illegal move with the reason and records the legal \
+one. A stage edited by hand is a bypass."
+  done
+fi
+
 # 13 · a parent does not close itself. §10 catches a task reaching a terminal status with nothing
 #      pointing at evidence; a parent is the sharper case, because its children being done looks
 #      exactly like the parent being done and is not the same claim. A parent carrying its own

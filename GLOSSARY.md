@@ -177,13 +177,17 @@ here to rot. → `SKILL.md`
 and it is the only thing that distinguishes *the files were swapped* from *the project was
 migrated*. A guest repository has none. → `upgrading.md`
 
-**spec mode** — how work gets described, on one axis: **where the authoritative description
-lives**. `outcome` (in the task), `spec` (a document it points at, updated when it closes),
-`example` (a checkable artefact written first — a failing test, a golden sample, a gauge — and
-the only mode that **fails** when it drifts instead of going quietly stale), `custom` (a format
-the project already runs, updated *or archived* by closing).
-Cascades like any setting, **and is asked rather than inherited**, because it decides what every
-task looks like. Absent reads as `outcome`. → `writing-work.md`
+**spec mode** — where the authoritative description of the work lives: **a ladder, and the
+value names the cut** — `outcome` · `spec` · `example`, cumulative, with a format the project
+already runs entering as a **binding**, not a rung. The mechanics — the two exemplar kinds,
+the per-type default, what closing does — live in one home → `writing-work.md`. Absent reads
+as `outcome`. Not the awareness ladder marketing uses — that one is a craft frame in the
+catalogue.
+
+**run strategy** — how a dispatch is run, as distinct from *what model* (tier) and *how hard*
+(effort): `standard` · `self-refine` · `self-consistent` · `cot`, files of data in
+`strategies/`. Resolves by the one cascade with **a selector at the bottom rung**, lands on
+the run with its source, never applies to the advisor's own session. → `strategies/selector.md`
 
 **pipeline** — a linear stage ladder with gates on its transitions, and `starts:`
 (`manual` · `on-completion` · `schedule:<cron>`) saying what begins the next unit of work.

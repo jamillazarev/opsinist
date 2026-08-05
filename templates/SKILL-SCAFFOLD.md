@@ -33,6 +33,15 @@ inside a project follows this from day one — modularity is cheap at birth and 
 - Cross-reference by filename; never duplicate a rule between core and companion (one home,
   the other points).
 
+## A prompt-shaped body: identity → steps → output
+
+Where a companion (or a whole small skill) *instructs a run* rather than documents a rule,
+its body keeps one order — **who is speaking and to what end · the steps, in the order they
+are performed · what the output must look like** — because the three failure modes of a prompt
+body are exactly a muddled voice, steps out of order, and an unstated output shape. (The
+shape is Fabric's, MIT, proven across 200+ patterns; the provenance rule applies as ever.)
+Rules-documentation keeps its own shape; this section is for the bodies that are prompts.
+
 ## When the budget is hit later
 
 Move, don't squeeze: the newest rarely-needed block becomes a companion, and the core keeps

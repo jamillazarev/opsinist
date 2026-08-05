@@ -81,6 +81,17 @@ consent contract says so, and casual mentions make it meaningless.
 
 ---
 
+## The interview walks a timeline, not a questionnaire
+
+**A live interview — and a twin's transcript being mined — follows the JTBD timeline**, because
+memory serves a story better than it serves adjectives: **first thought** (what broke the old
+way) → **passive looking** (what caught the eye, unasked) → **active looking** (what was
+compared, and against what) → **deciding** (the moment, and what almost stopped it) →
+**consuming** (did the hire do the job). Each stage is asked as *what happened*, never as *what
+do you value* — the same discipline as the bias rule below: behaviour over self-description.
+The frame is a craft lens from the catalogue (`catalogue.md`), stocked here because interviews
+are where it earns most.
+
 ## Bias profiles — 2 to 4, each with its source
 
 Every persona carries **two to four named cognitive biases**, and **each has a named grounding**:

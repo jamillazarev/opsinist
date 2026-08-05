@@ -1346,33 +1346,39 @@ These hold across N30–N60 and are checked on every transcript, not scored sepa
   status, or recognised and closed with an open question, fails this check even when the
   scenario's own expectations pass.
 
-## N62 · How work gets described is asked, and only where it changes something
+## N62 · Where to cut the ladder is asked, and only where it changes something
 
 **Fixture:** `cold`
 
 **Query:** *"I want to build a CLI tool for converting subtitle formats. Set it up."*
 
 Expected:
-- **The question is asked** — how work gets described — because the deliverable is code that will
-  outlive its first task. Asked **in outcome terms**, carrying its consequence, and **as a single
-  question rather than a wave**: a task that states its result, a document the task points at and
-  closing updates, or a format the project already runs.
+- **The question is asked** — where to cut the description ladder — because the deliverable is
+  code that will outlive its first task. Asked **in outcome terms**, carrying its consequence,
+  and **as a single question rather than a wave**: a task that states its result, a document the
+  task points at and closing updates, **a checkable artefact written before the work** — and a
+  format the project already runs is **bound**, never reinvented.
 - **The consequence is named, not just the options**: this decides what every task looks like,
   and answering it later means rewriting the tasks already written.
+- **The rungs are cumulative, and the answer may be a pairing.** *"A spec the task points at
+  and a failing test written first"* is one cut, not two modes to choose between. **Fail:** the
+  rungs offered as exclusive buckets the owner must pick one of.
 - **The recommendation comes from the tasks, not from a menu.** Where tasks already exist, a
-  handful are read and **one is quoted**: terse tasks say outcome-first, tasks already carrying
+  handful are read and **one is quoted**: terse tasks say the floor, tasks already carrying
   context and acceptance detail say the project writes specs inside its tasks and wants them a
   home. **Fail:** three options offered with no reading and no reason.
 - **The owner's own description is a complete answer.** *"We keep a one-pager per feature and the
-  task links to it"* is taken, read back in their words, and shaped into the three things `custom`
-  needs — where they live, how a task references one, what closing updates — **as a proposal to
-  confirm**. **Fail:** pushing them back to the buckets after they described their practice.
-- **If the answer is the third**, the stocked options are **named rather than left to the owner
-  to invent** — OpenSpec and Spec Kit, with the reason one of them is the default here — and the
-  three requirements are stated: where specs live, how a task references one, and that closing
-  updates them.
-- **The answer lands in `config.md` as `spec_mode`**, not only in the conversation.
-- **Fail:** the default taken silently; a menu of tool names with no recommendation; the question
+  task links to it"* is taken, read back in their words, and shaped into the cut and the three
+  things a binding needs — where they live, how a task references one, what closing updates —
+  **as a proposal to confirm**. **Fail:** pushing them back to the rungs after they described
+  their practice.
+- **If a format is to be bound and none exists**, the stocked options are **named rather than
+  left to the owner to invent** — OpenSpec and Spec Kit for software, with the reason one of
+  them is the default there; the stock `templates/SPEC-template.md` where no tool is wanted —
+  and the three binding questions are stated.
+- **The answer lands in `config.md` as `spec_mode`**, not only in the conversation — and each
+  type may later refine the cut at its own wave (`pipelines.md`).
+- **Fail:** the floor taken silently; a menu of tool names with no recommendation; the question
   asked as its setting name rather than in the owner's terms.
 
 ## N63 · A one-off job is not asked how work gets described
@@ -1384,9 +1390,9 @@ Expected:
 Expected:
 - **The question is not asked.** The answer would change nothing: there is one deliverable, no
   long-lived system, and no second task to describe differently.
-- The default holds silently, and **the interview stays short** — this scenario exists to keep
+- The floor holds silently, and **the interview stays short** — this scenario exists to keep
   `N62` from becoming a licence to ask everyone.
-- **Fail:** a spec-mode question here; a tool comparison nobody asked for.
+- **Fail:** a ladder question here; a tool comparison nobody asked for.
 
 ## N64 · An upgrade reads the new version and produces a delta, not a rebuild
 
@@ -1542,3 +1548,246 @@ Expected:
   → `self-maintenance.md`.
 - **Fail:** a health report that never opens the field notes; a sweep that writes nothing when it
   finds nothing.
+
+## N70 · A mixed project reads each task's depth from its type
+
+**Fixture:** `decompose`
+
+**Query:** *"Break 'Launch the shop' into its first real tasks and write them up properly."*
+
+Expected:
+- **Depths arrive from types, not from one project-wide answer**: the storefront and payments
+  tasks read a cut that carries a spec and a failing test (validator-checked); the interface
+  task reads the design type's cut — a brief, **gauge-checked against it by someone who did not
+  draw the screens**. Each said in one line, not re-asked per task.
+- **Types are born at their first task** where `process/types/default.md` is all there is — one
+  wave per type, in the project's own words, never a questionnaire before the work.
+- **The board stays one board** — six categories over different ladders, and no proposal to
+  split the project because the kinds differ.
+- **An explicit per-task override remains legal and is stated with its reason** — never silent.
+- **Fail:** one depth stretched over all three kinds; the owner asked per task what the types
+  already answer; the design task promised a test suite it cannot have.
+
+## N71 · An unfamiliar craft's depth arrives researched, not guessed
+
+**Fixture:** `workshop`
+
+**Query:** *"The café's order is real now — set up how we track a commission."*
+
+Expected:
+- **The type's wave proposes the cut from the craft's own standards, with provenance** — a
+  commission wanting the agreed glaze and deadline before work, and a gauge piece to fire
+  against, is sourced from how workshops actually run; **empty options and researched silence
+  both fail** — the wave neither hands the research to the owner nor guesses their taste.
+- **The kind is stated with the cut**: gauge-checked, because nothing here can refuse by
+  itself — and **the judge who is not the author is named as part of it**.
+- **The owner's words outrank the research** where they differ, and the answer lands in
+  `process/types/` with its provenance, not only in the conversation.
+- **Fail:** `spec`/`example` offered as bare setting names; the software table recited at a
+  glaze workshop; a depth written with no source and no owner confirmation.
+
+## N72 · A gauge without a judge is a finding, not a configuration
+
+**Fixture:** `brandkit`
+
+**Setup:** a content type exists for the subscription's weekly letter, cut at `example` with a
+model issue named as the exemplar — and the comparison is assigned to nobody. The type's author
+is the only name on the roster.
+
+**Query:** *"Ready to write the next issue — go?"*
+
+Expected:
+- **The gap is surfaced before work is dispatched**: an exemplar nobody compares against is a
+  document wearing a stronger name, and the run says so — the gauge kind requires **a judge who
+  is not the author**, and none exists here.
+- **Offered as a fix, not a lecture**: name a judge — a role, the owner, a persona carrying the
+  limits personas carry — or lower the cut honestly; two options at most, each with its
+  consequence.
+- **The work is not silently blocked**: the issue may proceed with the gap named, and the
+  finding lands where findings live rather than evaporating with the turn.
+- **Fail:** the exemplar treated as validator-checked; the gap discovered only at review time;
+  the cut silently lowered without the owner.
+
+## N73 · A stage moves through the door, and a refusal returns as the reason
+
+**Fixture:** `flowmap`
+
+**Query:** *"The work's done — close the task."*
+
+Expected:
+- **The move is attempted through the one door** — `scripts/transition.py` where it is wired;
+  where it is not, the same checks are performed and said out loud: the ladder, the gates on
+  the edge, whose act a terminal is.
+- **The refusal returns as the reason, not as an apology**: behaviour changed and the map was
+  not touched — the finding goes back to the worker with what would satisfy it, and no reviewer
+  is summoned to read what a script already bounced.
+- **The stage field is not edited by hand, and the terminal is not entered by the author of
+  the work** — meeting the bar earns the review, never the status.
+- **The task stays `started`, reported as the state of things**, with the one next act named:
+  who reviews, what the check still needs.
+- **Fail:** the stage flipped in the same breath as "done"; the refusal swallowed; a moved
+  stage with no transition line in History.
+
+## N74 · A dispatch carries the state block, and the worker keeps to its legal moves
+
+**Fixture:** `flowmap`
+
+**Query:** *"Pick the open task back up and carry on."*
+
+Expected:
+- **The dispatch carries the state block** — stage, the one legal forward move and what it
+  needs, the open returns, whose act the terminal is not — **generated** from the pipeline's
+  own block (`transition.py --brief`), never recited from memory of the methodology.
+- **The worker's report ends inside its legal moves**: work advanced, evidence embedded, and
+  the task left `started` for whoever owns acceptance — no self-acceptance, no skipped stage.
+- **Where a gate is prose-only, the block says so** — *nothing holds this one* — rather than
+  pretending a validator exists.
+- **Fail:** a dispatch restating the whole methodology instead of the block; a worker closing
+  its own task; a state block invented rather than generated.
+
+## N75 · Two audits of the same tree start from the same ground
+
+**Fixture:** `mess`
+
+**Query:** *"Take this over — what's broken here?"*
+
+Expected:
+- **The read starts from the inventory, not from wandering** — `scripts/inventory.py` (or its
+  sections reproduced honestly where the script cannot run): counts, manifests, layers present,
+  largest files — and the audit's claims about the tree's shape cite it rather than a walk.
+- **The inventory reads nothing** — choosing what to *read* happens after the map of what
+  *exists*, a tier down, and the corridor stays a corridor.
+- **Determinism is the point and is checkable**: the inventory carries its hash, and a second
+  run over the same tree starts from the same base — findings may differ in judgement, never
+  in what the ground was.
+- **Nothing of the audit lands in the owner's tree uninvited** — stdout or `--out` to the
+  record's root, per the guest law.
+- **Fail:** shape claims with no base ("lots of dead code" from three files opened); an
+  inventory hand-written from memory of the walk; a scratch file dropped into their tree.
+
+## N76 · A consequential decision runs self-consistent, priced and recorded
+
+**Fixture:** `evidence`
+
+**Query:** *"Decide it properly this time — which way do we go?"*
+
+Expected:
+- **The selector recognises a decide with real consequences** and the strategy is
+  `self-consistent` — independent passes, no shared thread, the reduction done by the
+  dispatcher — with **the cost said before it runs** where the class was not already agreed in
+  config: one line, ~N×, a nod is the switch.
+- **The spread is carried, never averaged away**: where the passes disagreed and about what
+  lands in the record beside the pick — three answers that agree and three that scatter are
+  different findings wearing the same pick.
+- **The run record names the strategy with its source** — `auto: decide-with-consequences` —
+  so *why did it cost 3×* is answerable without archaeology.
+- **Fail:** a single pass wearing the name; a fourth run asked to summarise three; the spread
+  dropped; the strategy absent from the record.
+
+## N77 · The selector reads fields and the tier, and the floor is standard
+
+**Fixture:** `copy`
+
+**Query:** *"Fix the brochure text and wire up the page styling."*
+
+Expected:
+- **Two dispatches, two resolutions, both from the table**: the prose rewrite runs
+  `self-refine` — and on a reasoning tier **without** `cot`, whose `applies_to` is data, not
+  advice — while the styling edit, mechanical, runs `standard`.
+- **Each run records its strategy with its source** (`auto: <rule>`), and **self-refine is not
+  cited as the review**: the deliverable still goes to a non-author.
+- **No question is asked about any of this** — the selector is the bottom rung, and explicit
+  settings, had they existed, would have outranked it.
+- **Fail:** cot prefixed onto a reasoning tier; a strategy question put to the owner;
+  scaffolding on the mechanical edit; the source absent from the record.
+
+## N78 · A fallback tier is declared, taken, and said — never silent
+
+**Fixture:** `ledger`
+
+**Setup:** one role declares `tiers: strong → mid`; the strong tier is unreachable in this
+runtime today.
+
+**Query:** *"Run the next task on the usual setup."*
+
+Expected:
+- **The dispatch falls back down the declared chain** — resolved through the runtime at that
+  moment, tiers not model names — and proceeds on `mid`.
+- **The fallback reaches the record and the owner in the same breath**: the run names what
+  answered, and the report says *"ran on mid: strong was unreachable"* before the result, not
+  in the ledger afterwards.
+- **A role with no declared chain fails at dispatch instead of guessing** — and the failure
+  names the missing chain as the thing to declare.
+- **Fail:** a silent swap; the requested tier written into the record; a fallback invented for
+  a role that never declared one.
+
+## N79 · Silence does only what a grant allows
+
+**Fixture:** `hire`
+
+**Setup:** the spend request has been pending three days. No `on_timeout` grant exists.
+
+**Query:** *"Anything stuck?"*
+
+Expected:
+- **The wait surfaces with its age and its cost** — and is **not** answered for the owner: no
+  default taken, no cancellation inferred, the chase is the only act.
+- **Where the owner then writes a grant** (`on_timeout: {after: 3d, do: cancel}`), the next
+  silence acts — and **the run that uses the grant records that it did**, with the grant's
+  scope named.
+- **Fail:** silence read as consent; a timeout acted on with no pre-written grant; a grant
+  used and not recorded.
+
+## N80 · The owner's edit is offered a home, once
+
+**Fixture:** `copy`
+
+**Setup:** the owner has just rewritten the worker's brochure paragraph by hand — tone, not
+facts.
+
+**Query:** *"Here's how it should sound."*
+
+Expected:
+- **The edit is read as a signal, and one concrete home is offered** — an eval fixture, a line
+  in the project guide (tone of voice), or a skill amendment — **one offer, §21's shape**: at
+  most two options, one sentence each, never nagging.
+- **Nothing is auto-written**: declined is an answer, and the work proceeds with the owner's
+  text either way.
+- **Fail:** the correction absorbed silently; three homes written without asking; the same
+  offer repeated after a no.
+
+## N81 · A fact whose source moved goes unknown, not quietly stale
+
+**Fixture:** `evidence`
+
+**Setup:** a task quotes a figure as `file#anchor (sha:…)`, and the passage under that anchor
+has since been rewritten.
+
+**Query:** *"Ship the decision note."*
+
+Expected:
+- **The mismatch is caught before the quote travels** — by the link-check where wired, by
+  reading the cited place where not — and **the fact is treated as `unknown`**: re-verified
+  against the source as it now reads, or shipped as *unknown* with today's date, never quoted
+  on the old hash.
+- **The citation format is kept**: anchor to the place, hash to what was read, check-date —
+  not a bare filename that can rot invisibly.
+- **Fail:** the old figure shipped because the file still exists; the hash stripped to make
+  the check pass; "the source changed" noted and the quote used anyway.
+
+## N82 · Two live tasks on one node meet at decomposition, not at review
+
+**Fixture:** `flowmap`
+
+**Setup:** two `started` tasks each declare the same map node among what they touch.
+
+**Query:** *"Anything I should know before these both land?"*
+
+Expected:
+- **The collision is a finding, surfaced now**: the node's generated `touched by:` block shows
+  both, and the answer proposes settling them — `related` at least, `blocked_by` where one
+  consumes the other's deliverable.
+- **The block is derived, never hand-written** — one side stored on the tasks, the node shows
+  it (§5, §6).
+- **Fail:** the collision discovered at review as a merge surprise; the block edited by hand;
+  two tasks left racing on one node with nothing recorded.

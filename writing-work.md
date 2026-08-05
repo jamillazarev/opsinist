@@ -67,82 +67,122 @@ succeed.
 
 **Every fact in the task carries its source and check-date, or is written as "verify X."** The
 executor should trust or re-check each claim, **never inherit a recalled number as settled**.
+**And the source is cited to its place, not to its cover**: `file.md#Section (sha:ab12cd34,
+checked YYYY-MM-DD)` — the anchor says where, the short content-hash says *what was there when
+it was read*, so a passage that moves under its citation turns the fact `unknown` rather than
+quietly wrong (§11, §17). The link-check walks anchors and hashes where it is wired
+(`scripts/check-links.py`); elsewhere the format still reads, and is honestly `prose-only`.
 
 **The assignment must stand on its own.** Workable from the task and its linked documents
 **without the thread** — *"as discussed above"* is not a spec, and it stops being readable the
 moment a run dies with its context. The harness enforces this for you: a spawned worker does
 not inherit the conversation that spawned it.
 
-**Spec mode cascades** (`PATTERNS.md` §1) — **four values, and the axis is where the authoritative
-description of the work lives:**
+**Where the description lives is a ladder, not a menu** (`PATTERNS.md` §1, §25) — **the axis is
+unchanged: where the authoritative description of the work lives.** What changed is the shape of
+the choice, and the reason is a defect the old menu built in: it made `spec` and `example`
+exclusive, and real work refuses that — **a spec document *and* a failing test is the ordinary
+pairing, not a corner case.** A ladder holds the pairing; a menu forced a bucket. The setting
+keeps its name — `spec_mode` — and its values; what a value names now is **the cut**.
 
-| Mode | The description is | Closing the task |
+| Rung | Adds | Closing the task |
 |---|---|---|
-| `outcome` **(default)** | in the task: the result and its definition of done | closes the task, nothing else |
-| `spec` | a document the task points at | **updates that document** |
-| `example` | **a checkable artefact** — a failing test, a golden sample, a reference output — written **before** the work | the artefact passes; **that is the proof** |
-| `custom` | a format the project already runs | **updates it, or archives it** — whichever that format does |
+| `outcome` — **the floor, always present** | the result and its definition of done, in the task | closes the task, nothing else |
+| `spec` | a document the task points at, outliving it | **updates that document** — or archives it, where the bound format archives |
+| `example` | **a checkable artefact written before the work** — a failing test, a golden sample, a reference output | the artefact passes or the exemplar is matched; **that is the proof** |
 
-**`custom` asks only three things of any format**: where these live, how a task references one,
-and what closing does to it. **The third used to say "updates them" and was wrong for the option
-this file recommends most** — a change-as-a-folder is *archived* when done, not updated.
+```mermaid
+flowchart LR
+  O[outcome — the floor] --> S[+ spec: closing<br/>updates or archives] --> E[+ example: written<br/>before the work]
+  B{{a bound format}} -. binds to .-> S
+  E --> V[validator-checked:<br/>refuses by itself] & G[gauge-checked:<br/>non-author judge]
+```
 
-**`example` is the one that cannot rot silently, and that is why it is a mode rather than a
-style.** A document drifts from reality and says nothing; **an example drifts and fails.** It is
-the same distinction this whole system keeps arriving at — a thing that can refuse against a
-claim that must be believed. It is also not software-only: a bakery has a reference batch, a
-newsletter a model issue, a workshop a gauge part.
+**The cut names the highest surface; the rungs below are presumed.** A task cut at `example`
+normally carries the document too. Where it honestly does not, **the absent rung is declared,
+never implied** — a bakery with a reference batch and no brief is a legitimate shape *said out
+loud*. One value to state, resolve and change (§25), and the ordering carries the reasoning:
+**the longer the result must outlive its authors and the more hands will work it, the higher
+the cut.**
 
-**And it is not the definition of done wearing a new name.** A definition of done says *what
-counts as finished*; `example` says *where the description lives*. The test is written **first**
-and the task points at it — under `outcome` with tests in the DoD, the description is still prose
-in the task and the tests check it afterwards.
+**The `example` rung has two kinds, and the honesty scale already names them.** A
+**validator-checked** exemplar — a failing test, a schema, a replayable acceptance set —
+refuses by itself: `enforced_by: validator`, and this is the kind that cannot rot silently,
+because **a document drifts and says nothing; this drifts and fails.** A **gauge-checked**
+exemplar — a reference batch, a model issue, a gauge part — needs **a judge who is not the
+author** holding the comparison: `enforced_by: request`. The gauge is still worth more than a
+document alone, because comparing against a concrete thing disciplines the review — but **a
+ladder that promises a content project the rigour of a test suite is lying to it**, so the kind
+is stated with the cut.
 
-**The honest trade-off:** outcome-first leaves weaker durable documentation. Fine for most
-projects, wrong for a system that outlives its authors.
+**And `example` is not the definition of done wearing a new name.** A definition of done says
+*what counts as finished*; the rung says *where the description lives*. The artefact is written
+**first** and the task points at it — at the floor with tests in the DoD, the description is
+still prose in the task and the tests check it afterwards.
 
-**And this one is asked rather than inherited, because it decides what a task looks like.**
-Most cascading settings change what work *costs* — this one changes what work *is*: under
-`outcome` a task states the result and its definition of done, under `spec` the task points at
-a document that outlives it and closing the task updates that document, and under `custom` the
-task is a reference into a format the project already runs. **A project that answers this on
-day ninety rewrites every task it has written.** Which is why it belongs in the interview and
-not in the defaults — but **only where the answer changes something**: a deliverable that is
-code or a long-lived system. For a one-off job, a piece of writing or a design pass, the
-default stands and the question is not asked (`starting.md`).
+**`custom` is not a rung — it is a binding.** A project with its own format — change folders, a
+one-pager per feature in Notion, an RFC directory, a recipe card — binds that format to the
+`spec` rung and climbs no differently. **A binding answers three things**: where these live,
+how a task references one, and what closing does to it — updates it or archives it, whichever
+that format does. The third used to say "updates them" and was wrong for the option this file
+recommends most: a change-as-a-folder is *archived* when done. **Where no format exists to
+bind, the stock shape ships** → `templates/SPEC-template.md` — the fields good specs share,
+whatever the craft calls the cover.
 
-**When the answer is `custom`, name real options rather than asking the owner to invent one.**
-Two are stocked, both MIT, both driving many agents by slash command → `catalogue.md`:
-**OpenSpec** — a change is a folder of plain markdown, archived when done, which is this
-system's own premise already — and **Spec Kit**, phase-gated and heavier, for a project that
-wants those gates. **A project that already has its own format keeps it**; the three
-requirements above are what make any of them work, and they do not change with the tool.
+**Depth resolves by the cascade, and the type holds the default** — project (**optionally per
+type**, the same declaration pipelines make) → team → task, most specific wins, recorded on the
+run (§1). **The type's depth is born at the type's own wave** (`pipelines.md`), proposed from
+the craft's standards with provenance and confirmed in the owner's words: a bug arrives wanting
+`example` because its *ready when* already demands a reproduction; a newsletter issue arrives
+wanting the model issue; a chore arrives wanting the floor. **A mixed project needs no ceremony
+for this** — the recipe, the screen and the exporter each read their depth from their type, and
+the board stays one board.
+
+**The honest trade-off is unchanged:** cutting at the floor leaves weaker durable
+documentation. Fine for most projects, wrong for a system that outlives its authors.
+
+**The interview asks where to cut, and only when the answer changes something** — a deliverable
+that is code or a long-lived system; for a one-off job, a piece of writing or a design pass,
+the floor stands and the question is not asked (`starting.md`). It is asked rather than
+inherited **because it decides what a task looks like**: most cascading settings change what
+work *costs* — this one changes what work *is*. **A project that answers this on day ninety
+rewrites every task it has written.** Asked in outcome terms, with its consequence, never as a
+menu of names.
+
+**When the owner binds a format, name real options rather than asking them to invent one.**
+Two are stocked **for software projects**, both MIT, both driving many agents by slash command
+→ `catalogue.md`: **OpenSpec** — a change is a folder of plain markdown, archived when done,
+which is this system's own premise already — and **Spec Kit**, phase-gated and heavier, for a
+project that wants those gates. **Elsewhere the format already has a craft name** — a creative
+brief, an editorial policy, a recipe card, a PRD — and **a project that already has its own
+format keeps it**; the three binding questions are what make any of them work, and they do not
+change with the tool.
 
 **And look before offering — the recommendation comes from their tasks, not from a menu.** A
 tree that already holds specs (`specs/`, `docs/rfcs/`, an `openspec/` folder) has answered this
 in its own files. **And where it has not, the existing tasks answer it anyway**: read a handful
 and see how work is already described. Tasks that are a line and a definition of done are a
-project working outcome-first, and telling it to adopt a spec format is proposing a rewrite it
+project working at the floor, and telling it to adopt a spec format is proposing a rewrite it
 did not ask for. Tasks already carrying context, constraints and acceptance detail are a project
 **already writing specs inside its tasks** — and the honest offer is to give that a home rather
 than to keep it cramped in a title field. **Say which you saw and quote one**, so the
 recommendation is evidence rather than taste, and **the owner's existing choice outranks a better
 default.**
 
-**Their own words are a legitimate answer, and shaping them is the job.** The three modes are
-buckets for a question that does not have to be answered in buckets: an owner who says *"we keep
-a one-pager per feature in Notion and the task links to it"* has given a complete and correct
+**Their own words are a legitimate answer, and shaping them is the job.** The rungs are names
+for a question that does not have to be answered in names: an owner who says *"we keep a
+one-pager per feature in Notion and the task links to it"* has given a complete and correct
 answer, and turning that into a working configuration is the advisor's work, not theirs. **Take
-the description, read it back in their words, and land the three things `custom` needs** — where
-these live, how a task references one, what closing updates — **as a proposal to confirm, not as
-a form to fill.** A free answer beats the buckets (`PATTERNS.md` §26), and *"none of those, we do
-it like this"* is the answer most likely to be right, because it comes from a practice that
-already exists.
+the description, read it back in their words, and land the cut and the three binding things**
+— where these live, how a task references one, what closing updates — **as a proposal to
+confirm, not as a form to fill.** A free answer beats the buckets (`PATTERNS.md` §26), and
+*"none of those, we do it like this"* is the answer most likely to be right, because it comes
+from a practice that already exists.
 
 **Choosing one is an import, not a preference.** Anything arriving from outside goes through the
 import gate and lands in the tooling register with what it is, why, and its check-date
 (`tooling.md`, `resources.md`) — **a tool agreed in conversation and installed by nobody is the
-commonest way a spec mode becomes a lie**, because the tasks start referencing a format the
+commonest way a cut becomes a lie**, because the tasks start referencing a format the
 repository has no machinery for. **The setting and the tool land together, or neither does.**
 
 ---
@@ -298,8 +338,8 @@ reading pass on medium"*. **The parent's model is not the answer's model** when 
 happened underneath it.
 
 **Every recorded act carries what produced it** (`PATTERNS.md` §27)**.** A run line already does; so does a thread entry,
-a review verdict, a decision and a persona's reaction — **role, model and effort, on the thing
-itself**. It costs one field and it answers the question that otherwise has no answer a month
+a review verdict, a decision and a persona's reaction — **role, model, effort and strategy, on
+the thing itself**. It costs one field and it answers the question that otherwise has no answer a month
 later: *was this written by the top tier or by the cheap one, and was that the right call?* In a
 project where different tasks run on different models, and some on different runtimes, an
 unattributed line is a claim from nobody.

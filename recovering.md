@@ -107,5 +107,13 @@ was never allowed to ship both end in the same place; only one of them taught yo
 with a role should write its tail to that role's thread and distil it if it crossed the threshold;
 leaving a project deserves the same and usually does not get it.
 
+**And where the runtime can resume a session, the dead transcript is a readable source — once.**
+The wrap-up that was owed can be taken retroactively: reopen the last session, ask for the three
+writes, close it clean. This is salvage, not a lifestyle — the transcript stays a source and
+never becomes the record — and **in a runtime that keeps no transcripts the door does not exist**,
+which is resolved and said per runtime rather than assumed (`runtimes.md`). What it buys is
+narrow and real: the only thing a silent ending ever risks is what lived in talk alone, and this
+recovers exactly that.
+
 **On returning, three questions, and they must not be blended:** what needs me · what happened ·
 **what changed that we did not change** → `requests.md`, `drift.md`.

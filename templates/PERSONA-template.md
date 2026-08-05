@@ -32,6 +32,16 @@ For a real person the link is a **pointer, not the file** — raw audio and full
 the external store (see Provenance); audio is transcribed **locally by default (Whisper)**, a
 hosted STT only with consent recorded there.
 
+## Where they stand toward the problem *(optional — only where the project chose a frame)*
+
+{{the persona's position in the frame the type's wave picked (`catalogue.md`): the **JTBD
+timeline** for product personas — first thought · passive looking · active looking · deciding ·
+consuming — or **Hunt's awareness stage** for outward-content work. **With a source, like a
+bias — never from demographics.** A cohort reaction reads this before it reacts: a
+problem-aware persona does not click a plan-comparison block, and a most-aware one does not
+linger on the problem being explained. Absent where the craft uses no frame — a workshop's
+commissioner stands nowhere on a funnel.}}
+
 ## Bias profile — 2–4 named biases, each with its source
 
 | Bias | Source | How it shows in a decision |

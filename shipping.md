@@ -58,6 +58,10 @@ goes where**.
 
 **Write the notes, tag it, record what it cost.**
 
+**The skeleton is generated; the prose stays the author's.** `scripts/changelog.py` collects
+the commits since the last tag — subjects, files touched, trailers — into a dated draft, which
+is collation, not writing: leading with the capability is the part no script does.
+
 **The changelog leads with the capability, not the archaeology.** What someone can now do, and why
 it helps. Not which files moved.
 

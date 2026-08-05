@@ -162,6 +162,18 @@ if [ -f scripts/check-structure.py ]; then
   done
 fi
 
+# 11 · the shipped guards are exercised, not hoped: a validator whose test only runs when
+#      somebody remembers is a hope with a filename (found by the lenses — both tests were
+#      green and nothing ran them).
+for t in scripts/test-transition.sh scripts/test-inventory.sh; do
+  [ -f "$t" ] || continue
+  out=$(bash "$t" 2>&1 | tail -1)
+  case "$out" in
+    *" 0 failed") say_ok "${t##*/}: ${out}" ;;
+    *) say_fail "${t##*/}: ${out:-did not run}" ;;
+  esac
+done
+
 echo
 [ "$FAIL" = 0 ] && { printf '\033[32mpreflight passed\033[0m\n'; exit 0; }
 printf '\033[31mpreflight failed\033[0m\n'; exit 1

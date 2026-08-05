@@ -252,3 +252,17 @@ line changes with it.
 168. A rule kept in two files goes stale in one of them.
 169. When a rule does not hold, the repair is a form — a list, a required field, a gate — and never a stronger sentence.
 170. That last one was measured rather than argued.
+
+## The ladder and the door
+
+191. Where the description of work lives is a ladder: the value names the cut, the rungs below are presumed, and a skipped rung is declared.
+192. A spec document and a failing test are one cut, not two modes to choose between.
+193. An exemplar is validator-checked or gauge-checked, and a gauge needs a judge who is not the author.
+194. The kind of work owns the default cut, proposed from the craft's own standards at the type's first wave.
+195. A stage changes through one door, which refuses with the reason, records the move — and never starts the next step.
+196. A dispatched worker receives its legal moves generated from the pipeline's own block, never recited from memory.
+197. A run's strategy resolves like its model does, lands on the record with its source, and the selector reads fields, never vibes.
+198. Silence on a request does only what a grant, written in advance, allows.
+199. A fact is cited to its place with a content-hash, so a passage that moves under the citation turns the fact unknown rather than quietly wrong.
+200. Compaction is safe for exactly what is already in the repository, and the three writes come before the shrink.
+201. Where the runtime can resume a dead session, the transcript is a readable source once — salvage, never the record.

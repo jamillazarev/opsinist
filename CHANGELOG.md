@@ -2,6 +2,98 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.12 — 2026-08-06
+
+**Where the description of work lives is a ladder now, and a pairing stopped being illegal.**
+The four spec modes made `spec` and `example` exclusive, and real work refuses that: a spec
+document *and* a failing test written first is the ordinary pairing, not a corner case. The
+value of `spec_mode` now names **the cut** — outcome is the floor and always present, `spec`
+adds the document closing updates, `example` adds the artefact written before the work — rungs
+below the cut are presumed, and a rung honestly absent is declared rather than implied.
+`custom` stopped being a value: **a format the project already runs is a binding to the `spec`
+rung**, answering the same three questions it always answered. And the `example` rung tells
+the truth about itself in two kinds: **validator-checked** refuses by itself; **gauge-checked**
+is an exemplar plus a judge who is not the author — because a ladder that promises a bakery
+the rigour of a test suite is lying to it.
+
+**Depth became a property of the kind of work, not of the project.** The type's own wave
+proposes the cut from the craft's standards with provenance — a bug arrives wanting the
+reproduction it already demands, an issue wants its model issue, a chore wants the floor — so
+a mixed project reads three depths from three types on one board, with no ceremony and no
+per-task interrogation. Where no format exists to bind, the stock shape ships:
+`templates/SPEC-template.md`, carrying the fields good specs share whatever the craft calls
+the cover — measures split primary · secondary · **guardrail** · proxy-with-its-reason, prior
+attempts **with outcomes**, open questions, the cost of doing nothing, and a plan written
+before the work for all three endings.
+
+**The stage machine is now guarded by code, and still advances nothing.** Gates are data —
+`check` · `review_by: non-author` · `fields` — and `scripts/transition.py` is the one door a
+stage change goes through: it reads the same yaml a person reads, refuses an illegal move with
+the reason, appends the transition to History, and turns self-acceptance away at the door
+rather than at the commit. A dispatched worker receives its **state block** generated from
+that same yaml, so the prompt cannot drift from the door the work is judged by. A gate written
+only as prose still reads — and the door says *prose-only, nothing holds this one* instead of
+pretending.
+
+**A corridor read starts from a measured base.** `scripts/inventory.py` prints a
+deterministic inventory — counts, sizes, manifests, layers, largest files, nothing read — so
+two audits of the same tree start from the same ground, join, migration and import included,
+and in a guest repository its output lands in our record's root, never their tree.
+
+**Runs carry a third dial.** `strategies/` ships four as data — `standard`, `self-refine`
+(never the review), `self-consistent` (the spread is the signal, priced before it runs),
+`cot` (light tiers only, and that lives in the file, not in advice) — resolving by the one
+cascade with **a selector at the bottom rung** that reads the task's fields and the resolved
+tier, acts silently only under ~2× cost, and lands on the run with its source, so *why did it
+cost 3×* has an answer.
+
+**Five mechanics arrived from studying the platform class, translated into files.** A role
+may declare a **fallback chain of tiers** — taken, recorded, said in the same breath, never
+silent. A pending request acts on silence **only through a grant written in advance**
+(`on_timeout`, default keep-waiting). An owner's hand-edit to a worker's output is **offered a
+home** — fixture, guide line, or skill amendment — once, and declined is an answer. A fact is
+cited **to its place with a content-hash** — `file#anchor (sha:…, checked …)` — and
+`check-links.py` walks anchors and hashes (LINK005), so a passage that moves under its
+citation turns the fact unknown instead of quietly wrong. And a map node shows **who is on
+it**: a generated touched-by block, where two live tasks on one node is a finding at
+decomposition, not a surprise at review.
+
+**A long session may be compacted instead of ended, and the order survives it.** Compaction is
+a lossy summary — safe for exactly what is already in the repository and nothing else — so the
+plugin's new `PreCompact` hook injects the order where the runtime exposes one: **the three
+writes first, the shrink after**, with the summary keeping only open questions and pointers.
+The session cycle is drawn beside its prose now (`entering.md`), silence has its named safety
+net — recovery reads the tree, applied work is never redone — and where the runtime can resume
+a dead session, **the transcript is a readable source once**: the wrap-up it owed, taken
+retroactively (`recovering.md`). Salvage, not a lifestyle; the fresh session reading its
+arrival stays both the cheaper and the more faithful restore.
+
+**The catalogue grew craft frames and an import source.** Six product-and-behaviour frames
+land by purpose at the type's wave — never as project-wide law — and Fabric's two hundred
+patterns are an import source through the screen, which now flags **a body that executes
+anything** as a finding before any talk of merit. The audience interview walks the JTBD
+timeline; a prompt-shaped skill body states its order (identity → steps → output); a
+project-local skill **survives an upgrade that ships its name** — checked on 2026-08-05:
+nothing held that until now; and the Dify class is named in `runtimes.md` as not-a-runtime,
+so the question stops returning.
+
+**Migration map** — the audit reads this list, an existing project acts on it:
+
+- **`spec_mode`: nothing to do.** Every old value reads as a cut; absent still reads
+  `outcome`; `custom` configurations keep working as bindings — the three answers they
+  already gave are the binding.
+- **Projects that wired the company preflight: re-copy it.**
+  `templates/company-preflight.sh` → `scripts/preflight.sh` — §14 now refuses a stage edited
+  around the door. Without the re-copy the rule is prose-only there, honestly.
+- **Pipelines with prose gates: nothing forced.** They read as before; the door warns
+  `prose-only` on them. Formalise per pipeline when the gate should actually hold.
+- **Strategies: nothing to do.** No setting means the selector's defaults; declare on a rung
+  only to override.
+- **Types gain a depth line at their next wave** — existing type files are valid without one;
+  the line is proposed when the type is next touched, never demanded retroactively.
+- **New scripts** — `transition.py` · `inventory.py` · `changelog.py` — arrive with the
+  skill; nothing in an existing tree moves.
+
 ## 0.1.11 — 2026-08-02
 
 **Forty resources added, and a rule that had been costing this catalogue its most useful fact.**
@@ -885,8 +977,8 @@ happens — and a sweep that found nothing records what it looked at.
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · a hundred and eighty-six single-sentence facts · eighty-six situations with what to
-say · **eighty-three evaluation scenarios**, each naming the fixture it runs against, scored by
+file defines · two hundred and one single-sentence facts · ninety-one situations with what to
+say · **ninety-six evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the
 artifacts a project stands up · and guards that run on every push: dangling references, ageing

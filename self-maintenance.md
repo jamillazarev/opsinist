@@ -30,6 +30,17 @@ feeling like different work**.
 **A short ladder, not an exemption: `doing → done`.** If a one-line script change had to cross four
 stages, people would route around it, and then none of this holds.
 
+**Scripts the project writes for itself — four rules before the first one lands.** **The stack
+is what the project already runs**; where nothing runs yet, POSIX shell until the first
+structure more complex than a pipe, then the project's main language — a helper in a language
+nobody here reads is a dependency wearing a filename. **Standard library first**, and a real
+dependency walks through the import gate like any other arrival. **Size is a signal**: a helper
+pushing past ~150 lines, or wanting dependencies of its own, is §23 speaking — promote it to
+its own repository and re-import it as an external tool, **exactly the law skills already
+follow** (`skills.md`), so the repo never grows a monster it cannot shed. **And a guard gets a
+test or it is a hope** — a script that decides something is exercised by a script beside it,
+the same habit this corpus keeps for its own validators.
+
 **Intake reuses `triage`.** An audit finding, a field note, a proposal — all land there with the
 four dispositions. This is what fixes the oldest hole in the audit: **its output was a report, and
 a report lives until the end of the scroll.** Through triage a finding gets an age and a place in

@@ -104,7 +104,16 @@ many came back and finished **without redoing applied work**. The failure this c
 and costs twice.
 
 **Time in stage**, from the task histories — which is what makes a bottleneck visible before it is
-folklore.
+folklore. **And where it keeps pointing at the same edge, the audit proposes a better ladder** —
+as a diff to the pipeline file with the numbers that argue for it, because the ladder is a
+locked surface: proposed to the owner, never edited by whoever works under it (`pipelines.md`).
+
+**An owner's edit to a worker's output is a signal, and it is offered a home** (`PATTERNS.md`
+§21). The diff already says what the system got wrong; unrecorded, the same correction returns
+next month. So the edit is offered — once, concretely — one of three homes: **an eval fixture**,
+the regression that catches it next time · **a line in the project guide**, the rule the edit
+implies · **a skill amendment**, where the miss lives in a skill. Proposed, never auto-written,
+and declined is an answer.
 
 **A repeated primitive.** *"We keep doing this by hand"* is the trigger for making a skill or a
 tool, and **the honest ranking is that recorded friction from real use finds it better and cheaper

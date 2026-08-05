@@ -91,6 +91,12 @@ the same read.
 **Dispatch leans on it.** A task naming its map nodes hands the worker the context that matters
 without the whole tree — the same reason a task is workable from itself.
 
+**And the node answers back who is on it.** A generated `touched by:` block on the node lists
+the tasks currently declaring it, with their statuses — derived from the tasks' own
+declarations, one side stored and the other shown (`PATTERNS.md` §5, §6), never written by
+hand. **Two live tasks on one node is a finding**: surfaced at decomposition as
+related-or-blocking to settle, not discovered at review as a collision.
+
 **Where a knowledge graph exists, the map is a source for it — never the reverse.** The graph is
 a derived index; the file is canon. A clone gets the map with the repository, which is the whole
 premise (`project = f(repo)`), and any index rebuilds from it.

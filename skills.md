@@ -137,6 +137,14 @@ diff before anything goes anywhere.
 **Its own repository, the owner's, private by default.** Publishing is outward — owner-confirmed,
 always, and named account stated as it is created.
 
+**A project-local skill shadows a stock skill of the same name, and an upgrade never overwrites
+it.** Local wins — it was screened, adapted and paid for by this project — and the collision
+surfaces at upgrade rather than resolving silently: the upgrade names the shadowed skill, says
+what the stock version would have added, and the owner chooses keep, merge or rename. **Checked
+2026-08-05: nothing held this** — an upgrade shipping a same-named stock skill would have
+clobbered the local copy unremarked, because `upgrading.md` protects the owner's conventions
+and nothing protected their files.
+
 **Re-import it as an external skill so there is exactly one source of truth.** The in-project copy
 is **deleted, not left to drift**. From then on it upgrades like any third-party skill, and other
 projects import the same URL.

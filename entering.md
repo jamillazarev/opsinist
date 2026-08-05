@@ -128,6 +128,15 @@ minutes is being made to wait for something that had no reason to hold the sessi
 parent could not do itself — the most expensive way to survey a repository is at the advisor's own
 tier, and it hides in the bill as ordinary work.
 
+**And it starts from the inventory, not from wandering.** `scripts/inventory.py` prints the
+measured base — counts, sizes, manifests, the layers present, the largest files — reading no
+contents, so **two audits of the same tree start from the same ground** instead of from whatever
+subset each run happened to open. The model's job begins where the script's ends: choosing what
+to *read* from a map of what *exists*. The same base serves the takeover audit, the migration
+audit and an import's source scan — three doors, one mechanical half. **In a guest repository
+its output goes to our record's root, never their tree** — stdout by default, `--out` pointed
+elsewhere.
+
 **How the corridor's edges are found — read, derived, then asked, in that order.** First the maps,
 where they exist: the product map's nodes and the architecture note's *paths a change usually
 touches* answer most of it without a question. Then **the tree's own evidence**: what calls and
@@ -263,9 +272,30 @@ different tool, different machine — and **the arrival summary is the first thi
 needs you, what happened, what changed that you did not change, what is still undecided. That is
 where the previous state comes from. **Nothing is carried in the session, so nothing has to be.**
 
+```mermaid
+flowchart LR
+  W[signals: uncommitted work ·<br/>a long session · a piece finished] --> P[wrap-up — proposed,<br/>or asked for in plain words]
+  P --> T[three writes: the tail ·<br/>applied landed · decisions recorded]
+  T --> X[close it anywhere —<br/>nothing is left in the session]
+  X --> A[next open, any tool:<br/>the arrival summary]
+  X -. ended badly .-> R[recovery: committed ·<br/>applied · remains]
+  C{{the runtime compacts<br/>instead of ending}} -. same three writes first:<br/>hooks/pre-compact.sh .-> T
+```
+
 **Clearing a terminal costs nothing and loses nothing**, which is worth saying plainly because it
 looks destructive. The transcript is a source, never a dependency: what mattered was written down
 as it happened.
+
+**A runtime that compacts a long session instead of ending it changes nothing about the order.**
+Compaction is a lossy summary of the transcript — **safe for exactly what is already in the
+repository, and for nothing else** — so the three writes come before the shrink, not instead of
+it. The plugin declares a pre-compact hook that states that order (`hooks/pre-compact.sh`) —
+**and whether a runtime feeds the hook's words into the compaction is unverified on every
+runtime so far**, so until one measured compaction says otherwise this rule is prose wearing a
+hook, and honestly so (`runtimes.md`). And a
+compacted session is still the dearer seat: cost climbs with carried context, summaries lose
+what files do not — **the fresh session reading its arrival is both the cheaper and the more
+faithful restore**, which is why living forever was never the goal.
 
 **If the session ended badly — a crash, a closed lid, a limit — the next start says so.** The
 interrupted run is marked, the task visibly regresses, and recovery separates committed from

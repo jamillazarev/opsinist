@@ -29,6 +29,15 @@ concrete:
 the test suite, a schema validation, a link check. Leave absent where the craft has no
 mechanical half; never invent one for the look of it.}}
 
+## Where the description lives
+
+{{the cut on the depth ladder for tasks of this type — `outcome` · `spec` · `example` —
+proposed at this wave from the craft's own standards, confirmed in the owner's words. Where
+the cut is `example`, state the kind: **validator-checked** (a command refuses — tests, a
+schema) or **gauge-checked** (an exemplar and a judge who is not the author — a reference
+batch, a model issue). A bug wants `example` because its ready-when already demands a
+reproduction; a chore wants the floor. A task overrides explicitly. → `writing-work.md`}}
+
 ## Pipeline
 
 {{the stage ladder — default: build → review → accept; a design stage in front where design

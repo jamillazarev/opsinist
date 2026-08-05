@@ -13,6 +13,10 @@ Output: path:line: LEVEL: [RULE] message
   LINK002  FAIL  prose reference names a file that does not exist
   LINK003  FAIL  prose reference names a section the target file does not have
   LINK004  WARN  backticked repo path does not exist (may be an example)
+  LINK005  FAIL  a cited passage changed under its content-hash — the citation format is
+                 `file.md#Anchor (sha:xxxxxxxx, checked YYYY-MM-DD)` (writing-work.md): the
+                 anchor says where, the hash says what was there when it was read, and a
+                 mismatch means re-verify the fact or mark it unknown — never trust the quote
 
 Exit 1 on any FAIL. WARNs never fail the run — a checker that cries wolf gets bypassed,
 and then none of it is enforced.
@@ -122,6 +126,38 @@ def headings_cached(path):
     if key not in HEADING_CACHE:
         HEADING_CACHE[key] = headings_of(path)
     return HEADING_CACHE[key]
+
+
+# file.md#Anchor (sha:xxxxxxxx, ...) — a citation that names what was there when it was read.
+CITE_HASH = re.compile(
+    r"([A-Za-z0-9_./-]+\.md)#([A-Za-z0-9_-]+)\s*\(sha:([0-9a-f]{8})")
+
+
+def section_hash(path, anchor):
+    """The short content-hash of one section: heading to the next of same-or-higher level,
+    trailing space stripped — the same normalisation a writer gets by hashing what they read."""
+    import hashlib
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeDecodeError):
+        return None
+    want = norm(anchor.replace("-", " "))
+    grab, level, body = False, 0, []
+    for _, raw in strip_fences(lines):
+        m = HEADING.match(raw)
+        if m:
+            hlevel = len(raw) - len(raw.lstrip("#"))
+            if grab and hlevel <= level:
+                break
+            if not grab and norm(m.group(1)) == want:
+                grab, level = True, hlevel
+            continue
+        if grab:
+            body.append(raw.rstrip())
+    if not grab:
+        return None
+    text = "\n".join(body).strip()
+    return hashlib.sha256(text.encode()).hexdigest()[:8]
 
 
 def index_tree():
@@ -239,8 +275,38 @@ def check(md):
                 continue
             add("WARN", "LINK004", rel, lineno, f"path not found: {target}")
 
+        # Hashes are checked on the raw line: a citation inside backticks is still a claim
+        # about a passage. A target that does not resolve is a documented example, not a cite.
+        for fname, anchor, sha in CITE_HASH.findall(raw_text):
+            dest = (md.parent / fname) if (md.parent / fname).exists() else (ROOT / fname)
+            if foreign(fname) or not dest.exists():
+                continue
+            now = section_hash(dest, anchor)
+            if now is None:
+                add("FAIL", "LINK005", rel, lineno,
+                    f"{fname} has no section matching cited anchor #{anchor}")
+            elif now != sha:
+                add("FAIL", "LINK005", rel, lineno,
+                    f"the passage at {fname}#{anchor} changed under its citation "
+                    f"(sha now {now}) — re-verify the fact or mark it unknown")
+
 
 def main():
+    # --mint file.md#Anchor — print the hash a citation needs, so the format is writable
+    # without hand-reproducing the normalisation (a check nobody can satisfy teaches people
+    # to stop citing). Found by the lenses the day the format shipped.
+    if len(sys.argv) > 2 and sys.argv[1] == "--mint":
+        fname, _, anchor = sys.argv[2].partition("#")
+        dest = Path(fname).resolve()   # from the caller's cwd — ROOT swallowed "--mint"
+        if not dest.exists() or not anchor:
+            print(f"✗ need an existing file and an anchor: --mint file.md#Anchor")
+            return 2
+        h = section_hash(dest, anchor)
+        if h is None:
+            print(f"✗ {fname} has no section matching #{anchor}")
+            return 2
+        print(f"{fname}#{anchor} (sha:{h}, checked {__import__('datetime').date.today()})")
+        return 0
     for md in sorted(ROOT.rglob("*.md")):
         if ".git" in md.parts or md.name in SKIP_FILES:
             continue
