@@ -58,6 +58,11 @@ goes where**.
 
 **Write the notes, tag it, record what it cost.**
 
+**Every manifest carries the version, and the sweep runs before the tag.** A release bumped
+four manifests and missed three; the four hid the three until a runtime reinstalled the old
+number from its own file. `scripts/find-installs.sh` reads every manifest this repo ships —
+run it against the tree before tagging, not against the machine after.
+
 **The skeleton is generated; the prose stays the author's.** `scripts/changelog.py` collects
 the commits since the last tag — subjects, files touched, trailers — into a dated draft, which
 is collation, not writing: leading with the capability is the part no script does.
