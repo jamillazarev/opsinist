@@ -60,6 +60,19 @@ first.
 
 ---
 
+## A generated Opportunity-Solution-Tree view over the specs
+
+**Deferred because** the layers already have homes — outcome and measures in the spec,
+opportunities in the research chain, solutions as specs and tasks, assumption tests in the
+plan-per-outcome — and the tree is declared a view over those links
+(`process-discovery.md`), which prose can hold until somebody actually asks to *see* it. A
+generator (mermaid between markers, `PATTERNS.md` §6, same shape as `touched by:`) is a day
+of work with no requester yet, and a view nobody reads is furniture.
+
+**Revisit when** the first project running product discovery asks to see the tree, or a
+review finds a solution shipped with no opportunity above it — the miss the view exists to
+make visible.
+
 ## A `pack` mode for the inventory script — context from declarations, not from the tree
 
 **Deferred because** the spec-format release (2026-08-05) ships `scripts/inventory.py` for the

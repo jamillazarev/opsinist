@@ -48,14 +48,40 @@ garbage happened.**
 
 ---
 
-## Record the process
+## Record the process — into the machinery, not beside it
 
-**Write the chosen process into the project's documentation**, so the next run of the same kind of
-work **starts from it rather than rediscovering it** — and so that a better process found later is
-**a visible change rather than a silent drift**.
+**A discovered process lands as a type and its pipeline.** `process/types/<kind>.md` carries
+the definition of done and the cut on the description ladder — proposed at the type's wave —
+and `pipelines/<name>.md` carries the stages and the gates **as data the door reads**
+(`pipelines.md`, `writing-work.md`). So the next run of the same kind of work **starts from it
+rather than rediscovering it**, the state block and the transition validator work from day
+one, and a better process found later is **a diff to a file rather than a silent drift**.
+Prose keeps the why; the files are the process.
 
 That is the same reason decisions are recorded: not to have a record, but so the next person
 argues with the previous answer instead of re-deriving it.
+
+## The same five steps, run on a question
+
+**Product discovery — *what do we know about the problem* — is this method pointed at a
+question instead of a craft.** Its findings land where the release put their homes: **the
+spec's own fields** — prior attempts with outcomes, open questions, the cost of doing nothing
+(`templates/SPEC-template.md`) — the interviews walk the JTBD timeline (`audience.md`), and
+the choice runs the decision loop. **A research type's own chain — facts → insights →
+opportunities → recommendations, each layer carrying its confidence — arrives from the
+craft's standards at the type's wave**, never as a built-in pipeline: the same
+anti-encyclopedia law as everywhere in this file. **The opportunity layer is the one teams
+skip**: an insight names what is true, an opportunity names a need it opens, and jumping from
+insight straight to a solution is how a feature ships with no need under it — the discovery
+spine the craft itself now teaches is outcome → opportunities → solutions → assumption tests
+(`catalogue.md`, the frames row). **The tree those links form is a view, never a source** —
+assembled from the specs' own references (`PATTERNS.md` §6), not drawn beside them.
+
+**And discovery is a cadence, not a phase.** The craft's own 2026 finding: the commonest
+failure is not a wrong tree but **a starved one** — evidence refreshed quarterly under
+opportunities that change weekly. Where a project runs product discovery at all, the stock
+answer is an automation holding the touchpoint (`automations.md`), and interview evidence
+carries its date like every other fact: past its recheck it is `unknown`, not background.
 
 ---
 

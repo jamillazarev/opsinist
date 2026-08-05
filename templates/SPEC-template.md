@@ -18,7 +18,9 @@ minted by `scripts/check-links.py --mint` — or written as "verify X"}}
 
 {{The business or craft context — the goal standing behind the work, one paragraph. What
 happens if nothing is done belongs here too: **the cost of inaction is what prices the work**,
-and a spec that cannot say it is a wish with sections.}}
+and a spec that cannot say it is a wish with sections. For product work, three questions
+grade the problem before anything is scoped: **how often it bites · how hard · whether anyone
+would pay to stop it** — a problem weak on all three is a curiosity, not a spec.}}
 
 ## The outcome
 
@@ -54,7 +56,9 @@ next quarter; so does an attempt nobody recorded.}}
 ## Open questions
 
 {{What is not yet settled, each as "verify X" with who or what settles it. **An open question
-listed here is honest; the same question discovered mid-build is a stall.**}}
+listed here is honest; the same question discovered mid-build is a stall.** Each is an
+assumption wearing a question mark — **the riskiest gets a test before the build**, named by
+axis: does anyone want it · can we build it · does it hold up as a business.}}
 
 ## The plan per outcome *(optional — product and experiment work)*
 
