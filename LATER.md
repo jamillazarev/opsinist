@@ -62,51 +62,26 @@ first.
 
 ## A generated Opportunity-Solution-Tree view over the specs
 
-**Deferred because** the layers already have homes — outcome and measures in the spec,
-opportunities in the research chain, solutions as specs and tasks, assumption tests in the
-plan-per-outcome — and the tree is declared a view over those links
-(`process-discovery.md`), which prose can hold until somebody actually asks to *see* it. A
-generator (mermaid between markers, `PATTERNS.md` §6, same shape as `touched by:`) is a day
-of work with no requester yet, and a view nobody reads is furniture.
+**Deferred because** the data half landed on 2026-08-06 — the spec's `Opportunity` field names
+the need and cites its insight, so every new spec feeds the tree — and only the generator
+remains: mermaid between markers (`PATTERNS.md` §6, same shape as `touched by:`), a day of
+work with no requester yet. A view nobody reads is furniture; the field is not, because a
+solution with no opportunity above it now fails a read even without the picture.
 
-**Revisit when** the first project running product discovery asks to see the tree, or a
-review finds a solution shipped with no opportunity above it — the miss the view exists to
-make visible.
-
-## A `pack` mode for the inventory script — context from declarations, not from the tree
-
-**Deferred because** the spec-format release (2026-08-05) ships `scripts/inventory.py` for the
-raw-tree case only — join, migration, import — where no declarations exist yet. The other mode,
-assembling a dispatch pack from a task's own declarations (map nodes → files, linked docs), has
-no measured need: runtimes read files themselves, and a pack is a context-budget optimisation
-nobody has yet hit the ceiling to justify. The CLI is shaped so `pack` can arrive as a second
-mode of the same tool, not a second tool.
-
-**Revisit when** a dispatch fails or degrades on context budget on a real task — the second
-occasion is the bar — or a runtime lands in `runtimes.md` that cannot walk a tree on its own.
+**Revisit when** the first project running product discovery asks to *see* the tree, or a
+review finds a solution shipped with no opportunity above it.
 
 ## `starts: webhook` — an external trigger the automation can declare
 
-**Deferred because** there is no server: a declared listener with nothing listening is a
-configuration that lies, and the honest version needs a hosting story before the syntax. The
-shape is settled — a declaration beside `schedule:<cron>` on the automation, executed by
-whatever host has a listener, under the law that already governs schedules: *one that silently
-did not run is worse than one that says it was late*. Dify and n8n both landed on
-trigger-as-declaration, which confirms the form and nothing else.
+**Reopened as a live candidate 2026-08-06 — the listener now exists somewhere real.** OpenClaw
+was measured on this machine: a resident WebSocket gateway, `cron`, agent hooks — the first
+runtime that could actually *hold* a declared trigger, where every earlier survey found only
+serverless sessions. The shape stays settled: `webhook:<name>` beside `schedule:<cron>`,
+executed by the host that has a listener, under the schedule's own law — *one that silently
+did not run is worse than one that says it was late*.
 
-**Revisit when** the first project asks for an event-started automation, or a runtime/hosting
-in `runtimes.md` grows a webhook surface that could actually hold the listener.
-
-## A wave's failure policy — `continue-on-error` for children
-
-**Deferred because** the current default is right: a failed child escalates and the barrier
-stays closed, and nothing proceeds quietly. A declared per-wave policy ("close the barrier
-without the failed child, carry the successes") is a real mechanic — Dify's iteration modes are
-the one occasion seen — but one occasion is a coincidence, and a setting stocked for a
-hypothetical is the drift this file exists to refuse.
-
-**Revisit when** a second real wave needed to continue without a failed child and could not —
-twice is the evidence bar.
+**Revisit when** the first automation actually needs an external event — and the first step
+then is verifying OpenClaw's trigger surface (its cron/gateway API), not building one.
 
 ## ~~Project-local skills must survive an upgrade that ships a same-named stock skill~~ — reopened 2026-08-05, taken into the release
 

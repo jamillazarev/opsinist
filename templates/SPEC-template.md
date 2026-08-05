@@ -11,6 +11,9 @@ not need — a heading over an empty body is worse than no heading**, and the pr
 templates shipped as content.
 
 **Covers**: {{one line}} · **Touches**: {{map nodes this changes or creates → `docs/MAP.md`}}
+**Opportunity**: {{the need this closes, named from the research chain, with the insight it
+stands on cited to its place — a solution with no opportunity above it is the miss the tree
+exists to show → `process-discovery.md`}}
 **Sources**: {{each fact below is cited to its place — `file.md#Anchor (sha:…, checked …)`,
 minted by `scripts/check-links.py --mint` — or written as "verify X"}}
 

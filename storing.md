@@ -147,6 +147,13 @@ Enter one, read its log, push it, delete it. No index and no manifest of its own
 projects is built by scanning, because a manifest is a database and would disagree with reality
 the first time someone removes a folder by hand.
 
+**What crosses projects is exported, never shared.** A lesson that outgrew its project — a
+guide rule that kept earning its place, a skill born from a routine, a persona worth reusing —
+**leaves as an artefact through the export door and enters the next project through the import
+gate**, screened like anything arriving. There is no shared mutable brain across projects, on
+purpose: `project = f(repo)` dies the day two projects read one file neither owns. The store
+is where such artefacts wait between projects — a shelf, not a runtime.
+
 **It is always complete, and completeness is not authority.** Every layer is present locally so
 the graph resolves, search answers, and a migration needs no interrogation. **Who is canonical is
 declared once per connection and does not move** — a source of truth that changes owner over time

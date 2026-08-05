@@ -95,6 +95,14 @@ incrementally so a rerun resumes from the repository instead of redoing work.
 **Not our layer:** model compression — quantization, distillation — applies to teams hosting
 their own models. Consuming an API or a subscription, the lever is **context economy**.
 
+**An estimate at dispatch, from the ledger's own history.** Enough runs of a type make the
+next one predictable within a band: the dispatcher reads similar runs — same type, similar
+size — and writes `~N tokens, from M similar runs` on the run **before it starts**,
+judgement-rung, never a promise. Actual-vs-estimate accumulates in the same ledger, which is
+what narrows the band honestly instead of a number invented per dispatch. **An estimate that
+would change the owner's decision is said before the dispatch, not discovered in the ledger**
+(`PATTERNS.md` §24).
+
 ---
 
 ## Two bills — name which one

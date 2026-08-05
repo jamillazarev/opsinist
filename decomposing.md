@@ -69,6 +69,14 @@ in parallel, and it is decided **at decomposition**, not discovered at merge.
 **Completing a wave does not start the next one.** It **surfaces** as ready and waits, like every
 other transition.
 
+**A wave declares what a failed child does to the barrier.** `on_child_failure: escalate` — the
+default and the old law: the barrier stays closed, the child escalates, nothing proceeds
+quietly. Two more are declarable **at decomposition, never assumed**: `continue-without` — the
+wave closes over the gap **and the gap becomes its own task**, named, not forgotten · `collect`
+— the wave closes carrying its successes, the failures listed on the parent. The non-default
+values are for conveyor work — a batch of thumbnails where one corrupt source must not hold
+thirty — and the policy is data on the wave, read by whoever holds the barrier.
+
 **`wave`, not `stage`.** One word cannot mean both the step of a pipeline and the parallel group;
 the corpus that used one word for both paid for it.
 

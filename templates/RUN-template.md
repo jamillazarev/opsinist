@@ -19,6 +19,7 @@ belong, which is how a ledger quietly becomes prose.*
 | **Model that answered** | {{claude-sonnet-5}} — **fill this from the response, not the request** |
 | **Effort · fast mode** | {{medium}} · {{off}} |
 | **Strategy** | {{standard}} — {{explicit: task · cascade: role · auto: <selector rule>}} → `strategies/` |
+| **Estimate** | {{~N tokens · from M similar runs of this type}} — **judgement-rung, from the ledger's own history; recorded so actual-vs-estimate teaches the next estimate** → `cost.md` |
 | **Resolved from** | {{project → team → role → task}}, {{which rung won}} |
 
 **A gateway falls back, and the requested name would then be wrong in the ledger, in the

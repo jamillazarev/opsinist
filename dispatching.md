@@ -3,6 +3,16 @@
 **Load when:** starting work on a task, running several things at once, or answering *"what did
 this actually cost"*.
 
+**Two sessions, one checkout — the live tree has one holder.** Nothing stops an owner opening
+the project in two terminals, and the corpus long pretended otherwise by silence: the second
+session raced the first on the same files, and git's merge quietly became the judge nobody
+appointed. The convention: **whoever works the live checkout writes `.opsinist-checkout`** —
+holder and started-at, one line — and a session that finds the file held by another works from
+a worktree or waits, saying which. The lock **ages like a request**: a holder gone quiet past
+the threshold surfaces at arrival rather than blocking forever. `enforced_by: prose-only` and
+honestly so — the file is a courtesy the arrival summary reads, not a mutex — and the
+`exclusive` flag on tasks is unchanged by it.
+
 **Assignment and dispatch are different acts.** Writing `assignee:` into a file is an edit and
 costs nothing. **Dispatch is what spends** — a run starts, tokens move, and a line is appended to
 the task's history. Keeping them separate is what makes it safe to bring in four hundred imported
