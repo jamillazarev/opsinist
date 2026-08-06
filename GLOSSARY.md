@@ -227,11 +227,11 @@ convenience. → `storing.md`
 existence**: unattached is a normal state. Attachment lives on the role, never on the skill.
 → `skills.md`
 
-**chapter** — a loadable part of this skill, **named for its trigger** ("when X happens, read
-Y"), never for its topic — **the methodology's chapters, in effect**. Not a template and not a
-role: a template (`templates/`) is *copied into a project* when an entity is born; a chapter
-is *read by the agent* when its trigger fires. A rule has one home; the other file points.
-→ `SKILL.md`
+**chapter** *(called a "companion" before 0.1.20 — same thing, clearer name)* — a loadable
+part of this skill, **named for its trigger** ("when X happens, read Y"), never for its topic.
+Not a template and not a role: a template (`templates/`) is *copied into a project* when an
+entity is born; a chapter is *read by the agent* when its trigger fires. A rule has one home;
+the other file points. → `SKILL.md`
 
 **definition of ready · definition of done** — ready to *start* · ready to *finish*, and the pair
 most often collapsed into one word. DoR: workable from the task alone, outcome writable, the

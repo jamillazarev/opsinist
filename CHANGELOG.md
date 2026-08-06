@@ -2,6 +2,35 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.20 — 2026-08-07
+
+**The companions are chapters now — the word confused its own owner, which is the whole
+test.** Twenty-four living files renamed in one pass, checkers included; `companion_budget`
+became `chapter_budget` in the skill's own frontmatter; the glossary entry says *called a
+"companion" before 0.1.20* so the old word still finds its way home. History keeps its epoch:
+past changelog entries and run records are not rewritten. And the entry sharpened while it
+moved: **a chapter is read by the agent when its trigger fires; a template is copied into a
+project when an entity is born** — neither is a role.
+
+**The README was cut to be read.** Four hundred and fifty lines became a page: one minute in
+(two commands, then say what you need, with the five entrances), **fourteen one-line
+differences** instead of fifteen paragraphs, the palette, the honest runtime table, and the
+success-as-absence tests — everything else now lives where it belonged all along, in the
+docs. The layout tree carries a description on every line, on one aligned column, and the
+tagline finally sells what the system became: *any craft, not just code; clone it and
+everything travels; doors that refuse instead of hoping.*
+
+**Two protocol rows landed while the paint dried.** The agent-web row — Web Bot Auth ·
+Content Signals · Pay-Per-Crawl's 402 — with both of our sides named: a campaign site
+declares its signals on purpose (Cloudflare's default starts blocking agent bots on
+ad-bearing pages 2026-09-15), and our own crawls expect 402s as a cost, never assume free.
+And the hypothesis-and-usability test methods row, ordered by the cost of being wrong, each
+method carrying its bias on its face — fake door spends trust and says so; the observed
+perform; A/B answers to the spec's guardrails.
+
+**Migration map**: nothing to do anywhere — terminology, windows and rows. A project never
+carried the old word; the skill's own manifests and checkers moved together.
+
 ## 0.1.19 — 2026-08-06
 
 **"Remember this" got its routing, and the chat's memory stopped being a place.** A spoken
