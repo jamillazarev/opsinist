@@ -106,6 +106,30 @@ and here is what changed"* — and the resource's `why` answers whether that mat
 **A watch with no owner is noise waiting to happen.** The automation contract requires a named
 owner for failures; if nobody owns the integration, it should not be watched.
 
+```mermaid
+flowchart LR
+  R[resource: version_seen<br/>+ its why] --> C{checked — at status and<br/>before a release · an event ·<br/>a clock, in that order}
+  C -- unchanged --> R
+  C -- moved --> D[distillate:<br/>seen → now, what changed]
+  D -- breaking for us --> Q[request: upgrade ·<br/>pin · ignore with a reason]
+  D -- routine --> T[triage — for a promoted<br/>product: a content candidate]
+  Q --> V[delta listed →<br/>version_seen moves]
+  T --> V
+  T -. unprocessed .-> S[surfaces again —<br/>a wait nobody chased]
+```
+
+**And the owner may ask instead of waiting for a sweep** — *"did anything we watch move?"*,
+*"check the resources"* — the same check, run now, with *unchanged* said per row rather than
+implied by silence.
+
+**Accepting the move opens the delta, so mismatched pieces cannot linger unlisted.** The
+distillate is read as a migration map — the same discipline upgrades use — against **the
+places that cite this resource** (`cited-by`, one side stored, the register shows it): a post
+quoting the old API, a vs-page carrying the old price, a config pinning the old flag. **Each
+mismatch becomes its own line — a task, or an explicit "still true, checked"** — and the sweep
+records what it walked, so a later empty pass reads as *quiet* rather than *nobody looked*.
+`version_seen` moves when the delta is listed, not when the release was merely noticed.
+
 **A promoted product living in another repository is this same shape, pointed the other way.**
 A campaign project promoting an open-source library does not vendor it, submodule it, or copy
 its tree — **the library is a watched resource**: a pointer with a `why`, `version_seen`, and a

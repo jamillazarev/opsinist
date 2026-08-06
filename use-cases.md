@@ -72,6 +72,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "Show me how work moves here" | *"show the pipeline"* — the ladder drawn from its own block: stages as nodes, gates on the edges |
 | "Spec this one properly" | *"spec it"* — the type's cut decides the shape; where no format is bound, the stock template carries guardrail metrics, prior attempts and a plan per outcome |
 | "Did we already try this?" | *"prior attempts?"* — answered from the spec's own section, **with outcomes named**, including "effect never measured" |
+| "Did anything we watch move?" | *"check the resources for new versions"* — the sweep runs now: **unchanged is said per row**, a move arrives as its distillate, and accepting it opens the delta against everything that cites it → `tooling.md` |
 | "Break this big thing up" | *"split the checkout flow"* — parallel children share a **wave**, and the next one waits |
 | "Run these two at once" | *"do both"* — they never own the same file, decided at decomposition |
 | "Three people told me the same thing" | *"users say the transfer screen is confusing"* — filed as **triage, marked recalled**, not designed off memory |
