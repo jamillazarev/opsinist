@@ -68,6 +68,22 @@ the reproduction it already demands, a newsletter issue its model issue, a chore
 proposed from the craft's own standards, so a recipe, a screen and an exporter live on one board
 without any of them pretending to be the others.
 
+**"Remember this" lands in files, never in the chat's memory.** A spoken rule — *always do X,
+never touch Y* — is routed to where workers actually read: a guide line, a domain word, a
+recorded decision, a register entry — **and the home is named back to you**, because a rule
+living only in a conversation is the promise `project = f(repo)` exists to refuse.
+
+**A release names how it goes out, under three rules that do not bend.** Soft, canary, staged,
+flag-gated or shadow — whichever: **guardrail measures own the halt**, the **kill switch is
+named before the first user**, and **expansion surfaces as ready, never advances itself**. A
+bakery's canary is one counter and a trial batch; the vocabulary follows the craft, the rules
+do not.
+
+**A gap found mid-build calls the owner, not the editor.** Delivery hitting a false assumption
+does not fix the spec in place — the artefact's owning group gets the request, a fix task is
+born there, the build takes `blocked_by` or narrows and says so. **Nobody edits the artefact
+another craft is standing on** — in either direction.
+
 **Every claim carries how it is known** — measured, cited, recalled, or a judgement call — and the
 rung travels with the claim, so one agent cannot promote another's guess into a fact by quoting
 it. Ask for a percentage from synthetic users and you are told, *before* anything runs, that **a
