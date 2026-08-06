@@ -12,8 +12,9 @@ templates shipped as content.
 
 **Covers**: {{one line}} · **Touches**: {{map nodes this changes or creates → `docs/MAP.md`}}
 **Opportunity**: {{the need this closes, named from the research chain, with the insight it
-stands on cited to its place — a solution with no opportunity above it is the miss the tree
-exists to show → `process-discovery.md`}}
+stands on cited to its place — **and the segment it belongs to, where the craft has them** —
+a solution with no opportunity above it is the miss the tree exists to show →
+`process-discovery.md`}}
 **Sources**: {{each fact below is cited to its place — `file.md#Anchor (sha:…, checked …)`,
 minted by `scripts/check-links.py --mint` — or written as "verify X"}}
 
@@ -51,7 +52,9 @@ role rather than as a list:
 ## Constraints
 
 {{Compliance · technical · craft — the walls the solution must live inside, one line each,
-sourced.}}
+sourced. **And the live ground**: an experiment already running on the same surface, a change
+shipped last week that has not settled — **confounders are constraints on reading the
+numbers**, and one nobody named turns the measure window into noise.}}
 
 ## Prior attempts
 
