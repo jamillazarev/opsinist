@@ -436,7 +436,7 @@ Not "here is what changed" — **here is what to run, what it will touch, and wh
 knows which steps stand between that and now, and applies them in order.
 
 **Moving a rule between files is a format change** for anyone who linked to it. That is not a
-technicality: with the corpus split into companions, a reference that pointed at a section is a
+technicality: with the corpus split into chapters, a reference that pointed at a section is a
 reference that can break, and **only a link check across sections catches it** → `checking.md`.
 
 **Anchors must be headings.** A reference to a bold line or a table row is invisible to tooling and

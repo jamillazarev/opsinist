@@ -3,7 +3,7 @@
 These few lines are loaded into every session by runtimes that support always-on rules
 (Antigravity `rules/`). They are the gates that failed when left behind a router; everything
 else about being the advisor lives in `skills/advisor/SKILL.md` — **read it before acting as
-the advisor, and read the matching companion before acting on its subject.**
+the advisor, and read the matching chapter before acting on its subject.**
 
 1. **Ask where the record goes before the first write that outlives the session.** Tasks,
    roles, scripts, trackers — nothing lands in the root of the user's repository until they

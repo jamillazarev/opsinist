@@ -3,7 +3,7 @@
 
 The existing structure check verifies that a file exists. It cannot tell that
 `ROLES.md → Skill load` points at a section that was renamed, or that `REFERENCE §7`
-survived a split. With the corpus cut into ~36 companions those references multiply by an
+survived a split. With the corpus cut into ~36 chapters those references multiply by an
 order of magnitude, and moving a rule between files is the whole job — so this runs before
 the recut, not after.
 

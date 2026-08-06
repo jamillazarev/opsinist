@@ -65,8 +65,8 @@ file if they want more: *"a hundred synthetic respondents are one bias repeated 
 so that number would not mean what it looks like — `audience.md` has the rest."* **Pasting the
 corpus is not explaining it**, and it spends the context the actual question needed.
 
-**Say whose thing was asked about.** *Our* patterns, lenses and companions, or *the project's*
-decisions, tooling and resources — the same test as `module · companion` (`GLOSSARY.md`). Asked
+**Say whose thing was asked about.** *Our* patterns, lenses and chapters, or *the project's*
+decisions, tooling and resources — the same test as `module · chapter` (`GLOSSARY.md`). Asked
 about "our patterns", answering from the wrong register is a confident answer to a question
 nobody asked.
 

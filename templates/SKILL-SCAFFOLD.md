@@ -9,7 +9,7 @@ inside a project follows this from day one — modularity is cheap at birth and 
 ```
 <skill>/
   SKILL.md          # the CORE — always loaded, budgeted, mostly a router
-  <topic-1>.md      # companions — loaded only when their trigger fires
+  <topic-1>.md      # chapters — loaded only when their trigger fires
   <topic-2>.md
   scripts/          # optional: checks and helpers (never required reading)
 ```
@@ -21,21 +21,21 @@ inside a project follows this from day one — modularity is cheap at birth and 
   methodology. The budget is a *cost decision* — the core is paid by every run of every
   agent that carries the skill.
 - Contents: **when to act** (triggers), **the rules that govern every use**, and a
-  **routing table** — `| Load… | …when |` — pointing at companions. Procedures, examples,
-  reference tables live in companions, never in the core.
+  **routing table** — `| Load… | …when |` — pointing at chapters. Procedures, examples,
+  reference tables live in chapters, never in the core.
 - **Full at birth is a design smell.** If the first draft hits the budget, the skill wants
-  a companion or wants splitting.
+  a chapter or wants splitting.
 
-## Companions
+## Chapters
 
 - One topic per file, named for the trigger ("when X happens, read Y").
-- A companion may be long — it is only paid when its trigger fires.
-- Cross-reference by filename; never duplicate a rule between core and companion (one home,
+- A chapter may be long — it is only paid when its trigger fires.
+- Cross-reference by filename; never duplicate a rule between core and chapter (one home,
   the other points).
 
 ## A prompt-shaped body: identity → steps → output
 
-Where a companion (or a whole small skill) *instructs a run* rather than documents a rule,
+Where a chapter (or a whole small skill) *instructs a run* rather than documents a rule,
 its body keeps one order — **who is speaking and to what end · the steps, in the order they
 are performed · what the output must look like** — because the three failure modes of a prompt
 body are exactly a muddled voice, steps out of order, and an unstated output shape. (The
@@ -44,12 +44,12 @@ Rules-documentation keeps its own shape; this section is for the bodies that are
 
 ## When the budget is hit later
 
-Move, don't squeeze: the newest rarely-needed block becomes a companion, and the core keeps
+Move, don't squeeze: the newest rarely-needed block becomes a chapter, and the core keeps
 one pointer line. Compression (`/opsinist skill optimize`) is the second resort, deletion the
 third; raising the budget is a decision with a stated cost, not a reflex.
 
 ## Growing out
 
-A companion that other agents want on its own = a candidate for its own skill. A skill that
+A chapter that other agents want on its own = a candidate for its own skill. A skill that
 proved itself across projects = a candidate for release (PLAYBOOKS → Release). This scaffold
 makes both cheap: the seams already exist.

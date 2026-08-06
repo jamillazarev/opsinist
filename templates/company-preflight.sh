@@ -149,17 +149,17 @@ if [ -d docs/map ]; then
 fi
 
 # 5b · skills born in this repo stay modular (templates/SKILL-SCAFFOLD.md): a budgeted
-#      router core + companions. Catches the monolith while it is still one commit old.
+#      router core + chapters. Catches the monolith while it is still one commit old.
 for sk in $(git ls-files | grep -E '(^|/)SKILL\.md$' || true); do
   dir=$(dirname "$sk")
   budget=$(sed -n 's/^core_budget:[[:space:]]*//p' "$sk" | head -1)
   lines=$(grep -c '' "$sk")
   if [ -n "$budget" ] && [ "$lines" -gt "$budget" ]; then
-    say_warn "$sk is $lines lines against its own core_budget: $budget — move a block to a companion, don't squeeze"
+    say_warn "$sk is $lines lines against its own core_budget: $budget — move a block to a chapter, don't squeeze"
   fi
-  companions=$(ls "$dir"/*.md 2>/dev/null | grep -v 'SKILL\.md$' | wc -l | tr -d ' ')
-  if [ "$companions" -gt 0 ] && ! grep -q '| Load' "$sk"; then
-    say_warn "$sk has $companions companion file(s) but no '| Load … | …when |' routing table — companions nobody routes to are dead weight"
+  chapters=$(ls "$dir"/*.md 2>/dev/null | grep -v 'SKILL\.md$' | wc -l | tr -d ' ')
+  if [ "$chapters" -gt 0 ] && ! grep -q '| Load' "$sk"; then
+    say_warn "$sk has $chapters chapter file(s) but no '| Load … | …when |' routing table — chapters nobody routes to are dead weight"
   fi
 done
 

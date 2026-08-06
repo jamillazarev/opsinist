@@ -12,39 +12,47 @@ deliberate about.
 
 ```
 your-project/
-  CLAUDE.md         # the generated guide — from docs/ + process/
-  config.md         # adapter · conventions · spec_mode ·
-                    #   the migration ledger
+  CLAUDE.md      # the generated guide — from docs/ + process/
+  config.md      # adapter · conventions · spec_mode · the migration ledger
 
-  tasks/            # flat; hierarchy is a field, not a folder
-  roles/            # one file per role → .claude/agents/
-  teams/            # members · routing rule · aggregation
-  cohorts/          # named compositions for a run
-  pipelines/        # stages · gates on transitions · starts
-  requests/         # open asks, each with its age
-  releases/         # shipments — and beside them:
-  milestones/       #   checkpoints, orthogonal to releases
-  automations/      # trigger · template · contract
-  resources/        # places to look, each with its why
-  skills/           # the pool; attachment lives on the role
+  tasks/         # flat; hierarchy is a field, not a folder
+  roles/         # one file per role → .claude/agents/
+  teams/         # members · routing rule · aggregation
+  cohorts/       # named compositions for a run
+  pipelines/     # stages · gates on transitions · starts
+  requests/      # open asks, each with its age
+  releases/      # shipments — and beside them:
+  milestones/    #   checkpoints, orthogonal to releases
+  automations/   # trigger · template · contract
+  resources/     # places to look, each with its why
+  skills/        # the pool; attachment lives on the role
 
   process/
-    types/          # per kind: definition of done · pipeline
-    labels.md  gates.md  grants.md
+    types/       # per kind of work: definition of done · pipeline
+    labels.md    # the label taxonomy, with what each means
+    gates.md     # named gates a pipeline may cite
+    grants.md    # loosenings that expire by their own terms
 
   docs/
-    COMPANY.md      # always-loaded: what this is, for whom
-    DECISIONS.md    # append-only decision record
-    LATER.md        # deferred, each with a revisit moment
-    BACKLOG.md      # the one hand-kept ordering surface
-    MAP.md          # the product as moves and things
-    BUDGET.md  ECONOMICS.md  ARCHITECTURE.md
-    TOOLING.md  TEAM.md  FIELD-NOTES.md
-    tooling/        # runbooks, kept out of the guide
-    research/  audience/  design-system/  brand/
+    COMPANY.md   # always-loaded: what this is, for whom
+    DECISIONS.md # append-only decision record
+    LATER.md     # deferred, each with a revisit moment
+    BACKLOG.md   # the one hand-kept ordering surface
+    MAP.md       # the product as moves and things
+    BUDGET.md    # the envelope, stated as shares
+    ECONOMICS.md # what the product earns and costs
+    ARCHITECTURE.md   # where the implementation lives
+    TOOLING.md   # the register: every wired tool, its ceiling
+    TEAM.md      # the roster — generated, never hand-kept
+    FIELD-NOTES.md    # friction, recorded where it happens
+    tooling/     # runbooks, kept out of the guide
+    research/    # studies and their distillates
+    audience/    # segments, personas, their grounding
+    design-system/    # tokens, components, their rules
+    brand/       # voice, identity, what may not bend
 
-  scripts/          # a handful of helpers, extended as you go
-  .index/           # derived caches — gitignored, rebuildable
+  scripts/       # a handful of helpers, extended as you go
+  .index/        # derived caches — gitignored, rebuildable
 ```
 
 ---
@@ -170,7 +178,7 @@ as a task, once the second project needs the same shape (`PATTERNS.md` §22).
 **The first three rows are new on `2026-07-31`, and their absence was the loudest silence in this
 file.** Eleven artifacts a project writes occasionally each had a template; **the three it writes
 constantly — a task, a role, a run — had none**, and their shape lived as field-definition tables
-inside the companions. A definition table says what a field *means*; **a template is a file you
+inside the chapters. A definition table says what a field *means*; **a template is a file you
 copy, where the field you skipped leaves a hole somebody sees.** `cost.md` had already named the
 consequence without being able to prevent it: *a run recorded by the worker itself carries a
 sentence where four numbers belong, which is how a ledger quietly becomes prose.*

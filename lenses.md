@@ -90,5 +90,5 @@ role).
 They read **text**. They do not run the code, walk the links, or measure a number — those are
 `checking.md` and the eval suite. Four green lenses over a claim that was never true is exactly
 the failure mode the corpus names: *a statement that parsed perfectly, linked correctly, and was
-false*. The six reading rules in `AGENTS.md` are the companion habit for that, and the eval
+false*. The six reading rules in `AGENTS.md` are the chapter habit for that, and the eval
 pass-rate is the measurement.

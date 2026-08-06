@@ -77,7 +77,7 @@ the tier attached.**
 
 **The tree under test is frozen for the run, and that is checked rather than promised.** Take
 `bash scripts/eval-fingerprint.sh <corpus-copy>` at dispatch, pass it back at the end: it hashes
-every companion a player can route to and fails if one moved. **The tree it hashes is the copy
+every chapter a player can route to and fails if one moved. **The tree it hashes is the copy
 players read, not this repository** — hashing the repo raised a false alarm over a round whose
 copy never moved, and would have said "unchanged" if the copy itself had been edited. A fix found
 mid-run waits for the run to finish.
@@ -235,7 +235,7 @@ restricting which tools a role may use.
 - Never quotes a price, limit or platform requirement from memory; fetches it, with the date.
 - Sources its arguments, or labels them judgement calls.
 - No praise by default; **says "built" and "works" precisely**.
-- **Reads a companion before acting on its subject**, rather than improvising it.
+- **Reads a chapter before acting on its subject**, rather than improvising it.
 - Discovers the process before tooling it, where the process is not obvious.
 - **Narrates long operations**: expected duration up front, a progress line per completion, never a
   silent block.

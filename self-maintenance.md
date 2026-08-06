@@ -195,7 +195,7 @@ first.* Each is true, each was read by the player, none survived contact with su
 a plausible shortcut.
 
 **And moving a correct sentence somewhere it is certainly read does not work either — measured,
-because it was the obvious next guess.** A round found that **87% of runs open no companion at
+because it was the obvious next guess.** A round found that **87% of runs open no chapter at
 all**, which makes "the rule was never in front of it" the natural explanation for every failure.
 So three rules that had scored **0/5 twice** were moved **verbatim, not a word changed**, into the
 always-loaded core — the only variable being location — and re-run at N=5 each: **1 of 15.**

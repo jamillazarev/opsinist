@@ -5,7 +5,7 @@
 # what the four lenses and the eval pass are for (AGENTS.md). Keep it small: a checker that
 # cries wolf gets bypassed, and then none of it is enforced.
 set -uo pipefail
-cd "$(dirname "$0")/.."          # the repository root: skills/advisor/SKILL.md, its companions and the
+cd "$(dirname "$0")/.."          # the repository root: skills/advisor/SKILL.md, its chapters and the
 ROOT="$(pwd)"                    # manifests all live here, so corpus and root are one place
 
 FAIL=0
@@ -42,7 +42,7 @@ lines=$(wc -l < skills/advisor/SKILL.md | tr -d ' ')
 if [ -z "$budget" ]; then
   say_fail "skills/advisor/SKILL.md declares no core_budget"
 elif [ "$lines" -gt "$budget" ]; then
-  say_fail "skills/advisor/SKILL.md is $lines lines, over its declared budget of $budget — move detail to a companion"
+  say_fail "skills/advisor/SKILL.md is $lines lines, over its declared budget of $budget — move detail to a chapter"
 else
   pct=$(( lines * 100 / budget ))
   say_ok "core $lines/$budget lines (${pct}%)"
@@ -54,13 +54,13 @@ for f in GLOSSARY.md PATTERNS.md lenses.md; do
   [ -f "$f" ] || say_fail "$f is missing — the corpus cites it throughout"
 done
 
-# 4 · every companion named in the routing table exists
+# 4 · every chapter named in the routing table exists
 python3 - <<'PY' || FAIL=1
 import re, sys, pathlib
 t = pathlib.Path("skills/advisor/SKILL.md").read_text(encoding="utf-8")
 named = set(re.findall(r'`([a-z][a-z0-9-]*\.md)`', t))
 # The core also names files that live in the *owner's* project, not in this repository, and
-# they are lowercase like the companions are. Uppercase project files (`LATER.md`,
+# they are lowercase like the chapters are. Uppercase project files (`LATER.md`,
 # `docs/DECISIONS.md`) never collided; this one does. Kept as a short explicit list rather
 # than a pattern, because every name added here is one the check stops guarding — if it grows
 # past a couple of entries, the check is being weakened rather than corrected.
@@ -70,10 +70,10 @@ if missing:
     for m in missing:
         print(f"  \033[31m✗\033[0m skills/advisor/SKILL.md routes to {m}, which does not exist")
     sys.exit(1)
-print(f"  \033[32m✓\033[0m routing table: {len(named)} companions, all present")
+print(f"  \033[32m✓\033[0m routing table: {len(named)} chapters, all present")
 PY
 
-# 5 · every command points at a companion that exists, and declares a description
+# 5 · every command points at a chapter that exists, and declares a description
 python3 - <<'PY' || FAIL=1
 import re, sys, pathlib
 bad = []
@@ -123,12 +123,12 @@ fi
 warns=$(grep -c 'WARN:' /tmp/pf-fresh || true)
 [ "${warns:-0}" -gt 0 ] && say_warn "$warns rows carry no check-date or are ageing — see check-freshness"
 
-# 8b · no companion outgrows the core. The core is capped because it is always loaded; a
-# companion pulled in by a trigger must not cost more than the thing that is always there, or the
+# 8b · no chapter outgrows the core. The core is capped because it is always loaded; a
+# chapter pulled in by a trigger must not cost more than the thing that is always there, or the
 # saving the cap exists for is spent on the first routing hop.
-cbudget=$(grep -m1 '^companion_budget:' skills/advisor/SKILL.md | awk '{print $2}')
+cbudget=$(grep -m1 '^chapter_budget:' skills/advisor/SKILL.md | awk '{print $2}')
 if [ -z "$cbudget" ]; then
-  say_fail "skills/advisor/SKILL.md declares no companion_budget"
+  say_fail "skills/advisor/SKILL.md declares no chapter_budget"
 else
   over=0; big=""; top=0; topf=""
   for f in *.md; do
@@ -138,9 +138,9 @@ else
     [ "$n" -gt "$cbudget" ] && { over=$((over+1)); big="$big $f($n)"; }
   done
   if [ "$over" -gt 0 ]; then
-    say_fail "$over companion(s) over the $cbudget-line budget:$big"
+    say_fail "$over chapter(s) over the $cbudget-line budget:$big"
   else
-    say_ok "every companion inside $cbudget lines (largest: $topf at $top)"
+    say_ok "every chapter inside $cbudget lines (largest: $topf at $top)"
   fi
 fi
 

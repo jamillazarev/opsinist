@@ -42,15 +42,15 @@ path the machinery uses on itself**, which is why it is stated rather than assum
 need it"* is neither. Same bar that governs adding a guard and raising a tooling need to a task —
 one threshold, three uses.
 
-**Born modular.** A budgeted core that is mostly a router, plus companions loaded on their
+**Born modular.** A budgeted core that is mostly a router, plus chapters loaded on their
 trigger. **Modularity is cheap at birth and expensive at five hundred lines.**
 
 - **Set the line budget at creation and write it in the frontmatter.** Roughly 100 lines for a
   tool skill, 200 for a role skill, 500 only for a full methodology. **The budget is a cost
   decision**: the core is paid by every run of every role that carries it.
 - The core holds **when to act**, the **rules that govern every use**, and a **routing table**.
-  Procedures, examples and reference tables live in companions, never in the core.
-- **Companions are named for their trigger** — *"when X happens, read Y"* — not for their topic.
+  Procedures, examples and reference tables live in chapters, never in the core.
+- **Chapters are named for their trigger** — *"when X happens, read Y"* — not for their topic.
 - **A rule has one home; the other file points.**
 - **Full at birth is a design smell.** If the first draft hits the budget, it wants splitting.
 
@@ -71,7 +71,7 @@ not to contain. **Both looked correct on the page.** Both were caught the first 
 handed to them that they were supposed to stop.
 
 **When the budget is hit later: move, don't squeeze.** The newest rarely-needed block becomes a
-companion and the core keeps one pointer line. Compression is the second resort, deletion the
+chapter and the core keeps one pointer line. Compression is the second resort, deletion the
 third, and **raising the budget is a decision with a stated cost, never a reflex**.
 
 ---

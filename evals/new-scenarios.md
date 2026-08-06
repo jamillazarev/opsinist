@@ -5,7 +5,7 @@ lives in `README.md` — **player one tier below the team's floor · the player 
 rubric · the judge never wrote the transcript it grades · judge the outcome, not the route.**
 
 **Run the baseline first.** These are regression tests, and a regression needs a *before*.
-Before the corpus is cut into companions, run the existing scenarios against the frozen tree
+Before the corpus is cut into chapters, run the existing scenarios against the frozen tree
 and **record the pass-rates**. Afterwards, the same numbers answer "did the restructure break
 behaviour" — which nothing else can answer, because a line count proves only that a file got
 shorter.
@@ -543,7 +543,7 @@ own tooling question, and inside a consultation nothing is standing there to ask
 **Two halves, one seam.** N30–N34 are **evidence** questions — a claim that has to be true.
 N35–N58 are **discovery** questions — *find me photos, icons, a font, a service, inspiration, a
 replacement, an API, a verdict on this tool* — which is what an owner asks for most often and
-which reaches the same companion by the same path. The evidence half fails by citing a paraphrase;
+which reaches the same chapter by the same path. The evidence half fails by citing a paraphrase;
 **the discovery half fails by answering with a list**: a buffet of links, no licence, no ladder,
 nothing about what the owner already owns. The row in the catalogue exists in both cases and is
 reached in neither by default.
@@ -554,7 +554,7 @@ instrument at all** once some search tool has already returned plausible links. 
 stops, the rule is carried by structure rather than by capability, which is the whole doctrine
 in `README.md`. **If it does not, the fix belongs in the corpus, not in the model choice.**
 
-**Judge the citations, not the route.** No scenario here asserts that a companion was opened —
+**Judge the citations, not the route.** No scenario here asserts that a chapter was opened —
 what is scored is what the answer cites and how it is labelled. An agent reaching primary sources
 by its own path has passed.
 
@@ -1261,7 +1261,7 @@ Expected:
   answer, on a tree that says so twice.
 - **Born modular, and the budget is a number in the frontmatter** — roughly 100 lines for a tool
   skill — **written at creation, not after**. The core is *when to act*, the rules, and a routing
-  table; procedures and examples go to companions named for their trigger.
+  table; procedures and examples go to chapters named for their trigger.
 - **Every command it contains is run before the file is saved, against an input it must
   reject.** Not a passing case: *a checker that reads nothing and a checker that finds nothing
   wrong return the identical silence.* **This is the sharpest assertion in the scenario and the

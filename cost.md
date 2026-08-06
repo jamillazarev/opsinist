@@ -81,8 +81,8 @@ boundary they chose rather than at every image.
 Every edit invalidates it: a cache **write** is paid, and cheap reads are lost until it warms
 again. **Batch guide and instruction changes**; never dribble small edits mid-flight.
 
-**Progressive disclosure.** Only the core is always loaded; companions load on their trigger.
-**Adding to a companion is nearly free; adding to the core is paid on every run, by every role.**
+**Progressive disclosure.** Only the core is always loaded; chapters load on their trigger.
+**Adding to a chapter is nearly free; adding to the core is paid on every run, by every role.**
 
 **Model tiering.** Top tier for reasoning, mid for building, cheap for translation and bulk. And
 route verification and search work **one tier down** — it does not need the top model.

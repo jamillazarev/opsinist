@@ -52,7 +52,7 @@ a substring and proposed deleting an unrelated project; that defect and its fix 
 ### Neither is reached by installing or using this skill
 
 Both live under the evaluation harness, which is developer material. **Nothing in `SKILL.md` or any
-companion routes an agent to either file.**
+chapter routes an agent to either file.**
 
 ---
 

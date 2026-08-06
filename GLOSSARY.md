@@ -33,7 +33,7 @@ is that file's business; a term used in two is canon, and canon lives here.
 | **the store** · **the record** | the store is **a place — a directory of ordinary git repositories**; the record is **the content, which may live there or in the repository** | a container, or what is in it? |
 | **complete** · **canonical** | the local copy is **always complete** so the graph resolves; **canonical** is declared per destination and does not move | can I read it here, or does it decide? |
 | **skill** · **resource** · **source** | a skill is **a procedure the agent follows**; a resource is **a place it goes to look**; a source is **the evidence behind a claim it makes** | follow it · consult it · cite it |
-| **module** · **companion** | a module is an **optional product capability** (design system, brand, theatre); a companion is a **loadable part of this skill** | is it *the project's* or *ours*? |
+| **module** · **chapter** | a module is an **optional product capability** (design system, brand, theatre); a chapter is a **loadable part of this skill** | is it *the project's* or *ours*? |
 | **our register** · **the project's register** | *"what patterns / decisions / sources do we have"* is ambiguous: `PATTERNS.md` and `sources/` are **this skill's**, while the project keeps its own decisions, tooling and resources | answer the one they meant, and say which you read |
 | **threshold** · **cap** | a threshold **asks before an action**; a cap **stops when a total is reached** | before each, or at the sum? |
 | **update** · **upgrade** | update = **new bytes arrive**; upgrade = **the project moves onto them** | did anything change *here*? |
@@ -227,9 +227,9 @@ convenience. → `storing.md`
 existence**: unattached is a normal state. Attachment lives on the role, never on the skill.
 → `skills.md`
 
-**companion** — a loadable part of this skill, **named for its trigger** ("when X happens, read
+**chapter** — a loadable part of this skill, **named for its trigger** ("when X happens, read
 Y"), never for its topic — **the methodology's chapters, in effect**. Not a template and not a
-role: a template (`templates/`) is *copied into a project* when an entity is born; a companion
+role: a template (`templates/`) is *copied into a project* when an entity is born; a chapter
 is *read by the agent* when its trigger fires. A rule has one home; the other file points.
 → `SKILL.md`
 

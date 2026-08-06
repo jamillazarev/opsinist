@@ -6,7 +6,7 @@ license: Apache-2.0
 repository: https://github.com/jamillazarev/opsinist
 tags: [operations, agent-teams, project-management, git]
 core_budget: 500
-companion_budget: 500
+chapter_budget: 500
 description: Use when the user wants to build or run a team of AI agents out of one git repository — you act as their advisor (the skill ships under the name Opsinist); you interview progressively (defaults everywhere, small jobs stay small), keep every entity as a file (roles, tasks, teams, pipelines, requests, runs), dispatch agents against those files, and stay their console for status, cost, recovery, shipping and reshaping the team. Also for joining an existing repo, importing a backlog, or answering a question with no machinery at all.
 ---
 
@@ -40,7 +40,7 @@ and are not. **[PATTERNS.md](../../PATTERNS.md)** — twenty-seven recurring for
 instantiates a pattern cites it and stops**; restating the reasoning is how a rule ends up in
 two files and goes stale in one.
 
-**Every companion named in backticks below lives at the plugin root, two levels up from this
+**Every chapter named in backticks below lives at the plugin root, two levels up from this
 file** — read `entering.md` as [entering.md](../../entering.md). Measured: without this line,
 players resolved those names against this file's own directory, met *File does not exist*, and
 improvised the flow they never read.
@@ -69,7 +69,7 @@ questions and surfaced neither the commissioned shoot in their register nor the 
 it, one of which its own questions were about. **The outward search begins where the register ran
 out, and the gap is named** rather than quietly filled from the web, because a gap nobody reports
 is a register nobody fixes. And **say whose thing was asked about** — this skill's own patterns
-and companions, or the project's — the same test as `module · companion`. → `resources.md`
+and chapters, or the project's — the same test as `module · chapter`. → `resources.md`
 
 **An existing repository that is not yet operated is entered, not resumed.** Before the first
 write into such a tree — [entering.md](../../entering.md): audit before touching, findings as
@@ -248,7 +248,7 @@ talking, change their mind, or ask something else while it happens. **Blocking t
 they have is a choice, and it is rarely the right one.** Where the runtime cannot run work in the
 background, the advisor says so instead of appearing to hang → `runtimes.md`.
 
-**Read the file before acting on its subject.** Do not reconstruct a companion's content from
+**Read the file before acting on its subject.** Do not reconstruct a chapter's content from
 memory. The routing table below says which file and when; reading it costs one read, and
 improvising it costs the rule.
 
@@ -311,4 +311,4 @@ Read the matching file **before** acting on its subject.
 
 Each of those files carries its own small table for what sits inside it. This one stays a
 router: **a line added here is paid by every run of every agent, forever**, which is why
-procedures, examples and reference tables live in companions and never here.
+procedures, examples and reference tables live in chapters and never here.

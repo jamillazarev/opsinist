@@ -15,7 +15,7 @@
 # mid-round — the one edit that actually invalidates a suite — was reported as "corpus unchanged".
 # A checker that watches a tree nobody reads is decoration.
 #
-# Only what a run can route to counts: the top-level companions and SKILL.md. The cleaner, the
+# Only what a run can route to counts: the top-level chapters and SKILL.md. The cleaner, the
 # scripts directory and the evals are developer material no player loads — and they are excluded
 # from the copy anyway — so editing them mid-run is fine and must not raise a false alarm.
 set -uo pipefail
@@ -30,10 +30,10 @@ fingerprint() {
   # makes "the copy still matches what the repo was at dispatch" a checkable sentence.
   #
   # The core moved to skills/advisor/SKILL.md in the restructure and this stayed at maxdepth 1,
-  # so for a while it hashed 51 companions and **not the file every run starts from** — the one
+  # so for a while it hashed 51 chapters and **not the file every run starts from** — the one
   # text whose edit would invalidate a suite hardest. It reported "corpus unchanged" either way,
   # which is the failure mode a checker must never have. The verb doors are routable too, so
-  # they count for the same reason the companions do.
+  # they count for the same reason the chapters do.
   ( cd "$TREE" || exit 1
     { find . -maxdepth 1 -name '*.md' -type f -print0
       find skills -name 'SKILL.md' -type f -print0

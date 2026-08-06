@@ -187,7 +187,7 @@ def _sentences(text):
 homes = {}
 for f in DOCS:
     # The glossary quotes on purpose. Templates repeat on purpose too: they ship into projects
-    # that do not have our companions, so a pointer there resolves to nothing and the sentence
+    # that do not have our chapters, so a pointer there resolves to nothing and the sentence
     # has to stand alone. Everything else has one home.
     # facts.md exists to be quoted: its job is to hold the memorable line in a form other
     # writing can lift, so rewording it to satisfy this check would make it worse at the one
@@ -201,7 +201,7 @@ for s, files in sorted(homes.items()):
     if len(files) > 1:
         warn(f"one sentence, {len(files)} files ({', '.join(sorted(files))}): \u00ab{s[:70]}\u2026\u00bb")
 
-# l · a number written in prose rots silently. "30-odd companions" survived a rise from
+# l · a number written in prose rots silently. "30-odd chapters" survived a rise from
 #     thirty to forty-one because nothing counts. These are the counts worth stating, so
 #     these are the ones checked; anything countable and stated belongs here.
 _UNITS = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
@@ -210,7 +210,7 @@ _TEENS = {"ten":10,"eleven":11,"twelve":12,"thirteen":13,"fourteen":14,"fifteen"
 _TENS = {"twenty":20,"thirty":30,"forty":40,"fifty":50,"sixty":60,"seventy":70,
          "eighty":80,"ninety":90}
 # Built rather than listed: a hand-written list silently passes the one number nobody added,
-# which is how "fifty companions" slipped through the first time this was tested.
+# which is how "fifty chapters" slipped through the first time this was tested.
 WORDS = dict(_TEENS)
 WORDS.update({w: i for i, w in enumerate(_UNITS) if w})
 for _t, _tv in _TENS.items():
@@ -228,17 +228,17 @@ def _count(path, pattern):
 # Anchored on the phrase, never the bare noun: "three shapes" in §26 means three forms of a
 # choice, not three patterns, and a checker that cannot tell those apart gets switched off.
 # Repo furniture is not the skill. Since the corpus moved to the repository root, these sit in
-# the same directory as the companions — so the exclusion list is the only thing telling them
+# the same directory as the chapters — so the exclusion list is the only thing telling them
 # apart, and it is declared once rather than copied into each claim.
 # LATER.md is this project running its own machinery on itself: the deferred list every project
 # it stands up gets. It is furniture, not corpus — no run loads it, and counting it would make
-# the companion figures drift every time something is deferred.
+# the chapter figures drift every time something is deferred.
 REPO_FURNITURE = {"README.md", "CHANGELOG.md", "AGENTS.md", "TRADEMARKS.md",
                   "INSTALL.md", "GEMINI.md", "LATER.md", "CLAUDE.md"}
 
 _pat = _count("PATTERNS.md", r"^\*\*\d+ · ")
 CLAIMS = [
-    (r"\b(%s|\d+)\s+companions\b", len([f for f in glob.glob("*.md")
+    (r"\b(%s|\d+)\s+chapters\b", len([f for f in glob.glob("*.md")
         if os.path.basename(f) not in REPO_FURNITURE | {"GLOSSARY.md","PATTERNS.md","SKILL.md"}])),
     (r"\b(%s|\d+)\s+recurring forms\b", _pat),
     (r"\b(%s|\d+)\s+shapes this system reuses\b", _pat),
@@ -252,7 +252,7 @@ CLAIMS = [
     # was stated in prose and counted by nobody, and it had drifted by six.
     (r"\b(%s|\d+)\s+situations\b",
         _count("use-cases.md", r"^\| (?!Situation\b|When\b|What\b)")),
-    # The corpus a reader actually gets: the core, the companions, and the two shared-vocabulary
+    # The corpus a reader actually gets: the core, the chapters, and the two shared-vocabulary
     # files. Repo furniture (README, CHANGELOG, AGENTS, TRADEMARKS) is not the skill. This one sat
     # in the README unguarded and drifted by four.
     # The palette count is stated in the README and the changelog; the commands directory
@@ -267,7 +267,7 @@ CLAIMS = [
              if os.path.basename(f) not in REPO_FURNITURE])),
 ]
 _num = "|".join(sorted(WORDS, key=len, reverse=True))
-# A count inside a code span is being shown, not claimed — `"fifty companions"` quoted as the
+# A count inside a code span is being shown, not claimed — `"fifty chapters"` quoted as the
 # example of a defect this very check exists to catch must not itself trip it. Same reasoning as
 # the link checker, which strips spans before deciding what is a link.
 _span = re.compile(r"`[^`]*`")
