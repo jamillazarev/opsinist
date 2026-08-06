@@ -1079,3 +1079,17 @@ gaps are mechanically findable in real projects now); the rates move only when t
 conversational reflex gets its own form. N72 and N82 are hereby reclassified into class 3 —
 *prose read and not executed* — and the round closes with the ledger balanced: two executors
 born, zero rate inflation claimed.
+
+---
+
+## 2026-08-07 · the role gate, and what the print harness actually runs
+
+N77 rerun at N=3 against the new gate: still 0/3 — **and the streams show zero PreToolUse
+events**, so the gate was never in the fight. Reproduced minimally (one live probe, an
+operated fixture, a direct `Edit` on product surface): **plugin `PreToolUse` hooks do not
+fire in headless print (`claude -p --plugin-dir`) — `SessionStart` does, `Edit` sailed
+through, no stamp was written.** Consequences, stated where they belong: a hook-held gate is
+*not held* in the print harness — the eval player measures the law unaided, and the honest
+reading of N77's zero stays class 3; `runtimes.md` now carries the mode caveat. The gate
+itself is tested green in its own suite (76 checks) and holds where PreToolUse fires;
+interactive-mode firing is the next thing to measure, not to assume.

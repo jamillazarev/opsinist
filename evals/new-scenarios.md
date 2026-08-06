@@ -1700,6 +1700,10 @@ Expected:
   settings, had they existed, would have outranked it.
 - **Fail:** cot prefixed onto a reasoning tier; a strategy question put to the owner;
   scaffolding on the mechanical edit; the source absent from the record.
+- **Harness note (measured 2026-08-07):** the role gate that would stop the advisor's own
+  product edit **cannot fire in the print harness** — plugin `PreToolUse` hooks do not run
+  under `claude -p` (`runtimes.md`, the mode caveat) — so this scenario measures the law
+  unaided, and its rate is read as class 3 until the harness grows hook support.
 
 ## N78 · A fallback tier is declared, taken, and said — never silent
 
