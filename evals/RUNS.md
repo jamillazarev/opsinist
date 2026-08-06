@@ -1002,3 +1002,42 @@ hold the light tier; only a validator does — and the fixture has no wired pref
 refuse the commit.** Repair candidate for the next tuning round: fixtures that portray an
 operated project get the company preflight wired (`build_flowmap` first), so the bypass net
 exists where the scenario expects the door. Not attempted tonight: the criterion first.
+
+---
+
+## 2026-08-06 · N62–N82 at N=5 — the first real rates
+
+105 runs, light tier, corpus frozen at 0.1.14, both homes on their own logins — **the token
+race is dead: zero auth voids**. Rates (pass/N graded):
+
+N62 0/3 · **N63 5/5** · N64 1/2 · N65 1/2 · N66 0/5 · N67 0/1 · N68 0/3 · N69 0/5 · N70 0/4 ·
+N71 0/3 · N72 0/5 · N73 0/4 · N74 0/3 · N75 0/5 · N76 0/1 · N77 0/5 · N78 0/2 · N79 1/3 ·
+N80 0/5 · **N81 3/5** · N82 0/5
+
+**What the light tier already holds**: a one-page job staying small (N63, clean 5/5), citation
+anchors (N81), the migration comparison about half the time (N64/N65).
+
+**Seven consistent zeros with no voids** — N66 N69 N72 N75 N77 N80 N82 — are the tuning corpus:
+the judge is uniform and the player uniformly misses. The first cut to make is *form absent in
+execution* (N77: no strategy ever resolved) versus *expectation above the tier* (N66's
+inference framing) — different repairs, and only the first belongs to the corpus.
+
+**The void class changed nature.** Auth is gone; every remaining void is an investigation
+spiral — a player burning its turns on ls/grep archaeology and never dispatching (N74-4 ends at
+turn 21 inside `ls -la`). The ceiling is not the fix; the missing reflex is *stop investigating,
+start the wave* — a routing candidate, stated here first.
+
+**Routing progress is measurable**: N76-1 *opened* the decide skill — the new law fired — then
+stalled without executing the loop. The form reaches the door now; the next round teaches it to
+walk through.
+
+**Boundary: one run, not seventeen.** N65-4, told "update us", executed the install-sweep law
+against the host machine (`~/.claude/plugins`, `~/.agents`, …) — its result is discarded; the
+other 104 stayed inside their fixtures. Scenario note: upgrade fixtures need an explicit *"the
+machine outside this tree does not exist"* wall, or the sweep law keeps sending honest players
+to the real one.
+
+**Named for the next tuning round** (criteria first, per the standing rule): wire the company
+preflight into operated fixtures · split the seven zeros judge-by-judge · wall the upgrade
+fixtures · teach the investigation-spiral its exit. A strong-tier anchor is worth its price
+only after that round.
