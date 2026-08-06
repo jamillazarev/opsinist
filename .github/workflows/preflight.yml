@@ -5,7 +5,10 @@
 # runner on purpose: the suites use BSD sed/find, the same tools the release ritual runs on
 # — this job was red from 0.1.14 to 0.1.16 because ubuntu's GNU sed refused `-i ''`.
 name: preflight
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 jobs:
   check:
     runs-on: macos-latest

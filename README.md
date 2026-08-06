@@ -5,15 +5,16 @@
 <h1 align="center">opsinist</h1>
 
 <p align="center">
-  An operations department for AI coding agents, in files.<br>
-  Roles, work, cost, evidence and escalation — out of <b>one git repository</b>, and nothing else.
+  Run a company of AI agents out of <b>one git repository</b> — any craft, not just code.<br>
+  The team, the process, the history, the cost — all files: <b>clone it and everything travels.</b><br>
+  Gates that say what enforces them, doors that refuse instead of hoping, evidence on every claim.
 </p>
 
 <p align="center">
   <a href="https://ai.jamillazarev.com/skills/opsinist"><img alt="docs" src="https://img.shields.io/badge/docs-ai.jamillazarev.com-black"></a>
   <a href="https://github.com/jamillazarev/opsinist/releases/latest"><img alt="release" src="https://img.shields.io/github/v/release/jamillazarev/opsinist?label=release&amp;color=black"></a>
   <a href="LICENSE"><img alt="license" src="https://img.shields.io/github/license/jamillazarev/opsinist?label=license&amp;color=black"></a>
-  <a href="https://github.com/jamillazarev/opsinist/actions/workflows/preflight.yml"><img alt="preflight" src="https://github.com/jamillazarev/opsinist/actions/workflows/preflight.yml/badge.svg"></a>
+  <a href="https://github.com/jamillazarev/opsinist/actions/workflows/preflight.yml"><img alt="preflight" src="https://github.com/jamillazarev/opsinist/actions/workflows/preflight.yml/badge.svg?branch=main"></a>
   <a href="https://ai.jamillazarev.com/skills/opsinist/coverage"><img alt="coverage map" src="https://img.shields.io/badge/coverage-map-black"></a>
 </p>
 
