@@ -234,7 +234,7 @@ def _count(path, pattern):
 # it stands up gets. It is furniture, not corpus — no run loads it, and counting it would make
 # the companion figures drift every time something is deferred.
 REPO_FURNITURE = {"README.md", "CHANGELOG.md", "AGENTS.md", "TRADEMARKS.md",
-                  "INSTALL.md", "GEMINI.md", "LATER.md"}
+                  "INSTALL.md", "GEMINI.md", "LATER.md", "CLAUDE.md"}
 
 _pat = _count("PATTERNS.md", r"^\*\*\d+ · ")
 CLAIMS = [

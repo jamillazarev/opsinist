@@ -73,6 +73,9 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "Spec this one properly" | *"spec it"* — the type's cut decides the shape; where no format is bound, the stock template carries guardrail metrics, prior attempts and a plan per outcome |
 | "Did we already try this?" | *"prior attempts?"* — answered from the spec's own section, **with outcomes named**, including "effect never measured" |
 | "Did anything we watch move?" | *"check the resources for new versions"* — the sweep runs now: **unchanged is said per row**, a move arrives as its distillate, and accepting it opens the delta against everything that cites it → `tooling.md` |
+| "The build just found a hole in the spec" | *"the spec assumed X and it's false"* — the gap is named to its place and **the artefact's owning group gets the request**; a fix task is born there, the build takes `blocked_by` or narrows and says so → `escalating.md` |
+| "I don't want everyone to see this at once" | *"roll it out quietly"* — the release names its rollout: soft · canary · staged · flag-gated · shadow — **guardrails own the halt, the kill switch is named first, expansion never advances itself** → `shipping.md` |
+| "Which survey do we attach to this?" | *"what should we ask, and when?"* — the instrument matches the layer: effort at the step, the scenario after it closes, the software quarterly, the brand twice a year — **and one layer read with another's tool is the trap** → `catalogue.md` |
 | "Break this big thing up" | *"split the checkout flow"* — parallel children share a **wave**, and the next one waits |
 | "Run these two at once" | *"do both"* — they never own the same file, decided at decomposition |
 | "Three people told me the same thing" | *"users say the transfer screen is confusing"* — filed as **triage, marked recalled**, not designed off memory |

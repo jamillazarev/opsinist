@@ -43,7 +43,10 @@ role rather than as a list:
 - **secondary** — the leading indicators watched on the way
 - **guardrail** — the counter-measure that must not degrade while the primary moves
 - **proxy** — where the primary is too slow to read inside the work's window, the faster stand-in
-  **with the stated reason it predicts the primary**, or it is a vanity number wearing a job}}
+  **with the stated reason it predicts the primary**, or it is a vanity number wearing a job
+- **instrument** *(where the craft asks people)* — matched to the layer, never one-size: effort
+  at a step · satisfaction at a touchpoint · the whole scenario · the software · the brand — the
+  catalogue's measurement row carries the ladder and each one's trap}}
 
 ## Constraints
 

@@ -51,6 +51,31 @@ capability, or the commit says why not.
 
 ---
 
+## How it goes out — declared, never assumed
+
+**A release names its rollout the way a task names its deliverables.** *Everyone at once* is a
+choice, not a default — the axis, researched per medium like the checklist itself: **all at
+once** · **soft** (live, unannounced — the announcement is a second release) · **canary** (a
+slice first, with the number stated) · **staged** (by cohort, segment, geography — each step
+listed) · **flag-gated** (behind a switch, expandable without a deploy) · **closed beta /
+waitlist** · **shadow** (running beside the old path, output compared, users untouched).
+
+**Three rules make any of them safe.** The guardrail measures from the spec **own the halt**:
+a step that degrades them stops the rollout without a meeting. **The kill switch is named
+before the first user sees it** — a rollback nobody rehearsed is a plan-per-outcome nobody
+wrote. And **expansion surfaces as ready, never advances itself** — the canary passing its
+window is a fact; widening it is a decision, recorded like one.
+
+**The measure window names its instrument** — which number, read when, by whom (`catalogue.md`,
+the measurement row) — because a window nobody named an instrument for is a window nobody will
+read. *Did the rollout work* is answered there, not by the absence of complaints.
+
+**None of this is software-only, and the absurd-test holds.** A bakery's canary is one counter
+and a trial batch; a newsletter's staged rollout is a segment send before the full list; a
+course soft-launches to a closed cohort; a physical batch's kill switch is the recall
+procedure, written before the batch ships. The vocabulary follows the craft; the three rules
+do not bend.
+
 ## Cutting it
 
 **Deploy and announce are outward** — owner-confirmed, every time, and confirmed **naming what

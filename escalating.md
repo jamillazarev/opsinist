@@ -76,6 +76,28 @@ a decision in a report lives until the end of the scroll.
 with a blocker, which on a board is indistinguishable from work in progress. It carries a
 `waiting_on` so it **ages like a request** rather than sitting there looking busy.
 
+## The upstream gap — delivery calls discovery, and back
+
+**A run that discovers something the previous stage never settled does not solve it in place
+and does not die on it.** Mid-build, the worker finds the spec's assumption false, the insight
+its Opportunity cites outdated, a state nobody designed. The flow has one shape, both
+directions: **name the gap and the artefact it invalidates** — the spec section, the cited
+insight, the map node, quoted to its place; **address the owning group of that artefact**
+(`PATTERNS.md` §19 — the group's routing rule picks the person, never the caller's guess) as a
+request with an age; **a fix task is born there and the calling task takes `blocked_by`** — or
+narrows its scope and says so, when the gap does not block the rest. The run parks or
+continues on the unblocked remainder; **unblocking surfaces, never resumes by itself.**
+The mirror runs the same way: a discovery insight that breaks a build in flight is a request
+to the delivery squad, not an edit to their spec — **nobody edits the artefact another craft
+is standing on; they call its owner.**
+
+```mermaid
+flowchart LR
+  W[mid-run: the gap found,<br/>the artefact named to its place] --> R[request to the artefact's<br/>owning group — routing picks who]
+  R --> F[fix task born there] --> B[caller takes blocked_by —<br/>or narrows, and says so]
+  B -. unblock surfaces,<br/>never resumes .-> W
+```
+
 ---
 
 ## When the answer is "the deadline will slip"

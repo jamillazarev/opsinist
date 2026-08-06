@@ -266,3 +266,7 @@ line changes with it.
 199. A fact is cited to its place with a content-hash, so a passage that moves under the citation turns the fact unknown rather than quietly wrong.
 200. Compaction is safe for exactly what is already in the repository, and the three writes come before the shrink.
 201. Where the runtime can resume a dead session, the transcript is a readable source once — salvage, never the record.
+202. A gap found mid-build goes to the group that owns the invalidated artefact, and nobody edits what another craft is standing on.
+203. A release names its rollout, guardrail measures own the halt, and expansion surfaces as ready rather than advancing itself.
+204. The kill switch is named before the first user sees the change, whatever the craft calls a kill switch.
+205. A survey instrument matches its layer — the step, the scenario, the software, the brand — and reading one layer with another's tool is the trap.

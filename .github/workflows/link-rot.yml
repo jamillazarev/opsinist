@@ -17,14 +17,23 @@ jobs:
       - name: Check external links
         id: check
         run: |
+          # URLs containing parens are stored percent-encoded in the corpus (%28 %29) —
+          # this grep stops at the first `)` and a truncated URL 404s as a false corpse.
+          # Issue #1 was four of these in different coats: a paren cut, two transient
+          # blips with no retry, and a 401 anti-bot read as death.
           grep -rhoE '\]\(https?://[^)]+\)' *.md *.md templates/*.md \
             | sed -E 's/^\]\(//; s/\)$//' | sort -u > urls.txt
           : > dead.txt
+          probe() { curl -sSL -o /dev/null -w '%{http_code}' --max-time 20 \
+                    -A 'Mozilla/5.0 (compatible; opsinist-linkcheck)' "$1" || echo 000; }
           while read -r u; do
-            code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 20 \
-                   -A 'Mozilla/5.0 (compatible; opsinist-linkcheck)' "$u" || echo 000)
+            code=$(probe "$u")
             case "$code" in
-              200|301|302|303|307|308|403|429) ;;   # 403/429 = bot-blocked, not dead
+              200|301|302|303|307|308|401|403|429) continue ;;  # 401/403/429 = bot-blocked, not dead
+            esac
+            sleep 5; code=$(probe "$u")   # a transient 5xx or CDN blip is not rot
+            case "$code" in
+              200|301|302|303|307|308|401|403|429) ;;
               *) echo "- $u → HTTP $code" >> dead.txt ;;
             esac
           done < urls.txt

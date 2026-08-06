@@ -2,6 +2,48 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.18 — 2026-08-06
+
+**Delivery can call discovery mid-run, and back — one named flow.** A build that finds the
+spec's assumption false does not fix it in place and does not die on it: **the gap is named to
+its place, the artefact's owning group gets a request** (routing picks the person, never the
+caller's guess), a fix task is born there, and the caller takes `blocked_by` — or narrows and
+says so. The mirror holds: an insight that breaks a build in flight is a request to the
+delivery squad, because **nobody edits the artefact another craft is standing on**. Drawn
+beside the prose in `escalating.md`.
+
+**A release names how it goes out.** The rollout axis joined `shipping.md` — all-at-once ·
+soft · canary · staged · flag-gated · closed beta · shadow — under three rules that do not
+bend: **guardrail measures own the halt, the kill switch is named before the first user, and
+expansion surfaces as ready, never advances itself.** The absurd-test holds: a bakery's
+canary is one counter and a trial batch; a batch's kill switch is the recall procedure,
+written first. The catalogue stocks the switches — OpenFeature · Unleash · GrowthBook — with
+the flag-debt trap: **flags carry an expiry like grants**.
+
+**Asking people got its ladder.** Six instruments by layer — effort at a step · a touchpoint ·
+the walked scenario · the software · the lab · the brand — each with when to ask and its trap:
+a mean that masks the furious tail, a ten-question battery that kills its own response rate,
+a loyalty number that explains nothing to a designer. **The instrument matches the layer**, a
+spec's measures may name one, and a measure window without an instrument is a window nobody
+will read.
+
+**Working on this repository stopped depending on anyone's memory.** The repo grew its own
+`CLAUDE.md` — the session loop loaded automatically: change → lenses → **the showcase trio**
+(a diagram · a situation · a fact for every new mechanic — now a named step in AGENTS.md's
+ritual too) → checks → entry → sweep → tag → Release-notes-whole → **site regeneration** →
+**developer-machine installs re-synced by each route** → memory. Versioning got its one-line
+law: **evidence moves without a tag; a rule moves with one.**
+
+**Issue #1 was four false corpses, and the coroner is fixed.** All four "dead" links answer
+200: a URL cut at its own parenthesis (paren URLs are percent-encoded now), two transient
+blips (the checker retries once before declaring death), and a 401 anti-bot read as rot (401
+joined 403/429 as bot-blocked). The layout tree was rewritten to fit its page, and the
+coverage map's generation notice is visible text instead of an HTML comment the site printed
+raw.
+
+**Migration map**: nothing to do anywhere — corpus, templates, workflows and the repo's own
+dev furniture.
+
 ## 0.1.17 — 2026-08-07
 
 **The investigation spiral is named at the moment it happens.** Every remaining void in the
@@ -1159,7 +1201,7 @@ happens — and a sweep that found nothing records what it looked at.
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · two hundred and one single-sentence facts · ninety-three situations with what to
+file defines · two hundred and five single-sentence facts · ninety-six situations with what to
 say · **ninety-six evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the

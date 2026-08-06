@@ -162,6 +162,20 @@ exists.
 
 **The checks are green**, and the check-dates are not past their threshold.
 
+**The showcase trio answers for every new mechanic — by name, before the tag.** A capability
+that landed in the corpus asks three questions nothing automates: does **a diagram** show it
+where its prose lives (`diagrams.md`, or beside the prose when the budget is full) · does **a
+situation** say what an owner would say to reach it (`use-cases.md`) · does **a fact** state it
+in one true sentence (`facts.md`)? The counters are guarded — `check-structure` fails a showcase
+number that drifts — but **whether the trio exists at all is judgement, so it is a named step,
+not a hope**. Wording-only changes owe nothing; say so.
+
+**The developer machine is re-synced after the release, every install by its own route.**
+`scripts/find-installs.sh` names each installation and its update route — run it, follow the
+routes, run it again and read every row at the new version. The 0.1.12 night is why this is a
+step: four bumped manifests hid three missed ones until a runtime reinstalled the old version
+from its own file.
+
 **The changelog leads with the capability, not the archaeology** — what someone can now do and why
 it helps — **and says what kind of change it is, because it is the migration map**.
 

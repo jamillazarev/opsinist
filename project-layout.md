@@ -12,37 +12,39 @@ deliberate about.
 
 ```
 your-project/
-  CLAUDE.md              # generated from docs/ + process/ — the guide every worker loads natively
-  config.md              # git-host adapter, modules on/off, conventions, spec_mode,
-                         #   schema_version, and the migration ledger — which steps ran, when
+  CLAUDE.md         # the generated guide — from docs/ + process/
+  config.md         # adapter · conventions · spec_mode ·
+                    #   the migration ledger
 
-  tasks/                 # flat. T-8F3KQ2-billing-page.md — hierarchy is a field, not a folder
-  roles/                 # one file per role; also generated into .claude/agents/
-  teams/                 # members, routing rule, aggregation rule, colour
-  cohorts/               # named compositions for a run, each with made_of
-  pipelines/             # stages, gates on transitions, default_for, starts
-  requests/              # open asks with their ages
-  releases/  milestones/ # shipments and checkpoints, orthogonal to each other
-  automations/           # trigger, template, contract
-  resources/             # places to look, each with its why
-  skills/                # the pool — attachment is a field on a role, not on the skill
+  tasks/            # flat; hierarchy is a field, not a folder
+  roles/            # one file per role → .claude/agents/
+  teams/            # members · routing rule · aggregation
+  cohorts/          # named compositions for a run
+  pipelines/        # stages · gates on transitions · starts
+  requests/         # open asks, each with its age
+  releases/         # shipments — and beside them:
+  milestones/       #   checkpoints, orthogonal to releases
+  automations/      # trigger · template · contract
+  resources/        # places to look, each with its why
+  skills/           # the pool; attachment lives on the role
 
   process/
-    types/               # one per task type: definition of done + default pipeline
+    types/          # per kind: definition of done · pipeline
     labels.md  gates.md  grants.md
 
   docs/
-    COMPANY.md           # always-loaded context: what this is, for whom, the vocabulary
-    DECISIONS.md         # append-only: considered · chose · rejected · because · revisit-if
-    LATER.md             # deferred, each with a revisit trigger that is a moment
-    BACKLOG.md           # the one hand-kept ordering surface
-    BUDGET.md  ECONOMICS.md  ARCHITECTURE.md  MAP.md  TOOLING.md  TEAM.md
-    tooling/<tool>.md    # runbooks — how to operate a thing, kept out of the guide
+    COMPANY.md      # always-loaded: what this is, for whom
+    DECISIONS.md    # append-only decision record
+    LATER.md        # deferred, each with a revisit moment
+    BACKLOG.md      # the one hand-kept ordering surface
+    MAP.md          # the product as moves and things
+    BUDGET.md  ECONOMICS.md  ARCHITECTURE.md
+    TOOLING.md  TEAM.md  FIELD-NOTES.md
+    tooling/        # runbooks, kept out of the guide
     research/  audience/  design-system/  brand/
-    FIELD-NOTES.md       # friction, recorded where it happens, append-only
 
-  scripts/               # a handful of helpers, extended by you as you go
-  .index/                # derived caches. gitignored, rebuildable, never a record
+  scripts/          # a handful of helpers, extended as you go
+  .index/           # derived caches — gitignored, rebuildable
 ```
 
 ---
