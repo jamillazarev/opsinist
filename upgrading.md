@@ -31,8 +31,7 @@ that decided how it was installed decides how it updates. **Verify by reading th
 never the command's output**: every one of those routes has reported success at least once for a
 version it had not moved to.
 
-**Preview first, always** — what would change, what it touches, what it requires; then apply,
-then verify. **The changelog is the migration map**: read the entries between the project's
+**Preview first, always** — what changes, what it touches, what it needs; apply; verify. **The changelog is the migration map**: read the entries between the project's
 version and the current one, and act on what they say rather than on the diff.
 
 **And the map is read from the new version, not recalled.** Both ends are on disk: the project's
@@ -40,18 +39,11 @@ version in its guide's *Operated by* line and its `config.md`, the target's in t
 copy's own `CHANGELOG.md`**. Read the entries **there** — a migration performed from memory runs
 against the release you last read about and fails silently, leaving a shape nothing describes.
 
-**Then it is an audit and a delta, never a rebuild.** Re-running the interview answers questions
-the owner already answered and overwrites conventions they chose on purpose. **The discipline is
-the one takeovers use** (`entering.md`): read what is here first, then produce **one list** of
-what this release adds that the project has not got.
-
-**And the delta reads in both directions — the project's own rules against the new corpus,
-not only the corpus against the project.** A guide line, a convention, a project skill that
-the new version now contradicts — the old text said *edit the stage by hand*, the new corpus
-grew a door — is **a finding with two named sides, and the owner decides which wins**: their
-rule stands (recorded, so the next upgrade does not re-ask) or the new version's does. A
-migration that only adds and never re-reads is how a project ends up operating on two
-generations of law at once, each half-true.
+**Then it is an audit and a delta, never a rebuild — and the delta reads both ways.** Re-running
+the interview overwrites conventions the owner chose on purpose; the takeover discipline holds
+(`entering.md`): read first, then **one list** — what this release adds that the project lacks,
+**and the project rules the new corpus now contradicts** — each a finding with two named sides:
+**the owner decides which wins, recorded so the next upgrade does not re-ask.**
 
 **This is not the other audit, and saying which one you are running is its first line.** A
 **takeover audit** measures a repository you have not operated **against the invariants**; a

@@ -52,6 +52,10 @@ nothing accumulates outside versions.
 
 ## Machine notes
 
+- **A pipe eats the exit code**: `preflight.sh | tail` gates nothing — capture the code
+  first (`cmd > /tmp/out 2>&1; echo $?`), then read the tail. Measured on this repo: a red
+  preflight rode a green pipeline into main.
+
 - Eval clean-room: homes under the session scratchpad need their **own** keychain entries
   (`Claude Code-credentials-<sha256(home)[:8]>`) and their own logins for long rounds —
   copied tokens lose the refresh race. Details and traps: `evals/RUNS.md`.
