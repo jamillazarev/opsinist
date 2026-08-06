@@ -11,7 +11,12 @@ holder and started-at, one line — and a session that finds the file held by an
 a worktree or waits, saying which. The lock **ages like a request**: a holder gone quiet past
 the threshold surfaces at arrival rather than blocking forever. `enforced_by: prose-only` and
 honestly so — the file is a courtesy the arrival summary reads, not a mutex — and the
-`exclusive` flag on tasks is unchanged by it.
+`exclusive` flag on tasks is unchanged by it. **And when two sessions' work meets, the merge
+is a review, never an act of git**: bytes git can settle it may; anything semantic — two
+decisions that disagree, two edits to one bar, two histories of one task — is a three-way
+surfaced with options per `PATTERNS.md` §17, each side carrying its evidence, **decided by a
+person**. A system whose whole law is *evidence, not verdicts* does not grow a merge oracle
+that picks winners on its own.
 
 **Assignment and dispatch are different acts.** Writing `assignee:` into a file is an edit and
 costs nothing. **Dispatch is what spends** — a run starts, tokens move, and a line is appended to

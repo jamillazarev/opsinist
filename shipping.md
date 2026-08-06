@@ -58,6 +58,12 @@ goes where**.
 
 **Write the notes, tag it, record what it cost.**
 
+**The release notes are the changelog entry, whole — never a summary with a pointer.** The
+reader on the releases page is the reader the entry was written for, and a précis plus "see
+CHANGELOG.md" makes them click to learn what they were already looking at. One source, shown
+in both places: extract the entry between its heading and the previous one, and that is the
+body of the release.
+
 **Every manifest carries the version, and the sweep runs before the tag.** A release bumped
 four manifests and missed three; the four hid the three until a runtime reinstalled the old
 number from its own file. `scripts/find-installs.sh` reads every manifest this repo ships —
