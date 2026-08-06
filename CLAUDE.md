@@ -28,10 +28,13 @@ this file exists to stop anyone re-deriving per session.
 6. **Site**: `cd ~/Dev/ai && python3 scripts/generate-opsinist.py ~/Dev/opsinist` — commit
    and push that repo too; a release that skips this ships docs describing the previous
    version. New page-worthy files need a route in the generator first.
-7. **Installs on this machine**: `bash scripts/find-installs.sh`, follow each row's route
-   (Claude: marketplace update + plugin update · Codex: marketplace upgrade + plugin add ·
-   Gemini: publish the Release, then uninstall + `install <repo-url> --consent` — its update
-   follows releases, not tags · copies: rsync), then run it again and read every row.
+7. **Installs on this machine**: `bash scripts/find-installs.sh`, follow each row's route,
+   run it again, read every row at the new version. **The script's output is the canon, not
+   any remembered count** — machines differ, installs come and go, and a runtime the script
+   does not know yet is added to it when met (assume incompleteness). This machine's current
+   routes, as examples only: Claude marketplace update + plugin update · Codex marketplace
+   upgrade + plugin add · Gemini: publish the Release, then uninstall +
+   `install <repo-url> --consent` (its update follows releases, not tags) · copies: rsync.
 8. **Memory**: update the project memory file with what shipped and what is owed.
 
 ## Versioning

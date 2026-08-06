@@ -45,6 +45,14 @@ the owner already answered and overwrites conventions they chose on purpose. **T
 the one takeovers use** (`entering.md`): read what is here first, then produce **one list** of
 what this release adds that the project has not got.
 
+**And the delta reads in both directions — the project's own rules against the new corpus,
+not only the corpus against the project.** A guide line, a convention, a project skill that
+the new version now contradicts — the old text said *edit the stage by hand*, the new corpus
+grew a door — is **a finding with two named sides, and the owner decides which wins**: their
+rule stands (recorded, so the next upgrade does not re-ask) or the new version's does. A
+migration that only adds and never re-reads is how a project ends up operating on two
+generations of law at once, each half-true.
+
 **This is not the other audit, and saying which one you are running is its first line.** A
 **takeover audit** measures a repository you have not operated **against the invariants**; a
 **migration audit** measures one you already operate **against a version**. **The yardstick is

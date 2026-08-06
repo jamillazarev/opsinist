@@ -28,6 +28,14 @@ meet by accident — and the versioning law grew its gate: **the tag waits for t
 every release its own word**; everything before it is preparation, nothing after it moves
 without an explicit yes.
 
+**And the migration delta reads both ways now.** A project's own rule that the new corpus
+contradicts — the guide still saying *edit the stage by hand* while the corpus grew a door —
+is **a finding with two named sides, and the owner decides which wins**, recorded so the next
+upgrade does not re-ask. A migration that only adds and never re-reads leaves a project
+operating on two generations of law at once. The nineteen releases were also unified in
+place — every one now opens with its bare date over the entry whole, the seven proto-format
+bodies replaced with their full changelog entries.
+
 **Migration map**: nothing to do — corpus rows, dev furniture, and a retro-edit that touched
 only the releases page.
 
