@@ -952,3 +952,53 @@ Tuning stops here by the standing rule: N=1 explores, only the suite measures. K
 for the next clean-room: player/judge homes need their own `Claude Code-credentials-<sha256(
 home-path)[:8]>` keychain entries — copied from the base entry, discovered this run after a
 full round of silent `Not logged in` voids.
+
+---
+
+## 2026-08-06 · one live compaction, and half a hook measured
+
+A headless session (haiku, five filler turns, then `/compact` via `--resume`) actually
+compacted: the stream carries `compact_boundary`, and **`SessionStart:compact` fired with our
+`post-compact.sh` stdout reaching the context verbatim** — the post-half of the compaction
+order is `measured`. **`PreCompact` emitted no events in the same stream**: its JSON
+`additionalContext` is unobserved in either direction on this path (manual `/compact` in
+print mode), so that half stays `cited` to the docs, and `entering.md` says which half is
+which. N=1; the auto-compaction path is untried.
+
+---
+
+## 2026-08-06 · the trigger surfaces, poked; and the clean-room's second keychain lesson
+
+**Hermes cron, exercised to the edge of the daemon**: `create` → `list` (real id) → `remove`
+all work; a forced `run` fails with the CLI's own diagnosis — *Gateway is not running — cron
+jobs will NOT fire*. **OpenClaw's gateway was equally down at probe time** (1006 on `cron
+list`). So the listener the `starts: webhook` deferral waits for **exists in software on both
+residents and is not yet standing in the room**: neither gateway is installed as a service
+here, and installing one is the owner's standing-service decision, not a probe's. No probe
+debris left; the job was removed.
+
+**Clean-room OAuth race** (second lesson, after the keychain-suffix one): tokens copied into
+the isolated homes' keychain entries **expire against the main home's refresh** — the main
+CLI rotates, the copy cannot refresh, and a round started an hour later voids with *OAuth
+session expired*. Recopy from the base entry immediately before every round; rounds long
+enough to cross a rotation need their own login.
+
+---
+
+## 2026-08-06 · the nine, rerun after the gate fix — and what the streams actually show
+
+Round 2 of the reruns (fresh token at start): **the fabricated-migration class is gone** —
+N72 now *fails on content* (reads the fixture's own files, misses the judge gap) instead of
+voiding into an invented audit, which is the stand-down fix doing its job. **The token race
+struck mid-round anyway** (N62/N76/N78 died on *repeated auth failures* minutes in): the main
+home refreshes while a round runs, and copies cannot survive a rotation — a full N=5 suite
+needs the isolated homes logged in as themselves, not carrying copies.
+
+**N73's stream kills the comfortable hypothesis**: the player *did* activate the skill —
+`Skill: opsinist:advisor`, twice — read the core with the new routing laws in it, then
+hand-edited `Status:` and committed, also reaching for the harness's own ToolSearch/TaskList
+on the way (the id-resolves-to-a-file trap, live). **Prose, including a law line, does not
+hold the light tier; only a validator does — and the fixture has no wired preflight to
+refuse the commit.** Repair candidate for the next tuning round: fixtures that portray an
+operated project get the company preflight wired (`build_flowmap` first), so the bypass net
+exists where the scenario expects the door. Not attempted tonight: the criterion first.

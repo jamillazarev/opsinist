@@ -54,7 +54,7 @@ printf '%s\n' "$turns" | sed 's/ ||| /\n/g' | while IFS= read -r turn; do
   # answer was that the suite has only ever answered for one tier — a rate is a claim about a
   # corpus AND a model, and quoting it without the second half is half a measurement.
   args=( --model "${PLAYER_MODEL:-haiku}" -p "$turn" --plugin-dir "$CORPUS" --dangerously-skip-permissions
-         --max-turns 40 --output-format stream-json --verbose )
+         --max-turns 55 --output-format stream-json --verbose )
   [ -n "$sid" ] && args+=( --resume "$sid" )
   ( cd "$ws" && CLAUDE_CONFIG_DIR="$PHOME" timeout 420 claude "${args[@]}" </dev/null ) >> "$out" 2>>"$logs/$ID-$N.err"
   rc=$?

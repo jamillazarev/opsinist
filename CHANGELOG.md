@@ -2,6 +2,40 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.14 — 2026-08-06
+
+**The night's test round: a gate learned who it serves, and the suite learned what holds.**
+The migration reminder fired on any tree that merely *mentioned* the skill — including this
+repository and every eval fixture — and pushed players into fabricated audits. **"Ours to
+migrate" now means an operator line or a `config.md`, nothing less** (the hook and the law
+both; the law gained its fourth stand-down: no operator and no log → the repo is *entered*,
+not migrated). Three routing laws joined the always-loaded core — the door with its state
+block, the strategy resolved before a dispatch, the type born at a kind's first task — and
+the bypass net got its end-to-end test: a hand-flipped `**Status**:` is refused in a real
+staged commit, a door-made move passes, and the preflight now runs that test too.
+
+**One live compaction, half a hook measured.** A headless session actually compacted:
+`SessionStart:compact` fired and `post-compact.sh`'s words reached the context verbatim —
+that half is `measured`. `PreCompact` emitted nothing observable on the same path; its
+`additionalContext` stays `cited`, and `entering.md` states which half is which.
+
+**The resident trigger surfaces were poked to the edge of their daemons.** Hermes cron:
+create → list → remove all work; a forced run fails with its own honest diagnosis — the
+gateway is not running. OpenClaw's gateway was equally down. The listener exists in software
+on both residents and stands in no room yet; installing one is the owner's standing-service
+decision (`evals/RUNS.md`).
+
+**Three clean-room lessons are in the run book now**: isolated homes need their own
+keychain-suffixed credentials; copied tokens lose the refresh race against the live main home
+mid-round — long rounds need their own login; and N73's stream ended the comfortable
+hypothesis — the player *activated the skill, read the law, and hand-edited anyway*, which is
+the corpus's oldest measurement repeating on its newest rule: prose does not hold the light
+tier, validators do, and the repair candidate is fixtures that wire the preflight where the
+scenario expects a door. Player turn ceiling raised 40 → 55 for the interview scenarios.
+
+**Migration map**: nothing to do anywhere — the reworked hook ships with the plugin and only
+*narrows* when the reminder fires; everything else here is corpus, tests and run records.
+
 ## 0.1.13 — 2026-08-06
 
 **The evening after the ladder: the framework answered for itself, and two residents answered

@@ -176,7 +176,7 @@ done
 # 11 · the shipped guards are exercised, not hoped: a validator whose test only runs when
 #      somebody remembers is a hope with a filename (found by the lenses — both tests were
 #      green and nothing ran them).
-for t in scripts/test-transition.sh scripts/test-inventory.sh; do
+for t in scripts/test-transition.sh scripts/test-inventory.sh scripts/test-company-preflight.sh; do
   [ -f "$t" ] || continue
   out=$(bash "$t" 2>&1 | tail -1)
   case "$out" in

@@ -295,8 +295,10 @@ it. The plugin holds both halves in the runtime's own documented channels (cited
 `hooks/pre-compact.sh` carries the order as PreCompact's JSON `additionalContext` — plain
 stdout never reaches a compaction, which the first draft of this hook got wrong — and
 `hooks/post-compact.sh`, on SessionStart matched to `compact`, reconciles the fresh summary
-against the canon it was allowed to drop. **The first live compaction is still owed as the
-measurement**; until it runs, this is `cited`, not `measured`, and says so (`runtimes.md`). And a
+against the canon it was allowed to drop. **Half of it is measured now** (2026-08-06, a live headless compaction — `evals/RUNS.md`): the
+post-compact hook fired and **its words reached the context verbatim**. The PreCompact half
+emitted no events in that same run — its `additionalContext` is unobserved in either
+direction, still `cited`, and the difference is stated rather than averaged. And a
 compacted session is still the dearer seat: cost climbs with carried context, summaries lose
 what files do not — **the fresh session reading its arrival is both the cheaper and the more
 faithful restore**, which is why living forever was never the goal.

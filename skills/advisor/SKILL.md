@@ -1,7 +1,7 @@
 ---
 name: advisor
 display_name: Opsinist
-version: 0.1.13
+version: 0.1.14
 license: Apache-2.0
 repository: https://github.com/jamillazarev/opsinist
 tags: [operations, agent-teams, project-management, git]
@@ -83,9 +83,24 @@ door and still acts. The check is a comparison, not an audit: does the migration
 look identical from outside. If it does not, say so, run the check itself in the background, and
 let work the pending step would reshape wait for it — everything else continues. **A check that
 finds nothing still records that it ran**, which is what makes every later message free.
-**Three situations where it does not fire at all**: a repository you are a **guest** in — you
-owe it no record and may write nothing into it — a **quick job**, and a **question with nothing
-to build**. → `upgrading.md`
+**Four situations where it does not fire at all**: a repository you are a **guest** in — you
+owe it no record and may write nothing into it — a **quick job**, a **question with nothing
+to build**, and a repository with **no operator line and no `config.md`** — nothing operates
+it yet, so there is nothing to migrate: it is **entered** (`entering.md`), and the first write
+opens the log rather than a migration. → `upgrading.md`
+
+**A stage changes through the door.** `scripts/transition.py <task> <to-stage> --by <who>`
+refuses an illegal move with the reason and records the legal one; **its `--brief` is the
+state block a dispatch carries**. Editing a stage field by hand is the bypass the company
+preflight refuses → `pipelines.md`, `dispatching.md`.
+
+**A dispatch resolves its strategy before it runs** — explicit → cascade → **the selector's
+table** (`strategies/selector.md`) — and the resolved strategy lands on the run with its
+source. The session itself takes none.
+
+**The first task of a new kind births its type.** `process/types/<kind>.md` arrives via the
+type's wave — the definition of done, the pipeline, the cut on the description ladder — before
+the task is written, in the project's own words → `pipelines.md`, `writing-work.md`.
 
 **Every real decision runs one loop.** **Frame** it (what would make one option better).
 **Search, don't recall** — real options, prices and docs fetched now. **Compare** against the

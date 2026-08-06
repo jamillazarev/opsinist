@@ -200,16 +200,14 @@ def main():
                   ".github/pull_request_template.md"):
             if os.path.exists(os.path.join(root, f)):
                 out()
-        ours = os.path.isfile(os.path.join(root, "config.md"))
-        for guide in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
-            p = os.path.join(root, guide)
-            try:
-                if os.path.isfile(p) and "opsinist" in open(p, encoding="utf-8", errors="replace").read().lower():
-                    ours = True
-            except Exception:
-                out()
+        # "Ours to migrate" means an operator line or a config.md — never a mere mention of
+        # the name. The wide test ("opsinist" anywhere in a guide) fired on the skill's own
+        # development repository and pushed eval players into fabricated migration audits on
+        # fixtures that nothing operates: a repo with no operator line and no config.md is
+        # ENTERED, not migrated (SKILL.md, the fourth stand-down).
+        ours = os.path.isfile(os.path.join(root, "config.md")) or bool(guide_version(root))
         if not ours:
-            out()  # not a project we operate — nothing to say
+            out()  # nothing operates this yet — nothing to migrate, nothing to say
         v = skill_version()
         if not v:
             out()
