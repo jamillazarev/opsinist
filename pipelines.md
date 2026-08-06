@@ -102,10 +102,24 @@ questionnaire at setup, the same law as no roster before a task needs a craft.
 **Research comes before the ask, so the defaults offered are real.** For an unfamiliar craft the
 recommended bars arrive **sourced from the craft's own standards**: empty options hand the
 research to the owner, and researched silence guesses their taste — the wave does neither. The
-answers — the bars, and **the type's cut on the description ladder** (`writing-work.md`) — land
+answers — the bars, **the type's cut on the description ladder** (`writing-work.md`), and **the
+type's fields** — the `x.*` attributes the craft's own standard names, the few of them, each
+declared with *what this means and when to set it* (`writing-work.md` §custom fields) — land
 in `_ops/process/types/<type>.md` (`templates/TYPE-template.md`) with their provenance,
 and hold **until the owner asks — or the bar itself accumulates the evidence and proposes its own
 change** (`checking.md`), never silently: the bar is a locked surface.
+
+```mermaid
+flowchart LR
+  T[first task of a new kind] --> W[one wave, at first use —<br/>never a questionnaire at setup]
+  W --> RS[research from the craft's own<br/>standards, before the ask]
+  RS --> P[proposed, each with provenance:<br/>ready-when · done-when · mechanical check ·<br/>the ladder cut and its kind · pipeline ·<br/>the fields the standard names]
+  P --> O[confirmed in the owner's words] --> F[the type's file in _ops/process/types/]
+  F -. a bar that keeps bouncing the same work<br/>proposes its own change — never silently .-> P
+```
+
+**The fields are the part everyone forgets to propose**: declared at birth they are board
+columns from day one; discovered per task, twelve spellings of one attribute → `templates/TYPE-template.md`.
 
 The default shape is `build → review → accept`, with a design stage in front where design
 precedes build, and **parallel gates inside review**.

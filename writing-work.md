@@ -383,6 +383,10 @@ link-check set**.
 **Every declared field carries "what this means and when to set it."** A field whose meaning is
 unwritten is filled inconsistently within a month, and then it is worse than no field.
 
+**A type proposes its fields at its own birth.** The wave that brings the bars brings the
+`x.*` set the craft's standard names — declared once there, never re-invented per task →
+`pipelines.md`, `templates/TYPE-template.md`.
+
 ---
 
 ## What a small job does not get

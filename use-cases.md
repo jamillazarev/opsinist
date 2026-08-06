@@ -58,6 +58,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "The idea is still fuzzy" | *"I'm thinking about onboarding, not sure what yet"* |
 | "Something is broken in production" | *"urgent: signup fails on Safari"* |
 | "A user complained" | *"a customer says export is confusing"* |
+| "Every bug arrives shaped differently" | *"give this kind of work its fields"* — or they were already proposed when the type was born, from its craft's own standard |
 | "Ship it" | *"release this"* · *"publish the episode"* · *"send the batch"* |
 | "Did it work?" | *"did the new onboarding move the metric?"* |
 | "I'll do this part myself" | *"I'll design it, pick it up after"* — **and you'll be asked what you did, what proves it, and what's next** |

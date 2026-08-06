@@ -19,6 +19,15 @@ that owns a `tasks/` or `docs/` of its own — is gone by construction. **The do
 past**: an unmigrated flat project resolves through a fallback and fails toward the
 migration notice, never a stack.
 
+**A type now proposes its task's fields, not only its bars.** The birth wave that researches
+ready-when, done-when and the ladder cut now also brings **the `x.*` attributes the craft's
+own standard names** — a bug form's environment and severity, a commission's client and
+deadline, a recipe's yield and allergens — the few of them, each declared with *what this
+means and when to set it*, and none at all where the standard names none. Declared fields
+already had their powers — board columns, filters, the link-check for `url` — what was missing
+was anyone proposing them; now the wave does, with provenance, and the owner's words still
+decide. `templates/TYPE-template.md` grew the `## Fields` section the proposals land in.
+
 **The companions are chapters now — the word confused its own owner, which is the whole
 test.** Twenty-four living files renamed in one pass, checkers included; `companion_budget`
 became `chapter_budget` in the skill's own frontmatter; the glossary entry says *called a
@@ -1299,7 +1308,7 @@ happens — and a sweep that found nothing records what it looked at.
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · two hundred and seven single-sentence facts · ninety-eight situations with what to
+file defines · two hundred and eight single-sentence facts · ninety-nine situations with what to
 say · **ninety-eight evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the

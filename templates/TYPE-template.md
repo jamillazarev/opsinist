@@ -38,6 +38,15 @@ schema) or **gauge-checked** (an exemplar and a judge who is not the author — 
 batch, a model issue). A bug wants `example` because its ready-when already demands a
 reproduction; a chore wants the floor. A task overrides explicitly. → `writing-work.md`}}
 
+## Fields
+
+{{the task attributes this type declares beyond the core — `x.<name>`, one of the seven kinds,
+each with **what this means and when to set it**. Proposed at this wave from the craft's own
+standard — a bug form names environment and severity, a commission names client and deadline,
+a recipe names yield and allergens — **the few the standard names, never a questionnaire**,
+and none at all where it names none: an undeclared note still passes through, and a field
+whose meaning is unwritten is worse than no field → `writing-work.md`.}}
+
 ## Pipeline
 
 {{the stage ladder — default: build → review → accept; a design stage in front where design
