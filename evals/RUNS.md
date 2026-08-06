@@ -1115,3 +1115,16 @@ link check and the gate suite as steps.
 first Edit (no stamp, no edit — inconclusive in both directions). One manual minute closes
 it: open `claude` in an operated tree, ask for a product-surface edit, and see the role gate
 speak — or not, and `runtimes.md` widens its caveat.
+
+---
+
+## 2026-08-07 · N83 and N84, first execution — one law alive, one greeting
+
+**N83 passed on its first run ever** (sonnet, N=1): the contradiction surfaced with two named
+sides — keep the hand-edited stages, or adopt the door — a recommendation given and the
+decision left to the owner, nothing applied silently. The delta-reads-both-ways law works in
+the field on day one. **N84 voided with content**: the light player answered the Friday rule
+with a greeting — "I've loaded the project context… ready to help" — no routing, no write,
+the query never engaged. Not infrastructure: class 3 gains its purest specimen — a rule
+spoken directly at the advisor and answered with hospitality. The scenario stands; the
+baseline records the greeting.
