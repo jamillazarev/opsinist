@@ -2,6 +2,27 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.15 — 2026-08-06
+
+**The zeros were cut open, and two of them were the corpus's fault.** Thirty-five verdicts
+from the first real rates, read one by one, split four ways — and the two classes that
+belonged to the corpus are repaired with executors, not sentences. **The map's `touched by:`
+block has its generator now**: `scripts/map-blocks.py` (tested, in the preflight runner)
+rewrites only its markers, and **two live tasks on one node is a finding stated inside the
+block itself** — the promise `mapping.md` made in 0.1.12 finally has something keeping it.
+And **a gauge with no judge surfaces itself**: `check-structure.py` warns on a type file
+whose exemplar names `Judge: unassigned` — five players read exactly that file and none saw
+the gap, so the audit sees it for them.
+
+**The other two classes are named, not papered over.** *Prose read and not executed* — a
+finding reported with nothing written, an inventory law present and ignored, an advisor doing
+the work itself instead of dispatching — keeps its candidate forms in the run book, because a
+stronger sentence is not a repair. *Expectation above the tier* stays a rate: the scenario is
+right about the behaviour and honest about where the light tier ends.
+
+**Migration map**: nothing to do — a new script and a new warning arrive with the plugin;
+existing `touched by:` prose becomes generated the first time `map-blocks.py` runs.
+
 ## 0.1.14 — 2026-08-06
 
 **The night's test round: a gate learned who it serves, and the suite learned what holds.**

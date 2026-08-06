@@ -1041,3 +1041,28 @@ to the real one.
 preflight into operated fixtures · split the seven zeros judge-by-judge · wall the upgrade
 fixtures · teach the investigation-spiral its exit. A strong-tier anchor is worth its price
 only after that round.
+
+---
+
+## 2026-08-06 · the seven zeros, cut verdict by verdict
+
+35 verdicts read; the split is four classes, not two, and only two of them are the corpus's
+to repair tonight:
+
+- **Promise without an executor (repaired)**: N82's judges kept asking for the map's
+  `touched by:` block — which nothing generated. `scripts/map-blocks.py` now exists, tested
+  (6/6, in the preflight runner): blocks between markers, two live tasks on one node stated
+  as a finding *inside the block*. The second lens pass missed this one; the eval judges
+  caught it.
+- **Gap that should surface itself (repaired)**: N72 — five players read a type file whose
+  gauge names `Judge: unassigned` and none surfaced it. `check-structure.py` now warns on
+  exactly that shape: a gauge without a judge is a bar nobody holds, and the audit sees it
+  without needing the player to.
+- **Prose read and not executed (named, awaiting a form)**: N69 (finding reported, nothing
+  written), N75 (inventory law present in `entering.md:131`, player walked with `ls` anyway),
+  N77 (the advisor did the work itself instead of dispatching — a role violation, not a
+  routing miss), N80 (edit-as-signal offered no home). Stronger sentences are not the repair;
+  candidate forms live with each scenario's note.
+- **Expectation above the tier (left standing)**: N66's inference framing — the scenario is
+  right about the behaviour and honest about where the light tier ends; it stays a rate, not
+  a target.

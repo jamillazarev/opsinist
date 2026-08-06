@@ -299,4 +299,15 @@ for _name in sorted(_built - set(_claimed)):
 for _name in sorted(set(_claimed) - _built):
     fail(f"a scenario names fixture “{_name}” — fixtures.sh does not build it")
 
+# A gauge-checked exemplar needs a judge who is not the author, and a type file that names the
+# exemplar while leaving the judge unassigned is a bar nobody can hold — measured (N72 at N=5):
+# five players read exactly such a file and none surfaced the gap, so the gap surfaces itself.
+# Project trees carry process/types/; this repository's templates are exempt by placeholder.
+for _tf in sorted(glob.glob("process/types/*.md")):
+    _t = _read(_tf)
+    if re.search(r"gauge", _t, re.I) and re.search(
+            r"judge\s*:\s*(unassigned|nobody|tbd|\?|$)", _t, re.I | re.M):
+        warn(f"{_tf} declares a gauge-checked exemplar with no judge — a gauge without a "
+             "judge who is not the author is a bar nobody holds (writing-work.md)")
+
 print("\n".join(out))
