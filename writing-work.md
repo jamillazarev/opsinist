@@ -23,12 +23,13 @@ One task, one file, in a **flat directory**: `_ops/tasks/T-8F3KQ2-billing-page.m
 a field, not a folder, so **re-parenting is a one-line edit** rather than a file move that
 breaks every link.
 
+**The shape is a file, not a description of one → `templates/TASK-template.md`.** This table says what each field *means*; the template is what you copy, and a field skipped in a copied file leaves a hole somebody sees.
+
 | Field | Value | Why it exists |
 |---|---|---|
 | `id` | `T-` + six from **32 symbols: the digits and every letter but `I`/`L`/`O`/`U`** (the four that misread as 1, 1, 0 and V) | **immutable, never reused** — links point here, so renaming is safe. **Minted by `scripts/new-id.py`, never invented**: it draws on the system's random source and skips what the tree already uses, and `scripts/check-structure.py` refuses a duplicate. **A model asked for a random id is not a random source** — two unrelated projects once produced the same five |
 | `title` | text | the human handle. Duplicates are refused at creation |
 
-**The shape is a file, not a description of one → `templates/TASK-template.md`.** This table says what each field *means*; the template is what you copy, and a field skipped in a copied file leaves a hole somebody sees.
 | `type` | a file in `_ops/process/types/` — feature · bug · content · chore · migration · tooling | selects the **definition of done** and the default pipeline. A bug and an article do not run the same gates. Not a closed list: types are editable from day one |
 | `stage` | a named step of this task's pipeline | **the only state field.** The pipeline declares which *category* each stage belongs to |
 | `stream` | `product` (default) · `system` | `system` is work on the project's own machinery, and it carries full history regardless of size → `self-maintenance.md` |

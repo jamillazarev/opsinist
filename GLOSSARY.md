@@ -22,7 +22,7 @@ is that file's business; a term used in two is canon, and canon lives here.
 | **team** · **panel** | a team holds **workers** and its routing produces an **assignee**; a panel holds **experts, personas and humans** and its routing produces a **respondent** | can a member be *assigned work*? |
 | **team** (ours) · **agent team** (the harness) | ours is a **durable group with a routing rule**, a file in the repo, invisible to the runtime; the harness's is the **ephemeral set of live sessions**, kept outside the repo and deleted when the session ends | does it survive the session? |
 | **advisor** · **team lead** (the harness) | the same thing seen from two sides: the session that spawns and does not hold the work. **Not** the squad leader we removed — that was a role in an org chart, and routing replaced it | is it a *seat* or a *rung*? |
-| **segment** · **panel** | a segment is a **property of one persona** (SMB, enterprise, novice); a panel is a **named composition for a run** ("5 SMB, 3 enterprise, 2 churned") | is it *an attribute* or *a group* ? |
+| **segment** · **panel** | a segment is a **property of one persona** (SMB, enterprise, novice); a panel is a **named composition for a run** ("5 SMB, 3 enterprise, 2 churned") | is it *an attribute* or *a group*? |
 | **release** · **milestone** | a release **ships, has a version and gets measured**; a milestone is **a checkpoint that may ship nothing** | does it leave the building? |
 | **migration** · **adoption** | a migration moves what a project **already has** onto a newer shape; an adoption is taking up something it **never used**, which a release can make load-bearing. The first is applied on approval, the second is **offered with its price and may be declined for good** | is there something to convert, or something to start? |
 | **takeover audit** · **migration audit** | the first reads **a repository you have not operated** and produces a **debt list** — blocking or deferrable, against the invariants (`entering.md`); the second reads **a project you already operate** and produces a **delta against a version** — needs no answer · needs an answer · needs nothing (`upgrading.md`) | is the yardstick **the invariants** or **a version**? |
@@ -174,7 +174,7 @@ here to rot. → `SKILL.md`
 
 ### Machinery
 
-**migration log** — the `## Migrations` section of `config.md`: append-only, one line per step,
+**migration log** — the `## Migrations` section of `_ops/config.md`: append-only, one line per step,
 `from → to · date · outcome · who`, outcome one of `applied` · `nothing-required` · `declined` ·
 `deferred` · `failed`. **It is history, not state** — `schema_version` beside it is the state —
 and it is the only thing that distinguishes *the files were swapped* from *the project was
@@ -217,7 +217,7 @@ results**. → `storing.md`
 **One position, not six switches**, asked as a filled-in form before the first lasting write.
 → `storing.md`
 
-**manifest** — one line per layer in `config.md` naming where that layer lives. Stays in the
+**manifest** — one line per layer in `_ops/config.md` naming where that layer lives. Stays in the
 repository even when the layers do not, because **a clone giving contents without a map is worse
 than one giving a map without contents** — the first looks complete. → `storing.md`
 

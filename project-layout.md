@@ -22,6 +22,7 @@ your-project/
     DECISIONS.md        # append-only decision record
     LATER.md            # deferred, each with a revisit moment
     BACKLOG.md          # the one hand-kept ordering surface
+    ROADMAP.md          # the sequence of intents, each with its why
     MAP.md              # the product as moves and things
     ARCHITECTURE.md     # where the implementation lives
     BUDGET.md           # the envelope, stated as shares
@@ -29,6 +30,7 @@ your-project/
     TOOLING.md          # the register: every wired tool, its ceiling
     TEAM.md             # the roster — generated, never hand-kept
     FIELD-NOTES.md      # friction, recorded where it happens
+    assets.md           # every asset in use: what · source · licence · where
 
     tasks/              # flat; hierarchy is a field, not a folder
     specs/              # the spec rung's documents, unless a binding says otherwise
@@ -106,7 +108,7 @@ live in the environment or a keychain.
 **No stored rollups.** Progress, burn and totals are computed from the atoms every time
 (`PATTERNS.md` §4).
 
-**Not every layer, necessarily.** Where a layer lives is a project decision, and `config.md`
+**Not every layer, necessarily.** Where a layer lives is a project decision, and `_ops/config.md`
 carries **the manifest — one line per layer, naming its destination**. It stays in the repository
 even when most layers do not, because a clone that gives contents without a map is worse than one
 that gives a map without contents: the first looks complete → `storing.md`.
@@ -155,7 +157,7 @@ shape each time produces a document only its author can read.
 | Artifact | Template |
 |---|---|
 | the project guide | `templates/GUIDE-template.md` |
-| `config.md` | `templates/CONFIG-template.md` |
+| `_ops/config.md` | `templates/CONFIG-template.md` |
 | `_ops/FIELD-NOTES.md` | `templates/FIELD-NOTES-template.md` |
 | `_ops/ARCHITECTURE.md` | `templates/ARCHITECTURE-template.md` |
 | `_ops/MAP.md` | `templates/MAP-template.md` |
@@ -189,7 +191,7 @@ sentence where four numbers belong, which is how a ledger quietly becomes prose.
 
 **The last row is the only one that is not a document, and it is the one that must actually be
 run.** Copied to `_ops/scripts/preflight.sh` and wired with `bash _ops/scripts/preflight.sh --install`, it
-is what makes three of this system's rules real in this project: a task cannot reach a terminal
+is what makes several of this system's rules real in this project — among them: a task cannot reach a terminal
 status in the same commit that edits its own bar, an entitlement cannot be claimed with nothing
 behind it, and the decisions log cannot be rewritten. **Un-wired, all three are `prose-only`
 here** whatever `permissions.md` says in general — a gate that lives in an uninstalled file is a

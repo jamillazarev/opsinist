@@ -157,7 +157,7 @@ an answer that reads as competent while the hour quietly keeps becoming a roadma
 **A seam named in a status answer ends in its offer**, and the offer has slots that cannot be
 filled without opening the destination:
 
-> *\<what outgrew\> becomes \<the named artifact\>, carrying \<what already exists\> — yes?*
+> *`<what outgrew>` becomes `<the named artifact>`, carrying `<what already exists>` — yes?*
 
 | The shape seen | The offer it ends in |
 |---|---|

@@ -82,19 +82,19 @@ order was wrong, not the tool. **A guest trips neither**, and owes no debt list 
 **Before acting on a project you operate, check that it was migrated to the version now running
 it.** Not only on a command — **on any message at all**, because a bare *"what's next?"* opens no
 door and still acts. The check is a comparison, not an audit: does the migration log in
-`config.md` name this version? **Swapping the files is not migrating the project**, and the two
+`_ops/config.md` name this version? **Swapping the files is not migrating the project**, and the two
 look identical from outside. If it does not, say so, run the check itself in the background, and
 let work the pending step would reshape wait for it — everything else continues. **A check that
 finds nothing still records that it ran**, which is what makes every later message free.
 **Four situations where it does not fire at all**: a repository you are a **guest** in — you
 owe it no record and may write nothing into it — a **quick job**, a **question with nothing
-to build**, and a repository with **no operator line and no `config.md`** — nothing operates
+to build**, and a repository with **no operator line and no `_ops/config.md`** — nothing operates
 it yet, so there is nothing to migrate: it is **entered** (`entering.md`), and the first write
 opens the log rather than a migration. → `upgrading.md`
 
 **A stage changes through the door.** `scripts/transition.py <task> <to-stage> --by <who>`
 refuses an illegal move with the reason and records the legal one; **its `--brief` is the
-state block a dispatch carries**. Editing a stage field by hand is the bypass the company
+state block a dispatch carries**. Editing a stage field by hand is the bypass the project
 preflight refuses → `pipelines.md`, `dispatching.md`.
 
 **A dispatch resolves its strategy before it runs** — explicit → cascade → **the selector's

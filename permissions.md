@@ -236,7 +236,7 @@ containing one approving name looks exactly like a reviewed one.
 *A register entry past twice its recheck is corrected before the commit passes*, because three
 separate runs met an eleven-month-old row, disproved it out loud, and left it standing for the
 next reader; the fix they each declined to make was one edit writing `unknown` with today's date.
-*Nothing transitions itself* and *nobody edits the bar they are measured against*: the company
+*Nothing transitions itself* and *nobody edits the bar they are measured against*: the project
 preflight fails a task that reaches a terminal status in the same commit that edits its own
 definition of done, and warns when one arrives with nothing pointing at a review or a run. *An
 agent may not author the fact that unblocks its own work*: an entitlement claimed in the tooling
@@ -252,12 +252,12 @@ says so — *prose-only, nothing holds this one* — rather than pretending.
 **The conditional is the whole point, so it is written here rather than assumed.** That script is
 **not part of the skill — it is a thing the skill installs into the owner's repository**
 (`templates/company-preflight.sh`, copied to `_ops/scripts/preflight.sh` and wired with `--install`).
-Ship the skill alone and those three are **back on this list**, unenforced, in every project where
+Ship the skill alone and those five are **back on this list**, unenforced, in every project where
 nobody ran that step. **A rule whose gate lives in a file somebody still has to install is
 `prose-only` until they do**, and saying otherwise would be the exact failure this section exists
 to name. Standing a project up therefore includes wiring it → `project-layout.md`.
 
-**None of the three was fixed by writing the rule more clearly** — each had been stated correctly
+**None of the five was fixed by writing the rule more clearly** — each had been stated correctly
 for a long time. → `self-maintenance.md`, *when another sentence will not fix it*
 
 **Where a gate can become real, it should.** Branch protection is why merge is not forbidden by a

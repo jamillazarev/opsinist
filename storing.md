@@ -186,7 +186,7 @@ the cut is supposed to survive (`cost.md` draws this same line for rollups).
 
 ## The manifest
 
-**One line per layer, in the repository, saying where that layer lives.** Without it, "docs in the
+**One line per layer, in `_ops/config.md`, saying where that layer lives.** Without it, "docs in the
 repository, the rest outside" produces a project nobody can find — a clone would give content with
 no map. With it, a clone always gives the map even when it does not give the contents.
 

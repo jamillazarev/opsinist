@@ -84,7 +84,7 @@ commits and how many hands. That is a handful of shell commands and no judgement
 turns "read the project" from an open-ended act into a priced one.**
 
 **Past the size the project declares, reading everything is announced rather than performed.** The
-number lives in `config.md` as `read_threshold_lines`, so it is a decision someone made rather than
+number lives in `_ops/config.md` as `read_threshold_lines`, so it is a decision someone made rather than
 a constant someone hard-coded. Under it, the full read is cheap and is the recommended answer.
 
 **The default is ten thousand readable lines** — source and docs, excluding lockfiles, vendored
@@ -113,7 +113,7 @@ confident prose with nothing under it, and **nothing in the output marks the dif
 about unread ground is `unknown` — not judgement, not inference from the parts that were read.
 
 **Two records, and they are not the same kind of thing.** The **choice** is a decision and lives in
-`config.md` beside the other settings. The **coverage** is state that grows with every task, and it
+`_ops/config.md` beside the other settings. The **coverage** is state that grows with every task, and it
 belongs in `_ops/ARCHITECTURE.md` — the map already exists to stop every worker re-deriving the
 codebase, and a map that does not say where it ends is the version of that failure nobody notices.
 **Unmapped ground is named there, not left as silence.**

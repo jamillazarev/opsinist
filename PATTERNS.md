@@ -6,11 +6,11 @@ cited nine times is a form, and nine paraphrases are prose.
 
 **Why this file earns its place.** The corpus arrived at the same shape repeatedly under
 different words — the resolution cascade appeared in nine places, "store the atom" in seven,
-"provenance is mandatory" in seven. Every paraphrase is a copy that can drift, and §1.4 says a
-rule in two files goes stale in one of them.
+"provenance is mandatory" in seven. Every paraphrase is a copy that can drift, and a rule
+living in two files goes stale in one of them.
 
 **The meta-rule above all of these:** **form beats prose, and this was measured, not argued.**
-The 2.4.4 regression gate found prose the mid tier ignored until it was re-formed into
+A regression gate on the system this one grew from found prose the mid tier ignored until it was re-formed into
 structure. So when a rule does not hold, the repair is a **form** — a list, a required field, a
 gate — never a stronger sentence.
 
@@ -112,8 +112,8 @@ named separately.
 *Applies to:* import scanners · skill-quality signals · synthetic reactions · cost slices.
 
 **16 · Honest `enforced_by`.** Every gate declares what actually holds it: `request` ·
-`validator` · `host` · `prose-only` — and the rules that are deliberately **not** gates are
-listed by name.
+`validator` · `git-host` · `harness` · `prose-only` — and the rules that are deliberately
+**not** gates are listed by name.
 *Why:* a gate believed in but not enforced is worse than a stated rule, because it buys false
 confidence. The four lenses are the compensating control for everything `prose-only`.
 

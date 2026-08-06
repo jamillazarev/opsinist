@@ -60,7 +60,7 @@ this. Everything else has a default good enough to leave alone.
 - **A stage changes through a door that refuses with the reason** — and the ladder you see is
   drawn from the same block the door reads, so picture and enforcement cannot drift.
 - **How deeply work is described is one cut on one ladder, owned by the kind of work** — a bug
-  wants its reproduction, an issue its model issue, a chore the floor.
+  wants its reproduction, a newsletter its model issue, a chore the floor.
 - **"Remember this" lands in files, never in the chat's memory** — routed to a guide line, a
   decision, a register, and the home is named back to you.
 - **A release names how it goes out** — soft, canary, staged, flag-gated, shadow — under three
@@ -88,7 +88,7 @@ this. Everything else has a default good enough to leave alone.
 The full inventory — every entity, register and rule, grouped and argued — lives in
 **[the docs](https://ai.jamillazarev.com/skills/opsinist/)**: start at
 [the skill](https://ai.jamillazarev.com/skills/opsinist/the-skill), skim
-[93+ situations](https://ai.jamillazarev.com/skills/opsinist/situations) or
+[93+ situations](https://ai.jamillazarev.com/skills/opsinist/use-cases) or
 [the facts](https://ai.jamillazarev.com/skills/opsinist/facts) — one true sentence each.
 
 ---

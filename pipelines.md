@@ -17,7 +17,7 @@ stages: [brief, explore, draft, review, handoff]
 terminal: [handoff]
 gates:
   draft->review:
-    check: "scripts/check-screens.py"   # mechanical — a command that must exit clean
+    check: "_ops/scripts/check-screens.py"   # mechanical — a command that must exit clean
   review->handoff:
     review_by: non-author               # a review in History from someone who did not draw them
     fields: [evidence]                  # fields that must be present on the task

@@ -131,7 +131,7 @@ without a thing to build actually arrives in — **choose between named options 
 choice handed back, and each of those answers was right about its subject and one step short of
 answering. The shape below is the second of the three; the file carries all of them.
 
-**A *find-me* answer has a shape, and the shape is the check.** Four things, however short — a
+**A *find-me* answer has a shape, and the shape is the check.** Five things, however short — a
 sentence each is fine, and a one-line answer that carries them beats a page that does not:
 
 1. **The pick, and why** — one, or a named condition that decides between two. Not a menu.

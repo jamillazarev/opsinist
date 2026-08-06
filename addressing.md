@@ -42,7 +42,7 @@ sits with the gates.
 duplication: two parents mean two guides, two skill sets and two background colours.
 
 **These are not the harness's teams.** Ours are durable groups in files, invisible to the
-runtime; the harness's are the live sessions of one session, deleted when it ends. Our routing
+runtime; the harness's are the live subagent sessions one session spawns, deleted when it ends. Our routing
 is read by the advisor, which then spawns a worker — so **our team structure costs nothing at
 runtime** (`GLOSSARY.md`).
 

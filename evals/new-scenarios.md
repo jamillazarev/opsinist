@@ -1376,7 +1376,7 @@ Expected:
   left to the owner to invent** — OpenSpec and Spec Kit for software, with the reason one of
   them is the default there; the stock `templates/SPEC-template.md` where no tool is wanted —
   and the three binding questions are stated.
-- **The answer lands in `config.md` as `spec_mode`**, not only in the conversation — and each
+- **The answer lands in `_ops/config.md` as `spec_mode`**, not only in the conversation — and each
   type may later refine the cut at its own wave (`pipelines.md`).
 - **Fail:** the floor taken silently; a menu of tool names with no recommendation; the question
   asked as its setting name rather than in the owner's terms.
@@ -1403,7 +1403,7 @@ Expected:
 **Query:** *"Update us to the current version."*
 
 Expected:
-- **Both versions are read from disk** — the project's from its guide and `config.md`, the
+- **Both versions are read from disk** — the project's from its guide and `_ops/config.md`, the
   target's from the installed skill's own `CHANGELOG.md` — and the entries between them are
   **read there**, not recalled.
 - **What exists is audited before anything is written**, and the result is **one list split by
@@ -1482,7 +1482,7 @@ Expected:
 - **What waits is only what the pending step would reshape.** Reading, status and questions
   continue; creating an artifact in a form the migration is about to change waits, **with the
   reason said in one line**.
-- **The result is recorded where it can be found next session** — steps in `config.md`, choices
+- **The result is recorded where it can be found next session** — steps in `_ops/config.md`, choices
   and declines in `_ops/DECISIONS.md`, deferrals in `LATER.md` with a moment for a trigger.
 - **Fail:** silence; the version line trusted as proof of migration; the whole session blocked on
   a migration nobody asked for; a ledger written nowhere, so the next session asks again.

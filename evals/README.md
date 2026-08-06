@@ -44,7 +44,7 @@ restructure, not after — otherwise the numbers are absolutes with nothing to c
 
 Every row is required. A run missing one is not a weaker run; it is **not evidence**.
 
-**The fixtures are code, not description** — `fixtures.sh` builds all twenty-five, or one by name,
+**The fixtures are code, not description** — `fixtures.sh` builds all twenty-eight, or one by name,
 deterministically. Re-running a suite is *build → dispatch → judge → clean*, not archaeology
 through a conversation about what the tree looked like.
 

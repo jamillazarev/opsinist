@@ -103,7 +103,7 @@ flowchart LR
   F[frame] --> S[search, don't recall] --> C[compare, each claim sourced]
   C --> D[choose and say why] --> W{survives being wrong?}
   W -- no --> U[say it is undecided]
-  W -- yes --> R[record in DECISIONS] --> A[act]
+  W -- yes --> R[record in _ops/DECISIONS.md] --> A[act]
 ```
 
 ---
@@ -279,14 +279,14 @@ flowchart LR
   D --> L[the debt list<br/>every finding blocking or deferrable,<br/>with the consequence named]
   L --> P[present it whole, with costs]
   P --> A[apply in batches they approve]
-  L -.->|deferrable| R[LATER.md, with a revisit trigger<br/>that is a moment, not a date]
+  L -.->|deferrable| R[_ops/LATER.md, with a revisit trigger<br/>that is a moment, not a date]
   G -. "a mutating call before the list<br/>is refused by the hook" .-> L
   R -. "finishing without writing it<br/>is stopped once" .-> R
 ```
 
 **Nothing is fixed before they have seen the list**, and both ends of that are performed rather
 than promised: a mutating call before the list exists is refused, and a run that presented
-deferrable findings and wrote no `LATER.md` is stopped once and asked to write them
+deferrable findings and wrote no `_ops/LATER.md` is stopped once and asked to write them
 → `entering.md`.
 
 ---
@@ -311,10 +311,10 @@ flowchart TD
   W --> W2[in flight — untouched, converts at its next transition]
   W --> W3[open — converts with the batch]
   W --> W4[on-touch — base now,<br/>the rest refused until converted]
-  M1 --> G[append to ## Migrations in config.md:<br/>from → to · date · outcome · who]
+  M1 --> G[append to ## Migrations in _ops/config.md:<br/>from → to · date · outcome · who]
   M3 --> G
   W3 --> G
-  G --> Z[declined → DECISIONS.md · deferred → LATER.md]
+  G --> Z[declined → _ops/DECISIONS.md · deferred → _ops/LATER.md]
 ```
 
 **A guest trips none of this**, and *nothing-required* is a line worth writing → `upgrading.md`.

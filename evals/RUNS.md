@@ -7,7 +7,7 @@ failure `SKILL.md` names. What follows is what the repository can defend.
 **The sections below are from `2026-07-28`, in Claude Code, against fixtures built by
 `fixtures.sh`.** Runs were dispatched as subprocesses, each in its own parent directory, and
 cleaned up by `eval-clean.sh` afterwards. No other runtime has run the behavioural suite →
-`runtimes.md`; the hermes entry at the end of this file is smoke, and says so.
+`runtimes.md`; the hermes entry (2026-08-06) is smoke, and says so.
 
 ---
 

@@ -6,7 +6,7 @@ rather than a blank search.
 **Load the row, not the file.** This is the longest document here and almost none of it is
 about your task: reading it whole to answer *"what do we use for email"* spends a large slice
 of a context window on ninety categories nobody asked about, and everything after it in the
-session pays. **Search for the need and read what matches** — `grep -i "<need>" catalogue.md`,
+session pays. **Search for the need and read what matches** — `grep -i "<need>"` over this file,
 or the site's own search. Every category is a row that begins `| **Name** |`, so one line is
 the whole answer, and the four headed sections below say which neighbourhood to look in.
 **Read more than one row only when the choice genuinely spans them** — a stack decision, or a
@@ -15,7 +15,7 @@ tool that could sit in either of two categories.
 **This is the fastest-rotting file here, and it knows it.** Prices move, free tiers close, projects
 get acquired, licences change. So two rules govern it:
 
-**Every row carries a check-date, and a row past its recheck is unknown, not fine.** The freshness
+**A row whose claim can rot — a price, a licence, a measured behaviour — carries a check-date, and past its recheck it is unknown, not fine.** The freshness
 checker reads this file, and a release does not go out with entries past the threshold —
 `scripts/check-freshness.py`.
 
@@ -121,7 +121,7 @@ being a method and becomes one author's project → `choosing-tools.md`.
 | **Data tables** | **[AdaptTable](https://github.com/orwa-mahmoud/adapttable)** (**MIT** — headless React data table that renders natively into Mantine, MUI, Chakra or shadcn/ui). Checked 2026-08-02 | the one component nobody wants to write twice, and the one where a kit's own table usually runs out: sorting, grouping, virtualisation, column state. **Headless is the point** — the table's behaviour stops being a reason to switch component kits, which is the mixing this catalogue warns about everywhere else |
 | **Billing & pricing UI** | **[Billing SDK](https://billingsdk.com)** (**GPL-3.0 — flag the copyleft**: fine for something you self-host, a real decision for something you ship to a client) — React/shadcn components for pricing tables, subscriptions, usage meters and the billing screens. Checked 2026-08-02 | the screens between a working product and a paid one, which every project rebuilds badly. **The licence is the whole judgement here** — the components are the cheapest part of billing and the copyleft is the expensive part, so this is a row where the free thing may be the wrong thing |
 | **Utility layer for the framework you picked** | **[VueUse](https://vueuse.org)** (**MIT** — 200+ Vue 3 composables: state, browser, sensors, networking) · **[useHooks](https://usehooks.com)** (50+ server-safe React hooks from ui.dev — **licence not stated**, so read before copying). Checked 2026-08-02 | the layer between a framework and a component kit: debounce, local storage, media queries, intersection, clipboard — **the things every project rewrites badly and an agent writes from memory even worse**, because these are exactly where a hallucinated API looks plausible. **Prefer the one that ships as source you can read** over a black box, and pin it like any other dependency |
-| **Calling an API by hand** | **[Insomnia](https://insomnia.rest)** (**Apache-2.0** — REST, GraphQL, gRPC and WebSocket, with the collections in files rather than a vendor's cloud). Checked 2026-08-02 | the step before any integration is written: see the real response, not the docs' example of it. **The licence is the reason this row names one tool** — an API client holds your tokens and your staging endpoints, so an OSS one you can self-host beats a free tier that syncs your collections somewhere by default. **Collections belong in the repo** like every other entity here, which is what makes them reviewable and what stops them rotting in one person's desktop app |
+| **Calling an API by hand** | **[Insomnia](https://insomnia.rest)** (**Apache-2.0** — REST, GraphQL, gRPC and WebSocket, with the collections in files rather than a vendor's cloud). Checked 2026-08-02 | the step before any integration is written: see the real response, not the docs' example of it. **The licence is the reason this row names one tool** — an API client holds your tokens and your staging endpoints, so an OSS one you can self-host beats a free tier that syncs your collections somewhere by default (the API-clients row below lists Hoppscotch/Bruno — MIT peers by the same rule; pick one and stay). **Collections belong in the repo** like every other entity here, which is what makes them reviewable and what stops them rotting in one person's desktop app |
 | **Review workflow for stacked changes** | **[Graphite](https://graphite.com)** — stacked pull requests, merge queues and review chat, with an AI review pass (**licence not stated**, free tier unclear; checked 2026-08-02) | for the shape this system produces constantly: **a feature cut into tasks whose branches depend on each other**, where one big PR hides the seams and separate PRs each wait on the last. Stacking is the workflow that matches the decomposition. **The AI review pass is not the review this system means** — `reviews` here is another craft looking, with a name attached; a machine pass is a linter with better prose, and merging the two into one verdict is how a review becomes a formality |
 | **i18n / localization** | **[Weblate](https://weblate.org)** (OSS, self-host) · [Crowdin](https://crowdin.com) / [Lokalise](https://lokalise.com) (free tiers) · i18next / ICU MessageFormat in code | translation workflow + the library that actually formats plurals/dates; agents translate, humans review via `reviews`; string extraction belongs to the build, not to copy-paste |
 | **Support & feedback inbox** | **[Chatwoot](https://chatwoot.com)** (OSS, self-host) · [Crisp](https://crisp.chat) (hosted) | where `feedback` signal physically arrives — chat/email/social in one inbox; an autopilot triages it into the backlog |
@@ -168,9 +168,11 @@ Decision rules the assistant applies:
   truth) — never add a memory store as a second source. If a very large history ever needs
   semantic recall, add a vector index as a **derived index rebuilt from the repo/issues**,
   never something agents write to independently.
-- **Need an API or a free tier?** Check **public-apis** (github.com/public-apis/public-apis) **[APILayer Marketplace](https://marketplace.apilayer.com)** is the commercial counterpart — third-party APIs by category, subscribed rather than found (**licence and free tier per API, not per marketplace**; checked 2026-08-02).
+- **Need an API or a free tier?** Check **public-apis** (github.com/public-apis/public-apis)
   for a ready data/API source and **free-for.dev** for free-tier services before paying —
-  both pair with the free-first rule here.
+  both pair with the free-first rule here. **[APILayer Marketplace](https://marketplace.apilayer.com)**
+  is the commercial counterpart — third-party APIs by category, subscribed rather than found
+  (**licence and free tier per API, not per marketplace**; checked 2026-08-02).
 - **Free tier first — and name the ceiling.** Default to the free plan, and when
   proposing a service **say where its free tier ends** in the unit that will actually bite
   (build minutes, MAU, rows/storage, events, seats, emails/day) and what happens at that

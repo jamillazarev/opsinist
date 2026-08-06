@@ -22,10 +22,11 @@ fields, memory, DMs, rename-with-links, search — and the same lifecycle. They 
 | `advisor` | project defaults | **this is the advisor — the session you are talking to**, and there is exactly one, `enforced_by: validator`. Runs the loop, **never assigned a task**, and the only role that may write other roles' `model`/`effort` and the project defaults — always as a recorded decision |
 | `worker` | `grade` | assignable · accountable · counted in capacity |
 
-**A role is written from `templates/ROLE-template.md`**, whose defaults are mostly *unset* on purpose — a role naming its own model pins a choice the cascade would make correctly.
 | `expert` | domain / credentials | **never assigned** · not in capacity · consulted only. A synthetic expert **cites** sources; a live expert **is** one |
 | `persona` | grounding · accuracy · bias profile · consent pointer · `effort: low` | **never assignable**, output always marked, verdicts **direction-only** → `audience.md` |
 | `human` | — | a real person. **Never dispatched — but may hold an assignment**, taken rather than given; their contribution is the **top evidence rung**; **paying them is spend**, and inviting them is an access decision |
+
+**A role is written from `templates/ROLE-template.md`**, whose defaults are mostly *unset* on purpose — a role naming its own model pins a choice the cascade would make correctly.
 
 **The advisor's own model is the one setting the cascade cannot reach.** Every other role's
 `model` and `effort` are written into its file and resolved at dispatch — but **the advisor is
@@ -37,7 +38,7 @@ switched to since, is what is advising them; nothing here sets it and nothing he
 later otherwise, and the same question about a worker is answerable, because its run says.
 
 **Recorded at the decision, never stored as project state.** The owner can change model mid-session
-and usually will, so a line in `config.md` saying which one advises would be wrong within the hour
+and usually will, so a line in `_ops/config.md` saying which one advises would be wrong within the hour
 and wrong silently. It goes where the resolved cascade values go — **onto the thing being
 recorded, at the moment it is recorded**. The *runtime* is different and does persist: which
 harness this is belongs to the environment fingerprint, which already hashes it and compares on

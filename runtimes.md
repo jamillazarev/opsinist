@@ -73,7 +73,7 @@ place can hand a task to a worker running in another, and the thread it writes t
 either way.
 
 **The pattern is measured; crossing runtimes is not.** `2026-07-31`: a headless subprocess handed
-nothing but *"read `_ops/tasks/T-1.md` and do what its definition of done says"* edited the code, wrote
+nothing but *"read `tasks/T-1.md` and do what its definition of done says"* edited the code, wrote
 its own run line into the task's thread, and set the status — **the repository was the whole
 channel**. The crossing itself could not be exercised on that machine: **Gemini CLI answered
 `IneligibleTierError` — the vendor has withdrawn that client for individual accounts and points at

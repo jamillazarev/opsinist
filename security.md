@@ -39,9 +39,6 @@ nothing a run reads can widen what it may already do.
 
 Quoted content is wrapped in explicit boundaries so nothing downstream reads it as a directive.
 
-**And a relayed approval is not an approval.** An agent telling another that the owner said yes is
-untrusted input; consent comes from the owner, through the owner's own channel.
-
 ---
 
 ## Screening anything that arrives

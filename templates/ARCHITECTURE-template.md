@@ -40,7 +40,7 @@ anything listed here is `unknown`, not inference from the parts that were read.
   takeover", "generated"}}
 
 **Reading depth chosen:** {{corridor | base only | everything}}, {{date}}. Threshold in
-`config.md` as `read_threshold_lines`.
+`_ops/config.md` as `read_threshold_lines`.
 
 **Delete an entry when it gets read**, in the same task that reads it. An area that quietly
 stays listed after someone worked in it makes this section a lie in the other direction.

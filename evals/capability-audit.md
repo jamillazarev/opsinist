@@ -212,9 +212,9 @@ tool's headless mode, given the task file, writing its result into the same repo
 
 **Checked live, `2026-07-31`, and the claim splits cleanly in two.**
 
-**The pattern is real, and it was measured end to end.** A repository with `_ops/tasks/T-1.md` carrying
+**The pattern is real, and it was measured end to end.** A repository with `tasks/T-1.md` carrying
 a definition of done, a stub in `src/export.py`, and a thread line saying the result lands as a
-commit. A headless subprocess was handed nothing but *"read `_ops/tasks/T-1.md` and do what its
+commit. A headless subprocess was handed nothing but *"read `tasks/T-1.md` and do what its
 definition of done says"* — no explanation of the system, no corpus. It edited the code correctly,
 **appended its own run line to the task's thread**, and set the status. **The repository was the
 entire channel**, exactly as claimed: brief in, result out, no shared session, no mailbox, nothing
