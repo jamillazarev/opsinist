@@ -2,6 +2,32 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.16 — 2026-08-07
+
+**The advisor's first slip is held by a gate now, not by a sentence.** Five of five light
+players read *you dispatch work and do not hold it* and edited the product surface anyway —
+so the audit gate grew its third refusal: **a product-surface write in the advisor's hands,
+in an operated project, is stopped once**, with the three doors named — dispatch it · the
+owner takes it by hand · a declared quick job — **and the identical retry passes**: an owner
+who insists is delayed one message, never blocked. System records — tasks, docs, process,
+the guide — never trip it; a repository operated by someone else's tooling never trips it;
+and the gate's test suite grew from 72 to 76 checks, all green, including the honest twins.
+
+**The coverage map exists, and it is generated.** *Do we need a test-coverage map?* — yes,
+and a hand-kept one would lie within a release, so `scripts/coverage-map.py` assembles
+`evals/COVERAGE.md` from the tree itself: every `enforced_by` the corpus states, ten
+validators, four hooks, five test suites, ninety-six scenario rows — **with rates
+deliberately not copied**, because a copied rate is a stale claim and they live dated in
+`evals/RUNS.md`.
+
+**"Ours to migrate" got its last sharpening.** The session reminder now keys on an
+*operator line naming this skill* or a `config.md` — a guide that merely mentions the name,
+or names another operator, stays silent. The N77 fixture declares itself operated the same
+way N67 always has, so the scenario now exercises the gate it was written to measure.
+
+**Migration map**: nothing to do — the reworked hook ships with the plugin; the new script
+and map regenerate on their own.
+
 ## 0.1.15 — 2026-08-06
 
 **The zeros were cut open, and two of them were the corpus's fault.** Thirty-five verdicts

@@ -341,6 +341,55 @@ def main():
         except Exception:
             out()
 
+        # 2c · The advisor dispatches product work and does not hold it. Measured (N77 at
+        #     N=5): five players read that law in the core and edited the product surface
+        #     directly anyway — prose, including a law line, does not hold the light tier.
+        #     Stopped once per session: the first product-surface write in an operated
+        #     project is refused with the three doors; the identical retry passes, so an
+        #     owner who insists is delayed one message, never blocked. System records —
+        #     tasks, docs, process, the guide — are the advisor's own hands and never trip
+        #     this.
+        _SYSTEM = ("tasks/", "roles/", "teams/", "cohorts/", "pipelines/", "requests/",
+                   "releases/", "milestones/", "automations/", "resources/", "skills/",
+                   "process/", "docs/", "scripts/", "runs/", "threads/", ".index/",
+                   ".claude/", ".github/")
+        _SYSTEM_FILES = {"CLAUDE.md", "AGENTS.md", "GEMINI.md", "config.md", "LATER.md",
+                         ".gitignore", ".opsinist-checkout"}
+        operated = bool(cfg)
+        if not operated:
+            for _g in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
+                try:
+                    _p = os.path.join(root, _g)
+                    if os.path.isfile(_p) and re.search(
+                            r"operated by[^\n]*opsinist", open(_p, encoding="utf-8",
+                            errors="replace").read(), re.I):
+                        operated = True
+                        break
+                except Exception:
+                    out()
+        if (operated and rel and not rel.startswith("..")
+                and not rel.startswith(_SYSTEM)
+                and os.path.basename(rel) not in _SYSTEM_FILES
+                and rel not in _SYSTEM_FILES):
+            import hashlib
+            sid = payload.get("session_id", "") or payload.get("transcript_path", "") or "s"
+            stamp = os.path.join("/tmp", "opsinist-prodgate-"
+                                 + hashlib.sha256(sid.encode()).hexdigest()[:8])
+            if not os.path.exists(stamp):
+                try:
+                    open(stamp, "w").write(rel + "\n")
+                except Exception:
+                    out()
+                print(
+                    "Opsinist role gate (SKILL.md): the advisor dispatches product work "
+                    f"and does not hold it — `{rel}` is product surface, not a system "
+                    "record. Three doors: **dispatch it** (a task, a worker, "
+                    "`scripts/transition.py --brief` as its state block) · **the owner "
+                    "takes it by hand and says so** · **declare a quick job** and keep it "
+                    "small. Retrying the same edit passes — delayed one message, never "
+                    "blocked.", file=sys.stderr)
+                sys.exit(2)
+
         # Two refusals lived here and were removed by measurement, not by taste: one demanding
         # `spec_mode` before a task could be written, one demanding the migration log name this
         # version before any artefact could be. **Both asked the constrained party to author the

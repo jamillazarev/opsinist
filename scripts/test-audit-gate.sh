@@ -134,11 +134,12 @@ say() { # name expect-substring-or-EMPTY cwd
 V=$(grep -m1 '^version:' skills/advisor/SKILL.md | awk '{print $2}')
 
 say "session: no guide, no config — not ours → silent" "EMPTY" "$R"
-printf 'Opsinist operates this repository.\n' > "$R/CLAUDE.md"
+printf '**Operated by:** Opsinist 0.1.0\n' > "$R/CLAUDE.md"
 say "session: our guide, no config.md → speaks"  "no \`config.md\`" "$R"
 printf '# Project configuration\n\n## Migrations\n\n- 0.1.3 → 0.1.4 · 2026-07-31 · applied · t@t\n' > "$R/config.md"
 say "session: log misses this version → speaks"  "does not name version" "$R"
 printf -- "- 0.1.4 → %s · 2026-08-01 · nothing-required · t@t\n" "$V" >> "$R/config.md"
+printf -- "**Operated by:** Opsinist %s\n" "$V" > "$R/CLAUDE.md"
 say "session: log names this version → silent"   "EMPTY" "$R"
 
 # The guide's version line. Measured in the sibling project at N=3: the log line got written
@@ -277,6 +278,20 @@ check "reading a repo: docs/ARCHITECTURE.md → allow" 0 "$(fpl "$FT/docs/ARCHIT
 check "reading a repo: docs/DEBTS.md → allow"        0 "$(fpl "$FT/docs/DEBTS.md")"
 printf '# T-1\nStatus: open\n' > "$FT/tasks/T-1.md"
 check "task exists: docs/TEAM.md → allow"            0 "$(fpl "$FT/docs/TEAM.md")"
+
+# 2c · the role gate: product surface in an operated project refuses once, system never.
+G="$T/prod"; mkdir -p "$G/site" "$G/tasks" "$G/docs"
+printf '# Guide\n\n**Operated by:** Opsinist 0.0.1\n' > "$G/CLAUDE.md"
+printf '<h1>hi</h1>\n' > "$G/site/index.html"
+git -C "$G" init -q && git -C "$G" add -A && \
+  git -C "$G" -c user.email=t@t -c user.name=t commit -qm wip
+gpl() { printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"},"cwd":"%s","transcript_path":"%s","session_id":"prodgate-test-%s"}' "$1" "$G" "$TE" "$2"; }
+rm -f /tmp/opsinist-prodgate-*
+check "product edit, operated → stopped once"        2 "$(gpl "$G/site/index.html" A)"
+check "identical retry → passes"                     0 "$(gpl "$G/site/index.html" A)"
+check "system record (tasks/) → never trips"         0 "$(gpl "$G/tasks/T-9.md" B)"
+check "the guide itself → never trips"               0 "$(gpl "$G/CLAUDE.md" C)"
+rm -f /tmp/opsinist-prodgate-*
 
 echo "pass $pass · fail $fail"
 [ "$fail" = 0 ]
