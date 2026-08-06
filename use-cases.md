@@ -18,6 +18,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "I want to know how real users would react" | *"run this past our audience"* | **angles, never percentages** — said before anything runs |
 | "I'm a solo founder wearing every hat" | *"I'll do the design, you do the rest"* | **you hold an assignment like anyone**, reviewed by an agent that did not write it |
 | "I'm a writer and this is not software" | *"we publish a weekly essay"* | *ship* means the issue goes out; the words follow yours |
+| "I'm promoting my open-source library" | *"the product lives in its own repo — this is the campaign"* | the library becomes a **watched resource** (`version_seen`, releases land in triage as content candidates); its tree is mapped read-only; the competitors get a register with dated cells → `tooling.md`, `templates/COMPETITORS-template.md` |
 | "I'm an engineer inside a company repo" | *"fix the flaky test in this repo"* | **guest mode** — their conventions bind, nothing of ours lands in their tree |
 | "I run a workshop, not a product" | *"we glaze tiles to order"* | the process is discovered first, then a tool per step |
 | "I already have Claude Code / Codex / Gemini CLI" | — | it installs into all of them; **what it can run depends on the runtime**, and it says so |

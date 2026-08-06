@@ -106,6 +106,15 @@ and here is what changed"* — and the resource's `why` answers whether that mat
 **A watch with no owner is noise waiting to happen.** The automation contract requires a named
 owner for failures; if nobody owns the integration, it should not be watched.
 
+**A promoted product living in another repository is this same shape, pointed the other way.**
+A campaign project promoting an open-source library does not vendor it, submodule it, or copy
+its tree — **the library is a watched resource**: a pointer with a `why`, `version_seen`, and a
+watch on its releases, whose distillate lands in triage as **content candidates** — a release
+note is a post the campaign has not written yet. The inventory maps the product's tree
+read-only when content needs the shape of it (`entering.md`), nothing of the campaign's lands
+in the product's repository unless it is also yours — and where it is yours, the two stay two
+projects: one ships the product, one ships the campaign, and the watch is the whole coupling.
+
 ---
 
 ## When the tool is weak on its own
