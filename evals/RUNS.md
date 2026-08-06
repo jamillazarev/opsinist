@@ -1066,3 +1066,16 @@ to repair tonight:
 - **Expectation above the tier (left standing)**: N66's inference framing — the scenario is
   right about the behaviour and honest about where the light tier ends; it stays a rate, not
   a target.
+
+---
+
+## 2026-08-07 · N72/N82 rerun at N=3 against the repaired corpus — the honest null
+
+Both still 0/3. **The split predicted this**: the two executors repair the *audit surface* —
+a gauge with no judge now warns from `check-structure`, a node's `touched by:` block now
+exists to consult — but the scenarios measure the *conversational* layer, where a light
+player runs neither an audit nor a generator inside a short exchange. The repairs stand (the
+gaps are mechanically findable in real projects now); the rates move only when the
+conversational reflex gets its own form. N72 and N82 are hereby reclassified into class 3 —
+*prose read and not executed* — and the round closes with the ledger balanced: two executors
+born, zero rate inflation claimed.
