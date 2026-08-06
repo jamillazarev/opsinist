@@ -213,8 +213,9 @@ under pressure drops first — measured on `N8`, twice, at zero: runs edited sou
 and committed, all before any list existed. `hooks/audit-gate.py` ships with the plugin and
 **refuses a mutating call in a repository being taken over while no debt list is there** — a
 write or an edit to a *tracked* file, or a mutating shell command. It disarms the moment
-`LATER.md` (or `_ops/DEBTS.md`) exists at the root. **Reading is never blocked, and neither is
-creating something new** — the list, a guide, `docs/` — because the gate is about the order of
+the debt list — `_ops/LATER.md` or `_ops/DEBTS.md` — exists (a flat root's `LATER.md` still
+counts in an unmigrated tree). **Reading is never blocked, and neither is
+creating something new** — the list, a guide, `_ops/` — because the gate is about the order of
 the evidence, not about holding the work still.
 
 **And it holds the other end too, at the moment the run tries to finish**: a takeover that

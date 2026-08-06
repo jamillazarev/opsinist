@@ -137,8 +137,8 @@ under ninety seconds. **The cost was building a project's worth of scaffolding b
 project.** An owner who came to write code spent that time watching documents be created for
 things that did not exist yet — a `TEAM.md` before a team, a `ROADMAP.md` before a roadmap.
 
-**A hook holds the order**: while no task file exists, writes into `docs/`, `_ops/process/` and
-`_ops/roles/` are refused, and the refusal names the first task as the thing to do instead. The
+**A hook holds the order**: while no task file exists, writes into `_ops/` are refused, and
+the refusal names the first task as the thing to do instead. The
 outputs of *reading* a repository — the architecture note, the product map, a debt list — are
 exempt, because a takeover produces those before it has any tasks at all.
 
