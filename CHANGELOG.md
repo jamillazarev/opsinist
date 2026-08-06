@@ -2,6 +2,35 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.19 — 2026-08-06
+
+**"Remember this" got its routing, and the chat's memory stopped being a place.** A spoken
+rule — *always do X, never touch Y* — is the owner's edit arriving as words, and it routes the
+same way: a behaviour → a guide line (effect at the next boundary) · a domain word → 
+`docs/COMPANY.md` · a choice → `docs/DECISIONS.md` · a place to look → the register, with its
+why. **The advisor names which home it heard**, because a rule living only in a chat log is
+the one promise `project = f(repo)` exists to refuse.
+
+**The instrument ladder gained the rungs practice actually stands on.** SEQ beside CES (the
+usability-test standard for a task just tried) · the **Sean Ellis test** at the product layer
+most ladders skip — *how disappointed if it disappeared*, with 40% "very" as the working PMF
+bar · NASA-TLX and UEQ-S/SUPR-Q in the lab set · and the ladder's own caveat: **these are all
+attitudes, sitting beside the behavioural numbers, never instead of them**.
+
+**Release notes stopped repeating their own title.** The entry's heading collapses to a bare
+italic date at publish — the title already carries version and name — the law lives in the
+dev loop and the ritual, and **the eleven full-entry releases were retro-fitted in place**
+(the seven proto-format ones predate full entries and stay as they were).
+
+**And two lines for the repository's own head.** The root `CLAUDE.md` now states its
+boundary — a project built *with* the skill loads its own generated guide, and the two cannot
+meet by accident — and the versioning law grew its gate: **the tag waits for the developer,
+every release its own word**; everything before it is preparation, nothing after it moves
+without an explicit yes.
+
+**Migration map**: nothing to do — corpus rows, dev furniture, and a retro-edit that touched
+only the releases page.
+
 ## 0.1.18 — 2026-08-06
 
 **Delivery can call discovery mid-run, and back — one named flow.** A build that finds the
@@ -1201,7 +1230,7 @@ happens — and a sweep that found nothing records what it looked at.
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · two hundred and five single-sentence facts · ninety-six situations with what to
+file defines · two hundred and five single-sentence facts · ninety-seven situations with what to
 say · **ninety-six evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the

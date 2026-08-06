@@ -1,6 +1,9 @@
 # This is the skill's own repository
 
-Development of the skill, not use of it. **The full contract is [AGENTS.md](AGENTS.md)** —
+Development of the skill, not use of it. **Reading this from inside another project means the
+routing went wrong**: a project built *with* the skill carries its own generated `CLAUDE.md`,
+and that guide governs there — this file governs only work on this source tree (runtimes load
+a plugin's skills, never its root guide, so the two cannot meet by accident). **The full contract is [AGENTS.md](AGENTS.md)** —
 read it before changing anything of consequence; [GLOSSARY.md](GLOSSARY.md) and
 [PATTERNS.md](PATTERNS.md) before writing prose others will read. What follows is the loop
 this file exists to stop anyone re-deriving per session.
@@ -17,8 +20,11 @@ this file exists to stop anyone re-deriving per session.
    `python3 scripts/check-links.py .` · `bash scripts/test-audit-gate.sh`. Green is evidence
    about the corpus, not about behaviour — behaviour is the eval suite's job.
 5. **Changelog entry** (capability first; it is the migration map) → **manifest sweep runs
-   inside preflight** → tag → **GitHub Release whose notes are the entry whole**
-   (`gh release create vX --notes-file …`).
+   inside preflight** → tag → **GitHub Release whose notes are the entry whole, with the
+   entry's own heading collapsed to the bare italic date** — the title already carries
+   version and name, and a repeated heading is the first thing every reader scrolls past:
+   `python3 -c "…"` strips `## X.Y.Z — DATE` to `*DATE*`, then
+   `gh release create vX --notes-file …`.
 6. **Site**: `cd ~/Dev/ai && python3 scripts/generate-opsinist.py ~/Dev/opsinist` — commit
    and push that repo too; a release that skips this ships docs describing the previous
    version. New page-worthy files need a route in the generator first.
@@ -29,6 +35,13 @@ this file exists to stop anyone re-deriving per session.
 8. **Memory**: update the project memory file with what shipped and what is owed.
 
 ## Versioning
+
+**The tag waits for the developer — every release, its own word.** Everything before it —
+the entry, the bump, the checks — is preparation and may land in `main`; **the tag, the
+GitHub Release, the site push and the machine re-sync are cut only after an explicit yes**,
+and an earlier yes does not roll forward to the next version. This is `shipping.md`'s own
+law — *deploy and announce are outward, owner-confirmed every time* — applied to the one
+repository where it is easiest to forget.
 
 **Evidence moves without a tag; a rule moves with one.** Run records, RUNS entries, verdicts —
 plain commits. Anything that changes behaviour or format — a release, however small, so

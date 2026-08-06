@@ -115,6 +115,14 @@ the regression that catches it next time · **a line in the project guide**, the
 implies · **a skill amendment**, where the miss lives in a skill. Proposed, never auto-written,
 and declined is an answer.
 
+**And the spoken rule is the same signal in words** — *"remember this"*, *"always do X"*,
+*"never touch Y"*. It is routed to where workers actually read, never to the conversation's
+memory: a behaviour → **a guide line** (taking effect at the next boundary, `PATTERNS.md`
+§10) · a word or a fact of the domain → **`docs/COMPANY.md`** · a choice with reasons →
+**`docs/DECISIONS.md`** · a place to look → **the resource register, with its why**. The
+advisor names which home it heard and writes it there — a rule that lives only in a chat log
+is the one promise `project = f(repo)` exists to refuse.
+
 **A repeated primitive.** *"We keep doing this by hand"* is the trigger for making a skill or a
 tool, and **the honest ranking is that recorded friction from real use finds it better and cheaper
 than any analysis of the data** → `self-maintenance.md`. The machine signals are the backstop, not

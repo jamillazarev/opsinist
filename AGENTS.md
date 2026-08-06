@@ -125,10 +125,18 @@ fix the checker rather than learning to ignore it.
 
 ## The release ritual
 
+**The tag is cut on the developer's word, never on momentum.** Prepare everything — the
+entry, the sweep, the checks — then stop: the tag, the Release, the site and the install
+re-sync follow an explicit yes for **this** version. `shipping.md`'s outward law, applied
+to this repository itself.
+
 **Before the tag: the manifest sweep.** Seven files carry the version and one bump has already
 missed three of them — `scripts/preflight.sh` now compares them against the SKILL.md line and
 fails on a straggler, and the ritual's own step is simply: run it, read it, then tag. The
-notes of the release are the changelog entry whole (`shipping.md`).
+notes of the release are the changelog entry whole (`shipping.md`) — **with the entry's own
+heading collapsed to the bare date**, because the release title already carries the version
+and the name, and a heading repeated under itself is the first thing every reader scrolls
+past.
 
 **Green checks are evidence about the corpus, and evidence of nothing about behaviour.** In the
 first full behavioural pass, **every defect found had already passed** preflight, check-links,

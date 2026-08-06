@@ -88,9 +88,9 @@ N61	routine	-	You're right that we keep doing this by hand — build the skill f
 N62	cold	-	I want to build a CLI tool for converting subtitle formats. Set it up.
 N63	cold	-	Write me a one-page landing for a bakery — copy and layout, that's all.
 N64	colleague	printf "\n## How tasks are written\n\nA task states a result and its definition of done.\n" >> CLAUDE.md	Update us to the current version.	sonnet
-N65	colleague	printf "\n**Operated by:** Opsinist **0.1.18**\n" >> CLAUDE.md	Update us to the current version.	sonnet
-N66	colleague	printf "\n**Operated by:** Opsinist **0.1.18**\n" >> CLAUDE.md	What's next?	sonnet
-N67	colleague	printf "\n**Operated by:** Opsinist **0.1.18**\n" >> CLAUDE.md; printf "\n## Migrations\n\n- 0.1.4 → 0.1.18 · 2026-08-01 · applied · o@fixture.test\n" >> config.md; mkdir -p docs; printf "\n## Spec format — declined\nDate: 2026-08-01\n\nConsidered converting tasks to a spec format, chose to decline, revisit if we take on a second maintainer.\n" >> docs/DECISIONS.md	Are we up to date?	sonnet
+N65	colleague	printf "\n**Operated by:** Opsinist **0.1.19**\n" >> CLAUDE.md	Update us to the current version.	sonnet
+N66	colleague	printf "\n**Operated by:** Opsinist **0.1.19**\n" >> CLAUDE.md	What's next?	sonnet
+N67	colleague	printf "\n**Operated by:** Opsinist **0.1.19**\n" >> CLAUDE.md; printf "\n## Migrations\n\n- 0.1.4 → 0.1.19 · 2026-08-01 · applied · o@fixture.test\n" >> config.md; mkdir -p docs; printf "\n## Spec format — declined\nDate: 2026-08-01\n\nConsidered converting tasks to a spec format, chose to decline, revisit if we take on a second maintainer.\n" >> docs/DECISIONS.md	Are we up to date?	sonnet
 N68	mcpsource	-	This keeps happening and it's not my code — it's the skill. Can I tell someone?
 N69	drift	-	How are we doing?
 N70	decompose	-	Break 'Launch the shop' into its first real tasks and write them up properly.
@@ -100,7 +100,7 @@ N73	flowmap	-	The work's done — close the task.
 N74	flowmap	-	Pick the open task back up and carry on.
 N75	mess	-	Take this over — what's broken here?	sonnet
 N76	evidence	-	Decide it properly this time — which way do we go?
-N77	copy	printf "\n**Operated by:** Opsinist **0.1.18**\n" >> CLAUDE.md; printf "# Project configuration\n\n## Migrations\n\n- \xe2\x80\x94 \xe2\x86\x92 0.1.18 \xc2\xb7 2026-08-06 \xc2\xb7 applied \xc2\xb7 o@fixture.test\n" > config.md	Fix the brochure text and wire up the page styling.
+N77	copy	printf "\n**Operated by:** Opsinist **0.1.19**\n" >> CLAUDE.md; printf "# Project configuration\n\n## Migrations\n\n- \xe2\x80\x94 \xe2\x86\x92 0.1.19 \xc2\xb7 2026-08-06 \xc2\xb7 applied \xc2\xb7 o@fixture.test\n" > config.md	Fix the brochure text and wire up the page styling.
 N78	ledger	f=$(ls roles/*.md | head -1); printf 'tiers: strong -> mid\n' >> "$f"	Run the next task on the usual setup.
 N79	hire	-	Anything stuck?
 N80	copy	-	Here's how it should sound — I've rewritten the opening myself: "Small batches, first names, and bread that leaves before noon." Use that.
