@@ -64,10 +64,10 @@ argues with the previous answer instead of re-deriving it.
 ## The same five steps, run on a question
 
 **Product discovery — *what do we know about the problem* — is this method pointed at a
-question instead of a craft.** Its findings land where the release put their homes: **the
-spec's own fields** — prior attempts with outcomes, open questions, the cost of doing nothing
-(`templates/SPEC-template.md`) — the interviews walk the JTBD timeline (`audience.md`), and
-the choice runs the decision loop. **A research type's own chain — facts → insights →
+question instead of a craft.** Its findings have three homes: **the spec's own fields** —
+prior attempts with outcomes, open questions, the cost of doing nothing
+(`templates/SPEC-template.md`) — **the interviews**, which walk the JTBD timeline
+(`audience.md`), and **the choice**, which runs the decision loop. **A research type's own chain — facts → insights →
 opportunities → recommendations, each layer carrying its confidence — arrives from the
 craft's standards at the type's wave**, never as a built-in pipeline: the same
 anti-encyclopedia law as everywhere in this file. **The opportunity layer is the one teams
@@ -77,9 +77,9 @@ spine the craft itself now teaches is outcome → opportunities → solutions �
 (`catalogue.md`, the frames row). **The tree those links form is a view, never a source** —
 assembled from the specs' own references (`PATTERNS.md` §6), not drawn beside them.
 
-**And discovery is a cadence, not a phase.** The craft's own 2026 finding: the commonest
-failure is not a wrong tree but **a starved one** — evidence refreshed quarterly under
-opportunities that change weekly. Where a project runs product discovery at all, the stock
+**And discovery is a cadence, not a phase.** The craft's own practice literature
+(`sources/` → perspective-ost-2026, `cited`): the commonest failure is not a wrong tree but
+**a starved one** — evidence refreshed quarterly under opportunities that change weekly. Where a project runs product discovery at all, the stock
 answer is an automation holding the touchpoint (`automations.md`), and interview evidence
 carries its date like every other fact: past its recheck it is `unknown`, not background.
 

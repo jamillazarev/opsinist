@@ -56,7 +56,7 @@ exists. **Applied work is never redone.** Hitting a limit stops being a lost aft
 close the parent. Everything surfaces as *ready* and waits. **The board cannot lie to you, because
 nothing moves it except a person or whoever did the work.**
 
-**And since 0.1.12 the door refuses, so the board stays honest without goodwill.** A stage change
+**And since the ladder release, the door refuses — so the board stays honest without goodwill.** A stage change
 goes through a validator that reads the pipeline's own declaration — an unmet gate, a skipped
 stage, a worker accepting its own work: refused, with the reason — and the picture of the ladder
 is drawn from the same block the door reads, so what you see and what is enforced cannot drift.

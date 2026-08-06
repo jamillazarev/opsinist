@@ -125,6 +125,11 @@ fix the checker rather than learning to ignore it.
 
 ## The release ritual
 
+**Before the tag: the manifest sweep.** Seven files carry the version and one bump has already
+missed three of them — `scripts/preflight.sh` now compares them against the SKILL.md line and
+fails on a straggler, and the ritual's own step is simply: run it, read it, then tag. The
+notes of the release are the changelog entry whole (`shipping.md`).
+
 **Green checks are evidence about the corpus, and evidence of nothing about behaviour.** In the
 first full behavioural pass, **every defect found had already passed** preflight, check-links,
 check-freshness and check-structure: a law written perfectly and executed never, a rule stated in

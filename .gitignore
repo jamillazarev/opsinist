@@ -9,3 +9,6 @@ docs/.vitepress/
 dist/
 node_modules/
 .impeccable/
+
+# a session lock is a courtesy note, never history (dispatching.md)
+.opsinist-checkout

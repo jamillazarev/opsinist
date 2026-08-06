@@ -907,3 +907,48 @@ manual, not creating anything; the phrasing constrains the output, never the rea
 the next run framed the question as consult, gave the take, and created nothing.
 **Instruction pressure against loading is a real failure mode, and its repair is also a
 form.** Tuning stopped there: N=1 iterations explore; only the suite measures.
+
+---
+
+## 2026-08-06 · two resident hosts, measured by one live turn each
+
+**OpenClaw 2026.7.1-2** — the skill via the machine's symlinked install
+(`~/.openclaw/skills/opsinist → ~/.agents/skills/opsinist/skills/advisor`). `openclaw skills
+list` carries the description; then one embedded turn (`openclaw agent --agent main -m … --json`)
+asked for the first heading of the companion `entering.md`, two levels up from SKILL.md.
+**Reply: `# Entering — meeting a repository that already exists` — verbatim.** Companion
+resolution canonicalises the symlink; the ../../ trap does not fire. N=1: a capability probe,
+not a rate.
+
+**Hermes Agent v0.19.0** — the skill via `skills.external_dirs` mounting
+`~/.agents/skills/opsinist/skills`. One headless turn (`hermes -z …`), same question.
+**Reply: the same heading, verbatim.** The mount does not fence `../../`, which is what lets
+the mounted `skills/` reach the companions at the package root. N=1, same caveat.
+
+Both rows landed in `INSTALL.md` as measured; the trigger surfaces (cron · webhook · hooks on
+both hosts) are named there and in `LATER.md` — capability observed in `--help`, not yet
+exercised.
+
+---
+
+## 2026-08-06 · first smoke of N62–N82 — a baseline, not a regression
+
+Clean-room, light tier, N=1 (`SHARDS=3 POOL=3`), corpus frozen at the 0.1.12+lens-fixes copy.
+**3 pass (N63 N66 N81) · 13 fail · 5 void.** No prior rates exist for these scenarios, so
+nothing regressed; this is the first mark on the wall.
+
+**What the fails measure is the corpus's own oldest finding, on its newest rules**: prose does
+not route a light player to machinery it has never been pushed through. N73 hand-flipped
+`Status:` past the door that sat in the plugin; N76/N77 never consulted the selector; N70 never
+opened `process/types/`. The repair class is known — a form, not a stronger sentence — and the
+candidates are routing lines in the core, and fixtures that wire the company preflight so §14
+can refuse what prose failed to prevent. **Voids are scenario infrastructure**: N62's interview
+outran 40 turns; N72/N74/N78/N79 stalled where the session-start audit gate met fixtures with no
+`config.md` and improvised migration checks — the gate's stand-down list wants the eval
+fixtures' shapes. N64's fail is a judge reading the scenario's inference-expectation strictly
+against an honest `unknown` — a scenario-tuning question, not a corpus one.
+
+Tuning stops here by the standing rule: N=1 explores, only the suite measures. Keychain note
+for the next clean-room: player/judge homes need their own `Claude Code-credentials-<sha256(
+home-path)[:8]>` keychain entries — copied from the base entry, discovered this run after a
+full round of silent `Not logged in` voids.

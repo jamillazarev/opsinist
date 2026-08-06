@@ -162,6 +162,17 @@ if [ -f scripts/check-structure.py ]; then
   done
 fi
 
+# 12 · every manifest this repo ships carries the same version — the sweep the ritual asks
+#      for, held here rather than remembered (found by the lenses: a bump hit four of seven,
+#      the four hid the three, and find-installs reads installs, not this tree).
+ref=$(sed -n 's/^version: //p' skills/advisor/SKILL.md | head -1)
+for mf in package.json gemini-extension.json .claude-plugin/plugin.json \
+          .codex-plugin/plugin.json .cursor-plugin/plugin.json .kimi-plugin/plugin.json; do
+  [ -f "$mf" ] || continue
+  v=$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$mf" | head -1)
+  [ "$v" = "$ref" ] || say_fail "$mf declares $v while SKILL.md declares $ref — one bump, seven manifests"
+done
+
 # 11 · the shipped guards are exercised, not hoped: a validator whose test only runs when
 #      somebody remembers is a hope with a filename (found by the lenses — both tests were
 #      green and nothing ran them).

@@ -60,6 +60,20 @@ first.
 
 ---
 
+## ~~A wave's failure policy~~ — carried in 2026-08-06, with its second occasion
+
+**The bar was met, then the shelf was cleared**: Dify's iteration modes were the first
+occasion, the conveyor case named at carry-in (a batch where one corrupt source must not hold
+thirty) the second, and the owner took it into the release — `on_child_failure` on the
+parent's wave plan, default `escalate` unchanged (`decomposing.md`).
+
+## ~~A `pack` mode for the inventory script~~ — deleted 2026-08-06, by the owner's call
+
+**Removed unrequested rather than reopened**: no dispatch had hit a context ceiling, and the
+owner chose deletion over shelf-keeping. The idea survives in one sentence — the inventory's
+CLI is shaped so `pack` could arrive as a second mode — and if a real ceiling ever shows up,
+that sentence is the door back.
+
 ## A generated Opportunity-Solution-Tree view over the specs
 
 **Deferred because** the data half landed on 2026-08-06 — the spec's `Opportunity` field names

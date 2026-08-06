@@ -269,7 +269,9 @@ lid — because nothing is left in it.
 
 **Starting the next one is the same act wherever it happens.** Open the project — same directory,
 different tool, different machine — and **the arrival summary is the first thing said**: what
-needs you, what happened, what changed that you did not change, what is still undecided. That is
+needs you, what happened, what changed that you did not change, what is still undecided — **and
+who holds the live checkout**, read from `.opsinist-checkout` where one exists, with a stale
+holder surfaced like any aged wait (`dispatching.md`). That is
 where the previous state comes from. **Nothing is carried in the session, so nothing has to be.**
 
 ```mermaid
@@ -289,10 +291,12 @@ as it happened.
 **A runtime that compacts a long session instead of ending it changes nothing about the order.**
 Compaction is a lossy summary of the transcript — **safe for exactly what is already in the
 repository, and for nothing else** — so the three writes come before the shrink, not instead of
-it. The plugin declares a pre-compact hook that states that order (`hooks/pre-compact.sh`) —
-**and whether a runtime feeds the hook's words into the compaction is unverified on every
-runtime so far**, so until one measured compaction says otherwise this rule is prose wearing a
-hook, and honestly so (`runtimes.md`). And a
+it. The plugin holds both halves in the runtime's own documented channels (cited 2026-08-06):
+`hooks/pre-compact.sh` carries the order as PreCompact's JSON `additionalContext` — plain
+stdout never reaches a compaction, which the first draft of this hook got wrong — and
+`hooks/post-compact.sh`, on SessionStart matched to `compact`, reconciles the fresh summary
+against the canon it was allowed to drop. **The first live compaction is still owed as the
+measurement**; until it runs, this is `cited`, not `measured`, and says so (`runtimes.md`). And a
 compacted session is still the dearer seat: cost climbs with carried context, summaries lose
 what files do not — **the fresh session reading its arrival is both the cheaper and the more
 faithful restore**, which is why living forever was never the goal.

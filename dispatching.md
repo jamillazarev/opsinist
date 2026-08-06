@@ -3,15 +3,17 @@
 **Load when:** starting work on a task, running several things at once, or answering *"what did
 this actually cost"*.
 
-**Two sessions, one checkout — the live tree has one holder.** Nothing stops an owner opening
-the project in two terminals, and the corpus long pretended otherwise by silence: the second
-session raced the first on the same files, and git's merge quietly became the judge nobody
-appointed. The convention: **whoever works the live checkout writes `.opsinist-checkout`** —
-holder and started-at, one line — and a session that finds the file held by another works from
-a worktree or waits, saying which. The lock **ages like a request**: a holder gone quiet past
-the threshold surfaces at arrival rather than blocking forever. `enforced_by: prose-only` and
-honestly so — the file is a courtesy the arrival summary reads, not a mutex — and the
-`exclusive` flag on tasks is unchanged by it. **And when two sessions' work meets, the merge
+**Two sessions, one checkout — the live tree has one holder, and there is one lock family.**
+Nothing stops an owner opening the project in two terminals, and the corpus long pretended
+otherwise by silence: the second session raced the first on the same files, and git's merge
+quietly became the judge nobody appointed. The convention: **whoever works the live checkout
+writes `.opsinist-checkout`** — `holder: session|task-id · started-at`, one line, git-ignored
+(a courtesy note is never history) — the same lock an `exclusive` task already takes, with the
+holder field saying which kind holds it now. A session that finds it held works from a
+worktree or waits, saying which. The lock **ages like a request**: a holder gone quiet past
+the threshold surfaces **in the arrival summary — which reads this file first**, rather than
+blocking forever. `enforced_by: prose-only` and honestly so: a courtesy the arrival reads, not
+a mutex. **And when two sessions' work meets, the merge
 is a review, never an act of git**: bytes git can settle it may; anything semantic — two
 decisions that disagree, two edits to one bar, two histories of one task — is a three-way
 surfaced with options per `PATTERNS.md` §17, each side carrying its evidence, **decided by a

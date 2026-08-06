@@ -29,6 +29,55 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 
 ---
 
+## Strategy and discovery frames — the canon behind the catalogue rows
+
+### torres-ost · Torres, Opportunity Solution Trees
+- **Citation:** Torres, T. "Opportunity Solution Trees: Visualize Your Discovery." Product Talk; and *Continuous Discovery Habits* (2021).
+- **Live:** https://www.producttalk.org/opportunity-solution-trees/
+- **Archive:** not pinned yet — pin at the next audit
+- **Licence:** copyrighted — cite + our distillate
+- **Distillate:** One desired outcome → the opportunity space (customer needs, mapped before features) → solutions → assumption tests. The layer teams skip is opportunities; the failure mode is jumping insight-to-solution. The tree is the discovery spine for outcome-oriented teams.
+- **Check-date:** 2026-08-06
+- **Cited-by:** process-discovery.md · catalogue.md · templates/SPEC-template.md
+
+### helmer-7powers · Helmer, 7 Powers
+- **Citation:** Helmer, H. *7 Powers: The Foundations of Business Strategy* (2016).
+- **Live:** https://7powers.com
+- **Archive:** not pinned yet — pin at the next audit
+- **Licence:** copyrighted — cite + our distillate
+- **Distillate:** Seven durable sources of differential margin — scale economies · network economies · counter-positioning · switching costs · branding · cornered resource · process power. The current firm-level canon for "why does this position endure"; each power has a benefit and a barrier, and a claim without the barrier named is not a power.
+- **Check-date:** 2026-08-06
+- **Cited-by:** catalogue.md
+
+### morningstar-moats · Morningstar's economic moats (Stoffel's teaching table)
+- **Citation:** Morningstar's five-moat taxonomy (intangibles · switching costs · network effect · cost advantage · efficient scale), widely circulated via Brian Stoffel's wide/narrow/no-moat table.
+- **Live:** https://www.morningstar.com/investing-definitions/economic-moat
+- **Archive:** not pinned yet — pin at the next audit
+- **Licence:** copyrighted — cite + our distillate
+- **Distillate:** The older valuation lens: five moat types graded wide/narrow/none per company. Useful as a shared vocabulary and a checklist; weaker than 7 Powers at explaining *why* a moat holds. Source of the "no moat" honesty: name recognition without pricing power is not a moat.
+- **Check-date:** 2026-08-06
+- **Cited-by:** catalogue.md · templates/COMPETITORS-template.md
+
+### kaushik-stdc · Kaushik, See-Think-Do-Care
+- **Citation:** Kaushik, A. "See, Think, Do, Care: A New Content, Marketing and Measurement Model." Occam's Razor.
+- **Live:** https://www.kaushik.net/avinash/see-think-do-content-marketing-measurement-business-framework/
+- **Archive:** not pinned yet — pin at the next audit
+- **Licence:** copyrighted — cite + our distillate
+- **Distillate:** Intent-based content planning: audiences clustered by intent (See — largest addressable, Think — considering, Do — ready, Care — customers) with content and measurement per cluster. The modern reach where an awareness ladder feels dated; frame-level, not persona-level.
+- **Check-date:** 2026-08-06
+- **Cited-by:** catalogue.md
+
+### perspective-ost-2026 · the starving-tree finding
+- **Citation:** Perspective AI. "The Opportunity Solution Tree in 2026: A Practical Guide for Continuous Discovery" (2026).
+- **Live:** https://getperspective.ai/blog/opportunity-solution-tree-2026-practical-guide-continuous-discovery
+- **Archive:** not pinned yet — pin at the next audit
+- **Licence:** copyrighted — cite + our distillate
+- **Distillate:** The commonest 2026 failure is not drawing the tree wrong but **starving it**: opportunity spaces refreshed quarterly at best under a weekly-moving market. A vendor's practice guide, not a study — the rung is `cited`, and the claim is carried as the craft's practice literature, not as measurement.
+- **Check-date:** 2026-08-06
+- **Cited-by:** process-discovery.md
+
+---
+
 ## Persona theatre — grounding, fidelity, and the limits of synthetic audiences
 
 ### park-self-reports · Park et al., self-report-grounded individual simulation

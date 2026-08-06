@@ -100,8 +100,9 @@ next one predictable within a band: the dispatcher reads similar runs — same t
 size — and writes `~N tokens, from M similar runs` on the run **before it starts**,
 judgement-rung, never a promise. Actual-vs-estimate accumulates in the same ledger, which is
 what narrows the band honestly instead of a number invented per dispatch. **An estimate that
-would change the owner's decision is said before the dispatch, not discovered in the ledger**
-(`PATTERNS.md` §24).
+would change the owner's decision is said before the dispatch, not discovered in the ledger** —
+said once, at the moment it matters (`PATTERNS.md` §21), and where it is that large, said as a
+share of the budget's window rather than a bare token count.
 
 ---
 

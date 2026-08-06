@@ -98,8 +98,8 @@ the output looks the same and the comparison is now wrong.
 carries the environment-variable name or keychain entry the value should land in; **the owner
 puts it there and answers "done" — the word, never the value**. The agent then verifies
 existence, not content — a `test -n "$THE_VAR"`-class check that can pass without the secret
-entering a transcript, a task or a brief. **A value pasted into the conversation is treated as
-spilled**: rotated, never used — the thread is in the repository the moment someone commits.
+entering a transcript. A value pasted into the conversation is spilled and rotates
+(`catalogue.md`, the secrets row).
 
 **A role's environment carries only what that role's own work needs** — never project-wide
 administrative credentials.

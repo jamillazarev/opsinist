@@ -2,6 +2,79 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.13 — 2026-08-06
+
+**The evening after the ladder: the framework answered for itself, and two residents answered
+back.** Everything here came from interrogating 0.1.12 in use — selling through it, running two
+sessions at once, promoting a product that lives elsewhere — and from a lens pass and a live
+smoke that did their jobs.
+
+**Product discovery grew its spine, and selling grew its register.** The research chain gains
+the layer teams skip — facts → insights → **opportunities** → recommendations — with the
+Opportunity Solution Tree named in the catalogue and its starving-tree warning carried as
+`cited` practice literature (`sources/` grew five strategy-canon entries: Torres · Helmer's
+7 Powers · Morningstar's moats · Kaushik's See-Think-Do-Care · the 2026 practice guide).
+Competitive facts get one home — `templates/COMPETITORS-template.md`: dated cells, positioning
+quoted in the rival's own words, **a moat claim carries its evidence or it is positioning
+copy** — fed by the watch *through triage*, never directly. A spec now names its
+**Opportunity**; problem grading (how often · how hard · would anyone pay) sits in Why-now;
+open questions carry their assumption axes.
+
+**A product in another repository is a watched resource, and the watch closes its own loop.**
+The campaign's product is never vendored: a pointer with a `why`, `version_seen`, surfaces
+(`repo:` · `site:` · `docs:` · `pricing:`, each with its own `last_checked`), and releases
+that land in triage as content candidates. The cycle is drawn beside the prose; a routine
+release **lands in triage and cannot fade** — the old ages-out notification was reversed, and
+says so; and **accepting a move opens the delta**: the distillate read as a migration map
+against everything `cited-by` names, with `version_seen` moving only when the delta is listed.
+Resources gained relation seeds (`depends-on` · `promotes` · `competes-with` · `informs`) and
+the rule that walking a thing starts from its own map — `llms.txt`, sitemap, README — before
+any crawl.
+
+**Two sessions, one checkout — one lock family, and the merge stays a review.** The live tree's
+holder writes `.opsinist-checkout` (git-ignored; the arrival summary reads it first; a quiet
+holder ages like any wait), the same lock an `exclusive` task takes, with the holder field
+saying which. When two sessions' work meets: bytes are git's; **anything semantic is a
+three-way surfaced per §17 with each side's evidence, decided by a person** — a system whose
+law is *evidence, not verdicts* does not grow a merge oracle. Waves declare `on_child_failure`
+on the parent's wave plan (default `escalate` unchanged); a dispatch carries an **estimate
+from the ledger's own history**; lessons cross projects **exported through the gate, never as
+a shared brain**; and a secret lands in its named place — the owner answers *"done"*, the
+word, never the value.
+
+**The compaction order now travels the runtime's documented channels — the first draft got it
+wrong, and the lenses caught it.** Plain PreCompact stdout never reaches a compaction (docs,
+cited 2026-08-06), so `pre-compact.sh` speaks JSON `additionalContext`, and a new
+`post-compact.sh` on SessionStart(`compact`) reconciles the fresh summary against the canon.
+The first live compaction is still owed as the measurement, and the prose says so.
+
+**Both resident agents on this machine carry the skill, measured by one live turn each.**
+OpenClaw (embedded turn through the symlinked install) and Hermes (headless `-z` through the
+mounted path) each opened `entering.md` two levels up and quoted its heading verbatim —
+`INSTALL.md` carries both rows, `evals/RUNS.md` the runs. Both ship cron, webhooks and hooks:
+the `starts: webhook` deferral reopened as a live candidate, since a listener finally exists
+somewhere real.
+
+**The gates got their own gate.** The preflight now fails a version straggler across all seven
+manifests (the sweep the 0.1.12 incident asked for, held by code), runs both shipped test
+suites itself, and the release ritual states both laws: sweep before the tag, and **the
+release notes are the changelog entry whole**. Seventeen lens findings over the post-tag diff
+were closed before this entry — among them the notification/triage contradiction, the
+checkout file that would have committed itself as a lie, and a `cited-by` promise with no
+stored input. And the first clean-room smoke of N62–N82 wrote its baseline: 3/16 non-void on
+the light tier, with the fails measuring the corpus's oldest finding on its newest rules —
+prose does not route a light player to machinery; forms will.
+
+**Migration map** — the audit reads this list:
+
+- **Adopting the session lock: add `.opsinist-checkout` to your `.gitignore`.** The plugin's
+  own tree already carries the line; a project only needs it if two sessions actually meet.
+- **Hooks: nothing to do** — the reworked PreCompact/post-compact pair ships with the plugin
+  and re-registers on update.
+- **Everything else: nothing to do.** New fields (Opportunity, relation, surfaces, wave
+  policy, Estimate) are proposed at the next wave that touches their home, never demanded
+  retroactively.
+
 ## 0.1.12 — 2026-08-06
 
 **Where the description of work lives is a ladder now, and a pairing stopped being illegal.**

@@ -33,7 +33,7 @@ breaks every link.
 | `stage` | a named step of this task's pipeline | **the only state field.** The pipeline declares which *category* each stage belongs to |
 | `stream` | `product` (default) · `system` | `system` is work on the project's own machinery, and it carries full history regardless of size → `self-maintenance.md` |
 | `assignee` | a role, a human, or a group | **a group means "not yet decided who"** — legitimate on a parent, a finding on a leaf |
-| `parent` · `wave` | id + integer | decomposition and the barrier → `decomposing.md` |
+| `parent` · `wave` | id + integer | decomposition and the barrier → `decomposing.md`. **The parent's wave plan may declare a per-wave `on_child_failure`** — the policy lives on the parent, beside the plan |
 | `priority` | `none` (default) · `low` · `medium` · `high` · `urgent` | opt-in, see below |
 | `start` · `due` | dates | **a start date gates the whole task, preparation included** |
 | `release` · `milestone` | ids | grouping → `grouping.md` |

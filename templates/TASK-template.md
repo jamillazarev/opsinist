@@ -5,6 +5,8 @@ in review · done}}
 **Assignee**: {{a role, a human, or a group — a group means "not yet decided who", which is
 legitimate on a parent and a finding on a leaf}}
 **Parent · wave**: {{T-XXXXXX · 2}} · **Blocked by**: {{ids, or none}}
+{{on a parent, the wave plan — and a wave may declare its failure policy there:
+`wave 2 — on_child_failure: collect` → `decomposing.md`}}
 
 > **The id is minted, never invented** — `scripts/new-id.py`. A model asked for a random id is not
 > a random source; two unrelated projects once produced the same five.

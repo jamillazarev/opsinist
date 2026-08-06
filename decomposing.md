@@ -75,7 +75,10 @@ quietly. Two more are declarable **at decomposition, never assumed**: `continue-
 wave closes over the gap **and the gap becomes its own task**, named, not forgotten · `collect`
 — the wave closes carrying its successes, the failures listed on the parent. The non-default
 values are for conveyor work — a batch of thumbnails where one corrupt source must not hold
-thirty — and the policy is data on the wave, read by whoever holds the barrier.
+thirty; that conveyor case, met at carry-in, is the second occasion beside Dify's iteration
+modes, which is what earned this its bar. **The policy is declared on the parent, in its wave
+plan** (`writing-work.md`, the field table), **and the barrier is held by whoever dispatched
+the wave** — the dispatcher session, or the role that owns the parent where one does.
 
 **`wave`, not `stage`.** One word cannot mean both the step of a pipeline and the parallel group;
 the corpus that used one word for both paid for it.

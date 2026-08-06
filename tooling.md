@@ -101,7 +101,10 @@ default, at a moment when they do not yet know the answer.
 and here is what changed"* — and the resource's `why` answers whether that matters here.
 
 **The shape of the surfacing limits the noise by itself:** a **breaking** change is a **request**
-(upgrade · pin · ignore with a reason); a routine release is a **notification** that ages out.
+(upgrade · pin · ignore with a reason); a routine release **lands in triage** — where it takes a
+disposition and, unprocessed, surfaces again like any intake. It used to be a notification that
+ages out, and that was reversed deliberately: a release nobody processed is exactly a wait
+nobody chased, and fading is what this file's own delta rule now refuses.
 
 **A watch with no owner is noise waiting to happen.** The automation contract requires a named
 owner for failures; if nobody owns the integration, it should not be watched.
@@ -124,14 +127,16 @@ implied by silence.
 
 **Accepting the move opens the delta, so mismatched pieces cannot linger unlisted.** The
 distillate is read as a migration map — the same discipline upgrades use — against **the
-places that cite this resource** (`cited-by`, one side stored, the register shows it): a post
+places that cite this resource** (`cited-by` on the resource, generated per §5 — **or, where no
+generator has run, a search for its name and targets, said as a search**): a post
 quoting the old API, a vs-page carrying the old price, a config pinning the old flag. **Each
 mismatch becomes its own line — a task, or an explicit "still true, checked"** — and the sweep
 records what it walked, so a later empty pass reads as *quiet* rather than *nobody looked*.
 `version_seen` moves when the delta is listed, not when the release was merely noticed.
 
-**A promoted product living in another repository is this same shape, pointed the other way.**
-A campaign project promoting an open-source library does not vendor it, submodule it, or copy
+**The campaign's product, living in another repository, is this same shape pointed the other
+way** — *promoted* stays reserved for §23's climb, so the noun here is the campaign's product.
+A campaign project for an open-source library does not vendor it, submodule it, or copy
 its tree — **the library is a watched resource**: a pointer with a `why`, `version_seen`, and a
 watch on its releases, whose distillate lands in triage as **content candidates** — a release
 note is a post the campaign has not written yet. The inventory maps the product's tree

@@ -20,6 +20,7 @@ claim it makes. **Blurring them is how bookmark piles form.**
 | `scope` | project · team · role · **task** |
 | `added_by` · `added_at` | provenance, which is mandatory (`PATTERNS.md` §13) |
 | `last_checked` · `status` | ok · moved · broken — maintained by the link check |
+| `cited-by` | **generated, never hand-written** (`PATTERNS.md` §5): the files that reference this resource, found by its name and targets — the delta sweep's stored input. Absent until a generator runs; **until then the sweep searches**, and says so |
 
 **`why` is mandatory, and it is the whole difference between a resource and a bookmark**
 (`PATTERNS.md` §14)**.** A link
@@ -29,7 +30,25 @@ lose something and nobody knows what.
 **Typing the purpose is optional and belongs to the project.** Reference, specification,
 documentation, example — a project that wants board columns and filters over those declares a
 `select` field and gets them. **A taxonomy baked into the core would be right for one domain and
-wrong for the rest.**
+wrong for the rest.** The seeds worth naming when a project does declare one: `depends-on` ·
+`promotes` (the campaign's subject, `tooling.md`) · `competes-with` (a register row,
+`templates/COMPETITORS-template.md`) · `informs` — because **`why` says the words and the
+relation makes them walkable**: a sweep can group by relation, and a delta knows that
+`depends-on` breaking is a request while `competes-with` moving is content.
+
+**One thing with several doors is one resource with several surfaces, never several
+resources.** A promoted library is a repo *and* a site *and* docs *and* a pricing page — one
+`why`, one relation, and a `targets:` map (`repo:` · `site:` · `docs:` · `pricing:`), **each
+surface carrying its own `last_checked`**, because they rot at different speeds and the watch
+compares each against its own last-seen. Splitting them into four rows loses the fact that
+they are one thing; merging them into one URL loses three doors.
+
+**Walking a resource starts from its own map, never from crawling.** Its `llms.txt`, its
+sitemap, its README — the thing's self-description is the cheapest index there is, and only
+where none exists does the deep pass earn its cost (`catalogue.md` → reading pages, Crawl4AI
+for *a corpus, not a page*). **The register read whole is the map of resources**; a generated
+view over it earns itself when the register outgrows a screenful — the same bar as every
+derived surface.
 
 ---
 
