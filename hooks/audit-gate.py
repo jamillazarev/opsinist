@@ -394,7 +394,7 @@ def main():
         #     owner who insists is delayed one message, never blocked. System records —
         #     tasks, docs, process, the guide — are the advisor's own hands and never trip
         #     this.
-        _SYSTEM = ("tasks/", "roles/", "teams/", "cohorts/", "pipelines/", "requests/",
+        _SYSTEM = ("tasks/", "roles/", "teams/", "panels/", "pipelines/", "requests/",
                    "releases/", "milestones/", "automations/", "resources/", "skills/",
                    "process/", "docs/", "scripts/", "runs/", "threads/", ".index/",
                    ".claude/", ".github/")

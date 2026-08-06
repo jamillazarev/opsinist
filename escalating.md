@@ -18,7 +18,7 @@ what it needs.
 
 **The expert rung is optional and often skipped, and it should not be.** Experts exist precisely
 to be consulted; without this rung the owner gets asked things a hired expert was hired to
-answer. Where the project has an expert or a cohort covering the domain, the question goes there
+answer. Where the project has an expert or a panel covering the domain, the question goes there
 before it goes up.
 
 **The advisor is the routing and aggregation owner**, so an unresolved disagreement between two

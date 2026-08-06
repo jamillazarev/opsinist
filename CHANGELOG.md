@@ -28,8 +28,17 @@ And the hypothesis-and-usability test methods row, ordered by the cost of being 
 method carrying its bias on its face — fake door spends trust and says so; the observed
 perform; A/B answers to the spec's guardrails.
 
-**Migration map**: nothing to do anywhere — terminology, windows and rows. A project never
-carried the old word; the skill's own manifests and checkers moved together.
+**And the cohorts are panels, for the same reason.** The word carried three meanings at once —
+our respondent composition, the analyst's retention cohort, and a rollout slice — and a word
+with three meanings answers for none. **A panel is who answers when you ask the audience**:
+experts, personas and humans composed for one run, `made_of` deciding what may be claimed.
+The glossary now says what it is *not* (an analytics cohort), the rollout axis stages by
+segment and geography, and a course soft-launches to a first intake — each meaning got its
+own word back.
+
+**Migration map**: **projects with a `cohorts/` directory rename it to `panels/`** — one
+`git mv`, and the audit will say so; everything else is terminology, windows and rows, and
+the skill's own manifests and checkers moved together.
 
 ## 0.1.19 — 2026-08-06
 

@@ -37,7 +37,7 @@ hosted STT only with consent recorded there.
 {{the persona's position in the frame the type's wave picked (`catalogue.md`): the **JTBD
 timeline** for product personas — first thought · passive looking · active looking · deciding ·
 consuming — or **Hunt's awareness stage** for outward-content work. **With a source, like a
-bias — never from demographics.** A cohort reaction reads this before it reacts: a
+bias — never from demographics.** A panel reaction reads this before it reacts: a
 problem-aware persona does not click a plan-comparison block, and a most-aware one does not
 linger on the problem being explained. Absent where the craft uses no frame — a workshop's
 commissioner stands nowhere on a funnel.}}
@@ -101,5 +101,5 @@ history-rewrite decision — flagged, never silent.
 ## Marking (when a team is in play)
 
 When this persona runs as an agent: **🎭 prefix** in the name; description first line
-`theatre: personas · axis: <segment|cohort|situational>`. It is **not staff** — excluded from
+`theatre: personas · axis: <segment|panel|situational>`. It is **not staff** — excluded from
 `/opsinist team` headcount, attributed to the theatre line in the ledger (MODULES → Persona theatre).

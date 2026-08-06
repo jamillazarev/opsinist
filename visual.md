@@ -94,7 +94,7 @@ values; **a deviation is either fixed or argued into the system**.
 **An annotated overlay carries its labels on the image itself.** A screenshot with marked
 zones — a predicted-attention map, a QA markup — states each zone's kind on the pixels:
 `counted` (a contrast ratio, a tap-target) · `predicted` (a model's guess, and which class of
-model) · `cohort` (personas, direction-only), with the provenance line in a corner. **An image
+model) · `panel` (personas, direction-only), with the provenance line in a corner. **An image
 separated from its prose is a lossy copy of the claim** — forwarded alone, a prediction travels
 as a fact — and the label on the pixels is the only rung that survives the forward. A
 *continuous* heatmap is a model run, which makes it a tool: it enters through the import gate

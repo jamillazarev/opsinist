@@ -225,7 +225,7 @@ author's provider.
 
 **Where measurement settles it cheaper than argument, propose the experiment instead of the
 table**: the split, the metric and the threshold, all named before anything runs — a threshold
-chosen after the data is a fit, not a test. Synthetic cohorts stay direction-only (`audience.md`).
+chosen after the data is a fit, not a test. Synthetic panels stay direction-only (`audience.md`).
 
 ## A rejected decision
 

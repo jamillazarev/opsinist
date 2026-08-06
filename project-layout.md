@@ -18,7 +18,7 @@ your-project/
   tasks/         # flat; hierarchy is a field, not a folder
   roles/         # one file per role → .claude/agents/
   teams/         # members · routing rule · aggregation
-  cohorts/       # named compositions for a run
+  panels/       # named compositions for a run
   pipelines/     # stages · gates on transitions · starts
   requests/      # open asks, each with its age
   releases/      # shipments — and beside them:

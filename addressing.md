@@ -25,9 +25,9 @@ second is the load-bearing one:
 **A group whose routing returns everyone is expensive by construction** — each respondent is a
 run and a line in the ledger. That is a property of the group, not an accident of the call.
 
-## Groups: teams and cohorts
+## Groups: teams and panels
 
-| | **Team** | **Cohort** |
+| | **Team** | **Panel** |
 |---|---|---|
 | Holds | workers | experts · personas · humans |
 | Routing produces | an **assignee** | a **respondent** |

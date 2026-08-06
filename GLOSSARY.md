@@ -19,10 +19,10 @@ is that file's business; a term used in two is canon, and canon lives here.
 |---|---|---|
 | **pipeline** · **automation** | a pipeline is the **stage sequence a task travels**; an automation is **recurring or triggered work that starts something** | does it *describe a path* or *fire*? |
 | **stage** · **wave** | a stage is a **named step of a pipeline**; a wave is the **barrier grouping sibling children** | does it order *the ladder* or *the children*? |
-| **team** · **cohort** | a team holds **workers** and its routing produces an **assignee**; a cohort holds **experts, personas and humans** and its routing produces a **respondent** | can a member be *assigned work*? |
+| **team** · **panel** | a team holds **workers** and its routing produces an **assignee**; a panel holds **experts, personas and humans** and its routing produces a **respondent** | can a member be *assigned work*? |
 | **team** (ours) · **agent team** (the harness) | ours is a **durable group with a routing rule**, a file in the repo, invisible to the runtime; the harness's is the **ephemeral set of live sessions**, kept outside the repo and deleted when the session ends | does it survive the session? |
 | **advisor** · **team lead** (the harness) | the same thing seen from two sides: the session that spawns and does not hold the work. **Not** the squad leader we removed — that was a role in an org chart, and routing replaced it | is it a *seat* or a *rung*? |
-| **segment** · **cohort** | a segment is a **property of one persona** (SMB, enterprise, novice); a cohort is a **named composition for a run** ("5 SMB, 3 enterprise, 2 churned") | is it *an attribute* or *a group* ? |
+| **segment** · **panel** | a segment is a **property of one persona** (SMB, enterprise, novice); a panel is a **named composition for a run** ("5 SMB, 3 enterprise, 2 churned") | is it *an attribute* or *a group* ? |
 | **release** · **milestone** | a release **ships, has a version and gets measured**; a milestone is **a checkpoint that may ship nothing** | does it leave the building? |
 | **migration** · **adoption** | a migration moves what a project **already has** onto a newer shape; an adoption is taking up something it **never used**, which a release can make load-bearing. The first is applied on approval, the second is **offered with its price and may be declined for good** | is there something to convert, or something to start? |
 | **takeover audit** · **migration audit** | the first reads **a repository you have not operated** and produces a **debt list** — blocking or deferrable, against the invariants (`entering.md`); the second reads **a project you already operate** and produces a **delta against a version** — needs no answer · needs an answer · needs nothing (`upgrading.md`) | is the yardstick **the invariants** or **a version**? |
@@ -122,8 +122,11 @@ who gets the work and at which tier, and never enters an agent's instructions as
 **aggregation rule**. **No leader** — routing and aggregation are what the leader used to be.
 A role may not be in two teams. → `addressing.md`
 
-**cohort** — a named composition for a run, with a required **`made_of`** (`synthetic` · `live`
-· `mixed`) that decides what the system may claim about the result. → `audience.md`
+**panel** *(a "cohort" before 0.1.20)* — **who answers when you ask the audience**: a named
+composition of experts, personas and humans for one run, with a required **`made_of`**
+(`synthetic` · `live` · `mixed`) that decides what the system may claim about the result.
+**Not an analytics cohort** — retention groups by signup week live in the product's metrics,
+not in this directory. → `audience.md`
 
 ### Governance
 

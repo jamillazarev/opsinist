@@ -1,6 +1,6 @@
 # Audience — asking people, real and simulated
 
-**Load when:** the question is *"what would users think"*, or a persona, cohort, expert or live
+**Load when:** the question is *"what would users think"*, or a persona, panel, expert or live
 participant is involved.
 
 **Two pyramids, never pooled.** For claims about the world: **measured › cited › recalled ›
@@ -18,7 +18,7 @@ hundred times.**
 
 Synthetic answers show **artificially low variability and distorted magnitudes**, and they miss
 the extremes — which are exactly the people a real sample is run to find. So a balanced synthetic
-cohort buys **a wider variety of angles** and never a percentage.
+panel buys **a wider variety of angles** and never a percentage.
 
 **Verdicts are direction-only: which concern appeared and which bias fired. Never a magnitude.**
 No *"23% would churn"*.
@@ -29,7 +29,7 @@ and cannot give **before** spending anything, and offer the honest alternative: 
 find the angles worth asking live people about**. Producing a plausible percentage and
 disclaiming it afterwards is worse than not producing it.
 
-**The field enforces this, not the warning.** A cohort declares `made_of`:
+**The field enforces this, not the warning.** A panel declares `made_of`:
 
 | `made_of` | Legitimate output |
 |---|---|
@@ -37,25 +37,25 @@ disclaiming it afterwards is worse than not producing it.
 | `live` | measurements; a real sample supports statistics |
 | `mixed` | **the two reported separately, never pooled** |
 
-**A cohort distribution does not buy percentages either.** Personas may carry the mix of the real
+**A panel distribution does not buy percentages either.** Personas may carry the mix of the real
 population so the read is a spread rather than one voice repeated — and it is **still
 direction-only**.
 
 ---
 
-## Segment and cohort
+## Segment and panel
 
 | | What it is | Where it lives |
 |---|---|---|
 | **Segment** | a **property of one persona** — SMB, enterprise, technical, newcomer | a field on the persona, multiple, like labels |
-| **Cohort** | a **named composition for a run** — "5 SMB, 3 enterprise, 2 churned" | its own file, reusable by name |
+| **Panel** | a **named composition for a run** — "5 SMB, 3 enterprise, 2 churned" | its own file, reusable by name |
 
 **Group by the axis the question needs, and there may be several**: by segment, by lifecycle (a
 newcomer and a veteran react differently to the same screen), or situational — one artifact, one
 time. One persona lives in several.
 
-**A lifecycle cohort without real churn data is fantasy.** "The churned" help only if you know
-**why** they left. Without that the cohort is a guess, marked a judgement call, and its members
+**A lifecycle panel without real churn data is fantasy.** "The churned" help only if you know
+**why** they left. Without that the panel is a guess, marked a judgement call, and its members
 stay proto.
 
 ---

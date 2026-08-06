@@ -56,7 +56,7 @@ capability, or the commit says why not.
 **A release names its rollout the way a task names its deliverables.** *Everyone at once* is a
 choice, not a default — the axis, researched per medium like the checklist itself: **all at
 once** · **soft** (live, unannounced — the announcement is a second release) · **canary** (a
-slice first, with the number stated) · **staged** (by cohort, segment, geography — each step
+slice first, with the number stated) · **staged** (by segment, geography, account tier — each step
 listed) · **flag-gated** (behind a switch, expandable without a deploy) · **closed beta /
 waitlist** · **shadow** (running beside the old path, output compared, users untouched).
 
@@ -72,7 +72,7 @@ read. *Did the rollout work* is answered there, not by the absence of complaints
 
 **None of this is software-only, and the absurd-test holds.** A bakery's canary is one counter
 and a trial batch; a newsletter's staged rollout is a segment send before the full list; a
-course soft-launches to a closed cohort; a physical batch's kill switch is the recall
+course soft-launches to a closed first intake; a physical batch's kill switch is the recall
 procedure, written before the batch ships. The vocabulary follows the craft; the three rules
 do not bend.
 

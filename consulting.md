@@ -41,7 +41,7 @@ a bookmark pile forms.
 
 **The contract belongs to the conversation, not to the advisor** — whoever is addressed answers
 under it. The default addressee is the advisor; the owner may address **any role** (it answers
-from its own craft), **an expert** (its own voice and its own sources), **a cohort** (personas
+from its own craft), **an expert** (its own voice and its own sources), **a panel** (personas
 react — direction-only, marked, registered nowhere), or **a human**.
 
 **Route to one addressee. No fan-out.** Consulting a role is a run: it spends, and it consumes the
