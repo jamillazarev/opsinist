@@ -402,7 +402,7 @@ project hands-off because the first one was never asked.*
 | **[GLOSSARY.md](GLOSSARY.md)** | one word, one meaning — and the pairs that look alike and are not |
 | **[PATTERNS.md](PATTERNS.md)** | the twenty-seven shapes this system reuses, named once |
 | **[lenses.md](lenses.md)** | four readings before anything of consequence ships |
-| **forty-three companions** | loaded by trigger, never all at once |
+| **forty-three companions** — the methodology's chapters, one trigger each | loaded when their subject comes up, never all at once. **Not templates** — those are their own separate set in `templates/`, copied into a project when an entity is born |
 | **[storing.md](storing.md)** | which of the six layers land in the repository, and which stay with you |
 | **[runtimes.md](runtimes.md)** | which gates are real in the runtime you are actually in |
 | **[evals/](evals/)** | scenarios, scored by pass-rate, including nine that press on the rules |
