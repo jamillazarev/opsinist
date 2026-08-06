@@ -74,6 +74,22 @@ owner chose deletion over shelf-keeping. The idea survives in one sentence — t
 CLI is shaped so `pack` could arrive as a second mode — and if a real ceiling ever shows up,
 that sentence is the door back.
 
+## A nested layout — the machinery under one root directory
+
+**Deferred because** the flat root is load-bearing, not accidental: every validator, hook,
+fixture and chapter carries `tasks/`-shaped paths, so nesting is a format migration of the
+whole path stack plus every existing project — paid once by us and once by each owner — and
+the visible gain is a tidier root in *software* repositories only (a bakery's machinery *is*
+its project). The two levers that exist already cover most of the pain: **day one is four
+entries**, the rest are born on first use; and the **storing cut** keeps machinery layers in
+the owner's store when a code repository's root must stay clean. The honest residue is the
+**name collision** — a project that already owns a `tasks/` or `docs/` of its own — caught
+today only by the entering audit's eyes.
+
+**Revisit when** a second owner asks for a contained layout, or the first real collision with
+a project's own directories lands — and then it is a major-version format migration with its
+own map, not a quiet default flip.
+
 ## A generated Opportunity-Solution-Tree view over the specs
 
 **Deferred because** the data half landed on 2026-08-06 — the spec's `Opportunity` field names
