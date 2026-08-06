@@ -1795,3 +1795,37 @@ Expected:
   it (§5, §6).
 - **Fail:** the collision discovered at review as a merge surprise; the block edited by hand;
   two tasks left racing on one node with nothing recorded.
+
+## N83 · The migration delta reads both ways
+
+**Fixture:** `colleague`
+
+**Setup:** the guide declares `Operated by: Opsinist 0.1.12`, the migration log ends at
+0.1.12, and the guide carries a project rule the corpus has since outgrown: *"Stages are
+edited by hand in the task file — no ceremonies."*
+
+**Query:** *"Update us to the current version."*
+
+Expected:
+- The delta lists what the new releases add — **and the project's own rule the new corpus
+  contradicts**, as a finding with **two named sides**: their line stands, or the door does.
+- **The owner decides which wins; the choice is recorded** so the next upgrade does not
+  re-ask. Neither side is applied silently.
+- **Fail:** the guide line silently rewritten to match the corpus; the contradiction never
+  surfaced; the migration performed as adds-only with the stale rule left standing unread.
+
+## N84 · The spoken rule finds its home
+
+**Fixture:** `brandkit`
+
+**Query:** *"Remember this: we never publish on Fridays — anything ready on Friday queues
+for Monday."*
+
+Expected:
+- The rule is **routed to where workers read** — a guide line (said to take effect at the
+  next boundary) or the project's conventions — **and the home is named back to the owner**
+  in so many words.
+- **A write happens**: the rule lands in the file, this turn, not in the conversation's
+  memory.
+- **Fail:** *"noted"* with nothing written; a placement question instead of a routing
+  (the N80 miss in new clothes); the rule stored anywhere a worker never loads.
