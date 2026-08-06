@@ -111,13 +111,23 @@ def parse_pipeline(text: str):
     return p if p["stages"] else None
 
 
+def _mdir(root: Path, *parts: str) -> Path:
+    """The machinery lives under `_ops/` since 0.2.0; a flat root is read as the transitional
+    fallback so a not-yet-migrated project fails toward the migration notice, not a stack."""
+    nested = root.joinpath("_ops", *parts)
+    if nested.exists():
+        return nested
+    flat = root.joinpath(*parts)
+    return flat if flat.exists() else nested
+
+
 def resolve_pipeline(root: Path, task_text: str):
-    """task override → the type's file → pipelines/ by name → stock. Say which was taken."""
+    """task override → the type's file → _ops/pipelines/ by name → stock. Say which was taken."""
     name, _ = field(task_text, "pipeline")
     if not name:
         tname, _ = field(task_text, "type")
         if tname:
-            tf = root / "process" / "types" / (tname.lower().replace(" ", "-") + ".md")
+            tf = _mdir(root, "process", "types") / (tname.lower().replace(" ", "-") + ".md")
             if tf.is_file():
                 got = parse_pipeline(tf.read_text(encoding="utf-8"))
                 if got:
@@ -127,19 +137,19 @@ def resolve_pipeline(root: Path, task_text: str):
                 if m:
                     name = m.group(1)
     if name:
-        for cand in [root / "pipelines" / f"{name}.md", root / "pipelines" / f"{name}.yaml"]:
+        pdir = _mdir(root, "pipelines")
+        for cand in [pdir / f"{name}.md", pdir / f"{name}.yaml"]:
             if cand.is_file():
                 got = parse_pipeline(cand.read_text(encoding="utf-8"))
                 if got:
                     return got, f"pipeline {name}"
-        pdir = root / "pipelines"
         if pdir.is_dir():
             for f_ in sorted(pdir.glob("*.md")):
                 got = parse_pipeline(f_.read_text(encoding="utf-8"))
                 if got and got.get("name") == name:
                     return got, f"pipeline {name}"
         return None, f"pipeline `{name}` is named and no file defines it"
-    default = root / "process" / "types" / "default.md"
+    default = _mdir(root, "process", "types") / "default.md"
     if default.is_file():
         got = parse_pipeline(default.read_text(encoding="utf-8"))
         if got:

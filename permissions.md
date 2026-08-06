@@ -251,7 +251,7 @@ says so — *prose-only, nothing holds this one* — rather than pretending.
 
 **The conditional is the whole point, so it is written here rather than assumed.** That script is
 **not part of the skill — it is a thing the skill installs into the owner's repository**
-(`templates/company-preflight.sh`, copied to `scripts/preflight.sh` and wired with `--install`).
+(`templates/company-preflight.sh`, copied to `_ops/scripts/preflight.sh` and wired with `--install`).
 Ship the skill alone and those three are **back on this list**, unenforced, in every project where
 nobody ran that step. **A rule whose gate lives in a file somebody still has to install is
 `prose-only` until they do**, and saying otherwise would be the exact failure this section exists

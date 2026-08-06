@@ -1,6 +1,6 @@
 # Roadmap
 
-**An initiative that changes how the product is walked names the `docs/MAP.md` nodes it will
+**An initiative that changes how the product is walked names the `_ops/MAP.md` nodes it will
 change or add.** The future looks at the map; it is never drawn on it. — {{Company}}
 
 Release plan (User Story Map). Order between features lives HERE, never in task

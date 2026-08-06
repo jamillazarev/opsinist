@@ -161,7 +161,7 @@ them alike is how a migration either disrupts live work or falsifies finished wo
 
 | State | What happens | Why |
 |---|---|---|
-| **closed** | **never converted.** Counted and reported, and that is all | a closed task is a **record of what happened**, written and done under the shape that was in force. Rewriting it produces a spec that never guided the work and a history that describes a process nobody followed — the same reason `docs/DECISIONS.md` is append-only |
+| **closed** | **never converted.** Counted and reported, and that is all | a closed task is a **record of what happened**, written and done under the shape that was in force. Rewriting it produces a spec that never guided the work and a history that describes a process nobody followed — the same reason `_ops/DECISIONS.md` is append-only |
 | **a run in flight** | **never touched, and not even offered** | the offer itself would have to interrupt. It converts at its next transition, which is a seam that already exists and already writes to the thread |
 | **started, no live run** | **the owner chooses**, and the recommendation is *convert at its next transition* | it costs nothing and rides a seam that is coming anyway. Converting now is legitimate where the new form would change how the work gets done — but that is a decision, not a default |
 | **open, not started** | **converted with the batch** — this is the safe pile | nobody is holding it, nothing is invalidated, and leaving it is how a project ends up with two forms in its queue |
@@ -187,7 +187,7 @@ upgrade from re-opening settled questions.**
 |---|---|---|
 | **the release just added it** | a genuine delta item | goes in the list, in whichever pile it belongs |
 | **it was never used, and the release now makes it load-bearing** | **an adoption, not a migration** | offered with its cost, **declinable**, and the answer recorded |
-| **the owner turned it off or declined it before** | **already decided** | **not raised at all.** `config.md` says which modules are on; `docs/DECISIONS.md` says what was declined and what would reopen it |
+| **the owner turned it off or declined it before** | **already decided** | **not raised at all.** `config.md` says which modules are on; `_ops/DECISIONS.md` says what was declined and what would reopen it |
 
 **Adoption is the one people get wrong, and the case a long-lived project meets most.** A release
 can turn something optional into something a newer mechanism assumes — and a project that never
@@ -243,7 +243,7 @@ conversation remembers is one the next session cannot see. Three places, each al
 | What | Where | Why there |
 |---|---|---|
 | **which steps ran** | the **migration log** — a `## Migrations` section in `config.md`, one line per step: `from → to · date · outcome · who` | it sits beside `schema_version`, which is the *state*; the log is the *history* that state alone cannot carry |
-| **what the owner chose** — and especially what they **declined** | `docs/DECISIONS.md`, in the shape it already has: considered · chose · rejected · because · revisit-if | a decline is a decision, and re-asking it every session is how an owner learns to ignore the question |
+| **what the owner chose** — and especially what they **declined** | `_ops/DECISIONS.md`, in the shape it already has: considered · chose · rejected · because · revisit-if | a decline is a decision, and re-asking it every session is how an owner learns to ignore the question |
 | **what was deferred** | `LATER.md`, with a revisit trigger that is a moment | the same place every other deferral lives |
 
 **The outcome is one of five words, and the list is closed.** A log read by a comparison cannot
@@ -254,7 +254,7 @@ is a vocabulary nothing can rely on.
 |---|---|---|
 | `applied` | the step ran and the project carries it | nothing |
 | `nothing-required` | checked against this project, no work followed | nothing — **and this line is why later messages are free** |
-| `declined` | the owner said no, and the reason is in `docs/DECISIONS.md` with its revisit-if | **does not re-ask**; the trigger reopens it |
+| `declined` | the owner said no, and the reason is in `_ops/DECISIONS.md` with its revisit-if | **does not re-ask**; the trigger reopens it |
 | `deferred` | agreed, not now (`LATER.md`, with a moment for a trigger) — **and the same word for a delta that stopped to ask**: waiting silently leaves the trace of never having looked, and the owner meets the identical list next session | **does not re-ask**; the moment, or the answer, reopens it — and the line is **replaced, not duplicated** |
 | `failed` | it was attempted and did not complete, with what broke | **retries**, and appends a second line rather than editing the first |
 
@@ -265,7 +265,7 @@ column of `failed` rather than as silence.
 **It is a log, not a field, and the difference is load-bearing.** Migrations accumulate, and a
 single *"last migration"* value answers **which version** while losing **what happened on the
 way** — which step was declined, deferred, or re-run after a failure. **Append-only, one line per
-step, never edited in place**, the same discipline as `docs/DECISIONS.md`: a re-run **appends**,
+step, never edited in place**, the same discipline as `_ops/DECISIONS.md`: a re-run **appends**,
 because *"this was attempted twice"* is exactly the fact a later reader needs.
 
 **And it is what makes a multi-version jump answerable afterwards.** *"We came from 0.1.1, four

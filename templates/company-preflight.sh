@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Docs guard for a company the advisor built — install it into the company's own repo, not ours.
 #
-#   cp templates/company-preflight.sh <repo>/scripts/preflight.sh
-#   bash scripts/preflight.sh --install     # wires it as a pre-commit hook
+#   cp templates/company-preflight.sh <repo>/_ops/scripts/preflight.sh
+#   bash _ops/scripts/preflight.sh --install     # wires it as a pre-commit hook
 #
 # It guards the four things this methodology insists on and nobody remembers unprompted:
 # the docs the guide promises exist, recorded facts have not silently expired, the
@@ -23,7 +23,7 @@ if [ "${1:-}" = "--install" ]; then
   hookdir=$(git config --get core.hooksPath 2>/dev/null || true)
   if [ -n "$hookdir" ]; then
     echo "  x this repo uses core.hooksPath=$hookdir (husky, lefthook or similar)."
-    echo "    Add to your existing pre-commit instead:  bash scripts/preflight.sh || exit 1"
+    echo "    Add to your existing pre-commit instead:  bash _ops/scripts/preflight.sh || exit 1"
     exit 1
   fi
   hookdir=$(git rev-parse --git-path hooks 2>/dev/null) || hookdir="$root/.git/hooks"
@@ -36,14 +36,14 @@ if [ "${1:-}" = "--install" ]; then
     if ! grep -qF "$SENTINEL" "$hook" 2>/dev/null; then
       echo "  x $hook already exists and was not written by this script."
       echo "    Not touching it - it may be your secret scan or test gate."
-      echo "    Chain it by adding this line to it:  bash scripts/preflight.sh || exit 1"
+      echo "    Chain it by adding this line to it:  bash _ops/scripts/preflight.sh || exit 1"
       exit 1
     fi
   fi
 
   mkdir -p "$hookdir" || { echo "  x cannot create $hookdir"; exit 1; }
   tmp="$hook.opsinist-tmp.$$"
-  printf '#!/bin/sh\n%s\nexec bash scripts/preflight.sh\n' "$SENTINEL" > "$tmp" || {
+  printf '#!/bin/sh\n%s\nexec bash _ops/scripts/preflight.sh\n' "$SENTINEL" > "$tmp" || {
     echo "  x cannot write $tmp"; exit 1; }
   chmod +x "$tmp" && mv -f "$tmp" "$hook" || {
     rm -f "$tmp"; echo "  x cannot install $hook"; exit 1; }
@@ -57,17 +57,17 @@ echo "preflight — docs"
 
 # 1 · the docs the guide promises must exist. An agent told to read a file that
 #     isn't there improvises, and improvisation is how conventions drift.
-for f in docs/ROADMAP.md docs/TEAM.md docs/TOOLING.md docs/DECISIONS.md; do
+for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
   [ -f "$f" ] || say_fail "$f is missing — the guide tells every agent it exists"
 done
 if git ls-files | grep -qE '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'; then
-  [ -f docs/ARCHITECTURE.md ] || say_warn "there is code but no docs/ARCHITECTURE.md — every task \
+  [ -f _ops/ARCHITECTURE.md ] || say_warn "there is code but no _ops/ARCHITECTURE.md — every task \
 starts in a fresh worktree and re-derives the layout"
 fi
 
 # 2 · a recorded fact past its recheck is unknown, not fact. TOOLING.md carries a
 #     Checked column precisely so this can be enforced rather than hoped for.
-if [ -f docs/TOOLING.md ]; then
+if [ -f _ops/TOOLING.md ]; then
   python3 - <<'PY'
 import re, datetime
 # Past the first threshold a row is worth a nudge. Past the second it is not a stale fact, it is
@@ -77,7 +77,7 @@ import re, datetime
 # each listing "update the register" as something for the owner to do later.
 STALE_DAYS, FALSE_DAYS = 90, 180
 today = datetime.date.today()
-for line in open("docs/TOOLING.md", encoding="utf-8"):
+for line in open("_ops/TOOLING.md", encoding="utf-8"):
     if not line.strip().startswith("|"):
         continue
     m = re.search(r"(\d{4})-(\d{2})-(\d{2})", line)
@@ -103,10 +103,10 @@ rm -f /tmp/.pf-tooling.$$
 
 # 3 · DECISIONS.md is append-only. Rewriting it is how a rejected idea comes back
 #     next quarter with nobody able to say why it was rejected the first time.
-if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f docs/DECISIONS.md ]; then
-  removed=$(git diff --cached -U0 -- docs/DECISIONS.md 2>/dev/null \
+if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f _ops/DECISIONS.md ]; then
+  removed=$(git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null \
             | grep -c '^-[^-]' || true)
-  [ "${removed:-0}" -gt 0 ] && say_fail "docs/DECISIONS.md is append-only — this commit \
+  [ "${removed:-0}" -gt 0 ] && say_fail "_ops/DECISIONS.md is append-only — this commit \
 removes or rewrites $removed line(s). Add a new entry instead."
 fi
 
@@ -124,10 +124,10 @@ commit removes or rewrites $removed line(s). A re-run appends a line; it does no
 fi
 
 # 4 · the architecture map must mention the places work actually happens.
-if [ -f docs/ARCHITECTURE.md ]; then
+if [ -f _ops/ARCHITECTURE.md ]; then
   for d in $(git ls-files | awk -F/ 'NF>1 {print $1}' | sort -u); do
     case "$d" in docs|.github|node_modules|dist|build|vendor) continue;; esac
-    grep -q "$d" docs/ARCHITECTURE.md || say_warn "docs/ARCHITECTURE.md never mentions \`$d/\` \
+    grep -q "$d" _ops/ARCHITECTURE.md || say_warn "_ops/ARCHITECTURE.md never mentions \`$d/\` \
 — either map it or say why it doesn't matter"
   done
 fi
@@ -135,16 +135,16 @@ fi
 # 4b · the product map, where one exists, must parse and stay reachable. An unclosed mermaid
 #      fence renders as a bomb on every surface that draws it, and a split-out move file nothing
 #      points at is a flow the index quietly forgot.
-for m in docs/MAP.md docs/map/*.md; do
+for m in _ops/MAP.md _ops/map/*.md; do
   [ -f "$m" ] || continue
   fences=$(grep -c '^```' "$m")
   [ $((fences % 2)) -eq 0 ] || say_fail "$m has an unclosed \`\`\` fence — the map renders as an error"
 done
-if [ -d docs/map ]; then
-  for m in docs/map/*.md; do
+if [ -d _ops/map ]; then
+  for m in _ops/map/*.md; do
     [ -f "$m" ] || continue
-    grep -q "$(basename "$m")" docs/MAP.md 2>/dev/null \
-      || say_fail "docs/MAP.md never points at $(basename "$m") — a move file the index forgot"
+    grep -q "$(basename "$m")" _ops/MAP.md 2>/dev/null \
+      || say_fail "_ops/MAP.md never points at $(basename "$m") — a move file the index forgot"
   done
 fi
 
@@ -183,7 +183,7 @@ if [ -f config.md ] || [ -f CLAUDE.md ]; then
   [ -d tasks ] && have_work=1
   if [ "$have_docs" = 1 ] && [ "$have_work" = 0 ]; then
     grep -qiE 'where (each )?layer|record lives|destinations?:' config.md CLAUDE.md 2>/dev/null \
-      || say_warn "docs/ is here but tasks/ is not, and no manifest names where the other layers \
+      || say_warn "docs/ is here but _ops/tasks/ is not, and no manifest names where the other layers \
 live — a clone of this repo cannot tell what is missing"
   fi
 fi
@@ -192,7 +192,7 @@ fi
 #     share of the window, and skills attached to a role load on every run it makes — needed or
 #     not. This counts them; the judgement about which to drop stays a person's.
 if [ -d roles ]; then
-  for r in roles/*.md; do
+  for r in _ops/roles/*.md; do
     [ -f "$r" ] || continue
     n=$(sed -n 's/^[[:space:]]*-[[:space:]]*//p' "$r" | grep -c . || true)
     skills=$(awk '/^skills:/{f=1;next}/^[a-z_]+:/{f=0}f&&/^[[:space:]]*-/{c++}END{print c+0}' "$r")
@@ -215,7 +215,7 @@ fi
 #     the licence *text*, not to a purchase, and the licence text is the document that forbids
 #     the very use being claimed. A row-level test cannot validate a claim inside the row, so
 #     the clause is the unit: from the entitlement word to the next `;` or column break.
-if [ -f docs/TOOLING.md ]; then
+if [ -f _ops/TOOLING.md ]; then
   while IFS= read -r line; do
     case "$line" in \|*) ;; *) continue;; esac
     printf '%s' "$line" | grep -qiE '(licence|license|plan|tier)[^|;]*(held|purchased|bought|covered|acquired|granted)' || continue
@@ -223,18 +223,18 @@ if [ -f docs/TOOLING.md ]; then
              | grep -iE '(licence|license|plan|tier)[^|;]*(held|purchased|bought|covered|acquired|granted)' | head -1)
     printf '%s' "$clause" | grep -qiE '(receipt|invoice|order|https?://|`[^`]+`)' && continue
     name=$(printf '%s' "$line" | cut -d'|' -f2 | sed 's/^ *//;s/ *$//')
-    say_fail "docs/TOOLING.md claims an entitlement for \`$name\` — \"$(printf '%s' "$clause" | sed 's/^ *//;s/ *$//')\" \
+    say_fail "_ops/TOOLING.md claims an entitlement for \`$name\` — \"$(printf '%s' "$clause" | sed 's/^ *//;s/ *$//')\" \
 — with no evidence in that same clause. A pointer elsewhere in the row does not cover it, and a \
 licence file is evidence of the terms, never of a purchase. Point at the receipt, or write it as \
 unknown. An agent may not author the fact that unblocks its own work."
-  done < docs/TOOLING.md
+  done < _ops/TOOLING.md
 fi
 
 # 10 · nothing transitions itself, and nobody edits the bar they are measured against. Both are
 #      stated as laws and, until now, held by nothing. Measured: a run discovered a licence
 #      blocker, then set its own task to shipped and tagged a release in the same breath.
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
-  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^tasks/.*\.md$' || true); do
+  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
     printf '%s' "$d" | grep -qiE '^\+.*status:[[:space:]]*(done|shipped|completed|accepted|closed)' || continue
     if printf '%s' "$d" | grep -qiE '^[+-].*(dod:|acceptance|definition of done)'; then
@@ -254,7 +254,7 @@ fi
 #      like a reviewed one. Names, not identities — this is a nudge at the honest case, not an
 #      identity check, and anything stronger belongs in branch protection.
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
-  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^tasks/.*\.md$' || true); do
+  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
     printf '%s' "$d" | grep -qiE '^\+.*(reviewed by|approved by|accepted by)' || continue
     who=$(printf '%s' "$d" | grep -ioE '(reviewed|approved|accepted) by[: ]+@?[A-Za-z0-9._-]+' \
@@ -277,7 +277,7 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
   # The field arrives bold in the stock template — `**Status**: draft` — so the pattern
   # allows the asterisks, or this net matches nothing while reading as a gate. Measured by
   # the lenses within a day of it being written: the plain-colon version had zero matches.
-  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^tasks/.*\.md$' || true); do
+  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
     printf '%s' "$d" | grep -qiE '^-.*(stage|status)\*{0,2}[[:space:]]*:' || continue
     printf '%s' "$d" | grep -qiE '^\+.*(stage|status)\*{0,2}[[:space:]]*:' || continue
@@ -296,7 +296,7 @@ fi
 #      closed automatically is itself recorded. Measured 0 of 10 across two full rounds as prose,
 #      and 1 of 5 after the rule was moved into the always-loaded core, which is why it is here.
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
-  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^tasks/.*\.md$' || true); do
+  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
     [ -f "$t" ] || continue
     grep -qiE '^[[:space:]]*(children|subtasks)[[:space:]]*:' "$t" || continue
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
@@ -333,14 +333,14 @@ fi
 #      belongs to the harness — so the performable half is the one checkable between runs: a
 #      commit that records new spend while the ledger is already at or past the envelope is
 #      refused, which is what "refuse the next dispatch" means in practice (`cost.md`).
-#      Read from docs/BUDGET.md: the envelope from the Amount line, the level from the latest
+#      Read from _ops/BUDGET.md: the envelope from the Amount line, the level from the latest
 #      "Where it stands" row. Percent or currency, either way.
 #      A budget with no numbers yet is silent — a template nobody filled must not block a commit.
-if [ -f docs/BUDGET.md ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
-  if git diff --cached --name-only 2>/dev/null | grep -qE '^(docs/BUDGET\.md|tasks/.*\.md|runs?/.*)$'; then
+if [ -f _ops/BUDGET.md ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
+  if git diff --cached --name-only 2>/dev/null | grep -qE '^(docs/BUDGET\.md|_ops/tasks/.*\.md|runs?/.*)$'; then
     python3 - <<'PY' > /tmp/.pf-budget.$$ 2>/dev/null || true
 import re
-txt = open("docs/BUDGET.md", encoding="utf-8").read()
+txt = open("_ops/BUDGET.md", encoding="utf-8").read()
 def money(s):
     m = re.search(r"([0-9][0-9,]*\.?[0-9]*)", s.replace(" ", ""))
     return float(m.group(1).replace(",", "")) if m else None
@@ -377,7 +377,7 @@ PY
     while IFS= read -r l; do
       case "$l" in
         OVER:*) pct=$(printf '%s' "$l" | cut -d: -f2); cap=$(printf '%s' "$l" | cut -d: -f3)
-          say_fail "docs/BUDGET.md reads ${pct}% of the envelope against a pause at ${cap}% — \
+          say_fail "_ops/BUDGET.md reads ${pct}% of the envelope against a pause at ${cap}% — \
 this commit records more spend past the cap. Nothing can halt a run already in flight, so the cap \
 is held here: raise the envelope deliberately, or stop dispatching. The cap is \`locked\` — \
 proposed to a human, never edited by whoever works under it.";;

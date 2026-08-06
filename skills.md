@@ -5,7 +5,7 @@ heavy, or something proved itself and should leave home.
 
 **A toolkit is an asset that rots without an owner.** Four operations, each with a gate.
 
-**The pool is separate from attachment.** `skills/` holds everything the project has; **a skill
+**The pool is separate from attachment.** `_ops/skills/` holds everything the project has; **a skill
 may sit unattached — available, searchable, ready — and that is a normal state, not an untidy
 one.** Skills created during work land in the pool first and are attached when a role actually
 needs them. **Attachment lives on the role, never on the skill**: one skill serves many roles, and

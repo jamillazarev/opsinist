@@ -2,12 +2,27 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.1.20 — 2026-08-07
+## 0.2.0 — 2026-08-07
+
+**The machinery lives under one door now: `_ops/`.** A project's root belongs to the craft
+again — your own files, the generated guide, `.claude/` — and everything the methodology
+owns sits in a single directory named to sort first and collide with nothing. What `docs/`
+used to nest is flat inside it (`_ops/DECISIONS.md`, not `docs/DECISIONS.md`), the entity
+directories stand beside the ledgers, and two files say plainly what they are:
+**`COMPANY.md` is `ABOUT.md`** — it was always *what this is, for whom, the vocabulary*,
+and half the projects it serves are not companies — and **`docs/tooling/` is
+`_ops/runbooks/`**. The spec rung's documents get `_ops/specs/`; the project's own
+preflight moved with the rest of the machinery to `_ops/scripts/preflight.sh`. A bakery's
+repository stops looking like a software team moved in, a code repository's root stays the
+code's, and the honest residue the old deferral had named — the collision with a project
+that owns a `tasks/` or `docs/` of its own — is gone by construction. **The door knows the
+past**: an unmigrated flat project resolves through a fallback and fails toward the
+migration notice, never a stack.
 
 **The companions are chapters now — the word confused its own owner, which is the whole
 test.** Twenty-four living files renamed in one pass, checkers included; `companion_budget`
 became `chapter_budget` in the skill's own frontmatter; the glossary entry says *called a
-"companion" before 0.1.20* so the old word still finds its way home. History keeps its epoch:
+"companion" before 0.2.0* so the old word still finds its way home. History keeps its epoch:
 past changelog entries and run records are not rewritten. And the entry sharpened while it
 moved: **a chapter is read by the agent when its trigger fires; a template is copied into a
 project when an entity is born** — neither is a role.
@@ -36,9 +51,17 @@ The glossary now says what it is *not* (an analytics cohort), the rollout axis s
 segment and geography, and a course soft-launches to a first intake — each meaning got its
 own word back.
 
-**Migration map**: **projects with a `cohorts/` directory rename it to `panels/`** — one
-`git mv`, and the audit will say so; everything else is terminology, windows and rows, and
-the skill's own manifests and checkers moved together.
+**Migration map** — one command, or a handful of `git mv`s:
+- **`python3 scripts/migrate-layout.py <project-root>`** does the whole move as
+  history-preserving renames: the entity directories and the known `docs/` files into
+  `_ops/`, `COMPANY.md → ABOUT.md`, `cohorts/ → panels/`, `docs/tooling/ → runbooks/`,
+  `.opsinist-checkout → _ops/.checkout`, with the pre-commit hook and `.gitignore`
+  rewritten to follow their files. **Anything in `docs/` it does not recognise stays where
+  it is and is named in the output** — that directory may be the craft's own. A dirty tree
+  is refused so the migration is its own diff; a collision is named, never overwritten.
+- By hand instead: the same moves as `git mv`, then the hook and `.gitignore` paths.
+- Either way, one migration-log line in `_ops/config.md` closes it:
+  `0.1.x → 0.2.0 · <date> · applied · <who>`.
 
 ## 0.1.19 — 2026-08-06
 
@@ -1276,7 +1299,7 @@ happens — and a sweep that found nothing records what it looked at.
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · two hundred and five single-sentence facts · ninety-seven situations with what to
+file defines · two hundred and seven single-sentence facts · ninety-eight situations with what to
 say · **ninety-eight evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the

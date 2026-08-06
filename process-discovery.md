@@ -50,9 +50,9 @@ garbage happened.**
 
 ## Record the process — into the machinery, not beside it
 
-**A discovered process lands as a type and its pipeline.** `process/types/<kind>.md` carries
+**A discovered process lands as a type and its pipeline.** `_ops/process/types/<kind>.md` carries
 the definition of done and the cut on the description ladder — proposed at the type's wave —
-and `pipelines/<name>.md` carries the stages and the gates **as data the door reads**
+and `_ops/pipelines/<name>.md` carries the stages and the gates **as data the door reads**
 (`pipelines.md`, `writing-work.md`). So the next run of the same kind of work **starts from it
 rather than rediscovering it**, the state block and the transition validator work from day
 one, and a better process found later is **a diff to a file rather than a silent drift**.

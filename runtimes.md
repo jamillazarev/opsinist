@@ -73,7 +73,7 @@ place can hand a task to a worker running in another, and the thread it writes t
 either way.
 
 **The pattern is measured; crossing runtimes is not.** `2026-07-31`: a headless subprocess handed
-nothing but *"read `tasks/T-1.md` and do what its definition of done says"* edited the code, wrote
+nothing but *"read `_ops/tasks/T-1.md` and do what its definition of done says"* edited the code, wrote
 its own run line into the task's thread, and set the status — **the repository was the whole
 channel**. The crossing itself could not be exercised on that machine: **Gemini CLI answered
 `IneligibleTierError` — the vendor has withdrawn that client for individual accounts and points at
@@ -153,7 +153,7 @@ and the fastest way to get this wrong is to write down a capability because it w
 
 | Runtime | Profile | Rung |
 |---|---|---|
-| **Claude Code** | every capability above; the runtime this was written in and run against. **One collision to know about:** it ships its own `TaskCreate` / `TaskGet` / `TaskList` for the assistant's **session to-do list** — in memory, gone at session end, no relation to this system's tasks. A task here is a **file**, `T-18` is `tasks/T-18.md`, and there is no task service to query | **measured** — the behavioural suite runs here (`evals/`), including the collision: told *"it's in `T-18` and `T-21`"*, **2 of 5 runs called `TaskGet(taskId: "T-18")`**, got the empty session list back, and reported finding nothing |
+| **Claude Code** | every capability above; the runtime this was written in and run against. **One collision to know about:** it ships its own `TaskCreate` / `TaskGet` / `TaskList` for the assistant's **session to-do list** — in memory, gone at session end, no relation to this system's tasks. A task here is a **file**, `T-18` is `_ops/tasks/T-18.md`, and there is no task service to query | **measured** — the behavioural suite runs here (`evals/`), including the collision: told *"it's in `T-18` and `T-21`"*, **2 of 5 runs called `TaskGet(taskId: "T-18")`**, got the empty session list back, and reported finding nothing |
 | **Gemini CLI** | agent skills · MCP · hooks · extensions · git worktrees · sandbox · headless · session resume · per-invocation model · a policy engine (the tool-restriction candidate). **Delegation not confirmed.** | **measured** for installation and the surface, `2026-07-28`; **unknown** for behaviour — authentication failed before a run |
 | **Codex CLI** | reads the same skill format; subagents reported | **cited**, not measured — it was not on the machine |
 | **hermes-agent** | a resident harness, not a per-session console: one gateway process behind messaging channels, built-in cron and webhooks, any model provider. Reads this skill unchanged via `skills.external_dirs`; **the router survives its loader** — a forced load and a persona-driven load both walked `SKILL.md` into chapters. **Unforced discovery missed once on a light tier**, so the always-on persona is load-bearing there, not decoration | **measured** for loading, resident mode and consult, `2026-07-30` — four smoke runs, N=1 each (`evals/RUNS.md`); the suite has not run here |

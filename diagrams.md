@@ -215,7 +215,7 @@ flowchart TD
   C --> BG[the read is dispatched, a tier down]
   B --> BG
   E --> BG
-  BG --> W[what went unread is named in<br/>docs/ARCHITECTURE.md]
+  BG --> W[what went unread is named in<br/>_ops/ARCHITECTURE.md]
   W --> K[a claim about unread ground<br/>is unknown]
   W --> X{a task reaches past<br/>what was read?}
   X -- yes --> Y[say so, read further,<br/>update the map]
@@ -255,10 +255,10 @@ Two maps answer two questions; only one of them is about the tree. The map holds
 flowchart TD
   D[discovery draws a current flow<br/>and a target flow] --> T[the task body:<br/>the working draft, dead ends and all]
   E[entering: the corridor read<br/>learns the coarse shape] --> M
-  T -- the work is accepted --> M[docs/MAP.md — moves and things,<br/>current state only]
+  T -- the work is accepted --> M[_ops/MAP.md — moves and things,<br/>current state only]
   M --> N[every node names<br/>something that exists]
   M --> U[what is not mapped yet —<br/>a claim there is `unknown`]
-  R[docs/ROADMAP.md] -. points at nodes<br/>it will change, never drawn on the map .-> M
+  R[_ops/ROADMAP.md] -. points at nodes<br/>it will change, never drawn on the map .-> M
   W[a task touching a move] --> DD[names the nodes it changes<br/>and the ones it creates]
   DD --> DoD[map updated in the same task —<br/>it is in the DoD, and review bounces without it]
   DoD --> M
@@ -374,7 +374,7 @@ flowchart TD
   F[friction: something broke,<br/>or made the work harder] --> Q{does it stop you now?}
   Q -- yes --> B[a blocking task,<br/>and the work takes a blocked_by]
   Q -- no --> W{whose defect?<br/>decided here, not asked}
-  W -- the project's --> N[a field note in docs/FIELD-NOTES.md<br/>one line, append-only]
+  W -- the project's --> N[a field note in _ops/FIELD-NOTES.md<br/>one line, append-only]
   N --> S[swept at the next status check<br/>· deduplicated · an empty sweep says what it looked at]
   S --> T{seen twice?}
   T -- yes --> TASK[a task, with BOTH occasions named in it]

@@ -72,7 +72,7 @@ nothing behind it — and **a destination it cannot reach is a finding, never a 
 and what would fix it. A finding without a location is an opinion.
 
 **The field notes are swept here, and until this line existed nothing swept them.**
-`docs/FIELD-NOTES.md` collects friction the moment it happens, and `self-maintenance.md` has
+`_ops/FIELD-NOTES.md` collects friction the moment it happens, and `self-maintenance.md` has
 always said it is *"swept at natural checkpoints"* — **a status check is the checkpoint**, and
 naming a sweeper is what turns that sentence into an act. Entries go to the backlog,
 deduplicated so a re-sweep is idempotent; **an entry seen twice becomes a task with both
@@ -118,8 +118,8 @@ and declined is an answer.
 **And the spoken rule is the same signal in words** — *"remember this"*, *"always do X"*,
 *"never touch Y"*. It is routed to where workers actually read, never to the conversation's
 memory: a behaviour → **a guide line** (taking effect at the next boundary, `PATTERNS.md`
-§10) · a word or a fact of the domain → **`docs/COMPANY.md`** · a choice with reasons →
-**`docs/DECISIONS.md`** · a place to look → **the resource register, with its why**. The
+§10) · a word or a fact of the domain → **`_ops/ABOUT.md`** · a choice with reasons →
+**`_ops/DECISIONS.md`** · a place to look → **the resource register, with its why**. The
 advisor names which home it heard and writes it there — a rule that lives only in a chat log
 is the one promise `project = f(repo)` exists to refuse.
 

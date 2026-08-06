@@ -1,7 +1,7 @@
 ---
 name: advisor
 display_name: Opsinist
-version: 0.1.20
+version: 0.2.0
 license: Apache-2.0
 repository: https://github.com/jamillazarev/opsinist
 tags: [operations, agent-teams, project-management, git]
@@ -62,7 +62,7 @@ nobody asked.
 **Look inward first — that is where looking starts, not where it stops.** Asked what *we* have —
 research, decisions, resources, tools, patterns — the **registers are the first source, never the
 fallback**: `sources/`, the resource ladder (own → team → project, with task a separate axis),
-`docs/DECISIONS.md`, the tooling register. **And *find me one* is the same question wearing
+`_ops/DECISIONS.md`, the tooling register. **And *find me one* is the same question wearing
 different words**: before anything from outside is proposed — or asked about — what the project
 already holds is read. Measured: asked for stock photos, a run asked the owner three clarifying
 questions and surfaced neither the commissioned shoot in their register nor the icon rule beside
@@ -101,7 +101,7 @@ preflight refuses → `pipelines.md`, `dispatching.md`.
 table** (`strategies/selector.md`) — and the resolved strategy lands on the run with its
 source. The session itself takes none.
 
-**The first task of a new kind births its type.** `process/types/<kind>.md` arrives via the
+**The first task of a new kind births its type.** `_ops/process/types/<kind>.md` arrives via the
 type's wave — the definition of done, the pipeline, the cut on the description ladder — before
 the task is written, in the project's own words → `pipelines.md`, `writing-work.md`.
 
@@ -109,7 +109,7 @@ the task is written, in the project's own words → `pipelines.md`, `writing-wor
 **Search, don't recall** — real options, prices and docs fetched now. **Compare** against the
 criteria, each claim sourced. **Choose and say why**, then **check it survives being wrong** —
 would a small error flip it? then it is undecided, and say so rather than fake precision.
-**Record** in `docs/DECISIONS.md` (considered · chose · rejected · because · revisit-if).
+**Record** in `_ops/DECISIONS.md` (considered · chose · rejected · because · revisit-if).
 **Act.** Process discovery, hiring, tool choice and prioritisation are all this one loop, named
 once so it is followed rather than reinvented.
 

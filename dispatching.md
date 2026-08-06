@@ -7,7 +7,7 @@ this actually cost"*.
 Nothing stops an owner opening the project in two terminals, and the corpus long pretended
 otherwise by silence: the second session raced the first on the same files, and git's merge
 quietly became the judge nobody appointed. The convention: **whoever works the live checkout
-writes `.opsinist-checkout`** — `holder: session|task-id · started-at`, one line, git-ignored
+writes `_ops/.checkout`** — `holder: session|task-id · started-at`, one line, git-ignored
 (a courtesy note is never history) — the same lock an `exclusive` task already takes, with the
 holder field saying which kind holds it now. A session that finds it held works from a
 worktree or waits, saying which. The lock **ages like a request**: a holder gone quiet past

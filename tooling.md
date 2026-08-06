@@ -36,7 +36,7 @@ Wiring a tool produces knowledge. **Put each part where only its users pay for i
 | What | Home | Who reads it |
 |---|---|---|
 | it exists, why, access, plan and ceiling | **the tooling register** | the advisor, health, audit |
-| **how to operate it** — purge a cache, add a region, rotate a key, read its errors | **`docs/tooling/<tool>.md`** — a runbook | whoever is about to use it |
+| **how to operate it** — purge a cache, add a region, rotate a key, read its errors | **`_ops/runbooks/<tool>.md`** — a runbook | whoever is about to use it |
 | a reusable procedure worth teaching | **a skill** | only roles attached to that tool |
 | that runbooks exist at all | one line in the project guide | everyone — and it is cheap |
 

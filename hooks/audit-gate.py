@@ -54,7 +54,9 @@ def migration_log_names(root, version):
     version appears, and it appears with one of the five outcome words. A log written by a
     future release must stay readable to this one, so nothing here parses a fixed grammar.
     """
-    p = os.path.join(root, "config.md")
+    p = os.path.join(root, "_ops", "config.md")
+    if not os.path.isfile(p):
+        p = os.path.join(root, "config.md")
     try:
         if not os.path.isfile(p):
             return None  # no config.md at all — not the same as "no line"
@@ -205,7 +207,9 @@ def main():
         # development repository and pushed eval players into fabricated migration audits on
         # fixtures that nothing operates: a repo with no operator line and no config.md is
         # ENTERED, not migrated (SKILL.md, the fourth stand-down).
-        ours = os.path.isfile(os.path.join(root, "config.md")) or bool(guide_version(root))
+        ours = (os.path.isfile(os.path.join(root, "_ops", "config.md"))
+                or os.path.isfile(os.path.join(root, "config.md"))
+                or bool(guide_version(root)))
         if not ours:
             out()  # nothing operates this yet — nothing to migrate, nothing to say
         v = skill_version()
@@ -378,7 +382,9 @@ def main():
             rel = os.path.relpath(os.path.realpath(target), os.path.realpath(root))
         except Exception:
             out()
-        cfg_path = os.path.join(root, "config.md")
+        cfg_path = os.path.join(root, "_ops", "config.md")
+        if not os.path.isfile(cfg_path):
+            cfg_path = os.path.join(root, "config.md")
         cfg = ""
         try:
             if os.path.isfile(cfg_path):
@@ -394,12 +400,12 @@ def main():
         #     owner who insists is delayed one message, never blocked. System records —
         #     tasks, docs, process, the guide — are the advisor's own hands and never trip
         #     this.
-        _SYSTEM = ("tasks/", "roles/", "teams/", "panels/", "pipelines/", "requests/",
-                   "releases/", "milestones/", "automations/", "resources/", "skills/",
-                   "process/", "docs/", "scripts/", "runs/", "threads/", ".index/",
-                   ".claude/", ".github/")
+        _SYSTEM = ("_ops/", "tasks/", "roles/", "teams/", "panels/", "pipelines/",
+                   "requests/", "releases/", "milestones/", "automations/", "resources/",
+                   "skills/", "process/", "docs/", "scripts/", "runs/", "threads/",
+                   ".index/", ".claude/", ".github/")
         _SYSTEM_FILES = {"CLAUDE.md", "AGENTS.md", "GEMINI.md", "config.md", "LATER.md",
-                         ".gitignore", ".opsinist-checkout"}
+                         ".gitignore", ".opsinist-checkout", ".checkout"}
         operated = bool(cfg)
         if not operated:
             for _g in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
@@ -454,7 +460,8 @@ def main():
         #      commission — the only shape of rule this project has ever measured working.
         #      Reading a repository is exempt: a takeover writes its map and its debt list
         #      before it has a single task, by design (`entering.md`).
-        READ_OUTPUTS = ("docs/ARCHITECTURE.md", "docs/MAP.md", "docs/DEBTS.md")
+        READ_OUTPUTS = ("docs/ARCHITECTURE.md", "docs/MAP.md", "docs/DEBTS.md",
+                        "_ops/ARCHITECTURE.md", "_ops/MAP.md", "_ops/DEBTS.md")
         if (rel.split("/")[0] in ("docs", "process", "roles")
                 and rel not in READ_OUTPUTS
                 and not glob.glob(os.path.join(root, "tasks", "*.md"))):
@@ -553,8 +560,10 @@ def main():
         out()
 
     # 5 · the debt list disarms the gate
-    if os.path.isfile(os.path.join(root, "LATER.md")) or os.path.isfile(
-        os.path.join(root, "docs", "DEBTS.md")
+    if (os.path.isfile(os.path.join(root, "LATER.md"))
+            or os.path.isfile(os.path.join(root, "docs", "DEBTS.md"))
+            or os.path.isfile(os.path.join(root, "_ops", "LATER.md"))
+            or os.path.isfile(os.path.join(root, "_ops", "DEBTS.md"))
     ):
         out()
 

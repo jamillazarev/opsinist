@@ -23,7 +23,7 @@ until `0.1.5` nothing wrote it.**
 
 **Append-only, one line per step, newest last. A re-run appends; it never edits a line.**
 Outcome is one of five: `applied` · `nothing-required` · `declined` · `deferred` · `failed`.
-A `declined` line's reason lives in `docs/DECISIONS.md` with its revisit-if; a `deferred` one's
+A `declined` line's reason lives in `_ops/DECISIONS.md` with its revisit-if; a `deferred` one's
 sits in `LATER.md` with a moment for a trigger. → `upgrading.md`
 
 - {{— → 0.1.5 · 2026-08-01 · applied · you@example.com}}

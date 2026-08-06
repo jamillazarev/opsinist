@@ -114,7 +114,7 @@ about unread ground is `unknown` — not judgement, not inference from the parts
 
 **Two records, and they are not the same kind of thing.** The **choice** is a decision and lives in
 `config.md` beside the other settings. The **coverage** is state that grows with every task, and it
-belongs in `docs/ARCHITECTURE.md` — the map already exists to stop every worker re-deriving the
+belongs in `_ops/ARCHITECTURE.md` — the map already exists to stop every worker re-deriving the
 codebase, and a map that does not say where it ends is the version of that failure nobody notices.
 **Unmapped ground is named there, not left as silence.**
 
@@ -146,7 +146,7 @@ sitting in every repository unread. **The owner fills only the remainder** — t
 law applied to impact — **and what they assert about the tree is checked against the tree**, the
 same way a "it's built" claim is: named ground the callers contradict is a finding, not a fact.
 
-**What the read learned about how the product is walked lands in `docs/MAP.md`** — the corridor's
+**What the read learned about how the product is walked lands in `_ops/MAP.md`** — the corridor's
 product half is the map's first version, written down instead of evaporating with the session →
 `mapping.md`.
 
@@ -213,7 +213,7 @@ under pressure drops first — measured on `N8`, twice, at zero: runs edited sou
 and committed, all before any list existed. `hooks/audit-gate.py` ships with the plugin and
 **refuses a mutating call in a repository being taken over while no debt list is there** — a
 write or an edit to a *tracked* file, or a mutating shell command. It disarms the moment
-`LATER.md` (or `docs/DEBTS.md`) exists at the root. **Reading is never blocked, and neither is
+`LATER.md` (or `_ops/DEBTS.md`) exists at the root. **Reading is never blocked, and neither is
 creating something new** — the list, a guide, `docs/` — because the gate is about the order of
 the evidence, not about holding the work still.
 
@@ -270,7 +270,7 @@ lid — because nothing is left in it.
 **Starting the next one is the same act wherever it happens.** Open the project — same directory,
 different tool, different machine — and **the arrival summary is the first thing said**: what
 needs you, what happened, what changed that you did not change, what is still undecided — **and
-who holds the live checkout**, read from `.opsinist-checkout` where one exists, with a stale
+who holds the live checkout**, read from `_ops/.checkout` where one exists, with a stale
 holder surfaced like any aged wait (`dispatching.md`). That is
 where the previous state comes from. **Nothing is carried in the session, so nothing has to be.**
 

@@ -5,10 +5,10 @@ and write task comments ONLY in {{language}}; artifacts (specs, docs) in
 {{artifact_language}}. Tone: {{tone}}.
 
 **Project:** {{one-line: what we make}}. Repo: {{repo_url}}. Source of truth:
-{{spec docs}}; roadmap: `docs/ROADMAP.md`; team: `docs/TEAM.md`.
+{{spec docs}}; roadmap: `_ops/ROADMAP.md`; team: `_ops/TEAM.md`.
 
 **Operated by:** {{skill display_name}} **{{0.1.11}}** · format `schema_version` {{1}} ·
-**guard wired:** {{yes — `scripts/preflight.sh`, installed {{date}}}} · last upgrade {{date}}.
+**guard wired:** {{yes — `_ops/scripts/preflight.sh`, installed {{date}}}} · last upgrade {{date}}.
 
 > **Three facts nothing else can tell you, so they are stated rather than inferred.** *Which
 > version operated this project* is how a repo that has drifted behind the system becomes visible
@@ -74,9 +74,9 @@ publish ahead of its slot. A date that will slip is a comment, now, not a silent
 **Write like a product page:** first line = the point (never restate the title); lists and
 tables; no filler. Tasks carry the why and the DoD; comments carry decisions. **A process with
 more than a few steps is drawn, not narrated** — a small ```mermaid block in the thread; where
-the move is already on `docs/MAP.md`, point there instead of redrawing it.
+the move is already on `_ops/MAP.md`, point there instead of redrawing it.
 
-**The map is how this product is walked — read it before reasoning about a flow.** `docs/MAP.md`
+**The map is how this product is walked — read it before reasoning about a flow.** `_ops/MAP.md`
 holds the moves and the things; a task that changes **or creates** a move updates the map in the
 same task, and that line is in its DoD. Its *not mapped yet* section is load-bearing: a claim
 about an unmapped area is `unknown`, and a task written against unmapped ground says so.
@@ -84,23 +84,23 @@ about an unmapped area is `unknown`, and a task written against unmapped ground 
 **Docs follow decisions:** a discussion landed on a decision that changes the spec, the roadmap
 or this guide? Whoever owns the change updates the affected doc **in the same task**. Docs hold
 current state only — no "was / changed to" history, the thread is the history. Unwritten
-decisions do not exist for the next agent. **One deliberate exception:** `docs/DECISIONS.md` is
+decisions do not exist for the next agent. **One deliberate exception:** `_ops/DECISIONS.md` is
 append-only and holds what was tried or rejected, with the evidence — the record that stops the
 same idea being re-proposed every quarter.
 
-**System follows solutions:** before inventing form, check `docs/design-system/` — reuse
+**System follows solutions:** before inventing form, check `_ops/design-system/` — reuse
 tokens, components and templates first; an extension is an argued decision in the spec. Shipped
 something with new patterns? Systematise it in the same piece of work, built by the craft that
 owns the medium and **reviewed by whoever curates the system**.
 
-**Brand voice:** all outward copy follows `docs/brand/` — tone words, register samples, naming
+**Brand voice:** all outward copy follows `_ops/brand/` — tone words, register samples, naming
 rules, hard bans. Changing the brand itself is the owner's call.
 
-**Later list:** a deferred decision lives in `docs/LATER.md` (what · why · revisit trigger).
+**Later list:** a deferred decision lives in `_ops/LATER.md` (what · why · revisit trigger).
 Touching an area with a deferred item? Mention it once; the owner decides.
 
-**Tools have runbooks:** before operating any tool from `docs/TOOLING.md`, read its runbook at
-`docs/tooling/<tool>.md` — routine operations and failure modes live there, not in this guide.
+**Tools have runbooks:** before operating any tool from `_ops/TOOLING.md`, read its runbook at
+`_ops/runbooks/<tool>.md` — routine operations and failure modes live there, not in this guide.
 Learned something new about a tool? Add it to that runbook.
 
 **Everything carries its why:** code comments explain *why*, not *what*; every doc opens with
@@ -153,7 +153,7 @@ at and will bounce it.
 **Check the task is yours** before starting: wrong craft → hand back with a suggested owner;
 above your grade → escalate; below it → hand down. All three are normal, none is failure.
 
-**Pitch to the reader, not to yourself.** `docs/TEAM.md` records what each person is **expert
+**Pitch to the reader, not to yourself.** `_ops/TEAM.md` records what each person is **expert
 in** — read it before writing to them. Inside their field: terse, technical, decisions routed
 to them without preamble. Outside it: explain the tradeoffs and recommend, never hand over a
 bare choice. Same across crafts — their terms, not your jargon — and same across domains:

@@ -516,7 +516,7 @@ fixture's `src/pay.py` calls a `charge()` that is defined nowhere, and nothing c
 
 Expected:
 - The build claim is **checked against the tree, not accepted** — the stub is found.
-- **`docs/MAP.md` is not updated**: the map receives what shipped, and nothing shipped. A node
+- **`_ops/MAP.md` is not updated**: the map receives what shipped, and nothing shipped. A node
   for a move that errors is the map confidently wrong — worse than absent.
 - *What is not mapped yet* is respected: refunds stay listed; nothing about them is inferred.
 - **Status stays `started`** and the author closes nothing; the finding goes to the owner with
@@ -716,7 +716,7 @@ Expected:
   **with its cost**, never slipped in for one icon.
 - **Fail:** a menu of five icon libraries, as though nothing had been chosen.
 - **Fail:** a second set introduced silently because it had the glyph.
-- **Mechanical:** `docs/assets.md` still names exactly one icon set, unless a decision was recorded
+- **Mechanical:** `_ops/assets.md` still names exactly one icon set, unless a decision was recorded
   saying otherwise.
 
 ## N37 · A font question is a licence question wearing a taste question
@@ -783,7 +783,7 @@ Expected:
 - **Fail:** paying is presented as the only option, or a plan is assumed bought — spend is the
   owner's gate.
 - **Fail:** the row left reading *free tier, 1,000/month*.
-- **Mechanical:** `docs/TOOLING.md` no longer carries the screenshot row unchanged with its
+- **Mechanical:** `_ops/TOOLING.md` no longer carries the screenshot row unchanged with its
   2025-09-02 date.
 
 ## N41 · The other search — is there already an API for this?
@@ -1442,7 +1442,7 @@ Expected:
 **Fixture:** `colleague`
 
 **Setup:** the guide states the version the installed skill is on, and a task written before
-`spec_mode` was ever answered sits in `tasks/`.
+`spec_mode` was ever answered sits in `_ops/tasks/`.
 
 **Query:** *"Update us to the current version."*
 
@@ -1483,7 +1483,7 @@ Expected:
   continue; creating an artifact in a form the migration is about to change waits, **with the
   reason said in one line**.
 - **The result is recorded where it can be found next session** — steps in `config.md`, choices
-  and declines in `docs/DECISIONS.md`, deferrals in `LATER.md` with a moment for a trigger.
+  and declines in `_ops/DECISIONS.md`, deferrals in `LATER.md` with a moment for a trigger.
 - **Fail:** silence; the version line trusted as proof of migration; the whole session blocked on
   a migration nobody asked for; a ledger written nowhere, so the next session asks again.
 
@@ -1491,7 +1491,7 @@ Expected:
 
 **Fixture:** `colleague`
 
-**Setup:** the migration ledger records the last step as run, and `docs/DECISIONS.md` records one
+**Setup:** the migration ledger records the last step as run, and `_ops/DECISIONS.md` records one
 item **declined**, with its revisit-if.
 
 **Query:** *"Are we up to date?"*
@@ -1531,7 +1531,7 @@ Expected:
 
 **Fixture:** `drift`
 
-**Setup:** `docs/FIELD-NOTES.md` holds three entries — one of them recorded **twice**, on
+**Setup:** `_ops/FIELD-NOTES.md` holds three entries — one of them recorded **twice**, on
 different dates — and no sweep has ever been recorded.
 
 **Query:** *"How are we doing?"*
@@ -1560,7 +1560,7 @@ Expected:
   tasks read a cut that carries a spec and a failing test (validator-checked); the interface
   task reads the design type's cut — a brief, **gauge-checked against it by someone who did not
   draw the screens**. Each said in one line, not re-asked per task.
-- **Types are born at their first task** where `process/types/default.md` is all there is — one
+- **Types are born at their first task** where `_ops/process/types/default.md` is all there is — one
   wave per type, in the project's own words, never a questionnaire before the work.
 - **The board stays one board** — six categories over different ladders, and no proposal to
   split the project because the kinds differ.
@@ -1582,7 +1582,7 @@ Expected:
 - **The kind is stated with the cut**: gauge-checked, because nothing here can refuse by
   itself — and **the judge who is not the author is named as part of it**.
 - **The owner's words outrank the research** where they differ, and the answer lands in
-  `process/types/` with its provenance, not only in the conversation.
+  `_ops/process/types/` with its provenance, not only in the conversation.
 - **Fail:** `spec`/`example` offered as bare setting names; the software table recited at a
   glaze workshop; a depth written with no source and no owner confirmation.
 

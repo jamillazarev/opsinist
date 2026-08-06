@@ -3,7 +3,7 @@
 **Load when:** writing a task, editing one, filing something that arrived from outside, or
 deciding what "done" will mean.
 
-**An id resolves to a path, and to nothing else.** `T-18` is `tasks/T-18.md` — open the file.
+**An id resolves to a path, and to nothing else.** `T-18` is `_ops/tasks/T-18.md` — open the file.
 **There is no task service to ask**, and where the runtime happens to ship one, it belongs to that
 session and not to this project → `runtimes.md`. **Measured `2026-07-31`:** told a routine was
 recorded in `T-18` and `T-21`, two runs in five called the harness's own `TaskGet` with those ids,
@@ -19,7 +19,7 @@ description — and it is the same test at every depth, because **subtasks are t
 
 ## The file
 
-One task, one file, in a **flat directory**: `tasks/T-8F3KQ2-billing-page.md`. The hierarchy is
+One task, one file, in a **flat directory**: `_ops/tasks/T-8F3KQ2-billing-page.md`. The hierarchy is
 a field, not a folder, so **re-parenting is a one-line edit** rather than a file move that
 breaks every link.
 
@@ -29,7 +29,7 @@ breaks every link.
 | `title` | text | the human handle. Duplicates are refused at creation |
 
 **The shape is a file, not a description of one → `templates/TASK-template.md`.** This table says what each field *means*; the template is what you copy, and a field skipped in a copied file leaves a hole somebody sees.
-| `type` | a file in `process/types/` — feature · bug · content · chore · migration · tooling | selects the **definition of done** and the default pipeline. A bug and an article do not run the same gates. Not a closed list: types are editable from day one |
+| `type` | a file in `_ops/process/types/` — feature · bug · content · chore · migration · tooling | selects the **definition of done** and the default pipeline. A bug and an article do not run the same gates. Not a closed list: types are editable from day one |
 | `stage` | a named step of this task's pipeline | **the only state field.** The pipeline declares which *category* each stage belongs to |
 | `stream` | `product` (default) · `system` | `system` is work on the project's own machinery, and it carries full history regardless of size → `self-maintenance.md` |
 | `assignee` | a role, a human, or a group | **a group means "not yet decided who"** — legitimate on a parent, a finding on a leaf |
@@ -37,7 +37,7 @@ breaks every link.
 | `priority` | `none` (default) · `low` · `medium` · `high` · `urgent` | opt-in, see below |
 | `start` · `due` | dates | **a start date gates the whole task, preparation included** |
 | `release` · `milestone` | ids | grouping → `grouping.md` |
-| `labels` | list | filtering; the taxonomy lives in `process/labels.md`. **Never label the stage** — it is a field |
+| `labels` | list | filtering; the taxonomy lives in `_ops/process/labels.md`. **Never label the stage** — it is a field |
 | `area` | declared `select` | which part of a monorepo this touches |
 | `created` · `updated` | dates | audit and staleness |
 | `created_by` | human · agent | provenance: who put this in the world. **Who *changed* it is git's job**, read from the commit trailer — a declared field for that would rot the first time someone forgot it |
@@ -234,7 +234,7 @@ never substitutes for the review, it clears the ground so the review is about ju
 
 **A task names what must exist afterwards, and where each thing lands.** The outcome says when it
 is done; the deliverables say **what the world contains once it is** — files at paths the manifest
-allows, a node on `docs/MAP.md`, a doc updated, evidence in the thread. **Done is checked against
+allows, a node on `_ops/MAP.md`, a doc updated, evidence in the thread. **Done is checked against
 that list, never against the feeling of doneness**: each named thing exists at its named place,
 the evidence is embedded where the discussion happened (`writing-for-humans.md`), the review came
 back from a non-author, and only then does acceptance move the status. **A task that names no

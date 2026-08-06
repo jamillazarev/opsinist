@@ -122,7 +122,7 @@ who gets the work and at which tier, and never enters an agent's instructions as
 **aggregation rule**. **No leader** — routing and aggregation are what the leader used to be.
 A role may not be in two teams. → `addressing.md`
 
-**panel** *(a "cohort" before 0.1.20)* — **who answers when you ask the audience**: a named
+**panel** *(a "cohort" before 0.2.0)* — **who answers when you ask the audience**: a named
 composition of experts, personas and humans for one run, with a required **`made_of`**
 (`synthetic` · `live` · `mixed`) that decides what the system may claim about the result.
 **Not an analytics cohort** — retention groups by signup week live in the product's metrics,
@@ -230,7 +230,7 @@ convenience. → `storing.md`
 existence**: unattached is a normal state. Attachment lives on the role, never on the skill.
 → `skills.md`
 
-**chapter** *(called a "companion" before 0.1.20 — same thing, clearer name)* — a loadable
+**chapter** *(called a "companion" before 0.2.0 — same thing, clearer name)* — a loadable
 part of this skill, **named for its trigger** ("when X happens, read Y"), never for its topic.
 Not a template and not a role: a template (`templates/`) is *copied into a project* when an
 entity is born; a chapter is *read by the agent* when its trigger fires. A rule has one home;
@@ -242,8 +242,8 @@ type's *ready when* met — held at the door into `started` by whoever picks the
 type's craft gates, made concrete by the task's own acceptance criteria and deliverables.
 Collapse them and work starts unstartable and finishes undone. → `writing-work.md`
 
-**architecture map · product map** — two maps, two questions. `docs/ARCHITECTURE.md`: where the
-implementation lives, a worker's map of the tree. `docs/MAP.md`: how the product is walked — the
+**architecture map · product map** — two maps, two questions. `_ops/ARCHITECTURE.md`: where the
+implementation lives, a worker's map of the tree. `_ops/MAP.md`: how the product is walked — the
 moves and the things. Reasoning about a flow from the architecture map lands a change in the
 right file and the wrong journey. → `mapping.md`
 

@@ -93,7 +93,7 @@ by a validator against the ledger; *"stop"* is not. Whatever remains prose goes 
 **Resolved `2026-07-31`, all three parts.** `cost.md` reads *"warn at a share, **refuse the next
 dispatch** at the cap"*; the unperformable half is named in the `prose-only` list where it had
 been missing while reading as a gate; **and the performable half is code** —
-`templates/company-preflight.sh` §12 refuses a commit that records spend while `docs/BUDGET.md`
+`templates/company-preflight.sh` §12 refuses a commit that records spend while `_ops/BUDGET.md`
 sits at or past its pause threshold.
 
 **Verified by mutation, in both directions, because a gate that cannot fail is not a gate:**
@@ -212,9 +212,9 @@ tool's headless mode, given the task file, writing its result into the same repo
 
 **Checked live, `2026-07-31`, and the claim splits cleanly in two.**
 
-**The pattern is real, and it was measured end to end.** A repository with `tasks/T-1.md` carrying
+**The pattern is real, and it was measured end to end.** A repository with `_ops/tasks/T-1.md` carrying
 a definition of done, a stub in `src/export.py`, and a thread line saying the result lands as a
-commit. A headless subprocess was handed nothing but *"read `tasks/T-1.md` and do what its
+commit. A headless subprocess was handed nothing but *"read `_ops/tasks/T-1.md` and do what its
 definition of done says"* — no explanation of the system, no corpus. It edited the code correctly,
 **appended its own run line to the task's thread**, and set the status. **The repository was the
 entire channel**, exactly as claimed: brief in, result out, no shared session, no mailbox, nothing

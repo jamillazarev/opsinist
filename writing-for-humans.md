@@ -26,7 +26,7 @@ or three steps — a flow being proposed, a handoff sequence, how a change trave
 fenced ```mermaid block in the thread, because five sentences about ordering hide the fork that a
 five-node drawing makes unmissable, and the block renders wherever the thread is read — the git
 host, a vault, Notion — with no plugin (`project-layout.md`). Two bounds keep this from becoming
-decoration: **where the move already lives on the product map, point at `docs/MAP.md` instead of
+decoration: **where the move already lives on the product map, point at `_ops/MAP.md` instead of
 redrawing it** — a second drawing is a second source of truth — and a thread's sketch is working
 material, which climbs to the map only by shipping (`mapping.md`).
 
@@ -199,7 +199,7 @@ it. A bare choice handed over, which is forbidden even between agents.
 > **Flips if:** we open an EU entity this year — then Stripe's lower fee wins. If that is likely,
 > this is not decided yet, and what settles it is the entity question, not more comparison.
 >
-> On yes: one line in `docs/DECISIONS.md`, revisit-if included.
+> On yes: one line in `_ops/DECISIONS.md`, revisit-if included.
 
 **The recommendation is first, every cell is fetched and dated, and the *flips-if* line is the
 "survives being wrong" check made visible** (`SKILL.md`, the decision loop). Where the runtime has

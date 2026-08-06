@@ -14,12 +14,13 @@ import sys
 from pathlib import Path
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
-MAP = ROOT / "docs" / "MAP.md"
+MAP = (ROOT / "_ops" / "MAP.md") if (ROOT / "_ops").is_dir() else (ROOT / "docs" / "MAP.md")
 LIVE = {"started", "review", "in review", "doing"}   # categories that mean "on it now"
 
 
 def tasks():
-    for f in sorted((ROOT / "tasks").glob("*.md")) if (ROOT / "tasks").is_dir() else []:
+    tdir = (ROOT / "_ops" / "tasks") if (ROOT / "_ops" / "tasks").is_dir() else (ROOT / "tasks")
+    for f in sorted(tdir.glob("*.md")) if tdir.is_dir() else []:
         text = f.read_text(encoding="utf-8", errors="replace")
         m = re.search(r"^\*{0,2}Touches\*{0,2}\s*:\s*(.+)$", text, re.M | re.I)
         if not m:

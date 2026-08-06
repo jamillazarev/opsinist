@@ -6,11 +6,11 @@ card — the fields below are what good ones share, whatever the cover says. **W
 exists, its format wins and this file is not used.**
 
 **The id is minted, never invented** — `scripts/new-id.py`, prefix `S-`; the file lives at
-`docs/specs/` unless the binding says otherwise. **Delete the optional sections the craft does
+`_ops/specs/` unless the binding says otherwise. **Delete the optional sections the craft does
 not need — a heading over an empty body is worse than no heading**, and the preflight refuses
 templates shipped as content.
 
-**Covers**: {{one line}} · **Touches**: {{map nodes this changes or creates → `docs/MAP.md`}}
+**Covers**: {{one line}} · **Touches**: {{map nodes this changes or creates → `_ops/MAP.md`}}
 **Opportunity**: {{the need this closes, named from the research chain, with the insight it
 stands on cited to its place — **and the segment it belongs to, where the craft has them** —
 a solution with no opportunity above it is the miss the tree exists to show →

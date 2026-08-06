@@ -47,8 +47,8 @@ carry away the opposite rule.
 **And it is not a list of what may be invented.** Dropping the discovery pass drops the
 *procedure*, never the *input*.
 
-**Where that input is already written down, it is read — not asked for.** `docs/assets.md`,
-`docs/TOOLING.md`, `docs/design-system/`, `docs/DECISIONS.md`, `sources/`: **a quick job skips
+**Where that input is already written down, it is read — not asked for.** `_ops/assets.md`,
+`_ops/TOOLING.md`, `_ops/design-system/`, `_ops/DECISIONS.md`, `sources/`: **a quick job skips
 discovery, never the project's own record.** Four files cost less than one wrong question, and a
 question the register already answers reads as not having looked — because it is. **Measured
 twice, on the same fixture:** asked for stock photos in a project whose register held a

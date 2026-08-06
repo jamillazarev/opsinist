@@ -66,8 +66,8 @@ This split matters, because collapsing it is what makes team-level overrides imp
 
 | | Owns |
 |---|---|
-| **type** (`process/types/*.md`) | the **definition of done**, the **default pipeline**, and the **default cut on the description ladder** (`writing-work.md`) |
-| **pipeline** (`pipelines/*.md`) | the **stages** and the **gates** |
+| **type** (`_ops/process/types/*.md`) | the **definition of done**, the **default pipeline**, and the **default cut on the description ladder** (`writing-work.md`) |
+| **pipeline** (`_ops/pipelines/*.md`) | the **stages** and the **gates** |
 
 A bug and an article genuinely have different definitions of done, so the DoD belongs to the
 type. But the design team wanting *everything it touches* to run the design ladder is a statement
@@ -103,7 +103,7 @@ questionnaire at setup, the same law as no roster before a task needs a craft.
 recommended bars arrive **sourced from the craft's own standards**: empty options hand the
 research to the owner, and researched silence guesses their taste — the wave does neither. The
 answers — the bars, and **the type's cut on the description ladder** (`writing-work.md`) — land
-in `process/types/<type>.md` (`templates/TYPE-template.md`) with their provenance,
+in `_ops/process/types/<type>.md` (`templates/TYPE-template.md`) with their provenance,
 and hold **until the owner asks — or the bar itself accumulates the evidence and proposes its own
 change** (`checking.md`), never silently: the bar is a locked surface.
 

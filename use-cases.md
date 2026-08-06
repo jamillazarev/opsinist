@@ -47,6 +47,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "I just have a question" | *"what do you make of X?"* | an answer, and **nothing is created** |
 | "I want it to interview me properly" | *"ask me what you need"* | progressive — defaults everywhere, and only two questions have none |
 | "I don't know what I'm building yet" | *"help me think about it"* | consulting, and it turns into a project only when you say so |
+| "My project is on the old flat layout" | *"migrate the layout"* | `migrate-layout.py` — every move a `git mv`, the hook and `.gitignore` follow, and anything it does not recognise stays put, named |
 
 ## Day to day
 
@@ -76,7 +77,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "The build just found a hole in the spec" | *"the spec assumed X and it's false"* — the gap is named to its place and **the artefact's owning group gets the request**; a fix task is born there, the build takes `blocked_by` or narrows and says so → `escalating.md` |
 | "I don't want everyone to see this at once" | *"roll it out quietly"* — the release names its rollout: soft · canary · staged · flag-gated · shadow — **guardrails own the halt, the kill switch is named first, expansion never advances itself** → `shipping.md` |
 | "Which survey do we attach to this?" | *"what should we ask, and when?"* — the instrument matches the layer: effort at the step, the scenario after it closes, the software quarterly, the brand twice a year — **and one layer read with another's tool is the trap** → `catalogue.md` |
-| "Remember this — always do it this way" | *"remember: we never ship on Fridays"* — the rule is routed to where workers read: **a guide line, a COMPANY.md word, a decision, a register entry** — named back to you, never left in the chat's memory → `checking.md` |
+| "Remember this — always do it this way" | *"remember: we never ship on Fridays"* — the rule is routed to where workers read: **a guide line, an ABOUT.md word, a decision, a register entry** — named back to you, never left in the chat's memory → `checking.md` |
 | "Break this big thing up" | *"split the checkout flow"* — parallel children share a **wave**, and the next one waits |
 | "Run these two at once" | *"do both"* — they never own the same file, decided at decomposition |
 | "Three people told me the same thing" | *"users say the transfer screen is confusing"* — filed as **triage, marked recalled**, not designed off memory |
@@ -98,8 +99,8 @@ are shortcuts for when you already know the name — **both columns do the same 
 
 | Situation | Just say | What holds |
 |---|---|---|
-| "How does anyone get from signup to paying?" | *"show me the map"* | `docs/MAP.md` answers — and where it cannot, that is a gap written as one, not a guess |
-| "We keep redesigning the same flow" | *"what does the map say, and what did we decide?"* | the map holds the current move; `docs/DECISIONS.md` holds why the last redesign was rejected |
+| "How does anyone get from signup to paying?" | *"show me the map"* | `_ops/MAP.md` answers — and where it cannot, that is a gap written as one, not a guess |
+| "We keep redesigning the same flow" | *"what does the map say, and what did we decide?"* | the map holds the current move; `_ops/DECISIONS.md` holds why the last redesign was rejected |
 | "Where did you get that?" | *"source?"* | named, with a date — or said plainly to be a judgement call |
 | "Was that price still true?" | *"check it"* | recorded facts carry check-dates and are re-verified before a decision |
 | "Would users like this?" | *"what would users think?"* | **angles from synthetics, never percentages** — and you're told so before anything runs |

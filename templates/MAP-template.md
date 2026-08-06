@@ -8,7 +8,7 @@ points at nodes it will change; nothing planned is drawn here.
 
 ## The moves
 
-{{One line per top-level move; a move that outgrows its section becomes `docs/map/<move>.md` and
+{{One line per top-level move; a move that outgrows its section becomes `_ops/map/<move>.md` and
 keeps one line here.}}
 
 ### {{move, in the product's own words — "order to pickup", not "checkout funnel"}}

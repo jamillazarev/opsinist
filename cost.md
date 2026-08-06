@@ -164,7 +164,7 @@ here for months and **nothing could perform it**: no runtime exposes a spend gat
 in flight cannot be halted from outside, and on a subscription the authoritative number is the
 harness's, not ours. What **is** performable is the check between runs — the ledger's total
 against the cap, before the next dispatch — and **that one is now a validator**: with the
-preflight wired, a commit that records spend while `docs/BUDGET.md` reads at or past the pause
+preflight wired, a commit that records spend while `_ops/BUDGET.md` reads at or past the pause
 threshold is refused (§12). It stays quiet on an unfilled template and on a commit that touches
 nothing spend-shaped, because a gate that cries wolf is a gate people bypass.
 

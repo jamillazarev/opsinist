@@ -24,6 +24,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/fetch-source.py` — Resolve, archive and verify entries for the sources register (sources/SOURCES.md)
 - `scripts/inventory.py` — A deterministic inventory of a tree — the map of the territory, never the territory
 - `scripts/map-blocks.py` — Regenerate the map's `touched by:` blocks from the tasks' own declarations
+- `scripts/migrate-layout.py` — Move a pre-0.2.0 flat project into the `_ops/` layout — as history, not as loss
 - `scripts/new-id.py` — Mint an entity id that is not already taken
 - `scripts/transition.py` — The one door a stage change goes through (pipelines.md)
 
@@ -40,6 +41,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-company-preflight.sh` — The bypass net (§14) exercised end to end: a hand-flipped stage in a staged commit is
 - `scripts/test-inventory.sh` — The inventory's three promises, exercised: identical twice, guest-safe, honest off git
 - `scripts/test-map-blocks.sh` — The touched-by executor exercised: blocks generated, only markers rewritten, and two live
+- `scripts/test-migrate-layout.sh` — The 0.2.0 layout migrator exercised on a flat 0.1.x fixture: history-preserving
 - `scripts/test-transition.sh` — The transition door, exercised end to end on a throwaway fixture — same habit as
 
 ## Behavioural scenarios

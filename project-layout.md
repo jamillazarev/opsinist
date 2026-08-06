@@ -12,47 +12,51 @@ deliberate about.
 
 ```
 your-project/
-  CLAUDE.md      # the generated guide — from docs/ + process/
-  config.md      # adapter · conventions · spec_mode · the migration ledger
+  <your own files>      # code, content, whatever the craft makes — untouched
+  CLAUDE.md             # the generated guide — the one file runtimes need at the root
+  .claude/              # generated runtime wiring (agents) — fixed location
 
-  tasks/         # flat; hierarchy is a field, not a folder
-  roles/         # one file per role → .claude/agents/
-  teams/         # members · routing rule · aggregation
-  panels/       # named compositions for a run
-  pipelines/     # stages · gates on transitions · starts
-  requests/      # open asks, each with its age
-  releases/      # shipments — and beside them:
-  milestones/    #   checkpoints, orthogonal to releases
-  automations/   # trigger · template · contract
-  resources/     # places to look, each with its why
-  skills/        # the pool; attachment lives on the role
+  _ops/                 # everything the machinery owns, one door, first in any listing
+    config.md           # adapter · conventions · spec_mode · the migration ledger
+    ABOUT.md            # always-loaded: what this is, for whom, the vocabulary
+    DECISIONS.md        # append-only decision record
+    LATER.md            # deferred, each with a revisit moment
+    BACKLOG.md          # the one hand-kept ordering surface
+    MAP.md              # the product as moves and things
+    ARCHITECTURE.md     # where the implementation lives
+    BUDGET.md           # the envelope, stated as shares
+    ECONOMICS.md        # what the product earns and costs
+    TOOLING.md          # the register: every wired tool, its ceiling
+    TEAM.md             # the roster — generated, never hand-kept
+    FIELD-NOTES.md      # friction, recorded where it happens
 
-  process/
-    types/       # per kind of work: definition of done · pipeline
-    labels.md    # the label taxonomy, with what each means
-    gates.md     # named gates a pipeline may cite
-    grants.md    # loosenings that expire by their own terms
+    tasks/              # flat; hierarchy is a field, not a folder
+    specs/              # the spec rung's documents, unless a binding says otherwise
+    roles/              # one file per role → .claude/agents/
+    teams/              # members · routing rule · aggregation
+    panels/             # who answers when you ask the audience
+    pipelines/          # stages · gates on transitions · starts
+    requests/           # open asks, each with its age
+    releases/           # shipments — and beside them:
+    milestones/         #   checkpoints, orthogonal to releases
+    automations/        # trigger · template · contract
+    resources/          # places to look, each with its why
+    skills/             # the pool; attachment lives on the role
+    scripts/            # the project's own helpers, grown as you go
+    runbooks/           # how to operate a wired thing, kept out of the guide
+    research/           # studies and their distillates
+    audience/           # segments, personas, their grounding
+    design-system/      # tokens, components, their rules
+    brand/              # voice, identity, what may not bend
 
-  docs/
-    COMPANY.md   # always-loaded: what this is, for whom
-    DECISIONS.md # append-only decision record
-    LATER.md     # deferred, each with a revisit moment
-    BACKLOG.md   # the one hand-kept ordering surface
-    MAP.md       # the product as moves and things
-    BUDGET.md    # the envelope, stated as shares
-    ECONOMICS.md # what the product earns and costs
-    ARCHITECTURE.md   # where the implementation lives
-    TOOLING.md   # the register: every wired tool, its ceiling
-    TEAM.md      # the roster — generated, never hand-kept
-    FIELD-NOTES.md    # friction, recorded where it happens
-    tooling/     # runbooks, kept out of the guide
-    research/    # studies and their distillates
-    audience/    # segments, personas, their grounding
-    design-system/    # tokens, components, their rules
-    brand/       # voice, identity, what may not bend
+    process/
+      types/            # per kind of work: definition of done · pipeline
+      labels.md         # the label taxonomy, with what each means
+      gates.md          # named gates a pipeline may cite
+      grants.md         # loosenings that expire by their own terms
 
-  scripts/       # a handful of helpers, extended as you go
-  .index/        # derived caches — gitignored, rebuildable
+    .index/             # derived caches — gitignored, rebuildable
+    .checkout           # the live tree's holder — gitignored, read by arrival
 ```
 
 ---
@@ -63,7 +67,7 @@ your-project/
 re-parenting is a one-line edit** instead of a move that breaks every inbound link. Links point at
 ids, so renames are safe.
 
-**`docs/` opens as a vault.** Relative links and diagrams, readable both on the host and in a local
+**`_ops/` opens as a vault.** Relative links and diagrams, readable both on the host and in a local
 editor. With the repository open in one, the generated board **is** a live board — with two
 caveats worth stating: do not keep a generated file open in edit mode during a regeneration, and
 query plugins refresh on their own cadence.
@@ -75,7 +79,7 @@ board, roster, progress, children lists, changelog, analytics. **A view, never a
 derived, disposable, and losing it costs nothing. That is why it may be JSON and outside git while
 everything else is not.
 
-**`CLAUDE.md` is generated, not hand-written.** Its sources are `docs/COMPANY.md`, `process/` and
+**`CLAUDE.md` is generated, not hand-written.** Its sources are `_ops/ABOUT.md`, `_ops/process/` and
 the conventions. **Every worker loads it natively**, which is why a thousand tokens added to it is
 a thousand tokens on every run of every role, forever.
 
@@ -152,18 +156,18 @@ shape each time produces a document only its author can read.
 |---|---|
 | the project guide | `templates/GUIDE-template.md` |
 | `config.md` | `templates/CONFIG-template.md` |
-| `docs/FIELD-NOTES.md` | `templates/FIELD-NOTES-template.md` |
-| `docs/ARCHITECTURE.md` | `templates/ARCHITECTURE-template.md` |
-| `docs/MAP.md` | `templates/MAP-template.md` |
-| `process/types/<type>.md` | `templates/TYPE-template.md` |
-| `docs/DECISIONS.md` | `templates/DECISIONS-template.md` |
-| `docs/ROADMAP.md` | `templates/ROADMAP-template.md` |
+| `_ops/FIELD-NOTES.md` | `templates/FIELD-NOTES-template.md` |
+| `_ops/ARCHITECTURE.md` | `templates/ARCHITECTURE-template.md` |
+| `_ops/MAP.md` | `templates/MAP-template.md` |
+| `_ops/process/types/<type>.md` | `templates/TYPE-template.md` |
+| `_ops/DECISIONS.md` | `templates/DECISIONS-template.md` |
+| `_ops/ROADMAP.md` | `templates/ROADMAP-template.md` |
 | **a task** → `writing-work.md` | **`templates/TASK-template.md`** |
 | **a role** → `hiring.md` | **`templates/ROLE-template.md`** |
 | **a run record** → `dispatching.md`, `cost.md` | **`templates/RUN-template.md`** |
-| `docs/TEAM.md` | `templates/TEAM-template.md` |
-| `docs/TOOLING.md` | `templates/TOOLING-template.md` |
-| `docs/BUDGET.md` | `templates/BUDGET-template.md` |
+| `_ops/TEAM.md` | `templates/TEAM-template.md` |
+| `_ops/TOOLING.md` | `templates/TOOLING-template.md` |
+| `_ops/BUDGET.md` | `templates/BUDGET-template.md` |
 | a brand definition | `templates/BRAND-template.md` |
 | a design-system component | `templates/COMPONENT-template.md` |
 | a persona role → `audience.md` | `templates/PERSONA-template.md` |
@@ -184,7 +188,7 @@ consequence without being able to prevent it: *a run recorded by the worker itse
 sentence where four numbers belong, which is how a ledger quietly becomes prose.*
 
 **The last row is the only one that is not a document, and it is the one that must actually be
-run.** Copied to `scripts/preflight.sh` and wired with `bash scripts/preflight.sh --install`, it
+run.** Copied to `_ops/scripts/preflight.sh` and wired with `bash _ops/scripts/preflight.sh --install`, it
 is what makes three of this system's rules real in this project: a task cannot reach a terminal
 status in the same commit that edits its own bar, an entitlement cannot be claimed with nothing
 behind it, and the decisions log cannot be rewritten. **Un-wired, all three are `prose-only`
@@ -196,8 +200,8 @@ one line in the guide**, because the next agent has no way to tell by looking.
 
 ## Starting small
 
-**Not all of this appears on day one.** A new project gets `CLAUDE.md`, `config.md`, `tasks/`,
-`roles/` with one advisor, `process/types/` and the parts of `docs/` the interview actually named.
+**Not all of this appears on day one.** A new project gets `CLAUDE.md`, `_ops/config.md`, `_ops/tasks/`,
+`_ops/roles/` with one advisor, `_ops/process/types/` and the parts of `_ops/` the interview actually named.
 
 **The rest appears when something needs it** — the same rule as hiring. A directory created in
 advance is a guess, and an empty one is a question every reader has to answer for themselves.

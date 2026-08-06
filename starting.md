@@ -116,15 +116,15 @@ measured.**
 | Created now | Why it cannot wait |
 |---|---|
 | **the project guide**, generated into the root instruction file | every worker loads it natively; without it nothing that follows is read |
-| **`config.md`** — the git-host adapter, `schema_version`, and **the migration log opened with its first line** (`— → <version> · <date> · applied · <who>`) | a project born without the log reads forever as one that was never migrated → `upgrading.md` |
+| **`_ops/config.md`** — the git-host adapter, `schema_version`, and **the migration log opened with its first line** (`— → <version> · <date> · applied · <who>`) | a project born without the log reads forever as one that was never migrated → `upgrading.md` |
 | **the pre-commit guard** | it is what makes every other check real rather than stated |
 | **branch protection where a remote exists** | a review gate without it is a sentence, not a gate |
 
 **And the first task — which comes *before* the rest of the machinery, not after it.**
 
-**Everything else arrives when it has something to hold.** `docs/DECISIONS.md` at the first
-decision · `LATER.md` at the first deferral · `docs/TEAM.md` at the first role · `docs/ROADMAP.md`
-when there is a roadmap · `docs/FIELD-NOTES.md` at the first friction or the first sweep · the
+**Everything else arrives when it has something to hold.** `_ops/DECISIONS.md` at the first
+decision · `_ops/LATER.md` at the first deferral · `_ops/TEAM.md` at the first role · `_ops/ROADMAP.md`
+when there is a roadmap · `_ops/FIELD-NOTES.md` at the first friction or the first sweep · the
 process files when a task needs a ladder or a gate. **A document created before it has content is
 a file the owner has to read past for the rest of the project's life.**
 
@@ -137,8 +137,8 @@ under ninety seconds. **The cost was building a project's worth of scaffolding b
 project.** An owner who came to write code spent that time watching documents be created for
 things that did not exist yet — a `TEAM.md` before a team, a `ROADMAP.md` before a roadmap.
 
-**A hook holds the order**: while no task file exists, writes into `docs/`, `process/` and
-`roles/` are refused, and the refusal names the first task as the thing to do instead. The
+**A hook holds the order**: while no task file exists, writes into `docs/`, `_ops/process/` and
+`_ops/roles/` are refused, and the refusal names the first task as the thing to do instead. The
 outputs of *reading* a repository — the architecture note, the product map, a debt list — are
 exempt, because a takeover produces those before it has any tasks at all.
 

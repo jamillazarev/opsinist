@@ -154,7 +154,7 @@ somebody else's history, reviewed by people it does not concern, carried in a cl
 anywhere else. **The path is stated in the reply** rather than left to be discovered.
 
 **The dividing line, because the two logs look alike:** friction **in this project** is a field
-note and lives in its repository (`docs/FIELD-NOTES.md`); friction **in the system operating it**
+note and lives in its repository (`_ops/FIELD-NOTES.md`); friction **in the system operating it**
 is this package and lives outside. *Whose defect is it* decides where it is written — and it is
 the same rule that keeps a guest's record out of a maintainer's tree (`entering.md`).
 
@@ -180,8 +180,8 @@ that survived a suite of measured repairs, and the failures are more instructive
 
 **What worked, and why:**
 
-- **A list of paths, placed before the alternative.** *"Read `docs/assets.md`, `docs/TOOLING.md`,
-  `docs/DECISIONS.md`"* — set physically above the rule that says *ask the owner* — changed a run
+- **A list of paths, placed before the alternative.** *"Read `_ops/assets.md`, `_ops/TOOLING.md`,
+  `_ops/DECISIONS.md`"* — set physically above the rule that says *ask the owner* — changed a run
   that had twice asked about a brand its own register described. The earlier attempt at the same
   fix was a clause in a law paragraph, and it changed nothing.
 - **A field whose cheap answer is impossible to write.** A form asking *what was checked, and

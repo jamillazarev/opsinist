@@ -3,8 +3,8 @@
 **Load when:** explaining how the product works, building or changing a flow, arriving somewhere
 whose flows nobody wrote down, or answering "how does anyone get from here to there".
 
-**A project carries two maps, and they answer different questions.** `docs/ARCHITECTURE.md` says
-where the implementation lives — a worker's map of the tree. **`docs/MAP.md` says how the product
+**A project carries two maps, and they answer different questions.** `_ops/ARCHITECTURE.md` says
+where the implementation lives — a worker's map of the tree. **`_ops/MAP.md` says how the product
 is walked** — the routes through it and the things it is made of. Reasoning about a flow from the
 architecture map is how a change lands in the right file and the wrong journey.
 
@@ -47,8 +47,8 @@ written down instead of evaporating with the session (`entering.md`). **A mappin
 standing task to "map the product" — is the smell**, the same one as a team assembled before the
 work: a guess about the work, in cartography form.
 
-**One file, until it outgrows one file.** `docs/MAP.md` holds the index — the top-level moves, one
-line each, and the things. A move that outgrows its section becomes `docs/map/<move>.md` and the
+**One file, until it outgrows one file.** `_ops/MAP.md` holds the index — the top-level moves, one
+line each, and the things. A move that outgrows its section becomes `_ops/map/<move>.md` and the
 index keeps one line pointing at it. Small stays small here too.
 
 ---
@@ -59,7 +59,7 @@ index keeps one line pointing at it. Small stays small here too.
 |---|---|---|
 | a task's working flow | **the task body** — a draft, owned by the work | it does not, until the work is accepted |
 | a feature's flow | the map — a section or its own file | **in the same task that changed the behaviour** |
-| the product map | `docs/MAP.md`, the index | always current, never planned |
+| the product map | `_ops/MAP.md`, the index | always current, never planned |
 
 **A task that touches a move names its nodes — the ones it changes *and* the ones it will
 create.** Extending the product is the ordinary case, not the edge: a feature is usually new
@@ -111,7 +111,7 @@ Honesty about enforcement, per the usual scale (`permissions.md`):
 - **fence and reachability** — a split-out move file nothing points at, a mermaid fence left open:
   `enforced_by: validator` where the project wires the guard, `prose-only` where it does not.
 - **the map edit in the DoD** — `enforced_by: request`: the review is the gate, and the reviewer
-  is looking at a diff that changed behaviour without touching `docs/MAP.md`.
+  is looking at a diff that changed behaviour without touching `_ops/MAP.md`.
 - **node truth** — that every node still names something real is `prose-only`, and it is the audit
   that walks it (`checking.md`): the same sweep that finds a stale architecture map finds a node
   whose referent is gone.
