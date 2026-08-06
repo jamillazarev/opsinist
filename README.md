@@ -13,6 +13,8 @@
   <a href="https://ai.jamillazarev.com/skills/opsinist"><img alt="docs" src="https://img.shields.io/badge/docs-ai.jamillazarev.com-black"></a>
   <a href="https://github.com/jamillazarev/opsinist/releases/latest"><img alt="release" src="https://img.shields.io/github/v/release/jamillazarev/opsinist?label=release&amp;color=black"></a>
   <a href="LICENSE"><img alt="license" src="https://img.shields.io/github/license/jamillazarev/opsinist?label=license&amp;color=black"></a>
+  <a href="https://github.com/jamillazarev/opsinist/actions/workflows/preflight.yml"><img alt="preflight" src="https://github.com/jamillazarev/opsinist/actions/workflows/preflight.yml/badge.svg"></a>
+  <a href="https://ai.jamillazarev.com/skills/opsinist/coverage"><img alt="coverage map" src="https://img.shields.io/badge/coverage-map-black"></a>
 </p>
 
 ---

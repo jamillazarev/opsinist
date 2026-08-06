@@ -243,6 +243,51 @@ def main():
                 f"question for the owner, the outcome word for that is `deferred`.\n")
         sys.exit(0)
 
+    # PostToolUse · the investigation spiral named at the moment it is happening. Measured
+    #   (the N=5 suite): every remaining void was a player burning its turns on ls/grep
+    #   archaeology and never dispatching — N74-4 died at turn 21 inside `ls -la`. The exit
+    #   is a reflex — *stop investigating, start the wave* — and a reflex is delivered at
+    #   the moment, once, never as a nag (§21). Read-only calls increment a counter; any
+    #   write, dispatch or transition resets it; at the threshold one message arrives and
+    #   the counter retires for the session.
+    if event == "PostToolUse":
+        import hashlib
+        sid = payload.get("session_id", "") or payload.get("transcript_path", "") or "s"
+        base = os.path.join("/tmp", "opsinist-spiral-"
+                            + hashlib.sha256(sid.encode()).hexdigest()[:8])
+        spoke, cnt = base + ".spoke", base + ".n"
+        READONLY = {"Read", "Glob", "Grep", "LS", "WebFetch", "WebSearch"}
+        resets = tool in ("Write", "Edit", "NotebookEdit", "Task", "TodoWrite")
+        ro = tool in READONLY or (tool == "Bash" and re.match(
+            r"\s*(ls|find|grep|rg|cat|head|tail|wc|tree|git (log|status|diff|show))\b",
+            str(tin.get("command", ""))))
+        try:
+            if resets:
+                open(cnt, "w").write("0")
+            elif ro and not os.path.exists(spoke):
+                n = 0
+                if os.path.exists(cnt):
+                    try:
+                        n = int(open(cnt).read().strip() or 0)
+                    except Exception:
+                        n = 0
+                n += 1
+                open(cnt, "w").write(str(n))
+                if n >= 12:
+                    open(spoke, "w").write("1")
+                    print(json.dumps({"hookSpecificOutput": {
+                        "hookEventName": "PostToolUse",
+                        "additionalContext":
+                            "Opsinist (dispatching.md): twelve read-only calls and nothing "
+                            "written, dispatched or transitioned — this is the investigation "
+                            "spiral the run book names. Stop digging: say what you know, "
+                            "start the wave (a task, a dispatch), or ask the one question "
+                            "that is actually blocking. This note arrives once."}}))
+                    sys.exit(0)
+        except Exception:
+            out()
+        out()
+
     # The guard against a hook and a model arguing forever. `stop_hook_active` is honoured
     # first — and it is **not** sufficient on its own: measured 2026-08-01, runs were blocked
     # twice with that flag never arriving, so the second guard counts our own refusals in the

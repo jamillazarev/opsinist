@@ -1093,3 +1093,25 @@ through, no stamp was written.** Consequences, stated where they belong: a hook-
 reading of N77's zero stays class 3; `runtimes.md` now carries the mode caveat. The gate
 itself is tested green in its own suite (76 checks) and holds where PreToolUse fires;
 interactive-mode firing is the next thing to measure, not to assume.
+
+---
+
+## 2026-08-07 · the spiral got its form, and two traps got names
+
+**The anti-spiral is a PostToolUse hook now, not a hope**: twelve consecutive read-only calls
+with nothing written, dispatched or transitioned → one `additionalContext` note — *stop
+digging: say what you know, start the wave* — then the counter retires for the session (§21:
+once, never a nag). Any write, dispatch or transition resets it. Four cases in the gate suite
+(80 checks, green): silent before the threshold, speaks at it, never twice, a write resets.
+
+**Two traps found on the way, both now in the tests' own bones**: BSD `find -delete` on the
+`/tmp` *symlink* is a silent no-op — the suite's cleanup never cleaned, stale `.spoke` stamps
+made a working hook look dead for an hour; cleanup now resolves the physical path. And **the
+CI badge had been red since 0.1.14** — ubuntu's GNU sed refusing the suites' BSD `-i ''` —
+the workflow now runs on macOS, the same tools the release ritual runs on, and gained the
+link check and the gate suite as steps.
+
+**The interactive PreToolUse measurement stays owed**: a pty-wrapped probe hung before the
+first Edit (no stamp, no edit — inconclusive in both directions). One manual minute closes
+it: open `claude` in an operated tree, ask for a product-surface edit, and see the role gate
+speak — or not, and `runtimes.md` widens its caveat.

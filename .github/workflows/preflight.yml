@@ -1,9 +1,19 @@
-# Same checks as the local pre-commit hook, enforced on every push/PR.
+# The badge is honest exactly because this is the same gate a release runs locally:
+# scripts/preflight.sh executes every shipped test suite itself (transition, inventory,
+# company-preflight, map-blocks), so "passing" means the validators and their tests — not a
+# line-coverage percentage nobody measures (the coverage map: evals/COVERAGE.md). macOS
+# runner on purpose: the suites use BSD sed/find, the same tools the release ritual runs on
+# — this job was red from 0.1.14 to 0.1.16 because ubuntu's GNU sed refused `-i ''`.
 name: preflight
 on: [push, pull_request]
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - run: bash scripts/preflight.sh
+      - name: preflight — validators and every shipped test suite
+        run: bash scripts/preflight.sh
+      - name: cross-references, anchors and citation hashes
+        run: python3 scripts/check-links.py .
+      - name: the hook gates, mutants and honest twins
+        run: bash scripts/test-audit-gate.sh

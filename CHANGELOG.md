@@ -2,6 +2,34 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.1.17 — 2026-08-07
+
+**The investigation spiral is named at the moment it happens.** Every remaining void in the
+first real rates was a player burning turns on ls/grep archaeology and never dispatching —
+so the exit became a reflex delivered by a `PostToolUse` hook: **twelve consecutive
+read-only calls with nothing written, dispatched or transitioned bring one note** — *stop
+digging: say what you know, start the wave* — and the counter retires for the session,
+because a suggestion's value is inverse to how often it appears. Any write, dispatch or
+transition resets the count. Four new checks in the gate suite prove the four behaviours:
+silent before the threshold, speaks at it, never twice, a write resets.
+
+**The preflight badge stopped lying by omission.** *Should we add a test-coverage badge?* —
+the honest one already existed and had been **red since 0.1.14**: ubuntu's GNU sed refusing
+the suites' BSD `-i ''`. The workflow now runs on macOS — the same tools the release ritual
+runs on — and grew the link check and the 80-check gate suite as steps. The README carries
+both honest badges: the CI status (validators + every shipped suite), and a link to the
+generated coverage map — **no line-coverage percentage, because nobody measures one and a
+number nobody measures is decoration**.
+
+**Two traps went into the tests' own bones.** BSD `find -delete` on the `/tmp` *symlink* is
+a silent no-op — stale stamps made a working hook look dead for an hour; cleanups resolve
+the physical path now. And the pty probe of interactive `PreToolUse` hung inconclusively —
+**one manual minute still owed**: open `claude` in an operated tree, ask for a
+product-surface edit, and watch the role gate speak or widen `runtimes.md`'s caveat.
+
+**Migration map**: nothing to do — the hook and workflow ship with the plugin; the spiral
+note appears only where a session actually spirals.
+
 ## 0.1.16 — 2026-08-07
 
 **The advisor's first slip is held by a gate now, not by a sentence.** Five of five light

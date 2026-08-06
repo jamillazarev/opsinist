@@ -293,5 +293,19 @@ check "system record (tasks/) → never trips"         0 "$(gpl "$G/tasks/T-9.md
 check "the guide itself → never trips"               0 "$(gpl "$G/CLAUDE.md" C)"
 rm -f /tmp/opsinist-prodgate-*
 
+# PostToolUse · the spiral note: twelve read-only calls speak once, a write resets, retired after.
+spl() { printf '{"tool_name":"%s","tool_input":{"command":"ls -la"},"cwd":"%s","transcript_path":"%s","hook_event_name":"PostToolUse","session_id":"spiral-%s"}' "$1" "$G" "$TE" "$2"; }
+sgot() { printf '%s' "$(spl "$1" "$2")" | python3 "$GATE" 2>/dev/null; }
+find "$(cd /tmp && pwd -P)" -maxdepth 1 -name 'opsinist-spiral-*' -delete
+for i in $(seq 1 10); do sgot Bash S >/dev/null; done
+[ -z "$(sgot Read S)" ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: spiral spoke before threshold"; }
+[ -n "$(sgot Read S)" ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: spiral silent at threshold"; }
+[ -z "$(sgot Read S)" ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: spiral nagged twice"; }
+find "$(cd /tmp && pwd -P)" -maxdepth 1 -name 'opsinist-spiral-*' -delete
+for i in $(seq 1 11); do sgot Bash R >/dev/null; done
+sgot Write R >/dev/null
+[ -z "$(sgot Read R)" ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: a write did not reset the spiral"; }
+find "$(cd /tmp && pwd -P)" -maxdepth 1 -name 'opsinist-spiral-*' -delete
+
 echo "pass $pass · fail $fail"
 [ "$fail" = 0 ]
