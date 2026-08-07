@@ -8,9 +8,9 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 effect is called* (Wikipedia's list and the Codex licence-clean, Growth.Design's 106 among the
 cite-only shelves) and armed exactly one flow — a persona's two-to-four named biases. Now the
 same row carries **Growth.Design's 53 case studies** — free teardowns of real onboarding,
-retention, revenue and ethics decisions — and names the second flow they arm: **a
-product-surface review cites the principle and points at a worked case instead of reciting
-theory.** Same licence honesty as the rest of the shelf: all rights reserved, point — never
+retention, revenue and ethics decisions — and they arm **every flow that meets the
+need — a build shaping an onboarding, a consultation weighing a paywall, a review naming
+what fired — citing the worked case instead of reciting theory.** Same licence honesty as the rest of the shelf: all rights reserved, point — never
 mirror — the Neurofied entry two lines up is what becoming a mirror costs.
 
 **And the A/B clause got its calibration shelf.** [abtest.design](https://abtest.design) —
