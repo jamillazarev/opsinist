@@ -172,6 +172,22 @@ produce the file, we say where it is, we name the ways — **they post it.**
 
 ---
 
+## What a capability owes before it ships
+
+**Four things, each traced to a release where shipping without it produced something that
+looked finished and was not** (both siblings' ledgers carry the receipts):
+
+1. **A form where the rule can fail — never a stronger sentence.** Rules stated clearly in
+   the always-loaded core measured 0/5; the same rules rebuilt as refusing hooks went 5/5.
+   **A refusal moves the rate; a note does not** (the sibling's dispatch-nudge moved nothing
+   and ships honestly as an aid).
+2. **A mutation test showing the form denying the mutant AND passing the honest twin** — a
+   gate without its test is a hope (`scripts/test-audit-gate.sh` is the house pattern).
+3. **The claim dated, with the measurement behind it** — enforcement is a form × path ×
+   version matrix, and a probe's evidence is a stamp, never the model's account of itself.
+4. **The showcase trio** — a diagram, a situation, a fact — or the mechanic is invisible to
+   everyone who did not write it.
+
 ## When another sentence will not fix it
 
 **A rule fires when it names something to open, a field that cannot be faked, or a gate that

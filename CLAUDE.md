@@ -19,7 +19,7 @@ this file exists to stop anyone re-deriving per session.
 4. **Checks**: `bash scripts/preflight.sh` (runs every shipped test suite itself) ·
    `python3 scripts/check-links.py .` · `bash scripts/test-audit-gate.sh`. Green is evidence
    about the corpus, not about behaviour — behaviour is the eval suite's job.
-5. **Changelog entry** (capability first; it is the migration map) → **manifest sweep runs
+5. **Changelog entry** (capability first; it is the migration map; **it names its eval state — a run recorded, or `not run` said**) → **manifest sweep runs
    inside preflight** → tag → **GitHub Release whose notes are the entry whole, with the
    entry's own heading collapsed to the bare italic date** — the title already carries
    version and name, and a repeated heading is the first thing every reader scrolls past:
@@ -61,5 +61,7 @@ nothing accumulates outside versions.
   copied tokens lose the refresh race. Details and traps: `evals/RUNS.md`.
 - BSD `find -delete` on the `/tmp` symlink is a silent no-op — resolve the physical path.
 - Hook enforcement is a form × path × version matrix — never narrate a probe, stamp it. On 2.1.220 (mechanical, 2026-08-08): plugin hooks fire under `-p`; **exit-2 denies enforce from the plugin**, the `permissionDecision` JSON form is ignored there and honored from `settings.json`. The 2026-08-07 "plugin hooks don't fire under -p" held on the older CLI — date every such claim.
+- Lenses run in worktree isolation, and the tree is checked clean before any tag — `--disallowedTools` does not see a shell redirect (the sibling's read-only lens wrote 15 MB).
+- A `PostToolUse` hook's stderr never reaches the model; only `hookSpecificOutput.additionalContext` does (sibling-measured).
 - GitHub issues land as triage: read, classify, fix or decline with a reason, close with
   the reasoning in a comment.

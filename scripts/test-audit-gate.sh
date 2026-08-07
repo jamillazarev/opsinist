@@ -80,6 +80,25 @@ check "guest signal: PR template → allow"             0 "$(pl Write "$R/src/ut
 rm -rf "$R/.github"
 check "furniture removed → deny again"                2 "$(pl Write "$R/src/util.py" "$TE")"
 
+# --- the two measured forms: outward and rule-home, scoped to operated trees ------------
+printf '**Operated by:** Opsinist 0.0.0\n' > "$R/CLAUDE.md"
+printf '# later\n' > "$R/LATER.md"
+check "outward: git push in operated tree → deny"     2 "$(pl Bash "git push origin main" "$TE")"
+check "outward: the retry does not pass → deny again" 2 "$(pl Bash "git push origin main" "$TE")"
+check "outward: gh release create → deny"             2 "$(pl Bash "gh release create v1 --notes hi" "$TE")"
+check "outward: deploy → deny"                        2 "$(pl Bash "npm run build && flyctl deploy" "$TE")"
+check "outward: --dry-run is a read → allow"          0 "$(pl Bash "git push --dry-run origin main" "$TE")"
+check "outward: local commit untouched → allow"       0 "$(pl Bash "git add -A && git commit -m x" "$TE")"
+outward_off() { printf '%s' "$(pl Bash "git push origin main" "$TE")" | OPSINIST_OUTWARD_GATE=off python3 "$GATE" >/dev/null 2>&1; echo $?; }
+[ "$(outward_off)" = 0 ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: outward off-switch"; }
+MEM="$T/home/.claude/projects/x-proj/memory"; mkdir -p "$MEM"
+check "rule-home: agent-memory write in operated tree → deny" 2 "$(pl Write "$MEM/rule.md" "$TE")"
+check "rule-home: the guide is a home → allow"        0 "$(pl Write "$R/CLAUDE.md" "$TE")"
+rulehome_off() { printf '%s' "$(pl Write "$MEM/rule.md" "$TE")" | OPSINIST_RULE_HOME=off python3 "$GATE" >/dev/null 2>&1; echo $?; }
+[ "$(rulehome_off)" = 0 ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: rule-home off-switch"; }
+rm "$R/CLAUDE.md" "$R/LATER.md"
+check "rule-home: unoperated tree → allow"            0 "$(pl Write "$MEM/rule.md" "$TN")"
+
 # many hands is checked last: it rewrites the repo's history and every later case would
 # inherit a tree that has already stood the gate down.
 

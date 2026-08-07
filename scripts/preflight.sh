@@ -176,6 +176,10 @@ done
 # 11 · the shipped guards are exercised, not hoped: a validator whose test only runs when
 #      somebody remembers is a hope with a filename (found by the lenses — both tests were
 #      green and nothing ran them).
+# a raw "(" inside a markdown URL breaks every downstream link reader — percent-encode it
+raw=$(grep -rEln '\]\([^) ]*\(' --include='*.md' . 2>/dev/null | grep -v '^\./\.git' || true)
+if [ -n "$raw" ]; then say_fail "raw ( in a markdown URL — percent-encode: $raw"; else say_ok "no raw parens inside markdown URLs"; fi
+
 for t in scripts/test-transition.sh scripts/test-inventory.sh scripts/test-company-preflight.sh scripts/test-map-blocks.sh scripts/test-migrate-layout.sh; do
   [ -f "$t" ] || continue
   out=$(bash "$t" 2>&1 | tail -1)

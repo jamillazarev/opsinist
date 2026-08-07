@@ -117,6 +117,21 @@ def guide_version(root):
     return None
 
 
+def operated_by_us(root):
+    """The strict claim: an operator line naming Opsinist. A bare config.md stopped being
+    one when `_ops/` became a shared door with the sibling methodology."""
+    for g in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
+        try:
+            gp = os.path.join(root, g)
+            if os.path.isfile(gp) and re.search(
+                    r"operated by[^\n]*opsinist",
+                    open(gp, encoding="utf-8", errors="replace").read(), re.I):
+                return True
+        except Exception:
+            return False
+    return False
+
+
 def out(*_a):
     sys.exit(0)  # fail open: a broken gate must not brick every session
 
@@ -375,6 +390,49 @@ def main():
     if not root:
         out()
 
+    # 2a-outward · An outward act is stopped by a gate, not by a sentence. Measured next
+    #   door 2026-08-07: the prose law went 0/5 ("Done… and pushed"), a stopped-once design
+    #   only 2/5 — the other three simply pushed again — and named-doors-without-retry 5/5.
+    #   So the doors are named and the retry does not pass: the owner runs the command, or
+    #   sets OPSINIST_OUTWARD_GATE=off on purpose. Local work never trips it; --dry-run is
+    #   a read. Scoped to trees an operator line names ours.
+    if (tool == "Bash" and os.environ.get("OPSINIST_OUTWARD_GATE", "") != "off"
+            and operated_by_us(root)):
+        cmd = str(tin.get("command", ""))
+        if not re.search(r"--dry-run", cmd):
+            hit = re.search(
+                r"(?:^|&&|\|\||;)\s*(git\s+push|gh\s+release\s+create|npm\s+publish|"
+                r"docker\s+push|(?:npm|yarn|pnpm)\s+run\s+deploy|(?:make|just)\s+deploy|"
+                r"(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)\s+deploy|"
+                r"[\w./-]*deploy)(?=\s|$)", cmd)
+            if hit:
+                sys.stderr.write(
+                    f"Opsinist outward gate: `{hit.group(1)}` leaves the repository, and an "
+                    f"outward act is one of the four owner-gated kinds (permissions.md). Two "
+                    f"doors, and a retry is not one of them: the owner runs this command "
+                    f"themselves, or sets OPSINIST_OUTWARD_GATE=off on purpose. Everything "
+                    f"local — commit, branch, build — is untouched by this.\n")
+                sys.exit(2)
+
+    # 2a-home · "Remember this" lands in a file the workers read — and the harness's own
+    #   agent memory is not one of them. Measured 2026-08-07/08 on both siblings: with the
+    #   law in the always-loaded core, every light run still wrote the owner's rule into the
+    #   runtime's private cross-session store; a refusing hook moved it to 5/5 next door.
+    #   The refusal names the homes; scoped to operated trees so an ordinary repository's
+    #   memory stays nobody's business but its own.
+    if (tool in ("Write", "Edit") and target
+            and os.environ.get("OPSINIST_RULE_HOME", "") != "off"
+            and re.search(r"/projects/[^/]+/memory/", target.replace(os.sep, "/"))
+            and operated_by_us(root)):
+        sys.stderr.write(
+            "Opsinist rule-home gate: that path is the harness's private agent memory — "
+            "outside the repository, unread by every worker. An owner's rule lives where "
+            "workers read (checking.md): a behaviour → a guide line · a domain word → "
+            "_ops/ABOUT.md · a choice → _ops/DECISIONS.md · a place to look → the resource "
+            "register, with its why. Write it there and name the home back — or set "
+            "OPSINIST_RULE_HOME=off on purpose.\n")
+        sys.exit(2)
+
     # 2b · Two refusals that fire where a missing decision is USED, rather than asking for it.
     #      Measured across three rounds: delivering a fact (SessionStart) and demanding an act
     #      (Stop) each bought nothing — 0/5 and 1/5 — while the one scenario that only ever
@@ -412,18 +470,7 @@ def main():
                    ".index/", ".claude/", ".github/")
         _SYSTEM_FILES = {"CLAUDE.md", "AGENTS.md", "GEMINI.md", "config.md", "LATER.md",
                          ".gitignore", ".opsinist-checkout", ".checkout"}
-        operated = False
-        if True:
-            for _g in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
-                try:
-                    _p = os.path.join(root, _g)
-                    if os.path.isfile(_p) and re.search(
-                            r"operated by[^\n]*opsinist", open(_p, encoding="utf-8",
-                            errors="replace").read(), re.I):
-                        operated = True
-                        break
-                except Exception:
-                    out()
+        operated = operated_by_us(root)
         if (operated and rel and not rel.startswith("..")
                 and not rel.startswith(_SYSTEM)
                 and os.path.basename(rel) not in _SYSTEM_FILES

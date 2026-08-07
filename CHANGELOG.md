@@ -2,6 +2,53 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.3.0 — 2026-08-08
+
+**Two gates cross the sibling border with their measurements attached.** Next door the prose
+law *pushing is the owner's* went **0/5** — five runs of five ran `Edit → commit → push` and
+reported "Done… and pushed" — a stopped-once design reached only 2/5, and **named doors with
+no retry-pass went 5/5**. Both forms land here in `hooks/audit-gate.py`, scoped to trees an
+operator line names ours, each with an off-switch that is a door, not a loophole:
+- **The outward gate** stops `git push` · `gh release create` · `npm publish` · `docker push`
+  · the deployers — names the act as one of the four owner-gated kinds, and offers two doors:
+  the owner runs the command, or sets `OPSINIST_OUTWARD_GATE=off` on purpose. Local work never
+  trips it; `--dry-run` is a read; **the retry does not pass**.
+- **The rule-home gate** refuses a spoken rule written into the harness's private agent
+  memory and names the homes workers actually read — the form behind 0.2.2's law, measured
+  to 5/5 next door where the law alone still went 0/5. `OPSINIST_RULE_HOME=off` exists, on
+  purpose, by name.
+
+**Ownership tightened to the operator line — the shared door demanded it.** Since 0.2.0 the
+sibling methodology names nine of our twelve `_ops/` documents identically, so a bare
+`config.md` stopped being a claim about who operates a tree. **"Ours" now means an operator
+line naming Opsinist, nothing less**; a line naming another system means their workspace —
+the session-start migration nag stays silent there, and `scripts/migrate-layout.py` refuses
+the tree whole, by name, moved never. The suite asserts all of it, because next door the code
+drifted below its own tests exactly here.
+
+**The print-mode downgrade became a dated matrix, and the correction cost a probe war.** The
+sibling challenged our "plugin hooks do not fire under `claude -p`"; three mechanical probes
+(stamp files, never the model's account — a narrated probe fabricated a success the same day)
+settled it on CLI 2.1.220: plugin hooks fire under `-p`, **the exit-2 form enforces from the
+plugin** while the `permissionDecision` JSON form is executed and ignored there (honored from
+`settings.json`). Our gate denies by exit 2, so **it now holds headless too**; the 2026-08-07
+note stays true of the CLI it measured. `runtimes.md` carries the matrix; the machine notes
+carry the method rule: a probe's evidence is a stamp.
+
+**What a capability owes before it ships is written down** — four clauses in
+`self-maintenance.md`, each traced to a release where its absence shipped something that
+looked finished and was not: a form where the rule can fail (a refusal moves rates; a note
+does not) · the mutation test denying the mutant and passing the twin · the claim dated with
+its measurement · the showcase trio. The lens lesson joins the dev loop: `--disallowedTools`
+does not see a shell redirect, so lenses run isolated and the tree is checked clean before a
+tag. And the preflight refuses a raw `(` inside a markdown URL before it can file false
+corpses downstream.
+
+**Migration map**: nothing moves for owners. If your guide's operator line names another
+system, the migration nag now stays silent by design — that is the fix, not a regression. The
+two gates arm themselves only where a guide says `Operated by … Opsinist`; both carry named
+off-switches.
+
 ## 0.2.2 — 2026-08-07
 
 **The harness's own memory is named as not-a-home.** The 0.2.1 canary smoke found a new
@@ -1346,7 +1393,7 @@ happens — and a sweep that found nothing records what it looked at.
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · two hundred and nine single-sentence facts · ninety-nine situations with what to
+file defines · 211 single-sentence facts · 101 situations with what to
 say · **one hundred evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the
