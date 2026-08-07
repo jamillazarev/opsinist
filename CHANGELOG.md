@@ -19,8 +19,8 @@ that owns a `tasks/` or `docs/` of its own — is gone by construction. **The do
 past**: an unmigrated flat project resolves through a fallback and fails toward the
 migration notice, never a stack.
 
-**A type now proposes its task's fields, not only its bars.** The birth wave that researches
-ready-when, done-when and the ladder cut now also brings **the `x.*` attributes the craft's
+**A type now proposes its task's fields, not only its bars.** The research that births a
+type — ready-when, done-when, the ladder cut — now also brings **the `x.*` attributes the craft's
 own standard names** — a bug form's environment and severity, a commission's client and
 deadline, a recipe's yield and allergens — the few of them, each declared with *what this
 means and when to set it*, and none at all where the standard names none. Declared fields

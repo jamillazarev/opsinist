@@ -66,7 +66,7 @@ This split matters, because collapsing it is what makes team-level overrides imp
 
 | | Owns |
 |---|---|
-| **type** (`_ops/process/types/*.md`) | the **definition of done**, the **default pipeline**, and the **default cut on the description ladder** (`writing-work.md`) |
+| **type** (`_ops/process/types/*.md`) | the **definition of done**, the **default pipeline**, the **default cut on the description ladder** (`writing-work.md`), and the **declared fields** |
 | **pipeline** (`_ops/pipelines/*.md`) | the **stages** and the **gates** |
 
 A bug and an article genuinely have different definitions of done, so the DoD belongs to the
@@ -103,8 +103,8 @@ questionnaire at setup, the same law as no roster before a task needs a craft.
 recommended bars arrive **sourced from the craft's own standards**: empty options hand the
 research to the owner, and researched silence guesses their taste — the wave does neither. The
 answers — the bars, **the type's cut on the description ladder** (`writing-work.md`), and **the
-type's fields** — the `x.*` attributes the craft's own standard names, the few of them, each
-declared with *what this means and when to set it* (`writing-work.md` §custom fields) — land
+type's fields** — the `x.*` attributes the craft's own standard names
+(`templates/TYPE-template.md`) — land
 in `_ops/process/types/<type>.md` (`templates/TYPE-template.md`) with their provenance,
 and hold **until the owner asks — or the bar itself accumulates the evidence and proposes its own
 change** (`checking.md`), never silently: the bar is a locked surface.
@@ -113,7 +113,7 @@ change** (`checking.md`), never silently: the bar is a locked surface.
 flowchart LR
   T[first task of a new kind] --> W[one wave, at first use —<br/>never a questionnaire at setup]
   W --> RS[research from the craft's own<br/>standards, before the ask]
-  RS --> P[proposed, each with provenance:<br/>ready-when · done-when · mechanical check ·<br/>the ladder cut and its kind · pipeline ·<br/>the fields the standard names]
+  RS --> P[proposed, each with provenance:<br/>ready-when · done-when · mechanical check ·<br/>the ladder cut and its kind · pipeline ·<br/>the fields from the craft's standard]
   P --> O[confirmed in the owner's words] --> F[the type's file in _ops/process/types/]
   F -. a bar that keeps bouncing the same work<br/>proposes its own change — never silently .-> P
 ```

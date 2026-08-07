@@ -54,6 +54,6 @@ precedes build}}
 
 ## Provenance
 
-{{where these bars came from: stock default kept as-is · researched — sources and date · the
+{{where these bars and fields came from: stock default kept as-is · researched — sources and date · the
 owner's own words, date. A bar that keeps bouncing the same work proposes its own change, with
 the diff and the evidence — never a silent edit: the bar is a locked surface.}}

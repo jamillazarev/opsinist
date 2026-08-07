@@ -188,6 +188,7 @@ confidence. So the `prose-only` list is written out by name rather than left imp
   previous read* column and a *runs out* column, so a level quoted alone leaves visible blanks
   (`templates/BUDGET-template.md`). Prose wherever a number is reported outside that file
 - small stays small
+- a type's fields are the few its craft's standard names — the landing is owner-gated, the fewness is not
 - an argument without a source is an opinion
 - speak the domain's own language
 - mention only those whose answer changes something

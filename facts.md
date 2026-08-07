@@ -41,7 +41,7 @@ line changes with it.
 22. Progress is derived from the atoms every time and never stored as a rollup.
 23. A task that cannot finish in one run is decomposed rather than hoped through.
 24. Every task states what does *not* count as done — a plan instead of a result, a quietly narrowed scope, one example treated as verification.
-25. A type proposes its task's fields at its birth wave — only the few its craft's own standard names, each carrying what it means and when to set it.
+25. A type proposes its task's fields at its birth — only the few its craft's own standard names, each carrying what it means and when to set it.
 
 ## Nothing moves by itself
 
