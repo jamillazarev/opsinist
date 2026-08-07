@@ -7,9 +7,11 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 **A resource serves every flow that meets its need — said as law, not left as habit.** Filed
 by one flow, scoped to none: the shelf a review cites is the same shelf a build or a
 consultation opens, and a link the owner hands over on a task joins the register with its why
-and is read wherever relevant, never re-asked for. The rule's home is the resource chapter;
-the catalogue header and the fact ledger cite it. It covers the stock shelves and the
-project's own register alike.
+and is read wherever relevant, never re-asked for. **And the point of a shelf is a shorter
+search, which puts it at the search's head**: the register first, the live web where it runs
+out, a find worth keeping landing back with its why — the same order every tool choice
+already runs. The rule's home is the resource chapter; the catalogue header and the fact
+ledger cite it. It covers the stock shelves and the project's own register alike.
 
 **The behavioural reference grew its applied half.** The index row already answered *what an
 effect is called* (Wikipedia's list and the Codex licence-clean, Growth.Design's 106 among the

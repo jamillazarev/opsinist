@@ -89,6 +89,13 @@ hands over on a task joins the register with its why and is read wherever it is 
 never re-asked for (`quick.md`). This holds for the stock shelves (`catalogue.md`) and for
 everything the project's own register carries, alike.
 
+**And the point of a shelf is a shorter search, which puts it at the search's head.** The same
+order every choice runs (*look inward first*, `SKILL.md`; the ladder's search step,
+`choosing-tools.md`): **the register first** — pre-read, its licences already read — **the live
+web where the register runs out**, and a find worth keeping **lands back on a register with its
+why**, so the next search starts further along. Recalling from memory is not a step on this
+path at all.
+
 **Who maintains them:** the owner adds them in conversation; any agent may **propose** additions
 and removals, with a stated `why` for both. A role proposing something at **project** scope is
 making a suggestion to the owner, not a self-service change.
