@@ -2,6 +2,18 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.2 — 2026-08-07
+
+**The harness's own memory is named as not-a-home.** The 0.2.1 canary smoke found a new
+attractor: told *"remember this"*, two runs of two wrote the owner's rule into the runtime's
+private cross-session agent memory — outside the repository, unread by every worker, the
+chat's memory grown a filesystem. The spoken-rule law now says so in its own list of homes,
+and the Claude Code runtime row carries it as its second measured collision, beside
+`TaskGet`. The smoke's other findings move no rules yet: the `_ops/` layout held every path
+it was asked for, the migrator's happy path passed on the light tier, and the fields-at-birth
+zeros are the standing forms-not-sentences repair class, named for the next tuning round in
+`evals/RUNS.md`.
+
 ## 0.2.1 — 2026-08-07
 
 **A resource serves every flow that meets its need — said as law, not left as habit.** Filed

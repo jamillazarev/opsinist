@@ -121,7 +121,11 @@ memory: a behaviour → **a guide line** (taking effect at the next boundary, `P
 §10) · a word or a fact of the domain → **`_ops/ABOUT.md`** · a choice with reasons →
 **`_ops/DECISIONS.md`** · a place to look → **the resource register, with its why**. The
 advisor names which home it heard and writes it there — a rule that lives only in a chat log
-is the one promise `project = f(repo)` exists to refuse.
+is the one promise `project = f(repo)` exists to refuse. **And the harness's own agent memory
+is not one of these homes**: a rule written there is the conversation's memory grown a
+filesystem — private to the assistant, outside the repository, unread by every worker.
+Measured 2026-08-07: two runs of two routed the owner's rule exactly there and named no home
+back (`evals/RUNS.md`).
 
 **A repeated primitive.** *"We keep doing this by hand"* is the trigger for making a skill or a
 tool, and **the honest ranking is that recorded friction from real use finds it better and cheaper
