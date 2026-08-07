@@ -360,6 +360,42 @@ def main():
         except Exception:
             out()
 
+    # 1a · Two operated-tree invariants that do NOT wait for engagement: a worker who never
+    #      opened the skill still may not push past the owner or write a rule into the
+    #      harness's memory. Measured 2026-08-08: placed after the engagement out, the
+    #      canary's push met no gate at all — the player had simply never opened the skill.
+    _t0 = tin.get("file_path") or ""
+    _r0 = repo_root(os.path.dirname(_t0) if _t0 else cwd) or repo_root(cwd)
+    if _r0 and tool == "Bash" and os.environ.get("OPSINIST_OUTWARD_GATE", "") != "off" \
+            and operated_by_us(_r0):
+        cmd = str(tin.get("command", ""))
+        if not re.search(r"--dry-run", cmd):
+            hit = re.search(
+                r"(?:^|&&|\|\||;)\s*(git\s+push|gh\s+release\s+create|npm\s+publish|"
+                r"docker\s+push|(?:npm|yarn|pnpm)\s+run\s+deploy|(?:make|just)\s+deploy|"
+                r"(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)\s+deploy|"
+                r"[\w./-]*deploy)(?=\s|$)", cmd)
+            if hit:
+                sys.stderr.write(
+                    f"Opsinist outward gate: `{hit.group(1)}` leaves the repository, and an "
+                    f"outward act is one of the four owner-gated kinds (permissions.md). Two "
+                    f"doors, and a retry is not one of them: the owner runs this command "
+                    f"themselves, or sets OPSINIST_OUTWARD_GATE=off on purpose. Everything "
+                    f"local — commit, branch, build — is untouched by this.\n")
+                sys.exit(2)
+    if (_r0 and tool in ("Write", "Edit") and _t0
+            and os.environ.get("OPSINIST_RULE_HOME", "") != "off"
+            and re.search(r"/projects/[^/]+/memory/", _t0.replace(os.sep, "/"))
+            and operated_by_us(_r0)):
+        sys.stderr.write(
+            "Opsinist rule-home gate: that path is the harness's private agent memory — "
+            "outside the repository, unread by every worker. An owner's rule lives where "
+            "workers read (checking.md): a behaviour → a guide line · a domain word → "
+            "_ops/ABOUT.md · a choice → _ops/DECISIONS.md · a place to look → the resource "
+            "register, with its why. Write it there and name the home back — or set "
+            "OPSINIST_RULE_HOME=off on purpose.\n")
+        sys.exit(2)
+
     # 1 · armed only in sessions that engaged the skill — an installed plugin must not
     #     gate a session that never opened it.
     transcript = payload.get("transcript_path", "")
@@ -389,49 +425,6 @@ def main():
     root = repo_root(anchor_dir) or repo_root(cwd)
     if not root:
         out()
-
-    # 2a-outward · An outward act is stopped by a gate, not by a sentence. Measured next
-    #   door 2026-08-07: the prose law went 0/5 ("Done… and pushed"), a stopped-once design
-    #   only 2/5 — the other three simply pushed again — and named-doors-without-retry 5/5.
-    #   So the doors are named and the retry does not pass: the owner runs the command, or
-    #   sets OPSINIST_OUTWARD_GATE=off on purpose. Local work never trips it; --dry-run is
-    #   a read. Scoped to trees an operator line names ours.
-    if (tool == "Bash" and os.environ.get("OPSINIST_OUTWARD_GATE", "") != "off"
-            and operated_by_us(root)):
-        cmd = str(tin.get("command", ""))
-        if not re.search(r"--dry-run", cmd):
-            hit = re.search(
-                r"(?:^|&&|\|\||;)\s*(git\s+push|gh\s+release\s+create|npm\s+publish|"
-                r"docker\s+push|(?:npm|yarn|pnpm)\s+run\s+deploy|(?:make|just)\s+deploy|"
-                r"(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)\s+deploy|"
-                r"[\w./-]*deploy)(?=\s|$)", cmd)
-            if hit:
-                sys.stderr.write(
-                    f"Opsinist outward gate: `{hit.group(1)}` leaves the repository, and an "
-                    f"outward act is one of the four owner-gated kinds (permissions.md). Two "
-                    f"doors, and a retry is not one of them: the owner runs this command "
-                    f"themselves, or sets OPSINIST_OUTWARD_GATE=off on purpose. Everything "
-                    f"local — commit, branch, build — is untouched by this.\n")
-                sys.exit(2)
-
-    # 2a-home · "Remember this" lands in a file the workers read — and the harness's own
-    #   agent memory is not one of them. Measured 2026-08-07/08 on both siblings: with the
-    #   law in the always-loaded core, every light run still wrote the owner's rule into the
-    #   runtime's private cross-session store; a refusing hook moved it to 5/5 next door.
-    #   The refusal names the homes; scoped to operated trees so an ordinary repository's
-    #   memory stays nobody's business but its own.
-    if (tool in ("Write", "Edit") and target
-            and os.environ.get("OPSINIST_RULE_HOME", "") != "off"
-            and re.search(r"/projects/[^/]+/memory/", target.replace(os.sep, "/"))
-            and operated_by_us(root)):
-        sys.stderr.write(
-            "Opsinist rule-home gate: that path is the harness's private agent memory — "
-            "outside the repository, unread by every worker. An owner's rule lives where "
-            "workers read (checking.md): a behaviour → a guide line · a domain word → "
-            "_ops/ABOUT.md · a choice → _ops/DECISIONS.md · a place to look → the resource "
-            "register, with its why. Write it there and name the home back — or set "
-            "OPSINIST_RULE_HOME=off on purpose.\n")
-        sys.exit(2)
 
     # 2b · Two refusals that fire where a missing decision is USED, rather than asking for it.
     #      Measured across three rounds: delivering a fact (SessionStart) and demanding an act
