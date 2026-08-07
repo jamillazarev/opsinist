@@ -2,6 +2,23 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.1 — 2026-08-07
+
+**The behavioural reference grew its applied half.** The index row already answered *what an
+effect is called* (Wikipedia's list and the Codex licence-clean, Growth.Design's 106 among the
+cite-only shelves) and armed exactly one flow — a persona's two-to-four named biases. Now the
+same row carries **Growth.Design's 53 case studies** — free teardowns of real onboarding,
+retention, revenue and ethics decisions — and names the second flow they arm: **a
+product-surface review cites the principle and points at a worked case instead of reciting
+theory.** Same licence honesty as the rest of the shelf: all rights reserved, point — never
+mirror — the Neurofied entry two lines up is what becoming a mirror costs.
+
+**And the A/B clause got its calibration shelf.** [abtest.design](https://abtest.design) —
+some fifty real tests from named apps with their measured lifts — joins the test-methods row
+carrying its bias on its face, as that row demands of every method: **a shelf of survivors**,
+published wins with no powers and no durations, so it calibrates *what to try* and never
+*what to expect*. The spec's guardrail measures still judge the run; the shelf only frames it.
+
 ## 0.2.0 — 2026-08-07
 
 **The machinery lives under one door now: `_ops/`.** A project's root belongs to the craft
