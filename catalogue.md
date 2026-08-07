@@ -6,7 +6,7 @@ rather than a blank search.
 **Load the row, not the file.** This is the longest document here and almost none of it is
 about your task: reading it whole to answer *"what do we use for email"* spends a large slice
 of a context window on ninety categories nobody asked about, and everything after it in the
-session pays. **Search for the need and read what matches** — `grep -i "<need>"` over this file,
+session pays. **A row serves every flow that meets its need — the shelf is scoped to no flow** (`resources.md`). **Search for the need and read what matches** — `grep -i "<need>"` over this file,
 or the site's own search. Every category is a row that begins `| **Name** |`, so one line is
 the whole answer, and the four headed sections below say which neighbourhood to look in.
 **Read more than one row only when the choice genuinely spans them** — a stack decision, or a

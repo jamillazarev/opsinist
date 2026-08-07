@@ -176,100 +176,101 @@ line changes with it.
 130. A tool entry records where the free tier ends, in the unit that will actually bite.
 131. Throttling, hard-stopping and charging automatically are three different risks, and only the third surprises a budget.
 132. A resource without a stated `why` is a bookmark, and nobody removes it because nobody knows what it was for.
-133. A webhook URL is a credential, because holding it is enough to spend money under the project's name.
-134. Secrets are registered by reference — name, purpose, prefix, expiry — and never by value.
-135. Automations create work and never move anyone else's.
-136. An automation dry-runs before it runs, and its failures are visible.
+133. A resource serves every flow that meets its need — filed by one flow, scoped to none, read wherever relevant rather than re-asked for.
+134. A webhook URL is a credential, because holding it is enough to spend money under the project's name.
+135. Secrets are registered by reference — name, purpose, prefix, expiry — and never by value.
+136. Automations create work and never move anyone else's.
+137. An automation dry-runs before it runs, and its failures are visible.
 
 ## Waiting, and what it costs
 
-137. Work that would take minutes leaves the turn, so the conversation keeps going.
-138. An agent asked something long says it is going to look, and comes back with the answer.
-139. A reply that arrives late with substance beats a silence that looked like a reply being typed.
-140. An estimate being overrun is said out loud, because silence that contradicts a promise reads as a crash.
-141. Two things never go to the background: work the next sentence depends on, and work that will stop at a gate.
-142. A helper is chosen at the tier its own work needs, never at its parent's.
-143. Search, extraction and verification run a tier down or further.
-144. "Same as me" is the most expensive default available, and it hides in the bill as ordinary work.
-145. Every helper that ran is named in the record with its tier and what it was for.
-146. An answer produced by three helpers is never reported as one agent's.
-147. Before anything likely to exceed thirty seconds, you are told what is happening and roughly how long.
-148. Silence during a long run reads as a crash, which is why there is a progress line at each meaningful completion.
+138. Work that would take minutes leaves the turn, so the conversation keeps going.
+139. An agent asked something long says it is going to look, and comes back with the answer.
+140. A reply that arrives late with substance beats a silence that looked like a reply being typed.
+141. An estimate being overrun is said out loud, because silence that contradicts a promise reads as a crash.
+142. Two things never go to the background: work the next sentence depends on, and work that will stop at a gate.
+143. A helper is chosen at the tier its own work needs, never at its parent's.
+144. Search, extraction and verification run a tier down or further.
+145. "Same as me" is the most expensive default available, and it hides in the bill as ordinary work.
+146. Every helper that ran is named in the record with its tier and what it was for.
+147. An answer produced by three helpers is never reported as one agent's.
+148. Before anything likely to exceed thirty seconds, you are told what is happening and roughly how long.
+149. Silence during a long run reads as a crash, which is why there is a progress line at each meaningful completion.
 
 ## Leaving and coming back
 
-149. There is no log-out: a session ends when you close it, and the advisor cannot end its own.
-150. What ends a session cleanly is a wrap-up, and the words that start it are ordinary — "I'm done for now".
-151. The wrap-up is offered when the signals are there, not remembered by you.
-152. It is three writes: the tail to its thread, applied work committed, decisions recorded.
-153. After that the session can be closed from anywhere, because nothing is left in it.
-154. Clearing a terminal costs nothing, because the transcript is a source and never a dependency.
-155. Opening the project again — same tool or another — starts with the arrival summary rather than a blank prompt.
-156. A session that ended badly costs a summary line, not the work.
+150. There is no log-out: a session ends when you close it, and the advisor cannot end its own.
+151. What ends a session cleanly is a wrap-up, and the words that start it are ordinary — "I'm done for now".
+152. The wrap-up is offered when the signals are there, not remembered by you.
+153. It is three writes: the tail to its thread, applied work committed, decisions recorded.
+154. After that the session can be closed from anywhere, because nothing is left in it.
+155. Clearing a terminal costs nothing, because the transcript is a source and never a dependency.
+156. Opening the project again — same tool or another — starts with the arrival summary rather than a blank prompt.
+157. A session that ended badly costs a summary line, not the work.
 
 ## Method
 
-157. Every real decision runs one loop: frame, search, compare, choose, check it survives being wrong, record, act.
-158. If a small error would flip the decision, the decision is undecided, and saying so beats faking precision.
-159. Find the process before the tools, then find a tool per step, by function.
-160. A literal "designer" finds nothing; "map the user journeys" finds everything.
-161. A step with no tool is a gap, written as one, never papered over with improvisation.
-162. Free, then open source, then self-hostable, then embeddable, then drivable by an agent — a paid option earns the exception with a recorded reason.
-163. "Drivable by an agent" is not last by accident: a tool only a human can operate makes the owner the bottleneck.
-164. Licensing is settled before the first line of work, because in licence-heavy domains it decides what you may ship.
-165. Not knowing is normal; not looking is the failure.
-166. Asked what *we* have, the registers are the first source and the web is where the register ran out.
+158. Every real decision runs one loop: frame, search, compare, choose, check it survives being wrong, record, act.
+159. If a small error would flip the decision, the decision is undecided, and saying so beats faking precision.
+160. Find the process before the tools, then find a tool per step, by function.
+161. A literal "designer" finds nothing; "map the user journeys" finds everything.
+162. A step with no tool is a gap, written as one, never papered over with improvisation.
+163. Free, then open source, then self-hostable, then embeddable, then drivable by an agent — a paid option earns the exception with a recorded reason.
+164. "Drivable by an agent" is not last by accident: a tool only a human can operate makes the owner the bottleneck.
+165. Licensing is settled before the first line of work, because in licence-heavy domains it decides what you may ship.
+166. Not knowing is normal; not looking is the failure.
+167. Asked what *we* have, the registers are the first source and the web is where the register ran out.
 
 ## Talking to people
 
-167. Two questions are never skipped: how much you want to be in the loop, and who may direct this.
-168. An agent once ran an entire project hands-off because the first one was never asked.
-169. Nobody is asked to choose a command; the entrance is read from what is there.
-170. Anything readable from the ground is read, never asked.
-171. A defensible default is stated as a filled-in form needing a nod, not asked as an open question.
-172. Over-serving someone who asked for very little is the most common failure in practice.
-173. A quick job gets three questions, one or two agents, build and review, and deliberately none of the machinery.
-174. What a small job does *not* get is written down rather than left to judgement.
-175. No praise by default, and disagreement comes with an alternative.
-176. "Built" and "works" are different claims, and the system says which one it is making.
-177. Advice arrives while the decision can still change for free, because a warning delivered after the work is built on it is just criticism.
+168. Two questions are never skipped: how much you want to be in the loop, and who may direct this.
+169. An agent once ran an entire project hands-off because the first one was never asked.
+170. Nobody is asked to choose a command; the entrance is read from what is there.
+171. Anything readable from the ground is read, never asked.
+172. A defensible default is stated as a filled-in form needing a nod, not asked as an open question.
+173. Over-serving someone who asked for very little is the most common failure in practice.
+174. A quick job gets three questions, one or two agents, build and review, and deliberately none of the machinery.
+175. What a small job does *not* get is written down rather than left to judgement.
+176. No praise by default, and disagreement comes with an alternative.
+177. "Built" and "works" are different claims, and the system says which one it is making.
+178. Advice arrives while the decision can still change for free, because a warning delivered after the work is built on it is just criticism.
 
 ## Outside software
 
-178. *Ship* is the go-live moment whatever you make: an episode published, a production batch sent, a finding published.
-179. *Urgent* means something different in every medium, and it is defined per medium.
-180. A chip maker has no data flows, a channel has no sprints, a bakery has no deploys.
-181. If a sentence would sound absurd to someone outside software, the sentence is wrong, not the reader.
-182. There is no per-industry catalogue, because the moment one domain gets its own list this stops being a method.
+179. *Ship* is the go-live moment whatever you make: an episode published, a production batch sent, a finding published.
+180. *Urgent* means something different in every medium, and it is defined per medium.
+181. A chip maker has no data flows, a channel has no sprints, a bakery has no deploys.
+182. If a sentence would sound absurd to someone outside software, the sentence is wrong, not the reader.
+183. There is no per-industry catalogue, because the moment one domain gets its own list this stops being a method.
 
 ## The system on itself
 
-183. A change to the machinery goes through the same tasks, gates and history as the work.
-184. Behavioural scenarios run against fixtures built by a script, so a suite is re-run rather than reconstructed.
-185. The player in an eval never sees the rubric, and the judge never wrote the transcript it grades.
-186. Evals are scored as a pass-rate, because one run of a nondeterministic actor is an anecdote.
-187. The eval pass-rate is a regression detector and is deliberately not treated as a measure of success.
-188. Four lenses read every change of consequence — deletion, adversarial, contradiction, cold-read — by someone who did not write it.
-189. A lens that found nothing says so, because a silent lens is indistinguishable from a skipped one.
-190. Validators refuse duplicate ids, dangling links, ageing claims, orphaned templates and a rule living in two files.
-191. A rule kept in two files goes stale in one of them.
-192. When a rule does not hold, the repair is a form — a list, a required field, a gate — and never a stronger sentence.
-193. That last one was measured rather than argued.
+184. A change to the machinery goes through the same tasks, gates and history as the work.
+185. Behavioural scenarios run against fixtures built by a script, so a suite is re-run rather than reconstructed.
+186. The player in an eval never sees the rubric, and the judge never wrote the transcript it grades.
+187. Evals are scored as a pass-rate, because one run of a nondeterministic actor is an anecdote.
+188. The eval pass-rate is a regression detector and is deliberately not treated as a measure of success.
+189. Four lenses read every change of consequence — deletion, adversarial, contradiction, cold-read — by someone who did not write it.
+190. A lens that found nothing says so, because a silent lens is indistinguishable from a skipped one.
+191. Validators refuse duplicate ids, dangling links, ageing claims, orphaned templates and a rule living in two files.
+192. A rule kept in two files goes stale in one of them.
+193. When a rule does not hold, the repair is a form — a list, a required field, a gate — and never a stronger sentence.
+194. That last one was measured rather than argued.
 
 ## The ladder and the door
 
-194. Where the description of work lives is a ladder: the value names the cut, the rungs below are presumed, and a skipped rung is declared.
-195. A spec document and a failing test are one cut, not two modes to choose between.
-196. An exemplar is validator-checked or gauge-checked, and a gauge needs a judge who is not the author.
-197. The kind of work owns the default cut, proposed from the craft's own standards at the type's first wave.
-198. A stage changes through one door, which refuses with the reason, records the move — and never starts the next step.
-199. A dispatched worker receives its legal moves generated from the pipeline's own block, never recited from memory.
-200. A run's strategy resolves like its model does, lands on the record with its source, and the selector reads fields, never vibes.
-201. Silence on a request does only what a grant, written in advance, allows.
-202. A fact is cited to its place with a content-hash, so a passage that moves under the citation turns the fact unknown rather than quietly wrong.
-203. Compaction is safe for exactly what is already in the repository, and the three writes come before the shrink.
-204. Where the runtime can resume a dead session, the transcript is a readable source once — salvage, never the record.
-205. A gap found mid-build goes to the group that owns the invalidated artefact, and nobody edits what another craft is standing on.
-206. A release names its rollout, guardrail measures own the halt, and expansion surfaces as ready rather than advancing itself.
-207. The kill switch is named before the first user sees the change, whatever the craft calls a kill switch.
-208. A survey instrument matches its layer — the step, the scenario, the software, the brand — and reading one layer with another's tool is the trap.
+195. Where the description of work lives is a ladder: the value names the cut, the rungs below are presumed, and a skipped rung is declared.
+196. A spec document and a failing test are one cut, not two modes to choose between.
+197. An exemplar is validator-checked or gauge-checked, and a gauge needs a judge who is not the author.
+198. The kind of work owns the default cut, proposed from the craft's own standards at the type's first wave.
+199. A stage changes through one door, which refuses with the reason, records the move — and never starts the next step.
+200. A dispatched worker receives its legal moves generated from the pipeline's own block, never recited from memory.
+201. A run's strategy resolves like its model does, lands on the record with its source, and the selector reads fields, never vibes.
+202. Silence on a request does only what a grant, written in advance, allows.
+203. A fact is cited to its place with a content-hash, so a passage that moves under the citation turns the fact unknown rather than quietly wrong.
+204. Compaction is safe for exactly what is already in the repository, and the three writes come before the shrink.
+205. Where the runtime can resume a dead session, the transcript is a readable source once — salvage, never the record.
+206. A gap found mid-build goes to the group that owns the invalidated artefact, and nobody edits what another craft is standing on.
+207. A release names its rollout, guardrail measures own the halt, and expansion surfaces as ready rather than advancing itself.
+208. The kill switch is named before the first user sees the change, whatever the craft calls a kill switch.
+209. A survey instrument matches its layer — the step, the scenario, the software, the brand — and reading one layer with another's tool is the trap.

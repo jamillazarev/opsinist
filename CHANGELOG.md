@@ -4,6 +4,13 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.1 — 2026-08-07
 
+**A resource serves every flow that meets its need — said as law, not left as habit.** Filed
+by one flow, scoped to none: the shelf a review cites is the same shelf a build or a
+consultation opens, and a link the owner hands over on a task joins the register with its why
+and is read wherever relevant, never re-asked for. The rule's home is the resource chapter;
+the catalogue header and the fact ledger cite it. It covers the stock shelves and the
+project's own register alike.
+
 **The behavioural reference grew its applied half.** The index row already answered *what an
 effect is called* (Wikipedia's list and the Codex licence-clean, Growth.Design's 106 among the
 cite-only shelves) and armed exactly one flow — a persona's two-to-four named biases. Now the
@@ -1325,7 +1332,7 @@ happens — and a sweep that found nothing records what it looked at.
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · two hundred and eight single-sentence facts · ninety-nine situations with what to
+file defines · two hundred and nine single-sentence facts · ninety-nine situations with what to
 say · **ninety-eight evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the

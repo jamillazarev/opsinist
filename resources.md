@@ -83,6 +83,12 @@ project resource that matches the work's craft is **named in the brief too**.
 
 The alternative — a growing shelf nobody consults — is the failure this entity exists to prevent.
 
+**And a resource serves every flow that meets its need.** Filed by one flow, scoped to none:
+the shelf a review cites is the same shelf a build or a consultation opens; a link the owner
+hands over on a task joins the register with its why and is read wherever it is relevant —
+never re-asked for (`quick.md`). This holds for the stock shelves (`catalogue.md`) and for
+everything the project's own register carries, alike.
+
 **Who maintains them:** the owner adds them in conversation; any agent may **propose** additions
 and removals, with a stated `why` for both. A role proposing something at **project** scope is
 making a suggestion to the owner, not a self-service change.
