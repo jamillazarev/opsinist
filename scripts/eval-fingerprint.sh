@@ -34,9 +34,14 @@ fingerprint() {
   # text whose edit would invalidate a suite hardest. It reported "corpus unchanged" either way,
   # which is the failure mode a checker must never have. The verb doors are routable too, so
   # they count for the same reason the chapters do.
+  # Behaviour ships in hooks and scripts too: two freezes across a hooks/*.py-only change
+  # printed one hash (measured 2026-08-08), so a round could score against a gate the repo
+  # no longer had. The enforcement surface counts with the prose.
   ( cd "$TREE" || exit 1
     { find . -maxdepth 1 -name '*.md' -type f -print0
       find skills -name 'SKILL.md' -type f -print0
+      find hooks -type f \( -name '*.py' -o -name '*.sh' -o -name '*.json' \) -print0 2>/dev/null
+      find scripts -maxdepth 1 -name 'transition.py' -print0 2>/dev/null
     } | sort -z \
       | xargs -0 shasum -a 256 2>/dev/null \
       | shasum -a 256 \

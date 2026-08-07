@@ -18,7 +18,9 @@ Denies only when ALL of these hold:
 
 Creating new files — the list itself, a guide, docs/ — is never blocked; reading is never
 blocked; every internal error fails open. Known hole, accepted and named: Bash redirection
-(`>`) is not caught — the gate teaches the order, the judge scores the honesty.
+(`>`) is not caught — the gate teaches the order, the judge scores the honesty. The outward
+gate shares the family: a push wrapped in `sh -c "…"` or built by substitution passes the
+pattern — named rather than chased, since the judge reads the act either way.
 """
 import glob
 import json

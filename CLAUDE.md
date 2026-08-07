@@ -12,6 +12,11 @@ this file exists to stop anyone re-deriving per session.
 
 1. **Change** — one home per rule; cite patterns, never restate; anchors are headings.
    When a rule does not hold, the repair is **a form, not a stronger sentence** (measured).
+   **Any new capability meets the capability bar before it ships** — the four clauses of
+   `self-maintenance.md` §What-a-capability-owes: a form where it can fail · the mutation
+   test denying the mutant and passing the twin · the claim dated with its measurement ·
+   the showcase trio. No exceptions for small ones — the sibling's ledger and ours both
+   carry releases that looked finished without it.
 2. **Lenses** on anything of consequence — deletion · adversarial · contradiction ·
    cold-read, by a reader who did not write it, each reporting even when empty.
 3. **The showcase trio** for every new mechanic: a diagram · a situation (`use-cases.md`) ·

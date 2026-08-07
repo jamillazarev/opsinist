@@ -176,6 +176,28 @@ done
 # 11 · the shipped guards are exercised, not hoped: a validator whose test only runs when
 #      somebody remembers is a hope with a filename (found by the lenses — both tests were
 #      green and nothing ran them).
+# the hook wiring: hooks.json must parse, and every command file it names must exist —
+# a renamed hook script fails silently at runtime, which is the blind spot class the
+# sibling paid for ("a guard must not share its sweep's blind spot")
+python3 - <<'PY' || FAIL=1
+import json, os, re, sys
+try:
+    h = json.load(open("hooks/hooks.json"))
+except Exception as e:
+    print(f"  \033[31m✗\033[0m hooks/hooks.json does not parse: {e}"); sys.exit(1)
+bad = []
+for event, rules in (h.get("hooks") or {}).items():
+    for rule in rules:
+        for hook in rule.get("hooks", []):
+            cmd = hook.get("command", "")
+            m = re.search(r"\$\{CLAUDE_PLUGIN_ROOT\}/(\S+)", cmd)
+            if m and not os.path.exists(m.group(1)):
+                bad.append(f"{event}: {m.group(1)} does not exist")
+for b in bad: print(f"  \033[31m✗\033[0m hooks.json → {b}")
+if bad: sys.exit(1)
+print(f"  \033[32m✓\033[0m hook wiring: hooks.json parses, every named file exists")
+PY
+
 # a raw "(" inside a markdown URL breaks every downstream link reader — percent-encode it
 raw=$(grep -rEln '\]\([^) ]*\(' --include='*.md' . 2>/dev/null | grep -v '^\./\.git' || true)
 if [ -n "$raw" ]; then say_fail "raw ( in a markdown URL — percent-encode: $raw"; else say_ok "no raw parens inside markdown URLs"; fi
