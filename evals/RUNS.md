@@ -1128,3 +1128,32 @@ with a greeting — "I've loaded the project context… ready to help" — no ro
 the query never engaged. Not infrastructure: class 3 gains its purest specimen — a rule
 spoken directly at the advisor and answered with hospitality. The scenario stands; the
 baseline records the greeting.
+
+---
+
+## 2026-08-07 · the 0.2.1 canary smoke — the layout holds, and the harness's memory joins the attractors
+
+**Four scenarios, N=2, light tier, frozen 0.2.1 copy** (fingerprint checked at both ends;
+every player inside its fixture): N67 0/2 · N84 0/2 · N85 1/1 +1 void · N86 0/2. A smoke
+explores — N=1–2 measures nothing; the rates above are not claims.
+
+**What the smoke was for, it answered: the `_ops/` break did not move the ground.** No fail
+in eight is a lost path — N67/2 read `_ops/DECISIONS.md` and named the declined item
+correctly; the N85 pass ran `scripts/migrate-layout.py` against the flat fixture end to end
+— history-preserving moves, the craft's `docs/handbook.md` left and named, the log line
+appended. **The new-layout routing is reachable on the light tier.**
+
+**The zeros are the known classes, plus one new attractor worth its own row.** N86 both runs:
+the fields-at-birth prose does not route a light player (one born the type in-vocabulary —
+*tile-batch* — then audited furniture instead of proposing fields; the other ended in
+clarifying questions) — the standing repair class, forms not sentences, next tuning. N85's
+void is the interview stall (read `upgrading.md`, asked instead of acting). N67/1 answered a
+different question; N67/2 is a judge-strictness shade on an honest "no, deferred" — a
+scenario-tuning note, not a corpus one. **N84 both runs found a new home to be wrong in: the
+harness's own agent memory.** The player wrote the owner's rule into its private cross-session
+MEMORY.md — outside the workspace, never named back — the chat's memory grown a filesystem.
+That is a runtime collision of the same species as the TaskCreate row in `runtimes.md`: the
+harness offers an attractor exactly where the law says "files the workers read", and prose
+alone loses that fight on the light tier. Candidate forms: a core line naming agent-memory as
+*not a home* for project rules, and the audit gate treating a memory-write that answers a
+routing situation as the stopped-once class.
