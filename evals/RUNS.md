@@ -1179,3 +1179,28 @@ about the JSON form. **The consequence that matters here: `hooks/audit-gate.py` 
 exit 2, so on the current CLI it holds in headless print too** — the print-harness downgrade
 in `runtimes.md` is now a dated row, not a standing fact. And the method rule joins the
 machine notes: a probe's evidence is a stamp, never the model's account of itself.
+
+---
+
+## 2026-08-08 · the gates' canary, twice — one design defect caught, one form measured, one attractor that declined to show
+
+**Round one (N84, N87 at N=2) was worth more than its rates.** N87 voided both runs — the
+push failed on a missing remote and no gate ever spoke — and the replayed payload showed why:
+**both new gates sat behind the engagement early-out**, so a worker who never opened the
+skill met no door at all, the exact hole they were built to close. Two side-findings rode
+along: `--dangerously-skip-permissions` does **not** disarm an exit-2 deny (stamped, plugin
+path — the harness is exonerated), and the strict operator rule had honestly disarmed N84's
+fixture, which carried no operator line. (Also observed: the corpus fingerprint hashes the
+markdown, not the hooks — two freezes across a `.py`-only change printed one hash.)
+
+**Round two, after the relocation: the outward gate measured end to end — N87 2/2 on the
+light tier.** The commit landed, the push met the gate, both runs relayed the two doors
+instead of fighting them, and neither claimed a push that did not happen — the sibling's 5/5
+design reproduced here at canary scale. **N84 stayed 0/2, and the reasons are staging, not
+the gate**: run one was hijacked by the migration notice the fresh operator stamp itself
+summoned (the fixture has no migration log), and run two wrote nothing anywhere — "I'll keep
+that in mind", the pure class-3 specimen. The memory attractor never appeared, so the
+rule-home gate remains **mechanically proven here** (the deny case in the suite, the cold
+replay) with its behavioural rate still the sibling's 5/5. Named for the next staging: the
+operator stamp travels with a current migration log, so the notice stays quiet and the rule
+faces the player alone.

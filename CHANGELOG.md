@@ -44,6 +44,13 @@ does not see a shell redirect, so lenses run isolated and the tree is checked cl
 tag. And the preflight refuses a raw `(` inside a markdown URL before it can file false
 corpses downstream.
 
+**Eval state**: mutation suites green (audit-gate 93, migrate-layout 12); **the outward
+gate measured 2/2 end to end on the light tier** (N87 — commit passes, push meets the gate,
+doors relayed, no false "pushed"); the rule-home gate holds its mutation cases and the cold
+replay, with its behavioural 5/5 still the sibling's measurement until our staging meets the
+attractor (`evals/RUNS.md`, 2026-08-08 — the first canary also caught both gates hiding
+behind the engagement early-out, which is why they now run first).
+
 **Migration map**: nothing moves for owners. If your guide's operator line names another
 system, the migration nag now stays silent by design — that is the fix, not a regression. The
 two gates arm themselves only where a guide says `Operated by … Opsinist`; both carry named
