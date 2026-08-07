@@ -55,6 +55,18 @@ def main():
     if not (root / ".git").exists():
         print(f"not a git repository: {root}")
         return 2
+    # `_ops/` is a shared door: the sibling methodology names most of the same files.
+    # A tree whose guide says another system operates it is that system's workspace —
+    # refused whole, moved never.
+    for guide in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
+        gp = root / guide
+        if gp.is_file():
+            for line in gp.read_text(errors="replace").splitlines():
+                if "operated by" in line.lower() and "opsinist" not in line.lower():
+                    print(f"{guide} says this tree is operated by another system:")
+                    print(f"    {line.strip()}")
+                    print("not ours to migrate — handed back untouched")
+                    return 2
     if not dry and sh(root, "git", "status", "--porcelain").stdout.strip():
         print("the tree is dirty — commit or stash first, so the migration is its own diff")
         return 2

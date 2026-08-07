@@ -1157,3 +1157,25 @@ harness offers an attractor exactly where the law says "files the workers read",
 alone loses that fight on the light tier. Candidate forms: a core line naming agent-memory as
 *not a home* for project rules, and the audit gate treating a memory-write that answers a
 routing situation as the stopped-once class.
+
+---
+
+## 2026-08-08 · the hook probes: a form × path matrix, and a narrated probe that lied
+
+**The sibling challenged our per-mode note; three mechanical probes settled it** (stamp files
+for "hook ran" and "command ran" — after a narrated probe the same day reported "Exit:
+success, stdout: hello" for a call whose hook had fired). CLI 2.1.220, isolated home:
+
+| path | hook answer form | hook ran | command blocked |
+|---|---|---|---|
+| plugin (`--plugin-dir`) | `permissionDecision` JSON deny | yes | **no — it ran** |
+| plugin (`--plugin-dir`) | `exit 2` + stderr | yes | **yes** |
+| home `settings.json` | `permissionDecision` JSON deny | yes | **yes** |
+
+**Every party had measured a real cell.** The 2026-08-07 note (plugin hooks absent under
+`-p`) was version-true and is dated history; the sibling's both-paths-deny is the exit-2 row;
+our "plugin silent" from the narrated probe was wrong about execution and accidentally right
+about the JSON form. **The consequence that matters here: `hooks/audit-gate.py` denies by
+exit 2, so on the current CLI it holds in headless print too** — the print-harness downgrade
+in `runtimes.md` is now a dated row, not a standing fact. And the method rule joins the
+machine notes: a probe's evidence is a stamp, never the model's account of itself.

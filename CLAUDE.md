@@ -60,6 +60,6 @@ nothing accumulates outside versions.
   (`Claude Code-credentials-<sha256(home)[:8]>`) and their own logins for long rounds —
   copied tokens lose the refresh race. Details and traps: `evals/RUNS.md`.
 - BSD `find -delete` on the `/tmp` symlink is a silent no-op — resolve the physical path.
-- Plugin `PreToolUse` hooks do not fire under `claude -p` (measured); `SessionStart` does.
+- Hook enforcement is a form × path × version matrix — never narrate a probe, stamp it. On 2.1.220 (mechanical, 2026-08-08): plugin hooks fire under `-p`; **exit-2 denies enforce from the plugin**, the `permissionDecision` JSON form is ignored there and honored from `settings.json`. The 2026-08-07 "plugin hooks don't fire under -p" held on the older CLI — date every such claim.
 - GitHub issues land as triage: read, classify, fix or decline with a reason, close with
   the reasoning in a comment.

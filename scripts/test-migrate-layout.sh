@@ -30,6 +30,13 @@ pass=0; fail=0
 ok()  { pass=$((pass+1)); }
 bad() { fail=$((fail+1)); echo "  ✗ $1"; }
 
+# another system's tree is refused whole — the shared door read before any move
+printf '# Guide\n\n**Operated by:** otherops 9.9.9\n' > CLAUDE.md
+git add -A && git commit -qm operator
+python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1 && bad "sibling-operated tree was migrated" || ok
+grep -q 'another system' "$T/out.txt" && [ -f tasks/T-1.md ] && ok || bad "refusal unnamed or something moved"
+git rm -q CLAUDE.md && git commit -qm rm-operator
+
 # a dirty tree is refused, and nothing moves
 printf 'x\n' >> src/app.py
 python3 "$HERE/migrate-layout.py" . >/dev/null 2>&1 && bad "dirty tree was not refused" || ok

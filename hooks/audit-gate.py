@@ -110,7 +110,8 @@ def guide_version(root):
                 if "operated by" in line.lower():
                     m = re.search(r"(\d+\.\d+\.\d+)", line)
                     if m:
-                        return guide, m.group(1)
+                        return guide, m.group(1), line
+                    return guide, None, line
         except Exception:
             return None
     return None
@@ -207,20 +208,25 @@ def main():
         # development repository and pushed eval players into fabricated migration audits on
         # fixtures that nothing operates: a repo with no operator line and no config.md is
         # ENTERED, not migrated (SKILL.md, the fourth stand-down).
-        ours = (os.path.isfile(os.path.join(root, "_ops", "config.md"))
-                or os.path.isfile(os.path.join(root, "config.md"))
-                or bool(guide_version(root)))
+        g = guide_version(root)
+        # Another system's operator line means another system's workspace: `_ops/` is a
+        # shared door (the sibling names nine of our twelve documents identically), so a
+        # bare config.md is not a claim about WHO operates — only the line is. Their tree
+        # gets silence, not our migration nag; the takeover flow's fourth stand-down owns
+        # the interactive half.
+        if g and not re.search(r"opsinist", g[2], re.I):
+            out()
+        ours = bool(g)
         if not ours:
-            out()  # nothing operates this yet — nothing to migrate, nothing to say
+            out()  # no operator line naming us — not ours to nag, whatever files exist
         v = skill_version()
         if not v:
             out()
         named = migration_log_names(root, v)
         # The guide is compared whether or not the log is current: the two disagreeing is the
         # failure a written log actively hides, because a written log is what silences this.
-        g = guide_version(root)
-        if g and g[1] != v:
-            name, claimed = g
+        if g and g[1] and g[1] != v:
+            name, claimed = g[0], g[1]
             if named is True:
                 sys.stdout.write(
                     f"Opsinist {v}: the migration log records {v}, but `{name}` still says this "
@@ -406,8 +412,8 @@ def main():
                    ".index/", ".claude/", ".github/")
         _SYSTEM_FILES = {"CLAUDE.md", "AGENTS.md", "GEMINI.md", "config.md", "LATER.md",
                          ".gitignore", ".opsinist-checkout", ".checkout"}
-        operated = bool(cfg)
-        if not operated:
+        operated = False
+        if True:
             for _g in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
                 try:
                     _p = os.path.join(root, _g)

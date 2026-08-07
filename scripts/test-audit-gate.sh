@@ -48,8 +48,9 @@ check "tracked write AFTER the list, engaged → allow" 0 "$(pl Write "$R/src/ut
 check "bash rm AFTER the list, engaged → allow"       0 "$(pl Bash "rm notes.txt" "$TE")"
 rm "$R/LATER.md"
 
-printf 'Opsinist operates this repository.\n' > "$R/CLAUDE.md"
-check "operated repo (guide names Opsinist) → allow"  0 "$(pl Write "$R/src/util.py" "$TE")"
+printf '**Operated by:** Opsinist 0.0.0\n' > "$R/CLAUDE.md"
+mkdir -p "$R/_ops/tasks"
+check "operated repo (guide names Opsinist) → allow"  0 "$(pl Write "$R/_ops/tasks/T-9.md" "$TE")"
 rm "$R/CLAUDE.md"
 
 # A repository somebody ELSE operates is not an unoperated one. Measured 2026-08-02: with a
@@ -111,7 +112,7 @@ check "stop: one past refusal → still blocks"             2 "$(stop "$TO")"
 printf '# later\n' > "$R/LATER.md"
 check "stop: LATER.md written → allow"                    0 "$(stop "$TD")"
 rm "$R/LATER.md"
-printf 'Opsinist operates this repository.\n' > "$R/CLAUDE.md"
+printf '**Operated by:** Opsinist 0.0.0\n' > "$R/CLAUDE.md"
 check "stop: our own repo → allow"                        0 "$(stop "$TD")"
 rm "$R/CLAUDE.md"
 printf 'not json' | python3 "$GATE" >/dev/null 2>&1 && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: broken stdin must fail open"; }
@@ -156,12 +157,21 @@ printf 'Opsinist operates this repository.\n**Operated by:** Opsinist **0.0.1**\
 rm "$R/config.md"
 say "session: both stale → the no-config message" "no \`config.md\`" "$R"
 printf '# Project configuration\n\n## Migrations\n\n- 0.1.4 → %s · 2026-08-01 · nothing-required · t@t\n' "$V" > "$R/config.md"
-printf 'Opsinist operates this repository.\n' > "$R/CLAUDE.md"
+printf '**Operated by:** Opsinist %s\n' "$V" > "$R/CLAUDE.md"
 
 printf '# Project configuration\n\n## Migrations\n\n- 0.1.4 → %s · 2026-08-02 · t@t\n  impact: guide version line only.\n  Outcome: applied.\n' "$V" > "$R/config.md"
 say "session: a wrapped entry counts as a line"  "EMPTY" "$R"
 printf '# Project configuration\n\n## Migrations\n\n- 0.1.4 → %s · 2026-08-02 · t@t\n  impact: none recorded yet.\n' "$V" > "$R/config.md"
 say "session: wrapped but no outcome → speaks"   "does not name version" "$R"
+
+# The shared _ops/ door: a bare config.md is the sibling's shape too, so presence alone is
+# no longer an ownership claim — and another system's operator line means their workspace.
+printf '# Project configuration\n\n## Migrations\n\n- — → 0.4.0 · 2026-08-08 · applied · t@t\n' > "$R/config.md"
+printf '# Guide\n\n**Operated by:** otherops 9.9.9\n' > "$R/CLAUDE.md"
+say "session: sibling-operated tree → silence"     "EMPTY"  "$R"
+printf '# Guide\n\nA project. It mentions opsinist in passing.\n' > "$R/CLAUDE.md"
+say "session: config.md alone, no operator line → silence" "EMPTY" "$R"
+printf '**Operated by:** Opsinist %s\n' "$V" > "$R/CLAUDE.md"
 printf '# Project configuration\n\n## Migrations\n\n- 0.1.4 → %s · 2026-08-01 · nothing-required · t@t\n' "$V" > "$R/config.md"
 
 printf '# Contributing\n' > "$R/CONTRIBUTING.md"
