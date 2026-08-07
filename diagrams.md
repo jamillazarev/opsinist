@@ -148,6 +148,9 @@ flowchart TD
 
 ## What actually holds a gate
 
+Two of these became hooks in 0.2.3 — the outward act and the rule's home — each measured
+from 0/5 as prose to 5/5 as a refusal that names its doors.
+
 Only one of these moves between runtimes.
 
 ```mermaid
