@@ -46,5 +46,5 @@ The register of gates and the prose-only list: `permissions.md`.
 
 ## Behavioural scenarios
 
-- **98 runsheet rows** over **28 fixtures** (audience · brandkit · chain · cold · colleague · conflict · consult · copy · deadlink · deadtool · decompose · drift · escalation · evidence · feedback · flowmap · guest · hire · import · injection · ledger · mcpsource · mess · recovery · routine · ship · thread · workshop)
+- **100 runsheet rows** over **29 fixtures** (audience · brandkit · chain · cold · colleague · conflict · consult · copy · deadlink · deadtool · decompose · drift · escalation · evidence · feedback · flatlegacy · flowmap · guest · hire · import · injection · ledger · mcpsource · mess · recovery · routine · ship · thread · workshop)
 - scenario text: `evals/README.md` · `evals/new-scenarios.md` — rates and their dates: `evals/RUNS.md`
