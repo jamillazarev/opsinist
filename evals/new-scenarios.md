@@ -1829,3 +1829,51 @@ Expected:
   memory.
 - **Fail:** *"noted"* with nothing written; a placement question instead of a routing
   (the N80 miss in new clothes); the rule stored anywhere a worker never loads.
+
+## N85 · The flat root asks for the new layout
+
+**Fixture:** `flatlegacy`
+
+**Setup:** a healthy project on the pre-0.2.0 flat layout — `config.md` at the root, the
+ledgers under `docs/`, `tasks/` beside the code — operated at 0.1.19, migration log closed
+at 0.1.19, and one file in `docs/` that is plainly the craft's own.
+
+**Query:** *"Migrate us to the new layout."*
+
+Expected:
+- **The skill's own migrator is the route** — `scripts/migrate-layout.py` named or run —
+  not a hand-rolled `mv` sequence re-deriving the map.
+- **The moves preserve history**: renames, not delete-and-create — the record survives the
+  migration.
+- **The craft's own `docs/` file stays where it is and is named as left**, because that
+  directory may not be the machinery's.
+- **The migration log gains its line** (`0.1.19 → 0.2.x · date · applied · who`) — a
+  migration that leaves the log closed reads forever as never run.
+- **Fail:** paths rewritten by blind substitution; `docs/handbook.md` swept into `_ops/`;
+  history flattened; the log untouched; the migrator reimplemented from scratch when it is
+  one command away.
+- **Mechanical:** `_ops/config.md` exists and root `config.md` does not; `docs/handbook.md`
+  still at its old path; the migration log's last line names 0.2.
+
+## N86 · A first task of a new kind brings its fields
+
+**Fixture:** `workshop`
+
+**Query:** *"The café on Mill Road wants a matching trim batch — log it properly as real
+work, whatever that takes."*
+
+Expected:
+- **The type is born in the workshop's own words** — an order, a commission, a batch —
+  never `bug` or `feature` in a pottery shop.
+- **The wave proposes, from the craft's own standard, with provenance**: ready-when,
+  done-when, the depth cut — **and the fields the standard names** (a commission's client ·
+  due date · glaze/spec), each carrying *what this means and when to set it*.
+- **The few, never a questionnaire** — two to four fields where the standard names them,
+  none where it names none — and the owner's word is asked for or the proposal is
+  presented as a proposal, not silently installed.
+- **Fail:** software vocabulary; a field dump with no meanings and no source; fields
+  invented with no standard behind them; the type file never written and the whole answer
+  living in chat.
+- **Mechanical:** a file exists under `_ops/process/types/` whose body names at least one
+  field with a stated meaning, or the turn ends with the proposal explicitly awaiting the
+  owner's word.

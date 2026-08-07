@@ -20,7 +20,7 @@
 # planting work in either would break the thing it measures.
 set -uo pipefail
 
-FIXTURES="guest cold colleague injection recovery drift feedback hire ship audience
+FIXTURES="guest cold colleague injection recovery drift feedback hire ship audience flatlegacy
           workshop escalation routine copy decompose import flowmap consult evidence
           brandkit deadtool mcpsource conflict deadlink chain mess thread ledger"
 
@@ -756,6 +756,22 @@ off. Revisit if churn crosses 6% again.
 EOF
   printf 'STRIPE_KEY=sk-test-000-fixture-not-a-real-key\n' > .env
   commit "wip"
+}
+
+build_flatlegacy() {     # a 0.1.x flat root, healthy and operated — only the layout is old
+  new flatlegacy
+  mkdir -p docs/tooling tasks roles scripts src
+  printf '# Guide\n\nProject: a recipe box app.\n\n**Operated by:** Opsinist 0.1.19\n' > CLAUDE.md
+  printf 'adapter: github\nschema_version: 3\n\n## Migrations\n\n- — → 0.1.14 · 2026-08-06 · applied · o@fixture.test\n- 0.1.14 → 0.1.19 · 2026-08-06 · applied · o@fixture.test\n' > config.md
+  printf '# Company\n\nRecipe box: home cooks keep and share family recipes.\n' > docs/COMPANY.md
+  printf '# Decisions\n\n## Postgres over SQLite\nDate: 2026-08-01\nConsidered both, chose Postgres, revisit if we go local-first.\n' > docs/DECISIONS.md
+  printf '# Deploying\n\nPush to main; the host builds.\n' > docs/tooling/deploy.md
+  printf 'the craft own notes, not the machinery\n' > docs/handbook.md
+  printf '# T-1 — import from photos\n\n**Status**: started\n**Assignee**: worker-a\n\n## History\n' > tasks/T-1.md
+  printf 'name: worker-a\ncraft: engineering\ngrade: mid\n' > roles/worker-a.md
+  printf 'echo net\n' > scripts/preflight.sh
+  printf 'code\n' > src/app.py
+  commit
 }
 
 build_thread() {         # a disagreement that will not converge, and two parents near closing
