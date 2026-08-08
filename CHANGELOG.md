@@ -2,6 +2,40 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.4 — 2026-08-09
+
+**A document an agent cannot open is not evidence.** The shelf had an answer for web pages
+(Crawl4AI, cf-browser) and one for audio (Whisper), and none at all for the file somebody
+actually hands you — so a backlog exported as a spreadsheet, a primary source that exists only
+as a paper, and a segment's own words trapped in someone's deck were each solved from scratch by
+whoever hit them, or read by eye and paraphrased.
+**[anydoc](https://github.com/firecrawl/anydoc)** (MIT, Rust, local, no key and no model call) is
+now the row: `doc/docx` · `ppt/pptx` · `xls/xlsx` · `odt/ods/odp` · `rtf` · `epub` · `csv` and
+text-based PDFs into markdown. Home: `catalogue.md` → *Reading documents agents can't parse*.
+
+**Both limits are in the row, because a converter that quietly returns nothing is worse than no
+converter**: there is **no OCR** — an image-only or password-protected file is an explicit
+`Unsupported` or `Encrypted` rather than a silent empty result, and the fallback stays a real OCR
+pass or a hosted parse — and **images become their alt text**, so a deck whose argument lives in
+its pictures arrives without it. Its speed and coverage benchmarks are the project's own,
+LLM-judged, and are carried as claims rather than as facts about your corpus.
+
+**The import's extract pass names the need and cites the row rather than restating it.**
+`importing.md` now converts before it extracts, and **a file the converter refuses is recorded as
+unconverted and carried to the owner — never dropped, never guessed at**, because a paraphrase by
+eye is the same failure as importing to someone else's standard, one pass earlier. anydoc also
+ships as an agent skill; that route arrives through `skills.md` §Import's screen like any other
+import, which is where it was already governed.
+
+**Nothing else moved, and no project owes a migration.** A shelf row is read when a need names it
+and is never loaded before that (`catalogue.md` head), so no flow got longer. **No new mechanic,
+so no showcase trio is owed** — this is a row and a citation, and saying so is cheaper than
+leaving the reader to wonder which rule changed.
+
+**Eval state**: **not run** — nothing that an eval measures changed behaviour; the corpus checks
+are green (preflight, `check-links.py`, `test-audit-gate.sh`), which is evidence about the corpus
+and not about a model.
+
 ## 0.2.3 — 2026-08-08
 
 **Two gates cross the sibling border with their measurements attached.** Next door the prose

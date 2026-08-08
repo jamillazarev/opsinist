@@ -50,6 +50,13 @@ re-reading.
 gives the measured shape (counts, formats, manifests) the mapping below is then built from,
 deterministically → `entering.md`.
 
+**An export nobody can open is not a backlog.** Trackers hand you `.xlsx` and `.docx` as readily
+as CSV, and a file the agent cannot read gets paraphrased by eye — which is the same failure as
+importing to someone else's standard, one pass earlier. **Convert to markdown first, then
+extract**; the converter, and the two limits that decide whether it is the right one, are a shelf
+row → `catalogue.md` → *Reading documents agents can't parse*. **A file it refuses is recorded as
+unconverted and carried to the owner, never dropped and never guessed at.**
+
 **Map, and show the mapping before writing anything.**
 
 | From the source | To here | Rule |
