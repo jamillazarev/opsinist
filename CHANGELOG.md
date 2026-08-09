@@ -2,6 +2,67 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.6 — 2026-08-09
+
+**When the executor cannot do the step, it keeps the task and asks for one operation.** A post
+needs a picture and the connected model draws nothing; a script needs a voice; the paid API has
+no key; the surface only a person can operate. Until now this fell through: the corpus said *a
+step with no tool is a gap, written as one*, and `evals/capability-audit.md` records the
+neighbouring promise — *a tool gap met twice becomes a `tooling` task* — at **0/5 and 0/5,
+claimed and never once demonstrated**. That number is why this shipped as a form.
+
+**A request now has five kinds, and the fifth is `hand`** — *one operation the worker cannot
+perform, and nothing else*. The obvious alternative is the failure: filing the owner a task hands
+over the work, and a task assigned to a person **has no runs and no capacity, so its progress is
+invisible until they say otherwise** (`writing-work.md`). A `hand` hands over one step; the
+worker stays the assignee, the task stays `started` with a `waiting_on`, and it **ages** instead
+of sitting on the board looking busy.
+
+**The worker works to the boundary, so what is left for a person is one paste.** References read,
+brief written, payload produced, destination named — and a `hand` carries four things, checked at
+commit time by `templates/company-preflight.sh` **§16**: the **payload** verbatim · the
+**predicate**, *written before the payload*, because a check written after the artefact arrives
+is written to fit it · the **destination** · **what to return with it**. That last one is an
+interlock with 0.2.5 and the reason it is a field: the owner ran the generation, so **the model
+and seed are theirs**, and without asking for them back the recipe gate refuses the commit later
+with nobody able to answer.
+
+**The return leg is a review running backwards, and it inherits that gate's own warning.** The
+worker wrote the payload and now judges what came out of it — the generosity a model shows its
+own output, in a new costume — so it judges **against the predicate** and answers *accept* or
+*what to change in the payload*, never *close enough*. **This works at all because production and
+perception fail separately**: a model that cannot draw an image reads one fine. Where it cannot
+perceive the result either, **the loop collapses and the worker says so** rather than performing
+an inspection it cannot do. The bound is the rule that already existed — three attempts, and *a
+third round on one point is a spec problem, not a quality problem*: a third prompt still coming
+back wrong means **nobody settled what the image has to show**.
+
+**And the second time is the last time it is an escalation.** The threshold here is **twice**
+(`tooling.md`), and it forks: **wire the thing** — a `tooling` task, and the shelf usually already
+carries the row — **or declare the arrangement**, because someone who supplies this repeatedly is
+not an interruption but a **`human` on the roster** who may hold an assignment, taken rather than
+given (`hiring.md`). Left as a `hand` forever, a standing arrangement wears the shape of an
+emergency: it ages, it surfaces, it reads as trouble every single time, until the surface built to
+catch real trouble is the one nobody reads.
+
+**`runtimes.md` gains an output-modality row, and it is the odd one in that table.** Every other
+capability there is a property of the harness, read at session start and **announced at dispatch**;
+a modality is met **mid-run**, at the step, by a worker already holding the context. Saying so is
+the difference between a flow that fires and one that waits for a detection pass that already ran.
+
+**Measured 2026-08-09**: the §16 mutation cases in `scripts/test-company-preflight.sh` — the bare
+*"we need an image for the post"* refused, **the plausible near miss refused** (a real payload,
+no predicate), its mirror refused (a predicate, nothing to run), the complete `hand` passed, and
+**an `approval` request untouched**, because a check that fires on the four older kinds is a check
+people switch off. Suite 6 → **11/11**. Showcase: the flow diagram beside its rule in
+`escalating.md` (the gallery is at its line budget, and beside the rule is not a worse home),
+situations in `use-cases.md`, facts 219–227.
+
+**Eval state**: **not run** — but the scenario now exists and names the wall it is measured
+against: **N88 · The step the executor cannot perform**, on the `brandkit` fixture, where the
+player genuinely cannot emit an image and the question is whether the task survives the gap.
+Corpus checks green (preflight, `check-links.py`, `test-audit-gate.sh`).
+
 ## 0.2.5 — 2026-08-09
 
 **A generated asset now carries the recipe that made it, and a commit that forgets is refused.**
@@ -1495,8 +1556,8 @@ happens — and a sweep that found nothing records what it looked at.
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · 218 single-sentence facts · 105 situations with what to
-say · **101 evaluation scenarios**, each naming the fixture it runs against, scored by
+file defines · 227 single-sentence facts · 108 situations with what to
+say · **102 evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the
 artifacts a project stands up · and guards that run on every push: dangling references, ageing

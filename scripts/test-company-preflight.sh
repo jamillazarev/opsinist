@@ -65,5 +65,39 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a recipe-carrying a
 printf '# Assets\n\n| Asset | Source | Licence | Where |\n|---|---|---|---|\n| logo.svg | drawn in-house | owned | everywhere |\n' > _ops/assets.md
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a register with no generated rows was refused"
 
+# §16 · a `hand` carries one operation, not the job. The case that matters is the plausible one:
+# a request that reads like a sentence somebody would actually write and still hands over the
+# whole task. And the check must stay blind to every other kind, or it fires on the four that
+# were here first.
+mkdir -p _ops/requests
+hand() { printf '# R-1 — an image for the launch post\n\n**kind**: hand\n\n%s\n' "$1" > _ops/requests/R-1.md; git add -A; }
+
+hand '**Ask**: we need an image for the post.'
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a hand with no payload, predicate or destination passed" || ok
+
+# the plausible near miss: a real payload, and nothing that decides whether what comes back is right
+hand '**Payload**: `a slate roof at dusk, 3:2, no text`
+**Destination**: `assets/posts/launch-hero.png`'
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a hand with no predicate passed" || ok
+
+# and the mirror of it — a predicate with nothing to run
+hand '**Predicate**: the roof fills the upper third and no text appears
+**Destination**: `assets/posts/launch-hero.png`'
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a hand with no payload passed" || ok
+
+# the honest twin
+hand '**Payload**: `a slate roof at dusk, 3:2, no text`
+**Predicate**: the roof fills the upper third and no text appears
+**Destination**: `assets/posts/launch-hero.png`
+**Return with it**: the model and the seed'
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a complete hand was refused"
+
+# the four older kinds owe none of this — a check that fires on them is a check people switch off
+printf '# R-2 — merge?\n\n**kind**: approval\n\n**Ask**: merge the release branch?\n' > _ops/requests/R-2.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "an approval request was caught by the hand check"
+
+rm -rf _ops/requests && git add -A
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

@@ -286,3 +286,15 @@ line changes with it.
 216. Reading a lost prompt back out of an image is salvage — what comes out resembles the original and is not it.
 217. A transcript is taken from the caption track that already exists before any audio is sent to a model.
 218. A deck kept as text in the repository can be diffed, reviewed and gated; one kept as a binary cannot.
+
+## When the executor cannot
+
+219. A worker missing a capability keeps the task and asks for one operation, because a task handed to a person has no runs and no capacity and its progress goes invisible.
+220. A request has five kinds, and the fifth is a hand: one operation the worker cannot perform, and nothing else.
+221. A hand carries the payload verbatim, the predicate, the destination and what to return with the result — or the commit is refused.
+222. The predicate is written before the payload, because a check written after the artefact arrives is written to fit it.
+223. Production and perception fail separately, which is why a model that cannot draw an image can still judge one.
+224. Where the worker cannot perceive the result either, it says so instead of performing an inspection it cannot do.
+225. A capability gap is met mid-run, unlike every other missing capability, which is announced at dispatch.
+226. The second time the same capability is missing, it stops being an escalation and becomes either a wired tool or a person on the roster who owns that surface.
+227. A standing arrangement left as an escalation ages and surfaces every time, until the surface built to catch real trouble is the one nobody reads.

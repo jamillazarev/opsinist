@@ -5,10 +5,11 @@ what is waiting on them.
 
 ---
 
-## One entity, four kinds
+## One entity, five kinds
 
-Approvals, reviews, questions and decisions share a lifecycle — **asked → open → answered** — and
-while open they block something. So they are one entity with a `kind`, not four mechanisms.
+Approvals, reviews, questions, decisions and hands share a lifecycle — **asked → open →
+answered** — and while open they block something. So they are one entity with a `kind`, not five
+mechanisms.
 
 | `kind` | Example |
 |---|---|
@@ -16,6 +17,46 @@ while open they block something. So they are one entity with a `kind`, not four 
 | `review` | *"look at this — accept or send back"* |
 | `question` | an agent is stuck without information |
 | `decision` | *"pick one of these"* |
+| **`hand`** | *"run this prompt at 3:2 and send the file back"* — **one operation the worker cannot perform**, and nothing else |
+
+**`hand` is the one that is easy to get wrong, because the obvious move is worse.** A worker that
+cannot generate an image is not missing information — `question` is the wrong kind — and it is not
+asking for a judgement. It is missing **an actuator**. The instinct is to file the owner a task
+instead; that is the failure, and this file's neighbour says why: a task assigned to the owner has
+no runs and no capacity, so **its progress is invisible until they say otherwise**
+(`writing-work.md`). Filing it hands over the work. A `hand` hands over one step.
+
+**The smallest operation only they can perform goes up. Everything before and after it stays.**
+The worker still gathers the references, writes the brief, produces the prompt, names where the
+result goes and checks what comes back. **A `hand` that reads *"we need an image for the post"* is
+the whole job leaving**, and it is refused as one.
+
+**So a `hand` carries four things, and a commit that skips them is refused**
+(`templates/company-preflight.sh` §16):
+
+| | |
+|---|---|
+| **the payload** | ready to run, verbatim — the prompt, the command, the exact ask. Not a description of it |
+| **the predicate** | what makes the returned thing acceptable — **written before the payload**, because a check written afterwards is written to fit what arrived |
+| **the destination** | where the result lands: the path, the register row, the slide |
+| **what to return with it** | the facts the worker will need and cannot see — for a generated asset, the model and the seed, or the recipe gate refuses the commit later (`visual.md`) |
+
+**The return leg is a review running backwards, and it inherits that gate's own warning.** The
+worker wrote the payload and is now judging what came out of it — the same generosity a model
+shows its own output, in a new costume. So it judges **against the predicate**, which is why the
+predicate is written first, and it says *accept* or *what to change in the payload* — never
+*"close enough"*.
+
+**This works at all because production and perception fail separately.** A model that cannot draw
+an image reads one fine; one that cannot synthesise speech transcribes it. **Where the worker
+cannot perceive the result either, the loop collapses** — then the predicate must be something the
+human can check unaided, and **the worker says so** instead of performing an inspection it cannot
+do.
+
+**The loop is bounded by the rule that already exists**: three attempts per task, counted, not
+argued — and *a third round on one point is a spec problem, not a quality problem*
+(`escalating.md`). A third prompt that still comes back wrong is not a prompt problem: **nobody
+settled what the image has to show.**
 
 **A review routed to a non-author *is* the review gate.** There is no separate gate machinery:
 the request is the gate. **The author never answers their own**, and preferably the reviewer is

@@ -112,3 +112,54 @@ move — approve?"* At most two options. And it is a **request**, not a comment,
 about a slipping deadline is exactly the thing that gets scrolled past.
 
 **A slip itself is a recorded decision**, never a silent edit to a date.
+
+---
+
+## The capability gap — the worker keeps the chair
+
+**The other escalation with two directions is the one where nothing upstream is wrong: the work
+is sound, the step is clear, and the executor simply cannot perform it.** No image generation on
+the connected model, no voice, no camera, no key for the paid API, a surface only a person can
+operate (`choosing-tools.md`). The gap is in the **actuator**, not in the spec and not in what
+anybody knows.
+
+**Discovered mid-run, not at dispatch — which is what makes it its own flow.** Missing runtime
+capabilities are announced before the work (`runtimes.md`); a modality is met at the step that
+needs it, by a worker already holding the context.
+
+**So the worker works to the boundary and hands over one operation, never the job.** It gathers
+the references, writes the brief, produces the payload, writes the predicate **first**, names the
+destination, and raises a **`hand`** — the request kind that exists for exactly this, with the
+four things it must carry and the return leg it owes → `requests.md`. The calling task stays
+`started` with the worker as assignee, carries `waiting_on`, and **ages like a request** rather
+than sitting on the board looking busy.
+
+**What comes back the worker checks and either accepts or sends back with a changed payload** —
+and the loop is bounded by the rule above: three attempts, and *a third round on one point is a
+spec problem, not a quality problem.*
+
+```mermaid
+flowchart TD
+  S[the step needs a thing<br/>this executor cannot make] --> W[work to the boundary:<br/>references · brief · payload ·<br/>predicate written FIRST · destination]
+  W --> H[a `hand` request —<br/>one operation, not the job]
+  H --> O([the owner runs it<br/>and returns the artefact<br/>+ the facts asked for])
+  O --> C{does it meet<br/>the predicate?}
+  C -- yes --> D[lands at the destination,<br/>recorded with its recipe]
+  C -- no --> P[say what to change<br/>in the payload] --> H
+  P -. third round .-> SPEC[[not a prompt problem —<br/>nobody settled what<br/>done means here]]
+  T[[met twice on the same<br/>capability]] -.-> ARR[stop escalating:<br/>wire the tool, or put the person<br/>on the roster as owning it]
+```
+
+**And the second time is the last time it is an escalation.** The threshold everywhere here is
+**twice** (`tooling.md`), and it forks: **wire the thing** — a `tooling` task, and the shelf
+usually already has the row — **or declare the arrangement**, because a person who supplies this
+repeatedly is not an interruption, they are a **`human` on the roster** who may hold an
+assignment, taken rather than given (`hiring.md`). Either way the task type's definition of done
+names the supply, so the next task starts knowing.
+
+**Left as a `hand` forever, a standing arrangement wears the shape of an emergency** — it ages,
+it surfaces, it reads as something going wrong, every single time, and the owner learns to ignore
+the surface that was built to catch real trouble.
+
+*The diagram is here rather than in the gallery because `diagrams.md` sits at its line budget —
+and beside the rule it draws is not a worse home.*

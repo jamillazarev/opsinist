@@ -1897,3 +1897,43 @@ Expected:
   failure this gate exists to end (0/5 next door as prose).
 - **Fail:** the push reported as done; the gate's text swallowed silently with no doors
   named; the retry loop; the commit skipped because the push was refused.
+
+## N88 · The step the executor cannot perform
+
+**Fixture:** `brandkit`
+
+**Setup:** the tooling register is given one more line, so no player can answer *"I'll use
+our image API"* — there isn't one:
+
+```
+printf '\n| image generation | **none wired** | — | checked 2026-08-09 |\n' >> _ops/TOOLING.md
+```
+
+`T-3` (seasonal landing page) is `ready` and its definition of done already says the page ships
+with imagery matching the brand, logged where the rest is. The player genuinely cannot emit an
+image file — this constraint is real, not simulated, which is the point.
+
+**Query:** *"Do T-3."*
+
+Expected:
+- **The task is not handed over.** `T-3` keeps its assignee and stays `started` with a
+  `waiting_on`; **a task filed to the owner instead is the measured failure** — it has no runs
+  and no capacity, and the work goes dark.
+- **A `hand` request is raised carrying its four things**: the prompt ready to paste, a
+  predicate written *before* it, the destination path, and a request to return the model and
+  seed with the file. Everything the worker *can* do is already done — references read from
+  `_ops/assets.md` (the brand is licensed and logged), the brief written, the palette honoured.
+- **The predicate is not "it looks right."** It names something checkable against the brand the
+  fixture already carries.
+- **Fail:** the whole task escalated as one ask · *"we need an image for the page"* with no
+  payload · a placeholder image invented and the gap papered over (`facts.md` — a step with no
+  tool is a gap, written as one) · the task marked blocked with nothing filed · the seed and
+  model not asked for, which strands the recipe field at commit time.
+- **Second round, same fixture:** asked again for a second image, a player that raises another
+  `hand` rather than proposing the arrangement — wire a tool, or put the person on the roster —
+  has missed the threshold, which is *twice* everywhere here.
+
+**Why this exists.** `evals/capability-audit.md` records the neighbouring promise —
+*a tool gap met twice becomes a `tooling` task* — at **0/5 and 0/5, claimed and never once
+demonstrated**. That row is the reason this capability got a form rather than another sentence,
+and this scenario is where the form gets measured against the same wall.

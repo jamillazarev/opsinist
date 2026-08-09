@@ -101,6 +101,24 @@ today's date. Writing \`unknown\` needs no new information and takes one edit.";
 done < /tmp/.pf-tooling.$$
 rm -f /tmp/.pf-tooling.$$
 
+# 16 · a `hand` is one operation the worker cannot perform — not the job. The failure it exists
+#      to catch is the request that reads "we need an image for the post": the whole task leaving
+#      under the name of a step, landing on someone with no runs and no capacity, where its
+#      progress goes invisible. So the four things are checked for presence, because their cheap
+#      answers are the ones that cannot be written: a payload nobody ran cannot be quoted, and a
+#      predicate written after the artefact arrives is written to fit it. requests.md → `hand`.
+for r in $(git ls-files '_ops/requests/*.md' 2>/dev/null); do
+  grep -qiE '^[-*]?[[:space:]]*(\*\*)?kind(\*\*)?:[[:space:]]*`?hand`?' "$r" || continue
+  missing=""
+  grep -qiE '(\*\*)?payload(\*\*)?:' "$r"     || missing="$missing payload"
+  grep -qiE '(\*\*)?predicate(\*\*)?:' "$r"   || missing="$missing predicate"
+  grep -qiE '(\*\*)?destination(\*\*)?:' "$r" || missing="$missing destination"
+  [ -z "$missing" ] || say_fail "$r is a \`hand\` and is missing:$missing — a hand carries the \
+payload verbatim, the predicate that decides whether what comes back is acceptable, and where \
+the result lands. Without them this is not one operation going up, it is the task going up, to \
+someone with no runs and no capacity (requests.md)."
+done
+
 # 15 · (numbered by arrival, placed by theme) a generated asset without its recipe is
 #      unrepeatable, and nobody finds out on the day. A month later the second banner in the
 #      set comes back "close but not it", the model has moved, the prompt is gone, and the

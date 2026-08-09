@@ -1,0 +1,16 @@
+[    4441ms] [INFO] <Suspense> is an experimental feature and its API will likely change. @ http://localhost:3000/_nuxt/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js?v=673d5cc8:7208
+[    4650ms] [LOG] ✨ %cNuxt DevTools %c Press Shift + Option + D to open DevTools color: black; border-radius: 3px 0 0 3px; padding: 2px 2px 1px 10px; background: #00DC82 border-radius: 0 3px 3px 0; padding: 2px 10px 1px 2px; background: #00DC8220  @ http://localhost:3000/_nuxt/node_modules/@nuxt/devtools/dist/runtime/plugins/devtools.client.js?v=673d5cc8:51
+[    4765ms] [INFO] [UMAMI]: Tracking disabled on localhost 
+ @ http://localhost:3000/_nuxt/node_modules/nuxt-umami/dist/runtime/logger.js?v=673d5cc8:15
+[    4766ms] [INFO] [UMAMI]: Tracking disabled on localhost 
+ @ http://localhost:3000/_nuxt/node_modules/nuxt-umami/dist/runtime/logger.js?v=673d5cc8:15
+[    4766ms] [INFO] [UMAMI]: Tracking disabled on localhost 
+ @ http://localhost:3000/_nuxt/node_modules/nuxt-umami/dist/runtime/logger.js?v=673d5cc8:15
+[    4766ms] [INFO] [UMAMI]: Tracking disabled on localhost 
+ @ http://localhost:3000/_nuxt/node_modules/nuxt-umami/dist/runtime/logger.js?v=673d5cc8:15
+[    4766ms] [INFO] [UMAMI]: Tracking disabled on localhost 
+ @ http://localhost:3000/_nuxt/node_modules/nuxt-umami/dist/runtime/logger.js?v=673d5cc8:15
+[    4766ms] [INFO] [UMAMI]: Tracking disabled on localhost 
+ @ http://localhost:3000/_nuxt/node_modules/nuxt-umami/dist/runtime/logger.js?v=673d5cc8:15
+[    4834ms] [INFO] [UMAMI]: Tracking disabled on localhost 
+ @ http://localhost:3000/_nuxt/node_modules/nuxt-umami/dist/runtime/logger.js?v=673d5cc8:15
