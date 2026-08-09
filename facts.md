@@ -290,8 +290,8 @@ line changes with it.
 ## When the executor cannot
 
 219. A worker missing a capability keeps the task and asks for one operation, because a task handed to a person has no runs and no capacity and its progress goes invisible.
-220. A request has five kinds, and the fifth is a hand: one operation the worker cannot perform, and nothing else.
-221. A hand carries the payload verbatim, the predicate, the destination and what to return with the result — or the commit is refused.
+220. A request has five kinds, and the fifth is a relay: one operation the worker cannot perform, and nothing else.
+221. A relay carries the payload verbatim, the predicate, the destination and what to return with the result — or the commit is refused.
 222. The predicate is written before the payload, because a check written after the artefact arrives is written to fit it.
 223. Production and perception fail separately, which is why a model that cannot draw an image can still judge one.
 224. Where the worker cannot perceive the result either, it says so instead of performing an inspection it cannot do.

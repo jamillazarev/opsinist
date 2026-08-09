@@ -17,6 +17,7 @@ is that file's business; a term used in two is canon, and canon lives here.
 
 | These look alike | …and are not | The test |
 |---|---|---|
+| **relay** (a request kind) · **by hand** (the ordinary phrase) | a `relay` is **one operation the owner performs while the worker keeps the task**; *by hand* means the owner **takes the whole thing** — one of the three doors in the core | who still owns the task afterwards? |
 | **pipeline** · **automation** | a pipeline is the **stage sequence a task travels**; an automation is **recurring or triggered work that starts something** | does it *describe a path* or *fire*? |
 | **stage** · **wave** | a stage is a **named step of a pipeline**; a wave is the **barrier grouping sibling children** | does it order *the ladder* or *the children*? |
 | **team** · **panel** | a team holds **workers** and its routing produces an **assignee**; a panel holds **experts, personas and humans** and its routing produces a **respondent** | can a member be *assigned work*? |
@@ -150,7 +151,7 @@ performs it** — the advisor is not exempt. → `permissions.md`
 way a gate is loosened, because a setting rots quietly and a grant announces its own death.
 Expiry is evaluated **at the gate check**, not by a timer. → `permissions.md`
 
-**request** — one entity with a `kind`: `approval` · `review` · `question` · `decision`. A
+**request** — one entity with a `kind`: `approval` · `review` · `question` · `decision` · `relay`. A
 review routed to a non-author **is** the review gate. The author never answers their own.
 Every escalation is a request. → `requests.md`
 

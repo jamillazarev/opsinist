@@ -41,63 +41,63 @@ python3 "$HERE/transition.py" _ops/tasks/T-1.md done --by owner >/dev/null 2>&1 
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a door-made move was refused by the net"
 
-# §15 · a generated asset with no recipe is refused; the honest twin passes. Three cases,
-# because the near-miss is the one that matters: a row that carries a prompt and no seed is
-# the shape a hurried author actually produces, and `seed: none` must be a real door.
-cat > _ops/assets.md <<'EOF'
-# Assets
-
-| Asset | Source | Licence | Where |
-|---|---|---|---|
-| hero.png | generated, fal.ai | owned | site header |
-EOF
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a generated asset with no recipe passed" || ok
-
-# the near miss: prompt written, seed forgotten
-sed -i '' 's/| generated, fal.ai |/| generated, fal.ai, model: flux-1.1-pro, prompt: `a slate roof at dusk` |/' _ops/assets.md
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a generated asset with no seed passed" || ok
-
-# the honest twin — and `seed: none` is a real answer, not a loophole to be denied
-sed -i '' 's/`a slate roof at dusk` |/`a slate roof at dusk`, seed: none |/' _ops/assets.md
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a recipe-carrying asset was refused"
-
-# and a register with no generated rows at all never sees this check
-printf '# Assets\n\n| Asset | Source | Licence | Where |\n|---|---|---|---|\n| logo.svg | drawn in-house | owned | everywhere |\n' > _ops/assets.md
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a register with no generated rows was refused"
-
-# §16 · a `hand` carries one operation, not the job. The case that matters is the plausible one:
-# a request that reads like a sentence somebody would actually write and still hands over the
-# whole task. And the check must stay blind to every other kind, or it fires on the four that
-# were here first.
+# §15 · a generated asset with no recipe is refused. Every case here is one a lens measured
+# passing the first version of this gate, so the suite is the record of what it used to miss:
+# a current generator (the old check keyed on a vendor list — Ideogram, Nano Banana and
+# gpt-image-1 all walked through), an empty value after a key, and a staged-broken file the
+# author fixed only in the editor. Fixtures are written with printf, never `sed -i ''`, which
+# is BSD-only and made this suite unrunnable on Linux while CI pinned macOS and never said so.
 mkdir -p _ops/requests
-hand() { printf '# R-1 — an image for the launch post\n\n**kind**: hand\n\n%s\n' "$1" > _ops/requests/R-1.md; git add -A; }
+assets() { printf '# Assets\n\n| Asset | Origin | Licence | Where |\n|---|---|---|---|\n| %s |\n' "$1" > _ops/assets.md; git add -A; }
+relay()  { printf '# R-1 — an image for the launch post\n\n%s\n' "$1" > "${2:-_ops/requests/R-1.md}"; git add -A; }
+gate()   { bash _ops/scripts/preflight.sh >/dev/null 2>&1; }
 
-hand '**Ask**: we need an image for the post.'
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a hand with no payload, predicate or destination passed" || ok
+assets 'hero.png | origin: generated, Ideogram | owned | header'
+gate && bad "a current generator with no recipe passed (the vendor-list hole)" || ok
 
-# the plausible near miss: a real payload, and nothing that decides whether what comes back is right
-hand '**Payload**: `a slate roof at dusk, 3:2, no text`
-**Destination**: `assets/posts/launch-hero.png`'
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a hand with no predicate passed" || ok
+assets 'hero.png | origin: generated, model: flux-1.1-pro, prompt: `a slate roof`, seed:'
+gate && bad "an empty seed value passed" || ok
 
-# and the mirror of it — a predicate with nothing to run
-hand '**Predicate**: the roof fills the upper third and no text appears
-**Destination**: `assets/posts/launch-hero.png`'
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a hand with no payload passed" || ok
+assets 'hero.png | origin: generated, model: flux-1.1-pro, prompt: `a slate roof`, seed: none'
+gate || bad "a complete recipe with seed: none was refused"; gate && ok
 
-# the honest twin
-hand '**Payload**: `a slate roof at dusk, 3:2, no text`
+assets 'logo.svg | origin: drawn | owned | everywhere'
+gate || bad "a drawn asset was caught by the recipe check"; gate && ok
+
+rm -f _ops/assets.md; git add -A
+
+# §16 · a `relay` carries one operation, not the job. The load-bearing case is the cheapest
+# cheat a lens found: the keys present as bare words inside an ordinary sentence, satisfying a
+# substring test while the request says exactly what the gate exists to refuse.
+relay '**Ask**: we need an image for the post. kind: relay payload: predicate: destination:'
+gate && bad "keys with no values passed" || ok
+
+relay '**Kind:** relay
+**Payload**: `a slate roof at dusk, 3:2, no text`
 **Predicate**: the roof fills the upper third and no text appears
 **Destination**: `assets/posts/launch-hero.png`
 **Return with it**: the model and the seed'
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a complete hand was refused"
+gate || bad "a complete relay in bold-colon spelling was refused"; gate && ok
 
-# the four older kinds owe none of this — a check that fires on them is a check people switch off
+relay '**kind**: relay
+**payload**: `x`
+**predicate**: y
+**destination**: z' '_ops/requests/an image for the post.md'
+gate || bad "a filename with spaces was skipped or broke the loop"; gate && ok
+rm -f '_ops/requests/an image for the post.md'; git add -A
+
+# the index is the truth, not the editor: stage the broken one, fix only the worktree
+printf '# R-3\n\n**kind**: relay\n**payload**: `x`\n**destination**: z\n' > _ops/requests/R-3.md
+git add -A
+printf '# R-3\n\n**kind**: relay\n**payload**: `x`\n**predicate**: y\n**destination**: z\n' > _ops/requests/R-3.md
+gate && bad "a staged-broken relay passed because the gate read the worktree" || ok
+rm -f _ops/requests/R-3.md; git add -A
+
 printf '# R-2 — merge?\n\n**kind**: approval\n\n**Ask**: merge the release branch?\n' > _ops/requests/R-2.md
 git add -A
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "an approval request was caught by the hand check"
+gate || bad "an approval request was caught by the relay check"; gate && ok
 
-rm -rf _ops/requests && git add -A
+rm -rf _ops/requests; git add -A
 
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

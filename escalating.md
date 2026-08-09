@@ -129,7 +129,7 @@ needs it, by a worker already holding the context.
 
 **So the worker works to the boundary and hands over one operation, never the job.** It gathers
 the references, writes the brief, produces the payload, writes the predicate **first**, names the
-destination, and raises a **`hand`** — the request kind that exists for exactly this, with the
+destination, and raises a **`relay`** — the request kind that exists for exactly this, with the
 four things it must carry and the return leg it owes → `requests.md`. The calling task stays
 `started` with the worker as assignee, carries `waiting_on`, and **ages like a request** rather
 than sitting on the board looking busy.
@@ -141,7 +141,7 @@ spec problem, not a quality problem.*
 ```mermaid
 flowchart TD
   S[the step needs a thing<br/>this executor cannot make] --> W[work to the boundary:<br/>references · brief · payload ·<br/>predicate written FIRST · destination]
-  W --> H[a `hand` request —<br/>one operation, not the job]
+  W --> H[a `relay` request —<br/>one operation, not the job]
   H --> O([the owner runs it<br/>and returns the artefact<br/>+ the facts asked for])
   O --> C{does it meet<br/>the predicate?}
   C -- yes --> D[lands at the destination,<br/>recorded with its recipe]
@@ -157,7 +157,7 @@ repeatedly is not an interruption, they are a **`human` on the roster** who may 
 assignment, taken rather than given (`hiring.md`). Either way the task type's definition of done
 names the supply, so the next task starts knowing.
 
-**Left as a `hand` forever, a standing arrangement wears the shape of an emergency** — it ages,
+**Left as a `relay` forever, a standing arrangement wears the shape of an emergency** — it ages,
 it surfaces, it reads as something going wrong, every single time, and the owner learns to ignore
 the surface that was built to catch real trouble.
 

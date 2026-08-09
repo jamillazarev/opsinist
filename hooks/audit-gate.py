@@ -261,8 +261,8 @@ def main():
                     f"is a file in one — roles, tasks, runs, the whole record. Nothing can be "
                     f"created until there is a repo. **Two routes, and it is the owner's "
                     f"pick**: run `git init` here — one local command, nothing leaves the "
-                    f"machine, undone by `rm -rf .git` — or point at the repository that "
-                    f"already holds this work. **If this folder already has files in it, "
+                    f"machine, undone by `rm -rf .git` — or **say where that repository is and I will "
+                    f"open it there**, if this work already lives in one. **If this folder has files in it, "
                     f"`git init` moves and changes nothing**; they stay exactly where they are "
                     f"until someone commits them.\n")
                 sys.exit(0)

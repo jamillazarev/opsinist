@@ -101,45 +101,71 @@ today's date. Writing \`unknown\` needs no new information and takes one edit.";
 done < /tmp/.pf-tooling.$$
 rm -f /tmp/.pf-tooling.$$
 
-# 16 · a `hand` is one operation the worker cannot perform — not the job. The failure it exists
+# A field's value, from a markdown line that may wear any decoration: `**payload**:`, `- Payload :`,
+# `payload: "x"`. Everything before the first colon after the key is stripped, then quotes,
+# backticks and asterisks. Returns empty when the key is absent OR present with nothing after it —
+# which is the point: the first version of these gates tested for the SUBSTRING, and a lens showed
+# that `**Ask**: we need an image. payload: predicate: destination:` satisfied all three checks
+# while saying exactly what they were written to refuse. A key with no value is not an answer.
+field() { # field <key> <file-or-"-">
+  sed -nE "s/^[[:space:]]*[-*]?[[:space:]]*[*\`_]*$1[*\`_]*[[:space:]]*:[[:space:]]*//Ip" "$2" \
+    | sed -E 's/^["'"'"'\`*]+//; s/["'"'"'\`*]+$//' | grep -v '^[[:space:]]*$' | head -1
+}
+# Read from the INDEX, never the worktree: every other check in this file uses `git diff --cached`
+# or `git show HEAD:`, and a gate that reads the disk passes a commit whose staged content is
+# broken — stage the bad version, fix it in the editor, forget `git add`, commit green.
+staged() { git show ":$1" 2>/dev/null; }
+
+# 16 · a `relay` is one operation the worker cannot perform — not the job. The failure it exists
 #      to catch is the request that reads "we need an image for the post": the whole task leaving
 #      under the name of a step, landing on someone with no runs and no capacity, where its
-#      progress goes invisible. So the four things are checked for presence, because their cheap
-#      answers are the ones that cannot be written: a payload nobody ran cannot be quoted, and a
-#      predicate written after the artefact arrives is written to fit it. requests.md → `hand`.
-for r in $(git ls-files '_ops/requests/*.md' 2>/dev/null); do
-  grep -qiE '^[-*]?[[:space:]]*(\*\*)?kind(\*\*)?:[[:space:]]*`?hand`?' "$r" || continue
+#      progress goes invisible. Three of the four things are checked here; the fourth — what to
+#      return with the result — is caught downstream by §15 when the recipe cannot be filled, and
+#      this file does not claim otherwise. requests.md → `relay`.
+# `done < <(…)` and not `… | while`: a loop on the right of a pipe runs in a SUBSHELL, so every
+# `say_fail` inside it prints and its `fail=1` dies with the subshell — the gate speaks and the
+# commit passes. Measured on this very rewrite, which is why the note is here and not in a
+# changelog: the shape that fails open is the natural one to write.
+while IFS= read -r -d '' r; do
+  tmp=$(staged "$r") || continue
+  [ -n "$tmp" ] || continue
+  f=$(mktemp); printf '%s\n' "$tmp" > "$f"
+  # A file that names itself a relay ANYWHERE counts as one. Requiring a well-formed `kind:` line
+  # to notice it would let a malformed relay through unexamined, which is the failure inverted.
+  grep -qiE 'kind[^:]*:[[:space:]]*[*\`_]*relay' "$f" || { rm -f "$f"; continue; }
   missing=""
-  grep -qiE '(\*\*)?payload(\*\*)?:' "$r"     || missing="$missing payload"
-  grep -qiE '(\*\*)?predicate(\*\*)?:' "$r"   || missing="$missing predicate"
-  grep -qiE '(\*\*)?destination(\*\*)?:' "$r" || missing="$missing destination"
-  [ -z "$missing" ] || say_fail "$r is a \`hand\` and is missing:$missing — a hand carries the \
-payload verbatim, the predicate that decides whether what comes back is acceptable, and where \
-the result lands. Without them this is not one operation going up, it is the task going up, to \
-someone with no runs and no capacity (requests.md)."
-done
+  [ -n "$(field payload "$f")" ]     || missing="$missing payload"
+  [ -n "$(field predicate "$f")" ]   || missing="$missing predicate"
+  [ -n "$(field destination "$f")" ] || missing="$missing destination"
+  rm -f "$f"
+  [ -z "$missing" ] || say_fail "$r is a \`relay\` and is missing a value for:$missing — a relay \
+carries the payload verbatim, the predicate that decides whether what comes back is acceptable, \
+and where the result lands. A key with nothing after it counts as missing. Without them this is \
+not one operation going up, it is the task going up, to someone with no runs and no capacity \
+(requests.md)."
+done < <(git diff --cached --name-only -z 2>/dev/null | grep -zE '^_ops/requests/.*\.md$')
 
 # 15 · (numbered by arrival, placed by theme) a generated asset without its recipe is
 #      unrepeatable, and nobody finds out on the day. A month later the second banner in the
 #      set comes back "close but not it", the model has moved, the prompt is gone, and the
-#      set stops matching without anyone deciding to let it. Only fires on rows that name a
-#      generator, so a project with no generated assets never sees this. visual.md §A
-#      generated asset carries its recipe.
-if [ -f _ops/assets.md ]; then
+#      set stops matching without anyone deciding to let it.
+#      **It keys on a declared `origin:`, not on a list of vendors.** The first version carried
+#      brand names — fal.ai, midjourney, flux — and a lens measured eight current generators
+#      (Ideogram, Nano Banana, gpt-image-1, Sora, Firefly, Recraft, Seedream, "made with AI")
+#      passing untouched while the one row it did select was a sitemap. A vocabulary of vendors
+#      goes stale between releases; a field does not, and the register's own template asks for it.
+#      visual.md §A generated asset carries its recipe.
+if git diff --cached --name-only 2>/dev/null | grep -qx '_ops/assets.md'; then
   while IFS= read -r row; do
-    case "$row" in
-      *prompt:*)
-        case "$row" in
-          *seed:*) ;;
-          *) say_fail "an asset row in _ops/assets.md names a generator and a prompt but no \
-seed — write the number, or write \`seed: none\` where the model exposes none. Either is one \
-edit and needs no new information: $(printf '%s' "$row" | cut -c1-60)";;
-        esac;;
-      *) say_fail "an asset row in _ops/assets.md names a generator and carries no recipe — a \
-generated image whose prompt was not written down cannot be made again, and the set it belongs \
-to drifts. Add \`model:\` \`prompt:\` \`seed:\` (visual.md): $(printf '%s' "$row" | cut -c1-60)";;
-    esac
-  done < <(grep -iE '^\|.*(generated|midjourney|dall-?e|stable diffusion|sdxl|flux|imagen|comfyui|fal\.ai|replicate)' _ops/assets.md 2>/dev/null || true)
+    short=$(printf '%s' "$row" | cut -c1-60)
+    for k in model prompt seed; do
+      printf '%s\n' "$row" | grep -qiE "$k:[[:space:]]*[^[:space:]|]" || {
+        say_fail "an asset row in _ops/assets.md declares \`origin: generated\` and has no \
+\`$k:\` value — a generated image whose recipe was not written down cannot be made again, and \
+the set it belongs to drifts. \`seed: none\` is an accepted answer where the model exposes none; \
+an empty key is not (visual.md): $short"; }
+    done
+  done < <(staged _ops/assets.md | grep -iE '^\|.*origin:[[:space:]]*generated')
 fi
 
 # 3 · DECISIONS.md is append-only. Rewriting it is how a rejected idea comes back

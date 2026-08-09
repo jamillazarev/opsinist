@@ -2,125 +2,81 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.7 — 2026-08-09
-
-**A directory that is not a git repository now says so, at session start, before anything else
-can go wrong.** The hook that delivers the migration state used to return silently the moment
-`repo_root()` came back empty — **silent at the one moment the silence costs the most**. Everything
-here is a file in a repository: roles, tasks, runs, the record. A person who has never run
-`git init` cannot act on nothing happening, and the ladder in `arriving.md` that would have told
-them is a document they have no way to know exists yet. The comment directly above that early
-return already carried the shape of the failure, measured on its neighbour: **prose in the
-always-loaded core ran in 0 of 5 runs, and an absence was read as *"fresh project, nothing to
-do."***
-
-**The line says what the fix costs, because the alternative was a question only git users can
-answer.** *"This directory is not a repo — start one, or point me at yours?"* assumes the reader
-knows what starting one means. It now names both routes and their price: `git init` here — one
-local command, nothing leaves the machine, undone by `rm -rf .git` — or point at the repository
-that already holds the work. **And the sentence that actually unblocks a takeover: on a folder
-that already has files, `git init` moves and changes nothing**; everything stays exactly where it
-is until someone commits it. That fear is what stalls the full-folder case, and it was nowhere
-in the corpus.
-
-**Two guards, so it never becomes the hook people switch off**: never in the home directory, and
-**never twice for the same directory** — stamped in the harness config dir, not in somebody's
-folder, because writing a marker into a stranger's directory to avoid annoying them is its own
-trespass. `CLAUDE_CONFIG_DIR` is honoured, so a clean-room home stamps its own.
-
-**`entering.md` asks the question before the audit, not after.** A takeover arriving as years of
-files with no git in it is ordinary, and **everything below that heading assumes a repo** — the
-ground read from commits, the before-state, the debt list. It also says the thing that was
-missing: **auditing a tree with no history is a thinner job**, and saying so beats performing the
-fuller one on evidence that is not there.
-
-**Measured 2026-08-09**, six new cases in `scripts/test-audit-gate.sh`: speaks in a non-repo
-directory · silent the second time in the same one · speaks in a *different* one · silent inside
-a real repository · silent in `$HOME` · and the message asserted to carry both the route and the
-reassurance. Suite 93 → **100/100**. **And it broke an existing case, which is the point of
-having one**: *"outside a project we operate → silent"* had been passing against the suite's own
-non-repo temp root — right assertion, wrong fixture, passing because nothing fired there at all
-rather than because ownership was tested. It now runs against a real repository that is not ours.
-
-**And the front door was drawing the wrong question, which is the part a reader meets first.**
-`is a repo here?` branched straight to *start a project* — so **a folder holding years of work
-with no git in it was routed to `/init`**, a fresh start over somebody's existing project. It is
-two arrivals, not one: the diagram now asks whether there is work in the folder, and sends the
-full one to the takeover where it belonged. The gallery was at its line budget, so the room came
-from tightening a neighbouring caption rather than from leaving the door wrong.
-
-**`INSTALL.md` documents `--scope`, and the measurement corrects what the word implies.**
-`claude plugin install --scope project` in a fresh directory wrote **one file** —
-`.claude/settings.json` with `enabledPlugins` — **no plugin bytes in the project**, and the user
-config byte-identical afterwards. The code stays in one machine-wide cache every project shares,
-so **scope is the declaration, never the files**. And the trap, measured in the same run: the
-project file gets `enabledPlugins` and **not** `extraKnownMarketplaces`, so committed as-is it
-tells a clone to enable a plugin **without saying where to get it**. The fix is four lines of
-JSON and they are in the file now.
-
-**Eval state**: **not run** — the behaviour change is a session-start fact with six mutation
-cases behind it, which is the measurement that fits it. Corpus checks green.
-
 ## 0.2.6 — 2026-08-09
 
 **When the executor cannot do the step, it keeps the task and asks for one operation.** A post
 needs a picture and the connected model draws nothing; a script needs a voice; the paid API has
-no key; the surface only a person can operate. Until now this fell through: the corpus said *a
-step with no tool is a gap, written as one*, and `evals/capability-audit.md` records the
-neighbouring promise — *a tool gap met twice becomes a `tooling` task* — at **0/5 and 0/5,
-claimed and never once demonstrated**. That number is why this shipped as a form.
+no key. Until now this fell through: the corpus said *a step with no tool is a gap, written as
+one*, and `evals/capability-audit.md` records the neighbouring promise — *a tool gap met twice
+becomes a `tooling` task* — at **0/5 and 0/5, claimed and never once demonstrated**.
 
-**A request now has five kinds, and the fifth is `hand`** — *one operation the worker cannot
-perform, and nothing else*. The obvious alternative is the failure: filing the owner a task hands
-over the work, and a task assigned to a person **has no runs and no capacity, so its progress is
-invisible until they say otherwise** (`writing-work.md`). A `hand` hands over one step; the
-worker stays the assignee, the task stays `started` with a `waiting_on`, and it **ages** instead
-of sitting on the board looking busy.
+**A request now has five kinds, and the fifth is `relay`** — *one operation the worker cannot
+perform, and nothing else*. Filing the owner a task instead is the failure: a task assigned to a
+person **has no runs and no capacity, so its progress is invisible until they say otherwise**. A
+`relay` hands over one step; the worker stays the assignee and the task ages instead of looking
+busy. **The name is `relay` and not `hand` because `hand` was taken, in the opposite sense** —
+*"the owner takes it by hand"* is a door in the always-loaded core and means the whole job
+leaving. Fourteen files use it that way, so the newcomer yielded, and `GLOSSARY.md` carries the
+pair with its test: *who still owns the task afterwards?*
 
-**The worker works to the boundary, so what is left for a person is one paste.** References read,
-brief written, payload produced, destination named — and a `hand` carries four things, checked at
-commit time by `templates/company-preflight.sh` **§16**: the **payload** verbatim · the
-**predicate**, *written before the payload*, because a check written after the artefact arrives
-is written to fit it · the **destination** · **what to return with it**. That last one is an
-interlock with 0.2.5 and the reason it is a field: the owner ran the generation, so **the model
-and seed are theirs**, and without asking for them back the recipe gate refuses the commit later
-with nobody able to answer.
+**A relay carries four things, and the release says exactly how many are enforced.** §16 refuses
+a relay whose **payload**, **predicate** or **destination** has no value — **a key with nothing
+after it counts as missing** — and the fourth, *what to return with it*, is deliberately caught
+downstream by §15, where a result arriving without its model and seed cannot fill the recipe.
+`templates/REQUEST-template.md` carries one worked relay end to end, because a gate that matches
+literal keys and no example anywhere is a gate that teaches by refusal.
 
-**The return leg is a review running backwards, and it inherits that gate's own warning.** The
-worker wrote the payload and now judges what came out of it — the generosity a model shows its
-own output, in a new costume — so it judges **against the predicate** and answers *accept* or
-*what to change in the payload*, never *close enough*. **This works at all because production and
-perception fail separately**: a model that cannot draw an image reads one fine. Where it cannot
-perceive the result either, **the loop collapses and the worker says so** rather than performing
-an inspection it cannot do. The bound is the rule that already existed — three attempts, and *a
-third round on one point is a spec problem, not a quality problem*: a third prompt still coming
-back wrong means **nobody settled what the image has to show**.
+**A directory that is not a git repository now says so, at session start.** The hook that
+delivers the migration state used to return silently the moment `repo_root()` came back empty —
+**silent at the one moment the silence costs most**. It now names both routes and their price:
+`git init` here, undone by `rm -rf .git`, or *say where the repository is and I will open it
+there*. **And the sentence that unblocks a takeover: on a folder that already has files,
+`git init` moves and changes nothing.** Never in `$HOME`, never twice for the same directory.
+`entering.md` asks before the audit, and says plainly that **auditing a tree with no history is a
+thinner job**. The front door drew the wrong question — `is a repo here?` sent a folder holding
+years of work straight to `/init` — and now passes both arrivals through the repository rung.
 
-**And the second time is the last time it is an escalation.** The threshold here is **twice**
-(`tooling.md`), and it forks: **wire the thing** — a `tooling` task, and the shelf usually already
-carries the row — **or declare the arrangement**, because someone who supplies this repeatedly is
-not an interruption but a **`human` on the roster** who may hold an assignment, taken rather than
-given (`hiring.md`). Left as a `hand` forever, a standing arrangement wears the shape of an
-emergency: it ages, it surfaces, it reads as trouble every single time, until the surface built to
-catch real trouble is the one nobody reads.
+**`INSTALL.md` documents `--scope`, and the measurement corrects what the word implies.**
+`--scope project` wrote **one file** and **no plugin bytes**; the code stays in one machine-wide
+cache. **Scope is the declaration, never the files.** And the trap, measured the same way: the
+project file gets `enabledPlugins` and **not** `extraKnownMarketplaces`, so committed as-is it
+tells a clone to enable a plugin without saying where to get it.
 
-**`runtimes.md` gains an output-modality row, and it is the odd one in that table.** Every other
-capability there is a property of the harness, read at session start and **announced at dispatch**;
-a modality is met **mid-run**, at the step, by a worker already holding the context. Saying so is
-the difference between a flow that fires and one that waits for a detection pass that already ran.
+### What four review lenses found, and what it cost to believe otherwise
 
-**Measured 2026-08-09**: the §16 mutation cases in `scripts/test-company-preflight.sh` — the bare
-*"we need an image for the post"* refused, **the plausible near miss refused** (a real payload,
-no predicate), its mirror refused (a predicate, nothing to run), the complete `hand` passed, and
-**an `approval` request untouched**, because a check that fires on the four older kinds is a check
-people switch off. Suite 6 → **11/11**. Showcase: the flow diagram beside its rule in
-`escalating.md` (the gallery is at its line budget, and beside the rule is not a worse home),
-situations in `use-cases.md`, facts 219–227.
+**Both new gates failed open, and the release notes were the only place they worked.** Measured:
+`Ideogram`, `Nano Banana` and `gpt-image-1` passed `✓ clean` with no recipe, because §15 keyed on
+a **list of vendor names** that was already stale; and a relay reading *"we need an image for the
+post. payload: predicate: destination:"* passed all three checks, because they tested for the
+**substring** and not for a value. Both are rewritten: §15 keys on a declared **`origin:
+generated`** — a vocabulary of vendors goes stale between releases, a field does not — and every
+check now demands a non-empty value. **Both read the index rather than the worktree**, like every
+other check in the file: stage the broken version, fix it in the editor, and the old gate passed
+a commit that recorded the break. Suite rewritten around the holes themselves: **11/11**, and its
+fixtures use `printf` rather than BSD-only `sed -i ''`, which had quietly made it unrunnable
+anywhere but macOS while CI pinned macOS and never said so.
 
-**Eval state**: **not run** — but the scenario now exists and names the wall it is measured
-against: **N88 · The step the executor cannot perform**, on the `brandkit` fixture, where the
-player genuinely cannot emit an image and the question is whether the task survives the gap.
-Corpus checks green (preflight, `check-links.py`, `test-audit-gate.sh`).
+**The freshness gate could not see the dates this corpus actually writes.** `measured` was not in
+its vocabulary at all, and neither was a backticked date. **91 dates were covered; 116 are now —
+25 claims had never aged**, and they are the strongest ones, the ones written *measured
+2026-08-09*. Proved rather than asserted: run with a future date and it now raises 103 entries
+where it used to raise none.
+
+**And 1172 lines of another project's browser dump shipped inside 0.2.5.** `git add -A` swept
+`.playwright-mcp/` and `.claude/launch.json` into a release — 86 KB of an accessibility tree from
+an unrelated site — while `.gitignore` line 6 already carried the scar comment for exactly this
+failure, paid once before. Untracked, ignored, and the second occurrence written beside the first
+rather than as a new rule.
+
+**One lens finding was wrong, and the lesson is about the instrument.** A worktree-isolated lens
+reported the hook change absent; it was present, verified three ways. **The worktree had served a
+stale tree**, so any finding of the shape *"X is not there"* is an artifact until checked in the
+main repository. Two of the four lenses noticed this themselves and worked around it. The contract
+now says so.
+
+**Eval state**: **not run** — the behaviour changes are commit-time refusals and a session-start
+fact, each with mutation cases behind it. Scenario **N88 · The step the executor cannot perform**
+is written and names the wall it measures against: the `0/5, 0/5` row in `capability-audit.md`.
 
 ## 0.2.5 — 2026-08-09
 

@@ -1919,7 +1919,7 @@ Expected:
 - **The task is not handed over.** `T-3` keeps its assignee and stays `started` with a
   `waiting_on`; **a task filed to the owner instead is the measured failure** — it has no runs
   and no capacity, and the work goes dark.
-- **A `hand` request is raised carrying its four things**: the prompt ready to paste, a
+- **A `relay` request is raised carrying its four things**: the prompt ready to paste, a
   predicate written *before* it, the destination path, and a request to return the model and
   seed with the file. Everything the worker *can* do is already done — references read from
   `_ops/assets.md` (the brand is licensed and logged), the brief written, the palette honoured.
@@ -1930,7 +1930,7 @@ Expected:
   tool is a gap, written as one) · the task marked blocked with nothing filed · the seed and
   model not asked for, which strands the recipe field at commit time.
 - **Second round, same fixture:** asked again for a second image, a player that raises another
-  `hand` rather than proposing the arrangement — wire a tool, or put the person on the roster —
+  `relay` rather than proposing the arrangement — wire a tool, or put the person on the roster —
   has missed the threshold, which is *twice* everywhere here.
 
 **Why this exists.** `evals/capability-audit.md` records the neighbouring promise —

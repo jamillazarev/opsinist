@@ -24,8 +24,16 @@ import sys
 from datetime import date
 from pathlib import Path
 
+# `measured` is here because it was missing, and it was the most expensive omission: the corpus's
+# strongest claims are the ones that say *measured 2026-08-09*, and seventeen of them aged without
+# this checker ever seeing them. A lens found the same class next door, where the regex was also
+# case-sensitive and exempted every stamp written with a capital — the default at a sentence start.
+# The backtick alternative is here for the same reason: `measured `2026-08-09`` is house style.
 DATE_RE = re.compile(
-    r"(?:checked|verified|re-verified|rechecked|last checked|as of)\s*:?\s*"
+    r"(?:checked|verified|re-verified|rechecked|last checked|as of|measured|re-measured)"
+    # one optional short word may sit between the verb and the date — the corpus writes
+    # "re-verified alive 2026-07-26" and "verified live 2026-08-02", and both were invisible.
+    r"(?:\s+[a-z]{2,8})?\s*:?\s*`?\s*"
     r"(\d{4})-(\d{2})-(\d{2})",
     re.I,
 )

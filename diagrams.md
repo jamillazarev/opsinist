@@ -11,14 +11,15 @@ stops matching its file, the file wins and the diagram is wrong.
 
 ## The front door
 
-Read from the ground, never asked; doors exist for every branch, none of them is how a route is
-chosen. **`no repo` is two arrivals** — an empty folder is a fresh start, a folder holding work
-is a takeover nobody ever committed, and **both meet the repository rung first** (`arriving.md`).
+Read from the ground, never asked; doors exist for every branch, none is how a route is chosen.
+**`no repo` is two arrivals** — an empty folder is a fresh start, a folder holding work is a
+takeover nobody committed — and both pass the repository rung first (`arriving.md`).
 
 ```mermaid
 flowchart TD
   A[a greeting, a situation, a question] --> B{is a repo here?}
-  B -- no --> N{is there work<br/>in this folder?}
+  B -- no --> RR[the repository rung:<br/>git init here, or point at one<br/>arriving.md]
+  RR --> N{is there work<br/>in this folder?}
   N -- no --> C[start a project<br/>starting.md · /init]
   N -- yes --> H
   B -- yes --> D{is it theirs?}
@@ -151,10 +152,8 @@ flowchart TD
 
 ## What actually holds a gate
 
-Two of these became hooks in 0.2.3 — the outward act and the rule's home — each measured
-from 0/5 as prose to 5/5 as a refusal that names its doors.
-
-Only one of these moves between runtimes.
+Two of these became hooks in 0.2.3 — the outward act and the rule's home — each measured from
+0/5 as prose to 5/5 as a refusal that names its doors. Only one of them moves between runtimes.
 
 ```mermaid
 flowchart LR

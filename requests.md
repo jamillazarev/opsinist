@@ -7,9 +7,15 @@ what is waiting on them.
 
 ## One entity, five kinds
 
-Approvals, reviews, questions, decisions and hands share a lifecycle — **asked → open →
+Approvals, reviews, questions, decisions and relays share a lifecycle — **asked → open →
 answered** — and while open they block something. So they are one entity with a `kind`, not five
 mechanisms.
+
+**Why `relay` and not `hand`.** The obvious name was taken, in the opposite sense: *"the owner
+takes it **by hand**"* is one of the three doors in the always-loaded core, and it means exactly
+the move this kind refuses — the whole job leaving. Fourteen files use *by hand* that way. The
+newcomer yields to the incumbent, the same way `flow` (dial) keeps the word and `flow`
+(procedure) gave it up (`GLOSSARY.md` → *Confusable pairs*).
 
 | `kind` | Example |
 |---|---|
@@ -17,22 +23,29 @@ mechanisms.
 | `review` | *"look at this — accept or send back"* |
 | `question` | an agent is stuck without information |
 | `decision` | *"pick one of these"* |
-| **`hand`** | *"run this prompt at 3:2 and send the file back"* — **one operation the worker cannot perform**, and nothing else |
+| **`relay`** | *"run this prompt at 3:2 and send the file back"* — **one operation the worker cannot perform**, and nothing else |
 
-**`hand` is the one that is easy to get wrong, because the obvious move is worse.** A worker that
+**`relay` is the one that is easy to get wrong, because the obvious move is worse.** A worker that
 cannot generate an image is not missing information — `question` is the wrong kind — and it is not
 asking for a judgement. It is missing **an actuator**. The instinct is to file the owner a task
 instead; that is the failure, and this file's neighbour says why: a task assigned to the owner has
 no runs and no capacity, so **its progress is invisible until they say otherwise**
-(`writing-work.md`). Filing it hands over the work. A `hand` hands over one step.
+(`writing-work.md`). Filing it hands over the work. A `relay` hands over one step.
 
 **The smallest operation only they can perform goes up. Everything before and after it stays.**
 The worker still gathers the references, writes the brief, produces the prompt, names where the
-result goes and checks what comes back. **A `hand` that reads *"we need an image for the post"* is
+result goes and checks what comes back. **A `relay` that reads *"we need an image for the post"* is
 the whole job leaving**, and it is refused as one.
 
-**So a `hand` carries four things, and a commit that skips them is refused**
-(`templates/company-preflight.sh` §16):
+**The shape is a file, not a description of one → `templates/REQUEST-template.md`**, which
+carries one worked `relay` end to end — a launch post whose image the model cannot draw.
+
+**So a `relay` carries four things. Three of them a commit cannot skip** —
+`templates/company-preflight.sh` §16 refuses a relay whose payload, predicate or destination has
+no value, and **a key with nothing after it counts as missing**. **The fourth is deliberately not
+checked here**, because §15 already catches it where it actually bites: a result that comes back
+without its model and seed cannot fill the recipe, and that commit is refused. Two gates, one
+interlock — and this file does not claim four refusals when three exist:
 
 | | |
 |---|---|
