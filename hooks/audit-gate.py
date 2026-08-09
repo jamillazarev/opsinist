@@ -149,6 +149,36 @@ def repo_root(path):
         return None
 
 
+def _norepo_should_speak(cwd):
+    """Say the no-repo fact at most once per directory, and never in $HOME itself.
+
+    Home is excluded because opening a session there is the ordinary way to do something that
+    is not a project at all, and a line about repositories would be the first thing a person
+    learns to ignore. The stamp lives in the harness config dir rather than in the directory
+    itself: writing a marker into somebody's folder to avoid annoying them is its own trespass,
+    and the directory may not even be writable. CLAUDE_CONFIG_DIR is honoured so a clean-room
+    home stamps its own file (evals/RUNS.md).
+    """
+    try:
+        real = os.path.realpath(cwd or ".")
+        if real == os.path.realpath(os.path.expanduser("~")):
+            return False
+        cfg = os.environ.get("CLAUDE_CONFIG_DIR") or os.path.expanduser("~/.claude")
+        stamp = os.path.join(cfg, ".opsinist-norepo-seen")
+        seen = set()
+        if os.path.exists(stamp):
+            with open(stamp, encoding="utf-8") as fh:
+                seen = {l.strip() for l in fh if l.strip()}
+        if real in seen:
+            return False
+        os.makedirs(cfg, exist_ok=True)
+        with open(stamp, "a", encoding="utf-8") as fh:
+            fh.write(real + "\n")
+        return True
+    except Exception:
+        return False  # fail quiet: an unwritable stamp must not turn into a line every session
+
+
 def _wrote_config(body):
     """Did this session WRITE config.md — not merely read it?
 
@@ -214,6 +244,28 @@ def main():
     if event == "SessionStart":
         root = repo_root(cwd)
         if not root:
+            # The silence used to end here, and it ended at the one moment it cost the most:
+            # standing in a directory that is not a repository, where every entity this system
+            # uses — roles, tasks, runs, the record — is a file inside one. The comment above
+            # already carries the shape of this failure measured on its neighbour: absence read
+            # as "nothing to do". A person who has never run `git init` cannot act on a silence,
+            # and the arriving ladder that would have told them is a document they have no way
+            # to know exists yet.
+            # Two guards against becoming noise, because a hook that fires on someone's own
+            # files is one they switch off: never in the home directory itself, and never twice
+            # for the same directory.
+            if _norepo_should_speak(cwd):
+                v = skill_version() or "?"
+                sys.stdout.write(
+                    f"Opsinist {v}: this directory is not a git repository, and everything here "
+                    f"is a file in one — roles, tasks, runs, the whole record. Nothing can be "
+                    f"created until there is a repo. **Two routes, and it is the owner's "
+                    f"pick**: run `git init` here — one local command, nothing leaves the "
+                    f"machine, undone by `rm -rf .git` — or point at the repository that "
+                    f"already holds this work. **If this folder already has files in it, "
+                    f"`git init` moves and changes nothing**; they stay exactly where they are "
+                    f"until someone commits them.\n")
+                sys.exit(0)
             out()
         # A guest tree gets nothing: no log, no check, no line. Same test as the audit gate.
         for f in ("CODEOWNERS", ".github/CODEOWNERS", "CONTRIBUTING.md", "CONTRIBUTING",

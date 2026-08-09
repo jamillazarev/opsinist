@@ -56,7 +56,7 @@ sequential yes/no questions is exactly the experience this exists to avoid.
 | Check | If it is missing |
 |---|---|
 | **git present** | name the install; **do not install it for them** — software on someone's machine is their call |
-| **a repository here** | *"this directory is not a repo — start one, or point me at yours?"* |
+| **a repository here** | **say what it costs, not just that it is missing.** *"This directory is not a repo. Two routes and it is yours to pick: `git init` here — one local command, nothing leaves the machine, undone by `rm -rf .git` — or point me at the repository that already holds this work."* **Where the folder already has files, add the sentence that actually unblocks people: `git init` moves and changes nothing**, everything stays where it is until someone commits it. *"Start one, or point me at yours?"* is a question only somebody who already knows git can answer |
 | **a host CLI, if a remote is wanted** | name it and the login step; **a local repo with no remote is a legitimate end state** |
 | **harness version** | report what is newer and hand over the line; never run it unasked |
 | **environment fingerprint** | what loads from outside this repo — skills, plugins, hooks, settings, MCP servers → `drift.md` |
@@ -66,6 +66,20 @@ sequential yes/no questions is exactly the experience this exists to avoid.
 **State the whole ladder at once, say what each fix costs, and let them say "do it all."** The one
 exception is the first rung: with no git there is nothing to run any of this with, so the honest
 move is a link and a pause.
+
+**The repository rung does not wait for this ladder to be read, because it cannot.** A person
+standing in a folder that is not a repo has no reason to know this document exists, and the
+session that would route them here is the one that has not started yet. So the fact is delivered
+by the hook at session start — `hooks/audit-gate.py`, the same place the migration state is
+delivered, and for the same measured reason: **prose in the always-loaded core ran in 0 of 5
+runs, and an absence was read as "nothing to do"**. Two guards keep it from becoming noise —
+**never in the home directory, and never twice for the same directory** — because a hook that
+speaks in every folder somebody opens is one they learn to ignore.
+
+**Both arrivals hit this, and the empty one is the easier half.** An empty folder is obvious.
+**A folder full of work with no repo in it is the one that stalls**, because the owner's fear is
+that `git init` will disturb what is already there — so that is the sentence the rung has to
+carry, and it is why *"start one?"* alone was not enough → `entering.md`.
 
 ---
 

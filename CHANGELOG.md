@@ -2,6 +2,65 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.7 — 2026-08-09
+
+**A directory that is not a git repository now says so, at session start, before anything else
+can go wrong.** The hook that delivers the migration state used to return silently the moment
+`repo_root()` came back empty — **silent at the one moment the silence costs the most**. Everything
+here is a file in a repository: roles, tasks, runs, the record. A person who has never run
+`git init` cannot act on nothing happening, and the ladder in `arriving.md` that would have told
+them is a document they have no way to know exists yet. The comment directly above that early
+return already carried the shape of the failure, measured on its neighbour: **prose in the
+always-loaded core ran in 0 of 5 runs, and an absence was read as *"fresh project, nothing to
+do."***
+
+**The line says what the fix costs, because the alternative was a question only git users can
+answer.** *"This directory is not a repo — start one, or point me at yours?"* assumes the reader
+knows what starting one means. It now names both routes and their price: `git init` here — one
+local command, nothing leaves the machine, undone by `rm -rf .git` — or point at the repository
+that already holds the work. **And the sentence that actually unblocks a takeover: on a folder
+that already has files, `git init` moves and changes nothing**; everything stays exactly where it
+is until someone commits it. That fear is what stalls the full-folder case, and it was nowhere
+in the corpus.
+
+**Two guards, so it never becomes the hook people switch off**: never in the home directory, and
+**never twice for the same directory** — stamped in the harness config dir, not in somebody's
+folder, because writing a marker into a stranger's directory to avoid annoying them is its own
+trespass. `CLAUDE_CONFIG_DIR` is honoured, so a clean-room home stamps its own.
+
+**`entering.md` asks the question before the audit, not after.** A takeover arriving as years of
+files with no git in it is ordinary, and **everything below that heading assumes a repo** — the
+ground read from commits, the before-state, the debt list. It also says the thing that was
+missing: **auditing a tree with no history is a thinner job**, and saying so beats performing the
+fuller one on evidence that is not there.
+
+**Measured 2026-08-09**, six new cases in `scripts/test-audit-gate.sh`: speaks in a non-repo
+directory · silent the second time in the same one · speaks in a *different* one · silent inside
+a real repository · silent in `$HOME` · and the message asserted to carry both the route and the
+reassurance. Suite 93 → **100/100**. **And it broke an existing case, which is the point of
+having one**: *"outside a project we operate → silent"* had been passing against the suite's own
+non-repo temp root — right assertion, wrong fixture, passing because nothing fired there at all
+rather than because ownership was tested. It now runs against a real repository that is not ours.
+
+**And the front door was drawing the wrong question, which is the part a reader meets first.**
+`is a repo here?` branched straight to *start a project* — so **a folder holding years of work
+with no git in it was routed to `/init`**, a fresh start over somebody's existing project. It is
+two arrivals, not one: the diagram now asks whether there is work in the folder, and sends the
+full one to the takeover where it belonged. The gallery was at its line budget, so the room came
+from tightening a neighbouring caption rather than from leaving the door wrong.
+
+**`INSTALL.md` documents `--scope`, and the measurement corrects what the word implies.**
+`claude plugin install --scope project` in a fresh directory wrote **one file** —
+`.claude/settings.json` with `enabledPlugins` — **no plugin bytes in the project**, and the user
+config byte-identical afterwards. The code stays in one machine-wide cache every project shares,
+so **scope is the declaration, never the files**. And the trap, measured in the same run: the
+project file gets `enabledPlugins` and **not** `extraKnownMarketplaces`, so committed as-is it
+tells a clone to enable a plugin **without saying where to get it**. The fix is four lines of
+JSON and they are in the file now.
+
+**Eval state**: **not run** — the behaviour change is a session-start fact with six mutation
+cases behind it, which is the measurement that fits it. Corpus checks green.
+
 ## 0.2.6 — 2026-08-09
 
 **When the executor cannot do the step, it keeps the task and asks for one operation.** A post
@@ -1556,7 +1615,7 @@ happens — and a sweep that found nothing records what it looked at.
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · 227 single-sentence facts · 108 situations with what to
+file defines · 234 single-sentence facts · 111 situations with what to
 say · **102 evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the

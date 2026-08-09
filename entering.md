@@ -12,6 +12,15 @@ it: *"take this over"* reaches the same place.
 **Audit before touching.** Whatever is here was built by someone for reasons that are not written
 down, and the fastest way to lose their trust — and the project's history — is to tidy it.
 
+**And before either: is this a repository at all?** A folder full of real work with no git in it
+is a normal way for a takeover to arrive — years of files, no history, nobody ever ran `git init`
+— and **everything below assumes a repo**: the ground read from commits, the audit's before-state,
+the debt list, the fixes-in-batches the owner approves. Run the day-zero ladder first
+(`arriving.md`), and on the repository rung say the thing that actually unblocks somebody:
+**`git init` here moves and changes nothing** — every file stays exactly where it is until
+someone commits it. **Auditing a tree with no history is a different, thinner job**, and saying
+so beats performing the fuller one on evidence that is not there.
+
 ---
 
 ## Guest, or successor? Decide this before anything else

@@ -298,3 +298,13 @@ line changes with it.
 225. A capability gap is met mid-run, unlike every other missing capability, which is announced at dispatch.
 226. The second time the same capability is missing, it stops being an escalation and becomes either a wired tool or a person on the roster who owns that surface.
 227. A standing arrangement left as an escalation ages and surfaces every time, until the surface built to catch real trouble is the one nobody reads.
+
+## Arriving where there is no repository
+
+228. A directory that is not a git repository is told so at session start, because a person who has never run `git init` cannot act on a silence.
+229. The fact names what the fix costs — one local command, nothing leaving the machine, undone by deleting one directory — rather than asking a question only someone who knows git can answer.
+230. A folder that already holds work is told that `git init` moves and changes nothing, because that is the fear that stalls the takeover.
+231. The no-repository fact is said once per directory and never in the home directory, because a hook that speaks in every folder is one people learn to ignore.
+232. Auditing a tree with no history is a thinner job than auditing one with history, and saying so beats performing the fuller one on evidence that is not there.
+233. A plugin's scope is where it is declared, never where its files are: the code lives in one machine-wide cache that every project shares.
+234. A project-scoped plugin declaration without its marketplace tells a clone to enable something without saying where to get it.

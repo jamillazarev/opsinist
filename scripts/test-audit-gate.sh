@@ -196,7 +196,10 @@ printf '# Project configuration\n\n## Migrations\n\n- 0.1.4 → %s · 2026-08-01
 printf '# Contributing\n' > "$R/CONTRIBUTING.md"
 say "session: guest tree → silent"               "EMPTY" "$R"
 rm "$R/CONTRIBUTING.md" "$R/CLAUDE.md" "$R/config.md"
-say "session: outside a project we operate → silent" "EMPTY" "$T"
+# A REPO that is not ours — the fixture used to be `$T`, the suite's own non-repo temp root,
+# which asserted the right thing for the wrong reason: it passed because nothing fired there
+# at all, not because ownership was tested. The no-repo line found that by breaking it.
+say "session: outside a project we operate → silent" "EMPTY" "$R"
 
 # --- Stop: a project stood up without spec_mode -------------------------------------------
 printf '# Project configuration\n\n## Settings\n\nnothing here yet\n' > "$R/config.md"
@@ -335,6 +338,24 @@ for i in $(seq 1 11); do sgot Bash R >/dev/null; done
 sgot Write R >/dev/null
 [ -z "$(sgot Read R)" ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: a write did not reset the spiral"; }
 find "$(cd /tmp && pwd -P)" -maxdepth 1 -name 'opsinist-spiral-*' -delete
+
+# SessionStart · the no-repo fact. The exit code is 0 either way, so the assertion has to be
+# about what it SAYS — and the load-bearing half is the silence: a line in every directory
+# somebody happens to open is the fastest way to teach them to ignore this hook.
+NRC=$(mktemp -d); NRD=$(mktemp -d)
+ss() { printf '{"hook_event_name":"SessionStart","cwd":"%s"}' "$1" \
+       | CLAUDE_CONFIG_DIR="$NRC" python3 "$GATE" 2>/dev/null; }
+[ -n "$(ss "$NRD")" ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: silent in a non-repo directory"; }
+case "$(ss "$NRD"; ss "$NRD")" in "") pass=$((pass+1));; *) fail=$((fail+1)); echo "FAIL: repeated the no-repo line for the same directory";; esac
+NRD2=$(mktemp -d)
+[ -n "$(ss "$NRD2")" ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: a second, different directory was never told"; }
+[ -z "$(ss "$R")" ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: spoke inside a real repository"; }
+[ -z "$(ss "$HOME")" ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: nagged in the home directory"; }
+# the message has to carry the two routes and the reassurance, or it is a fact with no exit
+msg=$(ss "$(mktemp -d)")
+case "$msg" in *"git init"*) pass=$((pass+1));; *) fail=$((fail+1)); echo "FAIL: no route offered";; esac
+case "$msg" in *"moves and changes nothing"*) pass=$((pass+1));; *) fail=$((fail+1)); echo "FAIL: the join case (a folder with files) is not reassured";; esac
+rm -rf "$NRC" "$NRD" "$NRD2"
 
 echo "pass $pass · fail $fail"
 [ "$fail" = 0 ]

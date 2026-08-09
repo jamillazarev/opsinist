@@ -29,8 +29,39 @@ claude plugin install opsinist@opsinist
 ```
 
 Verified end to end on Claude Code **2.1.220**, 2026-07-31 · **measured** — the marketplace
-validates against this repository and the plugin installs and enables. Upgrading an existing
-install is two commands, and the first is the one people miss:
+validates against this repository and the plugin installs and enables.
+
+**Both commands take `--scope user | project | local`, defaulting to `user`** — and the word
+promises more isolation than it delivers. **Measured 2026-08-09**: `claude plugin install
+opsinist@opsinist --scope project` in a fresh directory wrote **one file**,
+`.claude/settings.json`, containing `{"enabledPlugins": {"opsinist@opsinist": true}}` — **no
+plugin bytes in the project at all**, and `~/.claude/settings.json` byte-identical afterwards.
+The code stays in one machine-wide cache (`~/.claude/plugins/cache/…`), which every project
+shares. **So the scope is the declaration, never the files**: `project` means *enabled here*, not
+*installed here*.
+
+**Which is the scope this skill's own premise argues for** — a project that carries its team, its
+process and its history in the repository should carry the thing that operates it too, so a clone
+arrives working. **But the installer only writes half of it**, measured in the same run: the
+project file gets `enabledPlugins` and **not** `extraKnownMarketplaces`, which stays in the user
+config. Committed as-is, that tells whoever clones it to enable a plugin **without saying where
+to get it**. Add the marketplace by hand beside it, or the project scope is a trap rather than a
+feature:
+
+```jsonc
+// .claude/settings.json — committed, so a clone arrives working
+{
+  "enabledPlugins": { "opsinist@opsinist": true },
+  "extraKnownMarketplaces": {
+    "opsinist": { "source": { "source": "github", "repo": "jamillazarev/opsinist" } }
+  }
+}
+```
+
+`local` is the same file shape in `.claude/settings.local.json`, which git ignores — for *"on my
+machine, in this repo, and not my colleagues' business."*
+
+Upgrading an existing install is two commands, and the first is the one people miss:
 
 ```sh
 claude plugin marketplace update opsinist

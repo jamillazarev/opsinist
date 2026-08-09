@@ -11,13 +11,16 @@ stops matching its file, the file wins and the diagram is wrong.
 
 ## The front door
 
-Read from the ground, never asked. Doors exist for every branch below; none of them is how a
-route is chosen.
+Read from the ground, never asked; doors exist for every branch, none of them is how a route is
+chosen. **`no repo` is two arrivals** — an empty folder is a fresh start, a folder holding work
+is a takeover nobody ever committed, and **both meet the repository rung first** (`arriving.md`).
 
 ```mermaid
 flowchart TD
   A[a greeting, a situation, a question] --> B{is a repo here?}
-  B -- no --> C[start a project<br/>starting.md · /init]
+  B -- no --> N{is there work<br/>in this folder?}
+  N -- no --> C[start a project<br/>starting.md · /init]
+  N -- yes --> H
   B -- yes --> D{is it theirs?}
   D -- yes --> E[enter as a guest<br/>entering.md · /join]
   D -- no --> F{a backlog elsewhere?}
@@ -287,10 +290,9 @@ flowchart LR
   R -. "finishing without writing it<br/>is stopped once" .-> R
 ```
 
-**Nothing is fixed before they have seen the list**, and both ends of that are performed rather
-than promised: a mutating call before the list exists is refused, and a run that presented
-deferrable findings and wrote no `_ops/LATER.md` is stopped once and asked to write them
-→ `entering.md`.
+**Nothing is fixed before they have seen the list**, and both ends are performed rather than
+promised: a mutating call before the list exists is refused, and a run that presented deferrable
+findings and wrote no `_ops/LATER.md` is stopped once and asked to write them → `entering.md`.
 
 ---
 
