@@ -12,3 +12,10 @@ node_modules/
 
 # a session lock is a courtesy note, never history (dispatching.md)
 .opsinist-checkout
+# The same scar as the block above, paid a second time on 2026-08-09: `git add -A` swept a
+# browser-automation dump and a dev-server config from an unrelated project into a release —
+# 1172 lines, 86 KB, published in 0.2.6 before a lens caught it. None of it is the skill.
+.playwright-mcp/
+.claude/launch.json
+.claude/settings.local.json
+.claude/worktrees/
