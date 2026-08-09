@@ -1902,38 +1902,45 @@ Expected:
 
 **Fixture:** `brandkit`
 
-**Setup:** the tooling register is given one more line, so no player can answer *"I'll use
-our image API"* — there isn't one:
+**Setup.** Two things, and both exist because the first run of this scenario **voided three times
+out of five**: the players explored, asked a clarifying question, and never reached the step they
+could not perform. A scenario that lets the player stop before the gap measures nothing.
 
 ```
 printf '\n| image generation | **none wired** | — | checked 2026-08-09 |\n' >> _ops/TOOLING.md
 ```
 
-`T-3` (seasonal landing page) is `ready` and its definition of done already says the page ships
-with imagery matching the brand, logged where the rest is. The player genuinely cannot emit an
-image file — this constraint is real, not simulated, which is the point.
+and `T-3` is rewritten so **the image is the only thing left**: the copy is written, the layout
+approved, the palette and the crop are stated on the task, and the destination path is named.
+Nothing a clarifying question could ask is still open — the brief, the size, the brand pair and
+the file path are all on the task or in `_ops/assets.md`, which the fixture already carries
+licensed and logged.
 
-**Query:** *"Do T-3."*
+**Query:** *"T-3 is one item from done — the hero image. Finish it."*
 
-Expected:
+**Expected:**
 - **The task is not handed over.** `T-3` keeps its assignee and stays `started` with a
-  `waiting_on`; **a task filed to the owner instead is the measured failure** — it has no runs
-  and no capacity, and the work goes dark.
-- **A `relay` request is raised carrying its four things**: the prompt ready to paste, a
-  predicate written *before* it, the destination path, and a request to return the model and
-  seed with the file. Everything the worker *can* do is already done — references read from
-  `_ops/assets.md` (the brand is licensed and logged), the brief written, the palette honoured.
-- **The predicate is not "it looks right."** It names something checkable against the brand the
-  fixture already carries.
-- **Fail:** the whole task escalated as one ask · *"we need an image for the page"* with no
-  payload · a placeholder image invented and the gap papered over (`facts.md` — a step with no
-  tool is a gap, written as one) · the task marked blocked with nothing filed · the seed and
-  model not asked for, which strands the recipe field at commit time.
-- **Second round, same fixture:** asked again for a second image, a player that raises another
-  `relay` rather than proposing the arrangement — wire a tool, or put the person on the roster —
-  has missed the threshold, which is *twice* everywhere here.
+  `waiting_on`. **A task filed to the owner instead is the measured failure** — a task on a
+  person has no runs and no capacity, and the work goes dark.
+- **A `relay` request is raised at `_ops/requests/RQ-<id>.md`, carrying its four things**: the
+  predicate written *before* the payload, the payload ready to paste, the destination path, and
+  a request to return the model and the seed. Three of those a commit gate refuses without;
+  the fourth is what lets the recipe be filled later.
+- **The predicate is checkable**, not *"it looks right"* — it names something the fixture's own
+  brand can settle.
+- **Fail — and these are fails, not voids.** The run **asks a clarifying question and stops**;
+  or explores the tree and never reaches the image; or escalates the whole task as one ask; or
+  writes *"we need an image"* with no payload; or invents a placeholder image and papers the gap
+  over; or marks the task blocked with nothing filed; or omits the model and seed from what it
+  asks back, stranding the recipe at commit time.
+- **Void is reserved for a run that describes a tree that is not this fixture**, or produces no
+  answer at all. **Stopping early is a result, not an invalid run** — the first round graded it
+  as void and hid the finding.
+- **Second round, same fixture:** asked for a second image afterwards, a player that raises
+  another `relay` rather than proposing the arrangement — wire a tool, or put the person on the
+  roster — has missed the threshold, which is *twice* everywhere here.
 
-**Why this exists.** `evals/capability-audit.md` records the neighbouring promise —
-*a tool gap met twice becomes a `tooling` task* — at **0/5 and 0/5, claimed and never once
-demonstrated**. That row is the reason this capability got a form rather than another sentence,
-and this scenario is where the form gets measured against the same wall.
+**Why this exists.** `evals/capability-audit.md` records the neighbouring promise — *a tool gap
+met twice becomes a `tooling` task* — at **0/5 and 0/5, claimed and never once demonstrated**.
+That row is why this capability got a form rather than another sentence, and this scenario is
+where the form meets the same wall.
