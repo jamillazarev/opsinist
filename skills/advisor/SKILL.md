@@ -264,7 +264,8 @@ expensive later.
 
 | What they arrive with | What they want | **Who decides what is next** | Entrance |
 |---|---|---|---|
-| nothing yet | something built | you and them together | **start a project** → `starting.md` |
+| an empty folder | something built | you and them together | **start a project** → `starting.md` |
+| work in a folder with no git | it continued | as it already is | **take it over** → `entering.md` |
 | an existing repo | it continued | as it already is | **enter it** → `entering.md` |
 | an existing repo that is not theirs | one bounded piece done | their process | **enter as a guest** → `entering.md` |
 | a backlog elsewhere | it moved here | mostly them | **import it** → `importing.md` |

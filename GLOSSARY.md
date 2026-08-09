@@ -17,7 +17,7 @@ is that file's business; a term used in two is canon, and canon lives here.
 
 | These look alike | …and are not | The test |
 |---|---|---|
-| **relay** (a request kind) · **by hand** (the ordinary phrase) | a `relay` is **one operation the owner performs while the worker keeps the task**; *by hand* means the owner **takes the whole thing** — one of the three doors in the core | who still owns the task afterwards? |
+| **relay** (a request kind) · **"the owner takes it by hand"** (the door) | a `relay` is **one operation the owner performs while the worker keeps the task**; *by hand* means the owner **takes the whole thing** — one of the three doors in the core. **The bare phrase *by hand* has a second, ordinary sense — *manually, not by a script* — and that one is fine everywhere**; only the door collides | who still owns the task afterwards? |
 | **pipeline** · **automation** | a pipeline is the **stage sequence a task travels**; an automation is **recurring or triggered work that starts something** | does it *describe a path* or *fire*? |
 | **stage** · **wave** | a stage is a **named step of a pipeline**; a wave is the **barrier grouping sibling children** | does it order *the ladder* or *the children*? |
 | **team** · **panel** | a team holds **workers** and its routing produces an **assignee**; a panel holds **experts, personas and humans** and its routing produces a **respondent** | can a member be *assigned work*? |

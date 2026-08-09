@@ -16,7 +16,7 @@ person **has no runs and no capacity, so its progress is invisible until they sa
 `relay` hands over one step; the worker stays the assignee and the task ages instead of looking
 busy. **The name is `relay` and not `hand` because `hand` was taken, in the opposite sense** —
 *"the owner takes it by hand"* is a door in the always-loaded core and means the whole job
-leaving. Fourteen files use it that way, so the newcomer yielded, and `GLOSSARY.md` carries the
+leaving. Sixteen files write *by hand*, and the core spends it on that door, so the newcomer yielded, and `GLOSSARY.md` carries the
 pair with its test: *who still owns the task afterwards?*
 
 **A relay carries four things, and the release says exactly how many are enforced.** §16 refuses
@@ -42,6 +42,17 @@ cache. **Scope is the declaration, never the files.** And the trap, measured the
 project file gets `enabledPlugins` and **not** `extraKnownMarketplaces`, so committed as-is it
 tells a clone to enable a plugin without saying where to get it.
 
+### Upgrading — two things to do, and they are the only ones
+
+**Re-copy the guard into your project.** Both gates live in `templates/company-preflight.sh`,
+which projects hold as their own `_ops/scripts/preflight.sh` — an old copy has neither. One
+command: `cp <plugin>/templates/company-preflight.sh _ops/scripts/preflight.sh`.
+
+**Add `origin:` to your asset register.** A generated row now reads `origin: generated` beside the
+licence, and that is the field the gate selects on. **Rows that predate this are still caught** by
+the bare word *generated*, so nothing silently stops being checked — but the field is the form
+that lasts, because a list of model vendors goes stale between releases.
+
 ### What four review lenses found, and what it cost to believe otherwise
 
 **Both new gates failed open, and the release notes were the only place they worked.** Measured:
@@ -57,16 +68,19 @@ fixtures use `printf` rather than BSD-only `sed -i ''`, which had quietly made i
 anywhere but macOS while CI pinned macOS and never said so.
 
 **The freshness gate could not see the dates this corpus actually writes.** `measured` was not in
-its vocabulary at all, and neither was a backticked date. **91 dates were covered; 116 are now —
-25 claims had never aged**, and they are the strongest ones, the ones written *measured
-2026-08-09*. Proved rather than asserted: run with a future date and it now raises 103 entries
-where it used to raise none.
+its vocabulary at all, and neither was a backticked date or a verb with an adverb after it — so
+the corpus's *strongest* claims, the ones written *measured 2026-08-09*, aged never. **No count is
+printed here on purpose**: the number moves with the corpus between the measurement and the
+reader, which is the same rot this gate exists to catch. Reproduce it instead —
+`python3 scripts/check-freshness.py . --today 2027-06-01` against this version and against
+`v0.2.5`; the difference is the claims that were invisible.
 
-**And 1172 lines of another project's browser dump shipped inside 0.2.5.** `git add -A` swept
-`.playwright-mcp/` and `.claude/launch.json` into a release — 86 KB of an accessibility tree from
-an unrelated site — while `.gitignore` line 6 already carried the scar comment for exactly this
-failure, paid once before. Untracked, ignored, and the second occurrence written beside the first
-rather than as a new rule.
+**And 1172 lines of another project's browser dump got committed while this release was being
+built.** `git add -A` swept `.playwright-mcp/` and `.claude/launch.json` in — 86 KB of an
+accessibility tree from an unrelated site — while `.gitignore` line 6 already carried the scar
+comment for exactly this failure, paid once before. **It never reached a published version**: it
+entered and left inside 0.2.6's own history. Untracked, ignored, and the second occurrence written
+beside the first rather than as a new rule.
 
 **One lens finding was wrong, and the lesson is about the instrument.** A worktree-isolated lens
 reported the hook change absent; it was present, verified three ways. **The worktree had served a

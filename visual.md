@@ -146,7 +146,11 @@ dies quietly.** Nobody notices on the day. A month later somebody needs the seco
 set, the model has moved, the prompt is gone, and what comes back is *close but not it* — so the
 set stops matching, and no single decision was ever made to let it.
 
-**So a generated row in `_ops/assets.md` carries four things beside the licence:**
+**So a generated row in `_ops/assets.md` says `origin: generated` and carries four things
+beside the licence.** The `origin:` is what makes the row findable — `origin: drawn` · `stock` ·
+`generated` — and it is the field the commit gate selects on, because a list of model vendors
+goes stale between releases while a field does not. **A row that predates this and merely says
+*generated* in its source is still caught**, so nothing silently stops being checked:
 
 | | |
 |---|---|
@@ -156,7 +160,8 @@ set stops matching, and no single decision was ever made to let it.
 | `reference` | the path or url of a style/reference image, where one was used — **this, not a preset name, is what actually makes two images match** (`catalogue.md` → *Style presets*) |
 
 **This is a field, not an instruction to be careful**, and it is enforced where the project can
-see it: `templates/company-preflight.sh` refuses a commit whose asset register names a generator
+see it: `templates/company-preflight.sh` refuses a commit whose asset register declares a row
+`origin: generated` — or, for a row written before that field existed, merely says *generated* —
 and carries no recipe. **The two doors are the same two as everywhere**: write the recipe, or
 write `seed: none` — one edit, needing no new information.
 

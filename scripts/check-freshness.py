@@ -30,7 +30,7 @@ from pathlib import Path
 # case-sensitive and exempted every stamp written with a capital — the default at a sentence start.
 # The backtick alternative is here for the same reason: `measured `2026-08-09`` is house style.
 DATE_RE = re.compile(
-    r"(?:checked|verified|re-verified|rechecked|last checked|as of|measured|re-measured)"
+    r"(?<!un)\b[*`_]*(?:checked|verified|re-verified|rechecked|last checked|as of|measured|re-measured)[*`_]*"
     # one optional short word may sit between the verb and the date — the corpus writes
     # "re-verified alive 2026-07-26" and "verified live 2026-08-02", and both were invisible.
     r"(?:\s+[a-z]{2,8})?\s*:?\s*`?\s*"
@@ -115,7 +115,14 @@ def check(md, root, today, warn_days, fail_days):
     # exemption — keep the example on one line. Making the stripper multi-line would let one
     # stray backtick swallow a real claim several lines further down, which is the worse failure.
     for lineno, raw in outside_fences(lines):
-        raw = SPAN.sub("", raw)
+        # Two different things wear backticks here, and deleting every span confused them:
+        #   `checked 2020-01-01`   — the WHOLE stamp is inside: an example being shown. Ignore.
+        #   measured `2026-08-09`  — only the date is inside, the verb is prose. A real claim,
+        #                            and house style — it was invisible for a release because
+        #                            the span was deleted before DATE_RE ever ran.
+        # So: drop a span that is itself a stamp, and otherwise drop only the backticks.
+        raw = SPAN.sub(lambda m: "" if DATE_RE.search(m.group(0).strip("`")) else
+                       m.group(0).replace("`", " "), raw)
         for m in DATE_RE.finditer(raw):
             y, mo, d = (int(g) for g in m.groups())
             try:

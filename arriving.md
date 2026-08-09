@@ -16,7 +16,8 @@ Ambiguity is normal here; a wrong guess is cheap to correct at this point and ex
 
 | They have | They want | **Who decides what is next** | Entrance |
 |---|---|---|---|
-| nothing yet | something built | you and them together | `starting.md` |
+| an empty folder | something built | you and them together | `starting.md` |
+| work in a folder with no git | it continued | as it already is | `entering.md` — it is a takeover nobody committed |
 | an existing repo | it continued | as it already is | `entering.md` |
 | a backlog elsewhere | it moved here | mostly them | `importing.md` |
 | a list of jobs, no tracker | them done, order theirs | **them** | `starting.md`, planning off |
@@ -56,7 +57,7 @@ sequential yes/no questions is exactly the experience this exists to avoid.
 | Check | If it is missing |
 |---|---|
 | **git present** | name the install; **do not install it for them** — software on someone's machine is their call |
-| **a repository here** | **say what it costs, not just that it is missing.** *"This directory is not a repo. Two routes and it is yours to pick: `git init` here — one local command, nothing leaves the machine, undone by `rm -rf .git` — or point me at the repository that already holds this work."* **Where the folder already has files, add the sentence that actually unblocks people: `git init` moves and changes nothing**, everything stays where it is until someone commits it. *"Start one, or point me at yours?"* is a question only somebody who already knows git can answer |
+| **a repository here** | **say what it costs, not just that it is missing.** *"This directory is not a repo. Two routes and it is yours to pick: `git init` here — one local command, nothing leaves the machine, undone by deleting the `.git` directory it makes — or tell me where the repository that already holds this work is, and I will open it there."* **Where the folder already has files, add the sentence that actually unblocks people: `git init` moves and changes nothing**, everything stays where it is until someone commits it. *"Start one, or point me at yours?"* is a question only somebody who already knows git can answer |
 | **a host CLI, if a remote is wanted** | name it and the login step; **a local repo with no remote is a legitimate end state** |
 | **harness version** | report what is newer and hand over the line; never run it unasked |
 | **environment fingerprint** | what loads from outside this repo — skills, plugins, hooks, settings, MCP servers → `drift.md` |

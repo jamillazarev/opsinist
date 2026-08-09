@@ -13,7 +13,8 @@ mechanisms.
 
 **Why `relay` and not `hand`.** The obvious name was taken, in the opposite sense: *"the owner
 takes it **by hand**"* is one of the three doors in the always-loaded core, and it means exactly
-the move this kind refuses — the whole job leaving. Fourteen files use *by hand* that way. The
+the move this kind refuses — the whole job leaving. Sixteen files write *by hand*, and the core
+spends it on that door. The
 newcomer yields to the incumbent, the same way `flow` (dial) keeps the word and `flow`
 (procedure) gave it up (`GLOSSARY.md` → *Confusable pairs*).
 
@@ -37,7 +38,9 @@ The worker still gathers the references, writes the brief, produces the prompt, 
 result goes and checks what comes back. **A `relay` that reads *"we need an image for the post"* is
 the whole job leaving**, and it is refused as one.
 
-**The shape is a file, not a description of one → `templates/REQUEST-template.md`**, which
+**The shape is a file, and it lives at `_ops/requests/RQ-<id>.md`** — the commit gate reads
+that directory and no other, so a well-formed relay filed anywhere else is one nobody checks.
+**→ `templates/REQUEST-template.md`**, which
 carries one worked `relay` end to end — a launch post whose image the model cannot draw.
 
 **So a `relay` carries four things. Three of them a commit cannot skip** —

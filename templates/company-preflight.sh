@@ -107,9 +107,13 @@ rm -f /tmp/.pf-tooling.$$
 # which is the point: the first version of these gates tested for the SUBSTRING, and a lens showed
 # that `**Ask**: we need an image. payload: predicate: destination:` satisfied all three checks
 # while saying exactly what they were written to refuse. A key with no value is not an answer.
+# `{{…}}` is the template's own placeholder: an untouched one is a hole, not a value —
+# measured, the shipped REQUEST-template passed §16 with nothing filled in. Fenced blocks are
+# stripped before this runs, because the template's worked EXAMPLE is not the request.
 field() { # field <key> <file-or-"-">
   sed -nE "s/^[[:space:]]*[-*]?[[:space:]]*[*\`_]*$1[*\`_]*[[:space:]]*:[[:space:]]*//Ip" "$2" \
-    | sed -E 's/^["'"'"'\`*]+//; s/["'"'"'\`*]+$//' | grep -v '^[[:space:]]*$' | head -1
+    | sed -E 's/^["'"'"'\`*]+//; s/["'"'"'\`*]+$//' \
+    | grep -vE '^[[:space:]]*$|\{\{' | head -1
 }
 # Read from the INDEX, never the worktree: every other check in this file uses `git diff --cached`
 # or `git show HEAD:`, and a gate that reads the disk passes a commit whose staged content is
@@ -129,10 +133,11 @@ staged() { git show ":$1" 2>/dev/null; }
 while IFS= read -r -d '' r; do
   tmp=$(staged "$r") || continue
   [ -n "$tmp" ] || continue
-  f=$(mktemp); printf '%s\n' "$tmp" > "$f"
+  f=$(mktemp); printf '%s\n' "$tmp" | awk '/^```/{fence=!fence; next} !fence' > "$f"
   # A file that names itself a relay ANYWHERE counts as one. Requiring a well-formed `kind:` line
   # to notice it would let a malformed relay through unexamined, which is the failure inverted.
-  grep -qiE 'kind[^:]*:[[:space:]]*[*\`_]*relay' "$f" || { rm -f "$f"; continue; }
+  grep -qiE 'kind[^:]*:[[:space:]]*[*\`_]*relay|\|[[:space:]]*[*\`_]*kind[*\`_]*[[:space:]]*\|[[:space:]]*[*\`_]*relay' "$f" \
+    || { rm -f "$f"; continue; }
   missing=""
   [ -n "$(field payload "$f")" ]     || missing="$missing payload"
   [ -n "$(field predicate "$f")" ]   || missing="$missing predicate"
@@ -146,26 +151,45 @@ not one operation going up, it is the task going up, to someone with no runs and
 done < <(git diff --cached --name-only -z 2>/dev/null | grep -zE '^_ops/requests/.*\.md$')
 
 # 15 · (numbered by arrival, placed by theme) a generated asset without its recipe is
-#      unrepeatable, and nobody finds out on the day. A month later the second banner in the
-#      set comes back "close but not it", the model has moved, the prompt is gone, and the
-#      set stops matching without anyone deciding to let it.
-#      **It keys on a declared `origin:`, not on a list of vendors.** The first version carried
-#      brand names — fal.ai, midjourney, flux — and a lens measured eight current generators
-#      (Ideogram, Nano Banana, gpt-image-1, Sora, Firefly, Recraft, Seedream, "made with AI")
-#      passing untouched while the one row it did select was a sitemap. A vocabulary of vendors
-#      goes stale between releases; a field does not, and the register's own template asks for it.
+#      unrepeatable, and nobody finds out on the day. A month later the second banner in the set
+#      comes back "close but not it", the model has moved, the prompt is gone, and the set stops
+#      matching without anyone deciding to let it.
+#      **Three lessons are baked into the selector, each paid for by a lens.** (a) A list of
+#      vendor names goes stale between releases — Ideogram, Nano Banana and gpt-image-1 all
+#      walked through it. (b) Replacing that list with a declared `origin:` NARROWED the gate,
+#      because a row saying only "Midjourney v7" then matched nothing: an upgrade that quietly
+#      narrows a gate is worse than no upgrade, so the vendor names are kept as a genuine
+#      supplement rather than a replacement. (c) The opt-out must not be authorable by the
+#      constrained party — `origin: build` mentioned anywhere in a row used to excuse a row that
+#      also declared `origin: generated`, which §13's own principle forbids.
 #      visual.md §A generated asset carries its recipe.
+VENDORS='midjourney|dall-?e|stable diffusion|sdxl|flux|imagen|comfyui|fal\.ai|replicate|ideogram|firefly|recraft|seedream|nano banana|gpt-image'
+# The value of `key:` inside a table row: everything up to the next comma, pipe or end, trimmed
+# of decoration. Empty is missing — and so is a value that BEGINS with another `word:`, which
+# is the next key rather than an answer. That is how
+# `model: prompt: seed: none` satisfied three substring tests at once while carrying no recipe.
+rowval() { # rowval <row> <key>
+  printf '%s\n' "$1" \
+    | sed -nE "s/.*[^a-zA-Z0-9_-]$2[[:space:]]*:[[:space:]]*([^,|]*).*/\1/Ip" \
+    | sed -E 's/^[[:space:]*\`_"'"'"']+//; s/[[:space:]*\`_"'"'"']+$//' \
+    | grep -vE '^[[:space:]]*$|^[A-Za-z][A-Za-z0-9_-]*:|^[-—–?.]+$|^(tbd|n/a|none yet|unknown)$' | head -1
+}
 if git diff --cached --name-only 2>/dev/null | grep -qx '_ops/assets.md'; then
   while IFS= read -r row; do
+    # A declared origin always wins: only a row that does NOT declare `origin: generated` may be
+    # excused by another origin. The exclusion used to run last and beat the declaration.
+    if ! printf '%s\n' "$row" | grep -qiE 'origin:[[:space:]]*generated'; then
+      printf '%s\n' "$row" | grep -qiE 'origin:[[:space:]]*(drawn|stock|build|licensed|commissioned)' && continue
+    fi
     short=$(printf '%s' "$row" | cut -c1-60)
     for k in model prompt seed; do
-      printf '%s\n' "$row" | grep -qiE "$k:[[:space:]]*[^[:space:]|]" || {
-        say_fail "an asset row in _ops/assets.md declares \`origin: generated\` and has no \
-\`$k:\` value — a generated image whose recipe was not written down cannot be made again, and \
-the set it belongs to drifts. \`seed: none\` is an accepted answer where the model exposes none; \
-an empty key is not (visual.md): $short"; }
+      [ -n "$(rowval "$row" "$k")" ] || say_fail "an asset row in _ops/assets.md is a generated \
+asset and has no \`$k:\` value — a generated image whose recipe was not written down cannot be \
+made again, and the set it belongs to drifts. \`seed: none\` is an accepted answer where the \
+model exposes none; an empty key, or a key whose value is the next key, is not (visual.md): $short"
     done
-  done < <(staged _ops/assets.md | grep -iE '^\|.*origin:[[:space:]]*generated')
+  done < <(staged _ops/assets.md \
+             | grep -iE "^[[:space:]]*\|.*(origin:[[:space:]]*generated|\bgenerated\b|$VENDORS)")
 fi
 
 # 3 · DECISIONS.md is append-only. Rewriting it is how a rejected idea comes back

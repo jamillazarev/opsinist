@@ -78,6 +78,14 @@ finding is answered, not ignored — one line saying why.
 the work; the same four questions catch the same four failures in a spec, a role's instructions
 or a pipeline change.
 
+**A finding of the shape "X is not there" is checked in the main repository before it is
+reported.** Measured 2026-08-09: a lens running in an isolated worktree read a tree three commits
+behind and filed a defect against work that was present and verified three ways. Isolation buys a
+reader who did not write the text; it does not guarantee a reader who sees the current one. **Two
+of four lenses that day noticed the staleness themselves and diffed against the newest ref** —
+which is the habit, not the exception: check `git rev-parse HEAD` first, and if a finding is an
+absence, confirm it where the work actually lives.
+
 **Temporary readers.** When they run as agents, they are created for the release and archived
 after — they read, they do not own. Archiving them is part of finishing the release
 (`PATTERNS.md` → *promote what outgrew itself* does not apply here: a lens never grows into a

@@ -30,8 +30,9 @@ your-project/
     TOOLING.md          # the register: every wired tool, its ceiling
     TEAM.md             # the roster — generated, never hand-kept
     FIELD-NOTES.md      # friction, recorded where it happens
-    assets.md           # every asset in use: what · source · licence · where
-                        #   generated ones also carry the recipe (visual.md)
+    assets.md           # every asset in use: origin · what · source · licence · where
+                        #   origin: drawn | stock | generated — the last carries a
+                        #   recipe too, and a commit gate reads it (visual.md)
 
     tasks/              # flat; hierarchy is a field, not a folder
     specs/              # the spec rung's documents, unless a binding says otherwise

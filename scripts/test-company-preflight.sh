@@ -99,5 +99,46 @@ gate || bad "an approval request was caught by the relay check"; gate && ok
 
 rm -rf _ops/requests; git add -A
 
+# Every case below is one an adversarial lens measured PASSING a previous version of these
+# gates. The suite used to test the gate against a row shape no document prescribes; these use
+# the shapes people actually write, and each is named by the evasion it represents.
+
+assets 'hero.png | origin: generated | model: prompt: seed: none | owned'
+gate && bad "keys satisfying each other passed — a value that is the next key is not a value" || ok
+
+assets 'hero.png | origin: generated | model: - prompt: - seed: - | owned'
+gate && bad "a dash as every value passed" || ok
+
+assets 'hero.png | Midjourney v7, no recipe kept | owned | header'
+gate && bad "a bare vendor name passed — the origin field must SUPPLEMENT the vendor list, not replace it" || ok
+
+assets 'hero.png | origin: generated, Ideogram | owned | see origin: build pipeline'
+gate && bad "a mention of another origin excused a row that declares origin: generated" || ok
+
+printf '# Assets\n\n| A | B | C | D |\n|---|---|---|---|\n   | hero.png | origin: generated | no recipe | x |\n' > _ops/assets.md; git add -A
+gate && bad "a GFM-legal indented table row was never read" || ok
+
+rm -f _ops/assets.md; git add -A
+
+mkdir -p _ops/requests
+# the shipped template must not pass itself with nothing filled in
+sed -n '/^# RQ-{{id}}/,/^## review/p' "$HERE/../templates/REQUEST-template.md" > _ops/requests/R-9.md
+printf '\n**kind**: relay\n**Payload**: {{ready to run, verbatim}}\n**Predicate**: {{checkable}}\n**Destination**: {{a path}}\n' >> _ops/requests/R-9.md
+git add -A
+gate && bad "untouched {{placeholders}} counted as values" || ok
+rm -f _ops/requests/R-9.md; git add -A
+
+# a relay written as a table has no colon after the key
+printf '# R-8\n\n| field | value |\n|---|---|\n| kind | relay |\n| Payload |  |\n' > _ops/requests/R-8.md
+git add -A
+gate && bad "a table-form relay was never detected" || ok
+rm -f _ops/requests/R-8.md; git add -A
+
+# and a complete relay whose three fields appear ONLY inside a fenced example is not a relay
+printf '# R-7\n\n**kind**: relay\n\n```markdown\n**Payload**: `x`\n**Predicate**: y\n**Destination**: z\n```\n' > _ops/requests/R-7.md
+git add -A
+gate && bad "fields present only inside a fenced example counted" || ok
+rm -f _ops/requests/R-7.md; git add -A
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

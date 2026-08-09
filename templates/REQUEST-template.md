@@ -1,4 +1,8 @@
-# R-{{id}} — {{one line: what is being asked, in the owner's language}}
+<!-- Lives at `_ops/requests/RQ-<id>.md`. The commit gate reads that directory and no other,
+     so a well-formed relay saved beside the task is a relay nobody checks. `RQ-` and not `R-`:
+     `R-XXXXXX` already means a run (`templates/RUN-template.md`). -->
+
+# RQ-{{id}} — {{one line: what is being asked, in the owner's language}}
 
 **kind**: {{approval | review | question | decision | relay}}
 **asked**: {{YYYY-MM-DD}} · **by**: {{role or human}} · **of**: {{group, or the owner}}
@@ -34,7 +38,7 @@ payload, because a check written after the artefact arrives is written to fit it
 **Worked example** — a launch post needs an image and the connected model draws nothing:
 
 ```markdown
-# R-4F2K9Q — hero image for the launch post
+# RQ-4F2K9Q — hero image for the launch post
 
 **kind**: relay
 **asked**: 2026-08-09 · **by**: designer · **of**: the owner
