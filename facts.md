@@ -276,3 +276,13 @@ line changes with it.
 209. A release names its rollout, guardrail measures own the halt, and expansion surfaces as ready rather than advancing itself.
 210. The kill switch is named before the first user sees the change, whatever the craft calls a kill switch.
 211. A survey instrument matches its layer — the step, the scenario, the software, the brand — and reading one layer with another's tool is the trap.
+
+## Assets and their recipes
+
+212. A generated asset records the model, the prompt, the seed and the reference image it was made from.
+213. A generated image whose recipe was not written down cannot be made again, and the set it belongs to drifts without anyone deciding to let it.
+214. `seed: none` is an accepted answer, because some models expose no seed and an honest gap beats a fabricated number.
+215. A style preset library is a vocabulary for talking to the owner, not the thing that makes two images match.
+216. Reading a lost prompt back out of an image is salvage — what comes out resembles the original and is not it.
+217. A transcript is taken from the caption track that already exists before any audio is sent to a model.
+218. A deck kept as text in the repository can be diffed, reviewed and gated; one kept as a binary cannot.

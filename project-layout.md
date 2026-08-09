@@ -31,6 +31,7 @@ your-project/
     TEAM.md             # the roster — generated, never hand-kept
     FIELD-NOTES.md      # friction, recorded where it happens
     assets.md           # every asset in use: what · source · licence · where
+                        #   generated ones also carry the recipe (visual.md)
 
     tasks/              # flat; hierarchy is a field, not a folder
     specs/              # the spec rung's documents, unless a binding says otherwise

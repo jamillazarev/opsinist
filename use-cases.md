@@ -114,6 +114,10 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "We keep doing this by hand every week" | *"can we automate the Monday roundup?"* | a pipeline plus a trigger, **dry-run first** |
 | "Somebody sent me a skill to install" | *"screen this"* | treated as untrusted code **and** untrusted instructions |
 | "Which of our skills are dead weight?" | *"what's attached and never used?"* | declared against used, from the run records |
+| "Make another banner like the one from March" | — | **the March banner carries its recipe** — model, prompt, seed, reference — so there is something to run again instead of something to approximate |
+| "This one's prompt was never written down" | *"read it back into words"* | a vision model recovers a prompt that resembles the old one; you are told plainly it is **salvage, not the original** |
+| "Where does that video say it?" | *"get me the transcript"* | the caption track first, the audio transcribed only when there is none — nobody pays GPU time for words already written down |
+| "Turn this into a deck" | *"make the slides"* | markdown in the repo, so the deck diffs and reviews like everything else; a `.pptx` only when a person outside the repo must edit it |
 
 ## Money and control
 

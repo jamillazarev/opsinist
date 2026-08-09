@@ -2,6 +2,67 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.5 — 2026-08-09
+
+**A generated asset now carries the recipe that made it, and a commit that forgets is refused.**
+This is the only behaviour change in the release, and it exists because the failure is invisible
+on the day it happens: nobody notices that `hero.png` has no prompt until, a month later, somebody
+needs the second banner in the set, the model has moved, and what comes back is *close but not
+it* — the set stops matching and **no single decision was ever made to let it**. So a generated
+row in `_ops/assets.md` carries **model · prompt · seed · reference**, `templates/company-preflight.sh`
+**§15** refuses the commit that skips it, and the two doors are the usual two: write the recipe,
+or write **`seed: none`** — a real answer, because some models expose none, and an honest gap
+beats a fabricated number. Home: `visual.md` §A generated asset carries its recipe. **Silent for
+any project with no generated assets** — the check only reads rows that name a generator.
+
+**The field is the point, not the reminder.** *"Generated with AI"* satisfies nothing and a prompt
+cannot be reconstructed from memory without visibly being generic — the same property that made
+*what did the page say* work where *what did you check* was answered with three fabricated dates.
+**Measured 2026-08-09**: mutation pair in `scripts/test-company-preflight.sh` — the recipeless row
+refused, the prompt-without-seed near-miss refused, `seed: none` passed, a register with no
+generated rows never touched. Suite now 6/6.
+
+**Six shelf rows, and two of them close doors that were open in both directions.**
+
+- **Voice became a ladder, because the top rung is free.** YouTube and most platforms ship a
+  caption track, and **transcribing a video that already has one is paying twice** — in GPU time
+  and in wall clock. `youtube-transcript-api` · **yt-dlp** first, Whisper when there is no track,
+  hosted only for scale or a synthetic voice. Rung 1's real limit is named: unofficial, so
+  `RequestBlocked`, cloud-IP blocks and parser breakage — a research pass, not a standing pipeline.
+- **Presentations, picked by who owns the deck afterwards.** **Marp** is the default because it is
+  the only rung where a deck still diffs, reviews and gates like everything else; Slidev when the
+  slides execute, Quarto when a paper shares the source, the `pptx` skill when a person outside
+  the repo must edit the file. `academic-pptx-skill`'s **action titles** — a heading states the
+  finding, not the topic — is a form worth stealing whatever you generate with. **`anydoc` is the
+  same door running inward**, so 0.2.4 and this row are two halves of one thing.
+- **Style presets, filed as a vocabulary and not a machine.** Fooocus's JSON is the format everyone
+  ports, and it is worth having as *two hundred named looks to point at* when briefing an owner.
+  It is not a style system: these are SDXL-era suffixes, the hosted models answer to plain
+  description and a reference image, and `visual.md` already says a project has **one** style —
+  a preset picked per image is a moodboard folder in JSON.
+- **Image → prompt, starting from the model you already pay for.** Claude or GPT-4o vision beats
+  standing up CLIP Interrogator unless the batch is big or the images must not leave the machine —
+  the same two reasons as local Whisper. Its real uses here are salvage, turning a client's
+  reference deck into words the register can hold, and alt text.
+- **Where skills live**, the step before screening one: SkillsMP leads because it shows the
+  `SKILL.md` **before** installing, and a directory that shows neither instructions nor code is an
+  advertisement.
+- **`last30days`** joins the demand-signal row with both of its limits: *"no keys"* is true of a
+  slice (X wants cookies, three networks go through a paid third party), and **engagement
+  weighting is not representativeness** — the top of the signal pyramid handed over as if it were
+  the base.
+- **Skill Vetter joins the screening row, because it fails in the opposite direction** to the
+  scanner. Patterns cannot read intent and cannot be argued with; a model-executed checklist reads
+  intent and **can be talked out of it by the file it is screening**. Neither is the gate.
+
+**Showcase trio for the mechanic**: the diagram *Why the second banner does not match the first*,
+new situations in `use-cases.md`, and a facts block of its own. **No migration is owed** — the recipe check is new
+enforcement over a register that already existed, and it stays silent until a generated row appears.
+
+**Eval state**: **not run** — the behaviour change is a commit-time refusal with a mutation pair
+behind it, which is the measurement that fits it; no dispatch-level rate changed. Corpus checks
+green (preflight, `check-links.py`, `test-audit-gate.sh`).
+
 ## 0.2.4 — 2026-08-09
 
 **A document an agent cannot open is not evidence.** The shelf had an answer for web pages
@@ -1434,7 +1495,7 @@ happens — and a sweep that found nothing records what it looked at.
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · 211 single-sentence facts · 101 situations with what to
+file defines · 218 single-sentence facts · 105 situations with what to
 say · **101 evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the

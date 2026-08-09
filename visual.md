@@ -136,3 +136,52 @@ explicit **keep/change list**. Then three to five candidate directions, and **th
 **A creator or a small brand gets the same structure scaled down**: positioning, voice, a visual
 kit, and **material templates** — story, post, cover formats — living in the design system like any
 other component.
+
+---
+
+## A generated asset carries its recipe
+
+**A generated image whose recipe was not written down is unrepeatable, and that is how a style
+dies quietly.** Nobody notices on the day. A month later somebody needs the second banner in the
+set, the model has moved, the prompt is gone, and what comes back is *close but not it* — so the
+set stops matching, and no single decision was ever made to let it.
+
+**So a generated row in `_ops/assets.md` carries four things beside the licence:**
+
+| | |
+|---|---|
+| `model` | the exact model or endpoint, version included — `flux-1.1-pro`, not "the fal one" |
+| `prompt` | **verbatim, the whole string.** Not a description of it |
+| `seed` | the number, or **`seed: none`** where the model exposes none — an honest answer, and the only other one accepted |
+| `reference` | the path or url of a style/reference image, where one was used — **this, not a preset name, is what actually makes two images match** (`catalogue.md` → *Style presets*) |
+
+**This is a field, not an instruction to be careful**, and it is enforced where the project can
+see it: `templates/company-preflight.sh` refuses a commit whose asset register names a generator
+and carries no recipe. **The two doors are the same two as everywhere**: write the recipe, or
+write `seed: none` — one edit, needing no new information.
+
+**Why a field and not a sentence:** the cheap answer is impossible to write. *"Generated with AI"*
+satisfies nothing, and a prompt cannot be reconstructed from memory without visibly being generic
+— the same property that made *what did the page say* work where *what did you check* was answered
+with three fabricated dates (`self-maintenance.md`).
+
+**Recovery, when a recipe is already lost, is the expensive repair** — a vision model reads the
+image back into words (`catalogue.md` → *Image → prompt*), and what comes out is a new prompt that
+resembles the old one, never the old one. **It is a salvage route, not a substitute for the
+field.**
+
+```mermaid
+flowchart TD
+  ASK[make another one like that] --> Q{does the asset<br/>carry its recipe?}
+  Q -- yes --> RUN[model · prompt · seed · reference<br/>run again]
+  RUN --> SAME[the same image, or the same family]
+  Q -- no --> SALV[read the picture back<br/>into words with a vision model]
+  SALV --> NEAR[a prompt that resembles the old one]
+  NEAR --> DRIFT[close but not it —<br/>the set stops matching]
+  PRE[a style preset name] -. never enough on its own .-> DRIFT
+  GATE[[company-preflight §15:<br/>a generated row with no recipe<br/>refuses the commit]] --> Q
+```
+
+**The preset is a vocabulary, the recipe is the mechanism, and salvage is the expensive repair.**
+This diagram lives here rather than in the gallery because `diagrams.md` is at its line budget —
+and a diagram beside the rule it draws is not a worse home for it.

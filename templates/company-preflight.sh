@@ -101,6 +101,29 @@ today's date. Writing \`unknown\` needs no new information and takes one edit.";
 done < /tmp/.pf-tooling.$$
 rm -f /tmp/.pf-tooling.$$
 
+# 15 · (numbered by arrival, placed by theme) a generated asset without its recipe is
+#      unrepeatable, and nobody finds out on the day. A month later the second banner in the
+#      set comes back "close but not it", the model has moved, the prompt is gone, and the
+#      set stops matching without anyone deciding to let it. Only fires on rows that name a
+#      generator, so a project with no generated assets never sees this. visual.md §A
+#      generated asset carries its recipe.
+if [ -f _ops/assets.md ]; then
+  while IFS= read -r row; do
+    case "$row" in
+      *prompt:*)
+        case "$row" in
+          *seed:*) ;;
+          *) say_fail "an asset row in _ops/assets.md names a generator and a prompt but no \
+seed — write the number, or write \`seed: none\` where the model exposes none. Either is one \
+edit and needs no new information: $(printf '%s' "$row" | cut -c1-60)";;
+        esac;;
+      *) say_fail "an asset row in _ops/assets.md names a generator and carries no recipe — a \
+generated image whose prompt was not written down cannot be made again, and the set it belongs \
+to drifts. Add \`model:\` \`prompt:\` \`seed:\` (visual.md): $(printf '%s' "$row" | cut -c1-60)";;
+    esac
+  done < <(grep -iE '^\|.*(generated|midjourney|dall-?e|stable diffusion|sdxl|flux|imagen|comfyui|fal\.ai|replicate)' _ops/assets.md 2>/dev/null || true)
+fi
+
 # 3 · DECISIONS.md is append-only. Rewriting it is how a rejected idea comes back
 #     next quarter with nobody able to say why it was rejected the first time.
 if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f _ops/DECISIONS.md ]; then
