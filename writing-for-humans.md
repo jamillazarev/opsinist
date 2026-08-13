@@ -241,7 +241,8 @@ Six weeks later somebody proposes it again and the argument is re-run from memor
 > **Chose:** built-in · **Rejected:** the other two
 > **Because:** the acceptance set passes 19/20 on the built-in one, so the quality gap we assumed
 > is not there at our size. The managed service is $50/mo above the envelope at current volumes
-> (checked 2026-06-14, with the link). The self-hosted one is free but adds a service to run, back
+> (`checked 2026-06-14`, with the link — backticked here because this is a worked example, and a
+> shown date must not age the way a claimed one does). The self-hosted one is free but adds a service to run, back
 > up and upgrade, which nobody here owns.
 > **Would revisit if:** we pass ~50k items per account, or non-Latin search becomes a requirement.
 > **Decided by:** the owner, with the backend engineer.

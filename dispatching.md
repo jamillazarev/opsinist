@@ -169,7 +169,7 @@ expert at maximum effort with nothing to cite produces very convincing invention
 the bar for an expert is the sourcing rule, not the dial.
 
 **A dispatched worker receives its state block — generated, never recited.**
-`scripts/transition.py <task> --brief` prints the stage, the one legal forward move and what it
+`_ops/scripts/transition.py <task> --brief` prints the stage, the one legal forward move and what it
 needs, the open returns, and whose act the terminal is not — read from the pipeline's own yaml
 block, so the prompt cannot drift from the door the work will be judged by (`pipelines.md`).
 The block is a view (`PATTERNS.md` §6): printed at dispatch, stored nowhere. A worker handed

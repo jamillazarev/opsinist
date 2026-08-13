@@ -116,3 +116,36 @@ spec-format release (batch 6, beside the screener work). The rule it called for 
 added: **local wins, upgrade never overwrites it, and the collision is surfaced rather than
 silent.** Kept here because the check that produced it is evidence: `upgrading.md` protects the
 owner's *conventions*, and nothing protected their *files of the same name* until this.
+
+---
+
+## A tripwire for work bypassing the machinery wholesale
+
+**The evidence:** a live project split into two eras at one commit — before it, six honest run
+records and twelve tasks with done-definitions; after it, **0 of 33 commits touched `_ops`** while
+the site shipped, decisions changed unrecorded (domain, language count, act format), and the
+board froze at "created". The guard fired on every commit and had nothing to say, because no
+check reads *work advancing while the record stands still*. The shape of the form: the project
+preflight warns — never fails — when the last N commits carry zero `_ops/` paths in a repo whose
+guide declares an operator. **Warn, not fail, and once**: site work is legitimate; the record
+going dark is the smell. **Revisit when:** the next takeover audit or field report shows a second
+project with a dark era — twice is the threshold everywhere here.
+
+## A channel that reaches the owner who is away
+
+**Requests age in files, and nothing tells an owner who is not at the terminal.** Evaluated
+2026-08-14: Agent-Reach (71k★, MIT) — declined; despite the name it is **inbound only** (agents
+reading platforms via cookie scrapers, ToS-gray, churn-prone), it contains no notification
+surface at all. The honest candidates remain the harness's own push notifications and a
+Telegram-bot shelf row (one token, owner-controlled, off-terminal). **Revisit when:** a request
+ages past its threshold unseen in a real project — that is the moment the need names the row.
+
+## A market-recon distillate template for `research/`
+
+**The folder exists with no named shape** (`project-layout.md` — "studies and their
+distillates"), and a live project's recon produced clean per-study documents with nowhere agreed
+to converge. The substance worth keeping from the 2026-08-14 gap analysis: analogs land in the
+competitor register (now with stage/outcome) · what-to-borrow and risks-and-failures as
+distillate sections citing register rows · the delta is the positioning brief, homed in
+`BRAND-template.md` §Positioning. **Revisit when:** the next real market-recon study is
+commissioned — a template written before its second use is a guess.

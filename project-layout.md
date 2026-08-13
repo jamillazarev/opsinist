@@ -46,7 +46,8 @@ your-project/
     automations/        # trigger · template · contract
     resources/          # places to look, each with its why
     skills/             # the pool; attachment lives on the role
-    scripts/            # the project's own helpers, grown as you go
+    scripts/            # the installed doors — preflight.sh · transition.py · new-id.py —
+                        #   plus the project's own helpers, grown as you go
     runbooks/           # how to operate a wired thing, kept out of the guide
     research/           # studies and their distillates
     audience/           # segments, personas, their grounding
@@ -192,7 +193,11 @@ consequence without being able to prevent it: *a run recorded by the worker itse
 sentence where four numbers belong, which is how a ledger quietly becomes prose.*
 
 **The last row is the only one that is not a document, and it is the one that must actually be
-run.** Copied to `_ops/scripts/preflight.sh` and wired with `bash _ops/scripts/preflight.sh --install`, it
+run.** Copied to `_ops/scripts/preflight.sh` and wired with `bash _ops/scripts/preflight.sh --install` —
+**and the doors travel with it**: `transition.py` and `new-id.py` are copied beside it, because the
+guard's own refusal names the door, and a refusal pointing at a file the project does not hold is
+a dead end, measured on a live project. **All three are re-copied at every migration** — a
+project running new rules with old gates is the same dead end one release later (`upgrading.md`). It
 is what makes several of this system's rules real in this project — among them: a task cannot reach a terminal
 status in the same commit that edits its own bar, an entitlement cannot be claimed with nothing
 behind it, and the decisions log cannot be rewritten. **Un-wired, all three are `prose-only`

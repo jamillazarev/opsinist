@@ -2,6 +2,56 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.7 — 2026-08-14
+
+**The doors now travel into the project — a field report measured what their absence cost.** A
+high-tier run on a live project hand-edited stage fields, recorded a 41-minute, 223k-token
+dispatch as one History sentence, and created no pipeline files — until the owner asked why.
+Verified claim by claim: `templates/GUIDE-template.md`, the one file every worker loads, named
+`transition.py` **zero** times, run records **zero** times, pipelines once in passing. Worse than
+the report knew: **nothing ever installed the door** — `_ops/scripts/` on the live project held
+only the guard, and the guard's own §14 refusal pointed at `scripts/transition.py`, **a path that
+does not exist in any generated project**. A refusal that names a door the project does not hold
+is a dead end.
+
+**Four repairs, in the one form the corpus measured as working** — a list of paths placed before
+the alternative (`self-maintenance.md`; moving prose to the core measured 1/15, so no prose
+moved):
+- **the guide template carries the doors block**: stage changes through
+  `_ops/scripts/transition.py` · a dispatch lands as `_ops/runs/R-<id>.md` with its four numbers ·
+  a type's ladder is a file in `_ops/pipelines/` · ids from `_ops/scripts/new-id.py`
+- **day one installs the doors beside the guard** (`starting.md`) — `transition.py` and
+  `new-id.py` are copied into `_ops/scripts/`, and **the first task arrives with its type's file
+  and ladder**, aligning `starting.md` with what `SKILL.md` already claimed
+- **§14's refusal points at the project's own path**, and every project-context citation follows
+- **migrations re-copy all three scripts** (`upgrading.md`, homed in `project-layout.md`) —
+  copies do not move by themselves, and a project running new rules with old gates is the same
+  dead end one release later. The corpus preflight now refuses a guide template that stops
+  naming any door, so the hole cannot silently reopen.
+
+**The shelf takes three adoptions from a triage batch, each with its limits in the row.** The
+**AI-gateway row** widens from one hosted occupant to the selection ladder's own order — LiteLLM
+(self-host default) · OmniRoute (young and churning, pin versions; compression off for anything
+reviewed; its numbers are its own marketing) · OpenRouter (per-model data policies) — with the
+need named honestly: provider-independence of the judge, answered first by cross-runtime
+dispatch, no proxy. **Early signals — builders in public, and the corpses** joins the research
+rows: a dead analog is first-class evidence, and the competitor register gains a
+**stage/outcome column** (live · pivoted · dead — dated, sourced) so corpses have a home.
+**A difference claim now cites the register row it differs from** (`BRAND-template.md`
+§Positioning) — *"unlike X"* with no row behind it is positioning copy.
+
+**Declined, with reasons recorded:** Agent-Reach (71k★, MIT) — despite the name it is inbound
+only, cookie-scraping platforms against their ToS; it contains no notification surface, so the
+real gap — an owner away from the terminal — stays open and is now a `LATER.md` entry with its
+honest candidates. A frozen list of accelerator names, hard page caps, and unsourced momentum
+labels from the same prompt — each contradicts a standing law (vendor rot, form-not-cap,
+claims carry rungs).
+
+**Eval state**: **not run** — the doors cluster changes what generated projects carry; its
+measurement is the next project stood up from this version, and the field report that started
+this is the baseline to beat. Corpus checks green: preflight, links, audit-gate 100,
+company-preflight 19, transition 14, migrate-layout 12.
+
 ## 0.2.6 — 2026-08-09
 
 **When the executor cannot do the step, it keeps the task and asks for one operation.** A post

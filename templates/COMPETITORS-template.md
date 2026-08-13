@@ -7,9 +7,9 @@ like any register. **Filled by research-typed work, fed by the monitoring automa
 (`catalogue.md` → Competitive monitoring), **read by** a spec's *Why now*, a positioning
 brief, and the decide loop's criteria — never a shelf document.
 
-| Who | Positioning, in one line | Price (fetched, dated) | Moat, with evidence | Where we differ | Source |
-|---|---|---|---|---|---|
-| {{name}} | {{their own words, quoted — not our caricature of them}} | {{$X/mo · checked YYYY-MM-DD}} | {{frame named (7 Powers / moat taxonomy) **and the evidence**: "switching costs — migrations take weeks, their forum says so" — a moat claim with no evidence is positioning copy}} | {{the one-line answer a sales page needs — ours, so `judgement` is an honest rung here}} | {{url or file#anchor (sha:…, checked …)}} |
+| Who | Stage/outcome (live · pivoted · dead — dated) | Positioning, in one line | Price (fetched, dated) | Moat, with evidence | Where we differ | Source |
+|---|---|---|---|---|---|---|
+| {{name}} | {{live · **or pivoted/dead, with when and the stated reason — a corpse's cause of death is evidence, not trivia**}} | {{their own words, quoted — not our caricature of them}} | {{$X/mo · checked YYYY-MM-DD}} | {{frame named (7 Powers / moat taxonomy) **and the evidence**: "switching costs — migrations take weeks, their forum says so" — a moat claim with no evidence is positioning copy}} | {{the one-line answer a sales page needs — ours, so `judgement` is an honest rung here}} | {{url or file#anchor (sha:…, checked …)}} |
 
 **Rules this register lives by:**
 

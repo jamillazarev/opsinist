@@ -14,7 +14,7 @@ wonder why nothing changed.
 | Layer | What moves |
 |---|---|
 | **this system's bytes** | the skill files on the machine — **by a route that differs per install**, below |
-| **the project's format** | `schema_version` and the codemods that move a repo from one to the next |
+| **the project's format** | `schema_version`, the codemods — **and the installed doors re-copied** (`project-layout.md`): they are copies, and copies do not move by themselves |
 | **attached skills** | third-party skills, re-screened |
 | **tooling versions** | the things in the register, checked against their release feeds |
 

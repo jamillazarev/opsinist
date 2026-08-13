@@ -244,7 +244,7 @@ agent may not author the fact that unblocks its own work*: an entitlement claime
 register with no receipt, file or URL behind it fails the commit.
 
 **Transitions became `validator` on `2026-08-06` — same condition.** A stage change has one
-door, `scripts/transition.py`, which reads the same yaml block a person reads and refuses an
+door, `_ops/scripts/transition.py`, which reads the same yaml block a person reads and refuses an
 illegal move with the reason — the gate kinds and the door's behaviour live in one home →
 `pipelines.md`. **The preflight holds the bypass**: a staged stage change with no transition
 line in the same diff fails the commit. A gate written only as prose still reads, and the door

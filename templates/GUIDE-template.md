@@ -33,6 +33,14 @@ it is, what to check. **Commit incrementally: a resumed run reads the repository
 session that died.** Operating mode: planning = {{manual|auto}}, hiring = {{manual|auto}}.
 Enabled modules: {{experts? personas? design QA? automations?}}.
 
+**The doors — run these, never improvise past them:**
+- a stage changes only through `_ops/scripts/transition.py <task> <to-stage> --by <you>` —
+  editing the **Status** line by hand is the bypass the guard refuses
+- a dispatch lands as `_ops/runs/R-<id>.md` carrying its four token numbers — `unknown` is an
+  accepted value; a sentence in a task's History is not a record
+- a type's ladder is a file in `_ops/pipelines/` — the door reads it, prose resolves nothing
+- an id comes from `_ops/scripts/new-id.py` — a model asked for a random id is not a random source
+
 **Where things are written is a project decision, not yours.** The manifest says which layers
 live in this repository and which live elsewhere. **Do not put records anywhere the manifest
 does not name** — and in a repository that is not ours, nothing of ours is written at all.

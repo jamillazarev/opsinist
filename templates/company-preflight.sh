@@ -374,7 +374,7 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
     printf '%s' "$d" | grep -qiE '^\+.*(stage|status)\*{0,2}[[:space:]]*:' || continue
     printf '%s' "$d" | grep -qE '^\+.*transition .* (→|->) .*, by ' \
       || say_fail "$t changes its stage with no transition line in the same change — the door \
-is \`scripts/transition.py\`: it refuses an illegal move with the reason and records the legal \
+is \`_ops/scripts/transition.py\`: it refuses an illegal move with the reason and records the legal \
 one. A stage edited by hand is a bypass."
   done
 fi

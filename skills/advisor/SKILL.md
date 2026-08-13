@@ -1,7 +1,7 @@
 ---
 name: advisor
 display_name: Opsinist
-version: 0.2.6
+version: 0.2.7
 license: Apache-2.0
 repository: https://github.com/jamillazarev/opsinist
 tags: [operations, agent-teams, project-management, git]
@@ -92,7 +92,7 @@ to build**, and a repository with **no operator line and no `_ops/config.md`** �
 it yet, so there is nothing to migrate: it is **entered** (`entering.md`), and the first write
 opens the log rather than a migration. → `upgrading.md`
 
-**A stage changes through the door.** `scripts/transition.py <task> <to-stage> --by <who>`
+**A stage changes through the door.** `_ops/scripts/transition.py <task> <to-stage> --by <who>`
 refuses an illegal move with the reason and records the legal one; **its `--brief` is the
 state block a dispatch carries**. Editing a stage field by hand is the bypass the project
 preflight refuses → `pipelines.md`, `dispatching.md`.

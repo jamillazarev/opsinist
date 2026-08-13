@@ -21,6 +21,20 @@ pv=$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["version"])'
 [ "$sv" = "$pv" ] && say_ok "version $sv" \
   || say_fail "version mismatch: skills/advisor/SKILL.md=$sv plugin.json=$pv"
 
+# 1a · the guide template names the doors. The 2026-08-10 field report measured the cost of
+#      this hole: a high-tier run hand-edited stages, recorded a 223k-token dispatch as a History
+#      sentence, and created no pipeline files — because the one file every worker loads named
+#      none of them. The repair form is the corpus's own measured one (a list of paths placed
+#      before the alternative), and this check keeps the list from silently eroding.
+for door in "_ops/scripts/transition.py" "_ops/runs/" "_ops/pipelines/" "_ops/scripts/new-id.py"; do
+  grep -qF "$door" "$ROOT/templates/GUIDE-template.md" || say_fail \
+    "templates/GUIDE-template.md no longer names $door — the doors block is the measured repair \
+for the operational-scripts hole (2026-08-10 report); a guide that stops naming a door recreates it"
+done
+grep -q "transition.py" "$ROOT/starting.md" || say_fail \
+  "starting.md no longer installs the doors on day one — the guard's §14 points at \
+_ops/scripts/transition.py, and installing the refusal without the door strands the next commit"
+
 # 1b · and everywhere a human wrote it. Two files agreeing proves nothing about the third: a
 # release badge sat hardcoded at a version while the frontmatter moved, and the newest changelog
 # heading is the other place a release quietly disagrees with itself.

@@ -118,14 +118,15 @@ measured.**
 | **the project guide**, generated into the root instruction file | every worker loads it natively; without it nothing that follows is read |
 | **`_ops/config.md`** — the git-host adapter, `schema_version`, and **the migration log opened with its first line** (`— → <version> · <date> · applied · <who>`) | a project born without the log reads forever as one that was never migrated → `upgrading.md` |
 | **the pre-commit guard** | it is what makes every other check real rather than stated |
+| **the doors, beside the guard** — `transition.py` and `new-id.py` copied from the skill's `scripts/` into `_ops/scripts/` | the guard's §14 refuses a hand-edited stage **and points at the door** — installing the refusal without the door strands the very next commit at a path that does not resolve (measured on a live project: `_ops/scripts/` held only the guard) |
 | **branch protection where a remote exists** | a review gate without it is a sentence, not a gate |
 
-**And the first task — which comes *before* the rest of the machinery, not after it.**
+**And the first task — which comes *before* the rest of the machinery, not after it — with its type's file and ladder**, because the type proposes the task's fields at its birth and the ladder is what the door reads.
 
 **Everything else arrives when it has something to hold.** `_ops/DECISIONS.md` at the first
 decision · `_ops/LATER.md` at the first deferral · `_ops/TEAM.md` at the first role · `_ops/ROADMAP.md`
-when there is a roadmap · `_ops/FIELD-NOTES.md` at the first friction or the first sweep · the
-process files when a task needs a ladder or a gate. **A document created before it has content is
+when there is a roadmap · `_ops/FIELD-NOTES.md` at the first friction or the first sweep · further
+process files when a task of a new kind needs a ladder or a gate. **A document created before it has content is
 a file the owner has to read past for the rest of the project's life.**
 
 **This was measured, and the number is why the list above is four lines.** On the tier an owner

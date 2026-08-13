@@ -41,7 +41,7 @@ transition** where a gate only blocks one.
 **A gate is data, and three kinds are checkable** — `check` (a command that must exit clean),
 `review_by: non-author` (a review line in History from someone who is not the worker), `fields`
 (named fields present on the task). **The prose beside a gate explains it to a person and is
-never what holds it** — `scripts/transition.py` is the one door a stage change goes through: it
+never what holds it** — `_ops/scripts/transition.py` is the one door a stage change goes through: it
 reads this same block, refuses an illegal move with the reason, and appends the transition to
 History. A gate written only as prose still reads, and is honestly `prose-only` — the validator
 warns rather than blocks on it. **The machine guards; it never advances** — nothing transitions

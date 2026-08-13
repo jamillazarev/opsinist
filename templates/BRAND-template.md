@@ -7,6 +7,10 @@ identity is outward-facing.
 
 ## Positioning
 
+{{**A difference claim cites the competitor-register row it differs from** — *"unlike X"* with no
+row behind it is positioning copy, and the register is where the claim's evidence and check-date
+already live (`templates/COMPETITORS-template.md`).}}
+
 > {{For [audience] who [need], {{Company}} is the [category] that [key benefit],
 > unlike [alternatives], because [reason to believe].}}
 
