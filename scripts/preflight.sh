@@ -26,12 +26,21 @@ pv=$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["version"])'
 #      sentence, and created no pipeline files — because the one file every worker loads named
 #      none of them. The repair form is the corpus's own measured one (a list of paths placed
 #      before the alternative), and this check keeps the list from silently eroding.
+# Anchored to the BLOCK, not the substring: a lens defeated the first version by leaving the
+# four paths in an HTML comment while deleting the block itself — the guide stopped telling
+# workers the doors and the check stayed green. Comments are stripped first, then the paths
+# must sit inside the block that starts at the doors heading.
+doors_block=$(perl -0pe 's/<!--.*?-->//gs' "$ROOT/templates/GUIDE-template.md" \
+  | sed -n '/\*\*The doors — run these/,/^$/p')
+[ -n "$doors_block" ] || say_fail \
+  "templates/GUIDE-template.md has no doors block — the measured repair for the \
+operational-scripts hole (2026-08-10 report) is gone"
 for door in "_ops/scripts/transition.py" "_ops/runs/" "_ops/pipelines/" "_ops/scripts/new-id.py"; do
-  grep -qF "$door" "$ROOT/templates/GUIDE-template.md" || say_fail \
-    "templates/GUIDE-template.md no longer names $door — the doors block is the measured repair \
-for the operational-scripts hole (2026-08-10 report); a guide that stops naming a door recreates it"
+  printf '%s' "$doors_block" | grep -qF "$door" || say_fail \
+    "the doors block in templates/GUIDE-template.md no longer names $door — a guide that stops \
+naming a door recreates the hole"
 done
-grep -q "transition.py" "$ROOT/starting.md" || say_fail \
+grep -qF 'scripts/transition.py' "$ROOT/starting.md" || say_fail \
   "starting.md no longer installs the doors on day one — the guard's §14 points at \
 _ops/scripts/transition.py, and installing the refusal without the door strands the next commit"
 

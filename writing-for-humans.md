@@ -274,9 +274,8 @@ the two-line version; this is the full one):
 - **bold-everywhere and bullet-itis** — emphasis that marks everything marks nothing
 
 **The deep pass is a skill, not a longer list** — the shelf names it, with its limits
-(`catalogue.md` → *Writing without the AI smell*): it attaches to roles that write for humans,
-never runs over quotations, and may not invent a fact the source did not carry. **A rewrite that
-smuggles a new fact in is worse than slop** — slop wastes attention; a fabricated specific
+(`catalogue.md` → *Writing without the AI smell*). One clause the row does not carry: **a rewrite
+that smuggles a new fact in is worse than slop** — slop wastes attention; a fabricated specific
 spends trust.
 
 ## Two habits that apply everywhere

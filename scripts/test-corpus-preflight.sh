@@ -4,6 +4,9 @@
 # the place workers learn the doors, and nothing noticed for a release. A check without its
 # mutation test is a hope — this is the test.
 #
+# These cases run against a LOCAL CLONE of HEAD, not the working tree — an uncommitted edit
+# to a checked file or to preflight itself is exercised one commit late, on purpose: the
+# suite tests what ships.
 # Recursion guard: this suite runs preflight inside a clone; CORPUS_PF_TEST makes the clone's
 # preflight skip its suite battery, so the depth is exactly two.
 [ -n "${CORPUS_PF_TEST:-}" ] && { echo "corpus-preflight: 0 passed, 0 failed"; exit 0; }
@@ -32,6 +35,20 @@ grep -q "no longer names _ops/scripts/transition.py" "$T/o1" \
   && bad "a starting.md that stopped installing the doors passed" || ok
 grep -q "no longer installs the doors" "$T/o2" \
   && ok || bad "the starting.md refusal does not say what went missing"
+
+# mutant 3 — the lens's own evasion: the block deleted, the four paths left in an HTML
+# comment. A guide that stops TELLING workers the doors while the strings survive is the
+# exact hole the check was built for.
+( cd "$T/c" && git checkout -q starting.md templates/GUIDE-template.md \
+  && python3 -c "
+import pathlib,re
+p=pathlib.Path('templates/GUIDE-template.md'); t=p.read_text()
+m=re.search(r'\*\*The doors — run these.*?\n\n', t, re.S)
+t=t.replace(m.group(0), '<!-- _ops/scripts/transition.py _ops/runs/ _ops/pipelines/ _ops/scripts/new-id.py -->\n\n',1)
+p.write_text(t)" \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o3" 2>&1 \
+  && bad "paths hidden in a comment passed while the doors block was gone" || ok
+grep -q "has no doors block" "$T/o3" && ok || bad "the comment-evasion refusal does not name the block"
 
 echo "corpus-preflight: $pass passed, $fail failed"
 exit "$fail"

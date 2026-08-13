@@ -308,4 +308,4 @@ line changes with it.
 232. Auditing a tree with no history is a thinner job than auditing one with history, and saying so beats performing the fuller one on evidence that is not there.
 233. A plugin's scope is where it is declared, never where its files are: the code lives in one machine-wide cache that every project shares.
 234. A project-scoped plugin declaration without its marketplace tells a clone to enable something without saying where to get it.
-228. A relay also carries what to return with the result, and that field is caught downstream rather than at the relay: without the model and the seed the recipe cannot be filled, and it is that commit which is refused.
+235. A relay also carries what to return with the result, and that field is caught downstream rather than at the relay: without the model and the seed the recipe cannot be filled, and it is that commit which is refused.

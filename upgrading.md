@@ -14,7 +14,7 @@ wonder why nothing changed.
 | Layer | What moves |
 |---|---|
 | **this system's bytes** | the skill files on the machine — **by a route that differs per install**, below |
-| **the project's format** | `schema_version`, the codemods — **and the installed doors re-copied** (`project-layout.md`): they are copies, and copies do not move by themselves |
+| **the project's format** | `schema_version`, the codemods — **and the installed doors re-copied, the guide regenerated from the new template** (`project-layout.md`): copies do not move by themselves, and a regenerated guide is how an existing project receives what the template learned |
 | **attached skills** | third-party skills, re-screened |
 | **tooling versions** | the things in the register, checked against their release feeds |
 

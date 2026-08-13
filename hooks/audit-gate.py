@@ -535,7 +535,7 @@ def main():
                     "Opsinist role gate (SKILL.md): the advisor dispatches product work "
                     f"and does not hold it — `{rel}` is product surface, not a system "
                     "record. Three doors: **dispatch it** (a task, a worker, "
-                    "`scripts/transition.py --brief` as its state block) · **the owner "
+                    "`_ops/scripts/transition.py --brief` as its state block) · **the owner "
                     "takes it by hand and says so** · **declare a quick job** and keep it "
                     "small. Retrying the same edit passes — delayed one message, never "
                     "blocked.", file=sys.stderr)

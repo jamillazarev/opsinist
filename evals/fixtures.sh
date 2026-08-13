@@ -873,6 +873,9 @@ for f in $FIXTURES; do
   if [ "${WIRE_PREFLIGHT:-0}" = "1" ] && [ -d "$ROOT/$f/workspace/.git" ]; then
     mkdir -p "$ROOT/$f/workspace/_ops/scripts"
     cp templates/company-preflight.sh "$ROOT/$f/workspace/_ops/scripts/preflight.sh"
+    # The doors travel with the guard (0.2.7): a wired project whose §14 points at a door it
+    # does not hold is the measured dead end, not a fixture of anything real.
+    cp scripts/transition.py scripts/new-id.py "$ROOT/$f/workspace/_ops/scripts/"
     printf '#!/bin/sh\nbash _ops/scripts/preflight.sh || exit 1\n' > "$ROOT/$f/workspace/.git/hooks/pre-commit"
     chmod +x "$ROOT/$f/workspace/.git/hooks/pre-commit" "$ROOT/$f/workspace/_ops/scripts/preflight.sh"
     # The four documents the guide promises, created only where they are absent. Without them

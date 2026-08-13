@@ -67,6 +67,24 @@ typo'd date that used to silence the freshness gate, the count rephrase, the sta
 hidden in the exempt page). Scenario **N89 · Day one installs the doors** joins the runsheet on
 the `cold` fixture, so the doors are measured by the round, not only asserted by the checks.
 
+**An existing project receives all of this by the named migration step, not by magic** — the
+three scripts re-copied (each from its own source: the guard from `templates/company-preflight.sh`,
+the doors from the skill's `scripts/`) and **the guide regenerated from the new template**, which
+is how a project born before 0.2.7 gets the doors block and the ban line at all.
+
+**Four lenses read this release before its tag, and the pass paid for itself twice over.** The
+brand-new doors check was **defeated by its own author's blind spot**: paths left in an HTML
+comment while the block was deleted kept preflight green — the check is now anchored to the
+block itself, comments stripped first, with the evasion as a third mutant (suite 7/7). A
+"wired into the loop" claim printed success **without asserting the replacement happened** — it
+had not; every such edit now asserts. The day-one table briefly said four things while holding
+five rows — the doors folded into the guard's row, where they belong, and *four* is true again
+everywhere including N89's own fail line. The role-gate refusal still named the pre-0.2.7 path —
+fixed, because a refusal is read exactly when someone must act on it. The wired eval fixture
+built the measured dead end (guard without doors) — it installs all three now. `facts.md` held
+two facts numbered 228. And the corpus violated its own new ban list in one row ("more robust"
+→ "less brittle") — the list's first catch was its own author.
+
 **Eval state**: **not run** — the doors cluster changes what generated projects carry; its
 measurement is the next project stood up from this version, and the field report that started
 this is the baseline to beat. Corpus checks green: preflight, links, audit-gate 100,
@@ -1673,7 +1691,7 @@ happens — and a sweep that found nothing records what it looked at.
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · 234 single-sentence facts · 111 situations with what to
+file defines · 235 single-sentence facts · 111 situations with what to
 say · **103 evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the

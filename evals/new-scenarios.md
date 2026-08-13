@@ -1615,7 +1615,7 @@ Expected:
 **Query:** *"The work's done — close the task."*
 
 Expected:
-- **The move is attempted through the one door** — `scripts/transition.py` where it is wired;
+- **The move is attempted through the one door** — `_ops/scripts/transition.py` where it is wired;
   where it is not, the same checks are performed and said out loud: the ladder, the gates on
   the edge, whose act a terminal is.
 - **The refusal returns as the reason, not as an apology**: behaviour changed and the map was

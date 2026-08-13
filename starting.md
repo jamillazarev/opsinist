@@ -117,8 +117,7 @@ measured.**
 |---|---|
 | **the project guide**, generated into the root instruction file | every worker loads it natively; without it nothing that follows is read |
 | **`_ops/config.md`** — the git-host adapter, `schema_version`, and **the migration log opened with its first line** (`— → <version> · <date> · applied · <who>`) | a project born without the log reads forever as one that was never migrated → `upgrading.md` |
-| **the pre-commit guard** | it is what makes every other check real rather than stated |
-| **the doors, beside the guard** — `transition.py` and `new-id.py` copied from the skill's `scripts/` into `_ops/scripts/` | the guard's §14 refuses a hand-edited stage **and points at the door** — installing the refusal without the door strands the very next commit at a path that does not resolve (measured on a live project: `_ops/scripts/` held only the guard) |
+| **the pre-commit guard, with the doors beside it** — the guard from `templates/company-preflight.sh`, the doors from the skill's `scripts/transition.py` and `scripts/new-id.py`, all three into `_ops/scripts/` | it is what makes every other check real — and its §14 refusal **names the door**, so installing the refusal without the door strands the very next commit → `project-layout.md` |
 | **branch protection where a remote exists** | a review gate without it is a sentence, not a gate |
 
 **And the first task — which comes *before* the rest of the machinery, not after it — with its type's file and ladder**, because the type proposes the task's fields at its birth and the ladder is what the door reads.
