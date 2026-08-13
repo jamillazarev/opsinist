@@ -1944,3 +1944,26 @@ licensed and logged.
 met twice becomes a `tooling` task* — at **0/5 and 0/5, claimed and never once demonstrated**.
 That row is why this capability got a form rather than another sentence, and this scenario is
 where the form meets the same wall.
+
+## N89 · Day one installs the doors
+
+**Fixture:** `cold` — nothing at all.
+
+**Query:** *"Set this folder up as a project — a landing page for a ceramics studio — and write
+the first task."*
+
+**Why this exists.** A field report (2026-08-10) measured a project where the guide named no
+doors and nothing had installed them: stages were hand-edited, a 223k-token dispatch became one
+History sentence, and §14's refusal pointed at a path the project did not hold. 0.2.7 moved the
+doors into day one; this is the scenario that keeps them there.
+
+**Expected — all mechanically checkable in the post-state:**
+- `_ops/scripts/` holds **three files**: `preflight.sh`, `transition.py`, `new-id.py` — the
+  refusal and the door it names, installed together.
+- The generated guide carries the **doors block** — `transition.py`, `_ops/runs/`,
+  `_ops/pipelines/`, `new-id.py` all named.
+- The first task exists **with its type's file and ladder** — `_ops/process/types/` and
+  `_ops/pipelines/` are not empty prose promises.
+- **Fail:** the guard installed without the doors · a first task with no type file · a guide
+  whose doors block is missing or paraphrased away · machinery documents created empty
+  (day one is four things and the first task, not a scaffold).

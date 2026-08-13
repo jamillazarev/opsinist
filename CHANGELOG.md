@@ -47,6 +47,26 @@ honest candidates. A frozen list of accelerator names, hard page caps, and unsou
 labels from the same prompt — each contradicts a standing law (vendor rot, form-not-cap,
 claims carry rungs).
 
+**Every agent now writes without the AI smell, by a form rather than a plea.** The ban list is
+enumerable and enumerated — significance inflation, the rule of three, *it's-not-just-X-it's-Y*,
+essay wrap-ups, *delve/seamless* **and the Russian tells the English lists miss** (*стоит
+отметить · в современном мире*) — homed in `writing-for-humans.md`, with a two-line always-loaded
+form beside LANGUAGE & TONE in the guide template. **The deep pass is an import, not a longer
+list**: the shelf takes [humanizer](https://github.com/blader/humanizer) (MIT, 35.5k★, built on
+Wikipedia's *Signs of AI writing*) with its limits in the row — English tells only, never over
+quotations, and the load-bearing rule that a rewrite may not contain a fact the source did not:
+**slop wastes attention; a fabricated specific spends trust.** It attaches through the skill
+screen to roles that write for humans — a 30 KB skill on every role is a load-budget tax the
+short form already covers.
+
+**And the debts the last release deferred are paid in tests.** The doors-regression check now
+carries its mutation suite (`test-corpus-preflight.sh`, 5/5 — clone-isolated, recursion-guarded,
+the mutant refused by name and the twin passing); the sibling's preflight repairs, which a lens
+had caught shipping with zero coverage, carry theirs (`test-preflight-checks.sh`, 9/9 — the
+typo'd date that used to silence the freshness gate, the count rephrase, the stale pin, the URL
+hidden in the exempt page). Scenario **N89 · Day one installs the doors** joins the runsheet on
+the `cold` fixture, so the doors are measured by the round, not only asserted by the checks.
+
 **Eval state**: **not run** — the doors cluster changes what generated projects carry; its
 measurement is the next project stood up from this version, and the field report that started
 this is the baseline to beat. Corpus checks green: preflight, links, audit-gate 100,
@@ -1654,7 +1674,7 @@ A core of laws and routing under a declared budget · **forty-three companions**
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
 instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
 file defines · 234 single-sentence facts · 111 situations with what to
-say · **102 evaluation scenarios**, each naming the fixture it runs against, scored by
+say · **103 evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the
 artifacts a project stands up · and guards that run on every push: dangling references, ageing

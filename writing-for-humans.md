@@ -254,6 +254,31 @@ and a graveyard of opinions.*
 
 ---
 
+## The AI smell — a ban list, not an aspiration
+
+**Slop is a vocabulary and a rhythm, and both are enumerable** — which is what makes this a form
+rather than a plea to "write naturally". The list every agent carries (the guide template holds
+the two-line version; this is the full one):
+
+- **significance inflation** — *stands as a testament · pivotal moment · underscores the
+  importance · evolving landscape · marking a shift*. Say what happened; the reader ranks it
+- **the rule of three** as filler — *fast, simple, and reliable* — when only one word is load-bearing
+- **negative parallelism** — *it's not just X, it's Y* — state Y
+- **essay wrap-ups** — *In conclusion · Ultimately, this shows* — a document ends when it is done
+- **AI vocabulary** — *delve · leverage · seamless · robust · crucial · foster · empower ·
+  navigate the complexities* — and the Russian smell the English lists miss: *стоит отметить ·
+  давайте разберёмся · в современном мире · играет ключевую роль · не секрет, что*
+- **hedging stacks** — *could potentially perhaps* — one hedge, or a claim with a rung
+- **sycophancy openers** — *Great question! · Certainly!* — answer
+- **uniform rhythm** — every paragraph three sentences, every sentence the same length: vary or cut
+- **bold-everywhere and bullet-itis** — emphasis that marks everything marks nothing
+
+**The deep pass is a skill, not a longer list** — the shelf names it, with its limits
+(`catalogue.md` → *Writing without the AI smell*): it attaches to roles that write for humans,
+never runs over quotations, and may not invent a fact the source did not carry. **A rewrite that
+smuggles a new fact in is worse than slop** — slop wastes attention; a fabricated specific
+spends trust.
+
 ## Two habits that apply everywhere
 
 **Say which claim you are making.** *"Built"* and *"works"* are different, and a status that blurs

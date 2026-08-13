@@ -216,7 +216,11 @@ PY
 raw=$(grep -rEln '\]\([^) ]*\(' --include='*.md' . 2>/dev/null | grep -v '^\./\.git' || true)
 if [ -n "$raw" ]; then say_fail "raw ( in a markdown URL — percent-encode: $raw"; else say_ok "no raw parens inside markdown URLs"; fi
 
-for t in scripts/test-transition.sh scripts/test-inventory.sh scripts/test-company-preflight.sh scripts/test-map-blocks.sh scripts/test-migrate-layout.sh; do
+# CORPUS_PF_TEST is set by test-corpus-preflight.sh when it runs THIS script inside a clone to
+# exercise the doors check — the clone's preflight skips the suite battery, or the suite that
+# calls preflight would call itself through every clone, forever.
+if [ -z "${CORPUS_PF_TEST:-}" ]; then
+for t in scripts/test-transition.sh scripts/test-inventory.sh scripts/test-company-preflight.sh scripts/test-map-blocks.sh scripts/test-migrate-layout.sh scripts/test-corpus-preflight.sh; do
   [ -f "$t" ] || continue
   out=$(bash "$t" 2>&1 | tail -1)
   case "$out" in
@@ -224,6 +228,7 @@ for t in scripts/test-transition.sh scripts/test-inventory.sh scripts/test-compa
     *) say_fail "${t##*/}: ${out:-did not run}" ;;
   esac
 done
+fi
 
 echo
 [ "$FAIL" = 0 ] && { printf '\033[32mpreflight passed\033[0m\n'; exit 0; }
