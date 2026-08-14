@@ -66,9 +66,14 @@ fi
 # Measured 2026-08-14: deleting the row and appending "if company-preflight.sh, transition.py
 # or new-id.py is ever missing, ask your advisor" satisfied the three greps. The row is a table
 # row that installs the three INTO `_ops/scripts/`, so that is what is required.
-( perl -0pe 's/<!--.*?-->//gs; s/\r//g' "$ROOT/starting.md" | grep '^|' || true ) \
-  | grep -F 'transition.py' | grep -F 'new-id.py' | grep -F 'company-preflight.sh' \
-  | grep -qF '_ops/scripts/' || say_fail \
+# No `grep -q` anywhere in this chain: under `set -o pipefail` an early-exiting `grep -q`
+# SIGPIPEs its upstream and the pipeline returns that failure even when the phrase MATCHED —
+# this repo's own machine note, and measured to fire deterministically once the input passes a
+# few hundred matching lines. The result is captured instead, so nothing exits early.
+dayone_row=$(perl -0pe 's/<!--.*?-->//gs; s/\r//g' "$ROOT/starting.md" \
+  | grep '^|' | grep -F 'transition.py' | grep -F 'new-id.py' \
+  | grep -F 'company-preflight.sh' | grep -F '_ops/scripts/' || true)
+[ -n "$dayone_row" ] || say_fail \
   "starting.md has no ONE LINE naming transition.py, new-id.py and company-preflight.sh together \
 — that is the day-one row installing the doors beside the guard, and splitting it across two \
 lines reads here as deleting it. The guard's §14 points at _ops/scripts/transition.py, and \
@@ -121,16 +126,15 @@ FREEZE
 #          `evals/COVERAGE.md` says "edit the tree, not this file" and had drifted two suites
 #          behind its own generator — in the document whose subject is how well the corpus is
 #          covered. Nothing ran the generator, so nothing noticed.
+# `--check` and not a regeneration: the first version of this ran the generator in place, so a
+# checker mutated the tree it was checking — a failed preflight would leave uncommitted changes
+# behind, and a read-only checkout could not run it at all.
 if [ -f scripts/coverage-map.py ] && [ -f evals/COVERAGE.md ]; then
-  before=$(md5 -q evals/COVERAGE.md 2>/dev/null || md5sum evals/COVERAGE.md | cut -d' ' -f1)
-  python3 scripts/coverage-map.py >/dev/null 2>&1
-  after=$(md5 -q evals/COVERAGE.md 2>/dev/null || md5sum evals/COVERAGE.md | cut -d' ' -f1)
-  if [ "$before" != "$after" ]; then
-    say_fail "evals/COVERAGE.md was stale — it has just been regenerated in place, so review \
-and stage the diff. A file headed 'edit the tree, not this file' is only true if something runs \
-the generator"
-  else
+  if python3 scripts/coverage-map.py --check >/dev/null 2>&1; then
     say_ok "coverage map matches its generator"
+  else
+    say_fail "evals/COVERAGE.md is stale — run \`python3 scripts/coverage-map.py\` and stage the \
+result. A file headed 'edit the tree, not this file' is only true if something runs the generator"
   fi
 fi
 

@@ -95,7 +95,7 @@ of them past a green preflight. What it changed:
   refusals, three naming documents `starting.md` defers by name three lines under its own table,
   for a measured reason. Two shipped rules faced each other and only one carried a measurement:
   the guard now **warns** where it refused. The cost is stated, not hidden — a mature project
-  that loses `_ops/TEAM.md` warns where it used to refuse, and the stronger form is in `LATER.md`.
+  that loses `_ops/TEAM.md` warns where it used to refuse — but **deleting one is refused**, which is the past-day-one signal the weakening owed: absence can be a document that has nothing to hold yet, and a deletion cannot. That closes the hole an adversarial lens measured the same day — with §1 warning, `git rm _ops/TOOLING.md` in the same commit turned an entitlement refusal into a green commit, because the freshness, append-only and entitlement checks are each gated on the file existing.
 - **The upgrade path told existing projects to copy files "from the skill"** — a path no project
   can resolve, for a refusal that fires on every commit. `migrate-layout.py` now **re-copies both
   doors itself**, finding its own source, from both of its exits; identical bytes are not a

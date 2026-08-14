@@ -11,6 +11,7 @@ Usage: python3 scripts/coverage-map.py   (from the repo root; writes evals/COVER
 import glob
 import re
 from collections import Counter
+import sys
 from pathlib import Path
 
 OUT = Path("evals/COVERAGE.md")
@@ -72,7 +73,17 @@ def main():
           "- scenario text: `evals/README.md` · `evals/new-scenarios.md` — rates and their "
           "dates: `evals/RUNS.md`",
           ""]
-    OUT.write_text("\n".join(L), encoding="utf-8")
+    body = "\n".join(L)
+    # `--check` exists so preflight can verify freshness without WRITING. A checker that
+    # mutates the tree it checks leaves a failed run with uncommitted changes, and in a
+    # read-only checkout it cannot run at all.
+    if "--check" in sys.argv:
+        current = OUT.read_text(encoding="utf-8") if OUT.exists() else ""
+        if current == body:
+            return 0
+        print(f"{OUT} is stale — run `python3 scripts/coverage-map.py` and stage the result")
+        return 1
+    OUT.write_text(body, encoding="utf-8")
     print(f"wrote {OUT} — {len(enforced)} enforcement kinds · {len(validators)} validators · "
           f"{len(hooks)} hooks · {len(tests)} test suites · {len(rows)} scenario rows")
     return 0
