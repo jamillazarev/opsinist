@@ -493,10 +493,24 @@ fi
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
-    printf '%s' "$d" | hits -iE '^\+.*status:[[:space:]]*(done|shipped|completed|accepted|closed)' || continue
-    if printf '%s' "$d" | hits -iE '^[+-].*(dod:|acceptance|definition of done)'; then
+    printf '%s' "$d" \
+      | hits -iE '^\+.*\*{0,2}status\*{0,2}[[:space:]]*:[[:space:]]*(done|shipped|completed|accepted|closed)' \
+      || continue
+    # The bar is compared SECTION against SECTION, not guessed at by a regex. It is a list of
+    # bullets under `## Done when` (or a `dod:` field), so editing it changes lines that contain
+    # none of those words — measured: a task reaching `done` through the door with its
+    # acceptance criterion rewritten in the same commit passed every regex form of this check.
+    bar_at() {  # bar_at <rev-or-empty> — the acceptance section as it stands there
+        if [ -z "$1" ]; then git show ":$t" 2>/dev/null; else git show "$1:$t" 2>/dev/null; fi \
+          | awk '/^##[[:space:]]*(Done when|Acceptance)/{f=1; next}
+                 f && /^##[[:space:]]/{exit}
+                 f {print}
+                 /^[[:space:]]*(dod|acceptance|definition of done)[[:space:]]*:/{print}'
+    }
+    if [ "$(bar_at HEAD)" != "$(bar_at '')" ]; then
       say_fail "$t reaches a terminal status in the same commit that edits its own bar — \
-nobody edits the bar they are measured against."
+nobody edits the bar they are measured against. Move the bar in its own commit, before the work \
+is judged against it."
     fi
     printf '%s' "$d" | hits -iE '(review|approved|accepted by|evidence|run [0-9a-z]|#[0-9]+|https?://)' \
       || say_warn "$t reaches a terminal status and nothing in the change points at a review, a \
@@ -555,11 +569,13 @@ fi
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
     [ -f "$t" ] || continue
-    grep -qiE '^[[:space:]]*(children|subtasks)[[:space:]]*:' "$t" || continue
+    grep -qiE '^[[:space:]]*((children|subtasks)[[:space:]]*:|##[[:space:]]*(children|subtasks))' "$t" || continue
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
-    printf '%s' "$d" | hits -iE '^\+.*status:[[:space:]]*(done|shipped|completed|accepted|closed)' || continue
+    printf '%s' "$d" \
+      | hits -iE '^\+.*\*{0,2}status\*{0,2}[[:space:]]*:[[:space:]]*(done|shipped|completed|accepted|closed)' \
+      || continue
     # A container has no predicate of its own — that one may close itself, and says so.
-    grep -qiE '^[[:space:]]*(dod|acceptance|definition of done)[[:space:]]*:' "$t" || {
+    grep -qiE '^[[:space:]]*((dod|acceptance|definition of done)[[:space:]]*:|##[[:space:]]*done when)' "$t" || {
       printf '%s' "$d" | hits -iE 'closed (automatically|by rollup)|container' \
         || say_warn "$(basename "$t") is a container closing on its children — legitimate, and \
 the fact that it closed automatically is part of the record. Say so in the same change."

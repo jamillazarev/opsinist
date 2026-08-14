@@ -356,5 +356,39 @@ err=$(bash _ops/scripts/preflight.sh 2>&1 >/dev/null)
 [ -z "$err" ] && ok || bad "the guard writes to stderr while refusing: $(printf '%s' "$err" | head -1)"
 git checkout -q HEAD -- _ops/DECISIONS.md; git reset -q; git checkout -q _ops/DECISIONS.md
 
+# §10 — nobody edits the bar they are measured against. The suite had no case for this check
+# at all, and the check could not see the edit: the bar is a list of bullets under `## Done
+# when`, so rewriting it changes lines containing none of the words the regex looked for.
+# Measured through the door — a task reaching `done` with its acceptance criterion relaxed in
+# the same commit passed. It compares the section against HEAD now.
+mkdir -p _ops/process/types && printf 'started -> done\n' > _ops/process/types/default.md
+printf '# T-8 — a thing\n\n**Status**: started\n**Assignee**: bob\n\n## Done when\n\n- the strict bar\n\n## History\n' > _ops/tasks/T-8.md
+git add -A && git commit -qm "T-8 exists"
+
+python3 "$HERE/transition.py" _ops/tasks/T-8.md done --by alice >/dev/null 2>&1
+python3 -c "
+import pathlib
+p=pathlib.Path('_ops/tasks/T-8.md'); p.write_text(p.read_text().replace('- the strict bar','- a much weaker bar'))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a task reached done with its own bar relaxed in the same commit" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "own bar" \
+  && ok || bad "the bar refusal does not name what it caught"
+
+# the twin: an honest close, bar untouched, must pass
+git checkout -q HEAD -- _ops/tasks/T-8.md; git reset -q; git checkout -q _ops/tasks/T-8.md
+python3 "$HERE/transition.py" _ops/tasks/T-8.md done --by alice >/dev/null 2>&1
+printf -- '- 2026-08-15 — reviewed by carol: checked against the bar\n' >> _ops/tasks/T-8.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "an honest close with the bar untouched was refused"
+
+# and editing the bar while NOT terminal is ordinary work
+git checkout -q HEAD -- _ops/tasks/T-8.md; git reset -q; git checkout -q _ops/tasks/T-8.md
+python3 -c "
+import pathlib
+p=pathlib.Path('_ops/tasks/T-8.md'); p.write_text(p.read_text().replace('- the strict bar','- a sharper bar'))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "sharpening the bar mid-flight was refused"
+git rm -qf _ops/tasks/T-8.md >/dev/null 2>&1; git commit -qm "T-8 out"
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"
