@@ -323,14 +323,44 @@ if [ -n "$raw" ]; then say_fail "raw ( in a markdown URL — percent-encode: $ra
 # exercise the doors check — the clone's preflight skips the suite battery, or the suite that
 # calls preflight would call itself through every clone, forever.
 if [ -z "${CORPUS_PF_TEST:-}" ]; then
+: > /tmp/.pf-suites.$$
 for t in scripts/test-transition.sh scripts/test-inventory.sh scripts/test-company-preflight.sh scripts/test-map-blocks.sh scripts/test-migrate-layout.sh scripts/test-corpus-preflight.sh scripts/test-eval-requeue.sh; do
   [ -f "$t" ] || continue
   out=$(bash "$t" 2>&1 | tail -1)
+  printf '%s %s\n' "${t##*/}" "$(printf '%s' "$out" | grep -oE '[0-9]+ passed' | grep -oE '[0-9]+')" \
+    >> /tmp/.pf-suites.$$
   case "$out" in
     *" 0 failed") say_ok "${t##*/}: ${out}" ;;
     *) say_fail "${t##*/}: ${out:-did not run}" ;;
   esac
 done
+
+# A suite size quoted in prose has now rotted four times in one release — 5/5 for a 7-case
+# suite, 21/21 for 23, 23/23 for 26, 8/8 for 15. Prose does not hold numbers, so the numbers
+# are checked. Only the UNRELEASED changelog entry and the newest RUNS entry are read: older
+# entries correctly describe the suite as it was, and the frozen-entry check above holds them.
+python3 - "$sv" /tmp/.pf-suites.$$ <<'SUITES' || FAIL=1
+import re, sys, pathlib
+version, sizes_file = sys.argv[1], sys.argv[2]
+actual = {}
+for line in open(sizes_file):
+    parts = line.split()
+    if len(parts) == 2 and parts[1].isdigit():
+        actual[parts[0]] = int(parts[1])
+text = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+m = re.search(r"^## " + re.escape(version) + r"\b.*?(?=^## |\Z)", text, re.S | re.M)
+bad = []
+if m:
+    for suite, quoted in re.findall(r"(test-[a-z-]+\.sh)[^\n]{0,40}?(\d+)/\2\b", m.group(0)):
+        n = actual.get(suite)
+        if n is not None and int(quoted) != n:
+            bad.append((suite, quoted, n))
+for suite, quoted, n in bad:
+    print(f"  \033[31m✗\033[0m the {version} entry says {suite} is {quoted}/{quoted}; "
+          f"it is {n}. A count in prose is a claim like any other")
+sys.exit(1 if bad else 0)
+SUITES
+rm -f /tmp/.pf-suites.$$
 fi
 
 echo

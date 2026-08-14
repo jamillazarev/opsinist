@@ -115,7 +115,7 @@ of them past a green preflight. What it changed:
   covers. `check-structure.py` exempts `CHANGELOG.md`, which is why nothing caught it.
 
 Smaller: the eval requeue claimed *every run in the table is a run that finished* while reading
-only the session-limit list — it now sweeps the whole table (`test-eval-requeue.sh`, 8/8; 4/8
+only the session-limit list — it now sweeps the whole table (`test-eval-requeue.sh`, 15/15; 4/8
 against the pre-fix script), and the round's five lost dispatches are diagnosed as one scenario
 that never launched. The role-gate refusal's corrected path is now asserted by the suite that
 had checked only its exit code. The marketing-pool row says how to take three skills out of
@@ -126,7 +126,7 @@ unknown on both sides, dated, with what would settle it.
 **Four lenses read this release before its tag, and the pass paid for itself twice over.** The
 brand-new doors check was **defeated by its own author's blind spot**: paths left in an HTML
 comment while the block was deleted kept preflight green — the check is now anchored to the
-block itself, comments stripped first, with the evasion as a third mutant (suite 7/7). A
+block itself, comments stripped first, with the evasion as a third mutant (suite 17/17). A
 "wired into the loop" claim printed success **without asserting the replacement happened** — it
 had not; every such edit now asserts. The day-one table briefly said four things while holding
 five rows — the doors folded into the guard's row, where they belong, and *four* is true again
@@ -158,7 +158,7 @@ ever been measured by a round**. What N89's 0/3 measures is what it always said 
 the day-one instruction *as prose to the advisor*, on a corpus with no guard check behind it
 — its graded runs wired no guard at all. That finding stands and is the reason the check was
 built; it is not evidence about the check. Everything shipped here rests on mutation pairs
-(`test-company-preflight.sh` 26/26, `test-corpus-preflight.sh` 13/13) and the next full round
+(`test-company-preflight.sh` 32/32, `test-corpus-preflight.sh` 17/17) and the next full round
 is what turns them into measurements. Said plainly rather than left for a reader to derive
 from a hash.
 
@@ -181,7 +181,7 @@ so the check now requires the door to read arguments — a `.py` that takes none
 scenario that never launched, every layer beneath reported it honestly as `void`, and the one
 line that over-claimed — `eval-requeue.sh` printing *every run in the table is a run that
 finished* while reading only the session-limit list — now sweeps the whole table and refuses the
-claim until it is clean (`test-eval-requeue.sh`, 8/8; 4/8 against the pre-fix script). **N88 confirmed 0/5** on the new corpus — the
+claim until it is clean (`test-eval-requeue.sh`, 15/15; 6/15 against the pre-sweep script). **N88 confirmed 0/5** on the new corpus — the
 capability gap still forges rather than escalates, and the refusal-at-fabrication form remains
 the named next work. **N87 split**: the outward gate's load-bearing behaviours held 5/5 — push
 refused, nothing falsely claimed pushed, no retry — while four runs relayed only one of the two

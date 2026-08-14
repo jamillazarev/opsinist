@@ -1286,8 +1286,8 @@ vanished for any other reason is in no list it reads, and it still printed *ever
 table is a run that finished* across them. **Repaired the same day with a form**: the script now
 sweeps the whole table for missing transcripts and void verdicts, names what it finds, and
 refuses the completion line until the sweep is clean — reachable on both exits, including the
-one where nothing was poisoned. Mutation-tested (`scripts/test-eval-requeue.sh`, 8/8; the same
-suite scores 4/8 against the pre-fix script). Untested there: the sweep after a live requeue,
+one where nothing was poisoned. Mutation-tested (`scripts/test-eval-requeue.sh`, 15/15; the same
+suite scores 6/15 against the pre-sweep script). Untested there: the sweep after a live requeue,
 because reaching it dispatches real agents. **Why N72 never launched is still open** — its
 fixture builds by hand today, and no shard log survives to say what happened at dispatch.
 
