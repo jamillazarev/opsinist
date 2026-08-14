@@ -60,8 +60,9 @@ screen to roles that write for humans — a 30 KB skill on every role is a load-
 short form already covers.
 
 **And the debts the last release deferred are paid in tests.** The doors-regression check now
-carries its mutation suite (`test-corpus-preflight.sh`, 5/5 — clone-isolated, recursion-guarded,
-the mutant refused by name and the twin passing); the sibling's preflight repairs, which a lens
+carries its mutation suite (`test-corpus-preflight.sh`, 7/7 — clone-isolated, recursion-guarded,
+the mutant refused by name and the twin passing, including a block deleted while its paths hide
+in an HTML comment); the sibling's preflight repairs, which a lens
 had caught shipping with zero coverage, carry theirs (`test-preflight-checks.sh`, 9/9 — the
 typo'd date that used to silence the freshness gate, the count rephrase, the stale pin, the URL
 hidden in the exempt page). Scenario **N89 · Day one installs the doors** joins the runsheet on
@@ -107,9 +108,16 @@ void, aggregate flat at ≈22% as every round before it). **N89 — day one inst
 ran 0/5**: every graded run stood the project up ad hoc, no `_ops/scripts/` at all, which is
 the day-one install *as prose to the advisor* measuring exactly what prose measures here. **The
 next form shipped inside this same release**: the guard's furniture check refuses a wired
-project whose doors are absent (§1, suite 21/21) — so the moment a project is wired, the gap
+project whose doors are absent (§1, suite 23/23) — so the moment a project is wired, the gap
 surfaces on the first commit; the half that stays prose (nothing forces wiring at stand-up) is
-named in `LATER.md` rather than implied fixed. **N88 confirmed 0/5** on the new corpus — the
+named in `LATER.md` rather than implied fixed. **A probe against that new check the same day
+found presence alone was satisfied by an empty file**, which is what an interrupted copy leaves,
+so the check now requires the door to read arguments — a `.py` that takes none is not the file
+§14 names. The lost dispatches from the round are diagnosed in the same entry: all five were one
+scenario that never launched, every layer beneath reported it honestly as `void`, and the one
+line that over-claimed — `eval-requeue.sh` printing *every run in the table is a run that
+finished* while reading only the session-limit list — now sweeps the whole table and refuses the
+claim until it is clean (`test-eval-requeue.sh`, 8/8; 4/8 against the pre-fix script). **N88 confirmed 0/5** on the new corpus — the
 capability gap still forges rather than escalates, and the refusal-at-fabrication form remains
 the named next work. **N87 split**: the outward gate's load-bearing behaviours held 5/5 — push
 refused, nothing falsely claimed pushed, no retry — while four runs relayed only one of the two

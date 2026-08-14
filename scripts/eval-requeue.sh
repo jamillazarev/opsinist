@@ -10,7 +10,33 @@ set -uo pipefail
 SUITE=${1:?}; CORPUS=${2:?}; PHOME=${3:?}; JHOME=${4:?}
 cd "$(dirname "$0")/.." || exit 1
 p="$SUITE/logs/POISONED"
-[ -s "$p" ] || { echo "nothing was poisoned — no requeue needed"; exit 0; }
+
+# A void is not a poisoned run. The limit list is written when a session limit eats a run, so a
+# run that produced no transcript for any OTHER reason — never dispatched, fixture broken, shard
+# died — is in no list this script reads, and the requeue below cannot reach it. Measured on the
+# 2026-08-14 round: N72's five runs left no output, no stderr and no post, the judge honestly
+# wrote `void: no transcript` over each, and this script still printed "every run in the table is
+# a run that finished". The claim is now earned by a sweep of the whole table rather than by the
+# poisoned list alone — the repair is a form, because the sentence was already emphatic.
+sweep_voids() {
+  local left=0 shown=0 names="" id n
+  while read -r id n; do
+    [ -z "${id:-}" ] && continue
+    if [ ! -s "$SUITE/logs/$id-$n.output" ] \
+       || grep -q '"verdict"[[:space:]]*:[[:space:]]*"void"' "$SUITE/logs/$id-$n.verdict.json" 2>/dev/null; then
+      left=$((left+1))
+      if [ "$shown" -lt 12 ]; then names="$names $id/$n"; shown=$((shown+1)); fi
+    fi
+  done < "$SUITE/jobs.txt"
+  [ "$left" -eq 0 ] && return 0
+  echo "$left run(s) in the table still measure nothing:$names$([ "$left" -gt "$shown" ] && echo " … and $((left-shown)) more")"
+  echo "none of these hit a session limit, so this script cannot requeue them. Re-dispatch by id"
+  echo "with eval-shard.sh, or read logs/<id>-<n>.err — a whole scenario voiding means its fixture"
+  echo "never built. Until then the table's N is smaller than it looks: read the void column."
+  return 1
+}
+
+[ -s "$p" ] || { echo "nothing was poisoned — no requeue needed"; sweep_voids; exit $?; }
 
 sort -u "$p" | awk '{print $1, $2}' > "$SUITE/requeue.jobs"
 n=$(wc -l < "$SUITE/requeue.jobs" | tr -d ' ')
@@ -35,4 +61,5 @@ if [ -s "$p" ]; then
   echo "still limited: $(wc -l < "$p" | tr -d ' ') run(s). Wait for the reset and run this again."
   exit 1
 fi
+sweep_voids || exit 1
 echo "requeue complete — every run in the table is a run that finished"

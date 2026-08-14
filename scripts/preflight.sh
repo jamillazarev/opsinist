@@ -229,7 +229,7 @@ if [ -n "$raw" ]; then say_fail "raw ( in a markdown URL — percent-encode: $ra
 # exercise the doors check — the clone's preflight skips the suite battery, or the suite that
 # calls preflight would call itself through every clone, forever.
 if [ -z "${CORPUS_PF_TEST:-}" ]; then
-for t in scripts/test-transition.sh scripts/test-inventory.sh scripts/test-company-preflight.sh scripts/test-map-blocks.sh scripts/test-migrate-layout.sh scripts/test-corpus-preflight.sh; do
+for t in scripts/test-transition.sh scripts/test-inventory.sh scripts/test-company-preflight.sh scripts/test-map-blocks.sh scripts/test-migrate-layout.sh scripts/test-corpus-preflight.sh scripts/test-eval-requeue.sh; do
   [ -f "$t" ] || continue
   out=$(bash "$t" 2>&1 | tail -1)
   case "$out" in

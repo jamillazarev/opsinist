@@ -65,9 +65,17 @@ done
 # twice — a live project held only the guard, and the day-one install instruction alone ran
 # 0/5 in the round — so the presence is held here, not remembered.
 for d in _ops/scripts/transition.py _ops/scripts/new-id.py; do
-  [ -f "$d" ] || say_fail "$d is missing — the doors travel with this guard: copy \
+  if [ ! -f "$d" ]; then
+    say_fail "$d is missing — the doors travel with this guard: copy \
 scripts/transition.py and scripts/new-id.py from the skill into _ops/scripts/ (one command \
 each), or §14 refuses your next stage change and points at a file you do not hold"
+  elif ! grep -q 'sys\.argv\|argparse' "$d"; then
+    # Presence alone was satisfied by an empty file — measured against this guard on
+    # 2026-08-14, and an interrupted copy leaves exactly that. A door is a command, so the
+    # test is that it reads arguments; a `.py` that takes none is not the file §14 names.
+    say_fail "$d exists but takes no arguments — a half-copied door is not a door. Re-copy it \
+from the skill's scripts/ (the real one reads sys.argv), then commit again"
+  fi
 done
 if git ls-files | grep -qE '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'; then
   [ -f _ops/ARCHITECTURE.md ] || say_warn "there is code but no _ops/ARCHITECTURE.md — every task \
