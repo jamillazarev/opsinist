@@ -34,17 +34,42 @@ pv=$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["version"])'
 # starting.md half still being a bare substring — were measured on 2026-08-14 and are each a
 # named mutant in `scripts/test-corpus-preflight.sh`, which is where the reasoning lives: a
 # mutation test is the executable form of the claim, and saying it twice is how one copy rots.
-# The block is the heading plus the LIST under it — list items and their indented
-# continuations, blank lines tolerated — and a door must appear in one of those items.
-# Measured 2026-08-14, two ways round: taking "everything until the next bold line" let a
-# gutted guide pass by appending the heading at EOF above a sentence naming the four paths,
-# and it also produced four refusals about paths present but below an unindented line.
-doors_block=$(perl -0pe 's/<!--.*?-->//gs; s/\r//g' "$ROOT/templates/GUIDE-template.md" \
-  | awk '/\*\*The doors — run these/{f=1; next}
-         f && /^[[:space:]]*$/{next}
-         f && /^- /{print; next}
-         f && /^[[:space:]]+/{print; next}
-         f{exit}')
+# The block is the heading plus the LIST under it. Extracted in python because the rule needs
+# one line of lookahead: a blank line ends the block unless the next non-blank line is still a
+# list item or an indented continuation. The awk version that preceded it was measured failing
+# both ways on 2026-08-14 — a list using `*` markers reported "has no block" while the heading
+# sat there unchanged, and a gutted guide passed by putting the four paths on an indented line
+# two blank lines below a one-item list, because blank lines never terminated and any indented
+# line was accepted as part of the block.
+doors_block=$(python3 - "$ROOT/templates/GUIDE-template.md" <<'BLOCK'
+import re, sys
+raw = open(sys.argv[1], encoding="utf-8-sig").read()
+raw = re.sub(r"<!--.*?-->", "", raw, flags=re.S).replace("\r", "")
+lines = raw.split("\n")
+start = next((i for i, l in enumerate(lines) if l.startswith("**The doors — run these")), None)
+if start is None:
+    sys.exit(0)
+ITEM = re.compile(r"^[ \t]*([-*+]|[0-9]+[.)])[ \t]")
+CONT = re.compile(r"^[ \t]+\S")
+out, i = [], start + 1
+while i < len(lines):
+    l = lines[i]
+    if ITEM.match(l) or CONT.match(l):
+        out.append(l); i += 1; continue
+    if not l.strip():
+        # a blank line ends it unless the list resumes immediately after
+        j = i + 1
+        while j < len(lines) and not lines[j].strip():
+            j += 1
+        # only a LIST ITEM resumes the block. An indented line after a blank is a new
+        # paragraph or a code block in markdown, never a continuation — and accepting it was
+        # exactly how a gutted guide passed with the four paths two blank lines below.
+        if j < len(lines) and ITEM.match(lines[j]):
+            i = j; continue
+    break
+print("\n".join(out))
+BLOCK
+)
 if [ -z "$doors_block" ]; then
   say_fail "templates/GUIDE-template.md has no block starting with the line \
 '**The doors — run these' — the measured repair for the operational-scripts hole \
@@ -117,7 +142,13 @@ for tag, n in bad:
     print("  \033[31m✗\033[0m the " + tag + " entry no longer matches what " + tag +
           " shipped (" + str(n) + " line(s) changed or lost) — a released entry is frozen; "
           "the only permitted addition is a marked correction as a blockquote")
-if not bad:
+if not tags:
+    # A green tick over zero tags is the vacuous pass this check exists to avoid elsewhere.
+    # Measured: a shallow or tag-stripped checkout — which is what `actions/checkout` gives by
+    # default — verified nothing and said so in the affirmative.
+    print("  \033[33m!\033[0m no tags in this checkout, so no released entry was verified — "
+          "fetch tags (CI: `fetch-depth: 0`) or this check is decoration")
+elif not bad:
     print("  \033[32m✓\033[0m " + str(len(tags)) + " released entries match their tags")
 sys.exit(1 if bad else 0)
 FREEZE

@@ -14,6 +14,12 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # tags, and enough history to read a tagged CHANGELOG entry: the frozen-entry
+          # check compares each released section against what its tag shipped, and the
+          # default shallow, tagless checkout made it pass over zero tags — a green tick
+          # for a check that verified nothing.
+          fetch-depth: 0
       - name: preflight — validators and every shipped test suite
         run: bash scripts/preflight.sh
       - name: cross-references, anchors and citation hashes

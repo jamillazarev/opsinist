@@ -72,13 +72,27 @@ done
 #     file existing. The constrained party could delete the gate instead of satisfying it. This
 #     is also the "past day one" signal the weakening owed: a document that has existed cannot
 #     quietly stop existing.
-gone=$(git diff --cached --name-only --diff-filter=D 2>/dev/null \
+# `DR`, not `D`: git detects renames by default, so `git mv _ops/TOOLING.md elsewhere` was not
+# listed and walked straight through — measured, and strictly better for the constrained party
+# than the delete it replaced, since the register survives one directory sideways while §2, §3
+# and §9 all key on the literal path. Emptying the file reaches the same end, so a staged
+# truncation to nothing is refused too — the first version of this message actually recommended
+# that as the remedy.
+gone=$(git diff --cached --name-status --diff-filter=DR 2>/dev/null \
+  | awk '{print $2}' \
   | grep -E '^_ops/(ROADMAP|TEAM|TOOLING|DECISIONS)\.md$' || true)
-if [ -n "$gone" ]; then
-  say_fail "this commit deletes $(printf '%s' "$gone" | tr '\n' ' ')— these four may be absent \
-because they have nothing to hold yet, but deleting one that exists also deletes the checks \
-gated on it (freshness, append-only, entitlements). Empty the content and keep the file, or say \
-in _ops/DECISIONS.md why the register is being retired"
+emptied=""
+for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
+  git ls-files --error-unmatch "$f" >/dev/null 2>&1 || continue
+  staged_size=$(git show ":$f" 2>/dev/null | tr -d '[:space:]' | wc -c | tr -d ' ')
+  had=$(git show "HEAD:$f" 2>/dev/null | tr -d '[:space:]' | wc -c | tr -d ' ')
+  [ "${staged_size:-1}" -eq 0 ] && [ "${had:-0}" -gt 0 ] && emptied="$emptied $f"
+done
+if [ -n "$gone" ] || [ -n "$emptied" ]; then
+  say_fail "this commit retires$(printf '%s' " $gone$emptied" | tr '\n' ' ')— these four may be \
+absent because they have nothing to hold yet, but removing, renaming or emptying one that \
+exists also removes the checks keyed on it (freshness, append-only, entitlements). If the \
+register is genuinely being retired, say so in _ops/DECISIONS.md and move it in its own commit"
 fi
 # The doors travel with this guard (0.2.7), and a wired project without them is the measured
 # dead end: §14 refuses a hand-edited stage and points at a door that is not there. Measured
@@ -88,33 +102,22 @@ for d in _ops/scripts/transition.py _ops/scripts/new-id.py; do
   if [ ! -f "$d" ]; then
     # The old wording said "copy them from the skill", and a project cannot resolve that: the
     # skill's path differs per runtime and nothing shipped into a project names it. So the
-    # refusal now points at a step that runs and finds its own source.
+    # refusal points at a step that runs and finds its own source.
     say_fail "$d is missing — the doors travel with this guard. Ask your advisor to run the \
 upgrade step (it re-copies both doors beside this guard from wherever the skill is installed), \
 or §14 refuses your next stage change and points at a file you do not hold"
-  elif ! python3 - "$d" <<'DOOR' >/dev/null 2>&1; then
-import ast, sys
-src = open(sys.argv[1], encoding="utf-8").read()
-tree = ast.parse(src)
-# A door is a command. `grep sys.argv` was satisfied by a three-line stub whose only mention
-# was the comment "# sys.argv is not read here" — measured 2026-08-14. This reads the file as
-# python and looks for an actual argv use or an argparse call, so a comment is not a door.
-def uses_args(node):
-    for n in ast.walk(node):
-        if isinstance(n, ast.Attribute) and n.attr == "argv":
-            return True
-        if isinstance(n, ast.Name) and n.id == "argparse":
-            return True
-        if isinstance(n, ast.Attribute) and n.attr == "ArgumentParser":
-            return True
-    return False
-sys.exit(0 if uses_args(tree) else 1)
-DOOR
-    # Presence alone was satisfied by an empty file — measured against this guard on
-    # 2026-08-14, and an interrupted copy leaves exactly that. A door is a command, so the
-    # test is that it reads arguments; a `.py` that takes none is not the file §14 names.
-    say_fail "$d exists but takes no arguments — a half-copied door is not a door. Ask your \
-advisor to run the upgrade step (it re-copies a door whose bytes differ), then commit again"
+  elif [ ! -s "$d" ] || ! grep -q 'sys\.argv\|argparse' "$d"; then
+    # Presence alone was satisfied by an empty file — measured 2026-08-14, and an interrupted
+    # copy leaves exactly that. Non-empty plus an argument-reading mention, and deliberately
+    # only a heuristic. A stricter form shipped for one afternoon and was withdrawn the same
+    # day: parsing the file with an inline `ast` heredoc **refused every commit in any project
+    # without python3** — blaming the doors for a missing interpreter, unfixable from inside
+    # the project — and refused a working door carrying a UTF-8 BOM, while still accepting a
+    # ten-byte file containing the word `argparse`. It bought nothing against a stub nobody
+    # writes and cost two false refusals against real projects. A check that misdiagnoses is
+    # worse than one that is only a heuristic; this file's header is about not crying wolf.
+    say_fail "$d is empty or does not read arguments — a half-copied door is not a door. Ask \
+your advisor to run the upgrade step (it re-copies a door whose bytes differ), then commit again"
   fi
 done
 if git ls-files | grep -qE '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'; then

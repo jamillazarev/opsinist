@@ -38,12 +38,22 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a guard without its doors
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "an empty file named transition.py passed as a door" || ok
 printf 'print("hello")\n' > _ops/scripts/transition.py
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a .py that reads no arguments passed as a door" || ok
-# and the stub that named argv only in a COMMENT, which the substring form accepted (measured)
-printf '# sys.argv is not read here\nprint("hi")\n' > _ops/scripts/transition.py
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a comment mentioning sys.argv passed as a door" || ok
-# a file that is not python at all is not a door either
-printf 'not python (\n' > _ops/scripts/transition.py
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "an unparseable file passed as a door" || ok
+# The two false refusals that got the stricter form withdrawn on 2026-08-14. An inline `ast`
+# heredoc caught one more stub shape and, in exchange, refused EVERY commit in a project with
+# no python3 — blaming the doors for a missing interpreter — and refused a working door with a
+# UTF-8 BOM. Both are real projects; the stub is not. These two hold the withdrawal.
+mv /tmp/.door.$$ _ops/scripts/transition.py 2>/dev/null || true
+mkdir -p /tmp/.nopy.$$ && printf '#!/bin/sh\nexit 127\n' > /tmp/.nopy.$$/python3 && chmod +x /tmp/.nopy.$$/python3
+PATH="/tmp/.nopy.$$:$PATH" bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a project without python3 had every commit refused, blaming its doors"
+rm -rf /tmp/.nopy.$$
+python3 -c "
+import pathlib
+p=pathlib.Path('_ops/scripts/transition.py'); p.write_text('\ufeff'+p.read_text())"
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a working door carrying a UTF-8 BOM was refused as not reading arguments"
+cp "$HERE/transition.py" _ops/scripts/transition.py
+mv _ops/scripts/transition.py /tmp/.door.$$
 mv /tmp/.door.$$ _ops/scripts/transition.py
 
 # a hand flip, staged, no transition line → §14 refuses the commit
@@ -166,8 +176,17 @@ rm -f _ops/requests/R-7.md; git add -A
 # because §2, §3 and §9 are each gated on the file existing.
 git rm -q _ops/TOOLING.md
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "deleting a document deleted the checks gated on it" || ok
-( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "this commit deletes" \
-  && ok || bad "the deletion refusal does not say what was deleted"
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "this commit retires" \
+  && ok || bad "the deletion refusal does not say what was retired"
+git checkout -q HEAD -- _ops/TOOLING.md && git reset -q && git checkout -q _ops/TOOLING.md
+# a rename is not listed by --diff-filter=D, and git detects renames by default — measured
+# walking straight through, and better for the constrained party than the delete it replaced
+mkdir -p _ops/registers && git mv _ops/TOOLING.md _ops/registers/TOOLING.md
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a rename retired the register and its checks" || ok
+git mv _ops/registers/TOOLING.md _ops/TOOLING.md && rmdir _ops/registers && git reset -q
+# and emptying it reaches the same end — which the first version of the message recommended
+: > _ops/TOOLING.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "emptying the register retired its checks" || ok
 git checkout -q HEAD -- _ops/TOOLING.md && git reset -q && git checkout -q _ops/TOOLING.md
 
 # Three gates that could never fire, measured 2026-08-14 and each with its own reason: §3 counted

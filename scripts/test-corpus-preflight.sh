@@ -144,5 +144,27 @@ p.write_text('\\n'.join(out))" \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o9" 2>&1 \
   && bad "the day-one row was replaced by a sentence naming all three and passed" || ok
 
+# mutants 10 and 11 — the block extractor, measured failing both directions on 2026-08-14.
+# A list written with `*` markers is ordinary markdown and reported "has no block" while the
+# heading sat unchanged; and a gutted guide passed by putting the four paths on an indented
+# line two blank lines below a one-item list, because blanks never terminated the block.
+( cd "$T/c" && git checkout -q . \
+  && python3 -c "
+import pathlib
+p=pathlib.Path('templates/GUIDE-template.md'); t=p.read_text()
+i=t.index('**The doors — run these'); seg=t[i:t.index(chr(10)+chr(10), i)]
+p.write_text(t.replace(seg, seg.replace(chr(10)+'- ', chr(10)+'* ')))" \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) >/dev/null 2>&1 \
+  && ok || bad "a doors list written with * markers was reported as a missing block"
+
+( cd "$T/c" && git checkout -q . \
+  && python3 -c "
+import pathlib,re
+p=pathlib.Path('templates/GUIDE-template.md'); t=p.read_text()
+m=re.search(r'\\*\\*The doors — run these.*?\\n\\n', t, re.S)
+p.write_text(t.replace(m.group(0), '**The doors — run these, never improvise past them:**\\n- run the doors\\n\\n\\n  _ops/scripts/transition.py _ops/runs/ _ops/pipelines/ _ops/scripts/new-id.py\\n\\n', 1))" \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) >/dev/null 2>&1 \
+  && bad "a gutted guide passed with the paths on an indented line below blank lines" || ok
+
 echo "corpus-preflight: $pass passed, $fail failed"
 exit "$fail"
