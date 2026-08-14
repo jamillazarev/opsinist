@@ -46,11 +46,21 @@ import re, sys
 raw = open(sys.argv[1], encoding="utf-8-sig").read()
 raw = re.sub(r"<!--.*?-->", "", raw, flags=re.S).replace("\r", "")
 lines = raw.split("\n")
-start = next((i for i, l in enumerate(lines) if l.startswith("**The doors — run these")), None)
-if start is None:
+heads = [i for i, l in enumerate(lines) if l.startswith("**The doors — run these")]
+if not heads:
     sys.exit(0)
+if len(heads) > 1:
+    # A second copy of the heading is a decoy: an illustrative complete block early hid a
+    # gutted real section, and the mirror — the real block second — was falsely refused.
+    print("!!DUPLICATE-HEADING")
+    sys.exit(0)
+start = heads[0]
 ITEM = re.compile(r"^[ \t]*([-*+]|[0-9]+[.)])[ \t]")
 CONT = re.compile(r"^[ \t]+\S")
+# The first line after the heading must be a list ITEM: an indented sentence alone, with no
+# list at all, was being accepted as the block.
+if start + 1 >= len(lines) or not ITEM.match(lines[start + 1]):
+    sys.exit(0)
 out, i = [], start + 1
 while i < len(lines):
     l = lines[i]
@@ -70,7 +80,10 @@ while i < len(lines):
 print("\n".join(out))
 BLOCK
 )
-if [ -z "$doors_block" ]; then
+if [ "$doors_block" = "!!DUPLICATE-HEADING" ]; then
+  say_fail "templates/GUIDE-template.md has the doors heading more than once — one of them is \
+a decoy or an example, and the check cannot tell which is the section workers read. Keep one"
+elif [ -z "$doors_block" ]; then
   say_fail "templates/GUIDE-template.md has no block starting with the line \
 '**The doors — run these' — the measured repair for the operational-scripts hole \
 (2026-08-10 report) is gone, or its heading was reworded"
@@ -138,6 +151,12 @@ for tag in tags:
     # invisible, and deleting one of N identical lines too — measured 2026-08-14, reversing all
     # 157 lines of the 0.1.0 body passed. The one permitted change is a contiguous run of
     # blockquote lines added anywhere, so those are stripped from the new side before comparing.
+    # Terminators dropped: the file's own trailing newline flips the last entry's final
+    # element and refused an otherwise byte-identical entry. Blockquotes stripped from BOTH
+    # sides, or an entry that SHIPPED with one could never receive its permitted correction.
+    a = [l.rstrip("\n") for l in a]
+    b = [l.rstrip("\n") for l in b]
+    a = [l for l in a if not l.startswith(">")]
     stripped = [l for l in b if not l.startswith(">")]
     while stripped and not stripped[-1].strip():
         stripped.pop()
@@ -145,11 +164,11 @@ for tag in tags:
     while a_trim and not a_trim[-1].strip():
         a_trim.pop()
     if [l for l in stripped if l.strip()] != [l for l in a_trim if l.strip()]:
-        bad.append((tag, sum(1 for l in a_trim if l.strip() and l not in stripped)))
-for tag, n in bad:
+        bad.append(tag)
+for tag in bad:
     print("  \033[31m✗\033[0m the " + tag + " entry no longer matches what " + tag +
-          " shipped (" + str(n) + " line(s) changed or lost) — a released entry is frozen; "
-          "the only permitted addition is a marked correction as a blockquote")
+          " shipped — reordered, rewritten or lost. A released entry is frozen; the only "
+          "permitted change is a marked correction added as a blockquote")
 if not tags:
     # A green tick over zero tags is the vacuous pass this check exists to avoid elsewhere.
     # Measured: a shallow or tag-stripped checkout — which is what `actions/checkout` gives by
@@ -386,16 +405,31 @@ for line in open(sizes_file):
     parts = line.split()
     if len(parts) == 2 and parts[1].isdigit():
         actual[parts[0]] = int(parts[1])
+# Both homes, because the comment above always said both and the code read one. And any
+# `N/M` beside a suite name, not only `N/N` — a "12/12 → 18/18" pair rotted invisibly under
+# a backreference that required the halves to match.
+regions = []
 text = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
 m = re.search(r"^## " + re.escape(version) + r"\b.*?(?=^## |\Z)", text, re.S | re.M)
-bad = []
 if m:
-    for suite, quoted in re.findall(r"(test-[a-z-]+\.sh)[^\n]{0,40}?(\d+)/\2\b", m.group(0)):
+    regions.append(("the " + version + " changelog entry", m.group(0)))
+runs = pathlib.Path("evals/RUNS.md")
+if runs.exists():
+    rt = runs.read_text(encoding="utf-8")
+    # RUNS.md is appended to, so the newest entry is the LAST heading, not the first.
+    rms = re.findall(r"^## .*?(?=^## |\Z)", rt, re.S | re.M)
+    if rms:
+        regions.append(("the newest evals/RUNS.md entry", rms[-1]))
+bad = []
+for where, body in regions:
+    for suite, a, b in re.findall(r"(test-[a-z-]+\.sh)[^\n]{0,40}?(\d+)/(\d+)", body):
         n = actual.get(suite)
-        if n is not None and int(quoted) != n:
-            bad.append((suite, quoted, n))
-for suite, quoted, n in bad:
-    print(f"  \033[31m✗\033[0m the {version} entry says {suite} is {quoted}/{quoted}; "
+        if n is None or a != b:      # a mutant score like 6/15 is a different claim
+            continue
+        if int(a) != n:
+            bad.append((where, suite, a, n))
+for where, suite, quoted, n in bad:
+    print(f"  \033[31m✗\033[0m {where} says {suite} is {quoted}/{quoted}; "
           f"it is {n}. A count in prose is a claim like any other")
 sys.exit(1 if bad else 0)
 SUITES

@@ -54,6 +54,10 @@ fi
 fail=0; warn=0
 say_fail() { echo "  ✗ $1"; fail=1; }
 say_warn() { echo "  ! $1"; warn=1; }
+# hits <grep-args…> — reads stdin, true when at least one line matches. See the note above:
+# this exists so no gate in this file can be silenced by the size of what it is reading.
+hits() { [ "$( grep -c "$@" 2>/dev/null || true )" -gt 0 ]; }
+
 echo "preflight — docs"
 
 # 1 · the docs the guide promises. An agent sent to a file that is not there improvises, and
@@ -85,26 +89,31 @@ done
 # gate with no exit is a gate people pass with --no-verify, which is what this file is against.
 retired_ok=""
 if [ -n "$gone$emptied" ] \
-   && ( git diff --cached --name-only 2>/dev/null || true ) | grep -qx '_ops/DECISIONS.md'; then
+   && ( git diff --cached --name-only 2>/dev/null || true ) | hits -x '_ops/DECISIONS.md'; then
   # The added DECISIONS lines, read once.
+  # The added DECISIONS lines, fences stripped: a name and a verb inside a ```-block is an
+  # example, not a decision, and §16 already reads fields that way.
   _dec_added=$( ( git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null || true ) \
-                | grep '^+' | grep -v '^+++ ' || true)
+                | grep '^+' | grep -v '^+++ ' | sed 's/^+//' \
+                | awk '/^[[:space:]]*```/{f=!f; next} !f' || true)
   for f in $gone $emptied; do
     base=${f##*/}
-    # Named AND retired, on one line, and one line per file. What this buys is a durable
-    # written record, not proof of intent — a string test cannot read polarity, so a line
-    # saying the opposite still opens it. Stated as a limit rather than left to be found.
-    printf '%s\n' "$_dec_added" \
-      | grep -iE "$base" \
-      | grep -qiE 'retir|remov|drop|delet' || { retired_ok=""; break; }
+    # Fixed-string on the basename — as a regex, `.` matched any character, so a line naming
+    # `TOOLINGxmd` opened the gate. And each retired file needs its OWN line: matching the
+    # whole set let one line cover three deletions, which this comment used to deny.
+    _line=$(printf '%s\n' "$_dec_added" | grep -F -- "$base" \
+            | grep -iE 'retir|superseded|no longer (kept|maintained)|decommission' || true)
+    [ -n "$_line" ] || { retired_ok=""; break; }
     retired_ok=yes
   done
 fi
 if [ -z "$retired_ok" ] && { [ -n "$gone" ] || [ -n "$emptied" ]; }; then
-  say_fail "this commit retires$(printf '%s' " $gone$emptied" | tr '\n' ' ')— these four may be \
+  say_fail "this commit retires$(printf '%s' " $gone $emptied" | tr '\n' ' ' | tr -s ' ') — these four may be \
 absent because they have nothing to hold yet, but removing, renaming or emptying one that \
 exists also removes the checks keyed on it (freshness, append-only, entitlements). If the \
-register is genuinely being retired, add a _ops/DECISIONS.md entry naming the file in this same commit and this refusal stands down"
+register is genuinely being retired, add a line to _ops/DECISIONS.md in this same commit, in \
+this shape — the file's own name and the word retired, one line per file:
+    - $(date +%Y-%m-%d) retiring _ops/TOOLING.md: <where the facts live now>"
 fi
 # The doors travel with this guard (0.2.7), and a wired project without them is the measured
 # dead end: §14 refuses a hand-edited stage and points at a door that is not there. Measured
@@ -126,11 +135,17 @@ or §14 refuses your next stage change and points at a file you do not hold"
 your advisor to run the upgrade step (it re-copies a door whose bytes differ), then commit again"
   fi
 done
-# Every pipeline here whose verdict is its RIGHT side wraps its producer in `( … || true )`.
-# Under `set -o pipefail` an early-exiting `grep -q` SIGPIPEs upstream and the pipeline
-# returns 141, read as "no match" — measured silencing two gates entirely at ~3000 staged
-# files. Keep the wrap when adding a pipeline.
-if ( git ls-files || true ) | grep -qE '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'; then
+# `hits` instead of `grep -q`, everywhere the input can be large. `grep -q` exits on its
+# first match and SIGPIPEs its producer; under `set -o pipefail` the pipeline then returns
+# 141 and the condition reads it as NO MATCH. Measured: a credential gate that missed an
+# AWS key sitting on line 1 of a 200 000-line file, and §14 letting a hand-edited stage
+# through once a task's diff passed 64 KiB — the pipe buffer, not a file count.
+#
+# Wrapping the producer in `( … || true )` does NOT fix this: the signal lands on `printf`
+# before the `|| true` can run, and in a three-stage pipe the middle stage takes it instead.
+# `grep -c` reads its input to the end, so it cannot happen. Use `hits` for anything whose
+# input is a diff, a file list or a file's contents.
+if ( git ls-files || true ) | hits -E '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'; then
   [ -f _ops/ARCHITECTURE.md ] || say_warn "there is code but no _ops/ARCHITECTURE.md — every task \
 starts in a fresh worktree and re-derives the layout"
 fi
@@ -244,12 +259,12 @@ rowval() { # rowval <row> <key>
     | sed -E 's/^[[:space:]*\`_"'"'"']+//; s/[[:space:]*\`_"'"'"']+$//' \
     | grep -vE '^[[:space:]]*$|^[A-Za-z][A-Za-z0-9_-]*:|^[-—–?.]+$|^(tbd|n/a|none yet|unknown)$' | head -1
 }
-if ( git diff --cached --name-only 2>/dev/null || true ) | grep -qx '_ops/assets.md'; then
+if ( git diff --cached --name-only 2>/dev/null || true ) | hits -x '_ops/assets.md'; then
   while IFS= read -r row; do
     # A declared origin always wins: only a row that does NOT declare `origin: generated` may be
     # excused by another origin. The exclusion used to run last and beat the declaration.
-    if ! printf '%s\n' "$row" | grep -qiE 'origin:[[:space:]]*generated'; then
-      printf '%s\n' "$row" | grep -qiE 'origin:[[:space:]]*(drawn|stock|build|licensed|commissioned)' && continue
+    if ! printf '%s\n' "$row" | hits -iE 'origin:[[:space:]]*generated'; then
+      printf '%s\n' "$row" | hits -iE 'origin:[[:space:]]*(drawn|stock|build|licensed|commissioned)' && continue
     fi
     short=$(printf '%s' "$row" | cut -c1-60)
     for k in model prompt seed; do
@@ -265,18 +280,29 @@ fi
 # 3 · DECISIONS.md is append-only. Rewriting it is how a rejected idea comes back
 #     next quarter with nobody able to say why it was rejected the first time.
 if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f _ops/DECISIONS.md ]; then
-  # Removed lines counted against the added set: in a unified diff a removed BULLET arrives
-  # as `--`, and appending to a file with no trailing newline shows its last line removed and
-  # re-added. A line that comes back identically was not removed. Pure shell on purpose —
-  # this guard must keep working in a project with no python3.
+  # Removed lines counted against the added set, by MULTIPLICITY: in a unified diff a removed
+  # bullet arrives as `--`, and appending to a file with no trailing newline shows its last
+  # line removed and re-added. A line that comes back the same number of times was not removed.
+  # Counting membership instead let three identical entries collapse to one in silence, and a
+  # decision moved out of the log into a fenced block counted as still present. Pure shell on
+  # purpose — this guard must keep working in a project with no python3. Stated limit: this
+  # protects the TEXT, not its rendering — moving an entry into a fenced block keeps the
+  # line and passes, which reading markdown structure in shell would be a poor trade for.
   _diff=$(git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null || true)
-  _added=$(printf '%s\n' "$_diff" | grep '^+' | grep -v '^+++ ' | sed 's/^+//' || true)
-  removed=0
-  while IFS= read -r _l; do
-    case "$_l" in "--- "*|"") continue;; esac
-    _l=${_l#-}
-    printf '%s\n' "$_added" | grep -qxF -- "$_l" || removed=$((removed+1))
-  done <<EOF
+  _added_f=$(mktemp); _removed_f=$(mktemp)
+  printf '%s\n' "$_diff" | grep '^+' | grep -v '^+++ ' | sed 's/^+//' > "$_added_f" || true
+  # the header is dropped by PATH, not by shape: a removed line whose own text starts with
+  # `-- ` arrives as `--- …` and was being read as the diff header, hiding every such bullet
+  printf '%s\n' "$_diff" | grep '^-' | grep -v '^--- a/' | grep -v '^--- /dev/null' \
+    | sed 's/^-//' > "$_removed_f" || true
+  removed=$(sort "$_removed_f" | uniq -c | while read -r rc rl; do
+      # `grep -c` prints 0 AND exits 1 when nothing matches, so `|| echo 0` used to append a
+      # second zero and the comparison below died on it — silently, taking the whole gate with it
+      ac=$(grep -cxF -- "$rl" "$_added_f" 2>/dev/null || true); ac=${ac:-0}
+      [ "$rc" -gt "$ac" ] && echo $((rc - ac))
+      true
+    done | awk '{s+=$1} END {print s+0}')
+  rm -f "$_added_f" "$_removed_f"
 $(printf '%s\n' "$_diff" | grep '^-' || true)
 EOF
   [ "${removed:-0}" -gt 0 ] && say_fail "_ops/DECISIONS.md is append-only — this commit \
@@ -400,10 +426,10 @@ fi
 if [ -f _ops/TOOLING.md ]; then
   while IFS= read -r line; do
     case "$line" in \|*) ;; *) continue;; esac
-    printf '%s' "$line" | grep -qiE '(licence|license|plan|tier)[^|;]*(held|purchased|bought|covered|acquired|granted)' || continue
+    printf '%s' "$line" | hits -iE '(licence|license|plan|tier)[^|;]*(held|purchased|bought|covered|acquired|granted)' || continue
     clause=$(printf '%s' "$line" | tr '|;' '\n\n' \
              | grep -iE '(licence|license|plan|tier)[^|;]*(held|purchased|bought|covered|acquired|granted)' | head -1)
-    printf '%s' "$clause" | grep -qiE '(receipt|invoice|order|https?://|`[^`]+`)' && continue
+    printf '%s' "$clause" | hits -iE '(receipt|invoice|order|https?://|`[^`]+`)' && continue
     name=$(printf '%s' "$line" | cut -d'|' -f2 | sed 's/^ *//;s/ *$//')
     say_fail "_ops/TOOLING.md claims an entitlement for \`$name\` — \"$(printf '%s' "$clause" | sed 's/^ *//;s/ *$//')\" \
 — with no evidence in that same clause. A pointer elsewhere in the row does not cover it, and a \
@@ -418,12 +444,12 @@ fi
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
-    printf '%s' "$d" | grep -qiE '^\+.*status:[[:space:]]*(done|shipped|completed|accepted|closed)' || continue
-    if printf '%s' "$d" | grep -qiE '^[+-].*(dod:|acceptance|definition of done)'; then
+    printf '%s' "$d" | hits -iE '^\+.*status:[[:space:]]*(done|shipped|completed|accepted|closed)' || continue
+    if printf '%s' "$d" | hits -iE '^[+-].*(dod:|acceptance|definition of done)'; then
       say_fail "$t reaches a terminal status in the same commit that edits its own bar — \
 nobody edits the bar they are measured against."
     fi
-    printf '%s' "$d" | grep -qiE '(review|approved|accepted by|evidence|run [0-9a-z]|#[0-9]+|https?://)' \
+    printf '%s' "$d" | hits -iE '(review|approved|accepted by|evidence|run [0-9a-z]|#[0-9]+|https?://)' \
       || say_warn "$t reaches a terminal status and nothing in the change points at a review, a \
 run or evidence — nothing transitions itself, and a status that moves on its own is how a board \
 begins to lie."
@@ -438,7 +464,7 @@ fi
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
-    printf '%s' "$d" | grep -qiE '^\+.*(reviewed by|approved by|accepted by)' || continue
+    printf '%s' "$d" | hits -iE '^\+.*(reviewed by|approved by|accepted by)' || continue
     who=$(printf '%s' "$d" | grep -ioE '(reviewed|approved|accepted) by[: ]+@?[A-Za-z0-9._-]+' \
           | sed -E 's/.*by[: ]+@?//' | head -1)
     author=$(grep -ioE '^(assigned|author|worker)[: ]+@?[A-Za-z0-9._-]+' "$t" 2>/dev/null \
@@ -461,9 +487,9 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
   # the lenses within a day of it being written: the plain-colon version had zero matches.
   for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
-    printf '%s' "$d" | grep -qiE '^-.*(stage|status)\*{0,2}[[:space:]]*:' || continue
-    printf '%s' "$d" | grep -qiE '^\+.*(stage|status)\*{0,2}[[:space:]]*:' || continue
-    printf '%s' "$d" | grep -qE '^\+.*transition .* (→|->) .*, by ' \
+    printf '%s' "$d" | hits -iE '^-.*(stage|status)\*{0,2}[[:space:]]*:' || continue
+    printf '%s' "$d" | hits -iE '^\+.*(stage|status)\*{0,2}[[:space:]]*:' || continue
+    printf '%s' "$d" | hits -E '^\+.*transition .* (→|->) .*, by ' \
       || say_fail "$t changes its stage with no transition line in the same change — the door \
 is \`_ops/scripts/transition.py\`: it refuses an illegal move with the reason and records the legal \
 one. A stage edited by hand is a bypass."
@@ -482,10 +508,10 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
     [ -f "$t" ] || continue
     grep -qiE '^[[:space:]]*(children|subtasks)[[:space:]]*:' "$t" || continue
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
-    printf '%s' "$d" | grep -qiE '^\+.*status:[[:space:]]*(done|shipped|completed|accepted|closed)' || continue
+    printf '%s' "$d" | hits -iE '^\+.*status:[[:space:]]*(done|shipped|completed|accepted|closed)' || continue
     # A container has no predicate of its own — that one may close itself, and says so.
     grep -qiE '^[[:space:]]*(dod|acceptance|definition of done)[[:space:]]*:' "$t" || {
-      printf '%s' "$d" | grep -qiE 'closed (automatically|by rollup)|container' \
+      printf '%s' "$d" | hits -iE 'closed (automatically|by rollup)|container' \
         || say_warn "$(basename "$t") is a container closing on its children — legitimate, and \
 the fact that it closed automatically is part of the record. Say so in the same change."
       continue
@@ -497,7 +523,7 @@ the fact that it closed automatically is part of the record. Say so in the same 
     # whose evidence the constrained party can author is not a gate.** Acceptance that existed
     # before this commit cannot be forged in the same move; forging it now costs a separate
     # commit whose only content is a claim of approval, which is visible as what it is.
-    if ( git show HEAD:"$t" 2>/dev/null || true ) | grep -qiE '(approved by|accepted by|signed off|owner (said|confirmed))'; then
+    if ( git show HEAD:"$t" 2>/dev/null || true ) | hits -iE '(approved by|accepted by|signed off|owner (said|confirmed))'; then
       :
     else
       say_fail "$(basename "$t") carries children **and its own definition of done**, and this \
@@ -519,7 +545,7 @@ fi
 #      "Where it stands" row. Percent or currency, either way.
 #      A budget with no numbers yet is silent — a template nobody filled must not block a commit.
 if [ -f _ops/BUDGET.md ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
-  if ( git diff --cached --name-only 2>/dev/null || true ) | grep -qE '^(docs/BUDGET\.md|_ops/tasks/.*\.md|runs?/.*)$'; then
+  if ( git diff --cached --name-only 2>/dev/null || true ) | hits -E '^(docs/BUDGET\.md|_ops/tasks/.*\.md|runs?/.*)$'; then
     python3 - <<'PY' > /tmp/.pf-budget.$$ 2>/dev/null || true
 import re
 txt = open("_ops/BUDGET.md", encoding="utf-8").read()
@@ -575,10 +601,10 @@ fi
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   added=$(git diff --cached -U0 2>/dev/null | grep '^+' || true)
   # known credential shapes: provider prefixes, then key-ish name = long quoted value
-  if printf '%s' "$added" | grep -qE '(sk-[A-Za-z0-9]{20,}|sk_live_[A-Za-z0-9]{16,}|ghp_[A-Za-z0-9]{30,}|xox[baprs]-[A-Za-z0-9-]{10,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----)'; then
+  if printf '%s' "$added" | hits -E '(sk-[A-Za-z0-9]{20,}|sk_live_[A-Za-z0-9]{16,}|ghp_[A-Za-z0-9]{30,}|xox[baprs]-[A-Za-z0-9-]{10,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----)'; then
     say_fail "this commit contains something shaped like a credential — secrets live in \
 the environment or a keychain, never in the repository. If it is already committed, rotate it."
-  elif printf '%s' "$added" | grep -qiE '(api[_-]?key|secret|token|password|credential|[^a-z]key)[[:space:]]*[:=][[:space:]]*["'"'"'][A-Za-z0-9_/+.-]{20,}["'"'"']'; then
+  elif printf '%s' "$added" | hits -iE '(api[_-]?key|secret|token|password|credential|[^a-z]key)[[:space:]]*[:=][[:space:]]*["'"'"'][A-Za-z0-9_/+.-]{20,}["'"'"']'; then
     say_warn "a long literal is assigned to a key-shaped name — check it is not a secret \
 (the real scan is gitleaks in CI, see the tooling register)"
   fi

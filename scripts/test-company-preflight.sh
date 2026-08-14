@@ -224,6 +224,17 @@ printf -- '\n- 2026-02-02 we chose Y\n' >> _ops/DECISIONS.md; git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a pure append was refused by the append-only gate"
 printf -- '# Decisions\n\n- 2026-01-01 we chose Z\n' > _ops/DECISIONS.md; git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a rewritten entry passed the append-only gate" || ok
+# a bullet whose own text begins with two dashes arrives as `--- …` in the diff and was read as
+# the diff header, so deleting one — or all of them — passed in silence
+printf -- '# Decisions\n\n-- a bullet starting with two dashes\n' > _ops/DECISIONS.md
+git add -A && git commit -qm "two-dash bullet"
+printf -- '# Decisions\n' > _ops/DECISIONS.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "deleting a two-dash bullet passed — the header was dropped by shape" || ok
+# and membership is not multiplicity: three identical entries reduced to one lost two records
+printf -- '# Decisions\n\n- A\n- A\n- A\n' > _ops/DECISIONS.md; git add -A; git commit -qm "three"
+printf -- '# Decisions\n\n- A\n' > _ops/DECISIONS.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "three identical entries reduced to one passed" || ok
+git checkout -q HEAD -- _ops/DECISIONS.md; git reset -q; git checkout -q _ops/DECISIONS.md
 git checkout -q HEAD -- _ops/DECISIONS.md; git reset -q; git checkout -q _ops/DECISIONS.md
 
 printf '# Config\n\n## Migrations\n\n- — -> 0.2.7 · applied\n' > _ops/config.md; git add -A
@@ -256,6 +267,32 @@ dayone=$(cd "$D" && bash _ops/scripts/preflight.sh 2>&1); rc=$?
 printf '%s' "$dayone" | grep -q "Deferred on purpose" \
   && ok || bad "the deferred documents vanished from the guard's output entirely"
 rm -rf "$D"
+
+# Scale, by SIZE and not only by file count — the form that was missing. `grep -q` exits on its
+# first match and SIGPIPEs its producer; past the 64 KiB pipe buffer the pipeline returns 141 and
+# the condition reads it as "no match". Measured: a credential gate blind to an AWS key on line 1
+# of a 200 000-line file, and §14 passing a hand-flipped stage once the task's own diff grew.
+python3 -c "
+import pathlib
+pathlib.Path('.env').write_text('AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE' + chr(10) +
+  chr(10).join('line %d padding padding padding' % i for i in range(200000)))"
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -qi "credential" \
+  && ok || bad "a key on line 1 of a 200k-line file was invisible to the credential gate"
+rm -f .env; git add -A
+
+# §14 reads a CHANGED status, so the task must already exist and then be hand-flipped
+printf '# T-9\n\n**Status**: started\n**Assignee**: worker-a\n\n## History\n' > _ops/tasks/T-9.md
+git add -A && git commit -qm "T-9 exists"
+python3 -c "
+import pathlib
+pathlib.Path('_ops/tasks/T-9.md').write_text('# T-9' + chr(10)*2 + '**Status**: done' + chr(10) +
+  '**Assignee**: worker-a' + chr(10)*2 + '## History' + chr(10) +
+  chr(10).join('- log %d padding padding padding' % i for i in range(100000)))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a hand-flipped stage passed §14 once the task's diff exceeded the pipe buffer" || ok
+git rm -qf _ops/tasks/T-9.md >/dev/null 2>&1; git commit -qm "T-9 out"
 
 # Scale. Measured 2026-08-14: at ~3000 staged files the generated-asset gate stopped refusing
 # entirely — `git diff --cached --name-only | grep -qx` SIGPIPEs its producer once grep exits

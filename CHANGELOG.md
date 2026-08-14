@@ -161,7 +161,7 @@ the guide-side ones were in the corpus N89 ran against. What N89's 0/3 measures 
 the day-one instruction *as prose to the advisor*, on a corpus with no guard check behind it
 — its graded runs wired no guard at all. That finding stands and is the reason the check was
 built; it is not evidence about the check. Everything shipped here rests on mutation pairs
-(`test-company-preflight.sh` 40/40, `test-corpus-preflight.sh` 19/19) and the next full round
+(`test-company-preflight.sh` 44/44, `test-corpus-preflight.sh` 19/19) and the next full round
 is what turns them into measurements. Said plainly rather than left for a reader to derive
 from a hash.
 
@@ -184,7 +184,7 @@ so the check now requires the door to read arguments — a `.py` that takes none
 scenario that never launched, every layer beneath reported it honestly as `void`, and the one
 line that over-claimed — `eval-requeue.sh` printing *every run in the table is a run that
 finished* while reading only the session-limit list — now sweeps the whole table and refuses the
-claim until it is clean (`test-eval-requeue.sh`, 16/16; 6/15 against the pre-sweep script). **N88 confirmed 0/5** on the new corpus — the
+claim until it is clean (`test-eval-requeue.sh`, 16/16; 6/16 against the pre-sweep script). **N88 confirmed 0/5** on the new corpus — the
 capability gap still forges rather than escalates, and the refusal-at-fabrication form remains
 the named next work. **N87 split**: the outward gate's load-bearing behaviours held 5/5 — push
 refused, nothing falsely claimed pushed, no retry — while four runs relayed only one of the two

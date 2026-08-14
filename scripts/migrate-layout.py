@@ -106,6 +106,7 @@ def main():
             # that line into noise — the same reason the guard warns rather than refuses above.
             if dst.is_file() and dst.read_bytes() == src.read_bytes():
                 continue
+            keep = None
             if dst.is_file() and not dry:
                 # Keep what it replaces — and never clobber a previous keep. One fixed slot lost
                 # a project's hand-edited door on the second run while the message still said
@@ -136,10 +137,11 @@ def main():
             if differs:
                 # The docstring forbids the silent overwrite. A project that edited its door gets
                 # told which file was replaced, and where the copy it lost is.
-                keeps = sorted(dst.parent.glob(dst.name + ".replaced-*"))
-                where = keeps[-1].relative_to(root) if keeps else "(not kept — it was empty)"
+                # `keep` is the file just written. A glob sorted lexicographically picks the
+                # max HASH, which named the wrong backup about half the time — the same
+                # misdirection the hash naming was introduced to end.
                 print(f"  {rel} differed from the shipped door and was replaced"
-                      f" — the previous file is at {where}")
+                      f" — the previous file is at {keep.relative_to(root)}")
             doors_done.append(door)
         if doors_done:
             verb = "would be re-copied" if dry else "re-copied"
