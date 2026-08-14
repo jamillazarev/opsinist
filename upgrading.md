@@ -14,7 +14,11 @@ wonder why nothing changed.
 | Layer | What moves |
 |---|---|
 | **this system's bytes** | the skill files on the machine — **by a route that differs per install**, below |
-| **the project's format** | `schema_version`, the codemods — **and the installed doors re-copied by `scripts/migrate-layout.py` — which finds its own source, so no one has to know where this runtime cached the skill — the guide regenerated from the new template** (`project-layout.md`): copies do not move by themselves, and a regenerated guide is how an existing project receives what the template learned |
+| **the project's format** | `schema_version`, the codemods — **and every task's two state fields collapsed to one — 0.2.7 refuses the second home, and a
+0.2.6 project meets one refusal per task without this step (measured: a project of twelve met
+twelve). The door's `stage:` wins because it is the value that moved; the reconciliation is
+written into History in the door's own vocabulary, so the bypass net reads it as what it is** ·
+**the installed doors re-copied by `scripts/migrate-layout.py` — which finds its own source, so no one has to know where this runtime cached the skill — the guide regenerated from the new template** (`project-layout.md`): copies do not move by themselves, and a regenerated guide is how an existing project receives what the template learned |
 | **attached skills** | third-party skills, re-screened |
 | **tooling versions** | the things in the register, checked against their release feeds |
 

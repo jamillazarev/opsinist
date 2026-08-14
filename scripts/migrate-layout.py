@@ -44,6 +44,71 @@ def tracked(root, rel):
     return sh(root, "git", "ls-files", "--error-unmatch", rel).returncode == 0
 
 
+def collapse_state_fields(root, dry):
+    """0.2.6 tasks carry state twice — a prose `**Status**` and a machine `stage:` — and 0.2.7
+    refuses the second home. Without this, a project of twelve tasks meets twelve refusals on
+    its next commit and has to be edited by hand; a release that strands its own projects is
+    what `upgrading.md` exists to prevent.
+
+    The machine field wins, because it is the one the door moves: measured on a live project,
+    `stage:` had advanced on all twelve tasks while the prose copy was stale on two and absent
+    on ten. Its value is written into `**Status**` — the shipped shape's one home — and the
+    machine line is dropped.
+    """
+    import re
+    tasks = sorted((root / "_ops" / "tasks").glob("*.md")) if (root / "_ops" / "tasks").is_dir() else []
+    touched = []
+    for tf in tasks:
+        text = tf.read_text(encoding="utf-8", errors="replace")
+        machine = re.search(r"^[ \t]*(?:stage|стадия)[ \t]*:[ \t]*(.+)$", text, re.M | re.I)
+        prose = re.search(r"^(.*\*\*(?:Status|Статус)\*\*[ \t]*:[ \t]*)([^·|\n]*)(.*)$", text, re.M | re.I)
+        if not machine:
+            continue
+        value = machine.group(1).strip()
+        if prose:
+            body = text[:prose.start()] + prose.group(1) + value + prose.group(3) + text[prose.end():]
+        else:
+            # no prose home at all — give it one, on the header line where the template puts it
+            lines = text.split("\n")
+            at = 1
+            for i, l in enumerate(lines[:8]):
+                if l.startswith("**"):
+                    at = i
+                    break
+            lines.insert(at, f"**Status**: {value}")
+            body = "\n".join(lines)
+        body = re.sub(r"^[ \t]*(?:stage|стадия)[ \t]*:[ \t]*.+\n?", "", body, flags=re.M | re.I)
+        # the comment that introduced the machine block has nothing left to introduce
+        body = re.sub(r"^<!--[^>]*(?:transition\.py|машиночитаемо|machine-readable)[^>]*-->\n?", "",
+                      body, flags=re.M | re.I)
+        # The prose value moves, so the file's stage changes — and §14 reads an unexplained
+        # stage change as a hand edit, correctly. This is not a move: it is a stale copy being
+        # reconciled with the one the door was already using. Say that, in History, where a
+        # later reader will need it, rather than exempting the migration from the gate.
+        was = (prose.group(2).strip() if prose else "(none)") or "(none)"
+        if was != value:
+            # In the door's own vocabulary, because §14 reads this line and because it IS a
+            # transition of the recorded value — what did not happen is a move of the work.
+            line = (f"- migration — transition {was} -> {value}, by migrate-layout — the two "
+                    f"state fields disagreed; the door's `stage:` was already `{value}`, the "
+                    f"prose copy said `{was}` and was stale. One home now. No work moved.")
+            if re.search(r"^##[ \t]*History", body, re.M):
+                body = re.sub(r"^(##[ \t]*History[ \t]*\n)", r"\1" + line + "\n", body,
+                              count=1, flags=re.M)
+            else:
+                body = body.rstrip() + "\n\n## History\n" + line + "\n"
+        if body != text:
+            touched.append(tf.name)
+            if not dry:
+                tf.write_text(body, encoding="utf-8")
+                sh(root, "git", "add", str(tf.relative_to(root)))
+    if touched:
+        verb = "would be collapsed" if dry else "collapsed"
+        shown = " · ".join(touched[:6]) + (f" … and {len(touched) - 6} more" if len(touched) > 6 else "")
+        print(f"  state fields {verb} to one home in {len(touched)} task(s): {shown}")
+    return touched
+
+
 def main():
     argv = [a for a in sys.argv[1:] if a != "--dry-run"]
     dry = "--dry-run" in sys.argv
@@ -172,6 +237,7 @@ def main():
 
     if not moves and not conflicts:
         recopy_doors()
+        collapse_state_fields(root, dry)
         if doors_done:
             if dry:
                 print("layout already `_ops/` — nothing moved; the doors above would be re-copied")
@@ -200,6 +266,7 @@ def main():
             (root / s).rename(root / d)
 
     recopy_doors()
+    collapse_state_fields(root, dry)
 
     # The pre-commit hook is outside git, so a moved preflight would orphan it.
     hook = root / ".git" / "hooks" / "pre-commit"

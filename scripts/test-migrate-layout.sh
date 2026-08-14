@@ -126,5 +126,26 @@ grep -q 'written but NOT staged' "$T/out.txt" \
   && ok || bad "an ignored door was reported as re-copied while the commit would not carry it"
 git checkout -q .gitignore 2>/dev/null || true
 
+# The upgrade path a real 0.2.6 project takes. Without the codemod it met one refusal per task
+# — 0.2.7 refuses a second state home, and every 0.2.6 task has one — so a project of twelve
+# tasks had to be hand-edited before it could commit again. A release that strands its own
+# projects is what upgrading.md exists to prevent.
+mkdir -p _ops/tasks
+printf '# T-A\n\n**Status**: started\n**Assignee**: bob\n\n<!-- machine-readable -->\nstage: review\n\n## History\n' > _ops/tasks/T-A.md
+printf '# T-B\n\n**Assignee**: ann\nstage: review\n\n## History\n' > _ops/tasks/T-B.md
+printf '# T-C\n\n**Status**: done\n**Assignee**: cid\n\n## History\n' > _ops/tasks/T-C.md
+git add -A && git commit -qm "0.2.6 task shapes"
+python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1
+grep -q 'state fields collapsed' "$T/out.txt" && ok || bad "the codemod did not run on 0.2.6 tasks"
+grep -qE '^[[:space:]]*stage[[:space:]]*:' _ops/tasks/T-A.md \
+  && bad "the machine state line survived the collapse" || ok
+grep -q '^\*\*Status\*\*: review' _ops/tasks/T-A.md \
+  && ok || bad "the door's value did not become the one home"
+grep -q '^\*\*Status\*\*: review' _ops/tasks/T-B.md \
+  && ok || bad "a task with no prose copy did not gain one"
+grep -q 'transition started -> review, by migrate-layout' _ops/tasks/T-A.md \
+  && ok || bad "the reconciliation left no record the bypass net can read"
+[ "$(grep -c 'Status' _ops/tasks/T-C.md)" = 1 ] && ok || bad "a task already in the one-field shape was touched"
+
 echo "migrate-layout: $pass passed, $fail failed"
 exit "$fail"
