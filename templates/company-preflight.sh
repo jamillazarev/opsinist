@@ -66,18 +66,11 @@ for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
 purpose until it has something to hold (a roadmap · a role · a tool · the first decision); once \
 it does, create it, because an agent sent to a file that is not there improvises"
 done
-#     Absent is deferred; DELETED is not. Measured 2026-08-14: with §1 warning, a project whose
-#     TOOLING.md claimed an unevidenced entitlement was refused — and `git rm _ops/TOOLING.md`
-#     in the same commit made the commit green, because §2, §3 and §9 are each gated on the
-#     file existing. The constrained party could delete the gate instead of satisfying it. This
-#     is also the "past day one" signal the weakening owed: a document that has existed cannot
-#     quietly stop existing.
-# `DR`, not `D`: git detects renames by default, so `git mv _ops/TOOLING.md elsewhere` was not
-# listed and walked straight through — measured, and strictly better for the constrained party
-# than the delete it replaced, since the register survives one directory sideways while §2, §3
-# and §9 all key on the literal path. Emptying the file reaches the same end, so a staged
-# truncation to nothing is refused too — the first version of this message actually recommended
-# that as the remedy.
+#     Absent is deferred; DELETED is not. §2, §3 and §9 are each keyed on one of these files
+#     existing, so retiring a file retires its gate — which would let the constrained party
+#     delete a check instead of satisfying it.
+# `DR`, not `D`: git detects renames by default, so a `git mv` is not a delete and would
+# otherwise pass. Emptying the file reaches the same end, so a staged truncation counts too.
 gone=$(git diff --cached --name-status --diff-filter=DR 2>/dev/null \
   | awk '{print $2}' \
   | grep -E '^_ops/(ROADMAP|TEAM|TOOLING|DECISIONS)\.md$' || true)
@@ -88,25 +81,19 @@ for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
   had=$(git show "HEAD:$f" 2>/dev/null | tr -d '[:space:]' | wc -c | tr -d ' ')
   [ "${staged_size:-1}" -eq 0 ] && [ "${had:-0}" -gt 0 ] && emptied="$emptied $f"
 done
-# The remedy has to exist. The first version of this message told the owner to record the
-# retirement in `_ops/DECISIONS.md` and then refused the commit that did exactly that —
-# measured — leaving `--no-verify` as the only exit, which is the bypass this file's header
-# is about. A staged decision naming the file is now the escape.
+# The escape: a staged `_ops/DECISIONS.md` line naming the file and saying it is retired. A
+# gate with no exit is a gate people pass with --no-verify, which is what this file is against.
 retired_ok=""
 if [ -n "$gone$emptied" ] \
    && ( git diff --cached --name-only 2>/dev/null || true ) | grep -qx '_ops/DECISIONS.md'; then
-  # The added DECISIONS lines, read once. Both pipelines here end in a `grep -q`, so both wrap
-  # their producer — the SIGPIPE class fixed elsewhere in this file was still live in the
-  # escape, where it would have failed closed and refused a legitimate retirement at scale.
+  # The added DECISIONS lines, read once.
   _dec_added=$( ( git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null || true ) \
                 | grep '^+' | grep -v '^+++ ' || true)
   for f in $gone $emptied; do
     base=${f##*/}
-    # Named AND retired, on the same line — a bare filename match was unlocked by any passing
-    # mention. What this buys is a DURABLE WRITTEN RECORD, not proof of intent: a string test
-    # cannot read polarity, so "we are NOT retiring TOOLING.md" still opens it. That is an
-    # accepted limit, not an oversight — someone who writes that line and deletes the file in
-    # the same commit has put a contradiction in an append-only log, where it stays.
+    # Named AND retired, on one line, and one line per file. What this buys is a durable
+    # written record, not proof of intent — a string test cannot read polarity, so a line
+    # saying the opposite still opens it. Stated as a limit rather than left to be found.
     printf '%s\n' "$_dec_added" \
       | grep -iE "$base" \
       | grep -qiE 'retir|remov|drop|delet' || { retired_ok=""; break; }
@@ -125,31 +112,24 @@ fi
 # 0/5 in the round — so the presence is held here, not remembered.
 for d in _ops/scripts/transition.py _ops/scripts/new-id.py; do
   if [ ! -f "$d" ]; then
-    # The old wording said "copy them from the skill", and a project cannot resolve that: the
-    # skill's path differs per runtime and nothing shipped into a project names it. So the
-    # refusal points at a step that runs and finds its own source.
+    # The refusal points at a step, not a path: where the skill lives differs per runtime and
+    # nothing shipped into a project names it.
     say_fail "$d is missing — the doors travel with this guard. Ask your advisor to run the \
 upgrade step (it re-copies both doors beside this guard from wherever the skill is installed), \
 or §14 refuses your next stage change and points at a file you do not hold"
   elif [ ! -s "$d" ] || ! grep -q 'sys\.argv\|argparse' "$d"; then
-    # Presence alone was satisfied by an empty file — measured 2026-08-14, and an interrupted
-    # copy leaves exactly that. Non-empty plus an argument-reading mention, and deliberately
-    # only a heuristic. A stricter form shipped for one afternoon and was withdrawn the same
-    # day: parsing the file with an inline `ast` heredoc **refused every commit in any project
-    # without python3** — blaming the doors for a missing interpreter, unfixable from inside
-    # the project — and refused a working door carrying a UTF-8 BOM, while still accepting a
-    # ten-byte file containing the word `argparse`. It bought nothing against a stub nobody
-    # writes and cost two false refusals against real projects. A check that misdiagnoses is
-    # worse than one that is only a heuristic; this file's header is about not crying wolf.
+    # Non-empty plus an argument-reading mention — deliberately a heuristic, because an
+    # interrupted copy is the failure this catches and a stricter form needs an interpreter
+    # this project may not have. Why the stricter form was tried and withdrawn: the 0.2.7
+    # changelog.
     say_fail "$d is empty or does not read arguments — a half-copied door is not a door. Ask \
 your advisor to run the upgrade step (it re-copies a door whose bytes differ), then commit again"
   fi
 done
-# Every pipeline in this file whose verdict is its RIGHT side wraps the producer in
-# `( … || true )`. Under `set -o pipefail` an early-exiting `grep -q` SIGPIPEs its
-# upstream and the pipeline returns 141 — read as "no match". Measured 2026-08-14 at
-# 3001 staged files: the spend cap and the generated-asset recipe both stopped refusing,
-# and the parent-acceptance gate began refusing a parent that was fine. Two failed open.
+# Every pipeline here whose verdict is its RIGHT side wraps its producer in `( … || true )`.
+# Under `set -o pipefail` an early-exiting `grep -q` SIGPIPEs upstream and the pipeline
+# returns 141, read as "no match" — measured silencing two gates entirely at ~3000 staged
+# files. Keep the wrap when adding a pipeline.
 if ( git ls-files || true ) | grep -qE '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'; then
   [ -f _ops/ARCHITECTURE.md ] || say_warn "there is code but no _ops/ARCHITECTURE.md — every task \
 starts in a fresh worktree and re-derives the layout"
@@ -285,15 +265,10 @@ fi
 # 3 · DECISIONS.md is append-only. Rewriting it is how a rejected idea comes back
 #     next quarter with nobody able to say why it was rejected the first time.
 if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f _ops/DECISIONS.md ]; then
-  # `^-[^-]` excluded every removed BULLET: in a unified diff `- we chose X` arrives as
-  # `-- we chose X`, which is the shape this gate exists for. Measured 2026-08-14: deleting
-  # both decision entries counted 0 and passed silently.
-  #
-  # Counting every `-` line instead then inverted the gate the other way — measured the same
-  # day: appending to a file whose last line has no trailing newline shows that line as
-  # removed AND re-added, so a pure append was refused. A line that comes back identically
-  # was not removed, so removals are counted against the added set. No python3 here on
-  # purpose: this guard must keep working in a project that has none.
+  # Removed lines counted against the added set: in a unified diff a removed BULLET arrives
+  # as `--`, and appending to a file with no trailing newline shows its last line removed and
+  # re-added. A line that comes back identically was not removed. Pure shell on purpose —
+  # this guard must keep working in a project with no python3.
   _diff=$(git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null || true)
   _added=$(printf '%s\n' "$_diff" | grep '^+' | grep -v '^+++ ' | sed 's/^+//' || true)
   removed=0
