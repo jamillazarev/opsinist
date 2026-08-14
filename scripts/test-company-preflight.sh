@@ -264,6 +264,21 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "two state fields in one t
   && ok || bad "the refusal does not say what it found"
 rm -f _ops/tasks/T-2.md; git add -A
 
+# Paths are ASCII; the text inside them is the project's language. Measured on a live project:
+# 126 tracked paths under _ops/ carried Cyrillic, and git prints those as octal escapes in every
+# status and diff. The check itself had to disable that quoting, or git handed it back pure
+# ASCII and the defect hid behind its own symptom.
+printf '# T-7\n\n**Status**: started\n' > "_ops/tasks/T-7-диагностика.md"; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a non-ASCII path under _ops/ was added and passed" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "non-ASCII" \
+  && ok || bad "the refusal does not name what it found"
+git rm -qf --cached "_ops/tasks/T-7-диагностика.md" >/dev/null 2>&1; rm -f "_ops/tasks/T-7-диагностика.md"
+# and a transliterated name carrying Russian TEXT is exactly right, not a compromise
+printf '# T-7 — диагностика сайтов\n\n**Status**: started\n' > _ops/tasks/T-7-diagnostika.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a transliterated name with Russian text was refused"
+rm -f _ops/tasks/T-7-diagnostika.md; git add -A
+
 # A by-the-book day one commits. Built in its own tree from `starting.md`'s table alone — guide,
 # config with its migration log, guard and both doors, first task with its type — and NONE of the
 # four documents that table defers. This refused with four ✗ until 2026-08-14; the case exists so

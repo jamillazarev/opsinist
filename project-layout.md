@@ -57,6 +57,16 @@ your-project/
     design-system/      # tokens, components, their rules
     brand/              # voice, identity, what may not bend
 
+> [!CAUTION]
+> **Paths are ASCII; what is written inside them is the project's own language.** A name is
+> transliterated — `T-MEY1HV-akt3-kuda-idyot.md` — and the document it names is written in
+> Russian, Azerbaijani or whatever the project speaks. Measured on a live project: 126 tracked
+> paths under `_ops/` carried Cyrillic, and git prints those as octal escapes in every `status`,
+> every `log --name-only` and every diff header, so a maintainer reads
+> `"_ops/tasks/T-MEY1HV-\320\260\320\272\321\2023-…"`. macOS stores names as NFD and Linux
+> as NFC, so one file can fail to match itself across two machines. The guard refuses a new
+> non-ASCII path under `_ops/`; nothing constrains the text.
+
     process/
       types/            # per kind of work: definition of done · pipeline
       labels.md         # the label taxonomy, with what each means

@@ -166,6 +166,26 @@ moves stop agreeing the first time only one of them is updated. Keep one, on the
 and let the door own it"
 done
 
+# 1d · paths are ASCII; what is written inside them is the project's own language. Measured on a
+#      live project: 126 tracked paths under `_ops/` carried Cyrillic, and git renders those as
+#      octal escapes in every `status`, `log --name-only` and diff header — a maintainer reads
+#      `"_ops/tasks/T-MEY1HV-\320\260\320\272\321\2023-…"`. macOS also stores names as NFD
+#      and Linux as NFC, so the same file can fail to match across two machines. The document
+#      speaks whatever language the project speaks; only its NAME is transliterated.
+# `-c core.quotePath=false`, or git hands back the very escapes this check looks for and the
+# path arrives as pure ASCII — the defect guarding against itself. Measured.
+newpaths=$( ( git -c core.quotePath=false diff --cached --name-only --diff-filter=AR 2>/dev/null \
+              || true ) | grep '^_ops/' || true)
+if [ -n "$newpaths" ]; then
+  odd=$(printf '%s\n' "$newpaths" | LC_ALL=C grep -n '[^ -~]' | head -3 || true)
+  if [ -n "$odd" ]; then
+    say_fail "this commit adds a path under _ops/ with non-ASCII characters: \
+$(printf '%s' "$odd" | tr '\n' ' ') — git prints those as octal escapes in every status and \
+diff, and macOS and Linux normalise them differently. Transliterate the name; the text inside \
+stays in the project's language"
+  fi
+fi
+
 # 2 · a recorded fact past its recheck is unknown, not fact. TOOLING.md carries a
 #     Checked column precisely so this can be enforced rather than hoped for.
 if [ -f _ops/TOOLING.md ]; then

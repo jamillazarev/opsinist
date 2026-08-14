@@ -305,7 +305,7 @@ Read the matching file **before** acting on its subject.
 | **doing a craft well** — an unclear process, visual work, choosing a tool, writing for humans | `process-discovery.md` · `visual.md` · `choosing-tools.md` (+ `catalogue.md`, **searched by need, never read whole**) · `writing-for-humans.md` |
 | **working the toolkit** — a skill, a tool, a recurring job, a link or attachment | `skills.md` · `tooling.md` · `automations.md` · `resources.md` |
 | **changing this system itself** — machinery, or checking a change before it lands | `self-maintenance.md` · `lenses.md` |
-| **in an unfamiliar runtime** — is this gate real here, does delegation exist | `runtimes.md` |
+| **in an unfamiliar runtime** — is this gate real here, does delegation exist, **and is there a native question form** (resolved once at session start, not per question — measured: a project asked some questions natively and some as plain text because the rule lived only in a chapter) | `runtimes.md` |
 | **explaining this to someone**, or checking a flow still matches its picture | `diagrams.md` |
 | **writing about this for people** — a page, a post, one true line about a part | `facts.md` |
 | **about to write down anything someone will need later** — a task, a decision, a note, what a run cost · a handover · a deletion | `storing.md` |
