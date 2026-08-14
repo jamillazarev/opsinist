@@ -161,7 +161,7 @@ the guide-side ones were in the corpus N89 ran against. What N89's 0/3 measures 
 the day-one instruction *as prose to the advisor*, on a corpus with no guard check behind it
 — its graded runs wired no guard at all. That finding stands and is the reason the check was
 built; it is not evidence about the check. Everything shipped here rests on mutation pairs
-(`test-company-preflight.sh` 44/44, `test-corpus-preflight.sh` 19/19) and the next full round
+(`test-company-preflight.sh` 45/45, `test-corpus-preflight.sh` 19/19) and the next full round
 is what turns them into measurements. Said plainly rather than left for a reader to derive
 from a hash.
 

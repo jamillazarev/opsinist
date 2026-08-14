@@ -56,7 +56,9 @@ say_fail() { echo "  ✗ $1"; fail=1; }
 say_warn() { echo "  ! $1"; warn=1; }
 # hits <grep-args…> — reads stdin, true when at least one line matches. See the note above:
 # this exists so no gate in this file can be silenced by the size of what it is reading.
-hits() { [ "$( grep -c "$@" 2>/dev/null || true )" -gt 0 ]; }
+# Reads STDIN only — with file arguments `grep -c` prints `path:count` per file and the
+# integer test below dies on it. Every call site here pipes.
+hits() { [ "$( grep -c "$@" 2>/dev/null | head -1 || true )" -gt 0 ] 2>/dev/null; }
 
 echo "preflight — docs"
 
@@ -295,13 +297,18 @@ if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f _ops/DECISIONS.md ]; then
   # `-- ` arrives as `--- …` and was being read as the diff header, hiding every such bullet
   printf '%s\n' "$_diff" | grep '^-' | grep -v '^--- a/' | grep -v '^--- /dev/null' \
     | sed 's/^-//' > "$_removed_f" || true
-  removed=$(sort "$_removed_f" | uniq -c | while read -r rc rl; do
-      # `grep -c` prints 0 AND exits 1 when nothing matches, so `|| echo 0` used to append a
-      # second zero and the comparison below died on it — silently, taking the whole gate with it
-      ac=$(grep -cxF -- "$rl" "$_added_f" 2>/dev/null || true); ac=${ac:-0}
-      [ "$rc" -gt "$ac" ] && echo $((rc - ac))
-      true
-    done | awk '{s+=$1} END {print s+0}')
+  # One awk pass, not `uniq -c | while read`: `read` strips leading and trailing whitespace
+  # from the line it hands on, so a decision bullet with a trailing space could not match
+  # itself and was refused as removed. awk compares the lines byte for byte.
+  # The added side is read in BEGIN rather than as awk's first file: with `NR==FNR` an EMPTY
+  # first file makes the test true for the second one too, so every removed line landed in the
+  # added set and the gate counted zero — measured, on the very case it exists for.
+  removed=$(awk -v addf="$_added_f" '
+      BEGIN { while ((getline l < addf) > 0) a[l]++ }
+      { r[$0]++ }
+      END { n = 0
+            for (l in r) { d = r[l] - (l in a ? a[l] : 0); if (d > 0) n += d }
+            print n+0 }' "$_removed_f")
   rm -f "$_added_f" "$_removed_f"
 $(printf '%s\n' "$_diff" | grep '^-' || true)
 EOF

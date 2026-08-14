@@ -230,6 +230,13 @@ printf -- '# Decisions\n\n-- a bullet starting with two dashes\n' > _ops/DECISIO
 git add -A && git commit -qm "two-dash bullet"
 printf -- '# Decisions\n' > _ops/DECISIONS.md; git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "deleting a two-dash bullet passed — the header was dropped by shape" || ok
+# a decision line with trailing whitespace: `uniq -c | while read` handed on a stripped copy,
+# so the line could not match itself and a pure append after it was refused
+printf -- '# Decisions\n\n- 2026-01-01 an entry with trailing spaces   \n' > _ops/DECISIONS.md
+git add -A && git commit -qm "trailing spaces"
+printf -- '- 2026-02-02 the next one\n' >> _ops/DECISIONS.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "an append after a trailing-whitespace entry was refused"
+git checkout -q HEAD -- _ops/DECISIONS.md; git reset -q; git checkout -q _ops/DECISIONS.md
 # and membership is not multiplicity: three identical entries reduced to one lost two records
 printf -- '# Decisions\n\n- A\n- A\n- A\n' > _ops/DECISIONS.md; git add -A; git commit -qm "three"
 printf -- '# Decisions\n\n- A\n' > _ops/DECISIONS.md; git add -A
