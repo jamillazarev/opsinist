@@ -115,7 +115,7 @@ of them past a green preflight. What it changed:
   covers. `check-structure.py` exempts `CHANGELOG.md`, which is why nothing caught it.
 
 Smaller: the eval requeue claimed *every run in the table is a run that finished* while reading
-only the session-limit list — it now sweeps the whole table (`test-eval-requeue.sh`, 16/16; 4/8
+only the session-limit list — it now sweeps the whole table (`test-eval-requeue.sh`, 16/16; 6/16
 against the pre-fix script), and the round's five lost dispatches are diagnosed as one scenario
 that never launched. The role-gate refusal's corrected path is now asserted by the suite that
 had checked only its exit code. The marketing-pool row says how to take three skills out of

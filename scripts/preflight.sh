@@ -440,10 +440,15 @@ if m:
 runs = pathlib.Path("evals/RUNS.md")
 if runs.exists():
     rt = runs.read_text(encoding="utf-8")
-    # RUNS.md is appended to, so the newest entry is the LAST heading, not the first.
-    rms = re.findall(r"^## .*?(?=^## |\Z)", rt, re.S | re.M)
-    if rms:
-        regions.append(("the newest evals/RUNS.md entry", rms[-1]))
+    # The newest DATED entry, not the last heading: RUNS.md also carries undated prose
+    # sections at the bottom, and taking the last heading pointed the check at one of those —
+    # silently, since it prints nothing on success. One more appended section would have
+    # disabled this half permanently.
+    dated = re.findall(r"^## \d{4}-\d{2}-\d{2}.*?(?=^## |\Z)", rt, re.S | re.M)
+    if dated:
+        regions.append(("the newest evals/RUNS.md entry", dated[-1]))
+    else:
+        print("  \033[33m!\033[0m evals/RUNS.md has no dated entry — its counts went unchecked")
 bad = []
 for where, body in regions:
     for suite, a, b in re.findall(r"(test-[a-z-]+\.sh)[^\n]{0,40}?(\d+)/(\d+)", body):
