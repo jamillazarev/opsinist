@@ -64,6 +64,10 @@ say_warn() { echo "  ! $1"; warn=1; }
 # Reads STDIN only — with file arguments `grep -c` prints `path:count` per file and the
 # integer test below dies on it. Every call site here pipes.
 hits() { [ "$( grep -c "$@" 2>/dev/null | head -1 || true )" -gt 0 ] 2>/dev/null; }
+# The INDEX, not the worktree: a gate that reads the file on disk is a gate the author
+# passes by fixing it in the editor after staging the broken one. Defined here with the
+# other helpers — it used to sit two hundred lines below its first use.
+staged() { git show ":$1" 2>/dev/null; }
 
 echo "preflight — docs"
 
@@ -204,6 +208,26 @@ for pf in $( ( git -c core.quotePath=false diff --cached --name-only 2>/dev/null
     say_fail "$pf is a malformed ladder: $(printf '%s' "$out" | tr '\n' ' ' | cut -c1-220)"
 done
 
+# 1f · a run record carries its numbers, or it is a sentence wearing the word "record". The
+#      guide calls it a door — `a dispatch lands as _ops/runs/R-<id>.md carrying its four token
+#      numbers` — and nothing read one. `unknown` is an accepted value, as the guide says; an
+#      absent field is not. `attempt` is here because it is what makes "three attempts and it
+#      escalates" countable — that rule claimed `enforced_by: validator` with no field to count.
+for rf in $( ( git -c core.quotePath=false diff --cached --name-only --diff-filter=AM 2>/dev/null \
+               || true ) | grep -E '^_ops/runs/R-.*\.md$' || true); do
+  [ -f "$rf" ] || continue
+  for need in input output cache_read cache_write; do
+    ( staged "$rf" || true ) | hits -iF "$need" || say_fail "$rf does not name \`$need\` — a \
+dispatch record carries four token numbers, and \`unknown\` is an accepted value where the \
+runtime does not report one. A sentence in History is not a record"
+  done
+  for need in "model that answered" "attempt" "outcome"; do
+    ( staged "$rf" || true ) | hits -iF "$need" || say_fail "$rf has no \`$need\` field — \
+without it the run cannot be sliced later, and a slice you did not record a field for is \
+impossible rather than merely missing"
+  done
+done
+
 # 2 · a recorded fact past its recheck is unknown, not fact. TOOLING.md carries a
 #     Checked column precisely so this can be enforced rather than hoped for.
 if [ -f _ops/TOOLING.md ]; then
@@ -257,7 +281,6 @@ field() { # field <key> <file-or-"-">
 # Read from the INDEX, never the worktree: every other check in this file uses `git diff --cached`
 # or `git show HEAD:`, and a gate that reads the disk passes a commit whose staged content is
 # broken — stage the bad version, fix it in the editor, forget `git add`, commit green.
-staged() { git show ":$1" 2>/dev/null; }
 
 # 16 · a `relay` is one operation the worker cannot perform — not the job. The failure it exists
 #      to catch is the request that reads "we need an image for the post": the whole task leaving

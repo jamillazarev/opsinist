@@ -9,7 +9,12 @@ belong, which is how a ledger quietly becomes prose.*
 |---|---|
 | **Task** | {{T-XXXXXX}} · {{title}} |
 | **Ran** | {{2026-07-31T09:14Z}} → {{09:41Z}} |
-| **Outcome** | {{completed · interrupted · limit · failed}} |
+| **Outcome** | {{completed · interrupted · limit · failed · canceled}} |
+| **Reason** | {{why, when the outcome is not `completed` — otherwise `—`}} |
+| **Trigger** | {{a person · a schedule · an event · an automation}} |
+| **Attempt** | {{1}} — {{the price of not getting it right the first time; three on one task is 
+the escalation threshold, so this is the field that makes it countable}} |
+| **Commits · checkpoint** | {{sha, or `none`}} · {{where to resume from, or `—`}} |
 
 ## What answered
 
@@ -36,7 +41,20 @@ this cell is `unknown` — never the requested name by default.
 the evidence rungs exist to stop, and cache reads dominate on any project with a stable prefix —
 a single total hides the only lever that moves the bill.
 
-**Spend outside the model:** {{a paid API call · a render · none}}
+**Spend outside the model** — five cells, because a sentence cannot be summed (`cost.md`):
+
+| Service | Unit | Quantity | Amount | Currency |
+|---|---|---|---|---|
+| {{the vendor}} | {{image · minute · request · seat}} | {{3}} | {{0.24}} | {{USD}} |
+
+> [!NOTE]
+> `none` in the Service cell is the whole row when nothing was spent. An amount that is not
+> known yet is `unknown` with the unit and quantity still filled — the slice can then be
+> completed later, which a free-text line never allows.
+
+**Tool uses**: {{count, shape not content}} · **`skills_available[]`**: {{what was attached}}
+· **`skills_used[]`**: {{what was actually reached for}} — declared against used is how dead
+weight is found (`dispatching.md`).
 
 ## What it produced
 

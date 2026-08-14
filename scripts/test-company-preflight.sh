@@ -423,5 +423,29 @@ git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a sound ladder was refused"
 git rm -qf _ops/pipelines/bent.md >/dev/null 2>&1; git commit -qm "ladder out"
 
+# A run record carries its numbers or it is a sentence wearing the word. The guide calls it a
+# door — "a dispatch lands as _ops/runs/R-<id>.md carrying its four token numbers" — and nothing
+# read one. `attempt` is in the required set because "three attempts and it escalates" claimed
+# enforced_by: validator with no field anywhere to count.
+mkdir -p _ops/runs
+printf '# R-5\n\nThe run went fine and cost about 200k tokens.\n' > _ops/runs/R-5.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a sentence passed as a run record" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "four token numbers" \
+  && ok || bad "the run-record refusal does not say what is missing"
+cat > _ops/runs/R-5.md <<'RUN'
+# R-5
+
+| **Outcome** | completed |
+| **Attempt** | 1 |
+| **Model that answered** | claude-sonnet-5 |
+
+| `input` | `output` | `cache_read` | `cache_write` |
+|---|---|---|---|
+| 12,400 | 3,110 | unknown | 6,200 |
+RUN
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a real record with an unknown was refused — unknown is an accepted value"
+git rm -qf _ops/runs/R-5.md >/dev/null 2>&1; git commit -qm "R-5 out" >/dev/null 2>&1
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"
