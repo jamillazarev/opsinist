@@ -126,7 +126,7 @@ unknown on both sides, dated, with what would settle it.
 **Four lenses read this release before its tag, and the pass paid for itself twice over.** The
 brand-new doors check was **defeated by its own author's blind spot**: paths left in an HTML
 comment while the block was deleted kept preflight green — the check is now anchored to the
-block itself, comments stripped first, with the evasion as a third mutant (suite 17/17). A
+block itself, comments stripped first, with the evasion as a third mutant (suite 19/19). A
 "wired into the loop" claim printed success **without asserting the replacement happened** — it
 had not; every such edit now asserts. The day-one table briefly said four things while holding
 five rows — the doors folded into the guard's row, where they belong, and *four* is true again
@@ -150,15 +150,18 @@ pack's own context file, or every skill re-asks what the project already recorde
 
 **The shipped corpus is not the corpus the round measured, and the gap is bigger than the
 first draft of this paragraph said.** Verified by comparing the frozen copy byte for byte
-against each candidate commit: the fingerprint `d4df8f5c…` **is `0016d38`**, and **seven**
-commits post-date it, not three. Sharper still — the frozen corpus contains the doors check
-**zero times**. The guard's furniture refusal, the argument test, the §1 weakening and the
-rewritten §1a all landed after the freeze, so **none of this release's doors mechanics has
-ever been measured by a round**. What N89's 0/3 measures is what it always said it measured:
+against each candidate commit: the fingerprint `d4df8f5c…` **is `0016d38`** — so the shipped
+tree is everything in `0016d38..HEAD`, a range that keeps growing until the tag rather than a
+count that goes stale the moment it is written. Sharper, and stated precisely because the first draft of this
+sentence overstated it: the frozen corpus **does** carry the guide's doors block, the §1a
+check and the day-one row — what it does not carry, not once, is the **guard's** furniture
+refusal. That check, the argument test, the §1 weakening and the rewritten §1a all landed
+after the freeze, so **the guard-side doors mechanics have never been measured by a round**;
+the guide-side ones were in the corpus N89 ran against. What N89's 0/3 measures is what it always said it measured:
 the day-one instruction *as prose to the advisor*, on a corpus with no guard check behind it
 — its graded runs wired no guard at all. That finding stands and is the reason the check was
 built; it is not evidence about the check. Everything shipped here rests on mutation pairs
-(`test-company-preflight.sh` 34/34, `test-corpus-preflight.sh` 17/17) and the next full round
+(`test-company-preflight.sh` 38/38, `test-corpus-preflight.sh` 19/19) and the next full round
 is what turns them into measurements. Said plainly rather than left for a reader to derive
 from a hash.
 

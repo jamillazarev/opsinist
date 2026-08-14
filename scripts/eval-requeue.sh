@@ -42,9 +42,12 @@ sweep_voids() {
     [ -z "${id:-}" ] && continue
     # No transcript is the defect this exists for. No verdict BESIDE a transcript is the other
     # half of the same claim: the judge never ran, so the row is not a finished run either.
+    # No interpreter per row: 515 rows meant 515 python3 starts and 9.4s on a HEALTHY table,
+    # measured. A verdict is written by `eval-judge.sh` as one line of JSON, so "readable"
+    # here is "ends in a brace" — enough to catch the truncated write, at no cost.
     if [ ! -s "$SUITE/logs/$id-$n.output" ] || [ ! -s "$SUITE/logs/$id-$n.verdict.json" ] \
-       || ! python3 -c 'import json,sys; json.load(open(sys.argv[1]))' \
-            "$SUITE/logs/$id-$n.verdict.json" 2>/dev/null; then
+       || ! tail -c 200 "$SUITE/logs/$id-$n.verdict.json" 2>/dev/null | tr -d '[:space:]' \
+            | grep -q '}$'; then
       left=$((left+1))
       if [ "$shown" -lt 12 ]; then names="$names $id/$n"; shown=$((shown+1)); fi
     fi

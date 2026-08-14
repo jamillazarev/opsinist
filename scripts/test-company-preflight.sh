@@ -178,7 +178,12 @@ git rm -q _ops/TOOLING.md
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "deleting a document deleted the checks gated on it" || ok
 ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "this commit retires" \
   && ok || bad "the deletion refusal does not say what was retired"
-git checkout -q HEAD -- _ops/TOOLING.md && git reset -q && git checkout -q _ops/TOOLING.md
+# the remedy the message names has to work, or --no-verify is the only exit — measured
+# refusing the very commit it asked for
+printf -- '- 2026-08-14 retiring _ops/TOOLING.md: moved to the vendor portal\n' >> _ops/DECISIONS.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a retirement recorded in DECISIONS.md was refused anyway"
+git checkout -q HEAD -- _ops/TOOLING.md _ops/DECISIONS.md && git reset -q && git checkout -q _ops/TOOLING.md _ops/DECISIONS.md
 # a rename is not listed by --diff-filter=D, and git detects renames by default — measured
 # walking straight through, and better for the constrained party than the delete it replaced
 mkdir -p _ops/registers && git mv _ops/TOOLING.md _ops/registers/TOOLING.md
@@ -200,6 +205,14 @@ git add -A && git commit -qm "gate fixtures"
 
 printf '# Decisions\n' > _ops/DECISIONS.md; git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "removing every decision BULLET passed the append-only gate" || ok
+git checkout -q HEAD -- _ops/DECISIONS.md; git reset -q; git checkout -q _ops/DECISIONS.md
+# and the inversion the first repair introduced: appending to a file whose last line carries no
+# trailing newline shows that line as removed AND re-added, so a pure append was refused
+printf -- '# Decisions\n\n- 2026-01-01 we chose X' > _ops/DECISIONS.md; git add -A; git commit -qm "no trailing newline"
+printf -- '\n- 2026-02-02 we chose Y\n' >> _ops/DECISIONS.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a pure append was refused by the append-only gate"
+printf -- '# Decisions\n\n- 2026-01-01 we chose Z\n' > _ops/DECISIONS.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a rewritten entry passed the append-only gate" || ok
 git checkout -q HEAD -- _ops/DECISIONS.md; git reset -q; git checkout -q _ops/DECISIONS.md
 
 printf '# Config\n\n## Migrations\n\n- — -> 0.2.7 · applied\n' > _ops/config.md; git add -A
@@ -232,6 +245,22 @@ dayone=$(cd "$D" && bash _ops/scripts/preflight.sh 2>&1); rc=$?
 printf '%s' "$dayone" | grep -q "Deferred on purpose" \
   && ok || bad "the deferred documents vanished from the guard's output entirely"
 rm -rf "$D"
+
+# Scale. Measured 2026-08-14: at ~3000 staged files the generated-asset gate stopped refusing
+# entirely — `git diff --cached --name-only | grep -qx` SIGPIPEs its producer once grep exits
+# early, `set -o pipefail` returns 141, and the condition reads it as "no match". Two gates
+# failed OPEN this way on any real codebase, and one began refusing a parent that was fine.
+assets 'hero.png | origin: generated, Ideogram | owned | header'
+small=$(bash _ops/scripts/preflight.sh 2>&1 | grep -c "✗")
+mkdir -p filler
+python3 -c "
+import pathlib
+for i in range(3000): pathlib.Path('filler/f%d.txt' % i).write_text('x' + chr(10))"
+git add -A
+big=$(bash _ops/scripts/preflight.sh 2>&1 | grep -c "✗")
+[ "$small" -gt 0 ] && [ "$big" -ge "$small" ] \
+  && ok || bad "the asset gate refused $small time(s) at 6 files and $big at 3000 — it fails open at scale"
+rm -rf filler; rm -f _ops/assets.md; git add -A
 
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

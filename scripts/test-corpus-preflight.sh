@@ -65,15 +65,20 @@ p.write_text(t.replace('\n','\r\n'))" \
   && bad "a gutted block passed once the file arrived with CRLF line endings" || ok
 grep -q "has no block starting with the line" "$T/o4" && ok || bad "the CRLF refusal does not name the block"
 
-# mutant 5 is a TWIN, not a mutant: a blank line inside the block is ordinary formatting, and the
+# mutant 5 is a TWIN, not a mutant: a blank line BETWEEN two bullets is ordinary formatting (one
+# inside a wrapped bullet is not, and this used to insert it there — testing a shape nobody
+# writes while claiming to test one everybody does). The
 # previous form answered it with four refusals naming paths that sat three lines up, unread. A
 # gate that lies about why costs more than one that stays quiet — this asserts it stays quiet.
 ( cd "$T/c" && git checkout -q templates/GUIDE-template.md \
   && python3 -c "
 import pathlib,re
 p=pathlib.Path('templates/GUIDE-template.md'); t=p.read_text()
-m=re.search(r'(\*\*The doors — run these[^\n]*\n- [^\n]*\n)', t)
-p.write_text(t.replace(m.group(1), m.group(1)+'\n',1))" \
+lines=t.split(chr(10))
+s=next(i for i,l in enumerate(lines) if l.startswith('**The doors — run these'))
+j=next(i for i in range(s+2,len(lines)) if lines[i].startswith('- '))
+lines.insert(j, '')
+p.write_text(chr(10).join(lines))" \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o5" 2>&1 \
   && ok || bad "a blank line inside the doors block was treated as the end of it"
 

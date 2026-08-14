@@ -96,7 +96,7 @@ fi
 # this repo's own machine note, and measured to fire deterministically once the input passes a
 # few hundred matching lines. The result is captured instead, so nothing exits early.
 dayone_row=$(perl -0pe 's/<!--.*?-->//gs; s/\r//g' "$ROOT/starting.md" \
-  | grep '^|' | grep -F 'transition.py' | grep -F 'new-id.py' \
+  | grep '^[[:space:]]*|' | grep -F 'transition.py' | grep -F 'new-id.py' \
   | grep -F 'company-preflight.sh' | grep -F '_ops/scripts/' || true)
 [ -n "$dayone_row" ] || say_fail \
   "starting.md has no ONE LINE naming transition.py, new-id.py and company-preflight.sh together \
@@ -134,10 +134,18 @@ for tag in tags:
     a, b = entry(old, v), entry(head, v)
     if not a or a == b:
         continue
-    lost = [l for l in a if l not in b]
-    added = [l for l in b if l not in a]
-    if lost or not all(l.startswith(">") or not l.strip() for l in added):
-        bad.append((tag, len(lost)))
+    # Sequence comparison, not set membership: `in`-tests made reordering the whole entry
+    # invisible, and deleting one of N identical lines too — measured 2026-08-14, reversing all
+    # 157 lines of the 0.1.0 body passed. The one permitted change is a contiguous run of
+    # blockquote lines added anywhere, so those are stripped from the new side before comparing.
+    stripped = [l for l in b if not l.startswith(">")]
+    while stripped and not stripped[-1].strip():
+        stripped.pop()
+    a_trim = list(a)
+    while a_trim and not a_trim[-1].strip():
+        a_trim.pop()
+    if [l for l in stripped if l.strip()] != [l for l in a_trim if l.strip()]:
+        bad.append((tag, sum(1 for l in a_trim if l.strip() and l not in stripped)))
 for tag, n in bad:
     print("  \033[31m✗\033[0m the " + tag + " entry no longer matches what " + tag +
           " shipped (" + str(n) + " line(s) changed or lost) — a released entry is frozen; "

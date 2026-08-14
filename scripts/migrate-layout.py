@@ -107,8 +107,15 @@ def main():
             if dst.is_file() and dst.read_bytes() == src.read_bytes():
                 continue
             if dst.is_file() and not dry:
-                # keep what it replaces, since the file may have carried a project's own edits
-                dst.with_suffix(dst.suffix + ".replaced").write_bytes(dst.read_bytes())
+                # Keep what it replaces — and never clobber a previous keep. One fixed slot lost
+                # a project's hand-edited door on the second run while the message still said
+                # where it was; measured 2026-08-14. The name carries the content hash, so a
+                # re-run of the same replacement is a no-op rather than a loss.
+                import hashlib
+                h = hashlib.sha256(dst.read_bytes()).hexdigest()[:8]
+                keep = dst.with_suffix(dst.suffix + f".replaced-{h}")
+                if not keep.exists():
+                    keep.write_bytes(dst.read_bytes())
             if dry:
                 doors_done.append(door)
                 continue
@@ -124,14 +131,15 @@ def main():
                 # bytes land and nothing is staged — so the guard passes here (it reads the
                 # worktree) and a clone of that commit hits the guard's hard refusal instead.
                 print(f"  {rel} written but NOT staged"
-                      f"{': ' + r.stderr.strip() if r.stderr.strip() else ' (ignored, or outside the repo)'}"
+                      f"{': ' + r.stderr.strip().splitlines()[0] if r.stderr.strip() else ' (ignored, or outside the repo)'}"
                       f" — the commit will not carry the door; `git add -f {rel}` or fix the ignore")
             if differs:
                 # The docstring forbids the silent overwrite. A project that edited its door gets
                 # told which file was replaced, and where the copy it lost is.
-                bak = dst.with_suffix(dst.suffix + ".replaced")
+                keeps = sorted(dst.parent.glob(dst.name + ".replaced-*"))
+                where = keeps[-1].relative_to(root) if keeps else "(not kept — it was empty)"
                 print(f"  {rel} differed from the shipped door and was replaced"
-                      f" — the previous file is at {bak.relative_to(root)}")
+                      f" — the previous file is at {where}")
             doors_done.append(door)
         if doors_done:
             verb = "would be re-copied" if dry else "re-copied"

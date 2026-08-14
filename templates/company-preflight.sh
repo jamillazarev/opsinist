@@ -88,11 +88,24 @@ for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
   had=$(git show "HEAD:$f" 2>/dev/null | tr -d '[:space:]' | wc -c | tr -d ' ')
   [ "${staged_size:-1}" -eq 0 ] && [ "${had:-0}" -gt 0 ] && emptied="$emptied $f"
 done
-if [ -n "$gone" ] || [ -n "$emptied" ]; then
+# The remedy has to exist. The first version of this message told the owner to record the
+# retirement in `_ops/DECISIONS.md` and then refused the commit that did exactly that —
+# measured — leaving `--no-verify` as the only exit, which is the bypass this file's header
+# is about. A staged decision naming the file is now the escape.
+retired_ok=""
+if [ -n "$gone$emptied" ] && git diff --cached --name-only 2>/dev/null | grep -qx '_ops/DECISIONS.md'; then
+  for f in $gone $emptied; do
+    base=${f##*/}
+    ( git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null || true ) \
+      | grep '^+' | grep -v '^+++ ' | grep -qF "$base" || { retired_ok=""; break; }
+    retired_ok=yes
+  done
+fi
+if [ -z "$retired_ok" ] && { [ -n "$gone" ] || [ -n "$emptied" ]; }; then
   say_fail "this commit retires$(printf '%s' " $gone$emptied" | tr '\n' ' ')— these four may be \
 absent because they have nothing to hold yet, but removing, renaming or emptying one that \
 exists also removes the checks keyed on it (freshness, append-only, entitlements). If the \
-register is genuinely being retired, say so in _ops/DECISIONS.md and move it in its own commit"
+register is genuinely being retired, add a _ops/DECISIONS.md entry naming the file in this same commit and this refusal stands down"
 fi
 # The doors travel with this guard (0.2.7), and a wired project without them is the measured
 # dead end: §14 refuses a hand-edited stage and points at a door that is not there. Measured
@@ -120,7 +133,12 @@ or §14 refuses your next stage change and points at a file you do not hold"
 your advisor to run the upgrade step (it re-copies a door whose bytes differ), then commit again"
   fi
 done
-if git ls-files | grep -qE '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'; then
+# Every pipeline in this file whose verdict is its RIGHT side wraps the producer in
+# `( … || true )`. Under `set -o pipefail` an early-exiting `grep -q` SIGPIPEs its
+# upstream and the pipeline returns 141 — read as "no match". Measured 2026-08-14 at
+# 3001 staged files: the spend cap and the generated-asset recipe both stopped refusing,
+# and the parent-acceptance gate began refusing a parent that was fine. Two failed open.
+if ( git ls-files || true ) | grep -qE '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'; then
   [ -f _ops/ARCHITECTURE.md ] || say_warn "there is code but no _ops/ARCHITECTURE.md — every task \
 starts in a fresh worktree and re-derives the layout"
 fi
@@ -234,7 +252,7 @@ rowval() { # rowval <row> <key>
     | sed -E 's/^[[:space:]*\`_"'"'"']+//; s/[[:space:]*\`_"'"'"']+$//' \
     | grep -vE '^[[:space:]]*$|^[A-Za-z][A-Za-z0-9_-]*:|^[-—–?.]+$|^(tbd|n/a|none yet|unknown)$' | head -1
 }
-if git diff --cached --name-only 2>/dev/null | grep -qx '_ops/assets.md'; then
+if ( git diff --cached --name-only 2>/dev/null || true ) | grep -qx '_ops/assets.md'; then
   while IFS= read -r row; do
     # A declared origin always wins: only a row that does NOT declare `origin: generated` may be
     # excused by another origin. The exclusion used to run last and beat the declaration.
@@ -255,12 +273,25 @@ fi
 # 3 · DECISIONS.md is append-only. Rewriting it is how a rejected idea comes back
 #     next quarter with nobody able to say why it was rejected the first time.
 if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f _ops/DECISIONS.md ]; then
-  # `^-[^-]` was excluding every removed BULLET: in a unified diff `- we chose X` arrives as
+  # `^-[^-]` excluded every removed BULLET: in a unified diff `- we chose X` arrives as
   # `-- we chose X`, which is the shape this gate exists for. Measured 2026-08-14: deleting
-  # both decision entries counted 0 and passed silently. The `--- a/` header is dropped by
-  # path instead, so bullets are counted again.
-  removed=$(git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null \
-            | grep -v '^--- ' | grep -c '^-' || true)
+  # both decision entries counted 0 and passed silently.
+  #
+  # Counting every `-` line instead then inverted the gate the other way — measured the same
+  # day: appending to a file whose last line has no trailing newline shows that line as
+  # removed AND re-added, so a pure append was refused. A line that comes back identically
+  # was not removed, so removals are counted against the added set. No python3 here on
+  # purpose: this guard must keep working in a project that has none.
+  _diff=$(git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null || true)
+  _added=$(printf '%s\n' "$_diff" | grep '^+' | grep -v '^+++ ' | sed 's/^+//' || true)
+  removed=0
+  while IFS= read -r _l; do
+    case "$_l" in "--- "*|"") continue;; esac
+    _l=${_l#-}
+    printf '%s\n' "$_added" | grep -qxF -- "$_l" || removed=$((removed+1))
+  done <<EOF
+$(printf '%s\n' "$_diff" | grep '^-' || true)
+EOF
   [ "${removed:-0}" -gt 0 ] && say_fail "_ops/DECISIONS.md is append-only — this commit \
 removes or rewrites $removed line(s). Add a new entry instead."
 fi
@@ -479,7 +510,7 @@ the fact that it closed automatically is part of the record. Say so in the same 
     # whose evidence the constrained party can author is not a gate.** Acceptance that existed
     # before this commit cannot be forged in the same move; forging it now costs a separate
     # commit whose only content is a claim of approval, which is visible as what it is.
-    if git show HEAD:"$t" 2>/dev/null | grep -qiE '(approved by|accepted by|signed off|owner (said|confirmed))'; then
+    if ( git show HEAD:"$t" 2>/dev/null || true ) | grep -qiE '(approved by|accepted by|signed off|owner (said|confirmed))'; then
       :
     else
       say_fail "$(basename "$t") carries children **and its own definition of done**, and this \
@@ -501,7 +532,7 @@ fi
 #      "Where it stands" row. Percent or currency, either way.
 #      A budget with no numbers yet is silent — a template nobody filled must not block a commit.
 if [ -f _ops/BUDGET.md ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
-  if git diff --cached --name-only 2>/dev/null | grep -qE '^(docs/BUDGET\.md|_ops/tasks/.*\.md|runs?/.*)$'; then
+  if ( git diff --cached --name-only 2>/dev/null || true ) | grep -qE '^(docs/BUDGET\.md|_ops/tasks/.*\.md|runs?/.*)$'; then
     python3 - <<'PY' > /tmp/.pf-budget.$$ 2>/dev/null || true
 import re
 txt = open("_ops/BUDGET.md", encoding="utf-8").read()

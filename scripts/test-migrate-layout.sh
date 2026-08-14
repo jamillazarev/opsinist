@@ -104,10 +104,16 @@ git add -A && git commit -qm "customised door"
 python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1
 grep -q 'differed from the shipped door and was replaced' "$T/out.txt" \
   && ok || bad "a customised door was replaced in silence"
-[ -f _ops/scripts/transition.py.replaced ] && ok || bad "the replaced door was not kept"
+ls _ops/scripts/transition.py.replaced-* >/dev/null 2>&1 && ok || bad "the replaced door was not kept"
+# a second replacement must not clobber the first keep — the prescribed flow runs twice
+printf 'a different custom door\n' > _ops/scripts/transition.py
+git add -A && git commit -qm "customised again"
+python3 "$HERE/migrate-layout.py" . >/dev/null 2>&1
+[ "$(ls _ops/scripts/transition.py.replaced-* 2>/dev/null | wc -l | tr -d ' ')" -ge 2 ] \
+  && ok || bad "the second replacement overwrote the first keep, losing the project's own edits"
 grep -q 'Commit them before running this again' "$T/out.txt" \
   && ok || bad "work was staged and the operator was not told to commit it"
-rm -f _ops/scripts/transition.py.replaced; git add -A; git commit -qm "doors restored"
+rm -f _ops/scripts/transition.py.replaced-*; git add -A; git commit -qm "doors restored"
 
 # an ignore only bites an UNTRACKED path, so the door has to leave the index first — which is
 # exactly the shape that produced the measured case: a project that never tracked its doors
