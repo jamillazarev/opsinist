@@ -60,6 +60,15 @@ echo "preflight — docs"
 for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
   [ -f "$f" ] || say_fail "$f is missing — the guide tells every agent it exists"
 done
+# The doors travel with this guard (0.2.7), and a wired project without them is the measured
+# dead end: §14 refuses a hand-edited stage and points at a door that is not there. Measured
+# twice — a live project held only the guard, and the day-one install instruction alone ran
+# 0/5 in the round — so the presence is held here, not remembered.
+for d in _ops/scripts/transition.py _ops/scripts/new-id.py; do
+  [ -f "$d" ] || say_fail "$d is missing — the doors travel with this guard: copy \
+scripts/transition.py and scripts/new-id.py from the skill into _ops/scripts/ (one command \
+each), or §14 refuses your next stage change and points at a file you do not hold"
+done
 if git ls-files | grep -qE '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'; then
   [ -f _ops/ARCHITECTURE.md ] || say_warn "there is code but no _ops/ARCHITECTURE.md — every task \
 starts in a fresh worktree and re-derives the layout"

@@ -59,7 +59,10 @@ nothing accumulates outside versions.
 
 - **A pipe eats the exit code**: `preflight.sh | tail` gates nothing — capture the code
   first (`cmd > /tmp/out 2>&1; echo $?`), then read the tail. Measured on this repo: a red
-  preflight rode a green pipeline into main.
+  preflight rode a green pipeline into main. **And pipefail resurrects it in mirror**: under
+  `set -o pipefail`, `cmd | grep -q` returns *cmd's* failure even when grep **matched** — a
+  found phrase read as absent (measured 2026-08-14 in the company-preflight suite). Wrap the
+  left side in `(… || true)` when the pipe's verdict is the right side's.
 
 - Eval clean-room: homes under the session scratchpad need their **own** keychain entries
   (`Claude Code-credentials-<sha256(home)[:8]>`) and their own logins for long rounds —

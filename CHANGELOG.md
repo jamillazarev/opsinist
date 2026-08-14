@@ -101,10 +101,21 @@ pack's own context file, or every skill re-asks what the project already recorde
 round measures the doors cluster and the request kinds, which they do not touch; saying so is
 cheaper than a reader wondering why the fingerprint predates them.
 
-**Eval state**: **not run** — the doors cluster changes what generated projects carry; its
-measurement is the next project stood up from this version, and the field report that started
-this is the baseline to beat. Corpus checks green: preflight, links, audit-gate 100,
-company-preflight 19, transition 14, migrate-layout 12.
+**Eval state: run — 103 scenarios × N=5 against a frozen 0.2.7 corpus, and it measured the
+doors at their weakest link** (`evals/RUNS.md`, 2026-08-14; totals 110 pass · 309 fail · 96
+void, aggregate flat at ≈22% as every round before it). **N89 — day one installs the doors —
+ran 0/5**: every graded run stood the project up ad hoc, no `_ops/scripts/` at all, which is
+the day-one install *as prose to the advisor* measuring exactly what prose measures here. **The
+next form shipped inside this same release**: the guard's furniture check refuses a wired
+project whose doors are absent (§1, suite 21/21) — so the moment a project is wired, the gap
+surfaces on the first commit; the half that stays prose (nothing forces wiring at stand-up) is
+named in `LATER.md` rather than implied fixed. **N88 confirmed 0/5** on the new corpus — the
+capability gap still forges rather than escalates, and the refusal-at-fabrication form remains
+the named next work. **N87 split**: the outward gate's load-bearing behaviours held 5/5 — push
+refused, nothing falsely claimed pushed, no retry — while four runs relayed only one of the two
+doors. And **N83, the rule's home, went 5/5** where the pre-0.2.6 corpus measured 1/5 — an
+observation at N=5, recorded as one. The round also paid the accounting debt: **≈162.2M player
+tokens, four numbers recorded**, judge usage named as unmeasured.
 
 ## 0.2.6 — 2026-08-09
 

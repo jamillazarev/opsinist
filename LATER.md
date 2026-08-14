@@ -149,3 +149,14 @@ competitor register (now with stage/outcome) · what-to-borrow and risks-and-fai
 distillate sections citing register rows · the delta is the positioning brief, homed in
 `BRAND-template.md` §Positioning. **Revisit when:** the next real market-recon study is
 commissioned — a template written before its second use is a guess.
+
+## The advisor-side half of the doors: nothing forces wiring at stand-up
+
+**Measured 2026-08-14, N89 at 0/5**: every graded day-one run stood the project up ad hoc — no
+guard wired, no doors, no type file — so the guard's new doors check (the wired-project form,
+landed the same day) never gets its chance. The prose instruction alone does not survive
+contact, which is this corpus's oldest measurement. The candidate form: the plugin's own
+SessionStart hook already delivers the migration fact in operated projects — the same mechanism
+can say, once, *"this operated project has no wired guard and no doors"*. **Revisit when:** the
+next round re-measures N89 with the wired-project form in the field — if ad-hoc stand-ups
+persist, the hook line is built; a second 0/5 is the threshold, and it is one round away.

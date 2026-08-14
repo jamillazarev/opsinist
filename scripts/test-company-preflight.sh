@@ -19,11 +19,21 @@ cat > _ops/tasks/T-1.md <<'EOF'
 
 ## History
 EOF
+# the doors: the furniture check refuses a wired project without them (N89's next form)
+cp "$HERE/transition.py" "$HERE/new-id.py" _ops/scripts/ 2>/dev/null || true
 git add -A && git commit -qm fixture
 
 pass=0; fail=0
 ok()  { pass=$((pass+1)); }
 bad() { fail=$((fail+1)); echo "  ✗ $1"; }
+
+# a wired project without the doors is refused, naming the copy — and with them it passes
+mv _ops/scripts/transition.py /tmp/.door.$$ 
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a guard without its doors passed" || ok
+# `|| true` before the pipe, because this file sets pipefail: a refusing preflight piped into
+# a MATCHING grep still returns preflight's 1, and the assertion reads a found phrase as absent.
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "doors travel with this guard" && ok || bad "the doors refusal lost its copy instruction"
+mv /tmp/.door.$$ _ops/scripts/transition.py
 
 # a hand flip, staged, no transition line → §14 refuses the commit
 sed -i '' 's/\*\*Status\*\*: started/**Status**: done/' _ops/tasks/T-1.md
