@@ -99,5 +99,11 @@ build_clean
 printf '{"verdict": "vo' > "$S/logs/N1-2.verdict.json"   # truncated write
 run >/dev/null 2>&1 && bad "an unparseable verdict counted as finished" || ok
 
+build_clean
+# truncated just after a brace INSIDE the reason — the shape a cheap "ends in a brace" test
+# accepts, which is why the readable-verdict test is a real parse and not a string check
+printf '{"verdict":"pass","reason":"the {x}' > "$S/logs/N1-2.verdict.json"
+run >/dev/null 2>&1 && bad "a write truncated after an inner brace counted as finished" || ok
+
 echo "eval-requeue: $pass passed, $fail failed"
 exit "$fail"

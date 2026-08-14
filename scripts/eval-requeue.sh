@@ -26,38 +26,57 @@ p="$SUITE/logs/POISONED"
 # re-dispatch 91 finished runs and exited 1 on a healthy round. The rate table already counts
 # them in its void column; this sweep is about runs that produced nothing to count.
 sweep_voids() {
-  local left=0 shown=0 names="" id n
-  # An unreadable table is not an empty one. Without this the loop runs zero times, `left` stays
-  # 0, and the script prints "every run in the table is a run that finished" over a table it
-  # never opened — the same over-claim the sweep exists to kill, one level up.
+  # One interpreter for the whole table, not one per row: the per-row form cost 9.4s on a
+  # healthy 515-row table, and the shell substitute that replaced it — "the verdict file ends
+  # in a closing brace" — accepts a write truncated just after a brace inside the reason text,
+  # which is exactly the shape it was meant to catch. One pass is both correct and ~1s.
+  #
+  # An unreadable table is not an empty one: without the first check the loop ran zero times,
+  # `left` stayed 0, and the script printed its completion claim over a table it never opened.
+  #
+  # Scoped to runs that produced NOTHING — no transcript, or no readable verdict beside one.
+  # A content void is a judge reading a real transcript and ruling it measures nothing; that is
+  # a verdict, not a loss. Sweeping those was measured condemning 91 correctly graded runs
+  # against 5 real ones on the round this was written for.
   if [ ! -s "$SUITE/jobs.txt" ]; then
     echo "no jobs table at $SUITE/jobs.txt — nothing was swept, and nothing can be claimed"
     return 1
   fi
-  # `|| [ -n "$id" ]` because a `while read` drops a final unterminated line, and the last row
-  # is exactly where a truncated write lands. `\r` stripped because a CRLF table made every log
-  # path fail to resolve and reported a healthy round as entirely lost — measured, both.
-  while read -r id n || [ -n "${id:-}" ]; do
-    id=${id%$'\r'}; n=${n%$'\r'}
-    [ -z "${id:-}" ] && continue
-    # No transcript is the defect this exists for. No verdict BESIDE a transcript is the other
-    # half of the same claim: the judge never ran, so the row is not a finished run either.
-    # No interpreter per row: 515 rows meant 515 python3 starts and 9.4s on a HEALTHY table,
-    # measured. A verdict is written by `eval-judge.sh` as one line of JSON, so "readable"
-    # here is "ends in a brace" — enough to catch the truncated write, at no cost.
-    if [ ! -s "$SUITE/logs/$id-$n.output" ] || [ ! -s "$SUITE/logs/$id-$n.verdict.json" ] \
-       || ! tail -c 200 "$SUITE/logs/$id-$n.verdict.json" 2>/dev/null | tr -d '[:space:]' \
-            | grep -q '}$'; then
-      left=$((left+1))
-      if [ "$shown" -lt 12 ]; then names="$names $id/$n"; shown=$((shown+1)); fi
-    fi
-  done < "$SUITE/jobs.txt"
-  [ "$left" -eq 0 ] && return 0
-  echo "$left run(s) are not finished runs — no transcript, or no readable verdict:$names$([ "$left" -gt "$shown" ] && echo " … and $((left-shown)) more")"
-  echo "none of these hit a session limit, so this script cannot requeue them. Re-dispatch by id"
-  echo "with eval-shard.sh, or read logs/<id>-<n>.err — a whole scenario voiding means its fixture"
-  echo "never built. Until then the table's N is smaller than it looks: read the void column."
-  return 1
+  out=$(python3 - "$SUITE" <<'SWEEP'
+import json, os, sys
+suite = sys.argv[1]
+logs = os.path.join(suite, "logs")
+left = []
+with open(os.path.join(suite, "jobs.txt"), encoding="utf-8", errors="replace") as fh:
+    for line in fh:                      # a final unterminated row is read like any other
+        parts = line.replace("\r", "").split()
+        if len(parts) < 2:
+            continue
+        rid, n = parts[0], parts[1]
+        out_p = os.path.join(logs, f"{rid}-{n}.output")
+        ver_p = os.path.join(logs, f"{rid}-{n}.verdict.json")
+        if not (os.path.exists(out_p) and os.path.getsize(out_p) > 0):
+            left.append(f"{rid}/{n}"); continue
+        try:
+            with open(ver_p, encoding="utf-8") as vf:
+                json.load(vf)
+        except Exception:
+            left.append(f"{rid}/{n}")
+shown = left[:12]
+if left:
+    tail = f" … and {len(left) - len(shown)} more" if len(left) > len(shown) else ""
+    print(f"{len(left)} run(s) are not finished runs — no transcript, or no readable verdict: "
+          + " ".join(shown) + tail)
+sys.exit(1 if left else 0)
+SWEEP
+  ) || {
+    printf '%s\n' "$out"
+    echo "none of these hit a session limit, so this script cannot requeue them. Re-dispatch by id"
+    echo "with eval-shard.sh, or read logs/<id>-<n>.err — a whole scenario voiding means its fixture"
+    echo "never built. Until then the table's N is smaller than it looks: read the void column."
+    return 1
+  }
+  return 0
 }
 
 [ -s "$p" ] || { echo "nothing was poisoned — no requeue needed"; sweep_voids; exit $?; }
