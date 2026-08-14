@@ -33,7 +33,7 @@ grep -q "no longer names _ops/scripts/transition.py" "$T/o1" \
   && perl -pi -e 's/transition\.py/xxx.py/g' starting.md \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o2" 2>&1 \
   && bad "a starting.md that stopped installing the doors passed" || ok
-grep -q "no day-one row installing the doors" "$T/o2" \
+grep -q "has no ONE LINE naming transition.py" "$T/o2" \
   && ok || bad "the starting.md refusal does not say what went missing"
 
 # mutant 3 — the lens's own evasion: the block deleted, the four paths left in an HTML
@@ -48,7 +48,7 @@ t=t.replace(m.group(0), '<!-- _ops/scripts/transition.py _ops/runs/ _ops/pipelin
 p.write_text(t)" \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o3" 2>&1 \
   && bad "paths hidden in a comment passed while the doors block was gone" || ok
-grep -q "has no doors block" "$T/o3" && ok || bad "the comment-evasion refusal does not name the block"
+grep -q "has no block starting with the line" "$T/o3" && ok || bad "the comment-evasion refusal does not name the block"
 
 # mutant 4 — the same evasion, carried in on CRLF. Measured 2026-08-14: `sed '/…/,/^$/p'` never
 # terminated, because `^$` does not match a line ending in `\r`, so the range ran to EOF and the
@@ -63,7 +63,7 @@ t=t.replace(m.group(0), '_ops/scripts/transition.py _ops/runs/ _ops/pipelines/ _
 p.write_text(t.replace('\n','\r\n'))" \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o4" 2>&1 \
   && bad "a gutted block passed once the file arrived with CRLF line endings" || ok
-grep -q "has no doors block" "$T/o4" && ok || bad "the CRLF refusal does not name the block"
+grep -q "has no block starting with the line" "$T/o4" && ok || bad "the CRLF refusal does not name the block"
 
 # mutant 5 is a TWIN, not a mutant: a blank line inside the block is ordinary formatting, and the
 # previous form answered it with four refusals naming paths that sat three lines up, unread. A
@@ -89,7 +89,7 @@ out.insert(0, '<!-- templates/company-preflight.sh scripts/transition.py scripts
 p.write_text('\n'.join(out))" \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o6" 2>&1 \
   && bad "the day-one row was deleted and a comment holding the paths passed for it" || ok
-grep -q "no day-one row installing the doors" "$T/o6" \
+grep -q "has no ONE LINE naming transition.py" "$T/o6" \
   && ok || bad "the day-one refusal does not name what went missing"
 
 # mutant 7 — a released entry edited after its tag. This is how the 0.1.0 section came to claim
