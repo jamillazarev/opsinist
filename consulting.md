@@ -105,6 +105,24 @@ Measured: a run promised a museum print found **at 16:10** — a ratio is a crop
 filter — and in the same answer said nothing about the licence, which was the only thing the
 owner had actually asked about.
 
+**A council, when being wrong is expensive.** For a judgement question with real stakes and
+genuine uncertainty — *pivot or hold? which positioning? is this pricing sane?* — the advisor
+offers a **council** rather than one answer: several workers, each briefed to one thinking angle
+(the contrarian · first principles · the upside case · the operator's view), answering
+**independently**; their answers **cross-reviewed anonymized**, so nobody defends a name; then a
+synthesis that names **where they agree, where they clash, and the strongest dissent** — the
+dissent is the product, and a council that converges instantly was theater. Adapted from
+Karpathy's LLM Council method (the shelf carries the pointers → `catalogue.md`), implemented in
+house form because both upstreams state no licence.
+
+**Three honesty laws bind it, and they are why it lives here rather than on a pedestal.** Five
+angles of one model are **one bias five ways** — the same law that makes a hundred synthetic
+respondents one bias repeated (`audience.md`); real independence of failure needs **another
+provider**, which is cross-runtime dispatch first and the gateway row second (`runtimes.md`,
+`catalogue.md`). **Consensus is not a rung**: the council's verdict stays a judgement call
+unless it cites, and five agreeing judgements are still one. And it costs N× — **offered with
+its price, and the owner picks**, like any fan-out above.
+
 **A secondary source points at the source; it is not one.** A news story, an industry site or a
 vendor page reporting a study is cited as what it is, or replaced by the study it paraphrases.
 Passing a paraphrase off as the evidence is the exact move the rungs exist to catch.

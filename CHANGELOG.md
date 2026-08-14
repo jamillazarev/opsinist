@@ -85,6 +85,22 @@ built the measured dead end (guard without doors) — it installs all three now.
 two facts numbered 228. And the corpus violated its own new ban list in one row ("more robust"
 → "less brittle") — the list's first catch was its own author.
 
+**Consultations gain a council, for the questions where being wrong is expensive.** Several
+workers briefed to one thinking angle each, answering independently, **cross-reviewed
+anonymized**, synthesized into agreement · clash · **the strongest dissent — which is the
+product**. Adapted from Karpathy's LLM Council and implemented in house form, because **neither
+upstream states a licence**; the shelf row carries both pointers with the flag. Three honesty
+laws bind it where it lives: five angles of one model are **one bias five ways**; consensus is
+not a rung; it costs N× and the owner picks. **The shelf also takes a marketing pool** —
+[marketingskills](https://github.com/coreyhaines31/marketingskills) (MIT, 44k★, 49 skills) — as
+a pool and never an attachment: a marketing role takes the two or three its tasks name, through
+the screen, and the trimmed copy points at `_ops/brand/` and `_ops/audience/` instead of the
+pack's own context file, or every skill re-asks what the project already recorded.
+
+**These two rows and the council section landed after the round's corpus was frozen** — the
+round measures the doors cluster and the request kinds, which they do not touch; saying so is
+cheaper than a reader wondering why the fingerprint predates them.
+
 **Eval state**: **not run** — the doors cluster changes what generated projects carry; its
 measurement is the next project stood up from this version, and the field report that started
 this is the baseline to beat. Corpus checks green: preflight, links, audit-gate 100,
