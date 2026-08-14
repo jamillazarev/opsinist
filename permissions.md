@@ -184,6 +184,8 @@ was defensible except the one that invented its own permission.
 confidence. So the `prose-only` list is written out by name rather than left implicit:
 
 - read the file before acting on its subject
+- ~~three attempts on one point escalates~~ — **structural since 0.2.7**: the run record
+  carries `attempt`, and a third attempt naming no escalation is refused (`escalating.md`)
 - **a council's synthesis declares `angles · voices · provider`** — a consultation leaves no
   artifact, so no gate can read the declaration; named here rather than believed in
   (`consulting.md` §A council, and the two owed bar clauses in `LATER.md`)

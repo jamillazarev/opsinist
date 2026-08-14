@@ -221,6 +221,17 @@ for rf in $( ( git -c core.quotePath=false diff --cached --name-only --diff-filt
 dispatch record carries four token numbers, and \`unknown\` is an accepted value where the \
 runtime does not report one. A sentence in History is not a record"
   done
+  # Three attempts on one task is a spec problem, not a quality problem (escalating.md) — the
+  # rule is written eleven times across nine files and claimed `enforced_by: validator` with no
+  # field to count. The field exists now, so the count does too: a third attempt lands with the
+  # escalation named in the same commit, or it is refused.
+  att=$( ( staged "$rf" || true ) \
+         | sed -nE 's/.*[Aa]ttempt[^0-9]*([0-9]+).*/\1/p' | head -1)
+  if [ -n "${att:-}" ] && [ "$att" -ge 3 ] 2>/dev/null; then
+    ( staged "$rf" || true ) | hits -iE 'escalat|relay|spec problem|blocked_by|handed (back|over)' \
+      || say_fail "$rf records attempt $att and names no escalation — three rounds on one point \
+is a spec problem, not a quality problem. Raise it, or say in this record why a fourth is right"
+  fi
   for need in "model that answered" "attempt" "outcome"; do
     ( staged "$rf" || true ) | hits -iF "$need" || say_fail "$rf has no \`$need\` field — \
 without it the run cannot be sliced later, and a slice you did not record a field for is \

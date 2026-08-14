@@ -445,6 +445,18 @@ cat > _ops/runs/R-5.md <<'RUN'
 RUN
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a real record with an unknown was refused — unknown is an accepted value"
+# and the third attempt is counted, which is what the rule needed all along
+python3 -c "
+import pathlib
+p=pathlib.Path('_ops/runs/R-5.md'); p.write_text(p.read_text().replace('| **Attempt** | 1 |','| **Attempt** | 3 |'))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a third attempt with no escalation named passed" || ok
+python3 -c "
+import pathlib
+p=pathlib.Path('_ops/runs/R-5.md')
+p.write_text(p.read_text().replace('| **Attempt** | 3 |','| **Attempt** | 3 |' + chr(10) + '| **Reason** | escalated: the spec is wrong, raised as a relay |'))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a third attempt that names its escalation was refused"
 git rm -qf _ops/runs/R-5.md >/dev/null 2>&1; git commit -qm "R-5 out" >/dev/null 2>&1
 
 echo "company-preflight: $pass passed, $fail failed"
