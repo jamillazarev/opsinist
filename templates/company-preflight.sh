@@ -610,7 +610,7 @@ fi
 #      "Where it stands" row. Percent or currency, either way.
 #      A budget with no numbers yet is silent — a template nobody filled must not block a commit.
 if [ -f _ops/BUDGET.md ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
-  if ( git diff --cached --name-only 2>/dev/null || true ) | hits -E '^(docs/BUDGET\.md|_ops/tasks/.*\.md|runs?/.*)$'; then
+  if ( git diff --cached --name-only 2>/dev/null || true ) | hits -E '^(_ops/BUDGET\.md|docs/BUDGET\.md|_ops/tasks/.*\.md|_ops/runs/.*|runs?/.*)$'; then
     python3 - <<'PY' > /tmp/.pf-budget.$$ 2>/dev/null || true
 import re
 txt = open("_ops/BUDGET.md", encoding="utf-8").read()

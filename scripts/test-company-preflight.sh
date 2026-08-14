@@ -390,5 +390,25 @@ git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "sharpening the bar mid-flight was refused"
 git rm -qf _ops/tasks/T-8.md >/dev/null 2>&1; git commit -qm "T-8 out"
 
+# §12 — the spend cap fired only on the pre-0.2.0 flat layout. Its trigger glob listed
+# `runs?/` and `docs/BUDGET.md` and neither `_ops/runs/` nor `_ops/BUDGET.md`, so the two
+# commits that most literally record spend were silent in the layout this skill migrates into.
+cat > _ops/BUDGET.md <<'BUD'
+# Budget
+
+- **Amount**: 100
+- **Pause spend at**: 80
+
+| Date | Spent | Note |
+|---|---|---|
+| 2026-08-15 | 95 | the month so far |
+BUD
+mkdir -p _ops/runs && git add -A && git commit -qm "budget past the cap"
+printf '# R-9\n\ninput: 100\n' > _ops/runs/R-9.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a run recorded past the cap passed — the glob watched the flat layout" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "envelope" \
+  && ok || bad "the cap refusal does not say what it read"
+git rm -qf _ops/runs/R-9.md _ops/BUDGET.md >/dev/null 2>&1; git commit -qm "budget out"
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"
