@@ -152,12 +152,14 @@ for tag in tags:
     # 157 lines of the 0.1.0 body passed. The one permitted change is a contiguous run of
     # blockquote lines added anywhere, so those are stripped from the new side before comparing.
     # Terminators dropped: the file's own trailing newline flips the last entry's final
-    # element and refused an otherwise byte-identical entry. Blockquotes stripped from BOTH
-    # sides, or an entry that SHIPPED with one could never receive its permitted correction.
+    # element and refused an otherwise byte-identical entry.
     a = [l.rstrip("\n") for l in a]
     b = [l.rstrip("\n") for l in b]
-    a = [l for l in a if not l.startswith(">")]
-    stripped = [l for l in b if not l.startswith(">")]
+    # Blockquote lines absent from the tagged text are the permitted correction and are
+    # ignored here. This comparison cannot see a correction that was ADDED after the tag and
+    # later deleted — HEAD-against-tag makes that indistinguishable from one never written.
+    # That case is held by the staged-diff check below instead.
+    stripped = [l for l in b if not (l.startswith(">") and l not in a)]
     while stripped and not stripped[-1].strip():
         stripped.pop()
     a_trim = list(a)
@@ -193,6 +195,22 @@ if [ -f scripts/coverage-map.py ] && [ -f evals/COVERAGE.md ]; then
   else
     say_fail "evals/COVERAGE.md is stale — run \`python3 scripts/coverage-map.py\` and stage the \
 result. A file headed 'edit the tree, not this file' is only true if something runs the generator"
+  fi
+fi
+
+# 1a-quater · a correction, once committed, is not deleted. The freeze above compares HEAD
+#             against each tag, so a blockquote added after the tag and removed later looks
+#             exactly like one never written — and a correction is where this repository
+#             admits an error, which is the last thing that should be quietly removable.
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+  gone_q=$( ( git diff --cached -U0 -- CHANGELOG.md 2>/dev/null || true ) \
+            | grep '^-' | grep -v '^--- ' | sed 's/^-//' | grep -c '^>' || true)
+  back_q=$( ( git diff --cached -U0 -- CHANGELOG.md 2>/dev/null || true ) \
+            | grep '^+' | grep -v '^+++ ' | sed 's/^+//' | grep -c '^>' || true)
+  if [ "${gone_q:-0}" -gt "${back_q:-0}" ]; then
+    say_fail "this commit removes $((gone_q - back_q)) correction line(s) from CHANGELOG.md — \
+a blockquote note under a released entry is how this repository admits an error, and it is not \
+deletable. Add a further correction instead"
   fi
 fi
 
