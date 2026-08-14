@@ -30,19 +30,36 @@ pv=$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["version"])'
 # four paths in an HTML comment while deleting the block itself — the guide stopped telling
 # workers the doors and the check stayed green. Comments are stripped first, then the paths
 # must sit inside the block that starts at the doors heading.
-doors_block=$(perl -0pe 's/<!--.*?-->//gs' "$ROOT/templates/GUIDE-template.md" \
-  | sed -n '/\*\*The doors — run these/,/^$/p')
-[ -n "$doors_block" ] || say_fail \
-  "templates/GUIDE-template.md has no doors block — the measured repair for the \
+# Three further holes, each measured by a lens on 2026-08-14 against the version above:
+#   · CRLF made `sed '/…/,/^$/p'` run to EOF, because `^$` never matches a `\r` line — a gutted
+#     block plus the paths surviving anywhere below it exited 0. One `core.autocrlf` checkout
+#     was enough, and no `.gitattributes` stood in the way. The `\r` is stripped here.
+#   · a single blank line INSIDE the block ended the range early, so the check refused with four
+#     "no longer names" lines about paths sitting three lines under the heading, unread. The
+#     block now ends at the next heading; a gate that lies about why is worse than a silent one.
+#   · and the starting.md assertion below was still the bare substring form this whole block was
+#     rewritten to escape — the same comment evasion walked straight through it.
+doors_block=$(perl -0pe 's/<!--.*?-->//gs; s/\r//g' "$ROOT/templates/GUIDE-template.md" \
+  | awk '/\*\*The doors — run these/{f=1; print; next} f && /^[[:space:]]*(\*\*|#)/{exit} f{print}')
+if [ -z "$doors_block" ]; then
+  say_fail "templates/GUIDE-template.md has no doors block — the measured repair for the \
 operational-scripts hole (2026-08-10 report) is gone"
-for door in "_ops/scripts/transition.py" "_ops/runs/" "_ops/pipelines/" "_ops/scripts/new-id.py"; do
-  printf '%s' "$doors_block" | grep -qF "$door" || say_fail \
-    "the doors block in templates/GUIDE-template.md no longer names $door — a guide that stops \
+else
+  # only when the block was found: an empty block already failed above, and running the loop
+  # over it would bury that one true refusal under four false ones.
+  for door in "_ops/scripts/transition.py" "_ops/runs/" "_ops/pipelines/" "_ops/scripts/new-id.py"; do
+    printf '%s' "$doors_block" | grep -qF "$door" || say_fail \
+      "the doors block in templates/GUIDE-template.md no longer names $door — a guide that stops \
 naming a door recreates the hole"
-done
-grep -qF 'scripts/transition.py' "$ROOT/starting.md" || say_fail \
-  "starting.md no longer installs the doors on day one — the guard's §14 points at \
-_ops/scripts/transition.py, and installing the refusal without the door strands the next commit"
+  done
+fi
+# The day-one row installs all three into _ops/scripts/ in one move, so the anchor is one line
+# naming all three. A path loose in a comment, a changelog quotation or a later sentence no
+# longer satisfies it — which is precisely how the previous form was defeated.
+perl -0pe 's/<!--.*?-->//gs; s/\r//g' "$ROOT/starting.md" \
+  | grep -F 'transition.py' | grep -F 'new-id.py' | grep -qF 'company-preflight.sh' || say_fail \
+  "starting.md has no day-one row installing the doors beside the guard — the guard's §14 points \
+at _ops/scripts/transition.py, and installing the refusal without the door strands the next commit"
 
 # 1b · and everywhere a human wrote it. Two files agreeing proves nothing about the third: a
 # release badge sat hardcoded at a version while the frontmatter moved, and the newest changelog

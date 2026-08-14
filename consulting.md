@@ -45,7 +45,10 @@ from its own craft), **an expert** (its own voice and its own sources), **a pane
 react — direction-only, marked, registered nowhere), or **a human**.
 
 **Route to one addressee. No fan-out.** Consulting a role is a run: it spends, and it consumes the
-shared limit. Say so when it is not obvious.
+shared limit. Say so when it is not obvious. **The rule governs addressees, not the workers
+behind one** — §Research below spins workers for search and verification, and §A council spins
+them to answer, which is the one case where the fan-out *is* the product and is therefore priced
+to the owner before it runs. Neither is a second addressee.
 
 **"Registered nowhere" has one exception, and it is not optional:** a persona grounded in a real
 living person still appends its own usage line, because that is its consent contract, not our
@@ -105,7 +108,9 @@ Measured: a run promised a museum print found **at 16:10** — a ratio is a crop
 filter — and in the same answer said nothing about the licence, which was the only thing the
 owner had actually asked about.
 
-**A council, when being wrong is expensive.** For a judgement question with real stakes and
+## A council, when being wrong is expensive
+
+For a judgement question with real stakes and
 genuine uncertainty — *pivot or hold? which positioning? is this pricing sane?* — the advisor
 offers a **council** rather than one answer: several workers, each briefed to one thinking angle
 (the contrarian · first principles · the upside case · the operator's view), answering
@@ -115,13 +120,23 @@ dissent is the product, and a council that converges instantly was theater. Adap
 Karpathy's LLM Council method (the shelf carries the pointers → `catalogue.md`), implemented in
 house form because both upstreams state no licence.
 
+**The synthesis declares what it was made of, in one line, or it is not a council:**
+`angles: 4 · voices: 4 · provider: one` — the same move `audience.md` makes a panel perform, and
+for the same reason: a warning that five angles of one model are one bias five ways is a warning,
+while `provider: one` printed above the verdict is the reader seeing it. An owner who reads
+`provider: one` under a pivot-or-hold answer knows exactly how much independence they bought.
+
 **Three honesty laws bind it, and they are why it lives here rather than on a pedestal.** Five
 angles of one model are **one bias five ways** — the same law that makes a hundred synthetic
 respondents one bias repeated (`audience.md`); real independence of failure needs **another
 provider**, which is cross-runtime dispatch first and the gateway row second (`runtimes.md`,
 `catalogue.md`). **Consensus is not a rung**: the council's verdict stays a judgement call
-unless it cites, and five agreeing judgements are still one. And it costs N× — **offered with
-its price, and the owner picks**, like any fan-out above.
+unless it cites, and five agreeing judgements are still one. And it is the most expensive shape
+in this file: **four angles is the default — four independent answers, four cross-reviews, one
+synthesis, so nine runs where a consultation is one.** That number is what gets said out loud
+**before it runs, and the owner picks** — the rule is §Research's *say what it costs — how many
+workers, roughly how long*, and a council that starts without the owner hearing "nine runs" has
+skipped the only step that makes it optional.
 
 **A secondary source points at the source; it is not one.** A news story, an industry site or a
 vendor page reporting a study is cited as what it is, or replaced by the study it paraphrases.

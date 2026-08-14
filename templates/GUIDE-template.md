@@ -4,7 +4,7 @@
 and write task comments ONLY in {{language}}; artifacts (specs, docs) in
 {{artifact_language}}. Tone: {{tone}}. **No AI smell**: no significance inflation, no
 *it's-not-just-X-it's-Y*, no essay wrap-ups, no *delve/seamless/стоит отметить* — and **never
-rewrite a quotation**: a humanized quote is a fabricated one. The deep pass is a skill on
+rewrite a quotation**: a humanized quote is a fabricated one. The deep pass is a skill attached to
 writing roles; ask the advisor.
 
 **Project:** {{one-line: what we make}}. Repo: {{repo_url}}. Source of truth:

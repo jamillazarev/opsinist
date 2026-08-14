@@ -65,5 +65,29 @@ git add -A && git commit -qm stray
 python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1 && bad "collision exited zero" || ok
 grep -q 'CONFLICT' "$T/out.txt" && [ -f tasks/T-9.md ] && ok || bad "collision was moved or unnamed"
 
+# the doors ride the migration. Until 2026-08-14 this was prose in `project-layout.md` while
+# the script copied only the guard — so an existing project taking 0.2.7's guard was refused on
+# every commit by a message telling it to copy files "from the skill", a path a project cannot
+# resolve. Both cases below are the ones that actually occur: a project already on `_ops/`
+# (every upgrade), and a flat project whose guard only lands under `_ops/` mid-run.
+[ -f _ops/scripts/transition.py ] && [ -f _ops/scripts/new-id.py ] \
+  && ok || bad "the flat migration did not bring the doors with the guard"
+grep -q 'sys.argv\|argparse' _ops/scripts/transition.py \
+  && ok || bad "the door that landed is not the door — the guard tests that it reads arguments"
+
+rm -f _ops/scripts/transition.py _ops/scripts/new-id.py
+git add -A && git commit -qm "doors lost"
+python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1
+[ -f _ops/scripts/transition.py ] && [ -f _ops/scripts/new-id.py ] \
+  && ok || bad "an already-_ops project did not get its doors back"
+grep -q 'doors re-copied' "$T/out.txt" && ok || bad "the re-copy happened silently"
+git diff --cached --name-only | grep -q '_ops/scripts/transition.py' \
+  && ok || bad "the re-copied door was left unstaged, so the migration commit would not carry it"
+
+# and a third run is a true no-op: identical bytes are not a re-copy
+git commit -qm "doors back"
+python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1
+grep -q 'doors re-copied' "$T/out.txt" && bad "re-copied identical doors and called it work" || ok
+
 echo "migrate-layout: $pass passed, $fail failed"
 exit "$fail"

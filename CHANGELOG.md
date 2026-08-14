@@ -73,6 +73,53 @@ three scripts re-copied (each from its own source: the guard from `templates/com
 the doors from the skill's `scripts/`) and **the guide regenerated from the new template**, which
 is how a project born before 0.2.7 gets the doors block and the ban line at all.
 
+**Then the lenses read their own repairs, and found more there than in the work they repaired.**
+The first pass ended at one commit; five commits landed after it, including a change to the
+shipped guard, and none had been read. The second pass returned twenty-six findings, every one
+of them past a green preflight. What it changed:
+
+- **The round's headline number was wrong, and the conclusion drawn from it inverted.** All
+  three lenses recomputed it independently: the entry printed *≈22%, flat* where this file's own
+  denominator — `pass / (pass + fail)`, because a void measures nothing — gives **110/419 =
+  26.3%**. The voids had walked into the denominator. The correction says both that the number
+  moved and that **+3 points across two different corpora is still inside the noise**, so the
+  aggregate carries no signal either way; and the per-scenario table is now committed as
+  `evals/rates-2026-08-14.md`, so the headline can be re-derived from the repository.
+- **The doors check fell to three separate evasions.** CRLF line endings silently disabled the
+  block anchoring entirely (`^$` never matches a `\r` line, so the range ran to EOF); a single
+  blank line *inside* the block ended it early, producing four refusals about paths sitting
+  three lines above, unread; and the `starting.md` half was still the bare substring form the
+  guide half had just been rewritten to escape — **the same comment evasion walked straight
+  through it, measured**. All three repaired, suite **7/7 → 13/13**.
+- **A project stood up exactly as day one prescribes could not make its first commit.** Four
+  refusals, three naming documents `starting.md` defers by name three lines under its own table,
+  for a measured reason. Two shipped rules faced each other and only one carried a measurement:
+  the guard now **warns** where it refused. The cost is stated, not hidden — a mature project
+  that loses `_ops/TEAM.md` warns where it used to refuse, and the stronger form is in `LATER.md`.
+- **The upgrade path told existing projects to copy files "from the skill"** — a path no project
+  can resolve, for a refusal that fires on every commit. `migrate-layout.py` now **re-copies both
+  doors itself**, finding its own source, from both of its exits; identical bytes are not a
+  re-copy, so a second run is still a no-op. Suite **12/12 → 18/18**.
+- **The council shipped as a new mechanic without the capability bar.** It now carries the
+  showcase trio (a diagram · a situation · two facts), a heading its own citation can resolve to,
+  a declared price (**nine runs**) said before it runs, and a field instead of a warning: the
+  synthesis declares `angles · voices · provider`, so `provider: one` is something the owner
+  reads rather than something the file hopes they remember. The "no fan-out" law in both repos
+  now names the carve-out it always had.
+- **And the 0.1.0 entry had been quietly edited upward release after release** — a historical
+  record asserting today's corpus counts, in the file this repo calls its migration map. Restored
+  to what 0.1.0 shipped and frozen; the live shape belongs to `README.md`, which the count guard
+  covers. `check-structure.py` exempts `CHANGELOG.md`, which is why nothing caught it.
+
+Smaller: the eval requeue claimed *every run in the table is a run that finished* while reading
+only the session-limit list — it now sweeps the whole table (`test-eval-requeue.sh`, 8/8; 4/8
+against the pre-fix script), and the round's five lost dispatches are diagnosed as one scenario
+that never launched. The role-gate refusal's corrected path is now asserted by the suite that
+had checked only its exit code. The marketing-pool row says how to take three skills out of
+forty-nine and to cut the references to the forty-six that did not come. In the sibling, a claim
+read out of an undated list's **silence** and shipped as *verified* in three files is written as
+unknown on both sides, dated, with what would settle it.
+
 **Four lenses read this release before its tag, and the pass paid for itself twice over.** The
 brand-new doors check was **defeated by its own author's blind spot**: paths left in an HTML
 comment while the block was deleted kept preflight green — the check is now anchored to the
@@ -104,7 +151,11 @@ cheaper than a reader wondering why the fingerprint predates them.
 
 **Eval state: run — 103 scenarios × N=5 against a frozen 0.2.7 corpus, and it measured the
 doors at their weakest link** (`evals/RUNS.md`, 2026-08-14; totals 110 pass · 309 fail · 96
-void, aggregate flat at ≈22% as every round before it). **N89 — day one installs the doors —
+void; the aggregate over valid runs is **110/419 = 26.3%**, and the entry carries a correction
+saying why it first read 22% — the voids had walked into the denominator, and the resulting
+number was then called flat. Read as a +3-point move it is still inside the noise at these Ns
+and across two different corpora, so the aggregate carries no signal either way; the
+per-scenario rows below are the round). **N89 — day one installs the doors —
 ran 0/5**: every graded run stood the project up ad hoc, no `_ops/scripts/` at all, which is
 the day-one install *as prose to the advisor* measuring exactly what prose measures here. **The
 next form shipped inside this same release**: the guard's furniture check refuses a wired
@@ -1723,11 +1774,13 @@ happens — and a sweep that found nothing records what it looked at.
 
 ### Included
 
+> *Restored 2026-08-14 to the counts 0.1.0 actually shipped.* These had been edited upward release after release, so an entry describing one version was quietly asserting the current corpus — in the one file this repository calls its migration map. **A historical entry is frozen**; the live shape of the corpus is `README.md`, which the count guard already covers. `check-structure.py` exempts `CHANGELOG.md` from that guard, which is why nothing caught this.
+
 A core of laws and routing under a declared budget · **forty-three companions** loaded by
 trigger · a glossary of confusable pairs · **twenty-seven reused patterns**, each cited from an
-instance · the four lenses, defined · **twenty-four diagrams** whose every node names something a
-file defines · 235 single-sentence facts · 111 situations with what to
-say · **103 evaluation scenarios**, each naming the fixture it runs against, scored by
+instance · the four lenses, defined · **twenty-one diagrams** whose every node names something a
+file defines · a hundred and eighty-six single-sentence facts · eighty-six situations with what to
+say · **forty-three evaluation scenarios**, each naming the fixture it runs against, scored by
 pass-rate, with fixtures built by script so a suite is re-run rather than reconstructed · a
 register of sources with archive links, licence tiers and check-dates · templates for the
 artifacts a project stands up · and guards that run on every push: dangling references, ageing

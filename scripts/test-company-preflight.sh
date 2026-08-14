@@ -32,7 +32,7 @@ mv _ops/scripts/transition.py /tmp/.door.$$
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a guard without its doors passed" || ok
 # `|| true` before the pipe, because this file sets pipefail: a refusing preflight piped into
 # a MATCHING grep still returns preflight's 1, and the assertion reads a found phrase as absent.
-( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "doors travel with this guard" && ok || bad "the doors refusal lost its copy instruction"
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "Ask your advisor to run the upgrade step" && ok || bad "the doors refusal lost its executable route"
 # presence is not the door: an interrupted copy leaves a file of the right name and no command
 : > _ops/scripts/transition.py
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "an empty file named transition.py passed as a door" || ok
@@ -154,6 +154,31 @@ printf '# R-7\n\n**kind**: relay\n\n```markdown\n**Payload**: `x`\n**Predicate**
 git add -A
 gate && bad "fields present only inside a fenced example counted" || ok
 rm -f _ops/requests/R-7.md; git add -A
+
+# A by-the-book day one commits. Built in its own tree from `starting.md`'s table alone — guide,
+# config with its migration log, guard and both doors, first task with its type — and NONE of the
+# four documents that table defers. This refused with four ✗ until 2026-08-14; the case exists so
+# the refusal cannot come back without someone reading why it was removed.
+D=$(mktemp -d /tmp/opsinist-dayone.XXXXXX)
+mkdir -p "$D/_ops/scripts" "$D/_ops/tasks" "$D/_ops/process/types"
+cp "$HERE/../templates/company-preflight.sh" "$D/_ops/scripts/preflight.sh"
+cp "$HERE/transition.py" "$HERE/new-id.py" "$D/_ops/scripts/"
+printf '# Guide\n\n**Operated by:** Opsinist\n' > "$D/CLAUDE.md"
+printf '# Config\n\nschema_version: 1\n\n- — → 0.2.7 · 2026-08-14 · applied · owner\n' > "$D/_ops/config.md"
+printf 'started -> review -> done\n' > "$D/_ops/process/types/default.md"
+printf '# T-1 — the first task\n\n**Status**: started\n**Assignee**: owner\n\n## History\n' > "$D/_ops/tasks/T-1.md"
+git -C "$D" init -q . && git -C "$D" config user.email t@f.t && git -C "$D" config user.name T
+git -C "$D" add -A
+# ONE run, one capture: the earlier form ran the guard twice and the second run reported the
+# tree as absent, which is a test lying rather than a guard failing — the shape this whole
+# suite exists to catch.
+dayone=$(cd "$D" && bash _ops/scripts/preflight.sh 2>&1); rc=$?
+[ "$rc" -eq 0 ] && ok || bad "a day one built exactly as starting.md prescribes could not commit (exit $rc)"
+printf '%s' "$dayone" | grep -q "Deferred on purpose" \
+  && ok || bad "the deferred documents vanished from the guard's output entirely"
+printf '%s' "$dayone" | grep -q "✗" \
+  && bad "a by-the-book day one still draws a hard refusal" || ok
+rm -rf "$D"
 
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

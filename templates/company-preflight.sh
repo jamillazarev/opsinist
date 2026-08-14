@@ -4,9 +4,10 @@
 #   cp templates/company-preflight.sh <repo>/_ops/scripts/preflight.sh
 #   bash _ops/scripts/preflight.sh --install     # wires it as a pre-commit hook
 #
-# It guards the four things this methodology insists on and nobody remembers unprompted:
-# the docs the guide promises exist, recorded facts have not silently expired, the
-# decisions log is append-only, and the architecture map still describes the repo.
+# It guards the five things this methodology insists on and nobody remembers unprompted:
+# the docs the guide promises exist, the doors it points at are installed and are
+# commands, recorded facts have not silently expired, the decisions log is append-only,
+# and the architecture map still describes the repo.
 #
 # Deliberately small. A hook that cries wolf is a hook people bypass with --no-verify.
 set -uo pipefail
@@ -55,10 +56,27 @@ say_fail() { echo "  ✗ $1"; fail=1; }
 say_warn() { echo "  ! $1"; warn=1; }
 echo "preflight — docs"
 
-# 1 · the docs the guide promises must exist. An agent told to read a file that
-#     isn't there improvises, and improvisation is how conventions drift.
+# 1 · the docs the guide promises. An agent told to read a file that isn't there improvises,
+#     and improvisation is how conventions drift — but the arrival of these four is deferred on
+#     purpose, and this block used to refuse them anyway.
+#
+#     Measured 2026-08-14: a project stood up EXACTLY as `starting.md`'s day-one table
+#     prescribes — guide, `_ops/config.md`, guard and both doors, first task with its type —
+#     could not make its first commit. Four refusals, three of them naming documents that
+#     `starting.md` defers three lines under that same table ("`_ops/DECISIONS.md` at the first
+#     decision · `_ops/TEAM.md` at the first role · `_ops/ROADMAP.md` when there is a roadmap"),
+#     for a measured reason: *a document created before it has content is a file the owner has
+#     to read past for the rest of the project's life*. Two shipped rules faced each other and
+#     only one carried a measurement, so the refusal yields to it — and this is exactly the
+#     "hook that cries wolf" this file's own header warns about, four times, on day one.
+#
+#     The cost is stated rather than hidden: a MATURE project that loses `_ops/TEAM.md` now
+#     warns where it used to refuse. Making that fail again needs a signal for "past day one"
+#     that is read from the tree rather than guessed — named in the skill's `LATER.md`.
 for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
-  [ -f "$f" ] || say_fail "$f is missing — the guide tells every agent it exists"
+  [ -f "$f" ] || say_warn "$f is missing — the guide points every agent at it. Deferred on \
+purpose until it has something to hold (a roadmap · a role · a tool · the first decision); once \
+it does, create it, because an agent sent to a file that is not there improvises"
 done
 # The doors travel with this guard (0.2.7), and a wired project without them is the measured
 # dead end: §14 refuses a hand-edited stage and points at a door that is not there. Measured
@@ -66,9 +84,12 @@ done
 # 0/5 in the round — so the presence is held here, not remembered.
 for d in _ops/scripts/transition.py _ops/scripts/new-id.py; do
   if [ ! -f "$d" ]; then
-    say_fail "$d is missing — the doors travel with this guard: copy \
-scripts/transition.py and scripts/new-id.py from the skill into _ops/scripts/ (one command \
-each), or §14 refuses your next stage change and points at a file you do not hold"
+    # The old wording said "copy them from the skill", and a project cannot resolve that: the
+    # skill's path differs per runtime and nothing shipped into a project names it. So the
+    # refusal now points at a step that runs and finds its own source.
+    say_fail "$d is missing — the doors travel with this guard. Ask your advisor to run the \
+upgrade step (it re-copies both doors beside this guard from wherever the skill is installed), \
+or §14 refuses your next stage change and points at a file you do not hold"
   elif ! grep -q 'sys\.argv\|argparse' "$d"; then
     # Presence alone was satisfied by an empty file — measured against this guard on
     # 2026-08-14, and an interrupted copy leaves exactly that. A door is a command, so the

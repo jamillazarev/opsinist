@@ -33,7 +33,7 @@ grep -q "no longer names _ops/scripts/transition.py" "$T/o1" \
   && perl -pi -e 's/transition\.py/xxx.py/g' starting.md \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o2" 2>&1 \
   && bad "a starting.md that stopped installing the doors passed" || ok
-grep -q "no longer installs the doors" "$T/o2" \
+grep -q "no day-one row installing the doors" "$T/o2" \
   && ok || bad "the starting.md refusal does not say what went missing"
 
 # mutant 3 — the lens's own evasion: the block deleted, the four paths left in an HTML
@@ -49,6 +49,50 @@ p.write_text(t)" \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o3" 2>&1 \
   && bad "paths hidden in a comment passed while the doors block was gone" || ok
 grep -q "has no doors block" "$T/o3" && ok || bad "the comment-evasion refusal does not name the block"
+
+# mutant 4 — the same evasion, carried in on CRLF. Measured 2026-08-14: `sed '/…/,/^$/p'` never
+# terminated, because `^$` does not match a line ending in `\r`, so the range ran to EOF and the
+# strings anywhere below the gutted block satisfied every path. One `core.autocrlf=true` checkout
+# reached this, and the repo ships no `.gitattributes` to prevent it.
+( cd "$T/c" && git checkout -q starting.md templates/GUIDE-template.md \
+  && python3 -c "
+import pathlib,re
+p=pathlib.Path('templates/GUIDE-template.md'); t=p.read_text()
+m=re.search(r'\*\*The doors — run these.*?\n\n', t, re.S)
+t=t.replace(m.group(0), '_ops/scripts/transition.py _ops/runs/ _ops/pipelines/ _ops/scripts/new-id.py\n\n',1)
+p.write_text(t.replace('\n','\r\n'))" \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o4" 2>&1 \
+  && bad "a gutted block passed once the file arrived with CRLF line endings" || ok
+grep -q "has no doors block" "$T/o4" && ok || bad "the CRLF refusal does not name the block"
+
+# mutant 5 is a TWIN, not a mutant: a blank line inside the block is ordinary formatting, and the
+# previous form answered it with four refusals naming paths that sat three lines up, unread. A
+# gate that lies about why costs more than one that stays quiet — this asserts it stays quiet.
+( cd "$T/c" && git checkout -q templates/GUIDE-template.md \
+  && python3 -c "
+import pathlib,re
+p=pathlib.Path('templates/GUIDE-template.md'); t=p.read_text()
+m=re.search(r'(\*\*The doors — run these[^\n]*\n- [^\n]*\n)', t)
+p.write_text(t.replace(m.group(1), m.group(1)+'\n',1))" \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o5" 2>&1 \
+  && ok || bad "a blank line inside the doors block was treated as the end of it"
+grep -q "no longer names" "$T/o5" \
+  && bad "a blank line produced false 'no longer names' refusals about paths that are present" || ok
+
+# mutant 6 — the starting.md half, defeated by the very evasion the guide half was rewritten to
+# escape: delete the day-one row, leave the paths in a comment. Measured passing on 2026-08-14.
+( cd "$T/c" && git checkout -q templates/GUIDE-template.md \
+  && python3 -c "
+import pathlib
+p=pathlib.Path('starting.md'); lines=p.read_text().split('\n')
+out=[l for l in lines if not ('company-preflight.sh' in l and 'transition.py' in l)]
+assert len(out) < len(lines), 'no day-one row to remove — this mutant tests nothing'
+out.insert(0, '<!-- templates/company-preflight.sh scripts/transition.py scripts/new-id.py -->')
+p.write_text('\n'.join(out))" \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o6" 2>&1 \
+  && bad "the day-one row was deleted and a comment holding the paths passed for it" || ok
+grep -q "no day-one row installing the doors" "$T/o6" \
+  && ok || bad "the day-one refusal does not name what went missing"
 
 echo "corpus-preflight: $pass passed, $fail failed"
 exit "$fail"

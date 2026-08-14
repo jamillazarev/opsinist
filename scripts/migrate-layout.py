@@ -71,6 +71,46 @@ def main():
         print("the tree is dirty — commit or stash first, so the migration is its own diff")
         return 2
 
+    # The doors are re-copied at every migration, and this runs BEFORE the "nothing to migrate"
+    # exit below — a project already on `_ops/` is exactly the one upgrading into 0.2.7, and it
+    # is the one the guard's new refusal would otherwise strand on every commit.
+    #
+    # This used to be prose in `project-layout.md` ("All three are re-copied at every
+    # migration"), with `upgrading.md` silent and this script copying only the guard. On this
+    # corpus prose measured 0/5 for exactly this instruction, so it is a step that runs. The
+    # source is this file's own directory, which is the only skill path a project can resolve
+    # without knowing where its runtime cached the plugin.
+    doors_done = []
+
+    def recopy_doors():
+        # Called from BOTH exits on purpose. A project already on `_ops/` returns early below,
+        # and a flat project only has its guard at `_ops/scripts/` once the moves have run —
+        # a single call site would have served one of them and silently skipped the other.
+        if doors_done or not (root / "_ops" / "scripts" / "preflight.sh").is_file():
+            return
+        here = Path(__file__).resolve().parent
+        for door in ("transition.py", "new-id.py"):
+            src = here / door
+            if not src.is_file():
+                print(f"  cannot re-copy {door}: not beside {here} — copy it by hand")
+                continue
+            dst = root / "_ops" / "scripts" / door
+            # Identical bytes are not a re-copy. This file's contract is that a second run
+            # finds nothing to do and says so, and a step that reports work every time turns
+            # that line into noise — the same reason the guard warns rather than refuses above.
+            if dst.is_file() and dst.read_bytes() == src.read_bytes():
+                continue
+            if dry:
+                doors_done.append(door)
+                continue
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            dst.write_bytes(src.read_bytes())
+            dst.chmod(0o755)
+            sh(root, "git", "add", str(dst.relative_to(root)))
+            doors_done.append(door)
+        if doors_done:
+            print(f"  doors re-copied beside the guard: {' · '.join(doors_done)}")
+
     moves = []  # (src_rel, dst_rel)
 
     def claim(src_rel, dst_rel):
@@ -95,7 +135,11 @@ def main():
     moves = [(s, d) for s, d in moves if (root / d).exists() is False]
 
     if not moves and not conflicts:
-        print("nothing to migrate — the layout is already `_ops/`, or was never flat")
+        recopy_doors()
+        if doors_done:
+            print("layout already `_ops/` — nothing moved, and the doors above were re-copied")
+        else:
+            print("nothing to migrate — the layout is already `_ops/`, or was never flat")
         return 0
 
     for s, d in moves:
@@ -110,6 +154,8 @@ def main():
                 return 1
         else:
             (root / s).rename(root / d)
+
+    recopy_doors()
 
     # The pre-commit hook is outside git, so a moved preflight would orphan it.
     hook = root / ".git" / "hooks" / "pre-commit"

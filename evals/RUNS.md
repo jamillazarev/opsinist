@@ -1292,8 +1292,24 @@ because reaching it dispatches real agents. **Why N72 never launched is still op
 fixture builds by hand today, and no shard log survives to say what happened at dispatch.
 
 **Totals: pass 110 · fail 309 · void 96** (5 no-transcript, the rest content voids). The
-aggregate over valid runs ≈ **22%**, flat against the 2026-07-31 baseline — as ever, the total
-is the only figure with power and it does not move; the per-scenario rows are the signal.
+aggregate over valid runs — this file's own denominator since the 2026-07-2x rounds, `pass /
+(pass + fail)`, because a void measures nothing — is **110/419 = 26.3%**.
+
+> **Corrected 2026-08-14, after this entry was written.** It first read *"≈22%, flat against the
+> baseline"*. 22% is `110/510`: the content voids had walked into the denominator, which is the
+> one thing the word *void* denies. Three lenses recomputed it independently off the 515 verdict
+> files. Under the convention two earlier rounds fixed in writing — 70/301 = 23.3%, 67/298 =
+> 22.5% — this round is **26.3%**, so the sentence that called it flat was describing an
+> artefact of the switch. **But the corrected number is not a result either**: +3 points on
+> n=419 against n=301 sits inside the binomial noise (≈±2 points each side), and the two rounds
+> ran against *different corpora*, which is not a controlled comparison at all. The honest
+> reading is unchanged in direction and weaker in kind than either version claimed: **the
+> aggregate still carries no signal, and the per-scenario rows are where this round's meaning
+> is.** The lesson is the arithmetic, not the rate — a denominator changed silently, and the
+> conclusion inverted without the prose noticing. **The per-scenario table is committed as
+> `evals/rates-2026-08-14.md`**, matching the 2026-07-31 precedent — the previous full round
+> left one and this entry did not, so 88 of its 103 scenarios were unreadable and the
+> headline could not be re-derived from anything in the repository.
 
 | | rate | reading |
 |---|---|---|

@@ -129,6 +129,27 @@ Three live interviews and twenty synthetic runs are never "23 responses" → `au
 
 ---
 
+## A council, and what it costs
+
+```mermaid
+flowchart TB
+  Q[a judgement question<br/>being wrong is expensive] --> PRICE{price said first:<br/>nine runs}
+  PRICE -- owner declines --> ONE[one answer, one addressee]
+  PRICE -- owner accepts --> A1[contrarian]
+  PRICE -- owner accepts --> A2[first principles]
+  PRICE -- owner accepts --> A3[the upside case]
+  PRICE -- owner accepts --> A4[the operator's view]
+  A1 & A2 & A3 & A4 --> X[cross-review, anonymized<br/>nobody defends a name]
+  X --> S[synthesis: agree · clash ·<br/>**the strongest dissent**]
+  S --> D["declares `angles · voices · provider`"]
+  D -. provider: one .-> B[one bias four ways —<br/>independence needs another provider]
+```
+
+The dissent is the product; instant convergence was theater. The price is said **before** it
+runs, because a council is the most expensive shape in `consulting.md` and the owner picks.
+
+---
+
 ## Four kinds route to the owner
 
 The gate belongs to the action rather than the actor, which is why the advisor is not exempt.

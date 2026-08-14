@@ -323,6 +323,20 @@ check "product edit, operated → stopped once"        2 "$(gpl "$G/site/index.h
 check "identical retry → passes"                     0 "$(gpl "$G/site/index.html" A)"
 check "system record (tasks/) → never trips"         0 "$(gpl "$G/tasks/T-9.md" B)"
 check "the guide itself → never trips"               0 "$(gpl "$G/CLAUDE.md" C)"
+# and the refusal's door has to RESOLVE from the project it is read in. The exit code cannot
+# see this: 0.2.7 corrected `scripts/transition.py` → `_ops/scripts/transition.py` here and
+# nothing asserted it, so the next edit would have put the wrong path back in silence — the
+# same reasoning the SessionStart block below states for its own assertions.
+rm -f /tmp/opsinist-prodgate-*
+prodmsg=$(gpl "$G/site/index.html" D | python3 "$GATE" 2>&1)
+case "$prodmsg" in
+  *"_ops/scripts/transition.py --brief"*) pass=$((pass+1));;
+  *) fail=$((fail+1)); echo "FAIL: the role gate's door is not a path the project can resolve";;
+esac
+case "$prodmsg" in
+  *" scripts/transition.py"*) fail=$((fail+1)); echo "FAIL: the bare skill-relative path came back";;
+  *) pass=$((pass+1));;
+esac
 rm -f /tmp/opsinist-prodgate-*
 
 # PostToolUse · the spiral note: twelve read-only calls speak once, a write resets, retired after.

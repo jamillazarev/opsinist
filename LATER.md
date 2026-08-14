@@ -159,4 +159,4 @@ contact, which is this corpus's oldest measurement. The candidate form: the plug
 SessionStart hook already delivers the migration fact in operated projects — the same mechanism
 can say, once, *"this operated project has no wired guard and no doors"*. **Revisit when:** the
 next round re-measures N89 with the wired-project form in the field — if ad-hoc stand-ups
-persist, the hook line is built; a second 0/5 is the threshold, and it is one round away.
+persist, the hook line is built; a second 0/5 is the threshold — the next full round after 0.2.7.

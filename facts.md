@@ -309,3 +309,5 @@ line changes with it.
 233. A plugin's scope is where it is declared, never where its files are: the code lives in one machine-wide cache that every project shares.
 234. A project-scoped plugin declaration without its marketplace tells a clone to enable something without saying where to get it.
 235. A relay also carries what to return with the result, and that field is caught downstream rather than at the relay: without the model and the seed the recipe cannot be filled, and it is that commit which is refused.
+236. A council's synthesis declares what it was made of — angles, voices, and whether they came from one provider — because a warning that agreement across one model is one bias repeated is a warning, while `provider: one` printed above the verdict is the reader seeing it.
+237. The strongest dissent is a council's product, not its synthesis: a panel that converged instantly measured nothing, and the agreement is the part that was always going to be cheap.
