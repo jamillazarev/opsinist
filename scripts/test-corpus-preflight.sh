@@ -171,5 +171,19 @@ p.write_text(t.replace(m.group(0), '**The doors — run these, never improvise p
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) >/dev/null 2>&1 \
   && bad "a gutted guide passed with the paths on an indented line below blank lines" || ok
 
+# mutant 12 — a correction deleted. The freeze compares HEAD against each tag, so a blockquote
+# added after the tag and removed later is invisible to it; this is the staged-diff half.
+( cd "$T/c" && git checkout -q . \
+  && python3 -c "
+import pathlib,re
+p=pathlib.Path('CHANGELOG.md'); t=p.read_text()
+m=re.search(r'^## 0\\.1\\.0\\b.*?(?=^## |\\Z)', t, re.S|re.M)
+assert m and any(l.startswith('>') for l in m.group(0).split(chr(10))), 'no correction to delete'
+p.write_text(t[:m.start()] + chr(10).join(l for l in m.group(0).split(chr(10)) if not l.startswith('>')) + t[m.end():])" \
+  && git add -A && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o12" 2>&1 \
+  && bad "a correction line was deleted from a released entry and passed" || ok
+grep -q "correction line" "$T/o12" && ok || bad "the correction refusal does not say what was removed"
+( cd "$T/c" && git checkout -q . && git reset -q )
+
 echo "corpus-preflight: $pass passed, $fail failed"
 exit "$fail"
