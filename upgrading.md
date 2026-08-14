@@ -14,9 +14,7 @@ wonder why nothing changed.
 | Layer | What moves |
 |---|---|
 | **this system's bytes** | the skill files on the machine — **by a route that differs per install**, below |
-| **the project's format** | `schema_version`, the codemods — **and every task's two state fields collapsed to one** (0.2.7 refuses the second home, so
-without this a 0.2.6 project meets one refusal per task; the door's `stage:` wins and the
-reconciliation is recorded) · **the doors re-copied by `scripts/migrate-layout.py` — which finds its own source, so no one has to know where this runtime cached the skill — the guide regenerated from the new template** (`project-layout.md`): copies do not move by themselves, and a regenerated guide is how an existing project receives what the template learned |
+| **the project's format** | `schema_version`, the codemods — **every task's two state fields collapsed to one** · **the doors re-copied by `scripts/migrate-layout.py` — which finds its own source, so no one has to know where this runtime cached the skill — the guide regenerated from the new template** (`project-layout.md`): copies do not move by themselves, and a regenerated guide is how an existing project receives what the template learned |
 | **attached skills** | third-party skills, re-screened |
 | **tooling versions** | the things in the register, checked against their release feeds |
 
