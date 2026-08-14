@@ -11,6 +11,11 @@ switch those off with them. Nothing here removes a capability; it decides a dest
 
 ## Six layers, ordered by what they mean to someone without agents
 
+**A message from outside the team is stored once, verbatim, dated** — `_ops/threads/`, one
+file per counterpart (`templates/THREAD-template.md`). Tasks link to it and never re-quote it:
+measured on a live project, one inbound letter had five copies across two tasks, a roadmap, a
+decision log and a research note, and not one of them said when it arrived.
+
 | | Layer | What is in it | Meaning without agents |
 |---|---|---|---|
 | 1 | **documentation** | architecture, guides, decisions about the product | full |

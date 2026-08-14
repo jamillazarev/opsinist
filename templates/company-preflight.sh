@@ -239,6 +239,24 @@ impossible rather than merely missing"
   done
 done
 
+# 1g · a child link that resolves to nothing is a board that cannot be walked. The template
+#      writes children as `- [ ] [T-XXXXXX](T-XXXXXX-slug.md)` precisely so the board is
+#      navigable and a rotted link is catchable — measured on a live project, twelve tasks with
+#      plainly dependent work and not one link between them, because a bare id is a string.
+for tf in $( ( git -c core.quotePath=false diff --cached --name-only --diff-filter=AM 2>/dev/null \
+               || true ) | grep -E '^_ops/tasks/.*\.md$' || true); do
+  [ -f "$tf" ] || continue
+  while IFS= read -r target; do
+    [ -n "$target" ] || continue
+    case "$target" in http*|"") continue;; esac
+    [ -e "$(dirname "$tf")/$target" ] || say_fail "$tf links to \`$target\`, which is not \
+there — a child or parent link that resolves to nothing is worse than a bare id, because it \
+reads as navigable. Fix the path, or say the id in plain text"
+  done <<LINKS
+$( ( staged "$tf" || true ) | grep -oE '\]\([^)]+\.md\)' | sed -E 's/^\]\(//; s/\)$//' || true)
+LINKS
+done
+
 # 2 · a recorded fact past its recheck is unknown, not fact. TOOLING.md carries a
 #     Checked column precisely so this can be enforced rather than hoped for.
 if [ -f _ops/TOOLING.md ]; then

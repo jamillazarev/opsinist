@@ -459,5 +459,18 @@ git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a third attempt that names its escalation was refused"
 git rm -qf _ops/runs/R-5.md >/dev/null 2>&1; git commit -qm "R-5 out" >/dev/null 2>&1
 
+# A child link that resolves to nothing is worse than a bare id — it reads as navigable. The
+# template writes children as checkbox links precisely so the board can be walked; measured on a
+# live project, twelve tasks with plainly dependent work and not one link between them.
+printf '# T-6\n\n**Status**: started\n\n## Children\n\n- [ ] [T-99](T-99-ghost.md) — never written\n' > _ops/tasks/T-6.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a child link to a file that does not exist passed" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "which is not" \
+  && ok || bad "the link refusal does not name the target"
+printf '# T-6\n\n**Status**: started\n\n## Children\n\n- [ ] [T-1](T-1.md) — the real one\n' > _ops/tasks/T-6.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a child link that resolves was refused"
+git rm -qf _ops/tasks/T-6.md >/dev/null 2>&1; git commit -qm "T-6 out" >/dev/null 2>&1
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

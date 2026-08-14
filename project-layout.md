@@ -183,6 +183,7 @@ shape each time produces a document only its author can read.
 | **a task** → `writing-work.md` | **`templates/TASK-template.md`** |
 | **a role** → `hiring.md` | **`templates/ROLE-template.md`** |
 | **a run record** → `dispatching.md`, `cost.md` | **`templates/RUN-template.md`** |
+| **a correspondence thread** — anyone outside the team | **`templates/THREAD-template.md`** |
 | `_ops/TEAM.md` | `templates/TEAM-template.md` |
 | `_ops/TOOLING.md` | `templates/TOOLING-template.md` |
 | `_ops/BUDGET.md` | `templates/BUDGET-template.md` |
