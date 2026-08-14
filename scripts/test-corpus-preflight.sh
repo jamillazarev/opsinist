@@ -185,5 +185,18 @@ p.write_text(t[:m.start()] + chr(10).join(l for l in m.group(0).split(chr(10)) i
 grep -q "correction line" "$T/o12" && ok || bad "the correction refusal does not say what was removed"
 ( cd "$T/c" && git checkout -q . && git reset -q )
 
+# mutant 13 is a TWIN: a blank line between the doors heading and its list is the ordinary
+# markdown form — what markdownlint MD032 and prettier both produce — and the item-must-follow
+# pre-check refused it while blaming a missing heading.
+( cd "$T/c" && git checkout -q . \
+  && python3 -c "
+import pathlib
+p=pathlib.Path('templates/GUIDE-template.md'); lines=p.read_text().split(chr(10))
+s=next(i for i,l in enumerate(lines) if l.startswith('**The doors — run these'))
+lines.insert(s+1, '')
+p.write_text(chr(10).join(lines))" \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) >/dev/null 2>&1 \
+  && ok || bad "a blank line between the doors heading and its list was refused as a missing heading"
+
 echo "corpus-preflight: $pass passed, $fail failed"
 exit "$fail"

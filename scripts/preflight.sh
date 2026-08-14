@@ -57,11 +57,17 @@ if len(heads) > 1:
 start = heads[0]
 ITEM = re.compile(r"^[ \t]*([-*+]|[0-9]+[.)])[ \t]")
 CONT = re.compile(r"^[ \t]+\S")
-# The first line after the heading must be a list ITEM: an indented sentence alone, with no
-# list at all, was being accepted as the block.
-if start + 1 >= len(lines) or not ITEM.match(lines[start + 1]):
+# The first NON-BLANK line after the heading must be a list ITEM: an indented sentence alone,
+# with no list at all, was being accepted as the block. Blanks are skipped first — requiring the
+# item immediately refused the ordinary markdown form (a blank line between a lead-in and its
+# list, which is what markdownlint MD032 and prettier both produce) and misdiagnosed it as a
+# missing heading, which is the class the ast door-check was withdrawn for.
+j = start + 1
+while j < len(lines) and not lines[j].strip():
+    j += 1
+if j >= len(lines) or not ITEM.match(lines[j]):
     sys.exit(0)
-out, i = [], start + 1
+out, i = [], j
 while i < len(lines):
     l = lines[i]
     if ITEM.match(l) or CONT.match(l):

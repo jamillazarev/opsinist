@@ -344,5 +344,17 @@ big=$(bash _ops/scripts/preflight.sh 2>&1 | grep -c "✗")
   && ok || bad "the asset gate refused $small time(s) at 6 files and $big at 3000 — it fails open at scale"
 rm -rf filler; rm -f _ops/assets.md; git add -A
 
+# The class this suite was blind to: every assertion above sends stderr to /dev/null, so the
+# guard shipped for a day printing two shell errors on every commit in every project — an
+# orphaned heredoc body left behind by a rewrite, word-split and glob-expanded into command
+# position. The exit code never moved. Both paths are asserted now, clean and refusing.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+err=$(bash _ops/scripts/preflight.sh 2>&1 >/dev/null)
+[ -z "$err" ] && ok || bad "the guard writes to stderr on a clean run: $(printf '%s' "$err" | head -1)"
+printf '# Decisions\n' > _ops/DECISIONS.md; git add -A
+err=$(bash _ops/scripts/preflight.sh 2>&1 >/dev/null)
+[ -z "$err" ] && ok || bad "the guard writes to stderr while refusing: $(printf '%s' "$err" | head -1)"
+git checkout -q HEAD -- _ops/DECISIONS.md; git reset -q; git checkout -q _ops/DECISIONS.md
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

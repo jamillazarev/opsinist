@@ -2,7 +2,12 @@
 # Docs guard for a company the advisor built — install it into the company's own repo, not ours.
 #
 #   cp templates/company-preflight.sh <repo>/_ops/scripts/preflight.sh
+#   cp scripts/transition.py scripts/new-id.py  <repo>/_ops/scripts/
 #   bash _ops/scripts/preflight.sh --install     # wires it as a pre-commit hook
+#
+# All three, and in that order: §1 refuses a wired project whose doors are absent, so copying
+# only this file produces a repository in which no commit can be made — measured by following
+# this recipe as it was first written.
 #
 # It guards the five things this methodology insists on and nobody remembers unprompted:
 # the docs the guide promises exist, the doors it points at are installed and are
@@ -91,7 +96,7 @@ done
 # gate with no exit is a gate people pass with --no-verify, which is what this file is against.
 retired_ok=""
 if [ -n "$gone$emptied" ] \
-   && ( git diff --cached --name-only 2>/dev/null || true ) | hits -x '_ops/DECISIONS.md'; then
+   && ( git diff --cached --name-only 2>/dev/null || true ) | hits -xF '_ops/DECISIONS.md'; then
   # The added DECISIONS lines, read once.
   # The added DECISIONS lines, fences stripped: a name and a verb inside a ```-block is an
   # example, not a decision, and §16 already reads fields that way.
@@ -104,7 +109,8 @@ if [ -n "$gone$emptied" ] \
     # `TOOLINGxmd` opened the gate. And each retired file needs its OWN line: matching the
     # whole set let one line cover three deletions, which this comment used to deny.
     _line=$(printf '%s\n' "$_dec_added" | grep -F -- "$base" \
-            | grep -iE 'retir|superseded|no longer (kept|maintained)|decommission' || true)
+            | grep -iE 'retir|remov|delet|drop|obsolete|sunset|archiv|superseded|replaced by|no longer' \
+      || true)
     [ -n "$_line" ] || { retired_ok=""; break; }
     retired_ok=yes
   done
@@ -115,7 +121,7 @@ absent because they have nothing to hold yet, but removing, renaming or emptying
 exists also removes the checks keyed on it (freshness, append-only, entitlements). If the \
 register is genuinely being retired, add a line to _ops/DECISIONS.md in this same commit, in \
 this shape — the file's own name and the word retired, one line per file:
-    - $(date +%Y-%m-%d) retiring _ops/TOOLING.md: <where the facts live now>"
+$(for _f in $gone $emptied; do printf '    - %s retiring %s: <where the facts live now>\n' "$(date +%Y-%m-%d)" "$_f"; done)"
 fi
 # The doors travel with this guard (0.2.7), and a wired project without them is the measured
 # dead end: §14 refuses a hand-edited stage and points at a door that is not there. Measured
@@ -295,7 +301,7 @@ rowval() { # rowval <row> <key>
     | sed -E 's/^[[:space:]*\`_"'"'"']+//; s/[[:space:]*\`_"'"'"']+$//' \
     | grep -vE '^[[:space:]]*$|^[A-Za-z][A-Za-z0-9_-]*:|^[-—–?.]+$|^(tbd|n/a|none yet|unknown)$' | head -1
 }
-if ( git diff --cached --name-only 2>/dev/null || true ) | hits -x '_ops/assets.md'; then
+if ( git diff --cached --name-only 2>/dev/null || true ) | hits -xF '_ops/assets.md'; then
   while IFS= read -r row; do
     # A declared origin always wins: only a row that does NOT declare `origin: generated` may be
     # excused by another origin. The exclusion used to run last and beat the declaration.
@@ -326,11 +332,15 @@ if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f _ops/DECISIONS.md ]; then
   # line and passes, which reading markdown structure in shell would be a poor trade for.
   _diff=$(git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null || true)
   _added_f=$(mktemp); _removed_f=$(mktemp)
-  printf '%s\n' "$_diff" | grep '^+' | grep -v '^+++ ' | sed 's/^+//' > "$_added_f" || true
+  printf '%s\n' "$_diff" | sed '1,/^@@/d' | grep '^+' | sed 's/^+//' > "$_added_f" || true
   # the header is dropped by PATH, not by shape: a removed line whose own text starts with
   # `-- ` arrives as `--- …` and was being read as the diff header, hiding every such bullet
-  printf '%s\n' "$_diff" | grep '^-' | grep -v '^--- a/' | grep -v '^--- /dev/null' \
-    | sed 's/^-//' > "$_removed_f" || true
+  # The header is dropped by STRUCTURE, not by its `a/` prefix: `diff.noprefix`,
+  # `diff.mnemonicPrefix` and `diff.srcPrefix` are ordinary settings, and under any of them the
+  # header arrives as `--- _ops/DECISIONS.md` and becomes a phantom removed line — refusing
+  # every commit to the file, including the append the refusal asks for. Everything up to and
+  # including the first hunk marker is header.
+  printf '%s\n' "$_diff" | sed '1,/^@@/d' | grep '^-' | sed 's/^-//' > "$_removed_f" || true
   # One awk pass, not `uniq -c | while read`: `read` strips leading and trailing whitespace
   # from the line it hands on, so a decision bullet with a trailing space could not match
   # itself and was refused as removed. awk compares the lines byte for byte.
@@ -344,8 +354,6 @@ if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f _ops/DECISIONS.md ]; then
             for (l in r) { d = r[l] - (l in a ? a[l] : 0); if (d > 0) n += d }
             print n+0 }' "$_removed_f")
   rm -f "$_added_f" "$_removed_f"
-$(printf '%s\n' "$_diff" | grep '^-' || true)
-EOF
   [ "${removed:-0}" -gt 0 ] && say_fail "_ops/DECISIONS.md is append-only — this commit \
 removes or rewrites $removed line(s). Add a new entry instead."
 fi
