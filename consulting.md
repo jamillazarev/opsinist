@@ -108,7 +108,19 @@ Measured: a run promised a museum print found **at 16:10** — a ratio is a crop
 filter — and in the same answer said nothing about the licence, which was the only thing the
 owner had actually asked about.
 
+---
+
 ## A council, when being wrong is expensive
+
+```mermaid
+flowchart TB
+  Q[being wrong is expensive] --> P{priced first: nine runs}
+  P -- declines --> ONE[one answer, one addressee]
+  P -- accepts --> A[four angles answer independently<br/>contrarian · first principles · upside · operator]
+  A --> X[cross-review, anonymized] --> S[agree · clash · **strongest dissent**]
+  S --> D["declares angles · voices · provider"]
+  D -. provider: one .-> B[one bias four ways]
+```
 
 For a judgement question with real stakes and
 genuine uncertainty — *pivot or hold? which positioning? is this pricing sane?* — the advisor
