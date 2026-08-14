@@ -192,6 +192,18 @@ stays in the project's language"
   fi
 fi
 
+# 1e · a ladder is checked when it is written, not when someone finally walks into it. One
+#      character in `terminal:` disarms acceptance for a whole pipeline — the review-by-another
+#      rule is only consulted on a terminal move — and nothing said a word until a worker
+#      closed their own task. The door refuses a malformed ladder; this catches it at the commit
+#      that writes it, which is where the person who can fix it is standing.
+for pf in $( ( git -c core.quotePath=false diff --cached --name-only 2>/dev/null || true ) \
+             | grep -E '^_ops/(pipelines|process/types)/.*\.md$' || true); do
+  [ -f "$pf" ] || continue
+  out=$(python3 "_ops/scripts/transition.py" --check-ladder "$pf" 2>&1) || \
+    say_fail "$pf is a malformed ladder: $(printf '%s' "$out" | tr '\n' ' ' | cut -c1-220)"
+done
+
 # 2 · a recorded fact past its recheck is unknown, not fact. TOOLING.md carries a
 #     Checked column precisely so this can be enforced rather than hoped for.
 if [ -f _ops/TOOLING.md ]; then

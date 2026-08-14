@@ -148,5 +148,24 @@ printf -- '- reviewed by bob: checked\n' >> _ops/tasks/T-5.md
 [ "$(run _ops/tasks/T-5.md handoff --by owner)" = 0 ] \
   && ok || bad "a real History review did not pass"
 
+# A malformed ladder is refused at the door. The costly case is one character: `terminal` naming
+# a stage that does not exist disarms acceptance for that pipeline entirely, because the
+# review-by-another rule is only consulted on a terminal move. Measured 2026-08-15 — with the
+# typo the worker accepted their own work, exit 0, silently.
+mkdir -p _ops/pipelines
+printf '# bent\n\n```yaml\nname: bent\nstages: [draft, review, handoff]\nterminal: [handof]\n```\n' > _ops/pipelines/bent.md
+printf '# T-9\n\n**Status**: draft\n**Assignee**: worker-bob\npipeline: bent\n\n## History\n' > _ops/tasks/T-9.md
+[ "$(run _ops/tasks/T-9.md review --by worker-bob)" = 2 ] && grep -q 'is not one of the stages' "$T/out" \
+  && ok || bad "a terminal naming no stage was obeyed — acceptance is disarmed by one character"
+
+printf '# bent\n\n```yaml\nname: bent\nstages: [draft, review, handoff]\nterminal: [handoff]\ngates:\n  draft -> nowhere:\n    check: something\n```\n' > _ops/pipelines/bent.md
+[ "$(run _ops/tasks/T-9.md review --by worker-bob)" = 2 ] && grep -q 'can never fire' "$T/out" \
+  && ok || bad "a gate naming a stage that does not exist was accepted"
+
+# the twin: a sound ladder still moves, and still refuses the worker their own acceptance
+printf '# bent\n\n```yaml\nname: bent\nstages: [draft, review, handoff]\nterminal: [handoff]\n```\n' > _ops/pipelines/bent.md
+[ "$(run _ops/tasks/T-9.md review --by worker-bob)" = 0 ] && ok || bad "a sound ladder was refused"
+[ "$(run _ops/tasks/T-9.md handoff --by worker-bob)" = 1 ] && ok || bad "the worker accepted their own work on a sound ladder"
+
 echo "transition: $pass passed, $fail failed"
 exit "$fail"

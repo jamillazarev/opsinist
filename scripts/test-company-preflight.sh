@@ -410,5 +410,18 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a run recorded past the c
   && ok || bad "the cap refusal does not say what it read"
 git rm -qf _ops/runs/R-9.md _ops/BUDGET.md >/dev/null 2>&1; git commit -qm "budget out"
 
+# A ladder is checked at the commit that writes it — the person who can fix it is standing
+# there. One character in `terminal:` disarms acceptance for the whole pipeline.
+mkdir -p _ops/pipelines
+printf '# bent\n\n```yaml\nname: bent\nstages: [draft, review, handoff]\nterminal: [handof]\n```\n' > _ops/pipelines/bent.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a malformed ladder was committed — acceptance is disarmed and nothing said so" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "malformed ladder" \
+  && ok || bad "the ladder refusal does not name the file"
+printf '# bent\n\n```yaml\nname: bent\nstages: [draft, review, handoff]\nterminal: [handoff]\n```\n' > _ops/pipelines/bent.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a sound ladder was refused"
+git rm -qf _ops/pipelines/bent.md >/dev/null 2>&1; git commit -qm "ladder out"
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

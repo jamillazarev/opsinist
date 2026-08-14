@@ -111,6 +111,40 @@ def parse_pipeline(text: str):
     return p if p["stages"] else None
 
 
+def pipeline_faults(p: dict):
+    """What is wrong with a parsed ladder, as a list of sentences. Empty means sound.
+
+    A name in `terminal` that is not a stage disarms the whole acceptance apparatus for that
+    pipeline, silently: `review_by_other` is only consulted when the destination is terminal,
+    so `terminal: [handof]` lets the worker accept their own work and nothing says a word.
+    Measured 2026-08-15 — one character, exit 0 where the correct spelling exits 1.
+    """
+    faults = []
+    stages = p.get("stages") or []
+    if not stages:
+        faults.append("no stages — a ladder with no rungs is not a ladder")
+    seen = set()
+    for s in stages:
+        if s in seen:
+            faults.append(f"stage `{s}` appears twice — a stage is a place, not a step")
+        seen.add(s)
+    for term in p.get("terminal") or []:
+        if term not in stages:
+            faults.append(
+                f"`terminal: {term}` is not one of the stages ({', '.join(stages)}) — a terminal "
+                f"name that matches no stage disarms acceptance for this pipeline without saying so")
+    for edge in (p.get("gates") or {}):
+        for half in edge.split("->"):
+            if half and half not in stages:
+                faults.append(f"gate `{edge}` names `{half}`, which is not a stage — that gate can never fire")
+    for edge in (p.get("prose_gates") or {}):
+        if "->" in edge:
+            for half in edge.split("->"):
+                if half and half not in stages:
+                    faults.append(f"gate `{edge}` names `{half}`, which is not a stage")
+    return faults
+
+
 def _mdir(root: Path, *parts: str) -> Path:
     """The machinery lives under `_ops/` since 0.2.0; a flat root is read as the transitional
     fallback so a not-yet-migrated project fails toward the migration notice, not a stack."""
@@ -246,6 +280,18 @@ def main(argv):
     if not task.is_file():
         print(f"✗ no file at {task} — an id resolves to a path, and to nothing else")
         return 2
+    # `--check-ladder <file>` — validate a pipeline or type file on its own, so the commit that
+    # writes a malformed ladder is refused rather than the run that later walks into it.
+    if "--check-ladder" in flags:
+        pipe = parse_pipeline(task.read_text(encoding="utf-8"))
+        if pipe is None:
+            print(f"✗ {task}: no ladder found — a pipeline file declares `stages:` or an inline "
+                  f"`a -> b -> c`")
+            return 1
+        faults = pipeline_faults(pipe)
+        for f in faults:
+            print(f"✗ {f}")
+        return 1 if faults else 0
     text = task.read_text(encoding="utf-8")
     root = root_of(task.resolve())
     stage, mstage = field(text, "stage", "status")
@@ -253,6 +299,16 @@ def main(argv):
     pipe, via = resolve_pipeline(root, text)
     if pipe is None:
         print(f"✗ {via}")
+        return 2
+    # A malformed ladder is refused at the door rather than obeyed. The costly case is a
+    # `terminal` name matching no stage: acceptance is only consulted on a terminal move, so
+    # the typo lets the worker accept their own work and nothing anywhere says a word.
+    faults = pipeline_faults(pipe)
+    if faults:
+        print(f"✗ the ladder this task runs on ({via}) is malformed:")
+        for f in faults:
+            print(f"  ✗ {f}")
+        print("  fix the ladder file; nothing moves on a ladder that cannot be trusted")
         return 2
     if "--brief" in flags:
         return brief(task, text, pipe, via, stage or "(unset)", worker)
