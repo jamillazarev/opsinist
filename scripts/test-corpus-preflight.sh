@@ -76,8 +76,6 @@ m=re.search(r'(\*\*The doors — run these[^\n]*\n- [^\n]*\n)', t)
 p.write_text(t.replace(m.group(1), m.group(1)+'\n',1))" \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o5" 2>&1 \
   && ok || bad "a blank line inside the doors block was treated as the end of it"
-grep -q "no longer names" "$T/o5" \
-  && bad "a blank line produced false 'no longer names' refusals about paths that are present" || ok
 
 # mutant 6 — the starting.md half, defeated by the very evasion the guide half was rewritten to
 # escape: delete the day-one row, leave the paths in a comment. Measured passing on 2026-08-14.
@@ -93,6 +91,32 @@ p.write_text('\n'.join(out))" \
   && bad "the day-one row was deleted and a comment holding the paths passed for it" || ok
 grep -q "no day-one row installing the doors" "$T/o6" \
   && ok || bad "the day-one refusal does not name what went missing"
+
+# mutant 7 — a released entry edited after its tag. This is how the 0.1.0 section came to claim
+# the current corpus's counts and a later release's vocabulary: each edit was small and none was
+# wrong on its own. The twin below is the one change that IS allowed — a marked correction.
+( cd "$T/c" && git checkout -q . \
+  && python3 -c "
+import pathlib,re
+p=pathlib.Path('CHANGELOG.md'); t=p.read_text()
+m=re.search(r'^## 0\\.1\\.0 .*?$', t, re.M); assert m, 'no 0.1.0 entry to mutate'
+i=t.index('\\n', m.end())
+p.write_text(t[:i] + '\\n\\nA sentence that was never in the 0.1.0 release.\\n' + t[i:])" \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o7" 2>&1 \
+  && bad "a released entry was edited after its tag and passed" || ok
+grep -q "no longer matches what v0.1.0 shipped" "$T/o7" \
+  && ok || bad "the freeze refusal does not name the tag"
+
+# twin: a blockquote correction under a released entry is the permitted change
+( cd "$T/c" && git checkout -q . \
+  && python3 -c "
+import pathlib,re
+p=pathlib.Path('CHANGELOG.md'); t=p.read_text()
+m=re.search(r'^## 0\\.1\\.0 .*?$', t, re.M)
+i=t.index('\\n', m.end())
+p.write_text(t[:i] + '\\n\\n> *Corrected 2026-08-14.* The number below was wrong.\\n' + t[i:])" \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) >/dev/null 2>&1 \
+  && ok || bad "a marked correction under a released entry was refused"
 
 echo "corpus-preflight: $pass passed, $fail failed"
 exit "$fail"

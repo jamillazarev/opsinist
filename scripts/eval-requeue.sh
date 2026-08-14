@@ -18,18 +18,31 @@ p="$SUITE/logs/POISONED"
 # wrote `void: no transcript` over each, and this script still printed "every run in the table is
 # a run that finished". The claim is now earned by a sweep of the whole table rather than by the
 # poisoned list alone — the repair is a form, because the sentence was already emphatic.
+#
+# Scoped to the MISSING TRANSCRIPT, and only that. The first version also swept every `void`
+# verdict — measured against this same round on 2026-08-14, that is **91 correctly graded runs**
+# against 5 real ones: a content void is a judge reading a transcript and saying it measures
+# nothing, which is a verdict, not a loss. Sweeping those would have told the operator to
+# re-dispatch 91 finished runs and exited 1 on a healthy round. The rate table already counts
+# them in its void column; this sweep is about runs that produced nothing to count.
 sweep_voids() {
   local left=0 shown=0 names="" id n
+  # An unreadable table is not an empty one. Without this the loop runs zero times, `left` stays
+  # 0, and the script prints "every run in the table is a run that finished" over a table it
+  # never opened — the same over-claim the sweep exists to kill, one level up.
+  if [ ! -s "$SUITE/jobs.txt" ]; then
+    echo "no jobs table at $SUITE/jobs.txt — nothing was swept, and nothing can be claimed"
+    return 1
+  fi
   while read -r id n; do
     [ -z "${id:-}" ] && continue
-    if [ ! -s "$SUITE/logs/$id-$n.output" ] \
-       || grep -q '"verdict"[[:space:]]*:[[:space:]]*"void"' "$SUITE/logs/$id-$n.verdict.json" 2>/dev/null; then
+    if [ ! -s "$SUITE/logs/$id-$n.output" ]; then
       left=$((left+1))
       if [ "$shown" -lt 12 ]; then names="$names $id/$n"; shown=$((shown+1)); fi
     fi
   done < "$SUITE/jobs.txt"
   [ "$left" -eq 0 ] && return 0
-  echo "$left run(s) in the table still measure nothing:$names$([ "$left" -gt "$shown" ] && echo " … and $((left-shown)) more")"
+  echo "$left run(s) produced no transcript:$names$([ "$left" -gt "$shown" ] && echo " … and $((left-shown)) more")"
   echo "none of these hit a session limit, so this script cannot requeue them. Re-dispatch by id"
   echo "with eval-shard.sh, or read logs/<id>-<n>.err — a whole scenario voiding means its fixture"
   echo "never built. Until then the table's N is smaller than it looks: read the void column."

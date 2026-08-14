@@ -86,7 +86,13 @@ def main():
         # Called from BOTH exits on purpose. A project already on `_ops/` returns early below,
         # and a flat project only has its guard at `_ops/scripts/` once the moves have run —
         # a single call site would have served one of them and silently skipped the other.
-        if doors_done or not (root / "_ops" / "scripts" / "preflight.sh").is_file():
+        if doors_done:
+            return
+        if not (root / "_ops" / "scripts" / "preflight.sh").is_file():
+            # Said out loud: a project whose guard is chained from core.hooksPath, or never
+            # wired at all, gets no doors here — and `upgrading.md` promises this script
+            # brings them, so silence would be the script disagreeing with its own document.
+            print("  no guard at _ops/scripts/preflight.sh — doors not placed; wire the guard first")
             return
         here = Path(__file__).resolve().parent
         for door in ("transition.py", "new-id.py"):
@@ -109,7 +115,8 @@ def main():
             sh(root, "git", "add", str(dst.relative_to(root)))
             doors_done.append(door)
         if doors_done:
-            print(f"  doors re-copied beside the guard: {' · '.join(doors_done)}")
+            verb = "would be re-copied" if dry else "re-copied"
+            print(f"  doors {verb} beside the guard: {' · '.join(doors_done)}")
 
     moves = []  # (src_rel, dst_rel)
 
@@ -137,7 +144,8 @@ def main():
     if not moves and not conflicts:
         recopy_doors()
         if doors_done:
-            print("layout already `_ops/` — nothing moved, and the doors above were re-copied")
+            print("layout already `_ops/` — nothing moved" +
+                  ("; the doors above would be re-copied" if dry else ", and the doors above were re-copied"))
         else:
             print("nothing to migrate — the layout is already `_ops/`, or was never flat")
         return 0

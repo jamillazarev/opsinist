@@ -124,7 +124,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "This one's prompt was never written down" | *"read it back into words"* | a vision model recovers a prompt that resembles the old one; you are told plainly it is **salvage, not the original** |
 | "Where does that video say it?" | *"get me the transcript"* | the caption track first, the audio transcribed only when there is none — nobody pays GPU time for words already written down |
 | "Turn this into a deck" | *"make the slides"* | markdown in the repo, so the deck diffs and reviews like everything else; a `.pptx` only when a person outside the repo must edit it |
-| "Being wrong here is expensive — don't just agree with me" | *"council this"* · *"прогони через совет"* | four angles answer **independently**, cross-review each other **anonymized**, and the synthesis leads with the **strongest dissent** — a council that converged instantly was theater. You hear the price first (**nine runs**), and the answer declares `provider: one` when every voice came from the same model, because four angles of one model are one bias four ways |
+| "Being wrong here is expensive — don't just agree with me" | *"council this"* · *"прогони через совет"* | you hear the price **before** it runs — nine runs, not one — and what comes back leads with **the strongest dissent**, declaring `provider: one` when every voice was the same model → `consulting.md` §A council |
 
 ## Money and control
 

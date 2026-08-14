@@ -39,6 +39,8 @@ The register of gates and the prose-only list: `permissions.md`.
 
 - `scripts/test-audit-gate.sh` — Mutation tests for hooks/audit-gate.py — the same discipline as preflight §13: every rule
 - `scripts/test-company-preflight.sh` — The bypass net (§14) exercised end to end: a hand-flipped stage in a staged commit is
+- `scripts/test-corpus-preflight.sh` — The doors-regression check (preflight §1a) exercised on the mutant and the twin. The check
+- `scripts/test-eval-requeue.sh` — The void sweep in eval-requeue.sh, exercised against the shapes that produced it
 - `scripts/test-inventory.sh` — The inventory's three promises, exercised: identical twice, guest-safe, honest off git
 - `scripts/test-map-blocks.sh` — The touched-by executor exercised: blocks generated, only markers rewritten, and two live
 - `scripts/test-migrate-layout.sh` — The 0.2.0 layout migrator exercised on a flat 0.1.x fixture: history-preserving
@@ -46,5 +48,5 @@ The register of gates and the prose-only list: `permissions.md`.
 
 ## Behavioural scenarios
 
-- **100 runsheet rows** over **29 fixtures** (audience · brandkit · chain · cold · colleague · conflict · consult · copy · deadlink · deadtool · decompose · drift · escalation · evidence · feedback · flatlegacy · flowmap · guest · hire · import · injection · ledger · mcpsource · mess · recovery · routine · ship · thread · workshop)
+- **103 runsheet rows** over **29 fixtures** (audience · brandkit · chain · cold · colleague · conflict · consult · copy · deadlink · deadtool · decompose · drift · escalation · evidence · feedback · flatlegacy · flowmap · guest · hire · import · injection · ledger · mcpsource · mess · recovery · routine · ship · thread · workshop)
 - scenario text: `evals/README.md` · `evals/new-scenarios.md` — rates and their dates: `evals/RUNS.md`

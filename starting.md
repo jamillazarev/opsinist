@@ -124,7 +124,7 @@ measured.**
 
 **Everything else arrives when it has something to hold.** `_ops/DECISIONS.md` at the first
 decision · `_ops/LATER.md` at the first deferral · `_ops/TEAM.md` at the first role · `_ops/ROADMAP.md`
-when there is a roadmap · `_ops/FIELD-NOTES.md` at the first friction or the first sweep · further
+when there is a roadmap · `_ops/TOOLING.md` at the first tool worth a runbook · `_ops/FIELD-NOTES.md` at the first friction or the first sweep · further
 process files when a task of a new kind needs a ladder or a gate. **A document created before it has content is
 a file the owner has to read past for the rest of the project's life.**
 

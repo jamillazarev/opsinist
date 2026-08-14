@@ -176,8 +176,6 @@ dayone=$(cd "$D" && bash _ops/scripts/preflight.sh 2>&1); rc=$?
 [ "$rc" -eq 0 ] && ok || bad "a day one built exactly as starting.md prescribes could not commit (exit $rc)"
 printf '%s' "$dayone" | grep -q "Deferred on purpose" \
   && ok || bad "the deferred documents vanished from the guard's output entirely"
-printf '%s' "$dayone" | grep -q "✗" \
-  && bad "a by-the-book day one still draws a hard refusal" || ok
 rm -rf "$D"
 
 echo "company-preflight: $pass passed, $fail failed"

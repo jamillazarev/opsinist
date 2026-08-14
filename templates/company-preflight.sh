@@ -56,23 +56,11 @@ say_fail() { echo "  ✗ $1"; fail=1; }
 say_warn() { echo "  ! $1"; warn=1; }
 echo "preflight — docs"
 
-# 1 · the docs the guide promises. An agent told to read a file that isn't there improvises,
-#     and improvisation is how conventions drift — but the arrival of these four is deferred on
-#     purpose, and this block used to refuse them anyway.
-#
-#     Measured 2026-08-14: a project stood up EXACTLY as `starting.md`'s day-one table
-#     prescribes — guide, `_ops/config.md`, guard and both doors, first task with its type —
-#     could not make its first commit. Four refusals, three of them naming documents that
-#     `starting.md` defers three lines under that same table ("`_ops/DECISIONS.md` at the first
-#     decision · `_ops/TEAM.md` at the first role · `_ops/ROADMAP.md` when there is a roadmap"),
-#     for a measured reason: *a document created before it has content is a file the owner has
-#     to read past for the rest of the project's life*. Two shipped rules faced each other and
-#     only one carried a measurement, so the refusal yields to it — and this is exactly the
-#     "hook that cries wolf" this file's own header warns about, four times, on day one.
-#
-#     The cost is stated rather than hidden: a MATURE project that loses `_ops/TEAM.md` now
-#     warns where it used to refuse. Making that fail again needs a signal for "past day one"
-#     that is read from the tree rather than guessed — named in the skill's `LATER.md`.
+# 1 · the docs the guide promises. An agent sent to a file that is not there improvises, and
+#     improvisation is how conventions drift — but these four arrive when they have content,
+#     so their absence is a warning here and not a refusal. A project that creates them empty
+#     on day one has four files its owner reads past forever, which is the worse trade.
+#     (Why it changed, with the measurement, is the skill's changelog for 0.2.7.)
 for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
   [ -f "$f" ] || say_warn "$f is missing — the guide points every agent at it. Deferred on \
 purpose until it has something to hold (a roadmap · a role · a tool · the first decision); once \
@@ -94,8 +82,8 @@ or §14 refuses your next stage change and points at a file you do not hold"
     # Presence alone was satisfied by an empty file — measured against this guard on
     # 2026-08-14, and an interrupted copy leaves exactly that. A door is a command, so the
     # test is that it reads arguments; a `.py` that takes none is not the file §14 names.
-    say_fail "$d exists but takes no arguments — a half-copied door is not a door. Re-copy it \
-from the skill's scripts/ (the real one reads sys.argv), then commit again"
+    say_fail "$d exists but takes no arguments — a half-copied door is not a door. Ask your \
+advisor to run the upgrade step (it re-copies a door whose bytes differ), then commit again"
   fi
 done
 if git ls-files | grep -qE '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'; then

@@ -152,11 +152,31 @@ commissioned — a template written before its second use is a guess.
 
 ## The advisor-side half of the doors: nothing forces wiring at stand-up
 
-**Measured 2026-08-14, N89 at 0/5**: every graded day-one run stood the project up ad hoc — no
+**Measured 2026-08-14, N89 at 0/3** (2 of its 5 runs voided): every graded day-one run stood the project up ad hoc — no
 guard wired, no doors, no type file — so the guard's new doors check (the wired-project form,
 landed the same day) never gets its chance. The prose instruction alone does not survive
 contact, which is this corpus's oldest measurement. The candidate form: the plugin's own
 SessionStart hook already delivers the migration fact in operated projects — the same mechanism
 can say, once, *"this operated project has no wired guard and no doors"*. **Revisit when:** the
 next round re-measures N89 with the wired-project form in the field — if ad-hoc stand-ups
-persist, the hook line is built; a second 0/5 is the threshold — the next full round after 0.2.7.
+persist, the hook line is built; a second round with no passes is the threshold — the next full round after 0.2.7.
+
+## The council has a field but no gate, and a document has no seam to hold one
+
+**Named 2026-08-14, at the release that shipped it.** The capability bar has four clauses and
+says *no exceptions for small ones*; the council shipped with the showcase trio and a declared
+field (`angles · voices · provider`), and **without the other two — no form where it can fail,
+no mutation test, and therefore no dated measurement of the field ever appearing**. This is
+written here rather than implied met.
+
+**Why no form today.** A council is a consultation: zero standing footprint, so its synthesis is
+an answer in a conversation, and there is no artifact for a gate to read. Every enforceable rule
+in this corpus keys on a file — a staged commit, a row, a request. The declaration is real
+guidance and unenforced guidance, which is the class this corpus keeps measuring at ~0/5.
+
+**Revisit when** either becomes true: a council's synthesis is written to a file (the owner asks
+to keep it, or a research flow persists one) — that file is the seam, and the gate is a
+missing-declaration refusal with its mutant · **or** the next full round measures whether a
+council fires with its price and its declaration at all, which would give the claim its date. If
+a round shows the field is simply not written, the honest repair is to delete the sentence rather
+than repeat it louder.

@@ -117,7 +117,7 @@ flowchart TB
   Q[being wrong is expensive] --> P{priced first: nine runs}
   P -- declines --> ONE[one answer, one addressee]
   P -- accepts --> A[four angles answer independently<br/>contrarian · first principles · upside · operator]
-  A --> X[cross-review, anonymized] --> S[agree · clash · **strongest dissent**]
+  A --> X[cross-review, anonymized] --> S["agree · clash · the strongest dissent"]
   S --> D["declares angles · voices · provider"]
   D -. provider: one .-> B[one bias four ways]
 ```
@@ -134,13 +134,13 @@ house form because both upstreams state no licence.
 
 **The synthesis declares what it was made of, in one line, or it is not a council:**
 `angles: 4 · voices: 4 · provider: one` — the same move `audience.md` makes a panel perform, and
-for the same reason: a warning that five angles of one model are one bias five ways is a warning,
+for the same reason: a warning that N angles of one model are one bias N ways is a warning,
 while `provider: one` printed above the verdict is the reader seeing it. An owner who reads
 `provider: one` under a pivot-or-hold answer knows exactly how much independence they bought.
 
-**Three honesty laws bind it, and they are why it lives here rather than on a pedestal.** Five
-angles of one model are **one bias five ways** — the same law that makes a hundred synthetic
-respondents one bias repeated (`audience.md`); real independence of failure needs **another
+**Two honesty laws bind it — the third thing in this section is its price, not a law.** N
+angles of one model are **one bias N ways**, whatever N is — the same law that makes a hundred
+synthetic respondents one bias repeated (`audience.md`); real independence of failure needs **another
 provider**, which is cross-runtime dispatch first and the gateway row second (`runtimes.md`,
 `catalogue.md`). **Consensus is not a rung**: the council's verdict stays a judgement call
 unless it cites, and five agreeing judgements are still one. And it is the most expensive shape

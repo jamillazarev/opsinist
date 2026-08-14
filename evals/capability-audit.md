@@ -184,7 +184,9 @@ is an anecdote, two rounds agreeing is a fact about the corpus.
 
 **Every mechanism a script performs works. Almost every mechanism an agent must perform does
 not.** The scripts in this repository — links, structure, freshness — pass today, and
-`templates/company-preflight.sh` guards four things in an owner's repo **where it is wired**: the
+`templates/company-preflight.sh` guards five things in an owner's repo **where it is wired** —
+and since 2026-08-14 the first of them **warns rather than refuses**, because the four documents
+are deferred by day one on purpose: the
 promised docs exist, a recorded fact past its recheck fails the commit, the decisions log stays
 append-only, and the architecture and product maps still describe the repository. Those are the
 green rows in this project, and they are green because **nothing depends on a model choosing to

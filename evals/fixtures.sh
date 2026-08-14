@@ -878,12 +878,11 @@ for f in $FIXTURES; do
     cp scripts/transition.py scripts/new-id.py "$ROOT/$f/workspace/_ops/scripts/"
     printf '#!/bin/sh\nbash _ops/scripts/preflight.sh || exit 1\n' > "$ROOT/$f/workspace/.git/hooks/pre-commit"
     chmod +x "$ROOT/$f/workspace/.git/hooks/pre-commit" "$ROOT/$f/workspace/_ops/scripts/preflight.sh"
-    # The four documents the guide promises, created only where they are absent. Without them
-    # the hook refuses **every** commit on its furniture check, and the player meets a wall that
-    # has nothing to do with the behaviour under test — a hook that cries wolf, which is the
-    # failure the script's own header warns about. A project that has genuinely wired this
-    # already has them, because its first commit would not otherwise pass; so the wired
-    # condition is "a project that wired the preflight", not "the same tree plus a script".
+    # The four documents the guide promises, created only where they are absent. They are here
+    # because a wired project of any age has them, not because the guard demands them: since
+    # 2026-08-14 their absence is a WARNING, so a fixture without them is also legal and is
+    # what a by-the-book day one actually looks like. Keeping them makes this the mature-project
+    # fixture; N89's cold fixture is the day-one one, and the two should not converge.
     for d in ROADMAP TEAM TOOLING DECISIONS; do
       [ -f "$ROOT/$f/workspace/_ops/$d.md" ] || printf '# %s\n' "$d" > "$ROOT/$f/workspace/_ops/$d.md"
     done

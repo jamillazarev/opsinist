@@ -37,7 +37,7 @@ out=$(run); rc=$?
 [ "$rc" -eq 0 ] && ok || bad "a clean table was refused (exit $rc)"
 printf '%s' "$out" | grep -q "no requeue needed" && ok || bad "the clean table lost its message"
 
-# mutant A · a void verdict — the N72 shape, and the one the old script walked straight past
+# mutant A · the N72 shape: a void verdict with no transcript beneath it
 build_clean
 printf '{"verdict":"void","reason":"no transcript"}\n' > "$S/logs/N1-2.verdict.json"
 rm -f "$S/logs/N1-2.output"
@@ -62,6 +62,22 @@ run >/dev/null 2>&1 && bad "an empty transcript passed" || ok
 build_clean
 printf '{"verdict":"fail","reason":"skipped the door"}\n' > "$S/logs/N1-2.verdict.json"
 run >/dev/null 2>&1 && ok || bad "a failing run was swept as if it had not finished"
+
+# THE TWIN THAT MATTERS, and the one the first version of this suite did not have: a **content
+# void** — a judge that read a real transcript and ruled it measures nothing. That is a verdict,
+# not a loss. Measured on the 2026-08-14 round: 91 of its 96 voids are this, against 5 real ones,
+# so a sweep that counts them refuses a healthy round and asks for 91 pointless re-dispatches.
+build_clean
+printf '{"verdict":"void","reason":"the run describes files outside its fixture"}\n' > "$S/logs/N1-2.verdict.json"
+run >/dev/null 2>&1 && ok || bad "a content void was swept as a lost run — 91 of 96 on the real round"
+
+# and an unreadable table is not an empty one: the claim must not be printed over a table that
+# was never opened, which is the same over-claim one level up from the one this file exists for
+build_clean
+rm -f "$S/jobs.txt"
+out=$(run); rc=$?
+[ "$rc" -ne 0 ] && ok || bad "a missing jobs table was reported as a finished round"
+printf '%s' "$out" | grep -q "nothing was swept" && ok || bad "the missing table was not named"
 
 echo "eval-requeue: $pass passed, $fail failed"
 exit "$fail"

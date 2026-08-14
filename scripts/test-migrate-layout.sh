@@ -49,7 +49,10 @@ python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1 || bad "migration exited
   && [ -f _ops/panels/beta.md ] && [ -f _ops/runbooks/deploy.md ] \
   && [ -f _ops/scripts/preflight.sh ] && [ -f _ops/.checkout ] \
   && ok || bad "a recognised path did not land under _ops/"
-git diff --cached --name-status | grep -q '^R.*tasks/T-1.md' && ok || bad "moves are not history-preserving renames"
+# `|| true` before the pipe: this file sets pipefail, so a failing left side returns through a
+# MATCHING grep and the assertion reads a found phrase as absent. Benign here today — `git
+# diff` without `--exit-code` returns 0 — but it is the shape that lied once already.
+( git diff --cached --name-status || true ) | grep -q '^R.*tasks/T-1.md' && ok || bad "moves are not history-preserving renames"
 grep -q '_ops/scripts/preflight.sh' .git/hooks/pre-commit && ok || bad "the hook did not follow the preflight"
 grep -q '_ops/.index/' .gitignore && ok || bad ".gitignore did not follow .index"
 [ -f docs/handbook.md ] && grep -q 'handbook.md' "$T/out.txt" && ok || bad "the craft's docs/ was not left alone and named"
@@ -81,7 +84,7 @@ python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1
 [ -f _ops/scripts/transition.py ] && [ -f _ops/scripts/new-id.py ] \
   && ok || bad "an already-_ops project did not get its doors back"
 grep -q 'doors re-copied' "$T/out.txt" && ok || bad "the re-copy happened silently"
-git diff --cached --name-only | grep -q '_ops/scripts/transition.py' \
+( git diff --cached --name-only || true ) | grep -q '_ops/scripts/transition.py' \
   && ok || bad "the re-copied door was left unstaged, so the migration commit would not carry it"
 
 # and a third run is a true no-op: identical bytes are not a re-copy

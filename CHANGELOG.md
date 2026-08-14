@@ -60,7 +60,7 @@ screen to roles that write for humans — a 30 KB skill on every role is a load-
 short form already covers.
 
 **And the debts the last release deferred are paid in tests.** The doors-regression check now
-carries its mutation suite (`test-corpus-preflight.sh`, 7/7 — clone-isolated, recursion-guarded,
+carries its mutation suite (`test-corpus-preflight.sh`, clone-isolated, recursion-guarded,
 the mutant refused by name and the twin passing, including a block deleted while its paths hide
 in an HTML comment); the sibling's preflight repairs, which a lens
 had caught shipping with zero coverage, carry theirs (`test-preflight-checks.sh`, 9/9 — the
@@ -105,7 +105,10 @@ of them past a green preflight. What it changed:
   a declared price (**nine runs**) said before it runs, and a field instead of a warning: the
   synthesis declares `angles · voices · provider`, so `provider: one` is something the owner
   reads rather than something the file hopes they remember. The "no fan-out" law in both repos
-  now names the carve-out it always had.
+  now names the carve-out it always had. **Two of the bar's four clauses are still owed, named as
+  owed with their revisit trigger** (`LATER.md`), and the declaration is on the `prose-only`
+  list by name (`permissions.md`) — guidance, labelled as guidance, rather than shipped as if
+  the bar were met.
 - **And the 0.1.0 entry had been quietly edited upward release after release** — a historical
   record asserting today's corpus counts, in the file this repo calls its migration map. Restored
   to what 0.1.0 shipped and frozen; the live shape belongs to `README.md`, which the count guard
@@ -138,16 +141,26 @@ workers briefed to one thinking angle each, answering independently, **cross-rev
 anonymized**, synthesized into agreement · clash · **the strongest dissent — which is the
 product**. Adapted from Karpathy's LLM Council and implemented in house form, because **neither
 upstream states a licence**; the shelf row carries both pointers with the flag. Three honesty
-laws bind it where it lives: five angles of one model are **one bias five ways**; consensus is
+laws bind it where it lives: N angles of one model are **one bias N ways**; consensus is
 not a rung; it costs N× and the owner picks. **The shelf also takes a marketing pool** —
 [marketingskills](https://github.com/coreyhaines31/marketingskills) (MIT, 44k★, 49 skills) — as
 a pool and never an attachment: a marketing role takes the two or three its tasks name, through
 the screen, and the trimmed copy points at `_ops/brand/` and `_ops/audience/` instead of the
 pack's own context file, or every skill re-asks what the project already recorded.
 
-**These two rows and the council section landed after the round's corpus was frozen** — the
-round measures the doors cluster and the request kinds, which they do not touch; saying so is
-cheaper than a reader wondering why the fingerprint predates them.
+**The shipped corpus is not the corpus the round measured, and the gap is bigger than the
+first draft of this paragraph said.** Verified by comparing the frozen copy byte for byte
+against each candidate commit: the fingerprint `d4df8f5c…` **is `0016d38`**, and **seven**
+commits post-date it, not three. Sharper still — the frozen corpus contains the doors check
+**zero times**. The guard's furniture refusal, the argument test, the §1 weakening and the
+rewritten §1a all landed after the freeze, so **none of this release's doors mechanics has
+ever been measured by a round**. What N89's 0/3 measures is what it always said it measured:
+the day-one instruction *as prose to the advisor*, on a corpus with no guard check behind it
+— its graded runs wired no guard at all. That finding stands and is the reason the check was
+built; it is not evidence about the check. Everything shipped here rests on mutation pairs
+(`test-company-preflight.sh` 26/26, `test-corpus-preflight.sh` 13/13) and the next full round
+is what turns them into measurements. Said plainly rather than left for a reader to derive
+from a hash.
 
 **Eval state: run — 103 scenarios × N=5 against a frozen 0.2.7 corpus, and it measured the
 doors at their weakest link** (`evals/RUNS.md`, 2026-08-14; totals 110 pass · 309 fail · 96
@@ -156,10 +169,10 @@ saying why it first read 22% — the voids had walked into the denominator, and 
 number was then called flat. Read as a +3-point move it is still inside the noise at these Ns
 and across two different corpora, so the aggregate carries no signal either way; the
 per-scenario rows below are the round). **N89 — day one installs the doors —
-ran 0/5**: every graded run stood the project up ad hoc, no `_ops/scripts/` at all, which is
+ran 0/3** (three fails, two voids; 0/5 of dispatches): every graded run stood the project up ad hoc, no `_ops/scripts/` at all, which is
 the day-one install *as prose to the advisor* measuring exactly what prose measures here. **The
 next form shipped inside this same release**: the guard's furniture check refuses a wired
-project whose doors are absent (§1, suite 23/23) — so the moment a project is wired, the gap
+project whose doors are absent (§1) — so the moment a project is wired, the gap
 surfaces on the first commit; the half that stays prose (nothing forces wiring at stand-up) is
 named in `LATER.md` rather than implied fixed. **A probe against that new check the same day
 found presence alone was satisfied by an empty file**, which is what an interrupted copy leaves,
@@ -1674,7 +1687,7 @@ is its own `skills/<verb>/SKILL.md`** — the layout Claude Code specifies, wher
 becomes the command — with the corpus at `skills/advisor/` and its companions at the repository
 root; anything that reads bare Agent Skills mounts the repository directly.
 
-**A command palette of eighteen doors that doubles as the catalogue.** init · import ·
+**A command palette of eighteen verbs that doubles as the catalogue.** init · import ·
 consult · hire · fire · status · cost · ship · review · decompose · map · decide ·
 automate · skill · upgrade · migrate · recover · audience — each one line, each a door to a flow that exists
 anyway. The bar: a verb is a door to its own flow, never a synonym — and a door may also exist

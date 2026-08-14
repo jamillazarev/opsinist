@@ -184,6 +184,9 @@ was defensible except the one that invented its own permission.
 confidence. So the `prose-only` list is written out by name rather than left implicit:
 
 - read the file before acting on its subject
+- **a council's synthesis declares `angles · voices · provider`** — a consultation leaves no
+  artifact, so no gate can read the declaration; named here rather than believed in
+  (`consulting.md` §A council, and the two owed bar clauses in `LATER.md`)
 - report the trend, not the level — **partly structural now**: the budget carries a *rate vs the
   previous read* column and a *runs out* column, so a level quoted alone leaves visible blanks
   (`templates/BUDGET-template.md`). Prose wherever a number is reported outside that file

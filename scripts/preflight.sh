@@ -30,27 +30,25 @@ pv=$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["version"])'
 # four paths in an HTML comment while deleting the block itself — the guide stopped telling
 # workers the doors and the check stayed green. Comments are stripped first, then the paths
 # must sit inside the block that starts at the doors heading.
-# Three further holes, each measured by a lens on 2026-08-14 against the version above:
-#   · CRLF made `sed '/…/,/^$/p'` run to EOF, because `^$` never matches a `\r` line — a gutted
-#     block plus the paths surviving anywhere below it exited 0. One `core.autocrlf` checkout
-#     was enough, and no `.gitattributes` stood in the way. The `\r` is stripped here.
-#   · a single blank line INSIDE the block ended the range early, so the check refused with four
-#     "no longer names" lines about paths sitting three lines under the heading, unread. The
-#     block now ends at the next heading; a gate that lies about why is worse than a silent one.
-#   · and the starting.md assertion below was still the bare substring form this whole block was
-#     rewritten to escape — the same comment evasion walked straight through it.
+# Three further holes — CRLF disabling the range, a blank line ending the block early, and the
+# starting.md half still being a bare substring — were measured on 2026-08-14 and are each a
+# named mutant in `scripts/test-corpus-preflight.sh`, which is where the reasoning lives: a
+# mutation test is the executable form of the claim, and saying it twice is how one copy rots.
 doors_block=$(perl -0pe 's/<!--.*?-->//gs; s/\r//g' "$ROOT/templates/GUIDE-template.md" \
   | awk '/\*\*The doors — run these/{f=1; print; next} f && /^[[:space:]]*(\*\*|#)/{exit} f{print}')
 if [ -z "$doors_block" ]; then
-  say_fail "templates/GUIDE-template.md has no doors block — the measured repair for the \
-operational-scripts hole (2026-08-10 report) is gone"
+  say_fail "templates/GUIDE-template.md has no block starting with the line \
+'**The doors — run these' — the measured repair for the operational-scripts hole \
+(2026-08-10 report) is gone, or its heading was reworded"
 else
   # only when the block was found: an empty block already failed above, and running the loop
   # over it would bury that one true refusal under four false ones.
   for door in "_ops/scripts/transition.py" "_ops/runs/" "_ops/pipelines/" "_ops/scripts/new-id.py"; do
     printf '%s' "$doors_block" | grep -qF "$door" || say_fail \
       "the doors block in templates/GUIDE-template.md no longer names $door — a guide that stops \
-naming a door recreates the hole"
+naming a door recreates the hole. The block is read as the heading plus the list under it, \
+ending at the next line that is neither a list item nor indented, so a paragraph opened \
+mid-list truncates it: check that the door is above that line, not only in the file"
   done
 fi
 # The day-one row installs all three into _ops/scripts/ in one move, so the anchor is one line
@@ -58,8 +56,70 @@ fi
 # longer satisfies it — which is precisely how the previous form was defeated.
 perl -0pe 's/<!--.*?-->//gs; s/\r//g' "$ROOT/starting.md" \
   | grep -F 'transition.py' | grep -F 'new-id.py' | grep -qF 'company-preflight.sh' || say_fail \
-  "starting.md has no day-one row installing the doors beside the guard — the guard's §14 points \
-at _ops/scripts/transition.py, and installing the refusal without the door strands the next commit"
+  "starting.md has no ONE LINE naming transition.py, new-id.py and company-preflight.sh together \
+— that is the day-one row installing the doors beside the guard, and splitting it across two \
+lines reads here as deleting it. The guard's §14 points at _ops/scripts/transition.py, and \
+installing the refusal without the door strands the next commit"
+
+# 1a-bis · a released entry is frozen. The changelog is this repo's migration map, and its
+#          0.1.0 section had been edited upward release after release — the counts, and a
+#          vocabulary sweep that turned "eighteen verbs" into "eighteen doors" — so an entry
+#          describing one version was quietly asserting the current corpus. Restoring it was a
+#          sentence ("A historical entry is frozen"); this is the form, and the form is what
+#          found the second drift. One change is permitted: a MARKED correction added as a
+#          blockquote, because that is how a corpus admits an error without rewriting history
+#          into something that never shipped.
+python3 - <<'FREEZE' || FAIL=1
+import re, subprocess, sys, pathlib
+def entry(text, v):
+    out, f = [], False
+    for line in text.splitlines(True):
+        m = re.match(r'^## (\S+)', line)
+        if m:
+            if m.group(1) == v:
+                f = True; out.append(line); continue
+            if f: break
+        if f: out.append(line)
+    return out
+tags = subprocess.run(["git", "tag", "-l", "v*"], capture_output=True, text=True).stdout.split()
+head = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+bad = []
+for tag in tags:
+    v = tag[1:]
+    old = subprocess.run(["git", "show", tag + ":CHANGELOG.md"],
+                         capture_output=True, text=True).stdout
+    a, b = entry(old, v), entry(head, v)
+    if not a or a == b:
+        continue
+    lost = [l for l in a if l not in b]
+    added = [l for l in b if l not in a]
+    if lost or not all(l.startswith(">") or not l.strip() for l in added):
+        bad.append((tag, len(lost)))
+for tag, n in bad:
+    print("  \033[31m✗\033[0m the " + tag + " entry no longer matches what " + tag +
+          " shipped (" + str(n) + " line(s) changed or lost) — a released entry is frozen; "
+          "the only permitted addition is a marked correction as a blockquote")
+if not bad:
+    print("  \033[32m✓\033[0m " + str(len(tags)) + " released entries match their tags")
+sys.exit(1 if bad else 0)
+FREEZE
+
+# 1a-ter · a generated file that nobody regenerates is a stale file with a confident header.
+#          `evals/COVERAGE.md` says "edit the tree, not this file" and had drifted two suites
+#          behind its own generator — in the document whose subject is how well the corpus is
+#          covered. Nothing ran the generator, so nothing noticed.
+if [ -f scripts/coverage-map.py ] && [ -f evals/COVERAGE.md ]; then
+  before=$(md5 -q evals/COVERAGE.md 2>/dev/null || md5sum evals/COVERAGE.md | cut -d' ' -f1)
+  python3 scripts/coverage-map.py >/dev/null 2>&1
+  after=$(md5 -q evals/COVERAGE.md 2>/dev/null || md5sum evals/COVERAGE.md | cut -d' ' -f1)
+  if [ "$before" != "$after" ]; then
+    say_fail "evals/COVERAGE.md was stale — it has just been regenerated in place, so review \
+and stage the diff. A file headed 'edit the tree, not this file' is only true if something runs \
+the generator"
+  else
+    say_ok "coverage map matches its generator"
+  fi
+fi
 
 # 1b · and everywhere a human wrote it. Two files agreeing proves nothing about the third: a
 # release badge sat hardcoded at a version while the frontmatter moved, and the newest changelog
