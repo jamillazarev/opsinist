@@ -294,7 +294,7 @@ gives a reader no way to tell a warning from an aside.
 |---|---|---|
 | `> [!CAUTION]` · `> [!WARNING]` · `> [!NOTE]` | a rule that refuses, a cost, an aside | the marker is a **greppable kind**. An agent reading raw text gets a stronger signal than bold gives it, and a person on the web gets a coloured box |
 | `- [ ]` / `- [x]` | children, deliverables, a checklist someone works through | state is **in the mark**, not in a sentence beside it — and the web view counts the boxes for free |
-| `[T-XXXXXX](T-XXXXXX-slug.md)` | every reference to another task, spec or run | a bare id is a **string**; a relative link is a thing that can be opened, and a thing a link checker can refuse when it rots |
+| a relative link — `[T-XXXXXX]` then `(T-XXXXXX-slug.md)` | every reference to another task, spec or run | a bare id is a **string**; a relative link is a thing that can be opened, and a thing a link checker can refuse when it rots |
 
 **`<details>` is deliberately not on that list.** It folds on the web and shows its raw tags in a
 terminal, so it hides nothing from the reader who most needs the fold and adds noise for the one
