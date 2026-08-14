@@ -21,7 +21,7 @@ from pathlib import Path
 # purpose: at a project root it is usually the craft's own; only the one file we
 # ship there (the preflight) is claimed, below.
 ENTITY_DIRS = [
-    "tasks", "specs", "roles", "teams", "panels", "pipelines", "requests",
+    "tasks", "specs", "roles", "teams", "panels", "pipelines", "requests", "threads",
     "releases", "milestones", "automations", "resources", "skills",
     "runbooks", "research", "audience", "design-system", "brand", "process",
 ]

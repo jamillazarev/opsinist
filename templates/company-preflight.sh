@@ -152,6 +152,20 @@ if ( git ls-files || true ) | hits -E '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'
 starts in a fresh worktree and re-derives the layout"
 fi
 
+# 1c · one state, one home. The door reads a stage field "wherever the template put it", which
+#      is tolerant by design and is exactly how a project ends up with two: a prose `**Status**`
+#      the human reads and a machine `stage:` the door moves. Measured on a live project —
+#      12 of 12 tasks disagreed with themselves. The second copy is refused where it is born.
+for tf in _ops/tasks/*.md; do
+  [ -f "$tf" ] || continue
+  homes=$( ( grep -ciE '^[[:space:]]*(\*\*)?(status|stage|статус|стадия)(\*\*)?[[:space:]]*:' "$tf" \
+             2>/dev/null || true ) | head -1)
+  [ "${homes:-0}" -le 1 ] && continue
+  say_fail "$tf carries ${homes} state fields — a status the human reads and a stage the door \
+moves stop agreeing the first time only one of them is updated. Keep one, on the header line, \
+and let the door own it"
+done
+
 # 2 · a recorded fact past its recheck is unknown, not fact. TOOLING.md carries a
 #     Checked column precisely so this can be enforced rather than hoped for.
 if [ -f _ops/TOOLING.md ]; then

@@ -41,6 +41,8 @@ your-project/
     panels/             # who answers when you ask the audience
     pipelines/          # stages · gates on transitions · starts
     requests/           # open asks, each with its age
+    threads/            # correspondence with anyone outside the team — one file per
+                        #   counterpart, verbatim, dated. Tasks link here and never re-quote
     releases/           # shipments — and beside them:
     milestones/         #   checkpoints, orthogonal to releases
     automations/        # trigger · template · contract

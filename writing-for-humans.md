@@ -278,6 +278,34 @@ the two-line version; this is the full one):
 that smuggles a new fact in is worse than slop** — slop wastes attention; a fabricated specific
 spends trust.
 
+---
+
+## Structure is markdown's job, not prose's
+
+**A document read by both a person and an agent has affordances, and this corpus was using none
+of them.** Measured 2026-08-15 across every chapter and template: zero GitHub alerts, zero task
+lists, zero relative links between task files. Everything normative was a bold sentence inside a
+blockquote — which renders identically to every other blockquote, cannot be grepped by kind, and
+gives a reader no way to tell a warning from an aside.
+
+**Three affordances earn their place, because they read well in a terminal *and* on the web:**
+
+| Use | For | Why this one |
+|---|---|---|
+| `> [!CAUTION]` · `> [!WARNING]` · `> [!NOTE]` | a rule that refuses, a cost, an aside | the marker is a **greppable kind**. An agent reading raw text gets a stronger signal than bold gives it, and a person on the web gets a coloured box |
+| `- [ ]` / `- [x]` | children, deliverables, a checklist someone works through | state is **in the mark**, not in a sentence beside it — and the web view counts the boxes for free |
+| `[T-XXXXXX](T-XXXXXX-slug.md)` | every reference to another task, spec or run | a bare id is a **string**; a relative link is a thing that can be opened, and a thing a link checker can refuse when it rots |
+
+**`<details>` is deliberately not on that list.** It folds on the web and shows its raw tags in a
+terminal, so it hides nothing from the reader who most needs the fold and adds noise for the one
+who does not. A section that wants folding wants deleting.
+
+> [!CAUTION]
+> **One field, one home.** A state that exists twice — a prose `**Status**` beside a machine
+> `stage:` — is a state that disagrees with itself. Measured on a live project: **12 of 12 tasks
+> disagreed**, ten of them because the prose copy was never written and two because it was
+> written once and never moved again. The door writes one field; nothing else may hold a copy.
+
 ## Two habits that apply everywhere
 
 **Say which claim you are making.** *"Built"* and *"works"* are different, and a status that blurs

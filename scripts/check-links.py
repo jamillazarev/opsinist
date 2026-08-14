@@ -223,6 +223,12 @@ def check(md):
                 target, anchor = target.split("#", 1)
             if not target:
                 continue
+            # A template's example link points at an id nobody has minted yet. `XXXXXX` is the
+            # corpus's placeholder shape; `X` IS in new-id.py's alphabet, so a real id could in
+            # principle be `T-XXXXXX` — at one chance in 32^6, about a billion. The exemption is
+            # the placeholder, not the file: a genuinely broken link in a template still fails.
+            if "XXXXXX" in target:
+                continue
             dest = (md.parent / target).resolve()
             if not dest.exists():
                 add("FAIL", "LINK001", rel, lineno, f"link target not found: {target}")

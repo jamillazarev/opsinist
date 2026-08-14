@@ -252,6 +252,18 @@ printf 'type: advisor\n' > _ops/roles/a.md; printf 'type: advisor\n' > _ops/role
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "two advisors in _ops/roles passed — §7 was watching the flat path" || ok
 rm -rf _ops/roles _ops/config.md; git add -A; git commit -qm "gate fixtures out"
 
+# One state, one home. The door reads a stage field wherever the template put it, so a project
+# can end up with a prose Status the human reads and a machine stage: the door moves — measured
+# on a live project with 12 of 12 tasks disagreeing with themselves.
+printf '# T-2\n\n**Status**: started\n\n## History\n' > _ops/tasks/T-2.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "one state field was refused"
+printf '# T-2\n\n**Status**: started\n\n<!-- machine -->\nstage: review\n\n## History\n' > _ops/tasks/T-2.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "two state fields in one task passed — they disagree the first time one moves" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "state fields" \
+  && ok || bad "the refusal does not say what it found"
+rm -f _ops/tasks/T-2.md; git add -A
+
 # A by-the-book day one commits. Built in its own tree from `starting.md`'s table alone — guide,
 # config with its migration log, guard and both doors, first task with its type — and NONE of the
 # four documents that table defers. This refused with four ✗ until 2026-08-14; the case exists so
