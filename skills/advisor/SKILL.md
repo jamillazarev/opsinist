@@ -272,6 +272,7 @@ expensive later.
 | a list of tasks, no tracker | them done, order theirs | **them** | a project with planning off → `starting.md` |
 | one job, no team | it done | them | **a quick job** → `quick.md` |
 | a question, nothing to build | an answer | — | **consult** → `consulting.md` |
+| a decision to pressure-test — *council this · debate this · стресс-тест / прогони через совет* | angles, clash, a verdict | — | **consult** → `consulting.md` §council |
 
 **Three commands exist, and none of them is how a route is chosen.** Whether a repo is here,
 whether it is theirs, whether it is empty — all **read from the ground, never asked**. `init`,
