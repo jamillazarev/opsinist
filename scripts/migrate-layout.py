@@ -106,13 +106,32 @@ def main():
             # that line into noise — the same reason the guard warns rather than refuses above.
             if dst.is_file() and dst.read_bytes() == src.read_bytes():
                 continue
+            if dst.is_file() and not dry:
+                # keep what it replaces, since the file may have carried a project's own edits
+                dst.with_suffix(dst.suffix + ".replaced").write_bytes(dst.read_bytes())
             if dry:
                 doors_done.append(door)
                 continue
+            differs = dst.is_file()   # it exists and its bytes differ, or we would have skipped
             dst.parent.mkdir(parents=True, exist_ok=True)
             dst.write_bytes(src.read_bytes())
             dst.chmod(0o755)
-            sh(root, "git", "add", str(dst.relative_to(root)))
+            rel = str(dst.relative_to(root))
+            r = sh(root, "git", "add", rel)
+            staged = sh(root, "git", "diff", "--cached", "--name-only").stdout.split("\n")
+            if r.returncode != 0 or rel not in staged:
+                # Measured: with `_ops/scripts/*.py` gitignored, or `_ops/scripts` a symlink, the
+                # bytes land and nothing is staged — so the guard passes here (it reads the
+                # worktree) and a clone of that commit hits the guard's hard refusal instead.
+                print(f"  {rel} written but NOT staged"
+                      f"{': ' + r.stderr.strip() if r.stderr.strip() else ' (ignored, or outside the repo)'}"
+                      f" — the commit will not carry the door; `git add -f {rel}` or fix the ignore")
+            if differs:
+                # The docstring forbids the silent overwrite. A project that edited its door gets
+                # told which file was replaced, and where the copy it lost is.
+                bak = dst.with_suffix(dst.suffix + ".replaced")
+                print(f"  {rel} differed from the shipped door and was replaced"
+                      f" — the previous file is at {bak.relative_to(root)}")
             doors_done.append(door)
         if doors_done:
             verb = "would be re-copied" if dry else "re-copied"
@@ -144,8 +163,15 @@ def main():
     if not moves and not conflicts:
         recopy_doors()
         if doors_done:
-            print("layout already `_ops/` — nothing moved" +
-                  ("; the doors above would be re-copied" if dry else ", and the doors above were re-copied"))
+            if dry:
+                print("layout already `_ops/` — nothing moved; the doors above would be re-copied")
+            else:
+                # Without this the operator gets a green run, a staged change nobody mentioned,
+                # and a SECOND run that refuses on the dirty-tree check — against a docstring
+                # promising a second run finds nothing to do.
+                print("layout already `_ops/` — nothing moved, and the doors above were re-copied "
+                      "and staged. Commit them before running this again, or the dirty-tree check "
+                      "refuses the next run.")
         else:
             print("nothing to migrate — the layout is already `_ops/`, or was never flat")
         return 0

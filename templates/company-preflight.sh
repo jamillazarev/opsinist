@@ -66,6 +66,20 @@ for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
 purpose until it has something to hold (a roadmap · a role · a tool · the first decision); once \
 it does, create it, because an agent sent to a file that is not there improvises"
 done
+#     Absent is deferred; DELETED is not. Measured 2026-08-14: with §1 warning, a project whose
+#     TOOLING.md claimed an unevidenced entitlement was refused — and `git rm _ops/TOOLING.md`
+#     in the same commit made the commit green, because §2, §3 and §9 are each gated on the
+#     file existing. The constrained party could delete the gate instead of satisfying it. This
+#     is also the "past day one" signal the weakening owed: a document that has existed cannot
+#     quietly stop existing.
+gone=$(git diff --cached --name-only --diff-filter=D 2>/dev/null \
+  | grep -E '^_ops/(ROADMAP|TEAM|TOOLING|DECISIONS)\.md$' || true)
+if [ -n "$gone" ]; then
+  say_fail "this commit deletes $(printf '%s' "$gone" | tr '\n' ' ')— these four may be absent \
+because they have nothing to hold yet, but deleting one that exists also deletes the checks \
+gated on it (freshness, append-only, entitlements). Empty the content and keep the file, or say \
+in _ops/DECISIONS.md why the register is being retired"
+fi
 # The doors travel with this guard (0.2.7), and a wired project without them is the measured
 # dead end: §14 refuses a hand-edited stage and points at a door that is not there. Measured
 # twice — a live project held only the guard, and the day-one install instruction alone ran
@@ -78,7 +92,24 @@ for d in _ops/scripts/transition.py _ops/scripts/new-id.py; do
     say_fail "$d is missing — the doors travel with this guard. Ask your advisor to run the \
 upgrade step (it re-copies both doors beside this guard from wherever the skill is installed), \
 or §14 refuses your next stage change and points at a file you do not hold"
-  elif ! grep -q 'sys\.argv\|argparse' "$d"; then
+  elif ! python3 - "$d" <<'DOOR' >/dev/null 2>&1; then
+import ast, sys
+src = open(sys.argv[1], encoding="utf-8").read()
+tree = ast.parse(src)
+# A door is a command. `grep sys.argv` was satisfied by a three-line stub whose only mention
+# was the comment "# sys.argv is not read here" — measured 2026-08-14. This reads the file as
+# python and looks for an actual argv use or an argparse call, so a comment is not a door.
+def uses_args(node):
+    for n in ast.walk(node):
+        if isinstance(n, ast.Attribute) and n.attr == "argv":
+            return True
+        if isinstance(n, ast.Name) and n.id == "argparse":
+            return True
+        if isinstance(n, ast.Attribute) and n.attr == "ArgumentParser":
+            return True
+    return False
+sys.exit(0 if uses_args(tree) else 1)
+DOOR
     # Presence alone was satisfied by an empty file — measured against this guard on
     # 2026-08-14, and an interrupted copy leaves exactly that. A door is a command, so the
     # test is that it reads arguments; a `.py` that takes none is not the file §14 names.
@@ -221,8 +252,12 @@ fi
 # 3 · DECISIONS.md is append-only. Rewriting it is how a rejected idea comes back
 #     next quarter with nobody able to say why it was rejected the first time.
 if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f _ops/DECISIONS.md ]; then
+  # `^-[^-]` was excluding every removed BULLET: in a unified diff `- we chose X` arrives as
+  # `-- we chose X`, which is the shape this gate exists for. Measured 2026-08-14: deleting
+  # both decision entries counted 0 and passed silently. The `--- a/` header is dropped by
+  # path instead, so bullets are counted again.
   removed=$(git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null \
-            | grep -c '^-[^-]' || true)
+            | grep -v '^--- ' | grep -c '^-' || true)
   [ "${removed:-0}" -gt 0 ] && say_fail "_ops/DECISIONS.md is append-only — this commit \
 removes or rewrites $removed line(s). Add a new entry instead."
 fi
@@ -232,11 +267,16 @@ fi
 #      migrated", and a step re-run after a failure must append rather than overwrite — "this
 #      was attempted twice" is exactly the fact a later reader needs. Scoped to the section, so
 #      ordinary edits elsewhere in config.md stay free.
-if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f config.md ] \
-   && grep -q '^## Migrations' config.md; then
-  removed=$(git diff --cached -U0 -- config.md 2>/dev/null \
-            | grep '^-[^-]' | grep -cE '^-[[:space:]]*-.*(→|->)' || true)
-  [ "${removed:-0}" -gt 0 ] && say_fail "the migration log in config.md is append-only — this \
+# Measured 2026-08-14: this could never fire. It was gated on a flat `config.md` that the
+# migration moves to `_ops/config.md`, and its two filters excluded each other — the first
+# dropped every `--` line, the second required exactly that shape.
+cfg=""
+for c in _ops/config.md config.md; do [ -f "$c" ] && { cfg="$c"; break; }; done
+if git rev-parse --verify HEAD >/dev/null 2>&1 && [ -n "$cfg" ] \
+   && grep -q '^## Migrations' "$cfg"; then
+  removed=$(git diff --cached -U0 -- "$cfg" 2>/dev/null \
+            | grep -v '^--- ' | grep -cE '^-[[:space:]]*-.*(→|->)' || true)
+  [ "${removed:-0}" -gt 0 ] && say_fail "the migration log in $cfg is append-only — this \
 commit removes or rewrites $removed line(s). A re-run appends a line; it does not replace one."
 fi
 
@@ -284,8 +324,12 @@ done
 #     believing it holds the loop, writing each other's model and effort, and each one
 #     recording decisions the other never saw. Stated in three files and, until now,
 #     enforced by none of them.
-if [ -d roles ]; then
-  advisors=$(grep -rlE '^[[:space:]]*type:[[:space:]]*advisor[[:space:]]*$' roles 2>/dev/null | sort)
+# Measured 2026-08-14: §7 and §8 never ran in the `_ops/` layout — both were gated on a flat
+# `roles/`, and §8 then looped over `_ops/roles/*.md`. Two advisors passed green.
+roles_dir=""
+for rd in _ops/roles roles; do [ -d "$rd" ] && { roles_dir="$rd"; break; }; done
+if [ -n "$roles_dir" ]; then
+  advisors=$(grep -rlE '^[[:space:]]*type:[[:space:]]*advisor[[:space:]]*$' "$roles_dir" 2>/dev/null | sort)
   n=$(printf '%s' "$advisors" | grep -c . || true)
   if [ "${n:-0}" -gt 1 ]; then
     say_fail "there are $n advisors — exactly one holds the loop. Found: $(echo $advisors | tr '\n' ' ')"
@@ -308,8 +352,8 @@ fi
 # 8 · a role that does everything is usually a role that is missing. The load budget is a
 #     share of the window, and skills attached to a role load on every run it makes — needed or
 #     not. This counts them; the judgement about which to drop stays a person's.
-if [ -d roles ]; then
-  for r in _ops/roles/*.md; do
+if [ -n "$roles_dir" ]; then
+  for r in "$roles_dir"/*.md; do
     [ -f "$r" ] || continue
     n=$(sed -n 's/^[[:space:]]*-[[:space:]]*//p' "$r" | grep -c . || true)
     skills=$(awk '/^skills:/{f=1;next}/^[a-z_]+:/{f=0}f&&/^[[:space:]]*-/{c++}END{print c+0}' "$r")

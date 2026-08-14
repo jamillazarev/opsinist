@@ -34,8 +34,17 @@ pv=$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["version"])'
 # starting.md half still being a bare substring — were measured on 2026-08-14 and are each a
 # named mutant in `scripts/test-corpus-preflight.sh`, which is where the reasoning lives: a
 # mutation test is the executable form of the claim, and saying it twice is how one copy rots.
+# The block is the heading plus the LIST under it — list items and their indented
+# continuations, blank lines tolerated — and a door must appear in one of those items.
+# Measured 2026-08-14, two ways round: taking "everything until the next bold line" let a
+# gutted guide pass by appending the heading at EOF above a sentence naming the four paths,
+# and it also produced four refusals about paths present but below an unindented line.
 doors_block=$(perl -0pe 's/<!--.*?-->//gs; s/\r//g' "$ROOT/templates/GUIDE-template.md" \
-  | awk '/\*\*The doors — run these/{f=1; print; next} f && /^[[:space:]]*(\*\*|#)/{exit} f{print}')
+  | awk '/\*\*The doors — run these/{f=1; next}
+         f && /^[[:space:]]*$/{next}
+         f && /^- /{print; next}
+         f && /^[[:space:]]+/{print; next}
+         f{exit}')
 if [ -z "$doors_block" ]; then
   say_fail "templates/GUIDE-template.md has no block starting with the line \
 '**The doors — run these' — the measured repair for the operational-scripts hole \
@@ -54,8 +63,12 @@ fi
 # The day-one row installs all three into _ops/scripts/ in one move, so the anchor is one line
 # naming all three. A path loose in a comment, a changelog quotation or a later sentence no
 # longer satisfies it — which is precisely how the previous form was defeated.
-perl -0pe 's/<!--.*?-->//gs; s/\r//g' "$ROOT/starting.md" \
-  | grep -F 'transition.py' | grep -F 'new-id.py' | grep -qF 'company-preflight.sh' || say_fail \
+# Measured 2026-08-14: deleting the row and appending "if company-preflight.sh, transition.py
+# or new-id.py is ever missing, ask your advisor" satisfied the three greps. The row is a table
+# row that installs the three INTO `_ops/scripts/`, so that is what is required.
+( perl -0pe 's/<!--.*?-->//gs; s/\r//g' "$ROOT/starting.md" | grep '^|' || true ) \
+  | grep -F 'transition.py' | grep -F 'new-id.py' | grep -F 'company-preflight.sh' \
+  | grep -qF '_ops/scripts/' || say_fail \
   "starting.md has no ONE LINE naming transition.py, new-id.py and company-preflight.sh together \
 — that is the day-one row installing the doors beside the guard, and splitting it across two \
 lines reads here as deleting it. The guard's §14 points at _ops/scripts/transition.py, and \

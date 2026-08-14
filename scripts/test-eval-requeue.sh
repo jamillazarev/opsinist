@@ -79,5 +79,25 @@ out=$(run); rc=$?
 [ "$rc" -ne 0 ] && ok || bad "a missing jobs table was reported as a finished round"
 printf '%s' "$out" | grep -q "nothing was swept" && ok || bad "the missing table was not named"
 
+# Four shapes the sweep called finished, every one measured 2026-08-14.
+build_clean
+printf 'N1 1\nN1 2\nN1 3' > "$S/jobs.txt"        # no trailing newline: `read` drops the last row
+: > "$S/logs/N1-3.output"
+run >/dev/null 2>&1 && bad "an unterminated last row was never read — where a truncated write lands" || ok
+
+build_clean
+python3 -c "
+import pathlib,sys
+p=pathlib.Path(sys.argv[1]); p.write_text(p.read_text().replace('\n','\r\n'))" "$S/jobs.txt"
+run >/dev/null 2>&1 && ok || bad "a CRLF jobs table reported a healthy round as entirely lost"
+
+build_clean
+rm -f "$S/logs/N1-2.verdict.json"                  # a transcript nobody judged is not a finished run
+run >/dev/null 2>&1 && bad "a run with no verdict at all counted as finished" || ok
+
+build_clean
+printf '{"verdict": "vo' > "$S/logs/N1-2.verdict.json"   # truncated write
+run >/dev/null 2>&1 && bad "an unparseable verdict counted as finished" || ok
+
 echo "eval-requeue: $pass passed, $fail failed"
 exit "$fail"

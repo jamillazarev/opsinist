@@ -34,15 +34,23 @@ sweep_voids() {
     echo "no jobs table at $SUITE/jobs.txt — nothing was swept, and nothing can be claimed"
     return 1
   fi
-  while read -r id n; do
+  # `|| [ -n "$id" ]` because a `while read` drops a final unterminated line, and the last row
+  # is exactly where a truncated write lands. `\r` stripped because a CRLF table made every log
+  # path fail to resolve and reported a healthy round as entirely lost — measured, both.
+  while read -r id n || [ -n "${id:-}" ]; do
+    id=${id%$'\r'}; n=${n%$'\r'}
     [ -z "${id:-}" ] && continue
-    if [ ! -s "$SUITE/logs/$id-$n.output" ]; then
+    # No transcript is the defect this exists for. No verdict BESIDE a transcript is the other
+    # half of the same claim: the judge never ran, so the row is not a finished run either.
+    if [ ! -s "$SUITE/logs/$id-$n.output" ] || [ ! -s "$SUITE/logs/$id-$n.verdict.json" ] \
+       || ! python3 -c 'import json,sys; json.load(open(sys.argv[1]))' \
+            "$SUITE/logs/$id-$n.verdict.json" 2>/dev/null; then
       left=$((left+1))
       if [ "$shown" -lt 12 ]; then names="$names $id/$n"; shown=$((shown+1)); fi
     fi
   done < "$SUITE/jobs.txt"
   [ "$left" -eq 0 ] && return 0
-  echo "$left run(s) produced no transcript:$names$([ "$left" -gt "$shown" ] && echo " … and $((left-shown)) more")"
+  echo "$left run(s) are not finished runs — no transcript, or no readable verdict:$names$([ "$left" -gt "$shown" ] && echo " … and $((left-shown)) more")"
   echo "none of these hit a session limit, so this script cannot requeue them. Re-dispatch by id"
   echo "with eval-shard.sh, or read logs/<id>-<n>.err — a whole scenario voiding means its fixture"
   echo "never built. Until then the table's N is smaller than it looks: read the void column."

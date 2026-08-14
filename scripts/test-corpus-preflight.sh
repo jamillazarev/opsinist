@@ -118,5 +118,31 @@ p.write_text(t[:i] + '\\n\\n> *Corrected 2026-08-14.* The number below was wrong
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) >/dev/null 2>&1 \
   && ok || bad "a marked correction under a released entry was refused"
 
+# mutants 8 and 9 — both measured passing on 2026-08-14, and both are the same move: satisfying
+# a check's STRINGS without its SHAPE. The guide's block gutted and the heading re-appended at
+# EOF above a prose line naming the four paths; and the day-one row deleted, replaced by a
+# sentence mentioning all three files.
+( cd "$T/c" && git checkout -q . \
+  && python3 -c "
+import pathlib,re
+p=pathlib.Path('templates/GUIDE-template.md'); t=p.read_text()
+m=re.search(r'\\*\\*The doors — run these.*?\\n\\n', t, re.S)
+t=t.replace(m.group(0), '', 1)
+t += '\\n**The doors — run these, never improvise past them:**\\n(removed) _ops/scripts/transition.py _ops/runs/ _ops/pipelines/ _ops/scripts/new-id.py\\n'
+p.write_text(t)" \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o8" 2>&1 \
+  && bad "a gutted guide passed by re-appending the heading above a prose line" || ok
+
+( cd "$T/c" && git checkout -q . \
+  && python3 -c "
+import pathlib
+p=pathlib.Path('starting.md'); lines=p.read_text().split('\\n')
+out=[l for l in lines if not ('company-preflight.sh' in l and 'transition.py' in l)]
+assert len(out) < len(lines)
+out.append('If \\`company-preflight.sh\\`, \\`transition.py\\` or \\`new-id.py\\` is ever missing, ask your advisor.')
+p.write_text('\\n'.join(out))" \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o9" 2>&1 \
+  && bad "the day-one row was replaced by a sentence naming all three and passed" || ok
+
 echo "corpus-preflight: $pass passed, $fail failed"
 exit "$fail"

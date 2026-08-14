@@ -92,5 +92,33 @@ git commit -qm "doors back"
 python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1
 grep -q 'doors re-copied' "$T/out.txt" && bad "re-copied identical doors and called it work" || ok
 
+# Three shapes measured 2026-08-14: a customised door overwritten in silence against this file's
+# own "never a silent overwrite"; `git add`'s result discarded, so an ignored path leaves the door
+# in the worktree and out of the commit; and the already-_ops exit staging work it never mentioned,
+# so the NEXT run hit the dirty-tree refusal against a docstring promising a no-op.
+# the collision fixture above leaves tasks/T-9.md at the root, which keeps the migrator off its
+# already-`_ops/` exit — clear it so this block exercises the path it is about
+rm -rf tasks
+printf 'custom door, do not clobber\n' > _ops/scripts/transition.py
+git add -A && git commit -qm "customised door"
+python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1
+grep -q 'differed from the shipped door and was replaced' "$T/out.txt" \
+  && ok || bad "a customised door was replaced in silence"
+[ -f _ops/scripts/transition.py.replaced ] && ok || bad "the replaced door was not kept"
+grep -q 'Commit them before running this again' "$T/out.txt" \
+  && ok || bad "work was staged and the operator was not told to commit it"
+rm -f _ops/scripts/transition.py.replaced; git add -A; git commit -qm "doors restored"
+
+# an ignore only bites an UNTRACKED path, so the door has to leave the index first — which is
+# exactly the shape that produced the measured case: a project that never tracked its doors
+git rm -q --cached _ops/scripts/new-id.py
+printf '_ops/scripts/*.py\n' >> .gitignore
+git add -A && git commit -qm "ignore the doors"
+printf 'clobber me\n' > _ops/scripts/new-id.py
+python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1
+grep -q 'written but NOT staged' "$T/out.txt" \
+  && ok || bad "an ignored door was reported as re-copied while the commit would not carry it"
+git checkout -q .gitignore 2>/dev/null || true
+
 echo "migrate-layout: $pass passed, $fail failed"
 exit "$fail"

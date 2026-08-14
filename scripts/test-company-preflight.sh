@@ -38,6 +38,12 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a guard without its doors
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "an empty file named transition.py passed as a door" || ok
 printf 'print("hello")\n' > _ops/scripts/transition.py
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a .py that reads no arguments passed as a door" || ok
+# and the stub that named argv only in a COMMENT, which the substring form accepted (measured)
+printf '# sys.argv is not read here\nprint("hi")\n' > _ops/scripts/transition.py
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a comment mentioning sys.argv passed as a door" || ok
+# a file that is not python at all is not a door either
+printf 'not python (\n' > _ops/scripts/transition.py
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "an unparseable file passed as a door" || ok
 mv /tmp/.door.$$ _ops/scripts/transition.py
 
 # a hand flip, staged, no transition line → §14 refuses the commit
@@ -154,6 +160,36 @@ printf '# R-7\n\n**kind**: relay\n\n```markdown\n**Payload**: `x`\n**Predicate**
 git add -A
 gate && bad "fields present only inside a fenced example counted" || ok
 rm -f _ops/requests/R-7.md; git add -A
+
+# Absent is deferred; deleted is not. Measured 2026-08-14: with §1 warning, deleting the register
+# in the same commit that claims an unevidenced entitlement turned a refusal into a green commit,
+# because §2, §3 and §9 are each gated on the file existing.
+git rm -q _ops/TOOLING.md
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "deleting a document deleted the checks gated on it" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "this commit deletes" \
+  && ok || bad "the deletion refusal does not say what was deleted"
+git checkout -q HEAD -- _ops/TOOLING.md && git reset -q && git checkout -q _ops/TOOLING.md
+
+# Three gates that could never fire, measured 2026-08-14 and each with its own reason: §3 counted
+# `^-[^-]`, which excludes exactly the removed BULLET it guards; §3b was gated on a flat
+# `config.md` the migration renames away AND had two mutually exclusive filters; §7/§8 were gated
+# on a flat `roles/` while §8 looped over `_ops/roles/*.md`.
+mkdir -p _ops/roles
+printf '# Decisions\n\n- 2026-01-01 we chose X\n- 2026-02-02 we chose Y\n' > _ops/DECISIONS.md
+printf '# Config\n\n## Migrations\n\n- — -> 0.2.6 · applied\n- 0.2.6 -> 0.2.7 · applied\n' > _ops/config.md
+git add -A && git commit -qm "gate fixtures"
+
+printf '# Decisions\n' > _ops/DECISIONS.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "removing every decision BULLET passed the append-only gate" || ok
+git checkout -q HEAD -- _ops/DECISIONS.md; git reset -q; git checkout -q _ops/DECISIONS.md
+
+printf '# Config\n\n## Migrations\n\n- — -> 0.2.7 · applied\n' > _ops/config.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "rewriting the migration log passed — the gate was unreachable in this layout" || ok
+git checkout -q HEAD -- _ops/config.md; git reset -q; git checkout -q _ops/config.md
+
+printf 'type: advisor\n' > _ops/roles/a.md; printf 'type: advisor\n' > _ops/roles/b.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "two advisors in _ops/roles passed — §7 was watching the flat path" || ok
+rm -rf _ops/roles _ops/config.md; git add -A; git commit -qm "gate fixtures out"
 
 # A by-the-book day one commits. Built in its own tree from `starting.md`'s table alone — guide,
 # config with its migration log, guard and both doors, first task with its type — and NONE of the
