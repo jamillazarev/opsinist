@@ -93,11 +93,23 @@ done
 # measured — leaving `--no-verify` as the only exit, which is the bypass this file's header
 # is about. A staged decision naming the file is now the escape.
 retired_ok=""
-if [ -n "$gone$emptied" ] && git diff --cached --name-only 2>/dev/null | grep -qx '_ops/DECISIONS.md'; then
+if [ -n "$gone$emptied" ] \
+   && ( git diff --cached --name-only 2>/dev/null || true ) | grep -qx '_ops/DECISIONS.md'; then
+  # The added DECISIONS lines, read once. Both pipelines here end in a `grep -q`, so both wrap
+  # their producer — the SIGPIPE class fixed elsewhere in this file was still live in the
+  # escape, where it would have failed closed and refused a legitimate retirement at scale.
+  _dec_added=$( ( git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null || true ) \
+                | grep '^+' | grep -v '^+++ ' || true)
   for f in $gone $emptied; do
     base=${f##*/}
-    ( git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null || true ) \
-      | grep '^+' | grep -v '^+++ ' | grep -qF "$base" || { retired_ok=""; break; }
+    # Named AND retired, on the same line — a bare filename match was unlocked by any passing
+    # mention. What this buys is a DURABLE WRITTEN RECORD, not proof of intent: a string test
+    # cannot read polarity, so "we are NOT retiring TOOLING.md" still opens it. That is an
+    # accepted limit, not an oversight — someone who writes that line and deletes the file in
+    # the same commit has put a contradiction in an append-only log, where it stays.
+    printf '%s\n' "$_dec_added" \
+      | grep -iE "$base" \
+      | grep -qiE 'retir|remov|drop|delet' || { retired_ok=""; break; }
     retired_ok=yes
   done
 fi

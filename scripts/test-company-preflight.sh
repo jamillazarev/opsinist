@@ -183,6 +183,17 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "deleting a document delet
 printf -- '- 2026-08-14 retiring _ops/TOOLING.md: moved to the vendor portal\n' >> _ops/DECISIONS.md
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a retirement recorded in DECISIONS.md was refused anyway"
+# the escape is a record, not a password: a passing mention with no retirement verb does not open it
+git checkout -q HEAD -- _ops/DECISIONS.md && git reset -q && git checkout -q _ops/DECISIONS.md
+git rm -q _ops/TOOLING.md
+printf -- '- 2026-08-14 _ops/TOOLING.md was mentioned in a meeting\n' >> _ops/DECISIONS.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a bare mention of the file opened the escape" || ok
+# and each retired file needs its own line — one decision must not cover a second deletion
+printf -- '- 2026-08-14 retiring _ops/TOOLING.md: moved to the vendor portal\n' >> _ops/DECISIONS.md
+git rm -q _ops/TEAM.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "one file's decision covered a second file's deletion" || ok
+git checkout -q HEAD -- _ops/TOOLING.md _ops/TEAM.md _ops/DECISIONS.md && git reset -q
+git checkout -q _ops/TOOLING.md _ops/TEAM.md _ops/DECISIONS.md
 git checkout -q HEAD -- _ops/TOOLING.md _ops/DECISIONS.md && git reset -q && git checkout -q _ops/TOOLING.md _ops/DECISIONS.md
 # a rename is not listed by --diff-filter=D, and git detects renames by default — measured
 # walking straight through, and better for the constrained party than the delete it replaced
