@@ -508,6 +508,33 @@ git checkout -q HEAD -- .; git reset -q
 git rm -qf _ops/tasks/T-tpl.md _ops/tasks/T-close.md _ops/runs/R-old.md >/dev/null 2>&1
 git commit -qm "fixtures out" >/dev/null 2>&1
 
+# ── a rename must not be a bypass ──────────────────────────────────────────────────────────
+# `git mv` plus the offending edit in ONE commit scored `R098` and drew ZERO refusals: `AM` does
+# not select `R`, and restricting `git diff` to the new path alone defeats rename detection, so
+# the diff showed a wholly-added file with no removed state line for §14 to find. Measured
+# 2026-08-15 (pass ten). Both halves are needed — the file list must include renames AND the diff
+# must be paired with its source — so this asserts the whole path, and the control beside it.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+{ printf '# T-REN — a long task\n\n**Status**: doing\n**Assignee**: ui\n\n## Notes\n\n'
+  for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
+    printf 'A line of ordinary prose number %s.\n' "$i"
+  done; } > _ops/tasks/T-REN.md
+git add -A && git commit -qm "rename fixture" >/dev/null 2>&1
+git mv _ops/tasks/T-REN.md _ops/tasks/T-REN2.md
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/tasks/T-REN2.md')
+p.write_text(p.read_text().replace('**Status**: doing', '**Status**: done'))"
+git add -A
+# it really must be scored a rename, or this pair proves nothing
+( git diff --cached --name-status -M || true ) | grep -q '^R' \
+  && ok || bad "the fixture was not scored a rename — this assertion cannot demonstrate the bypass"
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a hand-flipped status delivered as a rename passed every gate" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf _ops/tasks/T-REN.md >/dev/null 2>&1
+git commit -qm "rename fixture out" >/dev/null 2>&1
+
 # ── the third attempt is counted from the neighbours, not from the field ───────────────────
 # The field is a claim; a worker who did not read the prior records writes a third one labelled
 # `attempt: 1` and a gate keyed on the field alone lets it past. N93 measured 1/5 with four runs

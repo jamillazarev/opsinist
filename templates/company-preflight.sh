@@ -101,6 +101,21 @@ changed() { git -c core.quotePath=false diff --cached --name-only -z "$@" 2>/dev
 # migration looking at the same file reported nothing to fix. Measured 2026-08-15 (pass ten): the
 # reader had no path at all, one tool refusing and the other saying there was no problem. The two
 # now agree on what an example is, which matters more than either rule being perfect.
+# staged_diff <path> — the staged diff for a file, PAIRED with its rename source when it has one.
+# Restricting `git diff` to a single path defeats rename detection: git has nothing to pair the
+# new path with, so it prints the file as wholly added — every line a `+`, not one `-`. Measured
+# 2026-08-15 (pass ten): `git mv` plus a hand-flipped status in one commit scored `R098` and drew
+# ZERO refusals, because §14 requires a removed state line and a rename-blind diff has none. That
+# is the whole gate walked through by renaming the file first.
+staged_diff() {
+  _src=$(git diff --cached --name-status -M 2>/dev/null \
+         | awk -v n="$1" -F'\t' '$1 ~ /^R/ && $3 == n {print $2}' | head -1)
+  if [ -n "${_src:-}" ]; then
+    git diff --cached -U0 -M -- "$_src" "$1" 2>/dev/null || true
+  else
+    git diff --cached -U0 -- "$1" 2>/dev/null || true
+  fi
+}
 state_homes() {
   awk '/^[[:space:]]*(```|~~~)/{f=!f; next} f{next} /^[[:space:]]*>/{next} /^(\t| {4})/{next} {print}' \
     | grep -ooiE '(\*\*)?(status|stage|статус|стадия)(\*\*)?[[:space:]]*:' \
@@ -234,6 +249,10 @@ if ( git ls-files || true ) | hits -E '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'
 starts in a fresh worktree and re-derives the layout"
 fi
 
+# `AMR`, not `AM`. git scores a rename and reports `R`, which `AM` does not select: measured
+#      2026-08-15 (pass ten), `git mv` plus the offending edit in ONE commit produced `R098` and
+#      **zero refusals** — §1c, §1g and the §14 net all went silent together. §1f was moved to
+#      `AR` in this same release for exactly this reason and the sections beside it were not.
 # 1c · one state, one home — enforced on what a commit ADDS, not on what a project already has.
 #      The door reads a stage field "wherever the template put it", which is tolerant by design
 #      and is how a project ends up with two: a prose `**Status**` the human reads and a machine
@@ -263,7 +282,7 @@ while IFS= read -r -d '' tf; do
   say_fail "$tf now keeps its state in ${n} places (it kept ${was:-0}) — a status the human reads and a stage the \
 door moves stop agreeing the first time only one of them is updated. Keep one, on the header \
 line, and let the door own it"
-done < <(changed --diff-filter=AM -- '_ops/tasks/*.md')
+done < <(changed --diff-filter=AMR -- '_ops/tasks/*.md')
 
 # 1d · paths are ASCII; what is written inside them is the project's own language. Measured on a
 #      live project: 126 tracked paths under `_ops/` carried Cyrillic, and git renders those as
@@ -385,11 +404,11 @@ while IFS= read -r -d '' tf; do
 there — a child or parent link that resolves to nothing is worse than a bare id, because it \
 reads as navigable. Fix the path, or say the id in plain text"
   done <<LINKS
-$( ( git diff --cached -U0 -- "$tf" 2>/dev/null || true ) | grep '^+' | grep -v '^+++ ' \
+$( ( staged_diff "$tf" ) | grep '^+' | grep -v '^+++ ' \
    | sed 's/^+//' | awk '/^[[:space:]]*(```|~~~)/{f=!f; next} !f' \
    | grep -oE '\]\([^)]+\.md\)' | sed -E 's/^\]\(//; s/\)$//' || true)
 LINKS
-done < <(changed --diff-filter=AM -- '_ops/tasks/*.md')
+done < <(changed --diff-filter=AMR -- '_ops/tasks/*.md')
 
 # 2 · a recorded fact past its recheck is unknown, not fact. TOOLING.md carries a
 #     Checked column precisely so this can be enforced rather than hoped for.
@@ -700,7 +719,7 @@ fi
 #      blocker, then set its own task to shipped and tagged a release in the same breath.
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   while IFS= read -r -d '' t; do
-    d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
+    d=$(staged_diff "$t")
     printf '%s' "$d" \
       | hits -iE '^\+.*\*{0,2}status\*{0,2}[[:space:]]*:[[:space:]]*(done|shipped|completed|accepted|closed)' \
       || continue
@@ -740,7 +759,7 @@ fi
 #      identity check, and anything stronger belongs in branch protection.
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   while IFS= read -r -d '' t; do
-    d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
+    d=$(staged_diff "$t")
     printf '%s' "$d" | hits -iE '^\+.*(reviewed by|approved by|accepted by)' || continue
     who=$(printf '%s' "$d" | grep -ioE '(reviewed|approved|accepted) by[: ]+@?[A-Za-z0-9._-]+' \
           | sed -E 's/.*by[: ]+@?//' | head -1)
@@ -763,7 +782,7 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
   # allows the asterisks, or this net matches nothing while reading as a gate. Measured by
   # the lenses within a day of it being written: the plain-colon version had zero matches.
   while IFS= read -r -d '' t; do
-    d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
+    d=$(staged_diff "$t")
     printf '%s' "$d" | hits -iE '^-.*(stage|status)\*{0,2}[[:space:]]*:' || continue
     printf '%s' "$d" | hits -iE '^\+.*(stage|status)\*{0,2}[[:space:]]*:' || continue
     printf '%s' "$d" | hits -E '^\+.*transition .* (→|->) .*, by ' \
@@ -783,7 +802,7 @@ fi
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   while IFS= read -r -d '' t; do
     grep -qiE '^[[:space:]]*((children|subtasks)[[:space:]]*:|##[[:space:]]*(children|subtasks))' "$t" || continue
-    d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
+    d=$(staged_diff "$t")
     printf '%s' "$d" \
       | hits -iE '^\+.*\*{0,2}status\*{0,2}[[:space:]]*:[[:space:]]*(done|shipped|completed|accepted|closed)' \
       || continue
