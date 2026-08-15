@@ -131,22 +131,34 @@ fi
 # dead end: §14 refuses a hand-edited stage and points at a door that is not there. Measured
 # twice — a live project held only the guard, and the day-one install instruction alone ran
 # 0/5 in the round — so the presence is held here, not remembered.
+missing_doors=""
 for d in _ops/scripts/transition.py _ops/scripts/new-id.py; do
   if [ ! -f "$d" ]; then
-    # The refusal points at a step, not a path: where the skill lives differs per runtime and
-    # nothing shipped into a project names it.
-    say_fail "$d is missing — the doors travel with this guard. Ask your advisor to run the \
-upgrade step (it re-copies both doors beside this guard from wherever the skill is installed), \
-or §14 refuses your next stage change and points at a file you do not hold"
+    missing_doors="$missing_doors ${d##*/}"
   elif [ ! -s "$d" ] || ! grep -q 'sys\.argv\|argparse' "$d"; then
     # Non-empty plus an argument-reading mention — deliberately a heuristic, because an
     # interrupted copy is the failure this catches and a stricter form needs an interpreter
     # this project may not have. Why the stricter form was tried and withdrawn: the 0.2.7
     # changelog.
-    say_fail "$d is empty or does not read arguments — a half-copied door is not a door. Ask \
-your advisor to run the upgrade step (it re-copies a door whose bytes differ), then commit again"
+    say_fail "$d is empty or does not read arguments — a half-copied door is not a door. \
+Re-copy it with one of the two lines below, then commit again"
+    missing_doors="$missing_doors ${d##*/}"
   fi
 done
+# One refusal for both doors, not one each: the message carries two command lines and printing
+# it twice buries them. Third wording this release, and the first written from evidence — "ask
+# your advisor to run the upgrade step" named a PROCESS and was invoked by nobody, 0 of 5,
+# measured 2026-08-15. The message that went 5/5 in the same round named an artifact and printed
+# the literal thing to do.
+if [ -n "$missing_doors" ]; then
+  say_fail "the doors travel with this guard and are missing or half-copied:$missing_doors — \
+§14 refuses your next stage change while pointing at a file you do not hold. One of these, \
+whichever you can reach:
+    python3 <the skill>/scripts/migrate-layout.py .     # finds its own source, copies both doors
+    cp <the skill>/scripts/transition.py <the skill>/scripts/new-id.py _ops/scripts/
+The skill is the plugin your advisor already has loaded — ask it for the path if you do not know \
+it, because nothing shipped into this project names it"
+fi
 # `hits` instead of `grep -q`, everywhere the input can be large. `grep -q` exits on its
 # first match and SIGPIPEs its producer; under `set -o pipefail` the pipeline then returns
 # 141 and the condition reads it as NO MATCH. Measured: a credential gate that missed an

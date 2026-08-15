@@ -32,7 +32,7 @@ mv _ops/scripts/transition.py /tmp/.door.$$
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a guard without its doors passed" || ok
 # `|| true` before the pipe, because this file sets pipefail: a refusing preflight piped into
 # a MATCHING grep still returns preflight's 1, and the assertion reads a found phrase as absent.
-( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "Ask your advisor to run the upgrade step" && ok || bad "the doors refusal lost its executable route"
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "migrate-layout.py" && ok || bad "the doors refusal lost the command a reader can run"
 # presence is not the door: an interrupted copy leaves a file of the right name and no command
 : > _ops/scripts/transition.py
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "an empty file named transition.py passed as a door" || ok

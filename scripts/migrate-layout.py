@@ -74,7 +74,7 @@ def report_state_fields(root, dry):
             raw = tf.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
             continue                      # not ours to read, and certainly not ours to rewrite
-        lines, fence, mach, prose = raw.split("\n"), False, None, None
+        lines, fence, mach, prose, mach_line = raw.split("\n"), False, None, None, 0
         for l in lines:
             if re.match(r"^[ \t]*(```|~~~)", l):
                 fence = not fence
@@ -83,21 +83,28 @@ def report_state_fields(root, dry):
                 continue                  # an example is not a field
             if mach is None and MACHINE.match(l):
                 mach = MACHINE.match(l).group(1).strip()
+                mach_line = lines.index(l) + 1
             if prose is None and PROSE.search(l):
                 prose = PROSE.search(l).group(1).strip()
         if mach is not None and prose is not None:
-            found.append((tf.name, prose or "(empty)", mach))
+            found.append((tf.name, prose or "(empty)", mach, mach_line))
     if not found:
         return []
     print(f"  {len(found)} task(s) carry state in two places, and 0.2.7 refuses a commit that "
           f"ADDS a second — these are legacy and are NOT refused, but they disagree:")
-    for name, prose, mach in found[:8]:
-        same = "agree" if prose == mach else "DISAGREE"
-        print(f"    {name}: `**Status**` says `{prose}` · the door's `stage:` says `{mach}` — {same}")
+    # Per task, the exact edit — not a general instruction. Measured 2026-08-15: the general
+    # form ("keep it in **Status**, delete the machine line — by hand") produced a report and a
+    # request for permission in FIVE runs out of five; nobody applied it. The refusal that went
+    # 5/5 in the same round printed the literal line to paste, per file. This is that shape.
+    for name, prose, mach, line_no in found[:8]:
+        print(f"    _ops/tasks/{name}")
+        print(f"      delete line {line_no}   (the machine `stage:` line)")
+        print(f"      set          **Status**: {mach}" +
+              (f"   (it currently says `{prose}`)" if prose != mach else "   (already correct)"))
     if len(found) > 8:
-        print(f"    … and {len(found) - 8} more")
-    print("  The door's value is the one that moved. Keep it in `**Status**`, delete the "
-          "machine line — by hand, because this script does not edit your prose.")
+        print(f"    … and {len(found) - 8} more, same two edits each")
+    print("  Two edits per task, and nothing else in the file changes. This script does not make "
+          "them: it edits nobody's prose.")
     return [f[0] for f in found]
 
 

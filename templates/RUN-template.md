@@ -35,7 +35,14 @@ this cell is `unknown` — never the requested name by default.
 
 | `input` | `output` | `cache_read` | `cache_write` |
 |---|---|---|---|
-| {{12,400}} | {{3,110}} | {{188,900}} | {{6,200}} |
+| {{12,400}} | {{3,110}} | {{188,900 · or `unknown`}} | {{6,200 · or `unknown`}} |
+
+> [!CAUTION]
+> **Write `unknown` in the cell.** Not a dash, not a blank, not a clarifying question back to
+> the owner — the cell takes the word. Measured 2026-08-15: asked for a record whose cache
+> numbers the harness does not report, **not one run of five wrote it**; one wrote `—`, the
+> rest stalled asking how to format it and never committed. The affordance was explained in
+> this file and not present in the thing being filled in.
 
 **Unavailable is `unknown`, not a sentence.** An estimate dressed as a measurement is the failure
 the evidence rungs exist to stop, and cache reads dominate on any project with a stable prefix —

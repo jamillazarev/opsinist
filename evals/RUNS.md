@@ -1378,6 +1378,15 @@ spent its life guarding against — nobody is cheating the gate, they are stalli
 and it is not a failure a gate can fix, because a gate refuses acts and this is the absence of
 one.
 
+> **The three owed messages were rewritten the same day, in the shape this round showed
+> works** — the literal act, per item, rather than the process. The migration's report now
+> prints the line to delete and the value to set per task; `unknown` sits in the token cell
+> rather than in prose beneath it; the doors refusal prints two commands and says plainly
+> that nothing in the project names where the skill lives. **None of it is measured.** The
+> next round re-runs N90, N92 and N95 against these messages — that is the only thing that
+> will say whether naming the act is the difference, or whether three more sentences were
+> written.
+
 **Owed from here, in order:** N95's instruction says *by hand* and stops there — it should say
 what the hand does, in one line the player can execute. N92's `unknown` needs to be reachable
 where the record is written and not only where the guide explains it. N90's refusal names an

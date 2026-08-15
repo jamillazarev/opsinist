@@ -155,9 +155,15 @@ python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1
 [ "$(md5 -q _ops/tasks/T-A.md)" = "$before_a" ] && ok || bad "the migration rewrote a task file — it does not own them"
 [ "$(md5 -q _ops/tasks/T-B.md)" = "$before_b" ] && ok || bad "the migration rewrote a second task file"
 grep -q 'carry state in two places' "$T/out.txt" && ok || bad "the two-home tasks were not named"
-grep -q 'T-A.md: .*started.*review.*DISAGREE' "$T/out.txt" \
-  && ok || bad "the report does not say which value the door has"
-grep -q 'T-B.md.*agree' "$T/out.txt" && ok || bad "a task whose two copies agree was not distinguished"
+# the shape that went 5/5 in the refusal round: the literal edit, per item, not an instruction.
+# The general form — "keep it in **Status**, delete the machine line, by hand" — produced a
+# report and a request for permission in five runs of five and was applied by none.
+grep -q 'delete line [0-9]' "$T/out.txt" \
+  && ok || bad "the report does not name the line to delete"
+grep -q 'set  *\*\*Status\*\*: review' "$T/out.txt" \
+  && ok || bad "the report does not name the value to set"
+grep -q 'already correct' "$T/out.txt" \
+  && ok || bad "a task whose two copies agree was not distinguished"
 grep -q 'T-C.md' "$T/out.txt" && bad "a one-home task was named as a problem" || ok
 # the examples are not fields: a value from a fence or an indented block must never be reported
 grep -q 'draft\|indented-example' "$T/out.txt" && bad "a value out of an example was read as state" || ok
