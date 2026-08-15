@@ -168,5 +168,59 @@ grep -q 'T-C.md' "$T/out.txt" && bad "a one-home task was named as a problem" ||
 # the examples are not fields: a value from a fence or an indented block must never be reported
 grep -q 'draft\|indented-example' "$T/out.txt" && bad "a value out of an example was read as state" || ok
 
+# ── the report's number must be RIGHT, not merely present ──────────────────────────────────
+# The assertion above checks that a number printed. It cannot fail when the number is wrong, and
+# it was: `lines.index(l)` returned the first line EQUAL to the machine line, so a task carrying
+# a fenced example byte-identical to its real field named the FENCED line as the one to delete —
+# a reader following the report destroys the example and keeps the duplicate. Measured 2026-08-15
+# (pass nine). These assert the exact line, the value alone, and the refusal to instruct.
+mkdir -p "$T/rep/_ops/tasks" && ( cd "$T/rep" && git init -q . )
+printf '# A\n\n**Status**: doing\n\n```\nstage: doing\n```\n\nstage: doing\n' > "$T/rep/_ops/tasks/T-fence.md"
+printf '# B\n\n**Status**: doing - **Owner**: me\n\nstage: review\n'          > "$T/rep/_ops/tasks/T-hyphen.md"
+printf '# C\n\n**Status**: doing\n\nstage: doing is what we mean when we say it\n' > "$T/rep/_ops/tasks/T-prose.md"
+# committed, or the dirty-tree refusal answers instead of the report
+( cd "$T/rep" && git add -A >/dev/null && git -c user.email=t@f.t -c user.name=T commit -qm f )
+python3 "$HERE/migrate-layout.py" "$T/rep" > "$T/rep.txt" 2>&1
+# line 9 is the real field; line 6 is inside the fence
+grep -A1 'T-fence.md' "$T/rep.txt" | grep -q 'delete line 9' \
+  && ok || bad "the report names the wrong line for a task whose fenced example matches its field"
+grep -A1 'T-fence.md' "$T/rep.txt" | grep -q 'delete line 6' \
+  && bad "the report points at a line inside a fence" || ok
+# the value alone, not the neighbouring field a `-` separator glued to it
+grep -A2 'T-hyphen.md' "$T/rep.txt" | grep -q 'currently says `doing`' \
+  && ok || bad "the report swallowed a neighbouring field into the current value"
+grep -A2 'T-hyphen.md' "$T/rep.txt" | grep -q 'Owner' \
+  && bad "the report offered to overwrite a neighbouring field" || ok
+# a stage that is a sentence gets no instruction at all
+grep -A2 'T-prose.md' "$T/rep.txt" | grep -q 'is not a stage name' \
+  && ok || bad "a prose sentence was printed as the value to set"
+grep -A2 'T-prose.md' "$T/rep.txt" | grep -q 'set  *\*\*Status\*\*: doing is what' \
+  && bad "the report instructed the reader to write a sentence into a stage field" || ok
+
+# ── the doors remedy must run where it is printed ──────────────────────────────────────────
+# The guard's doors refusal is emitted by a pre-commit hook, so there is always staged work. It
+# offered a plain `migrate-layout.py .`, which refuses a dirty tree — the first remedy could not
+# work at the only moment it is read. Measured 2026-08-15 (pass nine). This asserts the whole
+# loop: staged work present · a door missing · run the printed command · it lands and stages.
+mkdir -p "$T/doors/_ops/scripts" "$T/doors/_ops/tasks" && ( cd "$T/doors" && git init -q . )
+cp "$HERE/../templates/company-preflight.sh" "$T/doors/_ops/scripts/preflight.sh"
+cp "$HERE/transition.py" "$T/doors/_ops/scripts/"            # only ONE door
+printf '# T\n\n**Status**: started\n\n## History\n' > "$T/doors/_ops/tasks/T-1.md"
+( cd "$T/doors" && git add -A >/dev/null && git -c user.email=t@f.t -c user.name=T commit -qm f )
+printf -- '- a change\n' >> "$T/doors/_ops/tasks/T-1.md"
+( cd "$T/doors" && git add -A )                               # the hook's actual state: dirty
+( cd "$T/doors" && bash _ops/scripts/preflight.sh 2>&1 || true ) > "$T/doors.txt"
+grep -q -- '--doors-only' "$T/doors.txt" \
+  && ok || bad "the doors refusal does not print a command that runs with work staged"
+grep -q 'cp .*transition.py' "$T/doors.txt" \
+  && bad "the refusal offered to overwrite a door that is present" || ok
+( cd "$T/doors" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/doors2.txt" 2>&1
+[ -s "$T/doors/_ops/scripts/new-id.py" ] \
+  && ok || bad "the printed command did not place the missing door"
+( cd "$T/doors" && git diff --cached --name-only | grep -q 'new-id.py' ) \
+  && ok || bad "the door was written but not staged"
+( cd "$T/doors" && bash _ops/scripts/preflight.sh >/dev/null 2>&1 ) \
+  && ok || bad "the commit is still refused after following the refusal's own instruction"
+
 echo "migrate-layout: $pass passed, $fail failed"
 exit "$fail"

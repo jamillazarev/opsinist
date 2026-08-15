@@ -64,6 +64,16 @@ nothing accumulates outside versions.
   found phrase read as absent (measured 2026-08-14 in the company-preflight suite). Wrap the
   left side in `(… || true)` when the pipe's verdict is the right side's.
 
+- **The `grep` you test at the prompt is not the `grep` a script gets** (measured 2026-08-15).
+  In this tool's shell `grep` is a **shell function** (from the zsh snapshot) resolving to
+  **ugrep 7.5.0**; a plain `bash script.sh` gets **`/usr/bin/grep`, BSD 2.6.0-FreeBSD**. They
+  disagree: on `**Status**: x · **Stage**: y`, `grep -coiE` returns **2** under ugrep and **1**
+  under BSD, because BSD `-c` counts matching LINES and ignores `-o`. So a hand-check at the
+  prompt can confirm a gate that is blind inside the shipped script — measured exactly that way
+  in §1c, where a command-line check briefly "disproved" a true lens finding. **Check a shell
+  behaviour by running it the way the script will** (`bash -c` / a temp script), and prefer
+  forms that cannot differ: `grep -o … | grep -c .` counts occurrences everywhere.
+
 - Eval clean-room: homes under the session scratchpad need their **own** keychain entries
   (`Claude Code-credentials-<sha256(home)[:8]>`) and their own logins for long rounds —
   copied tokens lose the refresh race. Details and traps: `evals/RUNS.md`.

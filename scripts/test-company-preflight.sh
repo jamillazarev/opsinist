@@ -508,5 +508,52 @@ git checkout -q HEAD -- .; git reset -q
 git rm -qf _ops/tasks/T-tpl.md _ops/tasks/T-close.md _ops/runs/R-old.md >/dev/null 2>&1
 git commit -qm "fixtures out" >/dev/null 2>&1
 
+# ── §1c's two blind spots, both measured 2026-08-15 (pass nine) ────────────────────────────
+# (a) two homes on ONE line — the shape this section's own refusal recommends. `grep -co` counts
+#     matching LINES on GNU grep, so the count was 1 and it passed.
+# (b) a commit that CLOSES a fence opened earlier and then appends real fields. Fence state was
+#     derived from the stream of `+` lines, so the lone marker turned the flag on and hid them.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# T-1L\n\n**Assignee**: ui\n\n## History\n' > _ops/tasks/T-1L.md
+printf '# T-FC\n\n**Assignee**: ui\n\n## Notes\n\n```\nan example\n' > _ops/tasks/T-FC.md
+git add -A && git commit -qm "1c fixtures" >/dev/null 2>&1
+printf '**Type**: build · **Status**: doing · **Stage**: review\n' >> _ops/tasks/T-1L.md
+git add _ops/tasks/T-1L.md
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "two state homes on one line passed §1c" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '```\n\n**Status**: doing\nstage: review\n' >> _ops/tasks/T-FC.md
+git add _ops/tasks/T-FC.md
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "two state homes hidden behind a closing fence passed §1c" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf _ops/tasks/T-1L.md _ops/tasks/T-FC.md >/dev/null 2>&1
+git commit -qm "1c fixtures out" >/dev/null 2>&1
+
+# ── a path with a space must not be a bypass ───────────────────────────────────────────────
+# Every gate here read its file list out of an unquoted `for … in $(git diff --name-only)`, so
+# one space in a filename split it into two names that match nothing and every section went
+# silent — no refusal, no diagnostic, exit 0. Measured 2026-08-15 (pass nine): byte-identical
+# hand-edits to a control and to `T-BYP001 hand edit.md` gave two refusals and zero. Asserted as
+# a PAIR, because the control is what makes the zero mean something.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+for nm in "T-SP-control.md" "T-SP with space.md"; do
+  printf '# %s\n\n**Status**: started\n**Assignee**: worker-a\n\n## Done when\n\n- [ ] a thing\n\n## History\n' "$nm" > "_ops/tasks/$nm"
+done
+git add -A && git commit -qm "space fixture" >/dev/null 2>&1
+for nm in "T-SP-control.md" "T-SP with space.md"; do
+  python3 -c "
+import pathlib, sys
+p = pathlib.Path(sys.argv[1])
+p.write_text(p.read_text().replace('**Status**: started', '**Status**: done')
+                          .replace('- [ ] a thing', '- [ ] a different thing'))" "_ops/tasks/$nm"
+  git add "_ops/tasks/$nm"
+  bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+    && bad "a hand-flipped status in '$nm' passed — the gate is blind to this path" || ok
+  git checkout -q HEAD -- . 2>/dev/null; git reset -q
+done
+git rm -qf "_ops/tasks/T-SP-control.md" "_ops/tasks/T-SP with space.md" >/dev/null 2>&1
+git commit -qm "space fixture out" >/dev/null 2>&1
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

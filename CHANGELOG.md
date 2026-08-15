@@ -161,7 +161,7 @@ the guide-side ones were in the corpus N89 ran against. What N89's 0/3 measures 
 the day-one instruction *as prose to the advisor*, on a corpus with no guard check behind it
 — its graded runs wired no guard at all. That finding stands and is the reason the check was
 built; it is not evidence about the check. Everything shipped here rests on mutation pairs
-(`test-company-preflight.sh` 73/73, `test-corpus-preflight.sh` 22/22) and the next full round
+(`test-company-preflight.sh` 77/77, `test-migrate-layout.sh` 42/42, `test-corpus-preflight.sh` 22/22 — 189 assertions across seven suites) and the next full round
 is what turns them into measurements. Said plainly rather than left for a reader to derive
 from a hash.
 
@@ -174,6 +174,20 @@ it was written and nobody had counted. The retirement escape holds 5/5, the ladd
 where it should act, which no gate can repair. **The round's first attempt was void** — it
 ran against fixtures nobody had wired, so its zero-bypass headline measured nothing, and the
 wiring is declared in the scenario row now instead of an environment variable at launch.
+
+**Then the round was re-run twice more, and the second one re-read the first.** The three
+messages the round left owed were rewritten to name the act rather than the process, and
+N90/N92/N95 went 2/5, all-void and 0/5 — one moved. The reason N92 did not is that the rewrite
+was never under test: the word went into `templates/RUN-template.md` and the scenario's player
+reads the project's ledger, which it never left. Underneath that, **`wired;` had been installing
+a guard, its doors and four empty documents and no `CLAUDE.md`** — so every wired scenario met
+enforcement without instruction, a project shape that does not exist, and the only two scenarios
+that scored were the two whose refusal message carried the whole instruction itself. `wired;`
+installs the guide now. Re-run against it: **3 of 15, every cell inside the noise at N=5, nothing
+repaired.** What changed is that a judge can now write that the agent stalled *"instead of using
+the documented `unknown`"* — **the rule is read and not used**, measured with it absent and with
+it present. That is not a wording defect, and the paragraphs are not being rewritten a fourth
+time over it (`evals/RUNS.md`, both entries).
 
 **Eval state, the full round: run — 103 scenarios × N=5 against a frozen 0.2.7 corpus, and it measured the
 doors at their weakest link** (`evals/RUNS.md`, 2026-08-14; totals 110 pass · 309 fail · 96

@@ -67,7 +67,18 @@ def report_state_fields(root, dry):
     tdir = root / "_ops" / "tasks"
     tasks = sorted(tdir.glob("*.md")) if tdir.is_dir() else []
     MACHINE = re.compile(r"^[ \t]*(?:stage|стадия)[ \t]*:[ \t]*(.+?)[ \t]*$", re.I)
-    PROSE = re.compile(r"(?:\*\*)?(?:Status|Статус)(?:\*\*)?[ \t]*:[ \t]*([^·|\n]*)", re.I)
+    # The value stops at ` - ` and at a double space as well as at `·` and `|`. A header using a
+    # hyphen as its separator — `**Status**: doing - **Owner**: me` — was otherwise read as the
+    # single value `doing - **Owner**: me`, and the report then told its reader that the field
+    # "currently says" that, immediately above an instruction to set it to one word. Following
+    # that drops `**Owner**`, which is destruction #5 of the seven this script stopped performing,
+    # transcribed into the instruction it prints instead.
+    PROSE = re.compile(r"(?:\*\*)?(?:Status|Статус)(?:\*\*)?[ \t]*:[ \t]*(.*?)(?=[·|]| - |  |$)",
+                       re.I)
+    # A stage is a token, not a sentence. `stage: doing is what we mean when we say it` produced
+    # `set **Status**: doing is what we mean when we say it` — an unvalidated prose line offered
+    # as the value of a field `transition.py` then reads as the stage.
+    STAGE_TOKEN = re.compile(r"^[\w-]+$", re.U)
     found = []
     for tf in tasks:
         try:
@@ -75,7 +86,13 @@ def report_state_fields(root, dry):
         except (UnicodeDecodeError, OSError):
             continue                      # not ours to read, and certainly not ours to rewrite
         lines, fence, mach, prose, mach_line = raw.split("\n"), False, None, None, 0
-        for l in lines:
+        # `enumerate`, because `lines.index(l)` returns the first line EQUAL to this one, not this
+        # one. A task carrying a fenced example byte-identical to its real field reported the
+        # fenced line as the line to delete — so a reader following the report destroys the
+        # example and leaves the duplicate the report exists to remove. That is destruction #1 of
+        # the seven, re-created as an instruction; indented and blockquoted duplicates differ
+        # textually and reported correctly, which is why it survived.
+        for i, l in enumerate(lines):
             if re.match(r"^[ \t]*(```|~~~)", l):
                 fence = not fence
                 continue
@@ -83,7 +100,7 @@ def report_state_fields(root, dry):
                 continue                  # an example is not a field
             if mach is None and MACHINE.match(l):
                 mach = MACHINE.match(l).group(1).strip()
-                mach_line = lines.index(l) + 1
+                mach_line = i + 1
             if prose is None and PROSE.search(l):
                 prose = PROSE.search(l).group(1).strip()
         if mach is not None and prose is not None:
@@ -99,8 +116,14 @@ def report_state_fields(root, dry):
     for name, prose, mach, line_no in found[:8]:
         print(f"    _ops/tasks/{name}")
         print(f"      delete line {line_no}   (the machine `stage:` line)")
-        print(f"      set          **Status**: {mach}" +
-              (f"   (it currently says `{prose}`)" if prose != mach else "   (already correct)"))
+        if STAGE_TOKEN.match(mach):
+            print(f"      set          **Status**: {mach}" +
+                  (f"   (it currently says `{prose}`)" if prose != mach else "   (already correct)"))
+        else:
+            print(f"      the `stage:` line reads `{mach}`, which is not a stage name — decide "
+                  f"what this task's stage is and set **Status** to that. No instruction is "
+                  f"printed here, because printing this one would put a sentence where a stage "
+                  f"belongs and `transition.py` would then read it as one.")
     if len(found) > 8:
         print(f"    … and {len(found) - 8} more, same two edits each")
     print("  Two edits per task, and nothing else in the file changes. This script does not make "
@@ -131,7 +154,15 @@ def main():
                     print(f"    {line.strip()}")
                     print("not ours to migrate — handed back untouched")
                     return 2
-    if not dry and sh(root, "git", "status", "--porcelain").stdout.strip():
+    # `--doors-only` skips the dirty-tree refusal, and it must, because of WHO prints the command
+    # that runs it. The guard's doors refusal is emitted by a pre-commit hook — which is to say,
+    # always with work staged — and it offered `migrate-layout.py .` as its first remedy. Measured
+    # 2026-08-15 (pass nine): following that instruction literally, at the moment it is printed,
+    # got "the tree is dirty — commit or stash first" and no door copied. The first remedy could
+    # not work where it was printed, which is a fair share of why that refusal measured 2 of 5.
+    # Copying two files the project is missing is not a migration and owes nobody a clean diff.
+    doors_only = "--doors-only" in sys.argv
+    if not dry and not doors_only and sh(root, "git", "status", "--porcelain").stdout.strip():
         print("the tree is dirty — commit or stash first, so the migration is its own diff")
         return 2
 
@@ -210,6 +241,15 @@ def main():
         if doors_done:
             verb = "would be re-copied" if dry else "re-copied"
             print(f"  doors {verb} beside the guard: {' · '.join(doors_done)}")
+
+    if doors_only:
+        # The whole job: put the two doors back and stop. Nothing is moved, nothing is reported,
+        # no clean tree is asked for — this exists to be runnable at the exact moment the guard
+        # refuses a commit for missing doors, which is the only moment its instruction is read.
+        recopy_doors()
+        if not doors_done:
+            print("  nothing to copy — both doors are already in place and current")
+        return 0
 
     moves = []  # (src_rel, dst_rel)
 

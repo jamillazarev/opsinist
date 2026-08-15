@@ -68,6 +68,14 @@ hits() { [ "$( grep -c "$@" 2>/dev/null | head -1 || true )" -gt 0 ] 2>/dev/null
 # passes by fixing it in the editor after staging the broken one. Defined here with the
 # other helpers — it used to sit two hundred lines below its first use.
 staged() { git show ":$1" 2>/dev/null; }
+# NUL-separated, because a path holding a space word-splits out of an unquoted `for` loop and
+# every gate downstream of it goes silent — not one refusal, no diagnostic, exit 0. Measured
+# 2026-08-15: byte-identical hand-edits to `_ops/tasks/T-CTL002-control.md` and to
+# `_ops/tasks/T-BYP001 hand edit.md`, staged one at a time, produced two refusals and zero.
+# §16 has used this form since it was written and carries a comment explaining why; the eight
+# sections written after it did not get it. §1d transliterates non-ASCII and a space is ASCII,
+# so nothing in this file forbade the name either.
+changed() { git -c core.quotePath=false diff --cached --name-only -z "$@" 2>/dev/null || true; }
 
 echo "preflight — docs"
 
@@ -150,12 +158,26 @@ done
 # your advisor to run the upgrade step" named a PROCESS and was invoked by nobody, 0 of 5,
 # measured 2026-08-15. The message that went 5/5 in the same round named an artifact and printed
 # the literal thing to do.
+#
+# `--doors-only`, and the reason is which program prints this. This runs as a pre-commit hook, so
+# there is always staged work — and the plain `migrate-layout.py .` offered here before answered
+# "the tree is dirty — commit or stash first" and copied nothing, every time, at the only moment
+# anyone reads it. Measured 2026-08-15 (pass nine). The `cp` line now names only the doors that
+# are actually missing: it was printed both ways even when one door was present, and plain `cp`
+# silently clobbers a hand-edited door where the script keeps it at `.replaced-<hash>` and says
+# where it went. They are not equals and are no longer offered as equals.
 if [ -n "$missing_doors" ]; then
+  cp_line="cp"
+  for d in $missing_doors; do cp_line="$cp_line <the skill>/scripts/$d"; done
+  cp_line="$cp_line _ops/scripts/"
   say_fail "the doors travel with this guard and are missing or half-copied:$missing_doors — \
-§14 refuses your next stage change while pointing at a file you do not hold. One of these, \
-whichever you can reach:
-    python3 <the skill>/scripts/migrate-layout.py .     # finds its own source, copies both doors
-    cp <the skill>/scripts/transition.py <the skill>/scripts/new-id.py _ops/scripts/
+§14 refuses your next stage change while pointing at a file you do not hold. Run this, here, \
+with your work still staged:
+    python3 <the skill>/scripts/migrate-layout.py . --doors-only
+It finds its own source, copies what is missing, stages it, and keeps anything it replaces at \
+\`.replaced-<hash>\`. If you cannot reach the skill's scripts, the blunt equivalent — which \
+overwrites without keeping a copy — is:
+    $cp_line
 The skill is the plugin your advisor already has loaded — ask it for the path if you do not know \
 it, because nothing shipped into this project names it"
 fi
@@ -183,23 +205,48 @@ fi
 #      carrying the old shape cannot rewrite its history, and refusing it on every commit until
 #      someone hand-edits every task is a release stranding its own projects. What is refused is
 #      CREATING a second home. The migration reports the legacy ones; it does not rewrite them.
-for tf in $( ( git -c core.quotePath=false diff --cached --name-only --diff-filter=AM 2>/dev/null \
-               || true ) | grep -E '^_ops/tasks/.*\.md$' || true); do
-  [ -f "$tf" ] || continue
+while IFS= read -r -d '' tf; do
   # not anchored at `^`: the shipped template writes `**Type**: build · **Status**: done`, so a
   # start-anchored count scored that as zero homes and the motivating defect walked through the
   # gate built for it. Fenced and quoted lines are excluded — an example is not a field.
-  added=$( ( git diff --cached -U0 -- "$tf" 2>/dev/null || true ) \
-           | grep '^+' | grep -v '^+++ ' | sed 's/^+//' \
-           | awk '/^[[:space:]]*(```|~~~)/{f=!f; next} !f' \
-           | grep -v '^[[:space:]]*>' || true)
+  # Fence state comes from the FILE, intersected with the added line numbers out of the `-U0`
+  # hunk headers. Toggling a fence flag over the stream of `+` lines derived it from the diff,
+  # which is not where it lives: a commit that CLOSES a fence opened in an earlier commit and
+  # then appends two real state homes presents ``` · **Status**: doing · stage: review, the flag
+  # turns on at the lone marker, and both real fields are skipped as if they were an example.
+  # Measured 2026-08-15 (pass nine).
+  _hunks=$(mktemp) || _hunks=/tmp/.cpf.$$
+  ( git diff --cached -U0 -- "$tf" 2>/dev/null || true ) > "$_hunks"
+  added=$( ( staged "$tf" || true ) | awk -v af="$_hunks" '
+      BEGIN {
+        while ((getline ln < af) > 0) {
+          if (ln ~ /^@@/) {
+            split(ln, p, "+"); split(p[2], q, " "); split(q[1], r, ",")
+            s = r[1] + 0; c = (r[2] == "" ? 1 : r[2] + 0)
+            for (i = 0; i < c; i++) add[s + i] = 1
+          }
+        }
+        close(af)
+      }
+      /^[[:space:]]*(```|~~~)/ { f = !f; next }
+      f { next }
+      /^[[:space:]]*>/ { next }
+      (FNR in add) { print }
+    ' || true)
+  rm -f "$_hunks"
+  # `-o … | grep -c .`, counting OCCURRENCES, not `grep -co`, which counts matching LINES on GNU
+  # grep and occurrences on some others. Two homes on one line — `**Type**: build · **Status**:
+  # doing · **Stage**: review` — is exactly the shape this section's own refusal recommends
+  # ("Keep one, on the header line"), and it is the motivating 12/12 defect: `transition.py`
+  # reads `**Stage**` while the header a human reads says something else. The count must not
+  # depend on which grep the project happens to have.
   n=$(printf '%s\n' "$added" \
-      | grep -coiE '(\*\*)?(status|stage|статус|стадия)(\*\*)?[[:space:]]*:' || true)
+      | grep -ooiE '(\*\*)?(status|stage|статус|стадия)(\*\*)?[[:space:]]*:' | grep -c . || true)
   [ "${n:-0}" -le 1 ] && continue
   say_fail "$tf adds ${n} state fields in one commit — a status the human reads and a stage the \
 door moves stop agreeing the first time only one of them is updated. Keep one, on the header \
 line, and let the door own it"
-done
+done < <(changed --diff-filter=AM | grep -zE '^_ops/tasks/.*\.md$')
 
 # 1d · paths are ASCII; what is written inside them is the project's own language. Measured on a
 #      live project: 126 tracked paths under `_ops/` carried Cyrillic, and git renders those as
@@ -226,8 +273,7 @@ fi
 #      rule is only consulted on a terminal move — and nothing said a word until a worker
 #      closed their own task. The door refuses a malformed ladder; this catches it at the commit
 #      that writes it, which is where the person who can fix it is standing.
-for pf in $( ( git -c core.quotePath=false diff --cached --name-only 2>/dev/null || true ) \
-             | grep -E '^_ops/(pipelines|process/types)/.*\.md$' || true); do
+while IFS= read -r -d '' pf; do
   # The INDEX, not the worktree: staging a broken ladder and fixing it in the editor was
   # measured passing. The staged bytes go to a temp file because the door takes a path.
   tmp_l=$(mktemp) || continue
@@ -236,7 +282,7 @@ for pf in $( ( git -c core.quotePath=false diff --cached --name-only 2>/dev/null
   out=$(python3 "_ops/scripts/transition.py" --check-ladder "$tmp_l" 2>&1) || \
     say_fail "$pf is a malformed ladder: $(printf '%s' "$out" | tr '\n' ' ' | cut -c1-220)"
   rm -f "$tmp_l"
-done
+done < <(changed | grep -zE '^_ops/(pipelines|process/types)/.*\.md$')
 
 # 1f · a run record carries its numbers, or it is a sentence wearing the word "record". The
 #      guide calls it a door — `a dispatch lands as _ops/runs/R-<id>.md carrying its four token
@@ -246,9 +292,11 @@ done
 # `--diff-filter=A`, not `AM`: a record written before 0.2.7 has no `attempt` and never will,
 # and refusing every commit that touches one strands the project over history it cannot change.
 # What is required is that a NEW record is complete.
-for rf in $( ( git -c core.quotePath=false diff --cached --name-only --diff-filter=A 2>/dev/null \
-               || true ) | grep -E '^_ops/runs/R-.*\.md$' || true); do
-  [ -f "$rf" ] || continue
+  # AR, not A. A record delivered as a rename escaped this gate whole: `git mv` the old file
+  # onto a new id, edit it, and `--diff-filter=A` lists nothing — measured 2026-08-15 with a
+  # record carrying `attempt: 4` and naming no escalation, exit 0. §1d in this file has used
+  # `AR` since it was written.
+while IFS= read -r -d '' rf; do
   for need in input output cache_read cache_write; do
     ( staged "$rf" || true ) | hits -iF "$need" || say_fail "$rf does not name \`$need\` — a \
 dispatch record carries four token numbers, and \`unknown\` is an accepted value where the \
@@ -270,15 +318,13 @@ is a spec problem, not a quality problem. Raise it, or say in this record why a 
 without it the run cannot be sliced later, and a slice you did not record a field for is \
 impossible rather than merely missing"
   done
-done
+done < <(changed --diff-filter=AR | grep -zE '^_ops/runs/R-.*\.md$')
 
 # 1g · a child link that resolves to nothing is a board that cannot be walked. The template
 #      writes children as `- [ ] [T-XXXXXX](T-XXXXXX-slug.md)` precisely so the board is
 #      navigable and a rotted link is catchable — measured on a live project, twelve tasks with
 #      plainly dependent work and not one link between them, because a bare id is a string.
-for tf in $( ( git -c core.quotePath=false diff --cached --name-only --diff-filter=AM 2>/dev/null \
-               || true ) | grep -E '^_ops/tasks/.*\.md$' || true); do
-  [ -f "$tf" ] || continue
+while IFS= read -r -d '' tf; do
   while IFS= read -r target; do
     [ -n "$target" ] || continue
     # A template's example link points at an id nobody has minted yet, and a task copied
@@ -292,7 +338,7 @@ reads as navigable. Fix the path, or say the id in plain text"
 $( ( git diff --cached -U0 -- "$tf" 2>/dev/null || true ) | grep '^+' | grep -v '^+++ ' \
    | grep -oE '\]\([^)]+\.md\)' | sed -E 's/^\]\(//; s/\)$//' || true)
 LINKS
-done
+done < <(changed --diff-filter=AM | grep -zE '^_ops/tasks/.*\.md$')
 
 # 2 · a recorded fact past its recheck is unknown, not fact. TOOLING.md carries a
 #     Checked column precisely so this can be enforced rather than hoped for.
@@ -479,11 +525,21 @@ fi
 
 # 4 · the architecture map must mention the places work actually happens.
 if [ -f _ops/ARCHITECTURE.md ]; then
-  for d in $(git ls-files | awk -F/ 'NF>1 {print $1}' | sort -u); do
+  # NUL-separated like the rest — a top-level directory holding a space would otherwise split
+  # into two names, each warned about separately and neither one real. The first path component
+  # and the de-duplication are done in the shell rather than with `awk 'BEGIN{RS="\\0"}'`, which
+  # BSD awk cannot do: awk strings are NUL-terminated, so `ORS` emits a literal backslash-zero
+  # and the whole listing arrives as one record. Measured 2026-08-15 — and measured only because
+  # the same day showed that a form checked at the prompt is not the form the script runs.
+  _seen=""
+  while IFS= read -r -d '' _f; do
+    case "$_f" in */*) d=${_f%%/*};; *) continue;; esac
+    case " $_seen " in *" $d "*) continue;; esac
+    _seen="$_seen $d"
     case "$d" in docs|.github|node_modules|dist|build|vendor) continue;; esac
     grep -q "$d" _ops/ARCHITECTURE.md || say_warn "_ops/ARCHITECTURE.md never mentions \`$d/\` \
 — either map it or say why it doesn't matter"
-  done
+  done < <(git ls-files -z)
 fi
 
 # 4b · the product map, where one exists, must parse and stay reachable. An unclosed mermaid
@@ -504,7 +560,7 @@ fi
 
 # 5b · skills born in this repo stay modular (templates/SKILL-SCAFFOLD.md): a budgeted
 #      router core + chapters. Catches the monolith while it is still one commit old.
-for sk in $(git ls-files | grep -E '(^|/)SKILL\.md$' || true); do
+while IFS= read -r -d '' sk; do
   dir=$(dirname "$sk")
   budget=$(sed -n 's/^core_budget:[[:space:]]*//p' "$sk" | head -1)
   lines=$(grep -c '' "$sk")
@@ -515,7 +571,7 @@ for sk in $(git ls-files | grep -E '(^|/)SKILL\.md$' || true); do
   if [ "$chapters" -gt 0 ] && ! grep -q '| Load' "$sk"; then
     say_warn "$sk has $chapters chapter file(s) but no '| Load … | …when |' routing table — chapters nobody routes to are dead weight"
   fi
-done
+done < <(git ls-files -z | grep -zE '(^|/)SKILL\.md$')
 
 # 7 · exactly one advisor. Two of them is not a busier project, it is two seats each
 #     believing it holds the loop, writing each other's model and effort, and each one
@@ -592,7 +648,7 @@ fi
 #      stated as laws and, until now, held by nothing. Measured: a run discovered a licence
 #      blocker, then set its own task to shipped and tagged a release in the same breath.
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
-  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
+  while IFS= read -r -d '' t; do
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
     printf '%s' "$d" \
       | hits -iE '^\+.*\*{0,2}status\*{0,2}[[:space:]]*:[[:space:]]*(done|shipped|completed|accepted|closed)' \
@@ -623,7 +679,7 @@ is judged against it."
       || say_warn "$t reaches a terminal status and nothing in the change points at a review, a \
 run or evidence — nothing transitions itself, and a status that moves on its own is how a board \
 begins to lie."
-  done
+  done < <(changed | grep -zE '^_ops/tasks/.*\.md$')
 fi
 
 # 11 · a review is not a review when the author signs it off. "Nobody edits the bar they are
@@ -632,7 +688,7 @@ fi
 #      like a reviewed one. Names, not identities — this is a nudge at the honest case, not an
 #      identity check, and anything stronger belongs in branch protection.
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
-  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
+  while IFS= read -r -d '' t; do
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
     printf '%s' "$d" | hits -iE '^\+.*(reviewed by|approved by|accepted by)' || continue
     who=$(printf '%s' "$d" | grep -ioE '(reviewed|approved|accepted) by[: ]+@?[A-Za-z0-9._-]+' \
@@ -642,7 +698,7 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
     [ -n "$who" ] && [ -n "$author" ] && [ "$who" = "$author" ] && \
       say_fail "$t is signed off by \`$who\`, who did the work — a review goes to someone else, \
 because a model reads its own output generously and the thread cannot tell the difference."
-  done
+  done < <(changed | grep -zE '^_ops/tasks/.*\.md$')
 fi
 
 # 14 · (numbered by arrival, placed by theme — like the rest of this file)
@@ -655,7 +711,7 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
   # The field arrives bold in the stock template — `**Status**: draft` — so the pattern
   # allows the asterisks, or this net matches nothing while reading as a gate. Measured by
   # the lenses within a day of it being written: the plain-colon version had zero matches.
-  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
+  while IFS= read -r -d '' t; do
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
     printf '%s' "$d" | hits -iE '^-.*(stage|status)\*{0,2}[[:space:]]*:' || continue
     printf '%s' "$d" | hits -iE '^\+.*(stage|status)\*{0,2}[[:space:]]*:' || continue
@@ -663,7 +719,7 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
       || say_fail "$t changes its stage with no transition line in the same change — the door \
 is \`_ops/scripts/transition.py\`: it refuses an illegal move with the reason and records the legal \
 one. A stage edited by hand is a bypass."
-  done
+  done < <(changed | grep -zE '^_ops/tasks/.*\.md$')
 fi
 
 # 13 · a parent does not close itself. §10 catches a task reaching a terminal status with nothing
@@ -674,8 +730,7 @@ fi
 #      closed automatically is itself recorded. Measured 0 of 10 across two full rounds as prose,
 #      and 1 of 5 after the rule was moved into the always-loaded core, which is why it is here.
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
-  for t in $(git diff --cached --name-only 2>/dev/null | grep -E '^_ops/tasks/.*\.md$' || true); do
-    [ -f "$t" ] || continue
+  while IFS= read -r -d '' t; do
     grep -qiE '^[[:space:]]*((children|subtasks)[[:space:]]*:|##[[:space:]]*(children|subtasks))' "$t" || continue
     d=$(git diff --cached -U0 -- "$t" 2>/dev/null)
     printf '%s' "$d" \
@@ -705,7 +760,7 @@ this commit**: written into the same change, it is the closer vouching for itsel
 given the earlier version of this gate, runs wrote \"Accepted by owner\" and the owner's own \
 email address to get past it."
     fi
-  done
+  done < <(changed | grep -zE '^_ops/tasks/.*\.md$')
 fi
 
 # 12 · the spend cap, which for months was written as "stop at the cap" and performed by nothing.

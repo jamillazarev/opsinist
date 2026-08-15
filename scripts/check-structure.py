@@ -163,7 +163,11 @@ seen = {}
 for path in glob.glob("**/*", recursive=True):
     if not os.path.isfile(path) or ".git" in path:
         continue
-    m = re.match(r"([A-Z]-[0-9A-HJKMNP-TV-Z]{6})", os.path.basename(path))
+    # `{1,2}`, matching `new-id.py` — the comment above calls that script "the other half" of
+    # this guarantee and only half of it moved. `new-id.py` mints two-letter prefixes and
+    # `REQUEST-template.md`, `THREAD-template.md` and `requests.md` already use `RQ-`/`TH-`, so
+    # two entities could hold one id and this loop would report no collision at all.
+    m = re.match(r"([A-Z]{1,2}-[0-9A-HJKMNP-TV-Z]{6})", os.path.basename(path))
     if not m:
         continue
     seen.setdefault(m.group(1), []).append(path)
