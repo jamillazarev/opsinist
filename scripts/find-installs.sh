@@ -107,14 +107,20 @@ d=json.load(open(sys.argv[1])); name=sys.argv[2]
 for key,entries in d.get("plugins",{}).items():
     if key.split("@")[0]==name:
         for e in entries:
-            print(e.get("installPath","?")+"\t"+e.get("version","?"))' "$reg" "$NAME" |
+            print(e.get("installPath","?")+"\t"+e.get("version","?")+"\t"+e.get("scope","user"))' "$reg" "$NAME" |
   while IFS=$(printf '\t') read -r p v; do
     echo "CLAUDE	$p	$v"
   done > /tmp/.find-installs.$$ || true
-  while IFS=$(printf '\t') read -r _ p v; do
+  # The SCOPE is carried into the route. `claude plugin update <p>@<m>` acts on the USER scope and
+  # says "already at the latest version" while a PROJECT-scope install of the same plugin sits a
+  # release behind — measured 2026-08-16, right after a release, with the documented route reporting
+  # success and this list still showing 0.2.6. A route that silently addresses one of two installs
+  # is a route that hides the other.
+  while IFS=$(printf '\t') read -r _ p v s; do
+    v_scope=$s
     flag=""
     [ -d "$p" ] || flag="BROKEN — registry names a path that does not exist"
-    add "$p" "plugin, Claude Code" "claude plugin marketplace update $NAME && claude plugin update $NAME@$NAME" "$flag" "$v"
+    add "$p" "plugin, Claude Code" "claude plugin marketplace update $NAME && claude plugin update $NAME@$NAME --scope ${v_scope:-user}" "$flag" "$v"
   done < /tmp/.find-installs.$$
   rm -f /tmp/.find-installs.$$
 fi
