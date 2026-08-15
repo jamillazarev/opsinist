@@ -13,6 +13,7 @@ the output, because the directory may be the craft's, not the machinery's.
 Idempotent: a second run finds nothing to do and says so. A destination that
 already exists is a CONFLICT line and a nonzero exit, never a silent overwrite.
 """
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -191,7 +192,16 @@ def main():
                 # door copied — the remedy could not run in the harness built to measure whether
                 # anyone runs it. It bites real projects the same way, between day one and the
                 # first generation of the guide.
-                if "{{" in line and "}}" in line:
+                # ...but only when the OPERATOR ITSELF is the placeholder. `{{` anywhere in the
+                # line was far too wide: multica-ops' own guide template reads
+                # `**Operated by multica-ops {{x.y.z}}.**` — a real system name with a placeholder
+                # VERSION — so the skip disarmed the shared door for exactly the tree it exists to
+                # protect, and this script would have migrated a sibling's workspace. Measured
+                # 2026-08-15 (pass eleven): EXIT=0, files moved.
+                _after = re.split(r"operated\s+by", line, flags=re.I)[1] if re.search(
+                    r"operated\s+by", line, re.I) else ""
+                _after = _after.lstrip(" :*\t")
+                if _after.startswith("{{"):
                     continue
                 if "operated by" in line.lower() and "opsinist" not in line.lower():
                     print(f"{guide} says this tree is operated by another system:")
