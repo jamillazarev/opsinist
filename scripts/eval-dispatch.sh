@@ -36,7 +36,28 @@ rm -rf "$root"; mkdir -p "$root"
 bash evals/fixtures.sh "$root" "$fixture" >/dev/null 2>&1 || { echo "$ID/$N: fixture build failed"; exit 3; }
 ws="$root/$fixture/workspace"
 
-if [ "$setup" != "-" ]; then (cd "$ws" && bash -c "$setup") || { echo "$ID/$N: setup failed"; exit 3; }; fi
+# `wired;` at the head of a setup installs the guard, its doors and the four documents into
+# this run's workspace. It is declared HERE, in the row, and not by an environment variable the
+# operator has to remember: measured 2026-08-15, a whole round of seven refusal scenarios ran
+# against fixtures nobody had wired, because `WIRE_PREFLIGHT=1` was set when the fixtures were
+# built by hand and not when the suite rebuilt them per run. Every precondition was absent and
+# the round measured an ungated project — 35 dispatches that answered a question nobody asked.
+case "$setup" in
+  wired\;*)
+    mkdir -p "$ws/_ops/scripts"
+    cp templates/company-preflight.sh "$ws/_ops/scripts/preflight.sh"
+    cp scripts/transition.py scripts/new-id.py "$ws/_ops/scripts/"
+    printf '#!/bin/sh\nbash _ops/scripts/preflight.sh || exit 1\n' > "$ws/.git/hooks/pre-commit"
+    chmod +x "$ws/.git/hooks/pre-commit" "$ws/_ops/scripts/preflight.sh"
+    for d in ROADMAP TEAM TOOLING DECISIONS; do
+      [ -f "$ws/_ops/$d.md" ] || printf '# %s\n' "$d" > "$ws/_ops/$d.md"
+    done
+    git -C "$ws" add -A >/dev/null 2>&1
+    git -C "$ws" -c user.email=o@fixture.test -c user.name=Owner commit -qm "wired" >/dev/null 2>&1
+    setup=${setup#wired;}
+    ;;
+esac
+if [ -n "$setup" ] && [ "$setup" != "-" ]; then (cd "$ws" && bash -c "$setup") || { echo "$ID/$N: setup failed"; exit 3; }; fi
 
 # The baseline the post-state's commit section is a delta against — taken after setup, so a
 # scenario whose setup commits is not blamed for it either.
