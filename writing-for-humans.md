@@ -296,6 +296,12 @@ gives a reader no way to tell a warning from an aside.
 | `- [ ]` / `- [x]` | children, deliverables, a checklist someone works through | state is **in the mark**, not in a sentence beside it — and the web view counts the boxes for free |
 | a relative link — `[T-XXXXXX]` then `(T-XXXXXX-slug.md)` | every reference to another task, spec or run | a bare id is a **string**; a relative link is a thing that can be opened, and a thing a link checker can refuse when it rots |
 
+**Where they belong is where the material already is.** An alert types a normative quote, so it
+belongs in the templates that carry one — measured 2026-08-15, that is six of twenty-five;
+the rest are field forms with nothing to type, and adding a coloured box to a form is
+decoration. A checkbox belongs where someone works through a list. A relative link belongs
+wherever an id is written. Reformatting past that point is the thing this section is against.
+
 **`<details>` is deliberately not on that list.** It folds on the web and shows its raw tags in a
 terminal, so it hides nothing from the reader who most needs the fold and adds noise for the one
 who does not. A section that wants folding wants deleting.

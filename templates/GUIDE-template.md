@@ -13,6 +13,7 @@ writing roles; ask the advisor.
 **Operated by:** {{skill display_name}} **{{0.1.11}}** · format `schema_version` {{1}} ·
 **guard wired:** {{yes — `_ops/scripts/preflight.sh`, installed {{date}}}} · last upgrade {{date}}.
 
+> [!NOTE]
 > **Three facts nothing else can tell you, so they are stated rather than inferred.** *Which
 > version operated this project* is how a repo that has drifted behind the system becomes visible
 > instead of being discovered by a surprise; **`schema_version` is the format, and the two are not

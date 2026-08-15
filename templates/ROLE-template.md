@@ -3,6 +3,7 @@
 **Type**: {{worker · expert · persona · human · advisor}} · **Grade**: {{junior · mid · senior}}
 **Model · effort**: {{unset — inherits the project default}} · **May dispatch**: {{no}}
 
+> [!NOTE]
 > **Unset is a real answer and usually the right one.** A role that names its own model pins a
 > choice the cascade would otherwise make correctly, and the resolved value is recorded on every
 > run anyway — so `project → team → role → task` stays one law rather than nine settings.
@@ -16,6 +17,7 @@
 - **Ready when** work reaches it: {{what must be true before it can start}}
 - **Done when** work leaves it: {{the craft gates this role is accountable for}}
 
+> [!CAUTION]
 > **These are locked** — proposed to a human, never edited by whoever works under them
 > (`permissions.md`). A role that can move its own bar is measured against nothing.
 
@@ -25,6 +27,7 @@
 |---|---|
 | {{name}} | {{the step it covers}} |
 
+> [!WARNING]
 > **Every one loads on every run this role makes**, needed or not — the load budget is a share of
 > the window. Past about eight, the signal is usually a missing hire rather than a busy role.
 
@@ -32,6 +35,7 @@
 
 **Gates it clears without asking**: {{none at first}} · **Evidence**: {{the runs behind that}}
 
+> [!CAUTION]
 > Trust moves both ways on the record, **a role never loosens its own gate**, and no history buys
 > the four owner-gated kinds: spend, anything leaving the repository, anything destructive, and
 > anything that changes the shape of the team.
