@@ -84,6 +84,14 @@ staged() { git show ":$1" 2>/dev/null; }
 # sections written after it did not get it. §1d transliterates non-ASCII and a space is ASCII,
 # so nothing in this file forbade the name either.
 changed() { git -c core.quotePath=false diff --cached --name-only -z "$@" 2>/dev/null || true; }
+# state_homes — how many places a task keeps its state, on a stream, examples excluded. Counting
+# OCCURRENCES (`-o … | grep -c .`), never `grep -co`, which counts matching LINES under BSD grep
+# and would score `**Status**: x · **Stage**: y` as one.
+state_homes() {
+  awk '/^[[:space:]]*(```|~~~)/{f=!f; next} f{next} /^[[:space:]]*>/{next} {print}' \
+    | grep -ooiE '(\*\*)?(status|stage|статус|стадия)(\*\*)?[[:space:]]*:' \
+    | grep -c . || true
+}
 
 echo "preflight — docs"
 
@@ -225,41 +233,20 @@ while IFS= read -r -d '' tf; do
   # not anchored at `^`: the shipped template writes `**Type**: build · **Status**: done`, so a
   # start-anchored count scored that as zero homes and the motivating defect walked through the
   # gate built for it. Fenced and quoted lines are excluded — an example is not a field.
-  # Fence state comes from the FILE, intersected with the added line numbers out of the `-U0`
-  # hunk headers. Toggling a fence flag over the stream of `+` lines derived it from the diff,
-  # which is not where it lives: a commit that CLOSES a fence opened in an earlier commit and
-  # then appends two real state homes presents ``` · **Status**: doing · stage: review, the flag
-  # turns on at the lone marker, and both real fields are skipped as if they were an example.
-  # Measured 2026-08-15 (pass nine).
-  _hunks=$(mktemp) || _hunks=/tmp/.cpf.$$
-  ( git diff --cached -U0 -- "$tf" 2>/dev/null || true ) > "$_hunks"
-  added=$( ( staged "$tf" || true ) | awk -v af="$_hunks" '
-      BEGIN {
-        while ((getline ln < af) > 0) {
-          if (ln ~ /^@@/) {
-            split(ln, p, "+"); split(p[2], q, " "); split(q[1], r, ",")
-            s = r[1] + 0; c = (r[2] == "" ? 1 : r[2] + 0)
-            for (i = 0; i < c; i++) add[s + i] = 1
-          }
-        }
-        close(af)
-      }
-      /^[[:space:]]*(```|~~~)/ { f = !f; next }
-      f { next }
-      /^[[:space:]]*>/ { next }
-      (FNR in add) { print }
-    ' || true)
-  rm -f "$_hunks"
-  # `-o … | grep -c .`, counting OCCURRENCES, not `grep -co`, which counts matching LINES on GNU
-  # grep and occurrences on some others. Two homes on one line — `**Type**: build · **Status**:
-  # doing · **Stage**: review` — is exactly the shape this section's own refusal recommends
-  # ("Keep one, on the header line"), and it is the motivating 12/12 defect: `transition.py`
-  # reads `**Stage**` while the header a human reads says something else. The count must not
-  # depend on which grep the project happens to have.
-  n=$(printf '%s\n' "$added" \
-      | grep -ooiE '(\*\*)?(status|stage|статус|стадия)(\*\*)?[[:space:]]*:' | grep -c . || true)
-  [ "${n:-0}" -le 1 ] && continue
-  say_fail "$tf adds ${n} state fields in one commit — a status the human reads and a stage the \
+  # Against HEAD, not against the diff. Counting only the ADDED lines refused two homes arriving
+  # in one commit and nothing else — so the ordinary path was silent: create the task the normal
+  # way, commit, then append `stage:` in the next commit and the guard passes while `transition.py`
+  # reads one copy and the human reads the other. That is the 12-of-12 defect this block cites,
+  # walking through the block built for it. Measured 2026-08-15 (pass nine, cold read); the
+  # comment above said "what is refused is CREATING a second home" and it was not true.
+  # Comparing counts keeps legacy unstranded — a file that already had two still has two — while
+  # actually catching creation, whichever commit it arrives in.
+  now=$( ( staged "$tf" || true ) | state_homes )
+  was=$( ( git show "HEAD:$tf" 2>/dev/null || true ) | state_homes )
+  [ "${now:-0}" -le 1 ] && continue
+  [ "${now:-0}" -le "${was:-0}" ] && continue
+  n=$now
+  say_fail "$tf now keeps its state in ${n} places (it kept ${was:-0}) — a status the human reads and a stage the \
 door moves stop agreeing the first time only one of them is updated. Keep one, on the header \
 line, and let the door own it"
 done < <(changed --diff-filter=AM | grep -zE '^_ops/tasks/.*\.md$')

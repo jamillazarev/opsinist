@@ -266,8 +266,8 @@ git checkout -q HEAD -- _ops/tasks/T-legacy.md; git reset -q; git checkout -q _o
 printf '# T-new\n\n**Type**: build · **Status**: done\nstage: backlog\n\n## History\n' > _ops/tasks/T-new.md
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a new task creating two state homes passed — mid-line Status is what the template writes" || ok
-( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "state fields" \
-  && ok || bad "the refusal does not say what it found"
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "keeps its state in 2 places (it kept 0)" \
+  && ok || bad "the refusal does not say what it found, with both counts"
 rm -f _ops/tasks/T-new.md; git add -A
 
 # an example is not a field: a fenced or quoted `stage:` must not count toward the two
@@ -552,6 +552,29 @@ git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
   && ok || bad "a link inside a fenced example was refused as a rotted link"
 git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/tasks/T-FL.md
+
+# ── §1c must catch a second home whichever commit it arrives in, and strand no legacy task ──
+# Counting only the ADDED lines refused two homes arriving together and nothing else, so the
+# ordinary path was silent: create the task normally, commit, append `stage:` next commit. The
+# block's own comment claimed it refused "CREATING a second home" and it did not. Measured
+# 2026-08-15 (pass nine, cold read). Asserted as a TRIO — the legacy row is what makes the other
+# two mean something, because the easy way to catch creation is to strand every old project.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# T-ONE\n\n**Type**: build · **Status**: started\n**Assignee**: ui\n\n## History\n' > _ops/tasks/T-ONE.md
+printf '# T-LEG\n\n**Status**: started\n**Assignee**: ui\nstage: review\n\n## History\n' > _ops/tasks/T-LEG.md
+git add -A && git commit -qm "1c-head fixtures" >/dev/null 2>&1
+printf '\n<!-- machine-readable -->\nstage: review\n' >> _ops/tasks/T-ONE.md
+git add _ops/tasks/T-ONE.md
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a second state home appended in a later commit passed" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf -- '- a note\n' >> _ops/tasks/T-LEG.md
+git add _ops/tasks/T-LEG.md
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "editing a legacy task that already carried two homes was refused — stranding"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf _ops/tasks/T-ONE.md _ops/tasks/T-LEG.md >/dev/null 2>&1
+git commit -qm "1c-head fixtures out" >/dev/null 2>&1
 
 # ── §1c's two blind spots, both measured 2026-08-15 (pass nine) ────────────────────────────
 # (a) two homes on ONE line — the shape this section's own refusal recommends. `grep -co` counts

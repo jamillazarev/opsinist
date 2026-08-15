@@ -160,10 +160,10 @@ grep -q 'carry state in two places' "$T/out.txt" && ok || bad "the two-home task
 # report and a request for permission in five runs of five and was applied by none.
 grep -q 'delete line [0-9]' "$T/out.txt" \
   && ok || bad "the report does not name the line to delete"
-grep -q 'set  *\*\*Status\*\*: review' "$T/out.txt" \
-  && ok || bad "the report does not name the value to set"
-grep -q 'already correct' "$T/out.txt" \
-  && ok || bad "a task whose two copies agree was not distinguished"
+grep -q 'transition.py .* <.*review.*> --by' "$T/out.txt" \
+  && ok || bad "the report does not name the door and the stages to choose between"
+grep -q 'both copies said' "$T/out.txt" \
+  && ok || bad "a task whose two copies agree was not distinguished from one whose copies differ"
 grep -q 'T-C.md' "$T/out.txt" && bad "a one-home task was named as a problem" || ok
 # the examples are not fields: a value from a fence or an indented block must never be reported
 grep -q 'draft\|indented-example' "$T/out.txt" && bad "a value out of an example was read as state" || ok
@@ -187,8 +187,8 @@ grep -A1 'T-fence.md' "$T/rep.txt" | grep -q 'delete line 9' \
 grep -A1 'T-fence.md' "$T/rep.txt" | grep -q 'delete line 6' \
   && bad "the report points at a line inside a fence" || ok
 # the value alone, not the neighbouring field a `-` separator glued to it
-grep -A2 'T-hyphen.md' "$T/rep.txt" | grep -q 'currently says `doing`' \
-  && ok || bad "the report swallowed a neighbouring field into the current value"
+grep -A3 'T-hyphen.md' "$T/rep.txt" | grep -q 'the header says `doing`' \
+  && ok || bad "the report swallowed a neighbouring field into the value it shows"
 grep -A2 'T-hyphen.md' "$T/rep.txt" | grep -q 'Owner' \
   && bad "the report offered to overwrite a neighbouring field" || ok
 # a stage that is a sentence gets no instruction at all
@@ -196,6 +196,33 @@ grep -A2 'T-prose.md' "$T/rep.txt" | grep -q 'is not a stage name' \
   && ok || bad "a prose sentence was printed as the value to set"
 grep -A2 'T-prose.md' "$T/rep.txt" | grep -q 'set  *\*\*Status\*\*: doing is what' \
   && bad "the report instructed the reader to write a sentence into a stage field" || ok
+
+# ── the report's instruction must have a path through the guard ────────────────────────────
+# Printed as one act — "delete the machine line and set **Status**" — it walked into §14: a stage
+# edited by hand is the bypass the guard refuses, and reaching for the door instead was refused
+# too because the door still read the machine copy. For the tasks whose copies DISAGREE, which
+# are the only tasks the report exists for, there was no path but `--no-verify`. Measured
+# 2026-08-15 (pass nine, cold read). This walks step 1 for real, against the shipped guard.
+mkdir -p "$T/seq/_ops/scripts" "$T/seq/_ops/tasks" && ( cd "$T/seq" && git init -q . )
+cp "$HERE/../templates/company-preflight.sh" "$T/seq/_ops/scripts/preflight.sh"
+cp "$HERE/transition.py" "$HERE/new-id.py" "$T/seq/_ops/scripts/"
+for d in ROADMAP TEAM TOOLING DECISIONS; do printf '# %s\n' "$d" > "$T/seq/_ops/$d.md"; done
+printf '# T-63 — the reminders email\n\n**Type**: build · **Status**: started\n**Assignee**: ui\n\n<!-- machine-readable -->\nstage: review\n\n## History\n' > "$T/seq/_ops/tasks/T-63.md"
+( cd "$T/seq" && git add -A >/dev/null && git -c user.email=t@f.t -c user.name=T commit -qm f )
+( cd "$T/seq" && python3 "$HERE/migrate-layout.py" . ) > "$T/seq.txt" 2>&1
+grep -q 'commit THAT ALONE' "$T/seq.txt" \
+  && ok || bad "the report does not say the two edits are two commits"
+grep -q 'transition.py' "$T/seq.txt" \
+  && ok || bad "the report never names the door for step 2"
+grep -qE 'set +\*\*Status\*\*:' "$T/seq.txt" \
+  && bad "the report still tells the reader to set **Status** by hand, which §14 refuses" || ok
+# and step 1, performed exactly as printed, must commit
+python3 -c "
+import pathlib
+p = pathlib.Path('$T/seq/_ops/tasks/T-63.md')
+p.write_text('\n'.join(l for l in p.read_text().split('\n') if not l.startswith('stage:')))"
+( cd "$T/seq" && git add -A && bash _ops/scripts/preflight.sh >/dev/null 2>&1 ) \
+  && ok || bad "step 1 of the report's own instruction is refused by the guard it ships beside"
 
 # ── a task the report cannot read is named, not dropped ────────────────────────────────────
 # A task with a real two-home disagreement and one invalid UTF-8 byte was omitted while the

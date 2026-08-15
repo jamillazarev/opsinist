@@ -123,21 +123,39 @@ def report_state_fields(root, dry):
     # form ("keep it in **Status**, delete the machine line — by hand") produced a report and a
     # request for permission in FIVE runs out of five; nobody applied it. The refusal that went
     # 5/5 in the same round printed the literal line to paste, per file. This is that shape.
+    # TWO COMMITS, in this order, and the order is the whole point. Printed as one act — "delete
+    # the line and set **Status**" — it walks into §14: editing a stage by hand is the bypass the
+    # guard refuses, so the reader who follows the instruction is refused, and reaching for the
+    # door instead is refused too because the door still reads the machine copy. Measured
+    # 2026-08-15 (pass nine, cold read) on the shipped N95 fixture: for the two tasks whose
+    # copies DISAGREE — the only tasks this report exists for — there was no path through but
+    # `--no-verify`. Deleting the machine line alone removes a state home without adding one,
+    # which §14 lets past; after that the door reads `**Status**` and the move is a real move.
     for name, prose, mach, line_no in found[:8]:
         print(f"    _ops/tasks/{name}")
-        print(f"      delete line {line_no}   (the machine `stage:` line)")
+        print(f"      1. delete line {line_no} (the machine `stage:` line) and commit THAT ALONE — "
+              f"it removes a duplicate and changes no stage, so the guard passes it")
         if STAGE_TOKEN.match(mach):
-            print(f"      set          **Status**: {mach}" +
-                  (f"   (it currently says `{prose}`)" if prose != mach else "   (already correct)"))
+            if prose != mach:
+                print(f"      2. then decide which copy was right — the header says `{prose}`, the "
+                      f"machine line said `{mach}` — and move the task with the door, which now "
+                      f"reads the header:")
+                print(f"           python3 _ops/scripts/transition.py _ops/tasks/{name} "
+                      f"<{prose}|{mach}> --by <you>")
+            else:
+                print(f"      2. nothing else — both copies said `{mach}`, so deleting the machine "
+                      f"line is the whole change")
         else:
-            print(f"      the `stage:` line reads `{mach}`, which is not a stage name — decide "
-                  f"what this task's stage is and set **Status** to that. No instruction is "
-                  f"printed here, because printing this one would put a sentence where a stage "
-                  f"belongs and `transition.py` would then read it as one.")
+            print(f"      2. the `stage:` line reads `{mach}`, which is not a stage name. Decide "
+                  f"what this task's stage actually is and move it with the door — "
+                  f"`python3 _ops/scripts/transition.py _ops/tasks/{name} <stage> --by <you>`. No "
+                  f"value is printed here: printing this one would put a sentence where a stage "
+                  f"belongs, and `transition.py` would then read it as one.")
     if len(found) > 8:
         print(f"    … and {len(found) - 8} more, same two edits each")
-    print("  Two edits per task, and nothing else in the file changes. This script does not make "
-          "them: it edits nobody's prose.")
+    print("  Nothing else in the file changes, and this script makes none of it: it edits nobody's "
+          "prose. Do not set **Status** by hand — §14 refuses a stage edited outside the door, "
+          "which is why step 2 is the door and not an edit.")
     _say_unreadable()
     return [f[0] for f in found]
 
