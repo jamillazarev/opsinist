@@ -178,6 +178,17 @@ def main():
         gp = root / guide
         if gp.is_file():
             for line in gp.read_text(errors="replace").splitlines():
+                # An UNFILLED placeholder is not a declaration. `GUIDE-template.md` line 13 reads
+                # `**Operated by:** {{skill display_name}}`, which contains "operated by" and not
+                # "opsinist", so a project whose guide was copied from the template and not yet
+                # generated was handed back as another system's tree. Measured 2026-08-15 (pass
+                # ten) inside the eval harness, where `wired;` copies exactly that template: the
+                # `--doors-only` remedy the guard prints as THE fix was refused whole, exit 2, no
+                # door copied — the remedy could not run in the harness built to measure whether
+                # anyone runs it. It bites real projects the same way, between day one and the
+                # first generation of the guide.
+                if "{{" in line and "}}" in line:
+                    continue
                 if "operated by" in line.lower() and "opsinist" not in line.lower():
                     print(f"{guide} says this tree is operated by another system:")
                     print(f"    {line.strip()}")

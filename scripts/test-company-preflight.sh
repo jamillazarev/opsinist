@@ -535,6 +535,27 @@ git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/runs/R-M1.md
 git rm -qf _ops/runs/R-N1.md _ops/runs/R-N2.md >/dev/null 2>&1
 git commit -qm "T-93 runs out" >/dev/null 2>&1
 
+# ...and the neighbours must be COUNTED BY DECLARATION, not by mention. `grep -rlF` over whole
+# files counted any record that merely names the id — `blocked_by` is a field this same section
+# greps for — so the first-ever record on a task with three dependents was refused as "attempt 4",
+# quoting a number that appears nowhere in it. Measured 2026-08-15 (pass ten). A false refusal on
+# an ordinary dependency graph is how a project learns to use --no-verify.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+# `mkdir -p` because the block above `git rm`s its records and git removes the empty directory
+# with them — without this the fixtures are never written, the preflight sees no dependents, and
+# the assertion below passes for the wrong reason while printing two errors to stderr.
+mkdir -p _ops/runs
+_rec(){ printf '# R-%s — probe\n\n| **Task** | %s |\n| **Attempt** | 1 |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n%s\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' "$1" "$2" "$3" > "_ops/runs/R-$1.md"; }
+for n in D1 D2 D3; do _rec "$n" "T-7HJ3MN" "| **blocked_by** | T-4F2K9Q |"; done
+git add -A && git commit -qm "dependents" >/dev/null 2>&1
+_rec Z9 "T-4F2K9Q" ""
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "the first record on a task named in three others' blocked_by was refused as a third attempt"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/runs/R-Z9.md
+git rm -qf _ops/runs/R-D1.md _ops/runs/R-D2.md _ops/runs/R-D3.md >/dev/null 2>&1
+git commit -qm "dependents out" >/dev/null 2>&1
+
 # ── gutting a keyed file is retiring it ────────────────────────────────────────────────────
 # `staged_size -eq 0` was the whole emptiness test, so `printf '.' > _ops/TOOLING.md` read as a
 # living file while §2 and §9, both keyed on it having rows, went silent. Measured 2026-08-15.
@@ -632,11 +653,16 @@ git commit -qm "1c fixtures out" >/dev/null 2>&1
 # hand-edits to a control and to `T-BYP001 hand edit.md` gave two refusals and zero. Asserted as
 # a PAIR, because the control is what makes the zero mean something.
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
-for nm in "T-SP-control.md" "T-SP with space.md"; do
+# A NEWLINE is the same class and the first repair missed it: BSD grep still treats \n as a line
+# terminator for ^ and $ inside a -z record, so `grep -zE '^…$'` DROPPED the record and every gate
+# went silent again. Measured 2026-08-15 (pass ten). git's own pathspec does the filtering now, so
+# no path meets a line-oriented tool at all — and this asserts the newline case, not just the space.
+nl_name=$(printf 'T-SP with\nnewline.md')
+for nm in "T-SP-control.md" "T-SP with space.md" "$nl_name"; do
   printf '# %s\n\n**Status**: started\n**Assignee**: worker-a\n\n## Done when\n\n- [ ] a thing\n\n## History\n' "$nm" > "_ops/tasks/$nm"
 done
 git add -A && git commit -qm "space fixture" >/dev/null 2>&1
-for nm in "T-SP-control.md" "T-SP with space.md"; do
+for nm in "T-SP-control.md" "T-SP with space.md" "$nl_name"; do
   python3 -c "
 import pathlib, sys
 p = pathlib.Path(sys.argv[1])
@@ -647,7 +673,7 @@ p.write_text(p.read_text().replace('**Status**: started', '**Status**: done')
     && bad "a hand-flipped status in '$nm' passed — the gate is blind to this path" || ok
   git checkout -q HEAD -- . 2>/dev/null; git reset -q
 done
-git rm -qf "_ops/tasks/T-SP-control.md" "_ops/tasks/T-SP with space.md" >/dev/null 2>&1
+git rm -qf "_ops/tasks/T-SP-control.md" "_ops/tasks/T-SP with space.md" "_ops/tasks/$nl_name" >/dev/null 2>&1
 git commit -qm "space fixture out" >/dev/null 2>&1
 
 echo "company-preflight: $pass passed, $fail failed"

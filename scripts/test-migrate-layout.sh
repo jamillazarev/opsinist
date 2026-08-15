@@ -261,6 +261,13 @@ grep -q -- '--doors-only' "$T/doors.txt" \
   && ok || bad "the doors refusal does not print a command that runs with work staged"
 grep -q 'cp .*transition.py' "$T/doors.txt" \
   && bad "the refusal offered to overwrite a door that is present" || ok
+# The harness's own shape: `wired;` copies GUIDE-template.md to CLAUDE.md with placeholders
+# unfilled, and its line 13 reads `**Operated by:** {{skill display_name}}` — "operated by" and
+# not "opsinist" — which tripped the sibling-tree refusal BEFORE the doors branch. Measured
+# 2026-08-15 (pass ten): the remedy the guard prints as THE fix was refused whole, exit 2, no
+# door copied, inside the harness built to measure whether anyone runs it. Real projects hit it
+# between day one and the first generation of the guide.
+cp "$HERE/../templates/GUIDE-template.md" "$T/doors/CLAUDE.md"
 ( cd "$T/doors" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/doors2.txt" 2>&1
 [ -s "$T/doors/_ops/scripts/new-id.py" ] \
   && ok || bad "the printed command did not place the missing door"
@@ -268,6 +275,13 @@ grep -q 'cp .*transition.py' "$T/doors.txt" \
   && ok || bad "the door was written but not staged"
 ( cd "$T/doors" && bash _ops/scripts/preflight.sh >/dev/null 2>&1 ) \
   && ok || bad "the commit is still refused after following the refusal's own instruction"
+# ...and a tree that really does declare another operator is still handed back untouched
+printf '# Guide\n\n**Operated by:** otherops 9.9.9\n' > "$T/doors/CLAUDE.md"
+rm -f "$T/doors/_ops/scripts/new-id.py"
+( cd "$T/doors" && python3 "$HERE/migrate-layout.py" . --doors-only >/dev/null 2>&1 ) \
+  && bad "a tree declaring another operator was migrated" || ok
+[ -f "$T/doors/_ops/scripts/new-id.py" ] \
+  && bad "a door was copied into another system's tree" || ok
 
 echo "migrate-layout: $pass passed, $fail failed"
 exit "$fail"

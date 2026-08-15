@@ -83,12 +83,26 @@ staged() { git show ":$1" 2>/dev/null; }
 # §16 has used this form since it was written and carries a comment explaining why; the eight
 # sections written after it did not get it. §1d transliterates non-ASCII and a space is ASCII,
 # so nothing in this file forbade the name either.
+# `"$@"` carries the pathspec too, and that is the point: **git does the filtering, so no path ever
+# passes through a line-oriented tool.** The first repair sent NUL records through `grep -zE '^…$'`,
+# which closed the space case and left the newline one wide open — BSD grep still treats \n as a
+# line terminator for ^ and $ inside a -z record, so a single filename containing a newline was
+# DROPPED by the filter and every gate downstream went silent at exit 0. Measured 2026-08-15
+# (pass ten): `printf '_ops/tasks/T-x\ny.md\0' | grep -zE '^_ops/tasks/.*\.md$'` returns nothing,
+# while `git ls-files -z -- '_ops/tasks/*.md'` returns the record intact. git's `*` crosses `/`
+# exactly as the `.*` it replaces did, so the matched set is unchanged apart from the hole.
 changed() { git -c core.quotePath=false diff --cached --name-only -z "$@" 2>/dev/null || true; }
 # state_homes — how many places a task keeps its state, on a stream, examples excluded. Counting
 # OCCURRENCES (`-o … | grep -c .`), never `grep -co`, which counts matching LINES under BSD grep
 # and would score `**Status**: x · **Stage**: y` as one.
+# The indent clause is not decoration: `migrate-layout.py` skips a four-space or tab-indented line
+# as an example (its line 104), and this function did not — so an ordinary prose commit whose
+# example is written as an indented block, which is plain markdown, was REFUSED by §1c while the
+# migration looking at the same file reported nothing to fix. Measured 2026-08-15 (pass ten): the
+# reader had no path at all, one tool refusing and the other saying there was no problem. The two
+# now agree on what an example is, which matters more than either rule being perfect.
 state_homes() {
-  awk '/^[[:space:]]*(```|~~~)/{f=!f; next} f{next} /^[[:space:]]*>/{next} {print}' \
+  awk '/^[[:space:]]*(```|~~~)/{f=!f; next} f{next} /^[[:space:]]*>/{next} /^(\t| {4})/{next} {print}' \
     | grep -ooiE '(\*\*)?(status|stage|статус|стадия)(\*\*)?[[:space:]]*:' \
     | grep -c . || true
 }
@@ -249,7 +263,7 @@ while IFS= read -r -d '' tf; do
   say_fail "$tf now keeps its state in ${n} places (it kept ${was:-0}) — a status the human reads and a stage the \
 door moves stop agreeing the first time only one of them is updated. Keep one, on the header \
 line, and let the door own it"
-done < <(changed --diff-filter=AM | grep -zE '^_ops/tasks/.*\.md$')
+done < <(changed --diff-filter=AM -- '_ops/tasks/*.md')
 
 # 1d · paths are ASCII; what is written inside them is the project's own language. Measured on a
 #      live project: 126 tracked paths under `_ops/` carried Cyrillic, and git renders those as
@@ -285,7 +299,7 @@ while IFS= read -r -d '' pf; do
   out=$(python3 "_ops/scripts/transition.py" --check-ladder "$tmp_l" 2>&1) || \
     say_fail "$pf is a malformed ladder: $(printf '%s' "$out" | tr '\n' ' ' | cut -c1-220)"
   rm -f "$tmp_l"
-done < <(changed | grep -zE '^_ops/(pipelines|process/types)/.*\.md$')
+done < <(changed -- '_ops/pipelines/*.md' '_ops/process/types/*.md')
 
 # 1f · a run record carries its numbers, or it is a sentence wearing the word "record". The
 #      guide calls it a door — `a dispatch lands as _ops/runs/R-<id>.md carrying its four token
@@ -320,10 +334,28 @@ runtime does not report one. A sentence in History is not a record"
   # record IS written and the count is simply wrong.
   # `{1,}` — a project whose ids are short (`T-9`) is still a project, and `{2,}` silently
   # matched nothing there, which is how this counted zero neighbours on its own fixture.
-  rtask=$( ( staged "$rf" || true ) | sed -nE 's/.*(T-[0-9A-Za-z-]{1,}).*/\1/p' | head -1)
+  # The id is read from where a record DECLARES its task — its title line or its `Task` row — and
+  # matched as a whole token. `grep -rlF` over whole files counted two things it must not: a record
+  # for a different task that merely NAMES this one (in `blocked_by`, which this section's own
+  # escalation regex greps for), and a record for a task whose id merely extends this one as a
+  # prefix. Measured 2026-08-15 (pass ten): three records naming `T-4F2K9Q` in a `blocked_by`
+  # field made the FIRST EVER record on that task be refused as "attempt 4", with a number that
+  # appears nowhere in the file. A false refusal on an ordinary dependency graph is how a project
+  # learns to reach for --no-verify, which is the one outcome this file's header says it exists
+  # to prevent — so the strictness costs more than the miss it was closing.
+  rtask=$( ( staged "$rf" || true ) \
+           | grep -m1 -oE '^#[^#].*\bT-[0-9A-Za-z-]+|\*\*Task\*\*[^|]*\|[^|]*T-[0-9A-Za-z-]+' \
+           | grep -oE 'T-[0-9A-Za-z-]+' | head -1)
   if [ -n "${rtask:-}" ]; then
-    sib=$( (grep -rlF "$rtask" _ops/runs/ 2>/dev/null || true) | grep -v "^${rf}$" | grep -c . || true)
-    sib=$(( ${sib:-0} + 1 ))
+    sib=0
+    while IFS= read -r -d '' other; do
+      [ "$other" = "$rf" ] && continue
+      o=$( ( staged "$other" 2>/dev/null || cat "$other" 2>/dev/null || true ) \
+           | grep -m1 -oE '^#[^#].*\bT-[0-9A-Za-z-]+|\*\*Task\*\*[^|]*\|[^|]*T-[0-9A-Za-z-]+' \
+           | grep -oE 'T-[0-9A-Za-z-]+' | head -1)
+      [ "$o" = "$rtask" ] && sib=$((sib+1))
+    done < <(git ls-files -z -- '_ops/runs/*.md')
+    sib=$(( sib + 1 ))
     [ "${sib:-0}" -gt "${att:-0}" ] 2>/dev/null && att=$sib
   fi
   if [ -n "${att:-}" ] && [ "$att" -ge 3 ] 2>/dev/null; then
@@ -336,7 +368,7 @@ is a spec problem, not a quality problem. Raise it, or say in this record why a 
 without it the run cannot be sliced later, and a slice you did not record a field for is \
 impossible rather than merely missing"
   done
-done < <(changed --diff-filter=AR | grep -zE '^_ops/runs/R-.*\.md$')
+done < <(changed --diff-filter=AR -- '_ops/runs/R-*.md')
 
 # 1g · a child link that resolves to nothing is a board that cannot be walked. The template
 #      writes children as `- [ ] [T-XXXXXX](T-XXXXXX-slug.md)` precisely so the board is
@@ -357,7 +389,7 @@ $( ( git diff --cached -U0 -- "$tf" 2>/dev/null || true ) | grep '^+' | grep -v 
    | sed 's/^+//' | awk '/^[[:space:]]*(```|~~~)/{f=!f; next} !f' \
    | grep -oE '\]\([^)]+\.md\)' | sed -E 's/^\]\(//; s/\)$//' || true)
 LINKS
-done < <(changed --diff-filter=AM | grep -zE '^_ops/tasks/.*\.md$')
+done < <(changed --diff-filter=AM -- '_ops/tasks/*.md')
 
 # 2 · a recorded fact past its recheck is unknown, not fact. TOOLING.md carries a
 #     Checked column precisely so this can be enforced rather than hoped for.
@@ -441,7 +473,7 @@ carries the payload verbatim, the predicate that decides whether what comes back
 and where the result lands. A key with nothing after it counts as missing. Without them this is \
 not one operation going up, it is the task going up, to someone with no runs and no capacity \
 (requests.md)."
-done < <(git diff --cached --name-only -z 2>/dev/null | grep -zE '^_ops/requests/.*\.md$')
+done < <(changed -- '_ops/requests/*.md')
 
 # 15 · (numbered by arrival, placed by theme) a generated asset without its recipe is
 #      unrepeatable, and nobody finds out on the day. A month later the second banner in the set
@@ -590,7 +622,7 @@ while IFS= read -r -d '' sk; do
   if [ "$chapters" -gt 0 ] && ! grep -q '| Load' "$sk"; then
     say_warn "$sk has $chapters chapter file(s) but no '| Load … | …when |' routing table — chapters nobody routes to are dead weight"
   fi
-done < <(git ls-files -z | grep -zE '(^|/)SKILL\.md$')
+done < <(git ls-files -z -- ':(glob)**/SKILL.md' 'SKILL.md')
 
 # 7 · exactly one advisor. Two of them is not a busier project, it is two seats each
 #     believing it holds the loop, writing each other's model and effort, and each one
@@ -698,7 +730,7 @@ is judged against it."
       || say_warn "$t reaches a terminal status and nothing in the change points at a review, a \
 run or evidence — nothing transitions itself, and a status that moves on its own is how a board \
 begins to lie."
-  done < <(changed | grep -zE '^_ops/tasks/.*\.md$')
+  done < <(changed -- '_ops/tasks/*.md')
 fi
 
 # 11 · a review is not a review when the author signs it off. "Nobody edits the bar they are
@@ -717,7 +749,7 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
     [ -n "$who" ] && [ -n "$author" ] && [ "$who" = "$author" ] && \
       say_fail "$t is signed off by \`$who\`, who did the work — a review goes to someone else, \
 because a model reads its own output generously and the thread cannot tell the difference."
-  done < <(changed | grep -zE '^_ops/tasks/.*\.md$')
+  done < <(changed -- '_ops/tasks/*.md')
 fi
 
 # 14 · (numbered by arrival, placed by theme — like the rest of this file)
@@ -738,7 +770,7 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
       || say_fail "$t changes its stage with no transition line in the same change — the door \
 is \`_ops/scripts/transition.py\`: it refuses an illegal move with the reason and records the legal \
 one. A stage edited by hand is a bypass."
-  done < <(changed | grep -zE '^_ops/tasks/.*\.md$')
+  done < <(changed -- '_ops/tasks/*.md')
 fi
 
 # 13 · a parent does not close itself. §10 catches a task reaching a terminal status with nothing
@@ -779,7 +811,7 @@ this commit**: written into the same change, it is the closer vouching for itsel
 given the earlier version of this gate, runs wrote \"Accepted by owner\" and the owner's own \
 email address to get past it."
     fi
-  done < <(changed | grep -zE '^_ops/tasks/.*\.md$')
+  done < <(changed -- '_ops/tasks/*.md')
 fi
 
 # 12 · the spend cap, which for months was written as "stop at the cap" and performed by nothing.
