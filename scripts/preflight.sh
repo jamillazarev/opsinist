@@ -421,11 +421,27 @@ raw=$(grep -rEln '\]\([^) ]*\(' --include='*.md' . 2>/dev/null | grep -v '^\./\.
 if [ -n "$raw" ]; then say_fail "raw ( in a markdown URL — percent-encode: $raw"; else say_ok "no raw parens inside markdown URLs"; fi
 
 # CORPUS_PF_TEST is set by test-corpus-preflight.sh when it runs THIS script inside a clone to
+# Every suite in scripts/ must be run by something. The loop below discovers them; the one
+# exclusion is `test-audit-gate.sh`, which CI runs as its own step and this file names in the
+# same breath — so if a third category ever appears, it is refused here rather than discovered
+# later by its absence from a green run.
+for _s in $(ls scripts/test-*.sh 2>/dev/null); do
+  _b=${_s##*/}
+  [ "$_b" = "test-audit-gate.sh" ] && { grep -q "$_b" .github/workflows/*.yml 2>/dev/null \
+    || say_fail "$_b is excluded from the suite battery and named in no workflow — nothing runs it"; continue; }
+done
+
 # exercise the doors check — the clone's preflight skips the suite battery, or the suite that
 # calls preflight would call itself through every clone, forever.
 if [ -z "${CORPUS_PF_TEST:-}" ]; then
 : > /tmp/.pf-suites.$$
-for t in scripts/test-transition.sh scripts/test-inventory.sh scripts/test-company-preflight.sh scripts/test-map-blocks.sh scripts/test-migrate-layout.sh scripts/test-corpus-preflight.sh scripts/test-eval-requeue.sh; do
+# DISCOVERED, not listed. A hardcoded roll-call is the rot surface §1 warns about wearing a
+# script's clothes: a suite added and not added HERE never runs, and the green tick says
+# otherwise. Measured next door 2026-08-15 — `test-preflight-checks.sh`, the suite whose whole
+# job is mutation-testing the guard's own checks, had been absent from that repo's CI list since
+# it was written. `test-audit-gate.sh` is excluded because CI runs it as its own step; the check
+# below refuses any OTHER suite that nothing runs, so the exclusion cannot grow quietly.
+for t in $(ls scripts/test-*.sh 2>/dev/null | grep -v 'test-audit-gate\.sh'); do
   [ -f "$t" ] || continue
   out=$(bash "$t" 2>&1 | tail -1)
   printf '%s %s\n' "${t##*/}" "$(printf '%s' "$out" | grep -oE '[0-9]+ passed' | grep -oE '[0-9]+')" \
