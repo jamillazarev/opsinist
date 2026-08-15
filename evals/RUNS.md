@@ -1441,3 +1441,37 @@ call** — the string arrives in directory listings. The assumption holds and is
 **Still owed:** N95 is untouched by any of this — its players read the report, understood it, and
 stopped at the decision to edit someone else's file. That is not a gate defect and not a wording
 defect, and the next attempt on it should not be a fourth rewrite of the same paragraph.
+
+## 2026-08-15 · the same three with the guide installed — the rule is read and not used
+
+`wired;` now writes `CLAUDE.md`, so N90, N92 and N95 were re-run against a project holding both
+the enforcement and the instruction. **Nothing was repaired.**
+
+| | no guide | with guide |
+|---|---|---|
+| **N90** doors gone | 2/5 | **1/5** |
+| **N92** unknown numbers | 0/5, all void | **0/3**, 2 void |
+| **N95** state carried twice | 0/5 | **1/5** |
+
+3 of 15 against 0 of 15, and **every individual cell is inside the noise at N=5** — 2/5 and 1/5 are
+not distinguishable, and no claim is made that N90 got worse. What did change is what the judges
+can see: one now writes that the agent stalled *"instead of using the documented `unknown`"*. The
+affordance is in front of the player, named, in the file the project holds. It is read and not used.
+
+> [!IMPORTANT]
+> **The failure is now measured twice — with the rule absent and with the rule present — and it is
+> the same failure.** Across all three scenarios and both conditions the transcripts converge on one
+> act: *"asked the owner"* · *"only asked clarifying questions"* · *"stopped to ask permission"*.
+> Wording cannot reach this. The message that goes 5/5 (N91) does not out-argue the hesitation; it
+> removes the decision, because retiring a register is an act on a file the agent was already told
+> to change. N92 and N95 ask an agent to write a value the owner did not supply and to edit tasks
+> the owner did not name — and it declines to decide for them.
+
+**This is a question for the owner, not a defect to word around.** Three of these scenarios encode
+an expectation — act without asking — that is in tension with a defensible default. An agent that
+edits someone's task files on its own initiative is not obviously the better agent. The corpus has
+been treating the hesitation as a miss for two rounds; whether it is one is a decision about what
+this skill wants, and the fourth rewrite of a paragraph is not the way to take it.
+
+**Not rewriting those messages again.** The previous entry said the next attempt should not be a
+fourth rewrite; this round is the evidence for that sentence rather than another attempt at it.
