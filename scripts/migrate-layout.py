@@ -52,52 +52,77 @@ def collapse_state_fields(root, dry):
 
     The machine field wins, because it is the one the door moves: measured on a live project,
     `stage:` had advanced on all twelve tasks while the prose copy was stale on two and absent
-    on ten. Its value is written into `**Status**` — the shipped shape's one home — and the
-    machine line is dropped.
+    on ten.
+
+    **It edits someone else's file, so it works line by line and never with a blanket regex.**
+    The first version stripped every line matching `stage:` anywhere in the document — measured
+    2026-08-15, that deleted `stage: draft` out of a fenced YAML example a task carried to show
+    what a type file looks like, leaving an empty fence. Fenced blocks are skipped, and exactly
+    one line is removed: the one the value was read from.
     """
     import re
-    tasks = sorted((root / "_ops" / "tasks").glob("*.md")) if (root / "_ops" / "tasks").is_dir() else []
+    tdir = root / "_ops" / "tasks"
+    tasks = sorted(tdir.glob("*.md")) if tdir.is_dir() else []
+    MACHINE = re.compile(r"^[ \t]*(?:stage|стадия)[ \t]*:[ \t]*(.+?)[ \t]*$", re.I)
+    PROSE = re.compile(r"^(.*\*\*(?:Status|Статус)\*\*[ \t]*:[ \t]*)([^·|\n]*)(.*)$", re.I)
+    INTRO = re.compile(r"^<!--[^>]*(?:transition\.py|машиночитаемо|machine-readable)[^>]*-->[ \t]*$", re.I)
     touched = []
     for tf in tasks:
-        text = tf.read_text(encoding="utf-8", errors="replace")
-        machine = re.search(r"^[ \t]*(?:stage|стадия)[ \t]*:[ \t]*(.+)$", text, re.M | re.I)
-        prose = re.search(r"^(.*\*\*(?:Status|Статус)\*\*[ \t]*:[ \t]*)([^·|\n]*)(.*)$", text, re.M | re.I)
-        if not machine:
+        lines = tf.read_text(encoding="utf-8", errors="replace").split("\n")
+        fence = False
+        fenced = set()
+        mach_i = prose_i = None
+        for i, l in enumerate(lines):
+            if re.match(r"^[ \t]*(```|~~~)", l):
+                fence = not fence
+                fenced.add(i)
+                continue
+            if fence:
+                fenced.add(i)
+                continue
+            if mach_i is None and MACHINE.match(l):
+                mach_i = i
+            if prose_i is None and PROSE.match(l):
+                prose_i = i
+        if mach_i is None:
             continue
-        value = machine.group(1).strip()
-        if prose:
-            body = text[:prose.start()] + prose.group(1) + value + prose.group(3) + text[prose.end():]
-        else:
-            # no prose home at all — give it one, on the header line where the template puts it
-            lines = text.split("\n")
-            at = 1
-            for i, l in enumerate(lines[:8]):
-                if l.startswith("**"):
-                    at = i
-                    break
+        others = [i for i, l in enumerate(lines)
+                  if i != mach_i and MACHINE.match(l) and i not in fenced]
+        if others:
+            # Two machine state lines is a shape nobody prescribed, and choosing between them
+            # is a guess about someone else's work. Say it and move on: the guard will refuse
+            # the file until a human decides, which is the right person to decide.
+            print(f"  {tf.name} carries {len(others) + 1} machine state lines — not collapsed, "
+                  f"because picking one would be a guess. Keep the true one and delete the rest")
+            continue
+        value = MACHINE.match(lines[mach_i]).group(1).strip()
+        was = "(none)"
+        if prose_i is not None:
+            m = PROSE.match(lines[prose_i])
+            was = (m.group(2).strip() or "(none)")
+            lines[prose_i] = m.group(1) + value + m.group(3)
+        # the introducing comment, only when it sits directly above the machine line
+        drop = {mach_i}
+        if mach_i and INTRO.match(lines[mach_i - 1]):
+            drop.add(mach_i - 1)
+        if prose_i is None:
+            at = next((i for i, l in enumerate(lines[:8]) if l.startswith("**")), 1)
             lines.insert(at, f"**Status**: {value}")
-            body = "\n".join(lines)
-        body = re.sub(r"^[ \t]*(?:stage|стадия)[ \t]*:[ \t]*.+\n?", "", body, flags=re.M | re.I)
-        # the comment that introduced the machine block has nothing left to introduce
-        body = re.sub(r"^<!--[^>]*(?:transition\.py|машиночитаемо|machine-readable)[^>]*-->\n?", "",
-                      body, flags=re.M | re.I)
-        # The prose value moves, so the file's stage changes — and §14 reads an unexplained
-        # stage change as a hand edit, correctly. This is not a move: it is a stale copy being
-        # reconciled with the one the door was already using. Say that, in History, where a
-        # later reader will need it, rather than exempting the migration from the gate.
-        was = (prose.group(2).strip() if prose else "(none)") or "(none)"
+            drop = {i + 1 for i in drop}
         if was != value:
             # In the door's own vocabulary, because §14 reads this line and because it IS a
             # transition of the recorded value — what did not happen is a move of the work.
             line = (f"- migration — transition {was} -> {value}, by migrate-layout — the two "
                     f"state fields disagreed; the door's `stage:` was already `{value}`, the "
                     f"prose copy said `{was}` and was stale. One home now. No work moved.")
-            if re.search(r"^##[ \t]*History", body, re.M):
-                body = re.sub(r"^(##[ \t]*History[ \t]*\n)", r"\1" + line + "\n", body,
-                              count=1, flags=re.M)
+            hist = next((i for i, l in enumerate(lines)
+                         if re.match(r"^##[ \t]*History", l, re.I)), None)
+            if hist is None:
+                lines += ["", "## History", line]
             else:
-                body = body.rstrip() + "\n\n## History\n" + line + "\n"
-        if body != text:
+                lines.insert(hist + 1, line)
+        body = "\n".join(l for i, l in enumerate(lines) if i not in drop)
+        if body != tf.read_text(encoding="utf-8", errors="replace"):
             touched.append(tf.name)
             if not dry:
                 tf.write_text(body, encoding="utf-8")

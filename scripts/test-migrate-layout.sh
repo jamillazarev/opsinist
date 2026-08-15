@@ -145,6 +145,20 @@ grep -q '^\*\*Status\*\*: review' _ops/tasks/T-B.md \
   && ok || bad "a task with no prose copy did not gain one"
 grep -q 'transition started -> review, by migrate-layout' _ops/tasks/T-A.md \
   && ok || bad "the reconciliation left no record the bypass net can read"
+# it edits someone else's file, so it never uses a blanket regex: a `stage:` inside a fenced
+# example is content, and the first version deleted it and left an empty fence
+printf '# T-D\n\n**Status**: started\nstage: review\n\n```yaml\nstage: draft\n```\n' > _ops/tasks/T-D.md
+git add -A && git commit -qm "fenced example"
+python3 "$HERE/migrate-layout.py" . >/dev/null 2>&1
+grep -q '^stage: draft' _ops/tasks/T-D.md && ok || bad "the codemod deleted a stage: line out of a fenced example"
+grep -q '^\*\*Status\*\*: review' _ops/tasks/T-D.md && ok || bad "the value outside the fence was not collapsed"
+# and two machine lines is a guess it refuses to make
+printf '# T-E\n\n**Status**: started\nstage: review\nstage: draft\n' > _ops/tasks/T-E.md
+git add -A && git commit -qm "two machine lines"
+python3 "$HERE/migrate-layout.py" . > "$T/out2.txt" 2>&1
+grep -q 'machine state lines' "$T/out2.txt" && ok || bad "two machine state lines were collapsed by guessing"
+[ "$(grep -c '^stage:' _ops/tasks/T-E.md)" = 2 ] && ok || bad "a line was removed from a file it could not read"
+
 [ "$(grep -c 'Status' _ops/tasks/T-C.md)" = 1 ] && ok || bad "a task already in the one-field shape was touched"
 
 echo "migrate-layout: $pass passed, $fail failed"
