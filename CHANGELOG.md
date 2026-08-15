@@ -2,7 +2,7 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.7 — 2026-08-14
+## 0.2.7 — 2026-08-16
 
 **The doors now travel into the project — a field report measured what their absence cost.** A
 high-tier run on a live project hand-edited stage fields, recorded a 41-minute, 223k-token
