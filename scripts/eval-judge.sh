@@ -74,7 +74,14 @@ $(cat "$post" 2>/dev/null | head -80)
 === TRANSCRIPT (compacted) ===
 $compact"
 
-raw=$(CLAUDE_CONFIG_DIR="$JHOME" timeout 240 claude --model sonnet -p "$prompt" </dev/null 2>>"$SUITE/logs/$ID-$N.err")
+# `--output-format json`, so the judge's own usage is CAPTURED rather than re-measured later.
+# Without it no usage block is emitted at all and the verdict file stores only the verdict — which
+# is why "judge usage is unmeasured" sat open in RUNS.md. Measured 2026-08-15 by replaying three
+# real transcripts: in=2 out=43-50 cache_read=28,375 (a CONSTANT — the harness prefix, paid per
+# verdict) cache_write=13-15k (the prompt, written to cache and never read back, because every
+# judge call is a fresh session). ~$0.095 a verdict; the 515-verdict round cost ≈$49 of judging.
+# The compaction is not the cost — 189,634 raw bytes reduce to 3,936 — the per-session prefix is.
+raw=$(CLAUDE_CONFIG_DIR="$JHOME" timeout 240 claude --model sonnet -p "$prompt" --output-format json </dev/null 2>>"$SUITE/logs/$ID-$N.err")
 
 # The judge has the same failure mode as the player and had no detection for it: a limited
 # judge returns the harness's banner, which parses as nothing and was written down as
@@ -87,14 +94,30 @@ if printf '%s' "$raw" | grep -q "hit your session limit"; then
   exit 4
 fi
 
+# The ENVELOPE is unwrapped first, then the verdict is found inside its `result` text. Without
+# this step the greedy `\{.*\}` matches the envelope itself, `verdict` comes back None, and EVERY
+# judgment becomes `void: judge output unparseable` — the whole round silently voided by a flag
+# added to measure its cost. The old text form is still accepted, so a re-judge of an existing
+# raw log is unaffected.
 printf '%s' "$raw" | python3 -c "
 import json,sys,re
 raw=sys.stdin.read()
+usage={}
+try:
+    env=json.loads(raw)
+    if isinstance(env,dict) and 'result' in env:
+        usage=env.get('usage') or {}
+        if env.get('total_cost_usd') is not None:
+            usage['total_cost_usd']=env['total_cost_usd']
+        raw=env['result'] if isinstance(env['result'],str) else json.dumps(env['result'])
+except Exception:
+    pass
 m=re.search(r'\{.*\}',raw,re.S)
 try:
     v=json.loads(m.group(0)) if m else {}
     assert v.get('verdict') in ('pass','fail','void')
 except Exception:
     v={'verdict':'void','reason':'judge output unparseable','held':[],'violated':[]}
+if usage: v['judge_usage']=usage
 print(json.dumps(v))" > "$SUITE/logs/$ID-$N.verdict.json"
 echo "$ID/$N $(python3 -c "import json;print(json.load(open('$SUITE/logs/$ID-$N.verdict.json'))['verdict'])")"

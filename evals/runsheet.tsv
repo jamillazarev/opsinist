@@ -95,7 +95,7 @@ N68	mcpsource	-	This keeps happening and it's not my code — it's the skill. Ca
 N69	drift	-	How are we doing?
 N70	decompose	-	Break 'Launch the shop' into its first real tasks and write them up properly.
 N71	workshop	-	The café's order is real now — set up how we track a commission.
-N72	brandkit	mkdir -p _ops/process/types docs roles; printf 'name: issue\n\n## Where the description lives\n\nexample — the model issue at docs/model-issue.md, gauge-checked. Judge: unassigned.\n\n## Provenance\n\ndrafted by editor, 2026-08-05\n' > _ops/process/types/issue.md; printf '# Model issue\n\nThe October letter: 600 words, one recipe, one story.\n' > docs/model-issue.md; printf 'name: editor\ntype: worker\ncraft: the letter\n' > _ops/roles/editor.md	Ready to write the next issue — go?
+N72	brandkit	mkdir -p _ops/process/types docs _ops/roles; printf 'name: issue\n\n## Where the description lives\n\nexample — the model issue at docs/model-issue.md, gauge-checked. Judge: unassigned.\n\n## Provenance\n\ndrafted by editor, 2026-08-05\n' > _ops/process/types/issue.md; printf '# Model issue\n\nThe October letter: 600 words, one recipe, one story.\n' > docs/model-issue.md; printf 'name: editor\ntype: worker\ncraft: the letter\n' > _ops/roles/editor.md	Ready to write the next issue — go?
 N73	flowmap	-	The work's done — close the task.
 N74	flowmap	-	Pick the open task back up and carry on.
 N75	mess	-	Take this over — what's broken here?	sonnet
