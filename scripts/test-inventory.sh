@@ -38,5 +38,14 @@ python3 "$HERE/inventory.py" "$T/bare" > "$T/bare.md"
 grep -q 'not a git repository' "$T/bare.md" && grep -qF 'd/' "$T/bare.md" \
   && ok || bad "non-git tree not handled honestly"
 
+# Two-letter prefixes: `RQ-` (a request) and `TH-` (a thread) were both in the corpus while the
+# door accepted one letter only, so neither could be minted and neither was visible to the
+# collision scan — which is the one job this script has.
+for pfx in TH RQ; do
+  id=$(python3 "$HERE/new-id.py" --prefix "$pfx" 2>&1 | head -1)
+  case "$id" in "$pfx"-??????) ok;; *) bad "new-id.py cannot mint a $pfx- id: $id";; esac
+done
+python3 "$HERE/new-id.py" --prefix ABC >/dev/null 2>&1 && bad "a three-letter prefix was accepted" || ok
+
 echo "inventory: $pass passed, $fail failed"
 exit "$fail"

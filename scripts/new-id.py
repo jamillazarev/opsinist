@@ -28,7 +28,7 @@ from pathlib import Path
 # misread as 1, 1, 0 and V when a human copies an id off a screen.
 ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
 LENGTH = 6
-ID_RE = re.compile(rf"\b([A-Z])-([{ALPHABET}]{{{LENGTH}}})\b")
+ID_RE = re.compile(rf"\b([A-Z]{{1,2}})-([{ALPHABET}]{{{LENGTH}}})\b")
 
 
 def ids_in_use(root: Path) -> set[str]:
@@ -61,9 +61,13 @@ def main() -> int:
     ap.add_argument("--root", default=".", help="tree to scan for ids already in use")
     a = ap.parse_args()
 
-    if len(a.prefix) != 1 or not a.prefix.isalpha():
-        print("prefix is a single letter", file=sys.stderr)
+    # One or two letters: `RQ-` (a request) and `TH-` (a thread) were both in the corpus while
+    # the door accepted a single letter only, so neither could be minted here and neither was
+    # visible to the collision scan below — which is the whole reason this script exists.
+    if not (1 <= len(a.prefix) <= 2) or not a.prefix.isalpha():
+        print("prefix is one or two letters", file=sys.stderr)
         return 2
+    a.prefix = a.prefix.upper()
 
     used = ids_in_use(Path(a.root).resolve())
     minted: set[str] = set()

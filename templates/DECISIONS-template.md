@@ -26,8 +26,10 @@ current state (that's the spec, roadmap and guide) or a deferral with a revisit 
 > a decision whose basis was an article *reporting* a study was read back as *"research shows"* —
 > the qualifier sat inside a sentence, and summarising dropped it first because it was the least
 > informative-sounding clause. A labelled field is dropped visibly; a clause is dropped silently.
+
 > [!NOTE]
 > **A source `reports`; only the study `shows`.**
+
 **Would revisit if:** {{the condition that would make this wrong — a price change, a
 version, scale. Omit only if genuinely permanent.}}
 **Decided by:** {{who}} · **Where:** {{task link}} · **Advising:** {{the session's model and

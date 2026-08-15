@@ -216,9 +216,14 @@ fi
 #      that writes it, which is where the person who can fix it is standing.
 for pf in $( ( git -c core.quotePath=false diff --cached --name-only 2>/dev/null || true ) \
              | grep -E '^_ops/(pipelines|process/types)/.*\.md$' || true); do
-  [ -f "$pf" ] || continue
-  out=$(python3 "_ops/scripts/transition.py" --check-ladder "$pf" 2>&1) || \
+  # The INDEX, not the worktree: staging a broken ladder and fixing it in the editor was
+  # measured passing. The staged bytes go to a temp file because the door takes a path.
+  tmp_l=$(mktemp) || continue
+  staged "$pf" > "$tmp_l" 2>/dev/null || { rm -f "$tmp_l"; continue; }
+  [ -s "$tmp_l" ] || { rm -f "$tmp_l"; continue; }
+  out=$(python3 "_ops/scripts/transition.py" --check-ladder "$tmp_l" 2>&1) || \
     say_fail "$pf is a malformed ladder: $(printf '%s' "$out" | tr '\n' ' ' | cut -c1-220)"
+  rm -f "$tmp_l"
 done
 
 # 1f · a run record carries its numbers, or it is a sentence wearing the word "record". The
