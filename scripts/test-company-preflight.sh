@@ -508,6 +508,41 @@ git checkout -q HEAD -- .; git reset -q
 git rm -qf _ops/tasks/T-tpl.md _ops/tasks/T-close.md _ops/runs/R-old.md >/dev/null 2>&1
 git commit -qm "fixtures out" >/dev/null 2>&1
 
+# ── a task that closes must say what it cost ───────────────────────────────────────────────
+# `cost.md` stores cost once, at the run, and derives every other number from it. Nothing checked
+# the atom existed: measured 2026-08-15, a task taken started → review → done THROUGH the door with
+# zero run records anywhere drew no refusal and no warning, so a feature's total, the budget burn
+# and the trend the owner is told all rested on records nobody was asked for. Observed first on a
+# live project whose board carried finished work and no cost at all. A WARNING, because a task done
+# by a person legitimately has no run — so the pair is: warned without a record, silent with one.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+mkdir -p _ops/process/types _ops/runs
+printf 'started -> review -> done\n' > _ops/process/types/default.md
+printf '# T-COST — a real job\n\n**Status**: started\n**Assignee**: ui\n\n## Done when\n\n- [ ] the thing exists\n\n## History\n' > _ops/tasks/T-COST.md
+git add -A && git commit -qm "cost fixture" >/dev/null 2>&1
+close_it(){
+  python3 "$HERE/transition.py" _ops/tasks/T-COST.md review --by ui >/dev/null 2>&1
+  printf -- '- reviewed by qa\n' >> _ops/tasks/T-COST.md
+  python3 -c "
+import pathlib
+p = pathlib.Path('_ops/tasks/T-COST.md')
+p.write_text(p.read_text().replace('- [ ] the thing exists', '- [x] the thing exists'))"
+  python3 "$HERE/transition.py" _ops/tasks/T-COST.md done --by qa >/dev/null 2>&1
+  git add -A
+}
+close_it
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "no run record names T-COST" \
+  && ok || bad "a task closed with no run record anywhere and nothing said what it cost"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# R-C1 — the job\n\n| **Task** | T-COST · a real job |\n| **Attempt** | 1 |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 12000 | 3100 | 188900 | 6200 |\n' > _ops/runs/R-C1.md
+git add -A && git commit -qm "the record" >/dev/null 2>&1
+close_it
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "no run record names T-COST" \
+  && bad "a task with a run record naming it was still warned about its cost" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf _ops/tasks/T-COST.md _ops/runs/R-C1.md >/dev/null 2>&1
+git commit -qm "cost fixture out" >/dev/null 2>&1
+
 # ── a RUN RECORD delivered as a rename must not escape §1f ─────────────────────────────────
 # §1f was moved from `--diff-filter=A` to `AR` in this release because "a record delivered as a
 # rename escaped this gate whole", and nothing asserted it: an adversarial lens reverted the

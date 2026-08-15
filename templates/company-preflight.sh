@@ -749,6 +749,42 @@ is judged against it."
       || say_warn "$t reaches a terminal status and nothing in the change points at a review, a \
 run or evidence — nothing transitions itself, and a status that moves on its own is how a board \
 begins to lie."
+
+    # 10b · WHAT IT COST, at the moment it is last cheap to record. `cost.md` says it outright —
+    # *"Measured at the atom, everything else derived. Store once, at the run"* — and the guide's
+    # own door says a dispatch lands as `_ops/runs/R-<id>.md` carrying its four token numbers.
+    # Nothing checked that the atom exists. Measured 2026-08-15: a task taken started → review →
+    # done THROUGH the door, with zero run records anywhere in the project, drew no refusal and no
+    # warning at all — so every derived number (a feature's cost, the budget burn, the waste
+    # slices, the trend the owner is told) rests on records nobody is asked for. Observed first on
+    # a live project, where the board carried finished work and no cost at all.
+    #
+    # A WARNING, not a refusal, because a task done by a person legitimately has no run — and it
+    # names both ways to be right, so it is answerable rather than nagging.
+    tid=$(basename "$t" .md | grep -oE '^[A-Z]{1,2}-[0-9A-Za-z-]+' || true)
+    if [ -n "${tid:-}" ]; then
+      _has_run=no
+      while IFS= read -r -d '' _r; do
+        ( staged "$_r" 2>/dev/null || cat "$_r" 2>/dev/null || true ) \
+          | grep -m1 -oE '^#[^#].*\b'"$tid"'\b|\*\*Task\*\*[^|]*\|[^|]*'"$tid"'\b' \
+          | hits . && { _has_run=yes; break; }
+      done < <(git ls-files -z -- '_ops/runs/*.md')
+      [ "$_has_run" = yes ] || say_warn "$t closes and no run record names $tid — \
+\`cost.md\` stores cost once, at the run, and derives everything else from it, so a task that \
+finishes without one leaves its own cost, its feature's total and the budget burn resting on \
+nothing. Either write the record (\`_ops/runs/R-<id>.md\`, four token numbers, \`unknown\` where \
+the harness does not report one), or say in History that this was done by hand — both are \
+honest, silence is not."
+    fi
+
+    # A task that CLAIMS a run and links to a record that is not there is already refused by §1g,
+    # which checks every `.md` link in a task and does not care what it points at. A second check
+    # for the same shape was written here and deleted before it shipped — measured 2026-08-15: on
+    # a task linking `../runs/R-GHOST.md`, §1g refused and this fired zero times. Two gates for one
+    # defect is the redundancy the deletion lens exists to remove, and the one that survives is the
+    # one that catches the whole class.
+$( ( staged "$t" || true ) | grep -oE '\]\((\.\./)?runs/R-[^)]+\.md\)' | sed -E 's/^\]\(//; s/\)$//' || true)
+LINKS
   done < <(changed -- '_ops/tasks/*.md')
 fi
 

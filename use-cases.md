@@ -137,6 +137,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "Halt everything" | *"stop"* → **and you are told honestly what cannot be halted mid-run** |
 | "Sign us up for that service" | *"get us the paid plan"* → **it does the homework and you enter the card** — never it |
 | "What did we waste?" | *"what did we spend that produced nothing?"* → a slice that exists for exactly this |
+| "The board says done and I see no cost" | nothing to say — **the guard warns as each task closes**, naming the record to write or asking you to say a person did it |
 | "Give a teammate access" | *"add Sam"* → shape-of-team, so it waits for you |
 
 ## When things go wrong

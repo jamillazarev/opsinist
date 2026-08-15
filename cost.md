@@ -200,3 +200,23 @@ long as the machine survives.
 operation** and therefore gated. Two conditions: **markdown stays canon**, and the publish is
 **one-way, never read back as truth**. If the outside system must also write, that is a checkout
 relationship with its own `version_seen` and drift detection, declared once → `drift.md`.
+
+## What a task owes when it closes
+
+Cost is stored once at the run and everything else is derived, so the moment a task closes is the
+last moment its cost is cheap to record — and the only moment anyone is still looking. **Warned,
+never refused**: a task a person did legitimately has no run.
+
+```mermaid
+flowchart TD
+  C[terminal status] --> Q{a run record<br/>names this task?}
+  Q -->|yes| OK[silent — the atom exists]
+  Q -->|no| H{History says<br/>a person did it?}
+  H -->|yes| OK
+  H -->|no| W[warned: write the record,<br/>or say it was by hand]
+  W -.->|unanswered| L[a board showing finished<br/>work and no cost]
+```
+
+Measured 2026-08-15: before this, a task taken `started → review → done` **through the door**, with
+zero run records anywhere, drew no refusal and no warning — so a feature's total, the budget burn
+and the trend the owner is told all rested on records nobody was asked for.

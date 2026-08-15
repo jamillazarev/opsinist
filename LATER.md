@@ -10,6 +10,23 @@ work now, which is a task with a blocker instead.
 
 ---
 
+
+## `diagrams.md` is at its budget, and the capability bar keeps asking for diagrams
+
+**Measured 2026-08-15**: the file stood at **499 lines of a 500-line chapter budget** before this
+release added one, and `self-maintenance.md` §What-a-capability-owes requires a diagram for every
+new mechanic. Those two rules meet at the next mechanic, not at some point in the future.
+
+This release resolved its own case by putting the diagram in `cost.md`, the chapter it illustrates
+— which is arguably where it always belonged, and `consulting.md` already carried its own. So the
+question is not "where does this one go" but **whether `diagrams.md` is a chapter or an index**: a
+gallery that must hold every diagram will keep hitting 500, while a chapter that holds the ones
+which cross several rules can stay small if the rest live beside their rules.
+
+**Revisit trigger:** the next new mechanic that owes a diagram. If its natural chapter has room,
+put it there and this becomes the convention; if it does not, the budget or the gallery has to give,
+and that is a decision about what `diagrams.md` is for.
+
 ## ~~Measure what the day-one cut actually bought~~ — run 2026-08-01, partly falsified
 
 **Closed by measurement, and the verdict is split.** The **ordering** claim confirmed: the first
