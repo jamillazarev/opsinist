@@ -193,11 +193,12 @@ def main():
                 # anyone runs it. It bites real projects the same way, between day one and the
                 # first generation of the guide.
                 # ...but only when the OPERATOR ITSELF is the placeholder. `{{` anywhere in the
-                # line was far too wide: multica-ops' own guide template reads
-                # `**Operated by multica-ops {{x.y.z}}.**` — a real system name with a placeholder
-                # VERSION — so the skip disarmed the shared door for exactly the tree it exists to
-                # protect, and this script would have migrated a sibling's workspace. Measured
-                # 2026-08-15 (pass eleven): EXIT=0, files moved.
+                # line was far too wide: a sibling methodology's own guide template names itself
+                # and leaves a placeholder VERSION beside it — `**Operated by <them> {{x.y.z}}.**`
+                # — so the skip disarmed the shared door for exactly the tree it exists to protect,
+                # and this script would have migrated that workspace. Measured 2026-08-15 (pass
+                # eleven): EXIT=0, files moved. Ours puts the placeholder where the NAME goes;
+                # theirs puts the name there. That is the whole distinction.
                 _after = re.split(r"operated\s+by", line, flags=re.I)[1] if re.search(
                     r"operated\s+by", line, re.I) else ""
                 _after = _after.lstrip(" :*\t")

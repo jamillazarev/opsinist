@@ -267,12 +267,12 @@ grep -q 'cp .*transition.py' "$T/doors.txt" \
 # 2026-08-15 (pass ten): the remedy the guard prints as THE fix was refused whole, exit 2, no
 # door copied, inside the harness built to measure whether anyone runs it. Real projects hit it
 # between day one and the first generation of the guide.
-# ...and the SIBLING's template must still be refused. `{{` anywhere in the line was too wide a
-# skip: multica-ops' guide reads `**Operated by multica-ops {{x.y.z}}.**` — a real system name with
-# a placeholder VERSION — so the skip disarmed the shared door for exactly the tree it protects and
-# this script migrated a sibling's workspace. Measured 2026-08-15 (pass eleven). The rule is that
-# the OPERATOR position must be unfilled, not that the line contains a placeholder somewhere.
-printf '# Guide\n\n**Operated by multica-ops {{x.y.z}}.** Workspace: `{{workspace}}` on Multica.\n' \
+# ...and a SIBLING-operated tree must still be refused. `{{` anywhere in the line was too wide a
+# skip: a sibling methodology's guide names itself and leaves a placeholder VERSION beside it, so
+# the skip disarmed the shared door for exactly the tree it protects — measured 2026-08-15 (pass
+# eleven), the migration ran and moved files. The rule is that the OPERATOR position must be
+# unfilled, not that the line contains a placeholder somewhere.
+printf '# Guide\n\n**Operated by otherops {{x.y.z}}.** Workspace: `{{workspace}}` elsewhere.\n' \
   > "$T/doors/CLAUDE.md"
 ( cd "$T/doors" && python3 "$HERE/migrate-layout.py" . --doors-only >/dev/null 2>&1 ) \
   && bad "a sibling-operated workspace was migrated because its version was a placeholder" || ok
