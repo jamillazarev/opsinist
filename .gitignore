@@ -19,3 +19,7 @@ node_modules/
 .claude/launch.json
 .claude/settings.local.json
 .claude/worktrees/
+
+# eval fixtures are built, never tracked — `git add -A` swept 56 of them in once
+/ledger/
+/brandkit/
