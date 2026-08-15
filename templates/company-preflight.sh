@@ -311,6 +311,21 @@ runtime does not report one. A sentence in History is not a record"
   # escalation named in the same commit, or it is refused.
   att=$( ( staged "$rf" || true ) \
          | sed -nE 's/.*[Aa]ttempt[^0-9]*([0-9]+).*/\1/p' | head -1)
+  # The field is a claim; the neighbours are a fact. A third record labelled `attempt: 1` — a
+  # fresh count on the same task, which is what a worker who did not read the prior records
+  # writes — passed a gate keyed only on the field. So the task's OTHER records are counted too,
+  # and the higher of the two numbers is the one this refusal uses. Measured 2026-08-15: N93
+  # scored 1/5 with four runs dispatching a further attempt having read neither prior record.
+  # This does not repair that — a guard cannot see a dispatch — but it closes the case where the
+  # record IS written and the count is simply wrong.
+  # `{1,}` — a project whose ids are short (`T-9`) is still a project, and `{2,}` silently
+  # matched nothing there, which is how this counted zero neighbours on its own fixture.
+  rtask=$( ( staged "$rf" || true ) | sed -nE 's/.*(T-[0-9A-Za-z-]{1,}).*/\1/p' | head -1)
+  if [ -n "${rtask:-}" ]; then
+    sib=$( (grep -rlF "$rtask" _ops/runs/ 2>/dev/null || true) | grep -v "^${rf}$" | grep -c . || true)
+    sib=$(( ${sib:-0} + 1 ))
+    [ "${sib:-0}" -gt "${att:-0}" ] 2>/dev/null && att=$sib
+  fi
   if [ -n "${att:-}" ] && [ "$att" -ge 3 ] 2>/dev/null; then
     ( staged "$rf" || true ) | hits -iE 'escalat|relay|spec problem|blocked_by|handed (back|over)' \
       || say_fail "$rf records attempt $att and names no escalation — three rounds on one point \

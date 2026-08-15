@@ -508,6 +508,33 @@ git checkout -q HEAD -- .; git reset -q
 git rm -qf _ops/tasks/T-tpl.md _ops/tasks/T-close.md _ops/runs/R-old.md >/dev/null 2>&1
 git commit -qm "fixtures out" >/dev/null 2>&1
 
+# ── the third attempt is counted from the neighbours, not from the field ───────────────────
+# The field is a claim; a worker who did not read the prior records writes a third one labelled
+# `attempt: 1` and a gate keyed on the field alone lets it past. N93 measured 1/5 with four runs
+# dispatching a further attempt having read neither prior record (2026-08-15). A guard cannot see
+# a dispatch and this does not claim to repair that — it closes the case where the record IS
+# written and its count is simply wrong. Four cases, because the false positives are the risk.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+mkdir -p _ops/runs
+for a in 1 2; do
+  printf '# R-N%s — T-93\n\n| **Attempt** | %s |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' "$a" "$a" > "_ops/runs/R-N$a.md"
+done
+git add -A && git commit -qm "two runs on T-93" >/dev/null 2>&1
+rec(){ printf '# R-N3 — T-93\n\n| **Attempt** | %s |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n%s\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' "$1" "$2" > _ops/runs/R-N3.md; }
+rec 1 ""            && git add -A && bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a third record on the same task labelled 'attempt: 1' passed the escalation gate" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/runs/R-N3.md
+rec 3 "Escalated: the spec does not say which of the two readings is meant." \
+  && git add -A && bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a third record that DOES name its escalation was refused"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/runs/R-N3.md
+printf '# R-M1 — T-94\n\n| **Attempt** | 1 |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' > _ops/runs/R-M1.md
+git add -A && bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a first record on a task with no history was refused"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/runs/R-M1.md
+git rm -qf _ops/runs/R-N1.md _ops/runs/R-N2.md >/dev/null 2>&1
+git commit -qm "T-93 runs out" >/dev/null 2>&1
+
 # ── gutting a keyed file is retiring it ────────────────────────────────────────────────────
 # `staged_size -eq 0` was the whole emptiness test, so `printf '.' > _ops/TOOLING.md` read as a
 # living file while §2 and §9, both keyed on it having rows, went silent. Measured 2026-08-15.
