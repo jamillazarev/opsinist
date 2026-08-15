@@ -470,5 +470,43 @@ git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a child link that resolves was refused"
 git rm -qf _ops/tasks/T-6.md >/dev/null 2>&1; git commit -qm "T-6 out" >/dev/null 2>&1
 
+# The gates enforce what a commit CREATES, not what a project already holds — otherwise a
+# release strands its own projects over history they cannot change. And a tick is evidence, not
+# an edit: the shipped template puts deliverables in `- [ ]` boxes and tells the owner to tick
+# them, so without normalising the mark the documented way to close a task was refused.
+mkdir -p _ops/runs _ops/process/types && printf 'started -> review -> done\n' > _ops/process/types/default.md
+cp "$HERE/../templates/TASK-template.md" _ops/tasks/T-tpl.md
+printf '# R-old\n\n| **Outcome** | completed |\n' > _ops/runs/R-old.md
+git add -A && git commit -qm "the template as a task, and a legacy record"
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "the shipped TASK-template cannot be committed through the shipped guard"
+printf -- '\n- a later note\n' >> _ops/runs/R-old.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "touching a pre-0.2.7 run record was refused — the project is stranded"
+printf '# R-new\n\nnothing at all\n' > _ops/runs/R-new.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a NEW record with no numbers passed" || ok
+git rm -qf --cached _ops/runs/R-new.md >/dev/null 2>&1; rm -f _ops/runs/R-new.md
+
+printf '# T-close\n\n**Status**: started\n**Assignee**: bob\n\n## Done when\n\n- [ ] the deliverable\n\n## History\n' > _ops/tasks/T-close.md
+git add -A && git commit -qm "a task to close"
+python3 "$HERE/transition.py" _ops/tasks/T-close.md review --by bob >/dev/null 2>&1
+python3 -c "
+import pathlib
+p=pathlib.Path('_ops/tasks/T-close.md'); p.write_text(p.read_text().replace('- [ ] the deliverable','- [x] the deliverable'))"
+printf -- '- reviewed by carol\n' >> _ops/tasks/T-close.md
+python3 "$HERE/transition.py" _ops/tasks/T-close.md done --by carol >/dev/null 2>&1
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "ticking a deliverable and closing was refused as editing the bar"
+git checkout -q HEAD -- . ; git reset -q
+python3 "$HERE/transition.py" _ops/tasks/T-close.md review --by bob >/dev/null 2>&1
+python3 -c "
+import pathlib
+p=pathlib.Path('_ops/tasks/T-close.md'); p.write_text(p.read_text().replace('- [ ] the deliverable','- [ ] something much easier'))"
+printf -- '- reviewed by carol\n' >> _ops/tasks/T-close.md
+python3 "$HERE/transition.py" _ops/tasks/T-close.md done --by carol >/dev/null 2>&1
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "rewriting the criterion while closing passed" || ok
+git checkout -q HEAD -- .; git reset -q
+git rm -qf _ops/tasks/T-tpl.md _ops/tasks/T-close.md _ops/runs/R-old.md >/dev/null 2>&1
+git commit -qm "fixtures out" >/dev/null 2>&1
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

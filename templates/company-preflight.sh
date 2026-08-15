@@ -226,7 +226,10 @@ done
 #      numbers` — and nothing read one. `unknown` is an accepted value, as the guide says; an
 #      absent field is not. `attempt` is here because it is what makes "three attempts and it
 #      escalates" countable — that rule claimed `enforced_by: validator` with no field to count.
-for rf in $( ( git -c core.quotePath=false diff --cached --name-only --diff-filter=AM 2>/dev/null \
+# `--diff-filter=A`, not `AM`: a record written before 0.2.7 has no `attempt` and never will,
+# and refusing every commit that touches one strands the project over history it cannot change.
+# What is required is that a NEW record is complete.
+for rf in $( ( git -c core.quotePath=false diff --cached --name-only --diff-filter=A 2>/dev/null \
                || true ) | grep -E '^_ops/runs/R-.*\.md$' || true); do
   [ -f "$rf" ] || continue
   for need in input output cache_read cache_write; do
@@ -261,12 +264,16 @@ for tf in $( ( git -c core.quotePath=false diff --cached --name-only --diff-filt
   [ -f "$tf" ] || continue
   while IFS= read -r target; do
     [ -n "$target" ] || continue
-    case "$target" in http*|"") continue;; esac
+    # A template's example link points at an id nobody has minted yet, and a task copied
+    # from `TASK-template.md` carries five of them — measured: the shipped template was
+    # refused five times by this check, on the first commit of a project standing up from it.
+    case "$target" in http*|""|*XXXXXX*|*"{{"*) continue;; esac
     [ -e "$(dirname "$tf")/$target" ] || say_fail "$tf links to \`$target\`, which is not \
 there — a child or parent link that resolves to nothing is worse than a bare id, because it \
 reads as navigable. Fix the path, or say the id in plain text"
   done <<LINKS
-$( ( staged "$tf" || true ) | grep -oE '\]\([^)]+\.md\)' | sed -E 's/^\]\(//; s/\)$//' || true)
+$( ( git diff --cached -U0 -- "$tf" 2>/dev/null || true ) | grep '^+' | grep -v '^+++ ' \
+   | grep -oE '\]\([^)]+\.md\)' | sed -E 's/^\]\(//; s/\)$//' || true)
 LINKS
 done
 
@@ -582,8 +589,14 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
           | awk '/^##[[:space:]]*(Done when|Acceptance)/{f=1; next}
                  f && /^##[[:space:]]/{exit}
                  f {print}
-                 /^[[:space:]]*(dod|acceptance|definition of done)[[:space:]]*:/{print}'
+                 /^[[:space:]]*(dod|acceptance|definition of done)[[:space:]]*:/{print}' \
+          | sed -E 's/^([[:space:]]*[-*+][[:space:]]*)\[[ xX]\]/\1[ ]/'
     }
+    # The tick is normalised out: `- [ ]` → `- [x]` records that a criterion was MET, which is
+    # what closing a task is, and the template this guard ships beside tells the owner to do it.
+    # Measured 2026-08-15: without this, the documented way to close a task — tick the
+    # deliverable, move through the door, be reviewed by someone else — was refused as editing
+    # the bar. The bar is the criterion; the mark beside it is the evidence.
     if [ "$(bar_at HEAD)" != "$(bar_at '')" ]; then
       say_fail "$t reaches a terminal status in the same commit that edits its own bar — \
 nobody edits the bar they are measured against. Move the bar in its own commit, before the work \
