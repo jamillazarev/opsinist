@@ -1392,3 +1392,52 @@ what the hand does, in one line the player can execute. N92's `unknown` needs to
 where the record is written and not only where the guide explains it. N90's refusal names an
 upgrade step no run invoked, which is the third rewrite of that message this release and the
 first evidence that the current wording still does not land.
+
+## 2026-08-15 · the re-round, and the fixture that was a project shape nobody has
+
+The three messages the refusal round left owed were rewritten in the shape that had gone 5/5 —
+naming the act rather than the process — and N90, N92 and N95 were re-run at N=5 against a fresh
+freeze. **The result is one moved, one unmoved, and one that turned out never to have been under
+test.**
+
+| | before | after | what the transcripts say |
+|---|---|---|---|
+| **N90** doors gone | 0/5 | **2/5** | two runs ran a command straight out of the refusal, restored both doors, and let the hook refuse their hand-edit. Three still never noticed the doors were missing. At N=5 this is a movement, not a proof |
+| **N92** a record with unknown numbers | 0/3 | **0/5, all void** | not one run wrote a file. Every one ended asking the owner a list of five or six questions |
+| **N95** state carried twice | 0/5 | **0/5** | the migration report now prints, per task, the line to delete and the value to set. Five of five still produced a report and asked which to apply |
+
+**N92's rewrite was never exercised, and the reason is the finding.** The word `unknown` went into
+`templates/RUN-template.md`, behind a `> [!CAUTION]`. The scenario puts the player in a legacy
+project whose ledger is a table in `docs/runs.md`, and the transcripts show exactly one `Read`:
+that table. Thirty rows, every cell populated, tier `medium` throughout. A player learning the
+format from the rows correctly infers that every cell takes a value, cannot produce five of them,
+and asks. The alert I wrote says *the affordance was explained in this file and not present in the
+thing being filled in* — and I put the repair in a different file from the thing being filled in.
+
+> [!IMPORTANT]
+> **The bigger fault is in the rig: `wired;` installed a guard, its doors and four empty documents,
+> and no `CLAUDE.md`.** `project-layout.md` says a new project gets the guide on day one, so every
+> real project holds it — and every wired scenario in this round met **enforcement without
+> instruction**: a hook that refuses, and no file stating a single rule it enforces. That project
+> shape does not exist.
+>
+> It re-reads the whole round. The two scenarios that scored — N91 at 5/5 and N94 at 4/5 — are
+> exactly the two whose **refusal message carried the entire instruction itself**. Every scenario
+> that needed a rule to be written down somewhere met a project where it was not written anywhere.
+> The round's headline is therefore narrower than it was recorded as: it measured what agents do
+> when a gate refuses and nothing explains it, which is a real situation but not the shipped one.
+
+**Two repairs, both form.** `wired;` now copies `templates/GUIDE-template.md` to `CLAUDE.md`, so the
+fixture holds what a project holds. And the guide's own run-record bullet said *"`unknown` is an
+accepted value"* — a permission, offered to players whose blocker is whether they may decide for the
+owner at all. Permission does not answer that question; the 5/5 refusal never granted any, it stated
+the act. It now reads: **a number you do not have is the word `unknown`, written by you into the
+cell — do not ask the owner how to format it, and do not leave the record unwritten while you wait.**
+
+**Contamination checked, not assumed.** `eval-fingerprint.sh` excludes `evals/` on the stated
+grounds that no player loads it. Six round-5 transcripts mention the path; **none of them is a tool
+call** — the string arrives in directory listings. The assumption holds and is now measured.
+
+**Still owed:** N95 is untouched by any of this — its players read the report, understood it, and
+stopped at the decision to edit someone else's file. That is not a gate defect and not a wording
+defect, and the next attempt on it should not be a fourth rewrite of the same paragraph.

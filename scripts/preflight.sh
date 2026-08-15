@@ -225,6 +225,25 @@ fi
 # heading is the other place a release quietly disagrees with itself.
 cl=$(grep -m1 '^## [0-9]' "$ROOT/CHANGELOG.md" | sed 's/^## \([0-9.]*\).*/\1/')
 [ "$cl" = "$sv" ] || say_fail "newest CHANGELOG heading is $cl, declared version is $sv"
+
+# 1b-bis · a version ahead of its last tag is a release being prepared, and this repository's own
+#          law is that lenses read anything of consequence. That law lived in `CLAUDE.md` as
+#          prose while the SIBLING project's preflight asked for it out loud — and this release
+#          took nine lens passes without its own checker mentioning one. Prose where a form was
+#          already written next door.
+last_tag=$(git describe --tags --abbrev=0 2>/dev/null || true)
+if [ -n "$last_tag" ]; then
+  tag_ver=$(git show "${last_tag}:skills/advisor/SKILL.md" 2>/dev/null \
+            | grep -m1 '^version:' | tr -dc '0-9.')
+  if [ -n "$tag_ver" ] && [ "$tag_ver" != "$sv" ]; then
+    say_warn "releasing $sv: run the four review lenses over ${last_tag}..HEAD before tagging, \
+and record the eval state in the entry (AGENTS.md → the release ritual). Neither is checkable \
+from here — this line exists so the question is asked out loud rather than remembered"
+    ( git diff --quiet "$last_tag" -- evals/runsheet.tsv 2>/dev/null ) \
+      && say_warn "version bumped $tag_ver → $sv and evals/runsheet.tsv is unchanged — a release \
+that adds behaviour and no scenario measures the new behaviour with the old questions"
+  fi
+fi
 for stray in $(grep -oE '\b[0-9]+\.[0-9]+\.[0-9]+\b' "$ROOT/README.md" | sort -u); do
   [ "$stray" = "$sv" ] || say_fail "README.md states version $stray — declared version is $sv"
 done

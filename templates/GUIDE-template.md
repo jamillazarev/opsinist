@@ -41,7 +41,9 @@ Enabled modules: {{experts? personas? design QA? automations?}}.
 - a stage changes only through `_ops/scripts/transition.py <task> <to-stage> --by <you>` —
   editing the **Status** line by hand is the bypass the guard refuses
 - a dispatch lands as `_ops/runs/R-<id>.md` carrying its four token numbers — input · output ·
-  cache read · cache write; `unknown` is an accepted value — a sentence in History is not a record
+  cache read · cache write. **A number you do not have is the word `unknown`, written by you
+  into the cell — do not ask the owner how to format it, and do not leave the record unwritten
+  while you wait for an answer.** A sentence in History is not a record
 - a type's ladder is a file in `_ops/pipelines/` — the door reads it, prose resolves nothing
 - an id comes from `_ops/scripts/new-id.py` — a model asked for a random id is not a random source
 

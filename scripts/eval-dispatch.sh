@@ -52,6 +52,15 @@ case "$setup" in
     for d in ROADMAP TEAM TOOLING DECISIONS; do
       [ -f "$ws/_ops/$d.md" ] || printf '# %s\n' "$d" > "$ws/_ops/$d.md"
     done
+    # And the guide, because `project-layout.md` says a project gets `CLAUDE.md` on day one and
+    # every real one has it. Without this the fixture was enforcement without instruction — a hook
+    # that refuses and no file stating any rule it enforces — which is a project shape that does
+    # not exist. Measured 2026-08-15: in the first refusal round the only two scenarios that
+    # scored (N91 5/5, N94 4/5) were the two whose refusal message carried the whole instruction
+    # itself; every scenario that needed a rule to be written down somewhere met a project where
+    # it was not. Placeholders are left unfilled — the doors section, which is what these
+    # scenarios turn on, is literal text.
+    [ -f "$ws/CLAUDE.md" ] || cp templates/GUIDE-template.md "$ws/CLAUDE.md"
     git -C "$ws" add -A >/dev/null 2>&1
     git -C "$ws" -c user.email=o@fixture.test -c user.name=Owner commit -qm "wired" >/dev/null 2>&1
     setup=${setup#wired;}
