@@ -421,14 +421,22 @@ raw=$(grep -rEln '\]\([^) ]*\(' --include='*.md' . 2>/dev/null | grep -v '^\./\.
 if [ -n "$raw" ]; then say_fail "raw ( in a markdown URL — percent-encode: $raw"; else say_ok "no raw parens inside markdown URLs"; fi
 
 # CORPUS_PF_TEST is set by test-corpus-preflight.sh when it runs THIS script inside a clone to
-# Every suite in scripts/ must be run by something. The loop below discovers them; the one
-# exclusion is `test-audit-gate.sh`, which CI runs as its own step and this file names in the
-# same breath — so if a third category ever appears, it is refused here rather than discovered
-# later by its absence from a green run.
-for _s in $(ls scripts/test-*.sh 2>/dev/null); do
+# Every suite in scripts/ must be run by something, and the exclusion list is DECLARED here so it
+# can be checked rather than hidden in a `grep -v` further down. The previous form promised this
+# and did not do it: its body fired only for the literal string `test-audit-gate.sh` and fell
+# through silently for everything else, so a second exclusion could be added to the battery's own
+# `grep -v` with nothing objecting — the roll-call had not gone away, it had moved from the
+# inclusion list to the exclusion list where nothing guarded it. Measured 2026-08-15 (pass ten).
+BATTERY_EXCLUDES="test-audit-gate.sh"
+for _s in scripts/test-*.sh; do
+  [ -f "$_s" ] || continue
   _b=${_s##*/}
-  [ "$_b" = "test-audit-gate.sh" ] && { grep -q "$_b" .github/workflows/*.yml 2>/dev/null \
-    || say_fail "$_b is excluded from the suite battery and named in no workflow — nothing runs it"; continue; }
+  case " $BATTERY_EXCLUDES " in
+    *" $_b "*)
+      # excluded from the battery, so something else must run it — say which, or refuse
+      grep -q "$_b" .github/workflows/*.yml 2>/dev/null \
+        || say_fail "$_b is excluded from the suite battery and named in no workflow — nothing runs it" ;;
+  esac
 done
 
 # exercise the doors check — the clone's preflight skips the suite battery, or the suite that
@@ -439,10 +447,17 @@ if [ -z "${CORPUS_PF_TEST:-}" ]; then
 # script's clothes: a suite added and not added HERE never runs, and the green tick says
 # otherwise. Measured next door 2026-08-15 — `test-preflight-checks.sh`, the suite whose whole
 # job is mutation-testing the guard's own checks, had been absent from that repo's CI list since
-# it was written. `test-audit-gate.sh` is excluded because CI runs it as its own step; the check
-# below refuses any OTHER suite that nothing runs, so the exclusion cannot grow quietly.
-for t in $(ls scripts/test-*.sh 2>/dev/null | grep -v 'test-audit-gate\.sh'); do
+# it was written. The exclusions come from `BATTERY_EXCLUDES` above, which the loop up there
+# checks — a second `grep -v` here would be a silent exclusion again.
+#
+# A GLOB, not `$(ls …)`: the unquoted command substitution word-splits, so a suite whose filename
+# holds a space was never run and never mentioned while preflight reported green — verbatim the
+# failure the comment above says this form fixed, in the commit that wrote it. Measured 2026-08-15
+# (pass ten), and it is the same shape the sibling guard spent this whole range converting away
+# from in ten places.
+for t in scripts/test-*.sh; do
   [ -f "$t" ] || continue
+  case " $BATTERY_EXCLUDES " in *" ${t##*/} "*) continue;; esac
   out=$(bash "$t" 2>&1 | tail -1)
   printf '%s %s\n' "${t##*/}" "$(printf '%s' "$out" | grep -oE '[0-9]+ passed' | grep -oE '[0-9]+')" \
     >> /tmp/.pf-suites.$$

@@ -508,6 +508,28 @@ git checkout -q HEAD -- .; git reset -q
 git rm -qf _ops/tasks/T-tpl.md _ops/tasks/T-close.md _ops/runs/R-old.md >/dev/null 2>&1
 git commit -qm "fixtures out" >/dev/null 2>&1
 
+# ── a RUN RECORD delivered as a rename must not escape §1f ─────────────────────────────────
+# §1f was moved from `--diff-filter=A` to `AR` in this release because "a record delivered as a
+# rename escaped this gate whole", and nothing asserted it: an adversarial lens reverted the
+# filter and the suite stayed green. Measured 2026-08-15 (pass ten).
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+mkdir -p _ops/runs
+printf '# R-OLD — probe\n\n| **Task** | T-RENREC |\n| **Attempt** | 1 |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' > _ops/runs/R-OLD.md
+git add -A && git commit -qm "record fixture" >/dev/null 2>&1
+git mv _ops/runs/R-OLD.md _ops/runs/R-NEW.md
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/runs/R-NEW.md')
+p.write_text(p.read_text().replace('| **Attempt** | 1 |', '| **Attempt** | 4 |'))"
+git add -A
+( git diff --cached --name-status -M || true ) | grep -q '^R' \
+  && ok || bad "the run-record fixture was not scored a rename — this pair proves nothing"
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a run record naming attempt 4 and no escalation escaped §1f by arriving as a rename" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf _ops/runs/R-OLD.md >/dev/null 2>&1
+git commit -qm "record fixture out" >/dev/null 2>&1
+
 # ── a rename must not be a bypass ──────────────────────────────────────────────────────────
 # `git mv` plus the offending edit in ONE commit scored `R098` and drew ZERO refusals: `AM` does
 # not select `R`, and restricting `git diff` to the new path alone defeats rename detection, so
@@ -690,11 +712,13 @@ for nm in "T-SP-control.md" "T-SP with space.md" "$nl_name"; do
 done
 git add -A && git commit -qm "space fixture" >/dev/null 2>&1
 for nm in "T-SP-control.md" "T-SP with space.md" "$nl_name"; do
+  # ONLY the status. The fixture used to edit the acceptance bar in the same breath, so it tripped
+  # §10 as well as §14 — and a pair satisfied by two gates pins neither: an adversarial lens
+  # reverted §14's file loop and this assertion stayed green. Measured 2026-08-15 (pass ten).
   python3 -c "
 import pathlib, sys
 p = pathlib.Path(sys.argv[1])
-p.write_text(p.read_text().replace('**Status**: started', '**Status**: done')
-                          .replace('- [ ] a thing', '- [ ] a different thing'))" "_ops/tasks/$nm"
+p.write_text(p.read_text().replace('**Status**: started', '**Status**: done'))" "_ops/tasks/$nm"
   git add "_ops/tasks/$nm"
   bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
     && bad "a hand-flipped status in '$nm' passed — the gate is blind to this path" || ok
