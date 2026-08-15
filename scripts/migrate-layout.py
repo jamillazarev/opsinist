@@ -152,7 +152,11 @@ def report_state_fields(root, dry):
                   f"value is printed here: printing this one would put a sentence where a stage "
                   f"belongs, and `transition.py` would then read it as one.")
     if len(found) > 8:
-        print(f"    … and {len(found) - 8} more, same two edits each")
+        # "same two edits each" was the wording the two-commit repair abolished four lines above:
+        # the fix is a SEQUENCE of two commits in order, not two edits, and a reader who stops at
+        # the overflow line gets the instruction that walks into §14. Measured 2026-08-15 (pass
+        # ten) — the line reverted the repair for every task past the eighth.
+        print(f"    … and {len(found) - 8} more, each the same two commits in the same order")
     print("  Nothing else in the file changes, and this script makes none of it: it edits nobody's "
           "prose. Do not set **Status** by hand — §14 refuses a stage edited outside the door, "
           "which is why step 2 is the door and not an edit.")
@@ -268,7 +272,11 @@ def main():
                 # worktree) and a clone of that commit hits the guard's hard refusal instead.
                 print(f"  {rel} written but NOT staged"
                       f"{': ' + r.stderr.strip().splitlines()[0] if r.stderr.strip() else ' (ignored, or outside the repo)'}"
-                      f" — the commit will not carry the door; `git add -f {rel}` or fix the ignore")
+                      f" — the commit will not carry the door. `git add -f {rel}` works when the "
+                      f"path is IGNORED; it does not when `_ops/scripts` is a symlink out of the "
+                      f"repo or the door was removed from the index, which this script has "
+                      f"measured. Read the reason above and pick accordingly, or place the door "
+                      f"by hand and stage it")
             if differs:
                 # The docstring forbids the silent overwrite. A project that edited its door gets
                 # told which file was replaced, and where the copy it lost is.
