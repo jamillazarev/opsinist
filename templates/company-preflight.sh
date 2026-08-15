@@ -162,18 +162,31 @@ if ( git ls-files || true ) | hits -E '\.(ts|tsx|js|py|go|rs|swift|kt|rb|java)$'
 starts in a fresh worktree and re-derives the layout"
 fi
 
-# 1c · one state, one home. The door reads a stage field "wherever the template put it", which
-#      is tolerant by design and is exactly how a project ends up with two: a prose `**Status**`
-#      the human reads and a machine `stage:` the door moves. Measured on a live project —
-#      12 of 12 tasks disagreed with themselves. The second copy is refused where it is born.
-for tf in _ops/tasks/*.md; do
+# 1c · one state, one home — enforced on what a commit ADDS, not on what a project already has.
+#      The door reads a stage field "wherever the template put it", which is tolerant by design
+#      and is how a project ends up with two: a prose `**Status**` the human reads and a machine
+#      `stage:` the door moves. Measured on a live project, 12 of 12 tasks disagreed.
+#
+#      Scoped to the added line for the same reason the non-ASCII path check is: a project
+#      carrying the old shape cannot rewrite its history, and refusing it on every commit until
+#      someone hand-edits every task is a release stranding its own projects. What is refused is
+#      CREATING a second home. The migration reports the legacy ones; it does not rewrite them.
+for tf in $( ( git -c core.quotePath=false diff --cached --name-only --diff-filter=AM 2>/dev/null \
+               || true ) | grep -E '^_ops/tasks/.*\.md$' || true); do
   [ -f "$tf" ] || continue
-  homes=$( ( grep -ciE '^[[:space:]]*(\*\*)?(status|stage|статус|стадия)(\*\*)?[[:space:]]*:' "$tf" \
-             2>/dev/null || true ) | head -1)
-  [ "${homes:-0}" -le 1 ] && continue
-  say_fail "$tf carries ${homes} state fields — a status the human reads and a stage the door \
-moves stop agreeing the first time only one of them is updated. Keep one, on the header line, \
-and let the door own it"
+  # not anchored at `^`: the shipped template writes `**Type**: build · **Status**: done`, so a
+  # start-anchored count scored that as zero homes and the motivating defect walked through the
+  # gate built for it. Fenced and quoted lines are excluded — an example is not a field.
+  added=$( ( git diff --cached -U0 -- "$tf" 2>/dev/null || true ) \
+           | grep '^+' | grep -v '^+++ ' | sed 's/^+//' \
+           | awk '/^[[:space:]]*(```|~~~)/{f=!f; next} !f' \
+           | grep -v '^[[:space:]]*>' || true)
+  n=$(printf '%s\n' "$added" \
+      | grep -coiE '(\*\*)?(status|stage|статус|стадия)(\*\*)?[[:space:]]*:' || true)
+  [ "${n:-0}" -le 1 ] && continue
+  say_fail "$tf adds ${n} state fields in one commit — a status the human reads and a stage the \
+door moves stop agreeing the first time only one of them is updated. Keep one, on the header \
+line, and let the door own it"
 done
 
 # 1d · paths are ASCII; what is written inside them is the project's own language. Measured on a

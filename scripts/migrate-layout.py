@@ -44,94 +44,61 @@ def tracked(root, rel):
     return sh(root, "git", "ls-files", "--error-unmatch", rel).returncode == 0
 
 
-def collapse_state_fields(root, dry):
-    """0.2.6 tasks carry state twice — a prose `**Status**` and a machine `stage:` — and 0.2.7
-    refuses the second home. Without this, a project of twelve tasks meets twelve refusals on
-    its next commit and has to be edited by hand; a release that strands its own projects is
-    what `upgrading.md` exists to prevent.
+def report_state_fields(root, dry):
+    """0.2.6 tasks carry state twice — a prose `**Status**` and a machine `stage:`. This NAMES
+    them and the one-line edit each needs. It does not write.
 
-    The machine field wins, because it is the one the door moves: measured on a live project,
-    `stage:` had advanced on all twelve tasks while the prose copy was stale on two and absent
-    on ten.
+    It used to write, and that was wrong. A lens pass built fixtures against it and found seven
+    distinct ways it destroyed content in a project this script does not own — measured
+    2026-08-15: it deleted a line out of a fenced example; deleted a line out of a four-space
+    indented example and then took the example's value as the task's state; ate a prose sentence
+    that happened to begin with the word `stage:`; deleted the WRONG line entirely once an
+    insert shifted the indices under it, leaving the duplicate it existed to remove; destroyed a
+    neighbouring field when a header used `-` as its separator; corrupted a table row; and
+    rewrote a non-UTF-8 byte into a replacement character, irreversibly, with no backup.
 
-    **It edits someone else's file, so it works line by line and never with a blanket regex.**
-    The first version stripped every line matching `stage:` anywhere in the document — measured
-    2026-08-15, that deleted `stage: draft` out of a fenced YAML example a task carried to show
-    what a type file looks like, leaving an empty fence. Fenced blocks are skipped, and exactly
-    one line is removed: the one the value was read from.
+    Patching seven holes in a function whose job is to rewrite someone else's prose is how the
+    eighth arrives. The class is gone instead: the guard now refuses a commit that ADDS a second
+    state home rather than the existence of one, so a project carrying the old shape is not
+    stranded and does not need rewriting — and what it does need, its owner can see here and do
+    deliberately.
     """
     import re
     tdir = root / "_ops" / "tasks"
     tasks = sorted(tdir.glob("*.md")) if tdir.is_dir() else []
     MACHINE = re.compile(r"^[ \t]*(?:stage|стадия)[ \t]*:[ \t]*(.+?)[ \t]*$", re.I)
-    PROSE = re.compile(r"^(.*\*\*(?:Status|Статус)\*\*[ \t]*:[ \t]*)([^·|\n]*)(.*)$", re.I)
-    INTRO = re.compile(r"^<!--[^>]*(?:transition\.py|машиночитаемо|machine-readable)[^>]*-->[ \t]*$", re.I)
-    touched = []
+    PROSE = re.compile(r"(?:\*\*)?(?:Status|Статус)(?:\*\*)?[ \t]*:[ \t]*([^·|\n]*)", re.I)
+    found = []
     for tf in tasks:
-        lines = tf.read_text(encoding="utf-8", errors="replace").split("\n")
-        fence = False
-        fenced = set()
-        mach_i = prose_i = None
-        for i, l in enumerate(lines):
+        try:
+            raw = tf.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue                      # not ours to read, and certainly not ours to rewrite
+        lines, fence, mach, prose = raw.split("\n"), False, None, None
+        for l in lines:
             if re.match(r"^[ \t]*(```|~~~)", l):
                 fence = not fence
-                fenced.add(i)
                 continue
-            if fence:
-                fenced.add(i)
-                continue
-            if mach_i is None and MACHINE.match(l):
-                mach_i = i
-            if prose_i is None and PROSE.match(l):
-                prose_i = i
-        if mach_i is None:
-            continue
-        others = [i for i, l in enumerate(lines)
-                  if i != mach_i and MACHINE.match(l) and i not in fenced]
-        if others:
-            # Two machine state lines is a shape nobody prescribed, and choosing between them
-            # is a guess about someone else's work. Say it and move on: the guard will refuse
-            # the file until a human decides, which is the right person to decide.
-            print(f"  {tf.name} carries {len(others) + 1} machine state lines — not collapsed, "
-                  f"because picking one would be a guess. Keep the true one and delete the rest")
-            continue
-        value = MACHINE.match(lines[mach_i]).group(1).strip()
-        was = "(none)"
-        if prose_i is not None:
-            m = PROSE.match(lines[prose_i])
-            was = (m.group(2).strip() or "(none)")
-            lines[prose_i] = m.group(1) + value + m.group(3)
-        # the introducing comment, only when it sits directly above the machine line
-        drop = {mach_i}
-        if mach_i and INTRO.match(lines[mach_i - 1]):
-            drop.add(mach_i - 1)
-        if prose_i is None:
-            at = next((i for i, l in enumerate(lines[:8]) if l.startswith("**")), 1)
-            lines.insert(at, f"**Status**: {value}")
-            drop = {i + 1 for i in drop}
-        if was != value:
-            # In the door's own vocabulary, because §14 reads this line and because it IS a
-            # transition of the recorded value — what did not happen is a move of the work.
-            line = (f"- migration — transition {was} -> {value}, by migrate-layout — the two "
-                    f"state fields disagreed; the door's `stage:` was already `{value}`, the "
-                    f"prose copy said `{was}` and was stale. One home now. No work moved.")
-            hist = next((i for i, l in enumerate(lines)
-                         if re.match(r"^##[ \t]*History", l, re.I)), None)
-            if hist is None:
-                lines += ["", "## History", line]
-            else:
-                lines.insert(hist + 1, line)
-        body = "\n".join(l for i, l in enumerate(lines) if i not in drop)
-        if body != tf.read_text(encoding="utf-8", errors="replace"):
-            touched.append(tf.name)
-            if not dry:
-                tf.write_text(body, encoding="utf-8")
-                sh(root, "git", "add", str(tf.relative_to(root)))
-    if touched:
-        verb = "would be collapsed" if dry else "collapsed"
-        shown = " · ".join(touched[:6]) + (f" … and {len(touched) - 6} more" if len(touched) > 6 else "")
-        print(f"  state fields {verb} to one home in {len(touched)} task(s): {shown}")
-    return touched
+            if fence or l.startswith(">") or re.match(r"^(\t| {4})", l):
+                continue                  # an example is not a field
+            if mach is None and MACHINE.match(l):
+                mach = MACHINE.match(l).group(1).strip()
+            if prose is None and PROSE.search(l):
+                prose = PROSE.search(l).group(1).strip()
+        if mach is not None and prose is not None:
+            found.append((tf.name, prose or "(empty)", mach))
+    if not found:
+        return []
+    print(f"  {len(found)} task(s) carry state in two places, and 0.2.7 refuses a commit that "
+          f"ADDS a second — these are legacy and are NOT refused, but they disagree:")
+    for name, prose, mach in found[:8]:
+        same = "agree" if prose == mach else "DISAGREE"
+        print(f"    {name}: `**Status**` says `{prose}` · the door's `stage:` says `{mach}` — {same}")
+    if len(found) > 8:
+        print(f"    … and {len(found) - 8} more")
+    print("  The door's value is the one that moved. Keep it in `**Status**`, delete the "
+          "machine line — by hand, because this script does not edit your prose.")
+    return [f[0] for f in found]
 
 
 def main():
@@ -262,7 +229,7 @@ def main():
 
     if not moves and not conflicts:
         recopy_doors()
-        collapse_state_fields(root, dry)
+        report_state_fields(root, dry)
         if doors_done:
             if dry:
                 print("layout already `_ops/` — nothing moved; the doors above would be re-copied")
@@ -291,7 +258,7 @@ def main():
             (root / s).rename(root / d)
 
     recopy_doors()
-    collapse_state_fields(root, dry)
+    report_state_fields(root, dry)
 
     # The pre-commit hook is outside git, so a moved preflight would orphan it.
     hook = root / ".git" / "hooks" / "pre-commit"

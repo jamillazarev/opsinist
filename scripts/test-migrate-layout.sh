@@ -126,40 +126,41 @@ grep -q 'written but NOT staged' "$T/out.txt" \
   && ok || bad "an ignored door was reported as re-copied while the commit would not carry it"
 git checkout -q .gitignore 2>/dev/null || true
 
-# The upgrade path a real 0.2.6 project takes. Without the codemod it met one refusal per task
-# — 0.2.7 refuses a second state home, and every 0.2.6 task has one — so a project of twelve
-# tasks had to be hand-edited before it could commit again. A release that strands its own
-# projects is what upgrading.md exists to prevent.
+# The upgrade path a real 0.2.6 project takes. 0.2.7 refuses a commit that ADDS a second state
+# home, not the existence of one — so a legacy project is not stranded and needs no rewriting.
+# The migration NAMES what disagrees and writes nothing: an earlier version rewrote these files
+# and a lens pass found seven distinct ways it destroyed content in a project this script does
+# not own. These cases hold the property that replaced it — that it does not write.
 mkdir -p _ops/tasks
-printf '# T-A\n\n**Status**: started\n**Assignee**: bob\n\n<!-- machine-readable -->\nstage: review\n\n## History\n' > _ops/tasks/T-A.md
-printf '# T-B\n\n**Assignee**: ann\nstage: review\n\n## History\n' > _ops/tasks/T-B.md
-printf '# T-C\n\n**Status**: done\n**Assignee**: cid\n\n## History\n' > _ops/tasks/T-C.md
-git add -A && git commit -qm "0.2.6 task shapes"
-python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1
-grep -q 'state fields collapsed' "$T/out.txt" && ok || bad "the codemod did not run on 0.2.6 tasks"
-grep -qE '^[[:space:]]*stage[[:space:]]*:' _ops/tasks/T-A.md \
-  && bad "the machine state line survived the collapse" || ok
-grep -q '^\*\*Status\*\*: review' _ops/tasks/T-A.md \
-  && ok || bad "the door's value did not become the one home"
-grep -q '^\*\*Status\*\*: review' _ops/tasks/T-B.md \
-  && ok || bad "a task with no prose copy did not gain one"
-grep -q 'transition started -> review, by migrate-layout' _ops/tasks/T-A.md \
-  && ok || bad "the reconciliation left no record the bypass net can read"
-# it edits someone else's file, so it never uses a blanket regex: a `stage:` inside a fenced
-# example is content, and the first version deleted it and left an empty fence
-printf '# T-D\n\n**Status**: started\nstage: review\n\n```yaml\nstage: draft\n```\n' > _ops/tasks/T-D.md
-git add -A && git commit -qm "fenced example"
-python3 "$HERE/migrate-layout.py" . >/dev/null 2>&1
-grep -q '^stage: draft' _ops/tasks/T-D.md && ok || bad "the codemod deleted a stage: line out of a fenced example"
-grep -q '^\*\*Status\*\*: review' _ops/tasks/T-D.md && ok || bad "the value outside the fence was not collapsed"
-# and two machine lines is a guess it refuses to make
-printf '# T-E\n\n**Status**: started\nstage: review\nstage: draft\n' > _ops/tasks/T-E.md
-git add -A && git commit -qm "two machine lines"
-python3 "$HERE/migrate-layout.py" . > "$T/out2.txt" 2>&1
-grep -q 'machine state lines' "$T/out2.txt" && ok || bad "two machine state lines were collapsed by guessing"
-[ "$(grep -c '^stage:' _ops/tasks/T-E.md)" = 2 ] && ok || bad "a line was removed from a file it could not read"
+cat > _ops/tasks/T-A.md <<'TASKA'
+# T-A
 
-[ "$(grep -c 'Status' _ops/tasks/T-C.md)" = 1 ] && ok || bad "a task already in the one-field shape was touched"
+**Type**: build · **Status**: started
+stage: review
+
+## Notes
+
+```yaml
+stage: draft
+```
+
+    stage: indented-example
+TASKA
+printf '# T-B\n\n**Status**: review\nstage: review\n' > _ops/tasks/T-B.md
+printf '# T-C\n\n**Status**: done\n' > _ops/tasks/T-C.md
+git add -A && git commit -qm "0.2.6 task shapes"
+before_a=$(md5 -q _ops/tasks/T-A.md); before_b=$(md5 -q _ops/tasks/T-B.md)
+python3 "$HERE/migrate-layout.py" . > "$T/out.txt" 2>&1
+
+[ "$(md5 -q _ops/tasks/T-A.md)" = "$before_a" ] && ok || bad "the migration rewrote a task file — it does not own them"
+[ "$(md5 -q _ops/tasks/T-B.md)" = "$before_b" ] && ok || bad "the migration rewrote a second task file"
+grep -q 'carry state in two places' "$T/out.txt" && ok || bad "the two-home tasks were not named"
+grep -q 'T-A.md: .*started.*review.*DISAGREE' "$T/out.txt" \
+  && ok || bad "the report does not say which value the door has"
+grep -q 'T-B.md.*agree' "$T/out.txt" && ok || bad "a task whose two copies agree was not distinguished"
+grep -q 'T-C.md' "$T/out.txt" && bad "a one-home task was named as a problem" || ok
+# the examples are not fields: a value from a fence or an indented block must never be reported
+grep -q 'draft\|indented-example' "$T/out.txt" && bad "a value out of an example was read as state" || ok
 
 echo "migrate-layout: $pass passed, $fail failed"
 exit "$fail"

@@ -252,32 +252,30 @@ printf 'type: advisor\n' > _ops/roles/a.md; printf 'type: advisor\n' > _ops/role
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "two advisors in _ops/roles passed — §7 was watching the flat path" || ok
 rm -rf _ops/roles _ops/config.md; git add -A; git commit -qm "gate fixtures out"
 
-# One state, one home. The door reads a stage field wherever the template put it, so a project
-# can end up with a prose Status the human reads and a machine stage: the door moves — measured
-# on a live project with 12 of 12 tasks disagreeing with themselves.
-printf '# T-2\n\n**Status**: started\n\n## History\n' > _ops/tasks/T-2.md; git add -A
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "one state field was refused"
-printf '# T-2\n\n**Status**: started\n\n<!-- machine -->\nstage: review\n\n## History\n' > _ops/tasks/T-2.md
+# One state, one home — enforced on what a commit ADDS. A project carrying the old shape cannot
+# rewrite its history, and refusing it on every commit until every task is hand-edited is a
+# release stranding its own projects; what is refused is creating a second home. The count is
+# not anchored at `^` either: the shipped template writes `**Type**: build · **Status**: done`,
+# so a start-anchored count scored that as zero and the motivating defect walked through.
+printf '# T-legacy\n\n**Type**: build · **Status**: done\nstage: backlog\n\n## History\n' > _ops/tasks/T-legacy.md
+git add -A && git commit -qm "a legacy two-home task"
+printf -- '- an ordinary note\n' >> _ops/tasks/T-legacy.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "an ordinary commit to a legacy two-home task was refused — the project is stranded"
+git checkout -q HEAD -- _ops/tasks/T-legacy.md; git reset -q; git checkout -q _ops/tasks/T-legacy.md
+
+printf '# T-new\n\n**Type**: build · **Status**: done\nstage: backlog\n\n## History\n' > _ops/tasks/T-new.md
 git add -A
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "two state fields in one task passed — they disagree the first time one moves" || ok
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a new task creating two state homes passed — mid-line Status is what the template writes" || ok
 ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "state fields" \
   && ok || bad "the refusal does not say what it found"
-rm -f _ops/tasks/T-2.md; git add -A
+rm -f _ops/tasks/T-new.md; git add -A
 
-# Paths are ASCII; the text inside them is the project's language. Measured on a live project:
-# 126 tracked paths under _ops/ carried Cyrillic, and git prints those as octal escapes in every
-# status and diff. The check itself had to disable that quoting, or git handed it back pure
-# ASCII and the defect hid behind its own symptom.
-printf '# T-7\n\n**Status**: started\n' > "_ops/tasks/T-7-диагностика.md"; git add -A
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a non-ASCII path under _ops/ was added and passed" || ok
-( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "non-ASCII" \
-  && ok || bad "the refusal does not name what it found"
-git rm -qf --cached "_ops/tasks/T-7-диагностика.md" >/dev/null 2>&1; rm -f "_ops/tasks/T-7-диагностика.md"
-# and a transliterated name carrying Russian TEXT is exactly right, not a compromise
-printf '# T-7 — диагностика сайтов\n\n**Status**: started\n' > _ops/tasks/T-7-diagnostika.md
+# an example is not a field: a fenced or quoted `stage:` must not count toward the two
+printf '# T-ex\n\n**Status**: done\n\n```yaml\nstage: draft\n```\n\n> stage: quoted\n' > _ops/tasks/T-ex.md
 git add -A
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a transliterated name with Russian text was refused"
-rm -f _ops/tasks/T-7-diagnostika.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a fenced or quoted example counted as a second state home"
+rm -f _ops/tasks/T-ex.md; git rm -qf _ops/tasks/T-legacy.md >/dev/null 2>&1; git add -A
+git commit -qm "state fixtures out" >/dev/null 2>&1
 
 # A by-the-book day one commits. Built in its own tree from `starting.md`'s table alone — guide,
 # config with its migration log, guard and both doors, first task with its type — and NONE of the
