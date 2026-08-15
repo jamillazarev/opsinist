@@ -217,6 +217,33 @@ git add -A && git commit -qm "gate fixtures"
 printf '# Decisions\n' > _ops/DECISIONS.md; git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "removing every decision BULLET passed the append-only gate" || ok
 git checkout -q HEAD -- _ops/DECISIONS.md; git reset -q; git checkout -q _ops/DECISIONS.md
+# ...and on a run that CLOSES A TASK, because the two fixtures above never enter §10's loop and
+# that is exactly where the second orphaned heredoc landed. It survived a day of green 93/93 runs:
+# a `$( … )` in command position, so a markdown link in a task file became an argv word THIS HOOK
+# EXECUTED, plus `LINKS: command not found` on stderr. `bash -n` passes on that shape, and the
+# stderr assertions written for the FIRST occurrence did not reach the path. Measured 2026-08-15
+# (pass eleven). A check whose fixture does not walk the code is coverage on paper.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+mkdir -p _ops/process/types runs
+printf 'started -> done\n' > _ops/process/types/stderr-close.md
+printf '#!/bin/sh\necho EXECUTED >&2\n' > runs/R-probe.md; chmod +x runs/R-probe.md
+printf '# T-STDERR — thing\n\n**Status**: started\n**Assignee**: ui\n**Type**: stderr-close\n\n## Done when\n\n- [ ] a thing\n\n## History\n' > _ops/tasks/T-STDERR.md
+git add -A && git commit -qm "stderr close fixture" >/dev/null 2>&1
+printf -- '- 08-15 — built · run [R-X](runs/R-probe.md)\n- reviewed by qa\n' >> _ops/tasks/T-STDERR.md
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/tasks/T-STDERR.md')
+p.write_text(p.read_text().replace('- [ ] a thing', '- [x] a thing'))"
+python3 "$HERE/transition.py" _ops/tasks/T-STDERR.md done --by qa >/dev/null 2>&1
+git add -A
+err=$(bash _ops/scripts/preflight.sh 2>&1 >/dev/null)
+[ -z "$err" ] \
+  && ok || bad "the guard writes to stderr while a task closes: $(printf '%s' "$err" | head -1)"
+printf '%s' "$err" | grep -q EXECUTED \
+  && bad "the guard EXECUTED a path named by a link inside a task file" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf _ops/tasks/T-STDERR.md runs/R-probe.md _ops/process/types/stderr-close.md >/dev/null 2>&1
+git commit -qm "stderr close fixture out" >/dev/null 2>&1
 # and the inversion the first repair introduced: appending to a file whose last line carries no
 # trailing newline shows that line as removed AND re-added, so a pure append was refused
 printf -- '# Decisions\n\n- 2026-01-01 we chose X' > _ops/DECISIONS.md; git add -A; git commit -qm "no trailing newline"
@@ -565,6 +592,27 @@ git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git rm -qf _ops/runs/R-OLD.md >/dev/null 2>&1
 git commit -qm "record fixture out" >/dev/null 2>&1
 
+# ── ...and a rename must not STRAND a legacy task either ───────────────────────────────────
+# Adding `R` to §1c's filter made it see renames without teaching it what one means: `was` was read
+# from `HEAD:<new path>`, which does not exist, so a PURE `git mv` of a legacy two-home task —
+# byte-identical, no edit — was refused quoting "(it kept 0)", a number the file contradicts.
+# Measured 2026-08-15 (pass eleven). The pair: a pure rename passes, a rename that ADDS a home does
+# not, because the easy way to stop stranding is to stop checking.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# T-LEGR — legacy\n\n**Status**: doing\n**Stage**: build\n**Assignee**: ui\n\n## Notes\n\nprose\n' > _ops/tasks/T-LEGR.md
+git add -A && git commit -qm "legacy rename fixture" >/dev/null 2>&1
+git mv _ops/tasks/T-LEGR.md _ops/tasks/T-LEGA.md && git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a pure rename of a legacy two-home task was refused — legacy stranded by §1c"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/tasks/T-LEGA.md; git checkout -q .
+git mv _ops/tasks/T-LEGR.md _ops/tasks/T-LEGB.md
+printf '\nstage: review\n' >> _ops/tasks/T-LEGB.md && git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a rename that ADDS a third state home passed §1c" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/tasks/T-LEGB.md; git checkout -q .
+git rm -qf _ops/tasks/T-LEGR.md >/dev/null 2>&1
+git commit -qm "legacy rename fixture out" >/dev/null 2>&1
+
 # ── a rename must not be a bypass ──────────────────────────────────────────────────────────
 # `git mv` plus the offending edit in ONE commit scored `R098` and drew ZERO refusals: `AM` does
 # not select `R`, and restricting `git diff` to the new path alone defeats rename detection, so
@@ -588,6 +636,33 @@ git add -A
   && ok || bad "the fixture was not scored a rename — this assertion cannot demonstrate the bypass"
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
   && bad "a hand-flipped status delivered as a rename passed every gate" || ok
+# ...and again with a TAB in the name, because git C-QUOTES such a path in line mode and the first
+# version of `staged_diff` compared a quoted `$3` against a raw path: never equal, no source found,
+# and the diff silently fell back to the rename-blind form. The bypass this helper closes, reopened
+# by one tab. Measured 2026-08-15 (pass eleven) — rc=0 where the control above refuses.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+_told=$(printf '_ops/tasks/T-TAB\tx.md'); _tnew=$(printf '_ops/tasks/T-TAB2\tx.md')
+{ printf '# T-TAB — a long task\n\n**Status**: doing\n**Assignee**: ui\n\n## Notes\n\n'
+  for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
+    printf 'Ordinary prose line %s.\n' "$i"
+  done; } > "$_told"
+git add -A && git commit -qm "tab rename fixture" >/dev/null 2>&1
+git mv "$_told" "$_tnew"
+python3 -c "
+import pathlib, sys
+p = pathlib.Path(sys.argv[1])
+p.write_text(p.read_text().replace('**Status**: doing', '**Status**: done'))" "$_tnew"
+git add -A
+( git diff --cached --name-status -M || true ) | grep -q '^R' \
+  && ok || bad "the tab fixture was not scored a rename — this assertion proves nothing"
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a rename whose path holds a tab passed every gate" || ok
+_e=$(bash _ops/scripts/preflight.sh 2>&1 >/dev/null)
+[ -z "$_e" ] \
+  && ok || bad "the guard writes to stderr on a tab-named path: $(printf '%s' "$_e" | head -1)"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf "$_told" >/dev/null 2>&1
+git commit -qm "tab rename fixture out" >/dev/null 2>&1
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git rm -qf _ops/tasks/T-REN.md >/dev/null 2>&1
 git commit -qm "rename fixture out" >/dev/null 2>&1

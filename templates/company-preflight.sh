@@ -107,9 +107,41 @@ changed() { git -c core.quotePath=false diff --cached --name-only -z "$@" 2>/dev
 # 2026-08-15 (pass ten): `git mv` plus a hand-flipped status in one commit scored `R098` and drew
 # ZERO refusals, because §14 requires a removed state line and a rename-blind diff has none. That
 # is the whole gate walked through by renaming the file first.
+# rename_src <new-path> — the path a staged rename came FROM, or empty. Extracted so that every
+# gate reasoning about "before" reads the right side of a rename, not an empty file at a path that
+# never existed.
+#
+# A NUL stream, because line mode C-QUOTES any path holding a control character, a quote or a
+  # backslash — and `-c core.quotePath=false` only turns off the non-ASCII half of that. So for a
+  # path with a tab, `$3` was `"_ops/tasks/T-REN2\tx.md"` while the loop handed in the raw path:
+  # never equal, no source found, and the diff fell back to the rename-BLIND form. That is the
+  # exact bypass this helper was written to close, reopened by one tab in a filename — measured
+  # 2026-08-15 (pass eleven), rc=0 where the ordinary-named control refuses. A newline in the name
+  # additionally killed `awk -v n="$1"` outright ("newline in string"), four times per commit.
+  # `-z` emits STATUS\0OLD\0NEW\0 with raw paths and no quoting at all.
+  #
+  # The case patterns lead with `(` — `(R*|C*)` not `R*|C*` — because bash 3.2's
+  # command-substitution scanner miscounts the `)` that closes a case pattern and dies with
+  # "syntax error near unexpected token ';;'". macOS ships 3.2.57, so this file must not use the
+  # bare form inside `$( … )`.
+rename_src() {
+  git diff --cached --name-status -M -z 2>/dev/null | {
+    _st=""; _a=""; _found=""
+    while IFS= read -r -d '' _f; do
+      if [ -z "$_st" ]; then _st=$_f; continue; fi
+      case "$_st" in
+        (R*|C*)
+          if [ -z "$_a" ]; then _a=$_f; continue; fi
+          [ "$_f" = "$1" ] && { printf '%s' "$_a"; _found=yes; break; }
+          _st=""; _a="" ;;
+        (*) _st=""; _a="" ;;
+      esac
+    done
+    [ -n "$_found" ] || true
+  }
+}
 staged_diff() {
-  _src=$(git diff --cached --name-status -M 2>/dev/null \
-         | awk -v n="$1" -F'\t' '$1 ~ /^R/ && $3 == n {print $2}' | head -1)
+  _src=$(rename_src "$1")
   if [ -n "${_src:-}" ]; then
     git diff --cached -U0 -M -- "$_src" "$1" 2>/dev/null || true
   else
@@ -275,7 +307,15 @@ while IFS= read -r -d '' tf; do
   # Comparing counts keeps legacy unstranded — a file that already had two still has two — while
   # actually catching creation, whichever commit it arrives in.
   now=$( ( staged "$tf" || true ) | state_homes )
-  was=$( ( git show "HEAD:$tf" 2>/dev/null || true ) | state_homes )
+  # "before" is read from the path the file came FROM when this is a rename. Reading
+  # `HEAD:<new path>` gives nothing, so `was` came back 0 and a PURE `git mv` of a legacy
+  # two-home task — byte-identical content, no edit at all — was refused, quoting "(it kept 0)",
+  # a number that is false. That contradicted this section's own promise three lines up, and it is
+  # the same defect shape §1f was repaired for in this release: a message stating a number the
+  # file contradicts. Measured 2026-08-15 (pass eleven) — arrived with `AMR`, which made §1c see
+  # renames without teaching it what one means.
+  _was_path=$(rename_src "$tf"); [ -n "${_was_path:-}" ] || _was_path=$tf
+  was=$( ( git show "HEAD:$_was_path" 2>/dev/null || true ) | state_homes )
   [ "${now:-0}" -le 1 ] && continue
   [ "${now:-0}" -le "${was:-0}" ] && continue
   n=$now
@@ -782,9 +822,11 @@ honest, silence is not."
     # for the same shape was written here and deleted before it shipped — measured 2026-08-15: on
     # a task linking `../runs/R-GHOST.md`, §1g refused and this fired zero times. Two gates for one
     # defect is the redundancy the deletion lens exists to remove, and the one that survives is the
-    # one that catches the whole class.
-$( ( staged "$t" || true ) | grep -oE '\]\((\.\./)?runs/R-[^)]+\.md\)' | sed -E 's/^\]\(//; s/\)$//' || true)
-LINKS
+    # one that catches the whole class. (The deletion left this heredoc's BODY and TERMINATOR
+    # behind for one commit: a `$( … )` in command position, so a markdown link in a task file
+    # became an argv word THIS HOOK EXECUTED, and `LINKS: command not found` went to stderr on
+    # every closing task. `bash -n` passes on it. Measured 2026-08-15 — the second time in this
+    # release that a cut heredoc left live code, which is why the suite now asserts stderr.)
   done < <(changed -- '_ops/tasks/*.md')
 fi
 
