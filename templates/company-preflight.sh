@@ -15,6 +15,14 @@
 # and the architecture map still describes the repo.
 #
 # Deliberately small. A hook that cries wolf is a hook people bypass with --no-verify.
+#
+# WHAT THIS CANNOT SEE, said plainly rather than left to be discovered: it is a pre-commit hook,
+# so a MERGE runs none of it. A task refused on a branch — committed there with --no-verify —
+# lands in `main` through `git merge` with no gate invoked at all (measured 2026-08-15). That is
+# generic to pre-commit hooks and it bears on everything below, because these gates enforce what
+# a commit CREATES and a merge creates everything while running nothing. If the project's history
+# matters more than its commits, run this same file over the merge result in CI; a hook is the
+# author's own guard rail, not the repository's.
 set -uo pipefail
 cd "$(git rev-parse --show-toplevel 2>/dev/null || echo .)"
 
@@ -102,7 +110,15 @@ for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
   git ls-files --error-unmatch "$f" >/dev/null 2>&1 || continue
   staged_size=$(git show ":$f" 2>/dev/null | tr -d '[:space:]' | wc -c | tr -d ' ')
   had=$(git show "HEAD:$f" 2>/dev/null | tr -d '[:space:]' | wc -c | tr -d ' ')
-  [ "${staged_size:-1}" -eq 0 ] && [ "${had:-0}" -gt 0 ] && emptied="$emptied $f"
+  # Emptied, or GUTTED. `staged_size -eq 0` was the whole test, so `printf '.' > _ops/TOOLING.md`
+  # passed as a living file while §2 and §9 — both keyed on that file having rows — went silent.
+  # The constrained party could retire a check by hollowing it rather than deleting it. Measured
+  # 2026-08-15 (pass nine). A file that had real content and keeps under a fifth of it counts;
+  # the DECISIONS escape below is the same escape, so an honest large trim still has one.
+  if [ "${had:-0}" -gt 0 ] && { [ "${staged_size:-1}" -eq 0 ] \
+       || { [ "${had:-0}" -ge 200 ] && [ $(( ${staged_size:-0} * 5 )) -lt "${had:-0}" ]; }; }; then
+    emptied="$emptied $f"
+  fi
 done
 # The escape: a staged `_ops/DECISIONS.md` line naming the file and saying it is retired. A
 # gate with no exit is a gate people pass with --no-verify, which is what this file is against.
@@ -336,6 +352,7 @@ there — a child or parent link that resolves to nothing is worse than a bare i
 reads as navigable. Fix the path, or say the id in plain text"
   done <<LINKS
 $( ( git diff --cached -U0 -- "$tf" 2>/dev/null || true ) | grep '^+' | grep -v '^+++ ' \
+   | sed 's/^+//' | awk '/^[[:space:]]*(```|~~~)/{f=!f; next} !f' \
    | grep -oE '\]\([^)]+\.md\)' | sed -E 's/^\]\(//; s/\)$//' || true)
 LINKS
 done < <(changed --diff-filter=AM | grep -zE '^_ops/tasks/.*\.md$')
@@ -659,10 +676,10 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
     # acceptance criterion rewritten in the same commit passed every regex form of this check.
     bar_at() {  # bar_at <rev-or-empty> — the acceptance section as it stands there
         if [ -z "$1" ]; then git show ":$t" 2>/dev/null; else git show "$1:$t" 2>/dev/null; fi \
-          | awk '/^##[[:space:]]*(Done when|Acceptance)/{f=1; next}
-                 f && /^##[[:space:]]/{exit}
+          | awk 'tolower($0) ~ /^#{2,}[[:space:]]*(done when|acceptance)/{f=1; next}
+                 f && /^#{2,}[[:space:]]/{f=0}
                  f {print}
-                 /^[[:space:]]*(dod|acceptance|definition of done)[[:space:]]*:/{print}' \
+                 tolower($0) ~ /^[[:space:]]*(dod|acceptance|definition of done)[[:space:]]*:/{print}' \
           | sed -E 's/^([[:space:]]*[-*+][[:space:]]*)\[[ xX]\]/\1[ ]/'
     }
     # The tick is normalised out: `- [ ]` → `- [x]` records that a criterion was MET, which is

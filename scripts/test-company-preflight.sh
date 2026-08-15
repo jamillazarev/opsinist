@@ -508,6 +508,51 @@ git checkout -q HEAD -- .; git reset -q
 git rm -qf _ops/tasks/T-tpl.md _ops/tasks/T-close.md _ops/runs/R-old.md >/dev/null 2>&1
 git commit -qm "fixtures out" >/dev/null 2>&1
 
+# ── gutting a keyed file is retiring it ────────────────────────────────────────────────────
+# `staged_size -eq 0` was the whole emptiness test, so `printf '.' > _ops/TOOLING.md` read as a
+# living file while §2 and §9, both keyed on it having rows, went silent. Measured 2026-08-15.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+cp _ops/TOOLING.md "$T/.tooling.bak" 2>/dev/null || true
+{ printf '# Tooling\n\n| Tool | What | Checked |\n|---|---|---|\n'
+  for i in 1 2 3 4 5 6 7 8; do
+    printf '| tool-%s | does a thing that is described here at some length | 2026-08-01 |\n' "$i"
+  done; } > _ops/TOOLING.md
+git add -A && git commit -qm "tooling with rows" >/dev/null 2>&1
+printf '.\n' > _ops/TOOLING.md && git add _ops/TOOLING.md
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "gutting _ops/TOOLING.md to one character passed the retire gate" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+[ -f "$T/.tooling.bak" ] && cp "$T/.tooling.bak" _ops/TOOLING.md
+git add -A && git commit -qm "tooling back" >/dev/null 2>&1
+
+# ── the bar is read at any heading depth and in any case ───────────────────────────────────
+# `/^##[[:space:]]*(Done when|Acceptance)/` was case-sensitive and exactly two hashes, so under
+# `### Done when` a task could close with its criterion rewritten to anything. Measured
+# 2026-08-15 (pass nine). §13 one section down already reads headings with `grep -iE`.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# T-H3 — deep heading\n\n**Status**: started\n**Assignee**: worker-a\n\n### Done when\n\n- [ ] the real criterion\n\n## History\n' > _ops/tasks/T-H3.md
+git add -A && git commit -qm "h3 fixture" >/dev/null 2>&1
+python3 "$HERE/transition.py" _ops/tasks/T-H3.md review --by bob >/dev/null 2>&1
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/tasks/T-H3.md')
+p.write_text(p.read_text().replace('- [ ] the real criterion', '- [ ] anything at all'))"
+printf -- '- reviewed by carol\n' >> _ops/tasks/T-H3.md
+python3 "$HERE/transition.py" _ops/tasks/T-H3.md done --by carol >/dev/null 2>&1
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "the criterion was rewritten under '### Done when' and the close passed" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf _ops/tasks/T-H3.md >/dev/null 2>&1; git commit -qm "h3 out" >/dev/null 2>&1
+
+# ── a link inside a fenced example is an example ───────────────────────────────────────────
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# T-FL — fenced link\n\n**Status**: started\n**Assignee**: worker-a\n\n## Notes\n\n```\n- [ ] [T-4F2K9Q](T-4F2K9Q-nowhere.md)\n```\n\n## History\n' > _ops/tasks/T-FL.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a link inside a fenced example was refused as a rotted link"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/tasks/T-FL.md
+
 # ── §1c's two blind spots, both measured 2026-08-15 (pass nine) ────────────────────────────
 # (a) two homes on ONE line — the shape this section's own refusal recommends. `grep -co` counts
 #     matching LINES on GNU grep, so the count was 1 and it passed.

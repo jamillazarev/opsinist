@@ -64,7 +64,11 @@ def main() -> int:
     # One or two letters: `RQ-` (a request) and `TH-` (a thread) were both in the corpus while
     # the door accepted a single letter only, so neither could be minted here and neither was
     # visible to the collision scan below — which is the whole reason this script exists.
-    if not (1 <= len(a.prefix) <= 2) or not a.prefix.isalpha():
+    # `isascii()` too: `str.isalpha()` is Unicode-aware, so `--prefix ЖД` minted
+    # `ЖД-6ZW5EA` and §1d of the guard then refuses that the moment it becomes a
+    # filename — this door would hand a project an id its own guard rejects.
+    # Measured 2026-08-15 (pass nine).
+    if not (1 <= len(a.prefix) <= 2) or not (a.prefix.isascii() and a.prefix.isalpha()):
         print("prefix is one or two letters", file=sys.stderr)
         return 2
     a.prefix = a.prefix.upper()

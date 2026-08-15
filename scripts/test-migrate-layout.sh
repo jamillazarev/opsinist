@@ -197,6 +197,26 @@ grep -A2 'T-prose.md' "$T/rep.txt" | grep -q 'is not a stage name' \
 grep -A2 'T-prose.md' "$T/rep.txt" | grep -q 'set  *\*\*Status\*\*: doing is what' \
   && bad "the report instructed the reader to write a sentence into a stage field" || ok
 
+# ── a task the report cannot read is named, not dropped ────────────────────────────────────
+# A task with a real two-home disagreement and one invalid UTF-8 byte was omitted while the
+# header went on counting the rest — a report whose whole job is naming what disagrees quietly
+# shrank. Measured 2026-08-15 (pass nine).
+printf '# D\n\n**Status**: doing\n\nstage: review\n\377\n' > "$T/rep/_ops/tasks/T-bad.md"
+( cd "$T/rep" && git add -A >/dev/null && git -c user.email=t@f.t -c user.name=T commit -qm b )
+python3 "$HERE/migrate-layout.py" "$T/rep" > "$T/rep2.txt" 2>&1
+grep -q 'could not be read as UTF-8' "$T/rep2.txt" \
+  && ok || bad "an undecodable task was dropped from the report without a word"
+grep -q 'T-bad.md' "$T/rep2.txt" \
+  && ok || bad "the undecodable task was not named"
+
+# ── new-id.py must not mint an id §1d refuses ──────────────────────────────────────────────
+# `str.isalpha()` is Unicode-aware, so `--prefix ЖД` minted `ЖД-6ZW5EA` and the guard's ASCII-path
+# check then refuses that filename — a door handing the project an id its own guard rejects.
+python3 "$HERE/new-id.py" --prefix "ЖД" >/dev/null 2>&1 \
+  && bad "new-id.py minted a non-ASCII prefix the guard refuses as a path" || ok
+python3 "$HERE/new-id.py" --prefix "RQ" >/dev/null 2>&1 \
+  && ok || bad "new-id.py refuses a two-letter ASCII prefix it is supposed to mint"
+
 # ── the doors remedy must run where it is printed ──────────────────────────────────────────
 # The guard's doors refusal is emitted by a pre-commit hook, so there is always staged work. It
 # offered a plain `migrate-layout.py .`, which refuses a dirty tree — the first remedy could not

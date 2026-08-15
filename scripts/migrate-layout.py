@@ -79,12 +79,17 @@ def report_state_fields(root, dry):
     # `set **Status**: doing is what we mean when we say it` — an unvalidated prose line offered
     # as the value of a field `transition.py` then reads as the stage.
     STAGE_TOKEN = re.compile(r"^[\w-]+$", re.U)
-    found = []
+    found, unreadable = [], []
     for tf in tasks:
         try:
             raw = tf.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
-            continue                      # not ours to read, and certainly not ours to rewrite
+            # Not ours to read, and certainly not ours to rewrite — but SAID, not dropped. A task
+            # with a real two-home disagreement and one invalid UTF-8 byte was omitted while the
+            # header still counted the rest and called them all, so a report whose whole purpose
+            # is naming what disagrees quietly shrank. Measured 2026-08-15 (pass nine).
+            unreadable.append(tf.name)
+            continue
         lines, fence, mach, prose, mach_line = raw.split("\n"), False, None, None, 0
         # `enumerate`, because `lines.index(l)` returns the first line EQUAL to this one, not this
         # one. A task carrying a fenced example byte-identical to its real field reported the
@@ -105,7 +110,12 @@ def report_state_fields(root, dry):
                 prose = PROSE.search(l).group(1).strip()
         if mach is not None and prose is not None:
             found.append((tf.name, prose or "(empty)", mach, mach_line))
+    def _say_unreadable():
+        if unreadable:
+            print(f"  {len(unreadable)} task(s) could not be read as UTF-8 and were not "
+                  f"examined — check these by hand: {' · '.join(sorted(unreadable))}")
     if not found:
+        _say_unreadable()
         return []
     print(f"  {len(found)} task(s) carry state in two places, and 0.2.7 refuses a commit that "
           f"ADDS a second — these are legacy and are NOT refused, but they disagree:")
@@ -128,6 +138,7 @@ def report_state_fields(root, dry):
         print(f"    … and {len(found) - 8} more, same two edits each")
     print("  Two edits per task, and nothing else in the file changes. This script does not make "
           "them: it edits nobody's prose.")
+    _say_unreadable()
     return [f[0] for f in found]
 
 
