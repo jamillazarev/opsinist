@@ -56,6 +56,29 @@ answers: write the record, or say a person did the work.
 recited anyway, in an unquoted `$(ls …)` that skipped a suite whose name held a space while
 reporting green. Its exclusion list is declared in one place the check reads.
 
+**The escalation escape was unfollowable one way and satisfiable by denial the other.** Its
+message said *"raise it, or say in this record why a fourth is right"*, and a reader who did
+exactly that was refused again, verbatim, because the gate read five keywords the message never
+named. In the other direction a record saying *"not a spec problem — the sandbox was flaky"*
+**passed**, on the substring. It reads a field now and the refusal prints that field, which is the
+only shape that has measured 5/5 on this corpus.
+
+**And a form for the class that made the hook execute a task's link.** `bash -n` passes on an
+orphaned heredoc body, so the syntax check cannot stand in for this one: `scripts/check-shell-exec.py`
+refuses a command substitution in command position outside a heredoc, and a bare terminator whose
+opener is gone. Getting it usable took four corrections — heredoc state, quote state, substitution
+spans skipped whole, and a string surviving a line end unconditionally — and each is why a naive
+grep would have been deleted as noisy rather than kept. The idea is borrowed: a neighbouring
+project ships a static rule set naming hook injection as a class, and this repository had no check
+naming it at all.
+
+**A rate is a claim about a model, and five rounds in a row did not say which.** The runsheet's own
+header states it; then five of five dated entries in `evals/RUNS.md` named no player anywhere,
+including the 103×5 round whose 26.3% is quoted across the corpus. Every round from here carries a
+**Config** line — the three I ran carry their real one, the two I did not carry `unknown` with the
+reason. Borrowed from `smevals`, which makes the config a first-class object beside the eval and
+the grader; the gap here was never the model of the thing, it was that nobody wrote it down.
+
 **Eval state**: the refusal round and its two re-runs stand as recorded in `evals/RUNS.md`; nothing
 in this release changes what those measured. N72's five-void mystery is closed — its setup wrote
 into `_ops/roles/` while `mkdir -p` created `roles/` at the repository root, so the dispatcher
