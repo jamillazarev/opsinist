@@ -65,6 +65,10 @@ if [ "${1:-}" = "--install" ]; then
 fi
 
 fail=0; warn=0
+# Temp files this run makes are removed on every exit path, including a refusal. A guard that
+# leaves litter in /tmp on each commit is a guard someone eventually notices for the wrong reason.
+_cpf_tmp=""
+trap 'rm -f $_cpf_tmp' EXIT HUP INT TERM
 say_fail() { echo "  ✗ $1"; fail=1; }
 say_warn() { echo "  ! $1"; warn=1; }
 # hits <grep-args…> — reads stdin, true when at least one line matches. See the note above:
@@ -107,6 +111,16 @@ changed() { git -c core.quotePath=false diff --cached --name-only -z "$@" 2>/dev
 # 2026-08-15 (pass ten): `git mv` plus a hand-flipped status in one commit scored `R098` and drew
 # ZERO refusals, because §14 requires a removed state line and a rename-blind diff has none. That
 # is the whole gate walked through by renaming the file first.
+# record_task <stream> — the task a run record DECLARES, read from stdin. Format-agnostic, like
+# every other check in §1f (`hits -iF "$need"`), because a record that names its task on a `task:`
+# line rather than in a title or a `**Task**` row is still a record: the one rigid reader in an
+# otherwise loose section is the reader that silently counts zero. The id is bounded on both sides
+# so `T-AB` never matches inside `T-ABCD`.
+record_task() {
+  grep -m1 -oiE '(^#[^#]|\*\*task\*\*|^[[:space:]]*task[[:space:]]*:)[^|]*[^0-9A-Za-z-](T-[0-9A-Za-z-]+)' \
+    | grep -oE 'T-[0-9A-Za-z-]+' | tail -1
+}
+
 # rename_src <new-path> — the path a staged rename came FROM, or empty. Extracted so that every
 # gate reasoning about "before" reads the right side of a rename, not an empty file at a path that
 # never existed.
@@ -402,19 +416,24 @@ runtime does not report one. A sentence in History is not a record"
   # appears nowhere in the file. A false refusal on an ordinary dependency graph is how a project
   # learns to reach for --no-verify, which is the one outcome this file's header says it exists
   # to prevent — so the strictness costs more than the miss it was closing.
-  rtask=$( ( staged "$rf" || true ) \
-           | grep -m1 -oE '^#[^#].*\bT-[0-9A-Za-z-]+|\*\*Task\*\*[^|]*\|[^|]*T-[0-9A-Za-z-]+' \
-           | grep -oE 'T-[0-9A-Za-z-]+' | head -1)
+  rtask=$( ( staged "$rf" || true ) | record_task )
   if [ -n "${rtask:-}" ]; then
-    sib=0
-    while IFS= read -r -d '' other; do
-      [ "$other" = "$rf" ] && continue
-      o=$( ( staged "$other" 2>/dev/null || cat "$other" 2>/dev/null || true ) \
-           | grep -m1 -oE '^#[^#].*\bT-[0-9A-Za-z-]+|\*\*Task\*\*[^|]*\|[^|]*T-[0-9A-Za-z-]+' \
-           | grep -oE 'T-[0-9A-Za-z-]+' | head -1)
-      [ "$o" = "$rtask" ] && sib=$((sib+1))
-    done < <(git ls-files -z -- '_ops/runs/*.md')
-    sib=$(( sib + 1 ))
+    # The neighbour table is built ONCE, on first use, not per record: the previous form forked
+    # `git show` for every kept record for every new one — O(new × kept) — which on a project with
+    # a few hundred records turns a commit into a two-minute wait, and a hook people wait two
+    # minutes for is a hook they pass with --no-verify. Scoped to `R-*.md`, which is what §1f
+    # applies to; the old glob read every `.md` in the directory, so an ordinary note living there
+    # was parsed as a run record. Both measured 2026-08-16 (pass eleven).
+    if [ -z "${_sibtab:-}" ]; then
+      _sibtab=$(mktemp) || _sibtab=/tmp/.cpf-sib.$$
+      _cpf_tmp="$_cpf_tmp $_sibtab"
+      while IFS= read -r -d '' other; do
+        printf '%s\t%s\n' "$( ( staged "$other" 2>/dev/null || cat "$other" 2>/dev/null || true ) \
+          | record_task )" "$other" >> "$_sibtab"
+      done < <(git ls-files -z -- '_ops/runs/R-*.md')
+    fi
+    sib=$(grep -c "^${rtask}$(printf '\t')" "$_sibtab" 2>/dev/null || echo 0)
+    grep -q "^${rtask}$(printf '\t')${rf}$" "$_sibtab" 2>/dev/null || sib=$(( sib + 1 ))
     [ "${sib:-0}" -gt "${att:-0}" ] 2>/dev/null && att=$sib
   fi
   if [ -n "${att:-}" ] && [ "$att" -ge 3 ] 2>/dev/null; then

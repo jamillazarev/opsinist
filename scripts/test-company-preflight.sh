@@ -570,6 +570,27 @@ git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git rm -qf _ops/tasks/T-COST.md _ops/runs/R-C1.md >/dev/null 2>&1
 git commit -qm "cost fixture out" >/dev/null 2>&1
 
+# ── the neighbour count reads any declaration form, and only run records ───────────────────
+# Every other check in §1f is format-agnostic (`hits -iF "$need"`); the id reader was the one rigid
+# part, so a record naming its task on a `task:` line counted zero neighbours. And the walk globbed
+# every `.md` under `_ops/runs/` while the gate applies to `R-*.md`, so an ordinary note living
+# there was parsed as a record. Both measured 2026-08-16 (pass eleven).
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+mkdir -p _ops/runs
+_frec(){ printf '# R-%s — a run\n\ntask: %s\n\n| **Attempt** | %s |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' "$1" "$2" "$3" > "_ops/runs/R-$1.md"; }
+_frec F1 T-FMT01 1; _frec F2 T-FMT01 2
+printf '# Notes\n\nThis directory holds run records. T-FMT01 is mentioned here in prose.\n' > _ops/runs/README.md
+git add -A && git commit -qm "format fixture" >/dev/null 2>&1
+_frec F3 T-FMT01 1
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a third record declaring its task on a 'task:' line counted no neighbours" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'records attempt 3' \
+  && ok || bad "the count is not 3 — the README in the same directory was parsed as a record"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/runs/R-F3.md
+git rm -qf _ops/runs/R-F1.md _ops/runs/R-F2.md _ops/runs/README.md >/dev/null 2>&1
+git commit -qm "format fixture out" >/dev/null 2>&1
+
 # ── a RUN RECORD delivered as a rename must not escape §1f ─────────────────────────────────
 # §1f was moved from `--diff-filter=A` to `AR` in this release because "a record delivered as a
 # rename escaped this gate whole", and nothing asserted it: an adversarial lens reverted the

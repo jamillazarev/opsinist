@@ -2,6 +2,58 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.8 — 2026-08-16
+
+**Eleven review lenses have now read this guard, and the eleventh found more critical defects than
+the tenth.** 0.2.7 shipped with the tenth pass's repairs in it; this release is the eleventh's, and
+it is published as its own version because these change behaviour — the repository's rule is that
+evidence moves without a tag and a rule moves with one.
+
+**The worst of them executed repository content.** A check reported in 0.2.7 as "deleted before it
+shipped" left its heredoc body and terminator behind: a `$( … )` in command position, so a markdown
+link inside a task file became an argv word the pre-commit hook RAN, and `LINKS: command not found`
+went to stderr on every closing task. `bash -n` passes on that shape. This file installs into other
+people's repositories as their hook. The suite had stderr assertions — written after the first time
+this happened, in the same release — and their fixtures never entered the section where the second
+one landed, so 93/93 stayed green over a day. They now cover a task closing, and assert that
+nothing named by a link is executed.
+
+**A rename walked through every gate, twice.** `--diff-filter=AM` does not select `R`, and
+restricting `git diff` to one path defeats rename detection entirely — so the diff shows a wholly
+added file with no removed line for §14 to find. Both halves were needed; fixing either alone left
+the bypass open, which is why the first attempt still measured zero refusals. Then a tab in the
+filename reopened it: git C-quotes such a path in line mode and `core.quotePath=false` only turns
+off the non-ASCII half, so the source never matched and the diff fell back to rename-blind. It
+reads a NUL stream now.
+
+**And `AMR` taught §1c to see renames without teaching it what one is** — `was` came from the new
+path at HEAD, which does not exist, so a pure `git mv` of a legacy two-home task was refused
+quoting a number the file contradicts. "Before" comes from the rename's source.
+
+**§1f's neighbour counter, three ways.** It counted mentions as attempts — three records naming a
+task in `blocked_by` made that task's FIRST record refuse as "attempt 4". It read the id in one
+rigid format while every other check in the section is deliberately loose, so a record declaring
+its task on a `task:` line counted zero neighbours. And it forked `git show` per pair, O(new ×
+kept), which on a few hundred records is a two-minute commit — and a hook people wait two minutes
+for is a hook they pass with `--no-verify`. Scoped to `R-*.md`, built once, matched whole.
+
+**A task can no longer close in silence about what it cost.** `cost.md` stores cost once at the run
+and derives everything else; nothing checked the atom existed, so a task taken through the door to
+`done` with zero run records drew neither refusal nor warning — observed first on a live project
+whose board carried finished work and no cost. §10b warns as each task closes and names both honest
+answers: write the record, or say a person did the work.
+
+**The suite battery stopped reciting and started discovering** — and the first version of that
+recited anyway, in an unquoted `$(ls …)` that skipped a suite whose name held a space while
+reporting green. Its exclusion list is declared in one place the check reads.
+
+**Eval state**: the refusal round and its two re-runs stand as recorded in `evals/RUNS.md`; nothing
+in this release changes what those measured. N72's five-void mystery is closed — its setup wrote
+into `_ops/roles/` while `mkdir -p` created `roles/` at the repository root, so the dispatcher
+exited before writing any transcript. Nineteen setups run inside their own fixtures; N72 was the
+only one that failed. And the judge emits its usage now: ~$0.095 a verdict, of which the constant
+28,375-token harness prefix and a cache-write nobody reads back are the whole story.
+
 ## 0.2.7 — 2026-08-16
 
 **The doors now travel into the project — a field report measured what their absence cost.** A
