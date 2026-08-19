@@ -440,9 +440,21 @@ runtime does not report one. A sentence in History is not a record"
     [ "${sib:-0}" -gt "${att:-0}" ] 2>/dev/null && att=$sib
   fi
   if [ -n "${att:-}" ] && [ "$att" -ge 3 ] 2>/dev/null; then
-    ( staged "$rf" || true ) | hits -iE 'escalat|relay|spec problem|blocked_by|handed (back|over)' \
-      || say_fail "$rf records attempt $att and names no escalation — three rounds on one point \
-is a spec problem, not a quality problem. Raise it, or say in this record why a fourth is right"
+    # A FIELD the message prints, not five keywords it keeps to itself. The keyword form was
+    # unfollowable in one direction and satisfiable in the other, both measured 2026-08-16 (pass
+    # eleven): a reader who did exactly what the message said — wrote, in the record, why a fourth
+    # was right — was refused again with the identical text and no new information; and a record
+    # saying *"not a spec problem — the sandbox was flaky"* PASSED, because it contains the
+    # substring `spec problem`. A gate satisfied by denying the thing it asks for is worse than an
+    # absent one. The shape that measured 5/5 on this corpus prints the literal line to write.
+    ( staged "$rf" || true ) \
+      | hits -iE '^[[:space:]]*(\*\*)?(escalated|escalation)(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]' \
+      || say_fail "$rf records attempt $att and carries no \`Escalated:\` line — three rounds on \
+one point is a spec problem, not a quality problem. Add ONE line to this record, and its content \
+is the whole point:
+    **Escalated**: <what you raised, and to whom — or why a fourth attempt is right anyway>
+Prose elsewhere in the record does not satisfy this and is not meant to: the field exists so the \
+next reader can find the decision without reading the run"
   fi
   for need in "model that answered" "attempt" "outcome"; do
     ( staged "$rf" || true ) | hits -iF "$need" || say_fail "$rf has no \`$need\` field — \

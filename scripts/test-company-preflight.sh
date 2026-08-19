@@ -479,7 +479,9 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a third attempt with no e
 python3 -c "
 import pathlib
 p=pathlib.Path('_ops/runs/R-5.md')
-p.write_text(p.read_text().replace('| **Attempt** | 3 |','| **Attempt** | 3 |' + chr(10) + '| **Reason** | escalated: the spec is wrong, raised as a relay |'))"
+p.write_text(p.read_text().replace('| **Attempt** | 3 |', '| **Attempt** | 3 |' + chr(10) + chr(10) + '**Escalated**: raised with the owner — the spec does not say which reading is meant.'))"
+# the field on its own line, which is what the refusal prints. It used to be a table CELL, and a
+# cell satisfied the old keyword hunt — the same looseness that let "not a spec problem" through.
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a third attempt that names its escalation was refused"
 git rm -qf _ops/runs/R-5.md >/dev/null 2>&1; git commit -qm "R-5 out" >/dev/null 2>&1
@@ -569,6 +571,37 @@ close_it
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git rm -qf _ops/tasks/T-COST.md _ops/runs/R-C1.md >/dev/null 2>&1
 git commit -qm "cost fixture out" >/dev/null 2>&1
+
+# ── the escalation escape must be followable, and not satisfiable by denial ────────────────
+# The keyword form was unfollowable in one direction and satisfiable in the other, both measured
+# 2026-08-16 (pass eleven): a reader who did exactly what the message said — wrote in the record
+# why a fourth was right — was refused again with identical text, while a record saying "not a spec
+# problem" PASSED because it contains that substring. A gate satisfied by denying the thing it asks
+# for is worse than no gate. Three cases, because the middle one is the whole point.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+mkdir -p _ops/runs
+_erec(){ printf '# R-E%s — a run\n\ntask: T-ESC01\n\n| **Attempt** | %s |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n%s\n\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' "$1" "$2" "$3" > "_ops/runs/R-E$1.md"; }
+_erec 1 1 ""; _erec 2 2 ""
+git add -A && git commit -qm "escalation fixture" >/dev/null 2>&1
+_erec 3 3 "
+not a spec problem — the sandbox was flaky."
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a record DENYING that it is a spec problem satisfied the escalation gate" || ok
+git rm -q --cached _ops/runs/R-E3.md >/dev/null 2>&1; rm -f _ops/runs/R-E3.md
+_erec 3 3 "
+**Escalated**: raised with the owner — the brief is ambiguous."
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "the line the refusal prints does not satisfy the gate that prints it"
+git rm -q --cached _ops/runs/R-E3.md >/dev/null 2>&1; rm -f _ops/runs/R-E3.md
+_erec 3 3 ""
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q '\*\*Escalated\*\*:' \
+  && ok || bad "the refusal does not print the line that satisfies it"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/runs/R-E3.md
+git rm -qf _ops/runs/R-E1.md _ops/runs/R-E2.md >/dev/null 2>&1
+git commit -qm "escalation fixture out" >/dev/null 2>&1
 
 # ── the neighbour count reads any declaration form, and only run records ───────────────────
 # Every other check in §1f is format-agnostic (`hits -iF "$need"`); the id reader was the one rigid
