@@ -37,11 +37,22 @@ def root_of(p: Path) -> Path:
 
 
 def field(text: str, *names):
-    """A task field, wherever the template put it: `**Stage**: x`, `stage: x`, inline after `·`."""
+    """A task field, wherever the template put it: `**Stage**: x`, `stage: x`, inline after `·`.
+
+    **An indented line is an example, here as everywhere else.** Markdown makes four spaces or a
+    tab a code block, and both `state_homes` in the guard and `report_state_fields` in the
+    migration skip such a line — this reader did not, and it has no line anchor at all, so it read
+    and REWROTE `    **Stage**: x`. Measured 2026-08-16 (pass eleven): §1c went blind to that line
+    the day the guard learned to skip indents, while this door went on moving it — which is
+    exactly the divergence between what a human reads and what the door moves that §1c exists to
+    prevent, arriving through the repair for it. Up to three leading spaces is still a field;
+    markdown says the fourth makes it code.
+    """
     for n in names:
-        m = re.search(r"\*\*" + n + r"\*\*\s*:\s*([^·|\n]+)", text, re.I)
+        m = re.search(r"^(?![ ]{4}|\t)[^\n]*?\*\*" + n + r"\*\*\s*:\s*([^·|\n]+)",
+                      text, re.I | re.M)
         if not m:
-            m = re.search(r"^[ \t]*" + n + r"\s*:\s*(.+)$", text, re.I | re.M)
+            m = re.search(r"^(?![ ]{4}|\t)[ ]*" + n + r"\s*:\s*(.+)$", text, re.I | re.M)
         if m:
             v = m.group(1).strip()
             if v and "{{" not in v:

@@ -104,7 +104,10 @@ changed() { git -c core.quotePath=false diff --cached --name-only -z "$@" 2>/dev
 # example is written as an indented block, which is plain markdown, was REFUSED by §1c while the
 # migration looking at the same file reported nothing to fix. Measured 2026-08-15 (pass ten): the
 # reader had no path at all, one tool refusing and the other saying there was no problem. The two
-# now agree on what an example is, which matters more than either rule being perfect.
+# now agree on what an example is — and so does `transition.py`, which is the one that matters:
+# it read and REWROTE an indented field the guard had just gone blind to, so the repair for a
+# false refusal opened the exact divergence §1c exists to prevent. All three skip a fence, a
+# blockquote at any indent, and four spaces or a tab. Measured 2026-08-16 (pass eleven).
 # staged_diff <path> — the staged diff for a file, PAIRED with its rename source when it has one.
 # Restricting `git diff` to a single path defeats rename detection: git has nothing to pair the
 # new path with, so it prints the file as wholly added — every line a `+`, not one `-`. Measured

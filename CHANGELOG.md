@@ -26,6 +26,15 @@ filename reopened it: git C-quotes such a path in line mode and `core.quotePath=
 off the non-ASCII half, so the source never matched and the diff fell back to rename-blind. It
 reads a NUL stream now.
 
+**The repair for a false refusal opened the divergence it exists to prevent.** §1c learned to skip
+a four-space-indented line as an example — and `transition.py` did not, and has no line anchor at
+all, so the DOOR went on reading and rewriting `    **Stage**: x` that the guard could no longer
+see. That is precisely the split between what a human reads and what the door moves that §1c is
+for. All three tools — guard, migration, door — now skip a fence, a blockquote at any indent, and
+four spaces or a tab; markdown's own rule keeps up to three spaces a field. The migration's
+blockquote test was column-0 only while the guard's was any indent, so the claim that "the two
+agree" was untrue in a second way as well.
+
 **And `AMR` taught §1c to see renames without teaching it what one is** — `was` came from the new
 path at HEAD, which does not exist, so a pure `git mv` of a legacy two-home task was refused
 quoting a number the file contradicts. "Before" comes from the rename's source.

@@ -167,5 +167,22 @@ printf '# bent\n\n```yaml\nname: bent\nstages: [draft, review, handoff]\ntermina
 [ "$(run _ops/tasks/T-9.md review --by worker-bob)" = 0 ] && ok || bad "a sound ladder was refused"
 [ "$(run _ops/tasks/T-9.md handoff --by worker-bob)" = 1 ] && ok || bad "the worker accepted their own work on a sound ladder"
 
+# ── an indented field is an example to the DOOR too ────────────────────────────────────────
+# The guard's `state_homes` and the migration's report both skip a four-space or tab-indented line
+# as an example; this reader did not, and it has no line anchor, so it read and REWROTE
+# `    **Stage**: x`. Measured 2026-08-16 (pass eleven): §1c went blind to that line the day the
+# guard learned to skip indents, while the door went on moving it — the exact divergence between
+# what a human reads and what the door moves that §1c exists to prevent, arriving through the
+# repair for it. Three cases, because markdown makes the FOURTH space a code block, not the first.
+printf '# T-IND — thing\n\n**Assignee**: ui\n    **Stage**: build\n\n## History\n' > _ops/tasks/T-IND.md
+python3 "$HERE/transition.py" _ops/tasks/T-IND.md review --by w >/dev/null 2>&1 \
+  && bad "the door moved a field indented four spaces — an example everywhere else" || ok
+printf '# T-TAB — thing\n\n**Assignee**: ui\n\t**Stage**: build\n\n## History\n' > _ops/tasks/T-TAB.md
+python3 "$HERE/transition.py" _ops/tasks/T-TAB.md review --by w >/dev/null 2>&1 \
+  && bad "the door moved a tab-indented field" || ok
+printf '# T-TWO — thing\n\n  **Status**: build\n\n## History\n' > _ops/tasks/T-TWO.md
+python3 "$HERE/transition.py" _ops/tasks/T-TWO.md review --by w >/dev/null 2>&1 \
+  && ok || bad "the door refused a field indented two spaces, which markdown still calls a field"
+
 echo "transition: $pass passed, $fail failed"
 exit "$fail"

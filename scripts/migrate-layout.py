@@ -102,7 +102,10 @@ def report_state_fields(root, dry):
             if re.match(r"^[ \t]*(```|~~~)", l):
                 fence = not fence
                 continue
-            if fence or l.startswith(">") or re.match(r"^(\t| {4})", l):
+            # `^\s*>` — a blockquote at ANY indent, matching the guard's `/^[[:space:]]*>/`. This read
+            # column 0 only, so `  > **Status**: x` was a field here and an example there: the two
+            # tools disagreed about a case the comment beside them claimed they agreed on.
+            if fence or re.match(r"^\s*>", l) or re.match(r"^(\t| {4})", l):
                 continue                  # an example is not a field
             if mach is None and MACHINE.match(l):
                 mach = MACHINE.match(l).group(1).strip()
