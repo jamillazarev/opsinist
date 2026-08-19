@@ -421,6 +421,23 @@ raw=$(grep -rEln '\]\([^) ]*\(' --include='*.md' . 2>/dev/null | grep -v '^\./\.
 if [ -n "$raw" ]; then say_fail "raw ( in a markdown URL — percent-encode: $raw"; else say_ok "no raw parens inside markdown URLs"; fi
 
 # CORPUS_PF_TEST is set by test-corpus-preflight.sh when it runs THIS script inside a clone to
+# No shell script in this repository may put text in command position. This is the form for the
+# defect that shipped on 2026-08-16: a deleted check left its heredoc body behind, the body was a
+# `$( … )` at line start, and the pre-commit hook EXECUTED a file named by a link inside a task.
+# `bash -n` passes on that shape — measured — so the syntax check cannot stand in for this one.
+# A lens found it; this is so the next one is found by a run.
+if [ -z "${CORPUS_PF_TEST:-}" ]; then
+  _se=$(python3 scripts/check-shell-exec.py templates/*.sh scripts/*.sh 2>&1); _se_rc=$?
+  if [ "$_se_rc" -eq 0 ]; then
+    say_ok "$(printf '%s' "$_se" | sed 's/^  //')"
+  else
+    printf '%s\n' "$_se" | grep '✗' | sed 's/^  ✗ //' | while IFS= read -r _l; do
+      say_fail "$_l"
+    done
+    fail=1
+  fi
+fi
+
 # Every suite in scripts/ must be run by something, and the exclusion list is DECLARED here so it
 # can be checked rather than hidden in a `grep -v` further down. The previous form promised this
 # and did not do it: its body fired only for the literal string `test-audit-gate.sh` and fell

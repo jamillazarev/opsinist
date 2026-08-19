@@ -19,6 +19,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/changelog.py` — The changelog skeleton — collation the author writes over, never the entry itself
 - `scripts/check-freshness.py` — Check-date validator: a date, not a tick
 - `scripts/check-links.py` — Cross-reference validator: does the file exist, and does the section inside it?
+- `scripts/check-shell-exec.py` — Refuse a shell script that would execute text as a command
 - `scripts/check-structure.py` — Structural integrity of the docs. Every check here exists because the defect it
 - `scripts/coverage-map.py` — Regenerate the coverage map: what holds each rule, and what exercises each holder
 - `scripts/fetch-source.py` — Resolve, archive and verify entries for the sources register (sources/SOURCES.md)
