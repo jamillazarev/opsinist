@@ -30,7 +30,12 @@ this file exists to stop anyone re-deriving per session.
    version and name, and a repeated heading is the first thing every reader scrolls past:
    `python3 -c "…"` strips `## X.Y.Z — DATE` to `*DATE*`, then
    `gh release create vX --notes-file …`.
-6. **Site**: `cd ~/Dev/ai && python3 scripts/generate-opsinist.py ~/Dev/opsinist` — commit
+6. **Site — BOTH generators.** `cd ~/Dev/ai`, then this repo's own (`scripts/generate-opsinist.py
+   ~/Dev/opsinist`) **and the sibling's** (`scripts/generate.py <its repo>`). This step named only
+   the first for as long as it has existed, so the sibling's pages went stale by two releases —
+   found 2026-08-20, its changelog page still showing a date corrected before that tag was cut,
+   i.e. the site describing a version that shipped under a different one. A release touches one
+   repository; the site carries both. Commit
    and push that repo too; a release that skips this ships docs describing the previous
    version. New page-worthy files need a route in the generator first.
 7. **Installs on this machine**: `bash scripts/find-installs.sh`, follow each row's route,
@@ -61,8 +66,12 @@ nothing accumulates outside versions.
   first (`cmd > /tmp/out 2>&1; echo $?`), then read the tail. Measured on this repo: a red
   preflight rode a green pipeline into main. **And pipefail resurrects it in mirror**: under
   `set -o pipefail`, `cmd | grep -q` returns *cmd's* failure even when grep **matched** — a
-  found phrase read as absent (measured 2026-08-14 in the company-preflight suite). Wrap the
-  left side in `(… || true)` when the pipe's verdict is the right side's.
+  found phrase read as absent (measured 2026-08-14 in the company-preflight suite). **`( … || true )`
+  does NOT fix it** — verified under bash the same week: `grep -q` exits on its first match and
+  SIGPIPEs the producer, and a subshell's `|| true` cannot catch a signal that lands on the left
+  side of a pipe. **Count instead**: `grep -c` drains its input, so nothing can signal it —
+  `[ "$(… | grep -c pattern)" -gt 0 ]`. Measured again 2026-08-16 at rc=141 on a large input with
+  the match on line 1, in a check written the day before by someone who had read this note.
 
 - **The `grep` you test at the prompt is not the `grep` a script gets** (measured 2026-08-15).
   In this tool's shell `grep` is a **shell function** (from the zsh snapshot) resolving to
