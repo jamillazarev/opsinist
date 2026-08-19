@@ -421,6 +421,41 @@ raw=$(grep -rEln '\]\([^) ]*\(' --include='*.md' . 2>/dev/null | grep -v '^\./\.
 if [ -n "$raw" ]; then say_fail "raw ( in a markdown URL — percent-encode: $raw"; else say_ok "no raw parens inside markdown URLs"; fi
 
 # CORPUS_PF_TEST is set by test-corpus-preflight.sh when it runs THIS script inside a clone to
+# A dated round must name the CONFIG its rate is a claim about. The runsheet's own header says it
+# — "The rate a row produces is a claim about its tier" — and five of five dated entries named no
+# player anywhere in their bodies, including the 103×5 round whose 26.3% is quoted across the
+# corpus. Borrowed from `smevals`, which makes the config a first-class object beside the eval, the
+# task and the grader; here it is one line, because the gap was never the model of the thing, it
+# was that nobody wrote it down. `unknown` is an accepted value, as everywhere else.
+if [ -f evals/RUNS.md ]; then
+  python3 - <<'RUNSPY'
+import re, sys
+t = open("evals/RUNS.md", encoding="utf-8").read()
+bad = []
+# FROM THE DAY THE RULE ARRIVED, not backwards. 27 entries predate it, their artifacts are gone,
+# and demanding `unknown` in each would be 27 retro-edits to records nobody can verify — a rule
+# that asks for that is a rule someone deletes. Same law this repository applies to its own guard:
+# enforce what a commit CREATES, not what the project already holds.
+CUTOFF = "2026-08-16"
+for p in re.split(r"\n(?=## 20\d\d-)", t):
+    m = re.match(r"## (20\d\d-\d\d-\d\d)", p)
+    if not m or m.group(1) < CUTOFF:
+        continue
+    head = p.split("\n")[0]
+    if not re.search(r"\*\*Config\*\*:", p):
+        bad.append(head[:70])
+print("\n".join(bad))
+RUNSPY
+fi > /tmp/.pf-cfg.$$ 2>/dev/null
+if [ -s /tmp/.pf-cfg.$$ ]; then
+  while IFS= read -r _e; do
+    [ -n "$_e" ] && say_fail "the round \"$_e\" names no **Config** — a rate is a claim about a \
+corpus AND a model, and this entry does not say which model. Add one line: \`**Config**: player \
+<model> · judge <model> · N=<n>\`, with \`unknown\` where it cannot be recovered"
+  done < /tmp/.pf-cfg.$$
+fi
+rm -f /tmp/.pf-cfg.$$
+
 # No shell script in this repository may put text in command position. This is the form for the
 # defect that shipped on 2026-08-16: a deleted check left its heredoc body behind, the body was a
 # `$( … )` at line start, and the pre-commit hook EXECUTED a file named by a link inside a task.

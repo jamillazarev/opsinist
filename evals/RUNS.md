@@ -1209,6 +1209,8 @@ faces the player alone.
 
 ## 2026-08-09 · the 0.2.6 rounds — a rig lesson, a limit, and the first honest number for `relay`
 
+**Config**: **unknown** — this entry names no player anywhere in its body and the round's artifacts are gone, so the tier its rate is a claim about cannot be recovered. `unknown` rather than the rig's default, which would be a guess wearing a measurement.
+
 **Three dispatches, and only the third measures anything.** Worth recording in order, because two
 of the three failed for reasons that are about the rig rather than the corpus.
 
@@ -1266,6 +1268,8 @@ that run is the one to open first if the number is ever challenged.
 ---
 
 ## 2026-08-14 · the 0.2.7 full round — 103 × 5, two limit walls, and the doors measured at their weakest link
+
+**Config**: **unknown** — this entry names no player anywhere in its body and the round's artifacts are gone, so the tier its rate is a claim about cannot be recovered. `unknown` rather than the rig's default, which would be a guess wearing a measurement.
 
 **515 dispatches against a frozen read-only corpus** (`d4df8f5c…`, 0.2.7 at HEAD), N=5 over all
 103 rows including the two new scenarios. **The rig fought back twice**: the dispatch wall hit
@@ -1335,6 +1339,8 @@ absent, the mirror of "a pipe eats the exit code". The assertion now wraps the l
 
 ## 2026-08-15 · the refusal round — the first time a gate spoke and someone counted what happened
 
+**Config**: player `haiku` (the rig's default floor) · judge `sonnet` · N=5
+
 **Seven scenarios × N=5, every one wired**, against a frozen corpus (`553081b5…`). Zero of the
 suite's previous 114 rows had ever put a player in front of a refusal; twelve checks had landed
 in the guard in two days, each with a mutation pair and none with a behavioural measurement.
@@ -1395,6 +1401,8 @@ first evidence that the current wording still does not land.
 
 ## 2026-08-15 · the re-round, and the fixture that was a project shape nobody has
 
+**Config**: player `haiku` (the rig's default floor) · judge `sonnet` · N=5
+
 The three messages the refusal round left owed were rewritten in the shape that had gone 5/5 —
 naming the act rather than the process — and N90, N92 and N95 were re-run at N=5 against a fresh
 freeze. **The result is one moved, one unmoved, and one that turned out never to have been under
@@ -1443,6 +1451,8 @@ stopped at the decision to edit someone else's file. That is not a gate defect a
 defect, and the next attempt on it should not be a fourth rewrite of the same paragraph.
 
 ## 2026-08-15 · the same three with the guide installed — the rule is read and not used
+
+**Config**: player `haiku` (the rig's default floor) · judge `sonnet` · N=5
 
 `wired;` now writes `CLAUDE.md`, so N90, N92 and N95 were re-run against a project holding both
 the enforcement and the instruction. **Nothing was repaired.**
