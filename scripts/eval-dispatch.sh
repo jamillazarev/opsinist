@@ -75,6 +75,16 @@ base=$(git -C "$ws" rev-parse HEAD 2>/dev/null || true)
 # The turn loop. stream-json keeps every tool call in the transcript — the boundary tripwire
 # and the judge both read it. A resumed turn continues the same session, so a multi-turn
 # scenario is one conversation, not three cold starts.
+# `timeout` is not part of macOS — it arrives with Homebrew's coreutils. Measured 2026-08-20 in
+# the sibling tree: a suite that wrapped its calls in `timeout` was green on this machine and
+# failed every assertion with 127 on a runner without it. Here the timeout does real work — it is
+# what stops a hung run from holding a round forever — so it is not silently skipped. It is used
+# when present, and its absence is SAID once, because an unbounded run that looks bounded is the
+# worse of the two failures. Resolved at TOP LEVEL: the first version of this sat inside the turn
+# loop, where it would have re-resolved and re-warned once per turn, up to 55 times a run.
+_TMO=$(command -v timeout || command -v gtimeout || true)
+[ -n "$_TMO" ] || echo "  ! no \`timeout\` on this machine (it is Homebrew's, not macOS's) — runs are UNBOUNDED" >&2
+
 sid=""
 i=0
 printf '%s\n' "$turns" | sed 's/ ||| /\n/g' | while IFS= read -r turn; do
@@ -86,7 +96,7 @@ printf '%s\n' "$turns" | sed 's/ ||| /\n/g' | while IFS= read -r turn; do
   args=( --model "${PLAYER_MODEL:-haiku}" -p "$turn" --plugin-dir "$CORPUS" --dangerously-skip-permissions
          --max-turns 55 --output-format stream-json --verbose )
   [ -n "$sid" ] && args+=( --resume "$sid" )
-  ( cd "$ws" && CLAUDE_CONFIG_DIR="$PHOME" timeout 420 claude "${args[@]}" </dev/null ) >> "$out" 2>>"$logs/$ID-$N.err"
+  ( cd "$ws" && CLAUDE_CONFIG_DIR="$PHOME" ${_TMO:+$_TMO 420} claude "${args[@]}" </dev/null ) >> "$out" 2>>"$logs/$ID-$N.err"
   rc=$?
   [ $rc -ne 0 ] && echo "turn $i exit $rc" >> "$logs/$ID-$N.err"
   sid=$(python3 -c "

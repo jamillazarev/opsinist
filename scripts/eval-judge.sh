@@ -81,7 +81,17 @@ $compact"
 # verdict) cache_write=13-15k (the prompt, written to cache and never read back, because every
 # judge call is a fresh session). ~$0.095 a verdict; the 515-verdict round cost ≈$49 of judging.
 # The compaction is not the cost — 189,634 raw bytes reduce to 3,936 — the per-session prefix is.
-raw=$(CLAUDE_CONFIG_DIR="$JHOME" timeout 240 claude --model sonnet -p "$prompt" --output-format json </dev/null 2>>"$SUITE/logs/$ID-$N.err")
+# `timeout` is not part of macOS — it arrives with Homebrew's coreutils. Measured 2026-08-20 in
+# the sibling tree: a suite that wrapped its calls in `timeout` was green on this machine and
+# failed every assertion with 127 on a runner without it. Here the timeout does real work — it is
+# what stops a hung run from holding a round forever — so it is not silently skipped. It is used
+# when present, and its absence is SAID once, because an unbounded run that looks bounded is the
+# worse of the two failures. Resolved at TOP LEVEL: the first version of this sat inside the turn
+# loop, where it would have re-resolved and re-warned once per turn, up to 55 times a run.
+_TMO=$(command -v timeout || command -v gtimeout || true)
+[ -n "$_TMO" ] || echo "  ! no \`timeout\` on this machine (it is Homebrew's, not macOS's) — runs are UNBOUNDED" >&2
+
+raw=$(CLAUDE_CONFIG_DIR="$JHOME" ${_TMO:+$_TMO 240} claude --model sonnet -p "$prompt" --output-format json </dev/null 2>>"$SUITE/logs/$ID-$N.err")
 
 # The judge has the same failure mode as the player and had no detection for it: a limited
 # judge returns the harness's banner, which parses as nothing and was written down as
