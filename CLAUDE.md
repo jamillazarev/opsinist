@@ -83,6 +83,12 @@ nothing accumulates outside versions.
   behaviour by running it the way the script will** (`bash -c` / a temp script), and prefer
   forms that cannot differ: `grep -o … | grep -c .` counts occurrences everywhere.
 
+- **`timeout` is Homebrew's, not macOS's** (measured 2026-08-20): a suite that wrapped calls in
+  `timeout 90` was green on this machine and failed every assertion with **127** on a macos-latest
+  runner. Third instance of the grep/awk class — the tool the author has is not the tool the
+  target gets. Where the bound is belt-and-braces, make it conditional (`${_TMO:+$_TMO 90}`);
+  where it does real work, warn once at top level that runs are unbounded — never inside a loop.
+
 - Eval clean-room: homes under the session scratchpad need their **own** keychain entries
   (`Claude Code-credentials-<sha256(home)[:8]>`) and their own logins for long rounds —
   copied tokens lose the refresh race. Details and traps: `evals/RUNS.md`.
