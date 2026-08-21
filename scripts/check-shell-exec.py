@@ -28,12 +28,97 @@ Two shapes are refused:
 import re
 import sys
 
-# `<<` or `<<-`, then an optionally quoted delimiter. `<<<` is a here-STRING and opens nothing.
-HEREDOC = re.compile(r"<<-?\s*(?![<])(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1")
+# `<<` or `<<-`, then an optionally quoted delimiter. `<<<` is a here-STRING and opens nothing —
+# and the guard for that is a look-BEHIND, not a look-ahead. The lookahead form rejected only the
+# first `<` of `<<<`; the scanner then re-matched at the second and opened a phantom body named
+# after the here-string's word, swallowing the rest of the file. Measured 2026-08-21.
+# The delimiter class carries `-` because `<<END-OF` is legal bash: a class that stopped at the
+# hyphen truncated the delimiter to `END`, so the real terminator never matched and everything
+# after the body was read as heredoc.
+HEREDOC = re.compile(r"(?<!<)<<-?\s*(['\"]?)([A-Za-z_][A-Za-z0-9_-]*)\1")
 CMD_POS = re.compile(r"^[ \t]*(\$\(|`)")
 # A lone ALL-CAPS-ish word: what a heredoc delimiter looks like when its opener is gone. Deliberately
 # narrow — a bare lowercase word alone on a line is usually a real command (`done`, `fi`, `esac`).
-LONE_WORD = re.compile(r"^[ \t]*([A-Z][A-Z0-9_]{2,})[ \t]*$")
+# `EOF` was excluded by name and with no reason given, which blinded this check for the commonest
+# delimiter in shell. Removing the exclusion produces no report on this repository's own scripts.
+LONE_WORD = re.compile(r"^[ \t]*([A-Z][A-Z0-9_-]{2,})[ \t]*$")
+
+
+def _code_only(line):
+    """The line with quoted spans blanked, same-line `$( … )` spans blanked, and an unquoted
+    trailing comment cut.
+
+    The opener scan must run on this, not on the raw line. Three shapes otherwise open a heredoc
+    that shell never opens — a trailing comment mentioning `<<WORD`, a `<<WORD` inside a quoted
+    string, and `$((1<<n))` arithmetic — and each swallows every following line until a matching
+    terminator, so the checker goes silent on the rest of the file and prints that no text reaches
+    command position. All three measured 2026-08-21.
+
+    A `$( … )` span is blanked only when it CLOSES on the same line. An unclosed one is a
+    multi-line command substitution whose opener may itself carry the heredoc — `v=$(python3 -
+    <<BLOCK` is written twice in this repository — and blanking it orphans the terminator below.
+    """
+    # A QUOTED heredoc delimiter — `<<'EOF'`, the commonest spelling in this repository — is a
+    # quoted span that must survive masking, or the opener disappears and the body below it is
+    # read as live code. Measured 2026-08-21: blanking quoted spans wholesale produced 24 reports
+    # on this repository's own scripts, every one of them the cascade from a lost `<<'EOF'`.
+    protected = [m.span() for m in re.finditer(r"<<-?[ \t]*(['\"])[A-Za-z_][A-Za-z0-9_-]*\1", line)]
+    out, i, n = [], 0, len(line)
+    in_sq = in_dq = False
+    while i < n:
+        span = next((s for s in protected if s[0] == i), None) if not (in_sq or in_dq) else None
+        if span:
+            out.append(line[span[0]:span[1]]); i = span[1]; continue
+        c = line[i]
+        if c == "\\" and not in_sq:
+            # keep the backslash itself: a line ENDING in one is a continuation, and blanking it
+            # loses the only evidence of that
+            out.append("\\")
+            if i + 1 < n:
+                out.append(" ")
+            i += 2; continue
+        if not in_sq and not in_dq and c == "$" and i + 1 < n and line[i + 1] == "(":
+            depth, j = 0, i
+            while j < n:
+                if line[j] == "(":
+                    depth += 1
+                elif line[j] == ")":
+                    depth -= 1
+                    if depth == 0:
+                        j += 1
+                        break
+                j += 1
+            if depth == 0:                      # closed on this line: it is not opener territory
+                out.append(" " * (j - i)); i = j; continue
+            out.append(line[i:])                # unclosed: leave it visible, opener may be inside
+            break
+        if in_dq:
+            out.append(" " if c != '"' else c)
+            if c == '"':
+                in_dq = False
+        elif in_sq:
+            out.append(" " if c != "'" else c)
+            if c == "'":
+                in_sq = False
+        else:
+            if c == "#" and (i == 0 or line[i - 1] in " \t"):
+                break                            # an unquoted `#` ends the line for shell
+            out.append(c)
+            if c == "'":
+                in_sq = True
+            elif c == '"':
+                in_dq = True
+        i += 1
+    return "".join(out)
+
+
+def _continues(code):
+    """Whether this code line ends in an odd run of backslashes — the next line is its argument
+    list, not command position. `echo x \\` then an indented `$(date)` was reported as a fault."""
+    n = 0
+    while n < len(code) and code[len(code) - 1 - n] == "\\":
+        n += 1
+    return n % 2 == 1
 
 
 def _quote_state(line, in_dq):
@@ -99,6 +184,8 @@ def scan(path):
     pending = []          # delimiters opened on this line, closing in order
     open_delims = []      # the stack of bodies we are inside
     in_dq = False         # a double-quoted string still running from an earlier line
+    cont = False          # the previous code line ended in a continuation backslash
+    depth = 0             # group parens open from earlier lines: `files=(` … `)`
     for n, line in enumerate(lines, 1):
         if in_dq:
             in_dq = _quote_state(line, True)
@@ -111,22 +198,28 @@ def scan(path):
 
         stripped = line.lstrip()
         if not stripped.startswith("#"):
-            if CMD_POS.match(line):
+            code = _code_only(line)
+            # A continuation line carries arguments, and a line inside an unclosed group paren
+            # carries list elements — neither is command position. Both were reported as faults
+            # on ordinary bash, and a checker that reports ordinary bash is a checker that gets
+            # deleted. Accepted with it: inside a multi-line `$( … )` a nested line-leading
+            # `$( )` is suppressed too — a true positive traded for the two false ones.
+            if CMD_POS.match(line) and not cont and depth <= 0:
                 faults.append((n, "a command substitution in COMMAND POSITION — its output is "
                                   "executed as a command, so any text it produces runs"))
             m = LONE_WORD.match(line)
-            if m and m.group(1) not in ("EOF",):
+            if m:
                 faults.append((n, f"`{m.group(1)}` alone on a line — an orphaned heredoc "
                                   f"terminator: something opened with `<<{m.group(1)}` and no "
                                   f"longer does, so its body is live code"))
-
-        if not stripped.startswith("#"):
             in_dq = _quote_state(line, False)
-        # openers on this line (comments can carry `<<WORD` in prose, so skip them)
-        if not stripped.startswith("#"):
-            pending = [mm.group(2) for mm in HEREDOC.finditer(line)]
+            # openers on this line, read from the CODE — a `<<WORD` inside a comment or a string
+            # or an arithmetic shift opens nothing in shell and must open nothing here
+            pending = [mm.group(2) for mm in HEREDOC.finditer(code)]
             if pending:
                 open_delims = pending
+            depth = max(0, depth + code.count("(") - code.count(")"))
+            cont = _continues(code)
     return faults
 
 

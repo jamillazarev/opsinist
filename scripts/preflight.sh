@@ -474,22 +474,25 @@ rm -f /tmp/.pf-cfg.$$
 # `$( … )` at line start, and the pre-commit hook EXECUTED a file named by a link inside a task.
 # `bash -n` passes on that shape — measured — so the syntax check cannot stand in for this one.
 # A lens found it; this is so the next one is found by a run.
-if [ -z "${CORPUS_PF_TEST:-}" ]; then
-  _se=$(python3 scripts/check-shell-exec.py templates/*.sh scripts/*.sh 2>&1); _se_rc=$?
-  if [ "$_se_rc" -eq 0 ]; then
-    say_ok "$(printf '%s' "$_se" | sed 's/^  //')"
-  else
-    # TWO breaks lived in these four lines, and the gate exited 0 through both — measured
-    # 2026-08-21 by two lenses independently. (1) `fail=1` set a variable this file does not
-    # read: the flag is `FAIL`, so the belt was fastened to nothing. (2) the `say_fail` calls
-    # sat on the RIGHT of a pipe, where a subshell owns them, so even the correct name would
-    # have died with it. A gate that prints its findings in red and then says `preflight
-    # passed` is worse than no gate: it manufactures the evidence that it held.
-    while IFS= read -r _l; do
-      say_fail "$_l"
-    done < <(printf '%s\n' "$_se" | grep '✗' | sed 's/^  ✗ //')
-    FAIL=1
-  fi
+# **Not behind `CORPUS_PF_TEST`.** It was, and that flag is set by the one suite in this repository
+# that runs preflight inside a clone — so the only place able to observe whether this gate GOES RED
+# was the one place guaranteed to skip it. That is how `fail=1` survived: no test could reach the
+# block. The flag exists to stop the suite battery recursing, not to skip checks; this check spawns
+# no suite, so it runs always. Found by the completeness critic, 2026-08-21 (pass twelve).
+_se=$(python3 scripts/check-shell-exec.py templates/*.sh scripts/*.sh 2>&1); _se_rc=$?
+if [ "$_se_rc" -eq 0 ]; then
+  say_ok "$(printf '%s' "$_se" | sed 's/^  //')"
+else
+  # TWO breaks lived in these four lines, and the gate exited 0 through both — measured
+  # 2026-08-21 by two lenses independently. (1) `fail=1` set a variable this file does not
+  # read: the flag is `FAIL`, so the belt was fastened to nothing. (2) the `say_fail` calls
+  # sat on the RIGHT of a pipe, where a subshell owns them, so even the correct name would
+  # have died with it. A gate that prints its findings in red and then says `preflight
+  # passed` is worse than no gate: it manufactures the evidence that it held.
+  while IFS= read -r _l; do
+    say_fail "$_l"
+  done < <(printf '%s\n' "$_se" | grep '✗' | sed 's/^  ✗ //')
+  FAIL=1
 fi
 
 # Every suite in scripts/ must be run by something, and the exclusion list is DECLARED here so it
