@@ -624,6 +624,54 @@ git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/runs/R-F3.md
 git rm -qf _ops/runs/R-F1.md _ops/runs/R-F2.md _ops/runs/README.md >/dev/null 2>&1
 git commit -qm "format fixture out" >/dev/null 2>&1
 
+# ── and the two forms the CORPUS ITSELF prescribes ─────────────────────────────────────────
+# The reader above was measured on a `task:` line, which no shipped template actually writes. The
+# two that ARE written both read as EMPTY until 2026-08-21: `# T-ABC123 — title` is line 1 of
+# templates/TASK-template.md, and `| **Task** | T-ABC123 · title |` is line 10 of
+# templates/RUN-template.md. So §1f's neighbour count — the capability this range shipped — was
+# void for every record written the way the corpus tells people to write them, while this suite
+# stayed green on a form none of them use. Three lenses and the critic found it separately.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+mkdir -p _ops/runs
+# the TABLE row, exactly as RUN-template.md prescribes it
+_trec(){ printf '# R-%s — a run\n\n| **Task** | %s \xc2\xb7 a title |\n| **Attempt** | %s |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' "$1" "$2" "$3" > "_ops/runs/R-$1.md"; }
+_trec B1 T-TAB01 1; _trec B2 T-TAB01 2
+git add -A && git commit -qm "table fixture" >/dev/null 2>&1
+_trec B3 T-TAB01 1
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a third record declaring its task in the template's own **Task** row counted no neighbours" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/runs/R-B3.md
+git rm -qf _ops/runs/R-B1.md _ops/runs/R-B2.md >/dev/null 2>&1
+git commit -qm "table fixture out" >/dev/null 2>&1
+
+# the ID-FIRST title, exactly as TASK-template.md line 1 prescribes it
+mkdir -p _ops/runs
+_hrec(){ printf '# %s \xe2\x80\x94 a run for it\n\n| **Attempt** | %s |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' "$1" "$2" > "_ops/runs/R-$3.md"; }
+_hrec T-HDR01 1 H1; _hrec T-HDR01 2 H2
+git add -A && git commit -qm "header fixture" >/dev/null 2>&1
+_hrec T-HDR01 1 H3
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a third record whose title LEADS with the id counted no neighbours — the shape TASK-template writes" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/runs/R-H3.md
+git rm -qf _ops/runs/R-H1.md _ops/runs/R-H2.md >/dev/null 2>&1
+git commit -qm "header fixture out" >/dev/null 2>&1
+
+# and the twin the widened reader must NOT break: a MENTION is still not a declaration, or §1f
+# would count every record that merely refers to a neighbouring task.
+mkdir -p _ops/runs
+_mrec(){ printf '# R-%s — a run\n\ntask: T-MEN01\n\n| **Attempt** | %s |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n\n| notes | related to T-OTHER9 |\n|---|---|\n\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' "$1" "$2" > "_ops/runs/R-$1.md"; }
+_mrec M1 1; _mrec M2 2
+git add -A && git commit -qm "mention fixture" >/dev/null 2>&1
+printf '# R-M3 — a run\n\ntask: T-OTHER9\n\n| **Attempt** | 1 |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' > _ops/runs/R-M3.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a record declaring T-OTHER9 was counted against two records that merely MENTION it"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/runs/R-M3.md
+git rm -qf _ops/runs/R-M1.md _ops/runs/R-M2.md >/dev/null 2>&1
+git commit -qm "mention fixture out" >/dev/null 2>&1
+
 # ── a RUN RECORD delivered as a rename must not escape §1f ─────────────────────────────────
 # §1f was moved from `--diff-filter=A` to `AR` in this release because "a record delivered as a
 # rename escaped this gate whole", and nothing asserted it: an adversarial lens reverted the

@@ -120,7 +120,16 @@ changed() { git -c core.quotePath=false diff --cached --name-only -z "$@" 2>/dev
 # otherwise loose section is the reader that silently counts zero. The id is bounded on both sides
 # so `T-AB` never matches inside `T-ABCD`.
 record_task() {
-  grep -m1 -oiE '(^#[^#]|\*\*task\*\*|^[[:space:]]*task[[:space:]]*:)[^|]*[^0-9A-Za-z-](T-[0-9A-Za-z-]+)' \
+  # **Both bracketing parts are optional, and one pipe may be crossed.** Measured 2026-08-21
+  # (pass twelve, three lenses and the critic): the mandatory separator before the id made
+  # `# T-ABC123 — title` — line 1 of this repository's own TASK template — read as EMPTY, and
+  # `[^|]*` could not cross a table pipe, so `| **Task** | T-ABC123 |` — line 10 of its RUN
+  # template — read as empty too. Two of the four shapes the corpus itself prescribes were
+  # invisible to the reader that decides whether a run record declares a task, which silently
+  # voided §1f's neighbour count and the escalation gate built on it. One pipe only, so a
+  # DECLARATION still differs from a MENTION: `see also T-ZZZ999`, `blocked_by: T-ZZZ999` and a
+  # distant `| notes | related to T-ZZZ999 |` all still read empty, which is what §1f needs.
+  grep -m1 -oiE '(^#[^#]|\*\*task\*\*|^[[:space:]]*task[[:space:]]*:)(([^|]*\|)?[^|]*[^0-9A-Za-z-])?(T-[0-9A-Za-z-]+)' \
     | grep -oE 'T-[0-9A-Za-z-]+' | tail -1
 }
 
