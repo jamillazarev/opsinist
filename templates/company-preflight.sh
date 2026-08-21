@@ -218,12 +218,24 @@ done
 # The escape: a staged `_ops/DECISIONS.md` line naming the file and saying it is retired. A
 # gate with no exit is a gate people pass with --no-verify, which is what this file is against.
 retired_ok=""
+# **When the retired file IS `_ops/DECISIONS.md`, its own remedy cannot be performed.** The escape
+# asks for an added line inside that file, and the commit's whole content is that the file stops
+# existing at that path — so deleting it, renaming it, or emptying it were all refused with an
+# instruction nobody could follow. Measured 2026-08-21 (pass twelve). In that one case the
+# retirement line is read from the WHOLE staged diff: it must still be written, dated and
+# specific, but it may live wherever the decisions live now — which is exactly what the commit
+# is declaring. Every other retirement still requires the line in DECISIONS itself.
+_dec_retiring=no
+printf '%s\n' $gone $emptied | hits -xF '_ops/DECISIONS.md' && _dec_retiring=yes
 if [ -n "$gone$emptied" ] \
-   && ( git diff --cached --name-only 2>/dev/null || true ) | hits -xF '_ops/DECISIONS.md'; then
+   && { [ "$_dec_retiring" = yes ] \
+        || ( git diff --cached --name-only 2>/dev/null || true ) | hits -xF '_ops/DECISIONS.md'; }; then
   # The added DECISIONS lines, read once.
   # The added DECISIONS lines, fences stripped: a name and a verb inside a ```-block is an
   # example, not a decision, and §16 already reads fields that way.
-  _dec_added=$( ( git diff --cached -U0 -- _ops/DECISIONS.md 2>/dev/null || true ) \
+  _dec_scope=_ops/DECISIONS.md
+  [ "$_dec_retiring" = yes ] && _dec_scope=.
+  _dec_added=$( ( git diff --cached -U0 -- "$_dec_scope" 2>/dev/null || true ) \
                 | grep '^+' | grep -v '^+++ ' | sed 's/^+//' \
                 | awk '/^[[:space:]]*```/{f=!f; next} !f' || true)
   for f in $gone $emptied; do
@@ -242,8 +254,9 @@ if [ -z "$retired_ok" ] && { [ -n "$gone" ] || [ -n "$emptied" ]; }; then
   say_fail "this commit retires$(printf '%s' " $gone $emptied" | tr '\n' ' ' | tr -s ' ') — these four may be \
 absent because they have nothing to hold yet, but removing, renaming or emptying one that \
 exists also removes the checks keyed on it (freshness, append-only, entitlements). If the \
-register is genuinely being retired, add a line to _ops/DECISIONS.md in this same commit, in \
-this shape — the file's own name and the word retired, one line per file:
+register is genuinely being retired, add a line in this same commit — to _ops/DECISIONS.md, or, \
+when DECISIONS itself is what is being retired, to wherever the decisions live now — in \
+this shape: the file's own name and the word retired, one line per file:
 $(for _f in $gone $emptied; do printf '    - %s retiring %s: <where the facts live now>\n' "$(date +%Y-%m-%d)" "$_f"; done)"
 fi
 # The doors travel with this guard (0.2.7), and a wired project without them is the measured
@@ -844,13 +857,26 @@ begins to lie."
     #
     # A WARNING, not a refusal, because a task done by a person legitimately has no run — and it
     # names both ways to be right, so it is answerable rather than nagging.
-    tid=$(basename "$t" .md | grep -oE '^[A-Z]{1,2}-[0-9A-Za-z-]+' || true)
+    # **The id, not the id plus the slug.** The class held `-` and `a-z`, so the shipped filename
+    # convention `T-XXXXXX-slug.md` — the one §1g's own comment cites — produced tid
+    # `T-CCC333-fix-login`, which no run record ever names: the warning fired on EVERY close of a
+    # slug-named task, and was unanswerable, because writing the record it demands could not
+    # silence it. `new-id.py` mints from Crockford base32 (`ALPHABET` there, digits and capitals
+    # only), so the id ends where the first lowercase or hyphen begins. Measured 2026-08-21.
+    # And when the filename carries no id at all — a slug-only name, which the guide permits —
+    # the TITLE is asked, through the same reader §1f uses, so the two sections cannot disagree
+    # about what a declaration is. §10b silently skipped those tasks entirely.
+    tid=$(basename "$t" .md | grep -oE '^[A-Z]{1,2}-[0-9A-Z]+' || true)
+    [ -n "${tid:-}" ] || tid=$( ( staged "$t" 2>/dev/null || cat "$t" 2>/dev/null || true ) | record_task )
     if [ -n "${tid:-}" ]; then
       _has_run=no
       while IFS= read -r -d '' _r; do
-        ( staged "$_r" 2>/dev/null || cat "$_r" 2>/dev/null || true ) \
-          | grep -m1 -oE '^#[^#].*\b'"$tid"'\b|\*\*Task\*\*[^|]*\|[^|]*'"$tid"'\b' \
-          | hits . && { _has_run=yes; break; }
+        # ONE reader, shared with §1f by construction. This carried its own rigid regex while
+        # §1f was converted to `record_task` in the same release, so the two sections read the
+        # same declaration differently — the exact divergence class the release claimed to have
+        # closed. Comparing `record_task`'s output makes a future widening reach both at once.
+        [ "$( ( staged "$_r" 2>/dev/null || cat "$_r" 2>/dev/null || true ) | record_task )" = "$tid" ] \
+          && { _has_run=yes; break; }
       done < <(git ls-files -z -- '_ops/runs/*.md')
       [ "$_has_run" = yes ] || say_warn "$t closes and no run record names $tid — \
 \`cost.md\` stores cost once, at the run, and derives everything else from it, so a task that \

@@ -440,8 +440,14 @@ if [ -n "$raw" ]; then say_fail "raw ( in a markdown URL — percent-encode: $ra
 # corpus. Borrowed from `smevals`, which makes the config a first-class object beside the eval, the
 # task and the grader; here it is one line, because the gap was never the model of the thing, it
 # was that nobody wrote it down. `unknown` is an accepted value, as everywhere else.
+# **The checker's own failure is a failure.** This block redirected with `2>/dev/null`, never read
+# the exit code, and treated an empty output as "no violations" — so any crash inside it (a typo, a
+# regex error, a future edit) silently disarmed the gate while preflight printed nothing at all.
+# The class this corpus keeps meeting: a gate that cannot fail loudly is a gate that has stopped.
+# Measured 2026-08-21 (pass twelve).
 if [ -f evals/RUNS.md ]; then
-  python3 - <<'RUNSPY'
+  _cfg=$(mktemp); _cfge=$(mktemp)
+  python3 - > "$_cfg" 2> "$_cfge" <<'RUNSPY'
 import re, sys
 t = open("evals/RUNS.md", encoding="utf-8").read()
 bad = []
@@ -455,19 +461,23 @@ for p in re.split(r"\n(?=## 20\d\d-)", t):
     if not m or m.group(1) < CUTOFF:
         continue
     head = p.split("\n")[0]
-    if not re.search(r"\*\*Config\*\*:", p):
+    # A NON-SPACE VALUE, not the bare label. `**Config**:` with nothing after it satisfied the
+    # substring test — the substring-not-value class this same release names as repaired twice
+    # elsewhere. `unknown` still passes, by design: it is an answer.
+    if not re.search(r"\*\*Config\*\*:[ \t]*\S", p):
         bad.append(head[:70])
 print("\n".join(bad))
 RUNSPY
-fi > /tmp/.pf-cfg.$$ 2>/dev/null
-if [ -s /tmp/.pf-cfg.$$ ]; then
+  _cfg_rc=$?
+  [ "$_cfg_rc" -eq 0 ] || say_fail "the **Config** checker itself exited $_cfg_rc — its silence \
+means nothing until it runs: $(head -c 200 "$_cfge" | tr '\n' ' ')"
   while IFS= read -r _e; do
-    [ -n "$_e" ] && say_fail "the round \"$_e\" names no **Config** — a rate is a claim about a \
-corpus AND a model, and this entry does not say which model. Add one line: \`**Config**: player \
+    [ -n "$_e" ] && say_fail "the round \"$_e\" names no **Config** value — a rate is a claim about \
+a corpus AND a model, and this entry does not say which model. Add one line: \`**Config**: player \
 <model> · judge <model> · N=<n>\`, with \`unknown\` where it cannot be recovered"
-  done < /tmp/.pf-cfg.$$
+  done < "$_cfg"
+  rm -f "$_cfg" "$_cfge"
 fi
-rm -f /tmp/.pf-cfg.$$
 
 # No shell script in this repository may put text in command position. This is the form for the
 # defect that shipped on 2026-08-16: a deleted check left its heredoc body behind, the body was a

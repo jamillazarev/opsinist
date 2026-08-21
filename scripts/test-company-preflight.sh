@@ -572,6 +572,77 @@ git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git rm -qf _ops/tasks/T-COST.md _ops/runs/R-C1.md >/dev/null 2>&1
 git commit -qm "cost fixture out" >/dev/null 2>&1
 
+# ── retiring _ops/DECISIONS.md itself must be POSSIBLE ─────────────────────────────────────
+# The escape asks for an added line inside DECISIONS, and when DECISIONS is what is being retired
+# the commit's whole content is that the file stops existing there — so every literal reading was
+# refused and the printed remedy could not be followed. A gate with an impossible exit is the gate
+# people pass with --no-verify. Measured 2026-08-21 (pass twelve). The pair: the honest retirement
+# passes, and a retirement with no line anywhere is still refused.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# Decisions\n\n- 2026-08-01 · we log decisions here · because · owner\n' > _ops/DECISIONS.md
+printf '# Tooling\n\n| tool | why |\n|---|---|\n' > _ops/TOOLING.md
+git add -A && git commit -qm "decisions fixture" >/dev/null 2>&1
+# the honest move: rename it, and record the retirement where the decisions now live
+git mv _ops/DECISIONS.md _ops/LOG.md >/dev/null 2>&1
+printf -- '\n- 2026-08-21 retiring _ops/DECISIONS.md: the log lives at _ops/LOG.md now\n' >> _ops/LOG.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "retiring _ops/DECISIONS.md with the reason recorded in its successor was refused — the remedy is impossible"
+# `git checkout -- .` restores DECISIONS but leaves the untracked LOG.md the rename created, so
+# the second `git mv` failed and staged NOTHING — the assertion below then passed a preflight that
+# had been handed an empty commit. Caught by the assertion disagreeing with a hand probe.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/LOG.md
+# and the twin that must still refuse: the same rename with nothing recorded anywhere
+git mv _ops/DECISIONS.md _ops/LOG.md >/dev/null 2>&1
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "_ops/DECISIONS.md was retired with no line anywhere and nothing objected" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/LOG.md
+git rm -qf _ops/DECISIONS.md _ops/TOOLING.md >/dev/null 2>&1
+git commit -qm "decisions fixture out" >/dev/null 2>&1
+
+# ── §10b reads the ID, not the id plus the slug — and asks the title when there is none ────
+# The id was cut from the filename with a class holding `-` and `a-z`, so the shipped convention
+# `T-XXXXXX-slug.md` — the one §1g's own comment cites — produced `T-CCC333-fix-login`, which no
+# record ever names: the warning fired on EVERY close of a slug-named task, and was unanswerable,
+# because writing the record it asked for could not silence it. And a filename carrying no id at
+# all was skipped in silence rather than read from the title. Measured 2026-08-21 (pass twelve).
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+mkdir -p _ops/process/types _ops/runs
+printf 'started -> review -> done\n' > _ops/process/types/default.md
+_slugtask(){ printf '# %s — add a logout\n\n**Status**: started\n**Assignee**: ui\n\n## Done when\n\n- [ ] the thing exists\n\n## History\n' "$1" > "_ops/tasks/$2"; }
+_close(){ python3 "$HERE/transition.py" "_ops/tasks/$1" review --by ui >/dev/null 2>&1
+  printf -- '- reviewed by qa\n' >> "_ops/tasks/$1"
+  python3 -c "
+import pathlib,sys
+p = pathlib.Path('_ops/tasks/' + sys.argv[1])
+p.write_text(p.read_text().replace('- [ ] the thing exists', '- [x] the thing exists'))" "$1"
+  python3 "$HERE/transition.py" "_ops/tasks/$1" done --by qa >/dev/null 2>&1
+  git add -A; }
+
+# a slug-named task WITH a record naming its id: the warning must stay silent
+_slugtask T-CCC333 T-CCC333-fix-login.md
+printf '# R-S1 — the job\n\n| **Task** | T-CCC333 · add a logout |\n| **Attempt** | 1 |\n| **Model that answered** | sonnet |\n| **Outcome** | completed |\n\n| input | output | cache_read | cache_write |\n|---|---|---|---|\n| 1 | 2 | 3 | 4 |\n' > _ops/runs/R-S1.md
+git add -A && git commit -qm "slug fixture" >/dev/null 2>&1
+_close T-CCC333-fix-login.md
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "no run record names" \
+  && bad "a slug-named task with a record naming its id was still warned — the id was cut with its slug" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf _ops/tasks/T-CCC333-fix-login.md _ops/runs/R-S1.md >/dev/null 2>&1
+git commit -qm "slug fixture out" >/dev/null 2>&1
+
+# a task whose FILENAME carries no id: the title is asked, and the warning still fires when
+# nothing names it. Skipping these silently is how a whole naming convention escapes the check.
+mkdir -p _ops/runs
+_slugtask T-DDD444 add-a-logout.md
+git add -A && git commit -qm "slugless fixture" >/dev/null 2>&1
+_close add-a-logout.md
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "no run record names T-DDD444" \
+  && ok || bad "a task whose filename carries no id closed unchecked — the title was never asked"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf _ops/tasks/add-a-logout.md >/dev/null 2>&1
+git commit -qm "slugless fixture out" >/dev/null 2>&1
+
 # ── the escalation escape must be followable, and not satisfiable by denial ────────────────
 # The keyword form was unfollowable in one direction and satisfiable in the other, both measured
 # 2026-08-16 (pass eleven): a reader who did exactly what the message said — wrote in the record
