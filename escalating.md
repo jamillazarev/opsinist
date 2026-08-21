@@ -59,6 +59,32 @@ rule first — it exists for exactly this — and only then escalate.
 **The evidence is free.** Exchanges and attempts are runs, so *"this cost X across N runs"* is an
 ordinary group-by. The bound holds by **measurement**, not only by counting.
 
+### And one stop that is not a count: the answer will not hold still
+
+**Three attempts bound *failure*. Nothing bounded *contradiction*** — and contradiction is the
+worse state, because every individual run looks like a success. A check that passes, then fails
+on the same input, then passes again; two workers returning opposite readings of one file; a
+suite green on the machine and red in CI. **Each run reports confidently, and the confidence is
+the problem.**
+
+**So: two runs that disagree on the same question stop the work, at the second disagreement, not
+the third.** The count that matters is not attempts but **flips**, and one flip is already the
+finding — repeating until a run agrees with you is sampling until the answer is convenient.
+
+**What it escalates as is not "which run was right".** That framing invites arbitration and
+produces a winner rather than a resolution. It escalates as **"the question is unstable, and here
+is what differed between the two askings"** — the machine, the version, the shell, the working
+tree, the order. Every one of those has caught something in this project's own history, and none
+of them is visible from inside a single run.
+
+**A disagreement is recorded as its own outcome, never as the latest reading overwriting the
+last.** A record that keeps only the most recent answer has destroyed the evidence that there
+was a disagreement at all — which is the same failure as a board that quietly holds the last
+known good state → `recovering.md`.
+
+*Prose today, and named as such:* what a form could read is two run records on one task whose
+outcomes conflict, which is a shape the ledger already writes → `LATER.md`.
+
 ---
 
 ## Every escalation is a request

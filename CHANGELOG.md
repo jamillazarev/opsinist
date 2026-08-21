@@ -2,6 +2,48 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.9 — unreleased
+
+**Three rules the corpus implied and never said, each with its prose named as prose.**
+
+**Write as you go, never at the end.** The record opens when the work opens, the checkpoint moves
+when the work moves, and the outcome is the *last* field filled rather than the first. Everything
+the recovery inventory reads — applied-against-the-tree, the attempt count, `Commits · checkpoint`
+— is a file that a run intending to write "at the end" never wrote, and a run does not choose when
+it ends: a limit, a crash and a closed terminal all land on whatever was still only in the
+session's head. What actually enforces it is named rather than implied — the dispatcher writing
+the run record instead of the worker, and the guard warning when a task closes with no record
+naming it. Neither makes a live run write sooner; they make its silence visible afterwards.
+
+**A finding does not become a rule the day it is found.** Four rungs, each with an admission
+price: noticed (a dated field-note line, free) · recurrent (a second occurrence) · durable (**a
+week** between the first line and the promotion, and it still reproduces) · load-bearing (it
+changed a measured outcome, cited). The first two already existed; the week is new, and it is a
+filter rather than a ritual — what survives a week with the panic gone is about the system, what
+evaporates was about that afternoon. **Repairs never wait**: anything that loses work, ships
+something wrong or lets an untrusted string act lands now, because the ladder governs lessons.
+
+**And a stop that is not a count.** Three attempts bound *failure*; nothing bounded
+*contradiction*, which is worse precisely because every run in it looks like a success. Two runs
+disagreeing on one question now stop the work at the **second** disagreement — the count is flips,
+not attempts — and it escalates as *the question is unstable, and here is what differed between
+the askings*, never as *which run was right*.
+
+Both deferred forms are written into `LATER.md` with their mutants and twins rather than believed:
+the week's gate needs a promotion to have a declared shape, and the contradiction gate needs a run
+record that can carry what a run *concluded* rather than only how it *ended*.
+
+**And the predecessor check was reading the directory rather than the repository.** An ignored
+cache file written by a third-party plugin turned preflight red with no edit to this repository's
+own work able to clear it. Now scoped by `git grep --untracked`, which keeps a not-yet-added file
+in range and ignored litter out — and whose matcher is identical on every machine, unlike `grep`.
+The first repair used `$(git ls-files -z)` and silently matched **nothing**, because command
+substitution discards NUL bytes; its own mutant caught that, which is the only reason it is not
+shipping blind.
+
+Eval state: **not run** — three prose rules and one gate-scope repair; the gate carries twin and
+three mutants, the rules carry none, which is what the two `LATER.md` entries are for.
+
 ## 0.2.8 — 2026-08-16
 
 **Eleven review lenses have now read this guard, and the eleventh found more critical defects than

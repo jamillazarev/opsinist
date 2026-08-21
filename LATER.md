@@ -218,3 +218,24 @@ declaration. The gate then reads: a rule added to an always-loaded file in the s
 closure whose dated origin is under seven days old is refused, naming both dates. **The mutant is
 a same-day promotion; the twin is one dated eight days back.** Until then the week is judgement,
 and it is written here rather than believed.
+
+## The contradiction stop has no form, though the ledger already writes its shape
+
+**Named 2026-08-21, at the release that shipped it.** `escalating.md` now stops work at the
+second disagreement between runs on one question — the bound on *contradiction*, where the
+three-attempt rule bounds only *failure*. Unlike the week in the promotion ladder, **this one's
+data already exists**: two run records naming the same task, each with an `Outcome`, is exactly
+the shape a check can read.
+
+**Why no form today.** `Outcome` says how the run ended (`completed` · `interrupted` · `limit` ·
+`failed` · `canceled`), not what it concluded — and a contradiction is two *completed* runs
+answering the same question differently. The ledger records that both finished, not that they
+disagreed, so the seam is present and the field is not.
+
+**Revisit when** a run record can carry the answer it reached, not only how it ended — a
+`Verdict`-shaped cell on the checks a run performed. The gate then reads: two completed records
+on one task with conflicting verdicts and no escalation between them is refused. **The mutant is
+a pair that flips with the second run silently overwriting nothing; the twin is a pair that
+agrees, and a second pair that disagrees with an escalation recorded between them.** Adding the
+field for the gate's sake alone would be the shape this corpus refuses — so it waits for a flow
+that wants the verdict written for its own reasons.
