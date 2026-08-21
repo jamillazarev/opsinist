@@ -2,7 +2,7 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.9 — unreleased
+## 0.2.9 — 2026-08-21
 
 **Three rules the corpus implied and never said, each with its prose named as prose.**
 
