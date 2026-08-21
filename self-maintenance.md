@@ -252,6 +252,48 @@ down gets rediscovered by a user.
 
 ---
 
+## A finding does not become a rule the day it is found
+
+**Every incident feels like a law while it is fresh.** That is the whole trouble: the day a thing
+breaks is the day its lesson is least distinguishable from its circumstances, and a corpus that
+promotes each fresh finding straight into the always-loaded guide fills with rules that were true
+once, on one machine, about one version. **Weight is earned by surviving, not by hurting.**
+
+**So a finding climbs, and each rung has an admission price:**
+
+| Rung | Where it lives | What it costs to get there |
+|---|---|---|
+| **1 · noticed** | `_ops/FIELD-NOTES.md`, one dated line | nothing — write it the moment it happens |
+| **2 · recurrent** | a task, both occasions named | **a second occurrence**, recorded separately |
+| **3 · durable** | a rule where it belongs, or a form | **a week between the first line and the promotion**, and it still reproduces |
+| **4 · load-bearing** | the always-loaded core | it changed a measured outcome, and the measurement is cited |
+
+**Rungs 1 and 2 already existed** — the field-note line and the *bar is twice* → `checking.md`.
+**Rung 3 is the new one, and its price is time**: a week between the first dated line and the
+promotion, spent doing other work. Not a waiting ritual — a filter. What is still reproducible a
+week later, with the panic gone, is about the system; what evaporates was about that afternoon.
+
+**The date is what makes the rung checkable**, which is why field notes carry one and why a
+promotion cites the line it came from. A rule that cannot point back at its dated origin has not
+climbed — it was **declared**, and declaring is the failure this section exists to name.
+
+**The exception, stated so it is not smuggled: a defect with a live blast radius does not wait.**
+Anything that loses work, ships something wrong, or lets an untrusted string act is repaired now
+and its rule lands with it — the ladder governs *lessons*, never *repairs*. The tell is whether
+the change stops a thing happening (repair, immediate) or teaches a party to behave better
+(lesson, ladder).
+
+**And promotion is not a copy — it is a move with a pointer.** The rule lands in one home, and
+the field note gains the version that closed it → `checking.md`. Two homes for one rule is the
+drift this corpus spends most of its checks preventing.
+
+*Prose, and named as prose:* the dated line and the citation are the parts a form can read; the
+week is a judgement no script here enforces today. A check that reads a promotion's cited date
+against the note's own is the shape it would take, and it is written down rather than believed
+→ `LATER.md`.
+
+---
+
 ## Running this system on itself
 
 There is no separate ritual for it. **This project's own repository is a project, and its

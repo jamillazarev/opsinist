@@ -25,6 +25,25 @@ session that no longer exists**. A fresh worker rebuilds its position from the r
 Which is also why **incremental commits are not tidiness but the recovery mechanism**. A run that
 committed nothing leaves nothing to resume from, and its work is genuinely gone.
 
+### Write as you go, never at the end
+
+**The record is written while the work happens, not filed when it finishes** — and a run does not
+choose when it ends. A limit, a crash and a closed terminal all arrive without warning, and each
+one falls on whatever was still only in the session's head. **Everything above depends on this
+one habit**: the inventory reads `applied` from the tree, the attempt count reads the record,
+`Commits · checkpoint` names where to resume — all three read files that a run intending to
+write "at the end" never wrote.
+
+**So the ordering is a rule, not a preference:** the record opens when the work opens (→
+`entering.md`), the checkpoint moves when the work moves, and the outcome is the *last* field
+filled rather than the first. A run that ends `interrupted` should still leave a record that
+says what it did — that is the difference between an interruption and a disappearance.
+
+**This is prose, and prose measures poorly** — it is the ordering habit the two forms beside it
+exist to survive. What actually enforces it is the dispatcher writing the run record rather than
+the worker (→ `cost.md`), and the guard warning when a task closes with no run record naming it
+(→ `checking.md`). Neither can make a live run write sooner; they make its silence visible after.
+
 ---
 
 ## Interrupted is a state, and it must be visible

@@ -319,8 +319,21 @@ PY
 # 6 · nothing from the platform this grew out of
 # Built from parts so this file does not itself contain the strings it forbids.
 pat="mul""tica\\|\\bm""ops\\b"
-hits=$(grep -ril "$pat" --include='*.md' --include='*.py' --include='*.sh' \
-        --include='*.json' --include='*.yml' "$ROOT" 2>/dev/null | grep -v '\.git/' | grep -v CHANGELOG.md)
+# **Scope is the repository, not the directory.** This walked the filesystem, so ANY file under
+# the root tripped it — including ignored caches written by tools the author does not control.
+# Measured 2026-08-21: a third-party plugin cached a path to a neighbouring checkout in an
+# ignored `.impeccable/` file and turned preflight red, with no edit to this repository's own
+# work that could clear it. The rule is about what this repository SAYS, so the scope is what
+# git considers its work: tracked plus untracked-not-ignored, which keeps a brand-new file that
+# has not been `git add`ed still in range while putting ignored litter out of it.
+# `git grep` and not a file list: a `$(git ls-files -z)` first attempt looked right and matched
+# NOTHING — command substitution **discards NUL bytes**, so the whole -z stream collapsed into
+# one impossible filename and the gate passed everything. Caught by its own mutant, which is the
+# only reason it is not shipping blind. `--untracked` keeps a not-yet-added file in range while
+# `--exclude-standard` (its default) keeps ignored litter out, and git's own matcher is the same
+# on every machine — unlike `grep`, which is ugrep at this prompt and BSD inside a script.
+hits=$(git -C "$ROOT" grep -lI --untracked -i -e "$pat" \
+        -- '*.md' '*.py' '*.sh' '*.json' '*.yml' 2>/dev/null | grep -v CHANGELOG.md || true)
 [ -z "$hits" ] && say_ok "no predecessor references" \
   || { echo "$hits" | while read -r f; do say_fail "$f still names the predecessor"; done; FAIL=1; }
 

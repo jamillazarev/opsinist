@@ -197,3 +197,24 @@ missing-declaration refusal with its mutant · **or** the next full round measur
 council fires with its price and its declaration at all, which would give the claim its date. If
 a round shows the field is simply not written, the honest repair is to delete the sentence rather
 than repeat it louder.
+
+## The promotion ladder's week has no form, only a citation a form could read
+
+**Named 2026-08-21, at the release that shipped it.** `self-maintenance.md` now says a lesson
+waits a week between its dated field-note line and its promotion to a rule — a filter against a
+corpus that fills with laws written the afternoon something broke. **Two of its three parts are
+already machine-readable** and one is not: field notes carry a `Date` column, and a promotion is
+told to cite the line it came from, but **nothing reads the citation against the note's own date**,
+and nothing notices a rule that cites nothing at all.
+
+**Why no form today.** The seam exists — a promotion touches a rule file and a field-notes line in
+the same commit — but the gate would have to tell a *promotion* from any other edit to a rule
+file, and there is no field declaring one. Inventing a field for the gate's convenience is the
+shape this corpus refuses: the form should read something the work already writes.
+
+**Revisit when** a promotion has a declared shape — a field-note line closed with the version that
+carried it is already written for the sweep (`checking.md`), and that closure is the natural
+declaration. The gate then reads: a rule added to an always-loaded file in the same commit as a
+closure whose dated origin is under seven days old is refused, naming both dates. **The mutant is
+a same-day promotion; the twin is one dated eight days back.** Until then the week is judgement,
+and it is written here rather than believed.
