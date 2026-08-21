@@ -41,6 +41,31 @@ The first repair used `$(git ls-files -z)` and silently matched **nothing**, bec
 substitution discards NUL bytes; its own mutant caught that, which is the only reason it is not
 shipping blind.
 
+**Two new capabilities, each meeting the four clauses.**
+
+**A move on the map names the job it is hired for.** The map answered *how* a product is walked
+and never *why* anyone walks it, so a roadmap reading it could only argue step-by-step — which is
+how a product accumulates screens nobody needed. Every move now carries a job story: *when
+&lt;situation&gt;, someone wants to &lt;motivation&gt;, so they can &lt;outcome&gt;*. **A job story and not a user
+story, and the shape is the argument**: it opens on a situation, a trigger that either happened to
+a real person or did not, so it can be checked and it can be wrong. *"As a user I want"* cannot be
+wrong — it is a wish wearing a costume, which is why this corpus has none and wants none. §4c
+refuses a commit that ADDS a move without one; `unknown, and here is what would settle it` is a
+valid job, a blank is not.
+
+**And a market size is a checkable claim.** `_ops/MARKET.md` holds TAM, SAM and SOM, and §4d
+refuses a figure that does not carry where it came from and when. **The rule is not "get the
+number right" but "make the number checkable"** — a rule demanding numbers would be answered with
+invented ones, which is the failure it exists to prevent arriving through its own enforcement. So
+`unknown` passes cleanly, prose about a market is not a figure and is not asked, and a *derived*
+figure carries its arithmetic rather than its result. It lands in `audience.md` because the
+reasoning is already there: a market size is a claim about the world, so it sits on the first
+pyramid, and **a cited number that loses its citation has quietly become a recalled one while
+looking identical**.
+
+Both carry their mutants and twins (three and three, six and three), their dated measurement, and
+their trio. The company guard's suite went 105 → 122 across this release.
+
 **Pass twelve, and four criticals — every one of them in what pass eleven repaired.**
 
 **The gate that printed red and exited zero.** `check-shell-exec` — the whole new capability of
