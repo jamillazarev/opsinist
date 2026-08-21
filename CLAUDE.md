@@ -25,8 +25,14 @@ this file exists to stop anyone re-deriving per session.
    `python3 scripts/check-links.py .` · `bash scripts/test-audit-gate.sh`. Green is evidence
    about the corpus, not about behaviour — behaviour is the eval suite's job.
 5. **Changelog entry** (capability first; it is the migration map; **it names its eval state — a run recorded, or `not run` said**) → **manifest sweep runs
-   inside preflight** → tag → **GitHub Release whose notes are the entry whole, with the
-   entry's own heading collapsed to the bare italic date** — the title already carries
+   inside preflight** → **set the entry's date to the day the tag is actually cut, as the last
+   act before tagging** — it is written days earlier and the tag waits for the developer, so the
+   two dates drift by however long that takes and a reader takes the heading for the ship date
+   (measured 2026-08-22: 0.2.8 and 0.4.7 both said 08-16 against tags cut 08-20; preflight §1a-ter
+   now compares them) → tag → **GitHub Release whose notes are the entry whole, with the
+   entry's own heading collapsed to the bare italic date, and whose TITLE is `X.Y.Z — <headline>`
+   — no `v`, an em dash. The last two releases used `vX.Y.Z: <headline>` and broke a run of
+   fifteen** (spotted 2026-08-22 on the release list, where the odd ones stand out at a glance) — the title already carries
    version and name, and a repeated heading is the first thing every reader scrolls past:
    `python3 -c "…"` strips `## X.Y.Z — DATE` to `*DATE*`, then
    `gh release create vX --notes-file …`.
@@ -88,6 +94,14 @@ nothing accumulates outside versions.
   runner. Third instance of the grep/awk class — the tool the author has is not the tool the
   target gets. Where the bound is belt-and-braces, make it conditional (`${_TMO:+$_TMO 90}`);
   where it does real work, warn once at top level that runs are unbounded — never inside a loop.
+
+- **The author's-tool class has a fourth member, and it is not in Homebrew** (measured
+  2026-08-22): `claude` lives in `~/.local/bin`, so stripping Homebrew from PATH — the trick that
+  reproduced the `timeout` failure — did **not** reproduce this one. CI failed five eval-guard
+  assertions with **exit 2, "no claude CLI on PATH"**, while every local run and every
+  Homebrew-stripped run was green. **What reproduced it was `env -i PATH=/usr/bin:/bin`** — a
+  runner has the system tools and nothing the author installed, by any route. When a CI failure
+  will not reproduce, strip the environment to the system, not to a package manager.
 
 - Eval clean-room: homes under the session scratchpad need their **own** keychain entries
   (`Claude Code-credentials-<sha256(home)[:8]>`) and their own logins for long rounds —

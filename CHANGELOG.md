@@ -122,6 +122,16 @@ three mutants, the rules carry none, which is what the two `LATER.md` entries ar
 
 ## 0.2.8 — 2026-08-16
 
+> **Correction, 2026-08-22.** This heading carries the date the entry was
+> **written**; the tag was cut **2026-08-20**, four days later. The gap is not sloppiness —
+> it is this repository's own law that the tag waits for the owner's word, so the writing
+> date and the shipping date differ by however long that takes, and a reader takes the
+> heading for the shipping date. The heading is left as it shipped, because a released
+> entry is frozen and a marked correction is the only permitted change. From 2026-08-22 a
+> check compares every tagged entry's date against its tag's, so this cannot recur
+> silently.
+
+
 **Eleven review lenses have now read this guard, and the eleventh found more critical defects than
 the tenth.** 0.2.7 shipped with the tenth pass's repairs in it; this release is the eleventh's, and
 it is published as its own version because these change behaviour — the repository's rule is that
