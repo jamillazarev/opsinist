@@ -273,6 +273,19 @@ once, on one machine, about one version. **Weight is earned by surviving, not by
 promotion, spent doing other work. Not a waiting ritual — a filter. What is still reproducible a
 week later, with the panic gone, is about the system; what evaporates was about that afternoon.
 
+```mermaid
+flowchart LR
+  I([something breaks]) --> N["**1 · noticed**<br/>a dated line<br/>costs nothing"]
+  N -->|"it happens again"| C["**2 · recurrent**<br/>a task naming<br/>both occasions"]
+  C -->|"a week, spent<br/>doing other work"| D["**3 · durable**<br/>a rule, or a form"]
+  D -->|"it moved a<br/>measured outcome"| L["**4 · load-bearing**<br/>the always-loaded core"]
+  I ==>|"loses work · ships something wrong ·<br/>lets an untrusted string act"| X["repaired NOW —<br/>the ladder governs<br/>lessons, not repairs"]
+  N -.->|"promoted the same day"| F(("a rule that was<br/>true once, on one<br/>machine, about<br/>one version"))
+```
+
+**The dotted branch is the failure the ladder exists to prevent**, and the double one is the
+exception that must never be smuggled through it.
+
 **The date is what makes the rung checkable**, which is why field notes carry one and why a
 promotion cites the line it came from. A rule that cannot point back at its dated origin has not
 climbed — it was **declared**, and declaring is the failure this section exists to name.

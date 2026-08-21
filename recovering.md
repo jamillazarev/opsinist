@@ -39,6 +39,26 @@ write "at the end" never wrote.
 filled rather than the first. A run that ends `interrupted` should still leave a record that
 says what it did — that is the difference between an interruption and a disappearance.
 
+```mermaid
+flowchart LR
+  subgraph W["written as the work happens"]
+    direction LR
+    a1[record opened] --> a2[checkpoint moved] --> a3[outcome, last]
+  end
+  subgraph E["filed at the end"]
+    direction LR
+    b1[" "] --> b2[" "] --> b3[everything, at once]
+  end
+  K((limit · crash ·<br/>closed terminal)) -.->|"lands anywhere"| a2
+  K -.->|"lands anywhere"| b2
+  a2 ==>|"inventory reads this"| R[resumable]
+  b2 -.->|"nothing was written yet"| G[gone]
+```
+
+**The kill arrives at the same moment in both rows.** The difference is not diligence, it is
+ordering: one row has already put its position on disk, the other still holds it in a session
+that no longer exists.
+
 **This is prose, and prose measures poorly** — it is the ordering habit the two forms beside it
 exist to survive. What actually enforces it is the dispatcher writing the run record rather than
 the worker (→ `cost.md`), and the guard warning when a task closes with no run record naming it

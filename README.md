@@ -68,6 +68,13 @@ this. Everything else has a default good enough to leave alone.
   expansion surfaces, never advances itself.
 - **A gap found mid-build calls the owner, not the editor** — nobody edits the artefact another
   craft is standing on, in either direction.
+- **Every move on the map names the job it is hired for** — *when this happens, someone wants to
+  do this, so they can get that*. A job story opens on a situation, so it can be checked and it
+  can be wrong; *"as a user I want"* cannot be wrong, which is why there are no user stories here.
+- **A market size is a checkable claim or it is not written** — TAM, SAM and SOM each carry where
+  the figure came from and when, and a derived one carries its arithmetic. **`unknown` passes**:
+  the gate asks that a number be traceable, not that a number exist, because a rule demanding
+  numbers is answered with invented ones.
 - **Every claim carries how it is known** — measured, cited, recalled, judgement — and nobody
   promotes another's guess by quoting it. A hundred synthetic respondents are one bias repeated
   a hundred times, and you are told before anything runs.

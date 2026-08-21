@@ -317,3 +317,9 @@ line changes with it.
 240. A move on the map carries the job it is hired for, written as a job story — *when this happens, someone wants to do this, so they can get this* — and the guard refuses a move added without one. A route is a *how*; the job is the *why* somebody walked it, and a roadmap reading a map of routes alone proposes routes nobody asked for.
 
 241. A market figure carries where it came from and when, or the guard refuses it — and `unknown` is an accepted answer. The gate does not ask a project to have numbers; it asks that a number, once written, be traceable, because a market size is the easiest thing in a project to invent and the hardest to check.
+
+242. The record is written while the work happens, not filed when it finishes — a run does not choose when it ends, and a limit, a crash and a closed terminal each land on whatever was still only in the session's head. The outcome is the last field filled, never the first.
+
+243. A finding does not become a rule the day it is found: a dated line costs nothing, a second occurrence earns it a task, and a promotion into the guide waits a week — spent doing other work, because what still reproduces with the panic gone is about the system. Repairs never wait; the ladder governs lessons.
+
+244. Three attempts bound failure, and two runs that disagree bound contradiction — the worse state, because every run inside it looks like a success. The work stops at the second disagreement, and what escalates is that the question is unstable, never which run was right.

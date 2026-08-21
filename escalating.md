@@ -77,6 +77,19 @@ is what differed between the two askings"** — the machine, the version, the sh
 tree, the order. Every one of those has caught something in this project's own history, and none
 of them is visible from inside a single run.
 
+```mermaid
+flowchart TB
+  Q[one question] --> R1[run 1 · answers A]
+  Q --> R2[run 2 · answers B]
+  R1 & R2 --> F{"they disagree"}
+  F -->|"stop at the SECOND<br/>disagreement, not the third"| E["escalate: **the question<br/>is unstable** — and what<br/>differed between the<br/>two askings"]
+  F -.->|"run it again until<br/>one agrees with you"| S(("sampling until the<br/>answer is convenient"))
+  E --> M[machine · version · shell ·<br/>working tree · order]
+```
+
+**Three attempts bound failure; this bounds contradiction** — the worse state, because every run
+inside it looks like a success and reports confidently.
+
 **A disagreement is recorded as its own outcome, never as the latest reading overwriting the
 last.** A record that keeps only the most recent answer has destroyed the evidence that there
 was a disagreement at all — which is the same failure as a board that quietly holds the last
