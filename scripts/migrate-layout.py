@@ -141,11 +141,22 @@ def report_state_fields(root, dry):
               f"it removes a duplicate and changes no stage, so the guard passes it")
         if STAGE_TOKEN.match(mach):
             if prose != mach:
-                print(f"      2. then decide which copy was right — the header says `{prose}`, the "
-                      f"machine line said `{mach}` — and move the task with the door, which now "
-                      f"reads the header:")
+                # **The door refuses BOTH of the two values this used to offer.** It printed
+                # `<{prose}|{mach}>` as a choice: `prose` is where the task already is, and a
+                # no-op transition is refused ("already at X"); `mach` is refused whenever it is
+                # more than one rung away ("stages are linear — no jumps"). So a reader following
+                # the report literally was refused either way, with no third thing named.
+                # Measured 2026-08-21 (pass twelve). The remedy now names ONE action — the only
+                # one that is ever a move — and says plainly what to do when the rungs are apart.
+                print(f"      2. the header already says `{prose}`, so that is where the task IS; "
+                      f"the machine line claimed `{mach}`. If the header was right, you are done. "
+                      f"If the machine line was right, move it with the door:")
                 print(f"           python3 _ops/scripts/transition.py _ops/tasks/{name} "
-                      f"<{prose}|{mach}> --by <you>")
+                      f"{mach} --by <you>")
+                print(f"         — and if that is refused as a jump, the ladder is linear: walk it "
+                      f"one rung at a time, each its own command, which is also what leaves an "
+                      f"honest History. Asking for `{prose}` is refused as a no-op, so it is not "
+                      f"offered here.")
             else:
                 print(f"      2. nothing else — both copies said `{mach}`, so deleting the machine "
                       f"line is the whole change")

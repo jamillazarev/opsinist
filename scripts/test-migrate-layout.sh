@@ -160,8 +160,18 @@ grep -q 'carry state in two places' "$T/out.txt" && ok || bad "the two-home task
 # report and a request for permission in five runs of five and was applied by none.
 grep -q 'delete line [0-9]' "$T/out.txt" \
   && ok || bad "the report does not name the line to delete"
-grep -q 'transition.py .* <.*review.*> --by' "$T/out.txt" \
-  && ok || bad "the report does not name the door and the stages to choose between"
+# **The `<prose|mach>` shape this used to assert was unfollowable, and the assertion pinned it.**
+# The door refuses BOTH values it offered: `prose` is where the task already is and a no-op is
+# refused, `mach` is refused whenever it is more than one rung away. So a reader obeying the
+# report was refused either way. Measured 2026-08-21 (pass twelve); the suite asserted the defect
+# because it asserted a SHAPE rather than a followable instruction. Now: one command, the machine
+# value, and the linear-ladder note that tells the reader what to do when it is refused as a jump.
+grep -qE 'transition\.py [^ ]+ review --by' "$T/out.txt" \
+  && ok || bad "the report does not name the door with the one value that is ever a move"
+grep -q 'walk it one rung at a time' "$T/out.txt" \
+  && ok || bad "the report does not say what to do when the door refuses the move as a jump"
+grep -qE 'transition\.py .*<[a-z]+\|[a-z]+>' "$T/out.txt" \
+  && bad "the report still offers a pseudo-choice the door refuses on both branches" || ok
 grep -q 'both copies said' "$T/out.txt" \
   && ok || bad "a task whose two copies agree was not distinguished from one whose copies differ"
 grep -q 'T-C.md' "$T/out.txt" && bad "a one-home task was named as a problem" || ok
@@ -187,7 +197,7 @@ grep -A1 'T-fence.md' "$T/rep.txt" | grep -q 'delete line 9' \
 grep -A1 'T-fence.md' "$T/rep.txt" | grep -q 'delete line 6' \
   && bad "the report points at a line inside a fence" || ok
 # the value alone, not the neighbouring field a `-` separator glued to it
-grep -A3 'T-hyphen.md' "$T/rep.txt" | grep -q 'the header says `doing`' \
+grep -A3 'T-hyphen.md' "$T/rep.txt" | grep -q 'the header already says `doing`' \
   && ok || bad "the report swallowed a neighbouring field into the value it shows"
 grep -A2 'T-hyphen.md' "$T/rep.txt" | grep -q 'Owner' \
   && bad "the report offered to overwrite a neighbouring field" || ok
