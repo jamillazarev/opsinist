@@ -76,7 +76,23 @@ TASK-template) and `| **Task** | T-ABC123 · title |` (line 10 of RUN-template).
 was void for every record written the way the corpus tells people to write them. One pipe may now
 be crossed — one, so a declaration still differs from a mention.
 
-Eval state: **not run** — three prose rules, four gate repairs; the gate carries twin and
+**And the rest of pass twelve — sixteen high, twenty-two medium, all read.** Four more gates
+here could not do their jobs. **§10b cut the id together with the slug**, so the cost warning
+fired on every close of a task named the way the guide names them, and could not be silenced by
+writing the record it asked for; it also kept its own rigid reader while §1f was converted in the
+same release, so the two sections disagreed about what a declaration is. **The Config gate failed
+open** — it swallowed its own crash and read a bare `**Config**:` with no value as satisfied.
+**Retiring `_ops/DECISIONS.md` printed a remedy nobody could perform**, since the escape asks for
+a line inside the file whose disappearance is the commit. **And the migration offered a choice the
+door refuses on both branches** — the value the task already has (a no-op) or one more than a rung
+away (a jump). Each now has a mutant and a twin; the suite went 105 → 112.
+
+Two of the repairs found the tests protecting the defect. The migration's assertions matched the
+`<a|b>` *shape* rather than a followable instruction, so what they guarded was the unfollowable
+form; and two new §10b fixtures passed for the wrong reason until a leftover untracked file was
+cleaned, because a failed `git mv` had handed preflight an empty commit.
+
+Eval state: **not run** — three prose rules, eight gate repairs; the gate carries twin and
 three mutants, the rules carry none, which is what the two `LATER.md` entries are for.
 
 ## 0.2.8 — 2026-08-16
