@@ -104,6 +104,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 |---|---|---|
 | "How does anyone get from signup to paying?" | *"show me the map"* | `_ops/MAP.md` answers — and where it cannot, that is a gap written as one, not a guess |
 | "We keep redesigning the same flow" | *"what does the map say, and what did we decide?"* | the map holds the current move; `_ops/DECISIONS.md` holds why the last redesign was rejected |
+| "Why does this screen exist at all?" | *"what job is this move hired for?"* | every move on the map carries a **job story** — *when &lt;situation&gt;, someone wants to &lt;motivation&gt;, so they can &lt;outcome&gt;* — and the guard refuses a move added without one. A route is a *how*; the job is the *why*, and it is written so it can turn out to be wrong |
 | "Where did you get that?" | *"source?"* | named, with a date — or said plainly to be a judgement call |
 | "Was that price still true?" | *"check it"* | recorded facts carry check-dates and are re-verified before a decision |
 | "Would users like this?" | *"what would users think?"* | **angles from synthetics, never percentages** — and you're told so before anything runs |

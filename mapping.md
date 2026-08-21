@@ -18,6 +18,57 @@ what the product is made of, and how the things relate. Software gets an entity 
 gets orders, batches and pickup slots. **If a node would sound absurd to someone outside software,
 the node is wrong, not the domain.**
 
+## Every move names the job it is hired for
+
+**A move is a route; the job is what somebody was trying to get done when they took it.** A map
+of routes alone answers *how this product is walked* and never *why anyone walks it* — and a
+roadmap reading that map proposes routes nobody asked for, which is the ordinary way a product
+grows features and loses its point.
+
+**Written as a job story, in the move's own section:**
+
+> **Job**: when *&lt;situation&gt;*, someone wants to *&lt;motivation&gt;*, so they can *&lt;outcome&gt;*
+
+**The shape is the argument.** A job story starts with a *situation* — a trigger in the world,
+which either happened to a real person or did not — so it can be checked and it can be wrong. *"As
+a user I want…"* cannot be wrong: it is a wish wearing a costume, and it survives every review
+because there is nothing in it to disagree with. That is why this corpus has no user stories and
+does not want any → `audience.md` for how the situation is found rather than guessed.
+
+**One job per move, not per screen.** Jobs multiply the moment they are attached to steps, and a
+map with a job on every node is a map nobody reads. If two genuinely different jobs run through
+the same route, that is two moves that happen to share screens — say so, and draw them both.
+
+**`unknown` is a legitimate job, and a blank is not.** *"unknown, and here is what would settle
+it: …"* is an honest line that names the next act; an empty field is a claim that the question was
+never asked. The guard refuses the blank and accepts the named unknown, because the difference is
+the whole point (`checking.md`).
+
+The map draws routes. Each route exists because somebody was trying to get something done — and
+that sentence, not the route, is what a roadmap should be reading.
+
+```mermaid
+flowchart LR
+  J["**Job**<br/>when it is a weekday morning<br/>and the bread is gone,<br/>reserve a loaf before work"]
+  subgraph M["the move — how it is walked"]
+    direction LR
+    A[browse] --> B[reserve] --> C[collect]
+  end
+  J -. "hired for" .-> M
+  R["roadmap intent"] --> J
+  R -. "not this way" .-x A
+```
+
+**The dotted refusal is the point.** An intent that points at a *step* proposes a change to a
+route; an intent that points at the *job* asks whether the route still serves it — and sometimes
+the answer is a different route, or none. A map without jobs can only be argued about
+step-by-step, which is how a product accumulates screens nobody needed.
+
+**Enforced on what a commit adds**, like every other gate: a move already drawn is left alone.
+Retro-filling an existing map is a project's decision, not a commit's → `self-maintenance.md`.
+
+---
+
 **Every node names something that exists** — a screen, a place, a step, a file, an entity. The
 same law as the skill's own diagrams, for the same reason: **a box with nothing behind it is a
 second source of truth, and the one that ages first.** A node for something being built belongs in

@@ -572,6 +572,39 @@ git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git rm -qf _ops/tasks/T-COST.md _ops/runs/R-C1.md >/dev/null 2>&1
 git commit -qm "cost fixture out" >/dev/null 2>&1
 
+# ── a move added to the map names the job it is hired for ──────────────────────────────────
+# New in 0.2.9. A move is a route someone takes; the job is what they were trying to get done when
+# they took it. Without it the map answers how the product is walked and never why anyone walks
+# it, and a roadmap reading that map proposes routes nobody asked for. Enforced on what the commit
+# CREATES — a move already on the map is left alone, because retro-filling is a project's decision.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+mkdir -p _ops/map
+printf '# Map\n\n## The moves\n' > _ops/MAP.md
+git add -A && git commit -qm "map fixture" >/dev/null 2>&1
+printf '\n### order to pickup\n\n\`\`\`mermaid\nflowchart LR\n  A[browse] --> B[pay]\n\`\`\`\n' >> _ops/MAP.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a move was added to the map with no job and nothing objected" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'job story' \
+  && ok || bad "the refusal does not name the shape a job is written in"
+# the twin: the same move, with its job
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/MAP.md')
+p.write_text(p.read_text().replace('### order to pickup', '### order to pickup' + chr(10) + chr(10) + '**Job**: when a parent is out of bread on a weekday morning, someone wants to reserve a loaf before work, so they can collect it without queueing.', 1))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a move carrying its job was refused"
+git commit -qm "the move" >/dev/null 2>&1
+# and a commit that touches the map WITHOUT adding a move is not asked
+printf '\nA note about the map.\n' >> _ops/MAP.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a commit editing the map without adding a move was asked for a job"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf _ops/MAP.md >/dev/null 2>&1
+git commit -qm "map fixture out" >/dev/null 2>&1
+
 # ── retiring _ops/DECISIONS.md itself must be POSSIBLE ─────────────────────────────────────
 # The escape asks for an added line inside DECISIONS, and when DECISIONS is what is being retired
 # the commit's whole content is that the file stops existing there — so every literal reading was

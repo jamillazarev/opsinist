@@ -2,6 +2,9 @@
 
 **Why this file exists:** every task starts with no memory of how this product is walked, so a
 flow not written here is re-derived — or worse, invented — by every agent that touches one.
+**And every move carries the job it is hired for** — a route is a *how*; the job is the *why*
+somebody walked it, written as a job story so it can turn out to be wrong. The guard asks for it
+on every move this repository adds.
 **Every node below names something that exists**; a node for something being built lives in the
 task building it, and lands here in the task that ships it. **Current state only** — the roadmap
 points at nodes it will change; nothing planned is drawn here.
@@ -12,6 +15,8 @@ points at nodes it will change; nothing planned is drawn here.
 keeps one line here.}}
 
 ### {{move, in the product's own words — "order to pickup", not "checkout funnel"}}
+
+**Job**: {{when <situation>, someone wants to <motivation>, so they can <outcome>}}
 
 ```mermaid
 flowchart LR

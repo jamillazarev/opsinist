@@ -313,3 +313,5 @@ line changes with it.
 237. A relay also carries what to return with the result, and that field is caught downstream rather than at the relay: without the model and the seed the recipe cannot be filled, and it is that commit which is refused.
 238. A council's synthesis declares what it was made of — angles, voices, and whether they came from one provider — because a warning that agreement across one model is one bias repeated is a warning, while `provider: one` printed above the verdict is the reader seeing it.
 239. The strongest dissent is what a council is bought for: a panel that converged instantly measured nothing, and the agreement is the part that was always going to be cheap.
+
+240. A move on the map carries the job it is hired for, written as a job story — *when this happens, someone wants to do this, so they can get this* — and the guard refuses a move added without one. A route is a *how*; the job is the *why* somebody walked it, and a roadmap reading a map of routes alone proposes routes nobody asked for.

@@ -269,7 +269,8 @@ flowchart TD
   DoD --> M
 ```
 
-**A map known to be stale is worse than no map: it answers confidently** → `mapping.md`.
+**A map known to be stale is worse than no map: it answers confidently** → `mapping.md`, which
+also draws the one diagram this gallery does not: **a move and the job it is hired for**.
 
 ---
 

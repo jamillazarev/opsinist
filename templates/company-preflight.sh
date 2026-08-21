@@ -724,6 +724,40 @@ if [ -d _ops/map ]; then
   done
 fi
 
+# 4c · **a move added to the map names the job it is hired for.** A move is a route someone takes;
+#      the job is what they were trying to get done when they took it. Without it the map answers
+#      *how the product is walked* and never *why anyone walks it* — and a roadmap built on that
+#      map proposes routes nobody asked for, which is the failure this field exists to make
+#      visible rather than to argue about.
+#
+#      **A job story, not a user story**: `when <situation>, someone wants to <motivation>, so
+#      they can <outcome>`. Behaviour with a trigger, which can be checked against a real person;
+#      *"as a user I want"* is a wish with a costume, and it cannot be wrong.
+#
+#      ENFORCED ON WHAT THE COMMIT CREATES, like every other gate here: a move already on the map
+#      is left alone, because retro-filling a map is a project's decision and not a commit's. Only
+#      a `### ` heading ADDED by this commit is asked, and it is asked once.
+_map_missing=""
+while IFS= read -r -d '' m; do
+  # the added move headings in this file, and the added body under each
+  _added=$( ( git diff --cached -U0 -- "$m" 2>/dev/null || true ) | grep '^+' | grep -v '^+++ ' | sed 's/^+//' )
+  printf '%s\n' "$_added" | grep -qE '^###[[:space:]]+\S' || continue
+  # A job may be declared on the move's own line or anywhere in the block this commit added for
+  # it. Reading the whole added hunk is deliberate: a diff does not carry section boundaries, and
+  # demanding the field on the heading line itself would refuse the ordinary shape where it sits
+  # underneath. One job per commit-that-adds-moves, not one per heading — a stricter rule needs a
+  # section parser, and this file's own law is that a gate reads what it can read honestly.
+  printf '%s\n' "$_added" | grep -qiE '\*\*Job\*\*[[:space:]]*:[[:space:]]*\S' \
+    || _map_missing="$_map_missing $m"
+done < <(changed --diff-filter=AMR -- '_ops/MAP.md' '_ops/map/*.md')
+[ -z "$_map_missing" ] || say_fail "this commit adds a move to$(printf '%s' "$_map_missing" | tr -s ' ') \
+and no \`**Job**\` line comes with it — a move is a route, and the job is what someone was trying to \
+get done when they took it. Without it the map says how the product is walked and never why, and a \
+roadmap reading that map proposes routes nobody asked for. Write it as a job story, which can be \
+wrong: \`**Job**: when <situation>, someone wants to <motivation>, so they can <outcome>\`. If the \
+honest answer is that nobody knows yet, that is a valid job line — write \`unknown, and here is what \
+would settle it: …\` — but it is not a blank"
+
 # 5b · skills born in this repo stay modular (templates/SKILL-SCAFFOLD.md): a budgeted
 #      router core + chapters. Catches the monolith while it is still one commit old.
 while IFS= read -r -d '' sk; do
