@@ -41,7 +41,42 @@ The first repair used `$(git ls-files -z)` and silently matched **nothing**, bec
 substitution discards NUL bytes; its own mutant caught that, which is the only reason it is not
 shipping blind.
 
-Eval state: **not run** — three prose rules and one gate-scope repair; the gate carries twin and
+**Pass twelve, and four criticals — every one of them in what pass eleven repaired.**
+
+**The gate that printed red and exited zero.** `check-shell-exec` — the whole new capability of
+0.2.8 — printed its findings and then printed `preflight passed`. Two breaks in four lines:
+`fail=1` set a variable this file does not read, and the `say_fail` calls sat on the right of a
+pipe where a subshell owns them. **And the reason no test could catch it**, which the completeness
+critic found and no lens could: the block sat behind `CORPUS_PF_TEST`, the flag set by the ONE
+suite that runs preflight inside a clone — the only place able to see this gate go red was the one
+place guaranteed to skip it. It now runs always, and `test-check-shell-exec.sh` brings 19
+assertions: 9 mutants, 7 twins, and 3 that clone HEAD, plant a defect and require the *shipped*
+preflight to exit non-zero. Against the checker as shipped that suite scored **9 of 19**,
+reproducing in one run every false-negative door and both false positives the four lenses had
+found separately.
+
+**The checker itself.** `(?<!<)<<` instead of a lookahead that rejected only the first `<` of
+`<<<`, so a here-string no longer opens a phantom body that swallows the rest of the file; a
+`_code_only()` mask so an opener inside a trailing comment, a quoted string or `$((1<<n))`
+arithmetic cannot open a heredoc shell never opened; `-` admitted to the delimiter class, because
+`<<END-OF` is legal bash; and the unexplained `EOF` exclusion gone, which had blinded the check for
+the commonest delimiter in shell. `<<'EOF'` is protected from the mask by name — blanking quoted
+spans wholesale produced 24 false reports on this repository's own scripts.
+
+**The door rewrote an example.** `transition.py`'s field reader learned to skip indents last
+release and stopped there, while the guard skips fences, blockquotes *and* indents — so a
+`**Stage**: x` inside a fence or behind a `>` was still read as the live field and rewritten, with
+the release notes claiming all three tools agreed. The mask blanks with same-length filler because
+`move` rewrites through the match's own span.
+
+**And the task reader was blind to both shapes the corpus prescribes.** `record_task` decides
+whether a run record declares a task, and §1f's neighbour counter is built on it — it read a
+`task:` line, which no template writes, and returned empty for `# T-ABC123 — title` (line 1 of
+TASK-template) and `| **Task** | T-ABC123 · title |` (line 10 of RUN-template). The escalation gate
+was void for every record written the way the corpus tells people to write them. One pipe may now
+be crossed — one, so a declaration still differs from a mention.
+
+Eval state: **not run** — three prose rules, four gate repairs; the gate carries twin and
 three mutants, the rules carry none, which is what the two `LATER.md` entries are for.
 
 ## 0.2.8 — 2026-08-16
