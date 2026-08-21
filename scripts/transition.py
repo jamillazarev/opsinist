@@ -36,6 +36,28 @@ def root_of(p: Path) -> Path:
     return Path.cwd()
 
 
+def _mask_examples(text: str) -> str:
+    """Blank fenced and blockquoted lines, preserving every offset.
+
+    Same three exclusions as the guard's `state_homes`, in the same order, so the two cannot
+    disagree about what counts as an example. Offsets are preserved because callers rewrite the
+    ORIGINAL text through a match found here — a mask that shortened anything would move every
+    byte after it. Indented lines are left to the regexes' own `(?![ ]{4}|\\t)` anchor, which
+    already handles them and is documented there.
+    """
+    out, fenced = [], False
+    for ln in text.split("\n"):
+        if re.match(r"^[ \t]*(```|~~~)", ln):
+            fenced = not fenced
+            out.append(" " * len(ln))
+            continue
+        if fenced or re.match(r"^[ \t]*>", ln):
+            out.append(" " * len(ln))
+            continue
+        out.append(ln)
+    return "\n".join(out)
+
+
 def field(text: str, *names):
     """A task field, wherever the template put it: `**Stage**: x`, `stage: x`, inline after `·`.
 
@@ -47,12 +69,22 @@ def field(text: str, *names):
     exactly the divergence between what a human reads and what the door moves that §1c exists to
     prevent, arriving through the repair for it. Up to three leading spaces is still a field;
     markdown says the fourth makes it code.
+
+    **And an indent is only one of the three ways a page shows an example.** The repair above
+    taught this reader the indent and stopped there, while the guard's `state_homes` skips
+    **fences, blockquotes AND indents** — so the same divergence reopened one rung up: a
+    `**Stage**: x` inside a ``` block or behind a `>` was still read as the live field and still
+    rewritten, and the release notes claimed all three tools agreed. Measured 2026-08-21 (pass
+    twelve). The mask below blanks fenced and quoted lines with same-length filler rather than
+    deleting them, because `move` rewrites the document through this match's own span: dropping
+    the lines would slide every offset after them and the door would edit the wrong bytes.
     """
+    masked = _mask_examples(text)
     for n in names:
         m = re.search(r"^(?![ ]{4}|\t)[^\n]*?\*\*" + n + r"\*\*\s*:\s*([^·|\n]+)",
-                      text, re.I | re.M)
+                      masked, re.I | re.M)
         if not m:
-            m = re.search(r"^(?![ ]{4}|\t)[ ]*" + n + r"\s*:\s*(.+)$", text, re.I | re.M)
+            m = re.search(r"^(?![ ]{4}|\t)[ ]*" + n + r"\s*:\s*(.+)$", masked, re.I | re.M)
         if m:
             v = m.group(1).strip()
             if v and "{{" not in v:

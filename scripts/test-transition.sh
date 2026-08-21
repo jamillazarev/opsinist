@@ -184,5 +184,25 @@ printf '# T-TWO — thing\n\n  **Status**: build\n\n## History\n' > _ops/tasks/T
 python3 "$HERE/transition.py" _ops/tasks/T-TWO.md review --by w >/dev/null 2>&1 \
   && ok || bad "the door refused a field indented two spaces, which markdown still calls a field"
 
+# ── a fence and a blockquote are examples too, and the door must not move them ──────────────
+# The indent repair above taught this reader ONE of the three ways a page shows an example and
+# stopped there, while the guard's `state_homes` skips fences, blockquotes and indents alike —
+# so the same divergence reopened one rung up, with the release notes claiming all three tools
+# agreed. Measured 2026-08-21 (pass twelve). Each case pairs a masked example with a REAL field
+# below it: the door must move the real one and leave the example untouched, which is stricter
+# than refusing outright — a mask that hid both would pass a refusal-only assertion.
+printf '# T-FEN — thing\n\n**Assignee**: ui\n\n```\n**Stage**: shipped\n```\n\n**Stage**: build\n\n## History\n' > _ops/tasks/T-FEN.md
+python3 "$HERE/transition.py" _ops/tasks/T-FEN.md review --by w >/dev/null 2>&1
+grep -q '^\*\*Stage\*\*: review' _ops/tasks/T-FEN.md \
+  && ok || bad "the door did not move the real field on a page carrying a fenced example"
+[ "$(grep -c '^\*\*Stage\*\*: shipped' _ops/tasks/T-FEN.md)" = 1 ] \
+  && ok || bad "the door rewrote the field inside a fence — an example everywhere else"
+printf '# T-QUO — thing\n\n**Assignee**: ui\n\n> **Stage**: archived\n\n**Stage**: build\n\n## History\n' > _ops/tasks/T-QUO.md
+python3 "$HERE/transition.py" _ops/tasks/T-QUO.md review --by w >/dev/null 2>&1
+grep -q '^\*\*Stage\*\*: review' _ops/tasks/T-QUO.md \
+  && ok || bad "the door did not move the real field on a page carrying a quoted example"
+grep -q '^> \*\*Stage\*\*: archived' _ops/tasks/T-QUO.md \
+  && ok || bad "the door rewrote a blockquoted field — an example everywhere else"
+
 echo "transition: $pass passed, $fail failed"
 exit "$fail"

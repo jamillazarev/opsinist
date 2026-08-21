@@ -479,10 +479,16 @@ if [ -z "${CORPUS_PF_TEST:-}" ]; then
   if [ "$_se_rc" -eq 0 ]; then
     say_ok "$(printf '%s' "$_se" | sed 's/^  //')"
   else
-    printf '%s\n' "$_se" | grep '✗' | sed 's/^  ✗ //' | while IFS= read -r _l; do
+    # TWO breaks lived in these four lines, and the gate exited 0 through both — measured
+    # 2026-08-21 by two lenses independently. (1) `fail=1` set a variable this file does not
+    # read: the flag is `FAIL`, so the belt was fastened to nothing. (2) the `say_fail` calls
+    # sat on the RIGHT of a pipe, where a subshell owns them, so even the correct name would
+    # have died with it. A gate that prints its findings in red and then says `preflight
+    # passed` is worse than no gate: it manufactures the evidence that it held.
+    while IFS= read -r _l; do
       say_fail "$_l"
-    done
-    fail=1
+    done < <(printf '%s\n' "$_se" | grep '✗' | sed 's/^  ✗ //')
+    FAIL=1
   fi
 fi
 
