@@ -315,3 +315,5 @@ line changes with it.
 239. The strongest dissent is what a council is bought for: a panel that converged instantly measured nothing, and the agreement is the part that was always going to be cheap.
 
 240. A move on the map carries the job it is hired for, written as a job story — *when this happens, someone wants to do this, so they can get this* — and the guard refuses a move added without one. A route is a *how*; the job is the *why* somebody walked it, and a roadmap reading a map of routes alone proposes routes nobody asked for.
+
+241. A market figure carries where it came from and when, or the guard refuses it — and `unknown` is an accepted answer. The gate does not ask a project to have numbers; it asks that a number, once written, be traceable, because a market size is the easiest thing in a project to invent and the hardest to check.

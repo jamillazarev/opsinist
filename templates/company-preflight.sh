@@ -758,6 +758,43 @@ wrong: \`**Job**: when <situation>, someone wants to <motivation>, so they can <
 honest answer is that nobody knows yet, that is a valid job line — write \`unknown, and here is what \
 would settle it: …\` — but it is not a blank"
 
+# 4d · **a market figure carries where it came from and when.** `_ops/MARKET.md` holds the size
+#      of the opportunity, and this is the single most hallucination-prone file a project can own:
+#      a plausible number arrives free, reads as research, and is quoted for a year. So a figure
+#      line is refused unless it carries a SOURCE and a DATE beside it — the same law
+#      `permissions.md` already applies to prices, applied where the numbers are largest and the
+#      checking is hardest.
+#
+#      `unknown` IS an accepted value, and that is the point: the gate is not asking for a number,
+#      it is asking that a number, once written, be traceable. A file honestly saying `TAM:
+#      unknown — nobody has counted this` passes; one saying `TAM: $4.2B` does not.
+#
+#      A figure is a currency amount or a count with a unit. Prose about a market is not a figure
+#      and is not asked — this refuses claims, not sentences.
+if ( changed --diff-filter=AMR -- '_ops/MARKET.md' ) | hits . ; then
+  _mkt_bad=""
+  while IFS= read -r _l; do
+    # a figure: a currency amount, or a bare number with a magnitude suffix or a unit noun
+    printf '%s\n' "$_l" \
+      | grep -qiE '(^|[^0-9A-Za-z])([$€£¥][0-9][0-9.,]*|[0-9][0-9.,]*[[:space:]]*(m|bn|b|k|million|billion|thousand)\b|[0-9][0-9.,]*[[:space:]]*(people|users|firms|companies|households|businesses|customers|seats))' \
+      || continue
+    # …must carry a source AND a date on the same line
+    printf '%s\n' "$_l" | grep -qiE '(source|per|from|via)[[:space:]]*:?[[:space:]]*\S' \
+      && printf '%s\n' "$_l" | grep -qE '20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]|20[0-9][0-9]' \
+      || _mkt_bad="$_mkt_bad
+    $_l"
+  done < <( ( git diff --cached -U0 -- _ops/MARKET.md 2>/dev/null || true ) \
+            | grep '^+' | grep -v '^+++ ' | sed 's/^+//' \
+            | awk '/^[[:space:]]*```/{f=!f; next} !f' )
+  [ -z "$_mkt_bad" ] || say_fail "_ops/MARKET.md adds figures with no source and date beside them:\
+$_mkt_bad
+— a market number is the easiest thing in a project to invent and the hardest to check, and one \
+quoted without provenance is indistinguishable from one somebody made up. Each figure carries \
+where it came from and when: \`TAM: \$4.2B · source: <who counted, and how> · 2026-08-21\`. \
+\`unknown\` is an accepted answer and needs nothing — this gate asks that a number, once written, \
+be traceable, not that a number exist"
+fi
+
 # 5b · skills born in this repo stay modular (templates/SKILL-SCAFFOLD.md): a budgeted
 #      router core + chapters. Catches the monolith while it is still one commit old.
 while IFS= read -r -d '' sk; do

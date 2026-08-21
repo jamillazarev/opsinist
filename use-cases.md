@@ -107,6 +107,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "Why does this screen exist at all?" | *"what job is this move hired for?"* | every move on the map carries a **job story** — *when &lt;situation&gt;, someone wants to &lt;motivation&gt;, so they can &lt;outcome&gt;* — and the guard refuses a move added without one. A route is a *how*; the job is the *why*, and it is written so it can turn out to be wrong |
 | "Where did you get that?" | *"source?"* | named, with a date — or said plainly to be a judgement call |
 | "Was that price still true?" | *"check it"* | recorded facts carry check-dates and are re-verified before a decision |
+| "How big is this even?" | *"size the market"* | **TAM · SAM · SOM in `_ops/MARKET.md`**, each figure carrying its source and its date — and `unknown` accepted, because the gate asks that a number be traceable, not that one exist. A derived figure carries its arithmetic, not just its result |
 | "Would users like this?" | *"what would users think?"* | **angles from synthetics, never percentages** — and you're told so before anything runs |
 | "Test it on a sample" | — | **synthetics cannot give you a sample.** You are offered the honest alternative |
 | "Why didn't we do X? I keep suggesting it" | *"what did we reject and why?"* | the decision log, with the evidence and the revisit trigger |

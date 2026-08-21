@@ -23,7 +23,9 @@ your-project/
     LATER.md            # deferred, each with a revisit moment
     BACKLOG.md          # the one hand-kept ordering surface
     ROADMAP.md          # the sequence of intents, each with its why
-    MAP.md              # the product as moves and things
+    MAP.md              # the product as moves and things — each move naming its job
+    MARKET.md           # how big the opportunity is: TAM · SAM · SOM, each figure
+                        #   carrying its source and its date, or `unknown`
     ARCHITECTURE.md     # where the implementation lives
     BUDGET.md           # the envelope, stated as shares
     ECONOMICS.md        # what the product earns and costs
@@ -175,6 +177,7 @@ shape each time produces a document only its author can read.
 | the project guide | `templates/GUIDE-template.md` |
 | `_ops/config.md` | `templates/CONFIG-template.md` |
 | `_ops/FIELD-NOTES.md` | `templates/FIELD-NOTES-template.md` |
+| `_ops/MARKET.md` | `templates/MARKET-template.md` |
 | `_ops/ARCHITECTURE.md` | `templates/ARCHITECTURE-template.md` |
 | `_ops/MAP.md` | `templates/MAP-template.md` |
 | `_ops/process/types/<type>.md` | `templates/TYPE-template.md` |

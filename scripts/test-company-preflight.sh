@@ -605,6 +605,38 @@ git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git rm -qf _ops/MAP.md >/dev/null 2>&1
 git commit -qm "map fixture out" >/dev/null 2>&1
 
+# ── a market figure carries where it came from and when ────────────────────────────────────
+# New in 0.2.9. _ops/MARKET.md is the most hallucination-prone file a project can own: a plausible
+# number arrives free, reads as research, and is quoted for a year. The gate does not ask for a
+# number — `unknown` passes — it asks that a number, once written, be traceable.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# Market\n\n- **TAM**: $4.2B\n- **SAM**: 180,000 firms\n' > _ops/MARKET.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "market figures were added with no source and no date and nothing objected" || ok
+printf '# Market\n\n- **TAM**: $4.2B \xc2\xb7 source: a report I read\n' > _ops/MARKET.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a figure with a source and no date passed — an undated number is a number about a year nobody named" || ok
+printf '# Market\n\n- **TAM**: $4.2B \xc2\xb7 2026-08-21\n' > _ops/MARKET.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a figure with a date and no source passed — provenance is the half that cannot be guessed" || ok
+# the twins: sourced and dated, honest unknowns, and prose that states no figure at all
+printf '# Market\n\n- **TAM**: $4.2B \xc2\xb7 source: national register, SIC 10.71 \xc2\xb7 2026-07-14\n' > _ops/MARKET.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a figure carrying its source and date was refused"
+printf '# Market\n\n- **TAM**: unknown \xe2\x80\x94 nobody has counted this\n' > _ops/MARKET.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "an honest unknown was refused — the gate asks for traceability, not for a number"
+printf '# Market\n\nThe market is large and fragmented; nobody has sized it yet.\n' > _ops/MARKET.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "prose about a market with no figure in it was refused — this gate refuses claims, not sentences"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/MARKET.md
+
 # ── retiring _ops/DECISIONS.md itself must be POSSIBLE ─────────────────────────────────────
 # The escape asks for an added line inside DECISIONS, and when DECISIONS is what is being retired
 # the commit's whole content is that the file stops existing there — so every literal reading was

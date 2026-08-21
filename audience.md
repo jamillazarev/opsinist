@@ -43,6 +43,56 @@ direction-only**.
 
 ---
 
+## How many of them are there
+
+**A segment says who; a market size says how many, and the second is where invention is cheapest.**
+A plausible figure arrives free, reads as research, and is quoted for a year — so the rule is not
+*get the number right*, which nobody can promise, but **make the number checkable**:
+`_ops/MARKET.md`, one line per figure, each carrying **where it came from and when**
+(`templates/MARKET-template.md`). The guard refuses a figure without both.
+
+**Three sizes, three different questions**, and confusing them is how a plan that looked funded
+turns out not to be. **TAM** is the ceiling if everyone who could ever want this bought it —
+nobody has ever sold to a TAM. **SAM** is the part this product can actually serve: this
+geography, this segment, this price. **SOM** is what *we* can reach in the period being planned
+for, with the reach we actually have — the one that decides anything, and the one most often
+skipped because it is the one that can disappoint.
+
+**`unknown` is an answer and a blank is not.** *"SOM: unknown — nobody has counted the share we
+could reach in year one"* is a true line that names the next act. A missing line claims the
+question was never worth asking, and the difference matters more here than anywhere: an
+unmeasured segment named is a known unknown; the same segment left out silently is a claim it
+does not exist.
+
+**Where a figure was derived rather than found, the derivation IS the source** — the arithmetic,
+not the result. A derived number whose working is hidden cannot be argued with, and it inherits
+every error in its inputs in silence.
+
+```mermaid
+flowchart TB
+  T["**TAM** — everyone who could ever want it<br/>a ceiling; nobody sells to it"]
+  S["**SAM** — what this product can serve<br/>this geography · segment · price"]
+  O["**SOM** — what we can reach this period<br/>the one that decides anything"]
+  T --> S --> O
+  P{"each figure"}
+  O -.-> P
+  P -->|"source + date"| K["a checkable claim"]
+  P -->|"neither"| X["refused — indistinguishable<br/>from one somebody made up"]
+  P -->|"`unknown`, said"| K
+```
+
+**The third branch is why the gate is bearable.** A rule demanding numbers would be answered with
+invented ones — the failure it was written to prevent, arriving through its own enforcement. A
+rule demanding *traceability* is answered honestly by anyone who does not know.
+
+**And these are claims about the world, so they sit on the FIRST pyramid** — measured › cited ›
+recalled › judgement — never the people pyramid this document is otherwise about. Almost every
+market figure is *cited* at best, and **a cited number that loses its citation has quietly become
+a recalled one** while looking identical. That is the whole reason the provenance travels on the
+line rather than in a paragraph nearby.
+
+---
+
 ## Segment and panel
 
 | | What it is | Where it lives |
