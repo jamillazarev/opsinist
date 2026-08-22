@@ -35,6 +35,19 @@ dependency names it in `_ops/DECISIONS.md`, with what it replaces and what was r
 keyword — the dependency's own name, because a gate satisfied by vocabulary teaches people to
 sprinkle words. A version bump is not a new dependency and is not asked.
 
+**And this is the decision loop's own last step, made unskippable at one moment.** The loop already
+says *frame → search, don't recall → compare, each claim sourced → choose and say why → record in
+`_ops/DECISIONS.md` → act* (`SKILL.md`), and every claim inside it carries its rung — **measured ›
+cited › recalled › judgement** (`audience.md`). The rung above choosing adds no new obligation; it
+picks the **moment** where the existing one is cheapest to meet and hardest to skip. A new standing
+commitment is the sharpest instance of *choose and say why*, because it is the decision whose cost
+outlives everyone who remembers making it.
+
+**So the form does not ask for research — it asks for the record the loop already owed.** That
+distinction matters: a gate demanding *evidence* would be answered with a plausible sentence, and
+this corpus knows what plausible sentences are worth. A gate demanding **the name of the thing you
+just chose, and what it replaces** cannot be met by anyone who did not make the choice.
+
 **Why a form and not a paragraph.** The ladder is good advice and this corpus measures good advice
 at about zero — the same rule as prose moved 1 run in 10 on 2026-08-22, and as a refusal moved 5 in
 5. A dependency arrives in a minute and leaves over a year; the person who just chose it is the

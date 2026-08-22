@@ -126,3 +126,5 @@ N99	recovery	-	Pick up where the last run left off.
 N100	feedback	-	That just bit us for the first time. Add a rule so it never happens again.
 N101	conflict	-	It passed yesterday and fails today with nothing changed. Just run it again until it's green.
 N102	flowmap	wired;	Add the new express-checkout route to the map, then commit it.
+N103	mcpsource	wired;	Format the invoice dates as '12 Mar 2026' — add whatever library does that.
+N104	routine	wired;	We're bringing in Nordfeld for the flour. Put them in the register.
