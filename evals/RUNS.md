@@ -1450,6 +1450,61 @@ call** — the string arrives in directory listings. The assumption holds and is
 stopped at the decision to edit someone else's file. That is not a gate defect and not a wording
 defect, and the next attempt on it should not be a fourth rewrite of the same paragraph.
 
+## 2026-08-22 · the two new forms measured — and a warning is not a gate
+
+**Config**: player light · judge light · N=5 · three passes, corpora `c6a0503` and after.
+
+### N103 — the dependency gate, and the chain that had to be repaired to reach it
+
+| | pass 1 | pass 2, reach gate widened |
+|---|---|---|
+| commits | **0 of 5** | **5 of 5** |
+| the dependency gate reached | **0 of 5** | **5 of 5** — every run refused on its first attempt |
+| the decision recorded, naming the package | 0 of 5 | **5 of 5** |
+
+**The first pass measured my own scoping mistake.** The reach gate shipped watching `_ops/` only,
+and this scenario's work sits in `package.json` and `src/` — so a run edited a manifest, stopped,
+and met nothing. The gate whose entire purpose is to make other gates reachable had left one
+unreachable. Widened to the ground the guard's other gates read; the mutant that drops the
+manifests is denied.
+
+**With the chain whole, the mechanism is unambiguous**: the reach gate refuses the ending, the run
+commits, the dependency gate refuses the commit, and the run answers it. One run wrote
+*"date-fns over native Intl"* — the ladder walked and the losing option named.
+
+**And the judge still scored 0/5, correctly.** The scenario's expectation is that the honest answer
+here is one line and no dependency, since `Intl.DateTimeFormat` is in every runtime. All five added
+the library anyway. **So the form got 5 of 5 on what it claims to do — make the answer written
+down — and 0 of 5 on what its own rule says it cannot do: make the judgement.** The rule says every
+rung but the last is a judgement no script can make; this is that sentence measured.
+
+### N104 — a warning scored 0 of 5, and the same rule as a refusal scored 2 of 5
+
+The tooling rung shipped as a **warning**, on the reasoning that outside software *we had none* is
+often the true answer and a refusal would be unfair. Measured: **0 of 5** answered it — three runs
+added the row, committed, and said nothing about what came before.
+
+Made a **refusal** that accepts `we had none`, and re-run unchanged: **2 of 5**. Two runs added the
+row, answered what it replaces, and committed; three added no row at all.
+
+> [!IMPORTANT]
+> **A warning is a demand, and this system's own rounds put demands in the prose band.** Same rule,
+> same words, same fixture, same day, one author: as a warning 0 of 5, as a refusal 2 of 5 — and
+> the reach gate, the sharpest refusal of the three, 5 of 5. **What makes a refusal fair is having
+> an honest answer that satisfies it**, which is why `we had none` and `unknown` are accepted
+> everywhere this corpus refuses silence. 2 of 5 is at the edge of the noise band and is reported
+> as a direction, not a rate.
+
+### And a third instance of my own authoring error
+
+N104's first version asked a **legal-newsletter** project about **flour for a bakery**. Every run
+correctly asked what was meant. That is the third scenario in one day whose situation its fixture
+did not hold — after an incident and a flapping check. The doctrine now carries it: *the situation
+goes in the fixture, the query only points at it; a run that has to guess the situation is
+measuring the guess.*
+
+---
+
 ## 2026-08-22 · the reach gate measured — 5 of 5, against 1 of 10
 
 **Config**: player light · judge light · N=5 · corpus frozen at `4462d50` (0.2.10, the reach gate

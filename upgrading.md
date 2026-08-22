@@ -13,7 +13,7 @@ wonder why nothing changed.
 
 | Layer | What moves |
 |---|---|
-| **this system's bytes** | the skill files on the machine — **by a route that differs per install**, below |
+| **this system's bytes** | the skill files on the machine — **by a route that differs per install**, below — **and its copies inside the project**: `_ops/scripts/` holds the guard and its doors, which move only when re-copied, so a release adding a check leaves them green while running fewer gates. The guard stamps its own version and warns when the guide disagrees (2026-08-22) |
 | **the project's format** | `schema_version`, the codemods — **the tasks carrying state twice named, not rewritten** · **the doors re-copied by `scripts/migrate-layout.py` — which finds its own source, so no one has to know where this runtime cached the skill — the guide regenerated from the new template** (`project-layout.md`): copies do not move by themselves, and a regenerated guide is how an existing project receives what the template learned |
 | **attached skills** | third-party skills, re-screened |
 | **tooling versions** | the things in the register, checked against their release feeds |

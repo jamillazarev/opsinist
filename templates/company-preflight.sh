@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# guard-version: 0.2.10   <!-- stamped from the skill at ship time; read by the check below -->
 # Docs guard for a company the advisor built — install it into the company's own repo, not ours.
 #
 #   cp templates/company-preflight.sh <repo>/_ops/scripts/preflight.sh
@@ -724,6 +725,26 @@ if [ -d _ops/map ]; then
   done
 fi
 
+# 4b-bis · **the guard checks its OWN age against the guide.** This file is a COPY: it is written
+#      into `_ops/scripts/` at stand-up and never moves again by itself, so every release that adds
+#      a check leaves every existing project on the old one — silently, with a green tick. The
+#      upgrade's four layers name the skill's bytes, the project's format, attached skills and
+#      tooling versions; **the installed machinery was in none of them**, which is the fifth layer
+#      and the one nobody notices, because a stale guard does not complain: it simply does less.
+#
+#      A WARNING and not a refusal: a project may sit a version behind on purpose between upgrades,
+#      and a guard that refuses every commit until someone re-copies it is a guard people delete.
+_gv=$(sed -n 's/^# guard-version:[[:space:]]*\([0-9.]*\).*/\1/p' "$0" | head -1)
+_pv=$(grep -m1 -oE 'Operated by:\*\*[^*]*\*\*([0-9]+\.[0-9]+\.[0-9]+)\*\*' CLAUDE.md 2>/dev/null \
+      | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | tail -1)
+if [ -n "$_gv" ] && [ -n "$_pv" ] && [ "$_gv" != "$_pv" ]; then
+  say_warn "this guard is version $_gv and the guide says the project runs $_pv — the guard is a \
+COPY and does not move with an upgrade, so any check added since $_gv is not running here and \
+nothing else will say so. Re-copy it beside its doors: \`cp <skill>/templates/company-preflight.sh \
+_ops/scripts/preflight.sh\` and the two scripts next to it, then run \`bash _ops/scripts/preflight.sh \
+--install\`. A stale guard does not complain; it does less"
+fi
+
 # 4c · **a move added to the map names the job it is hired for.** A move is a route someone takes;
 #      the job is what they were trying to get done when they took it. Without it the map answers
 #      *how the product is walked* and never *why anyone walks it* — and a roadmap built on that
@@ -882,12 +903,17 @@ if [ -n "$_tool_rows" ]; then
     | grep '^+' | grep -v '^+++ ' || true )
   printf '%s\n%s\n' "$_tool_rows" "$_dec2" \
     | hits -iE 'instead of|replaces|rather than|already|by hand|nothing else|we had none|had no ' \
-    || say_warn "this commit adds a row to _ops/TOOLING.md and nothing says what it replaces. A \
+    || say_fail "this commit adds a row to _ops/TOOLING.md and nothing says what it replaces. A \
 tool arrives in a minute and is maintained for a year, and the rung above choosing one is asking \
 whether the work already had a way — a clause in the row's own why, or a line in \
 _ops/DECISIONS.md: what was done before this, and why that stopped being enough. \`we had none\` \
-is a complete answer and often the true one outside software, which is why this warns rather \
-than refuses"
+is a complete answer and often the true one outside software — write it and this passes.
+#
+#      **It refuses rather than warns, and that was measured rather than argued.** It warned for
+#      its first hours and scored 0 of 5: three runs added the row, committed, and none said what
+#      came before. The same day, in the same corpus, a rule that REFUSES scored 5 of 5. A warning
+#      is a demand, and this system's own rounds put demands in the same band as prose. Accepting
+#      \`we had none\` is what makes refusing fair: the gate refuses SILENCE, never the answer."
 fi
 
 # 5b · skills born in this repo stay modular (templates/SKILL-SCAFFOLD.md): a budgeted

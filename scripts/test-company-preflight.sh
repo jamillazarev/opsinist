@@ -641,6 +641,24 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git rm -qf package.json >/dev/null 2>&1; git commit -qm "dep fixture out" >/dev/null 2>&1
 
+# ── the guard notices its own age ──────────────────────────────────────────────────────────
+# This file is a COPY, written into _ops/scripts/ at stand-up and never moving again by itself, so
+# every release that adds a check leaves existing projects on the old one — silently, with a green
+# tick. The upgrade's four layers did not include it; this is the fifth.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+_gv=$(sed -n 's/^# guard-version:[[:space:]]*\([0-9.]*\).*/\1/p' "$HERE/../templates/company-preflight.sh" | head -1)
+printf '# P\n\n**Operated by:** Opsinist **%s** · format `schema_version` 1\n' "$_gv" > CLAUDE.md
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'guard is version' \
+  && bad "the guard complained about its age while matching the guide" || ok
+printf '# P\n\n**Operated by:** Opsinist **0.0.1** · format `schema_version` 1\n' > CLAUDE.md
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'guard is version' \
+  && ok || bad "a guard older than the guide said nothing — the fifth upgrade layer is silent again"
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "the age check refused instead of warning"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+
 # ── and the same rung where there is no code at all ────────────────────────────────────────
 # A package manifest is one project's spelling of a new standing commitment; a bakery's is a
 # supplier. `_ops/TOOLING.md` is the universal register, so a row added there is asked the same
@@ -662,9 +680,15 @@ printf '| Nordfeld flour | the sourdough base; we had none, the recipe is new | 
 git add -A
 ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'what it replaces' \
   && bad "\`we had none\` was not accepted — outside software it is usually the true answer" || ok
-# and it WARNS: the commit still passes
+# and it REFUSES the silence — measured 2026-08-22: as a warning it scored 0 of 5, three runs
+# adding the row and committing with nothing said. Accepting `we had none` is what makes refusing
+# fair; the gate refuses silence, never the answer.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '| Otter | interview transcripts | me | service | 2026-08-22 |\n' >> _ops/TOOLING.md
+git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
-  && ok || bad "the tooling rung refused instead of warning"
+  && bad "a row with nothing about what came before passed — a warning there measured 0 of 5" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 
 # ── a market figure carries where it came from and when ────────────────────────────────────
