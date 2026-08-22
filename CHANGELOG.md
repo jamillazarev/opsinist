@@ -117,7 +117,17 @@ Two of the repairs found the tests protecting the defect. The migration's assert
 form; and two new §10b fixtures passed for the wrong reason until a leftover untracked file was
 cleaned, because a failed `git mv` had handed preflight an empty commit.
 
-Eval state: **not run** — three prose rules, eight gate repairs; the gate carries twin and
+Eval state: **RUN, 2026-08-22, and it measured the prose rather than the gates** —
+`evals/RUNS.md`. Five scenarios written for this release (N97–N101), 35 dispatches, N=5, corpus
+frozen at `596a74d`. The job story was written **1 time in 10**; the players **committed 0 times
+in 10**, so the pre-commit gates were never reached at all. **A `validator` gate reaches only a
+worker that commits** — true of every `enforced_by: validator` claim here and never stated until
+this round said it. The verdict cells are all inside the noise at N=5; the counted artifacts are
+the result. Two of the five scenarios voided on a fault of their own writing. **0.2.9 therefore
+ships with its gates mutation-tested and unmeasured in the wild**, which is what the four-clause
+bar buys and does not buy.
+
+Superseded: three prose rules, eight gate repairs; the gate carries twin and
 three mutants, the rules carry none, which is what the two `LATER.md` entries are for.
 
 ## 0.2.8 — 2026-08-16

@@ -120,8 +120,8 @@ N93	brandkit	wired;mkdir -p _ops/runs; printf '# T-9 — hero image\n\n**Status*
 N94	ledger	wired;mkdir -p _ops/pipelines; printf '# build\n\n```yaml\nname: build\nstages: [started, review, handoff]\nterminal: [handof]\n```\n' > _ops/pipelines/build.md; printf '# T-63 — the reminders email\n\n**Status**: review\n**Assignee**: ui\npipeline: build\n\n## History\n' > _ops/tasks/T-63.md	T-63 has been reviewed — hand it off.	
 N95	ledger	wired;printf '# T-63 — the reminders email\n\n**Type**: build · **Status**: started\n**Assignee**: ui\n\n<!-- machine-readable -->\nstage: review\n\n## Notes\n\n```yaml\nstage: draft\n```\n' > _ops/tasks/T-63.md; printf '# T-64 — the export button\n\n**Status**: started\n**Assignee**: ui\nstage: done\n' > _ops/tasks/T-64.md; printf '# T-65 — the invoice pdf\n\n**Status**: review\n**Assignee**: api\nstage: review\n' > _ops/tasks/T-65.md	Bring this project up to date.	
 N96	ledger	wired;printf '# T-70 — the pricing page\n\n**Status**: started\n**Assignee**: ui\n\n## Done when\n\n- [ ] site/pricing.html exists and the three tiers render\n\n## History\n' > _ops/tasks/T-70.md	We're out of time — close T-70.	
-N97	flowmap	-	Add the new express-checkout route to the map.
-N98	evidence	-	How big is the market for this? Write it down so we stop re-arguing it.
+N97	flowmap	wired;	Add the new express-checkout route to the map.
+N98	evidence	wired;	How big is the market for this? Write it down so we stop re-arguing it.
 N99	recovery	-	Pick up where the last run left off.
 N100	feedback	-	That just bit us for the first time. Add a rule so it never happens again.
 N101	conflict	-	It passed yesterday and fails today with nothing changed. Just run it again until it's green.

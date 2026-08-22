@@ -1450,6 +1450,58 @@ call** — the string arrives in directory listings. The assumption holds and is
 stopped at the decision to edit someone else's file. That is not a gate defect and not a wording
 defect, and the next attempt on it should not be a fourth rewrite of the same paragraph.
 
+## 2026-08-22 · the 0.2.9 round — the gates were never reached, and that is the finding
+
+**Config**: player light (`haiku` default tier, one below the floor) · judge light · N=5 ·
+corpus frozen at `596a74d`, fingerprint `e2fc537b…` · clean-room homes logged in as themselves.
+
+**35 dispatches over three passes**, and the number worth keeping is not a rate.
+
+| | N97 job on a move | N98 market figure | N99 dead session | N100 | N101 |
+|---|---|---|---|---|---|
+| unwired | 0/5 | 1/4 | 0/5 | all void | all void |
+| wired, by env var | 1/5 | 0/4 | — | — | — |
+| wired, by row | **2/5** | 0/3 | — | — | — |
+
+**Every cell here is inside the noise** — this file's own standing rule at N=5 — so the verdicts
+are not the result. The counted artifacts are.
+
+**Counted across all ten N97 runs, both conditions: the player added the move 8 times, wrote a
+`**Job**` line ONCE, and committed ZERO times.** The last commit in all ten workspaces is the
+fixture's own. Three wired runs left the edit sitting uncommitted; two left nothing at all.
+
+**So the gate was never reached, twice, for two different reasons.** First pass: no hook anywhere
+— `WIRE_PREFLIGHT=1` was set while building fixtures by hand and the suite rebuilds them per run,
+which is **the exact mistake `eval-dispatch.sh` documents in a comment dated 2026-08-15**, about a
+round of seven that answered a question nobody asked. Wiring is declared `wired;` in the row; the
+rows now do. Second pass, with the hook verifiably present in all five: **the players still did not
+commit**, and a pre-commit validator constrains the moment of commit and nothing else.
+
+> [!IMPORTANT]
+> **A `validator` gate reaches only a worker that commits.** Every `enforced_by: validator` claim
+> in this corpus rests on that, and it had never been said. A run that edits and stops is outside
+> §4c, §4d and §14 alike — not because they are broken, but because they guard a moment it never
+> arrives at. This is the same silence `recovering.md` describes from the other side: a run that
+> commits nothing leaves nothing to resume from. Here it also escapes every gate on the way.
+
+**Two prose rules measured, both near zero.** The job story: **1 of 10**. Committing as the work
+happens: **0 of 10**, against a corpus that calls incremental commits *the recovery mechanism*
+rather than tidiness. Consistent with every prose measurement this file records.
+
+**Two voids that are the author's fault, not the corpus's.** N100 and N101 went all-void because
+their queries name things their fixtures do not contain — an incident in `feedback`, a flapping
+check in `conflict`. Every player asked a clarifying question, which is **correct behaviour**, and
+nothing was measured. Same class as the sibling's scenario 18 before it had a fixture: a transcript
+that looks gradeable and grades nothing. Both need their fixture halves before they mean anything.
+
+**Owed from here**, in order: give N100 and N101 the state their queries assume · decide whether a
+scenario that means to reach a gate must say *commit it* in the turn, or whether not-committing is
+itself the behaviour under test (both are legitimate, and they measure different things) · and
+re-run N97/N98 once one of those is chosen. Until then **0.2.9 has no gate measurement**, and the
+changelog says so rather than implying otherwise.
+
+---
+
 ## 2026-08-15 · the same three with the guide installed — the rule is read and not used
 
 **Config**: player `haiku` (the rig's default floor) · judge `sonnet` · N=5
