@@ -677,6 +677,20 @@ git checkout -q HEAD -- . 2>/dev/null; git reset -q
 rm -f requirements.txt go.mod Gemfile
 git rm -qf package.json >/dev/null 2>&1; git commit -qm "shapes fixture out" >/dev/null 2>&1
 
+# ── the SHIPPED templates pass the SHIPPED gates ───────────────────────────────────────────
+# The documented stand-up act — write _ops/MARKET.md and _ops/TOOLING.md from their templates —
+# was refused by §4d, so every new project would have met a refusal on day one. Two causes: a
+# figure and its source split across a hard wrap, and an example figure in running prose. Measured
+# 2026-08-23. This asserts the act, not the parts: whatever the templates say, they must survive
+# the guard that ships beside them.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+cp "$HERE/../templates/MARKET-template.md" _ops/MARKET.md
+cp "$HERE/../templates/TOOLING-template.md" _ops/TOOLING.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "the shipped templates are refused by the shipped guard — the stand-up act refuses itself"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q; rm -f _ops/MARKET.md
+
 # ── §4f reads a FIELD, not a vocabulary ────────────────────────────────────────────────────
 # It was a keyword list, which is precisely the defect §4e was repaired away from in the same file
 # on the same day: a gate satisfied by words teaches people to sprinkle them, and refuses an honest

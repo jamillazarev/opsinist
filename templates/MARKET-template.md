@@ -21,9 +21,16 @@ funded turns out not to be:
 - **SOM**: {{$X or N units}} · source: {{who counted it, and how}} · {{YYYY-MM-DD}}
 
 **Where a figure was derived rather than found, the derivation IS the source** — write the
-arithmetic, not the result: *"SAM: 180,000 firms · source: national register SIC 10.71, filtered
-to firms with 2+ sites · 2026-08-01"*. A derived number whose working is hidden cannot be argued
-with, and it inherits every error in its inputs silently.
+arithmetic, not the result:
+
+```
+SAM: 180,000 firms · source: national register SIC 10.71, filtered to firms with 2+ sites · 2026-08-01
+```
+
+A derived number whose working is hidden cannot be argued with, and it inherits every error in its
+inputs silently. *(The example is fenced on purpose: the guard reads this file like any other, and
+an example figure in running prose is indistinguishable from a claim. It refused this very
+template on 2026-08-23, which is the documented stand-up act refusing itself.)*
 
 ## What would change the answer
 

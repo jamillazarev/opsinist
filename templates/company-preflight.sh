@@ -794,6 +794,16 @@ would settle it: …\` — but it is not a blank"
 #      and is not asked — this refuses claims, not sentences.
 if ( changed --diff-filter=AMR -- '_ops/MARKET.md' ) | hits . ; then
   _mkt_bad=""
+  # **A figure and its provenance may be on two lines.** This corpus hard-wraps at ~98 columns, so
+  # `SAM: 180,000 firms · source: …` splits, and a line-at-a-time test saw the number without the
+  # source and refused. It refused the SHIPPED `templates/MARKET-template.md` — the documented
+  # stand-up act — so every new project would have met this on day one. Measured 2026-08-23.
+  # Each line is therefore tested together with the one after it, which is where a wrapped
+  # continuation lives; the same flattening lesson as three other checks in these repositories.
+  _mkt_lines=$( ( git diff --cached -U0 -- _ops/MARKET.md 2>/dev/null || true ) \
+                | grep '^+' | grep -v '^+++ ' | sed 's/^+//' \
+                | awk '/^[[:space:]]*```/{f=!f; next} !f' )
+  _mkt_pairs=$(printf '%s\n' "$_mkt_lines" | awk '{prev=cur; cur=$0; if (NR>1) print prev " " cur} END {print cur}')
   while IFS= read -r _l; do
     # a figure: a currency amount, or a bare number with a magnitude suffix or a unit noun
     printf '%s\n' "$_l" \
@@ -804,9 +814,7 @@ if ( changed --diff-filter=AMR -- '_ops/MARKET.md' ) | hits . ; then
       && printf '%s\n' "$_l" | grep -qE '20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]|20[0-9][0-9]' \
       || _mkt_bad="$_mkt_bad
     $_l"
-  done < <( ( git diff --cached -U0 -- _ops/MARKET.md 2>/dev/null || true ) \
-            | grep '^+' | grep -v '^+++ ' | sed 's/^+//' \
-            | awk '/^[[:space:]]*```/{f=!f; next} !f' )
+  done < <(printf '%s\n' "$_mkt_pairs")
   [ -z "$_mkt_bad" ] || say_fail "_ops/MARKET.md adds figures with no source and date beside them:\
 $_mkt_bad
 — a market number is the easiest thing in a project to invent and the hardest to check, and one \
