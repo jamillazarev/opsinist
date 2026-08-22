@@ -6,7 +6,7 @@
 
 ## What the corpus says holds its rules
 
-- `validator` — stated 5×
+- `validator` — stated 6×
 - `harness` — stated 4×
 - `prose-only` — stated 3×
 - `request` — stated 3×
