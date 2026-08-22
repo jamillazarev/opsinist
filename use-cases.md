@@ -111,6 +111,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "It passed, then it failed, then it passed" | *"the answer will not hold still"* | the work stops at the **second** disagreement — the count is flips, not attempts — and what escalates is *the question is unstable, and here is what differed between the askings*, never *which run was right* |
 | "Where did you get that?" | *"source?"* | named, with a date — or said plainly to be a judgement call |
 | "Was that price still true?" | *"check it"* | recorded facts carry check-dates and are re-verified before a decision |
+| "Just npm install it" | — | the commit is **refused** unless the decision log names the package, what it replaces and what was rejected. Every rung above it — already here · standard library · native · one line — is a judgement only the person choosing can make, and it takes them seconds |
 | "How big is this even?" | *"size the market"* | **TAM · SAM · SOM in `_ops/MARKET.md`**, each figure carrying its source and its date — and `unknown` accepted, because the gate asks that a number be traceable, not that one exist. A derived figure carries its arithmetic, not just its result |
 | "Would users like this?" | *"what would users think?"* | **angles from synthetics, never percentages** — and you're told so before anything runs |
 | "Test it on a sample" | — | **synthetics cannot give you a sample.** You are offered the honest alternative |

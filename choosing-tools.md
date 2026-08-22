@@ -20,6 +20,31 @@ only a human can operate makes the owner the bottleneck for every change it touc
 
 ---
 
+## Before the ladder: does this need to exist at all
+
+**The selection ladder answers *which*. It does not ask *whether*** — and the cheapest code is the
+code nobody writes. Before choosing between tools, walk down:
+
+**does this need to exist · is it already in the project · does the standard library do it ·
+does the platform do it natively · does something already installed do it · can it be one line ·
+only then, the smallest thing that works**
+
+**Every rung but the last is a judgement no script can make.** Whether the answer was written
+down is not — so the form sits at the one moment it is cheapest to ask: **a commit that adds a
+dependency names it in `_ops/DECISIONS.md`, with what it replaces and what was rejected.** Not a
+keyword — the dependency's own name, because a gate satisfied by vocabulary teaches people to
+sprinkle words. A version bump is not a new dependency and is not asked.
+
+**Why a form and not a paragraph.** The ladder is good advice and this corpus measures good advice
+at about zero — the same rule as prose moved 1 run in 10 on 2026-08-22, and as a refusal moved 5 in
+5. A dependency arrives in a minute and leaves over a year; the person who just chose it is the
+only one who can write the line, and they can write it in seconds.
+
+**Native-first is the same rung, said earlier** — ask whether the runtime already does it before
+designing anything, and record the answer with its date → `tooling.md`.
+
+---
+
 ## Free tier first — and name the ceiling
 
 **Not "it has a free tier" but *where the free tier ends*, in the unit that will actually bite**:

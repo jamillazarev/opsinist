@@ -325,3 +325,5 @@ line changes with it.
 244. Three attempts bound failure, and two runs that disagree bound contradiction — the worse state, because every run inside it looks like a success. The work stops at the second disagreement, and what escalates is that the question is unstable, never which run was right.
 
 245. A run may not end leaving the machinery uncommitted — the hook refuses the ending, once, and says so. Every gate here is enforced at the commit, so work that stops short of one is governed by prose alone; measured 2026-08-22, players edited the machinery 8 times in 10 runs and committed 0 times.
+
+246. A commit that adds a dependency names it in the decision log, with what it replaces and what was rejected — the guard asks for the dependency's own name, not a keyword, because a gate satisfied by vocabulary teaches people to sprinkle words. A version bump is not a new dependency.

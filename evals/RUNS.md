@@ -1450,6 +1450,41 @@ call** — the string arrives in directory listings. The assumption holds and is
 stopped at the decision to edit someone else's file. That is not a gate defect and not a wording
 defect, and the next attempt on it should not be a fourth rewrite of the same paragraph.
 
+## 2026-08-22 · the reach gate measured — 5 of 5, against 1 of 10
+
+**Config**: player light · judge light · N=5 · corpus frozen at `4462d50` (0.2.10, the reach gate
+in it) · same scenario text as the 0.2.9 arm, **not one word changed**.
+
+| | the gate fired | committed | wrote a `**Job**` line |
+|---|---|---|---|
+| **0.2.9**, no reach gate | — | **0 of 10** | **1 of 10** |
+| **0.2.10**, reach gate | **5 of 5** | **3 of 5** | **3 of 5** |
+
+**And the two that did not commit are the most interesting runs in the round.** Both read the
+refusal, understood what it asked, and **asked the owner what the job is** rather than inventing
+one — *"What's the job for this route? Once you tell me, I'll add it to the map and commit."* The
+fixture does not contain the job, and this scenario's own Fail list forbids manufacturing one. So
+those two behaved correctly, and the honest count is **5 of 5 doing the right thing** against 1 of
+10 before.
+
+**The judge scored 2/5.** It marked the asking runs as fails because the expectation list did not
+say that asking is an answer — only that saying `unknown` with what would settle it is. That is a
+scenario calibration fault, not a corpus one, and it is fixed in `new-scenarios.md`: **asking the
+owner IS naming what would settle it**, performed rather than written.
+
+> [!IMPORTANT]
+> **This is the form-over-prose law measured on a capability one day old, in both directions.**
+> The same rule, same fixture, same words in the turn: as prose it moved 1 run in 10; with a
+> prohibition at the moment the work would be abandoned, it moved 5 in 5. Nothing about the rule's
+> wording changed between the two rounds. **What changed was that an ending became impossible.**
+
+**Rig note:** the gate fired in every run, including the two that then declined to commit — so
+"fired" and "obeyed" are counted separately here, and should be everywhere. A gate that speaks and
+is answered honestly is not the same measurement as a gate that speaks and is obeyed, and
+collapsing them would have read as 3 of 5.
+
+---
+
 ## 2026-08-22 · the 0.2.9 round — the gates were never reached, and that is the finding
 
 **Config**: player light (`haiku` default tier, one below the floor) · judge light · N=5 ·

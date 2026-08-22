@@ -605,6 +605,42 @@ git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git rm -qf _ops/MAP.md >/dev/null 2>&1
 git commit -qm "map fixture out" >/dev/null 2>&1
 
+# ── a new dependency says what it replaces ─────────────────────────────────────────────────
+# New in 0.2.10, and taken from a third-party plugin's ladder rather than invented: does this need
+# to exist · is it already here · standard library · native platform feature · an installed
+# dependency · one line. Every rung above the last is a judgement no script can make; **whether
+# the answer was written down is not**, and a new dependency is the moment it is cheapest to ask.
+# Written as a form because the same ladder as prose is what this corpus measures at ~0.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '{\n  "name": "app",\n  "dependencies": {\n    "react": "^18.0.0"\n  }\n}\n' > package.json
+printf '# Decisions\n\n- 2026-08-01 \xc2\xb7 we ship weekly \xc2\xb7 rhythm \xc2\xb7 owner\n' > _ops/DECISIONS.md
+git add -A && git commit -qm "dep fixture" >/dev/null 2>&1
+python3 -c "
+import json, pathlib
+p = pathlib.Path('package.json'); d = json.loads(p.read_text())
+d['dependencies']['lodash'] = '^4.17.21'
+p.write_text(json.dumps(d, indent=2) + chr(10))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a dependency was added with nothing said about why and nothing objected" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'what it replaces' \
+  && ok || bad "the refusal does not say what the one line must contain"
+printf -- '- 2026-08-22 retiring our own deep-clone helper: lodash does it; structuredClone rejected, it drops functions\n' >> _ops/DECISIONS.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a dependency arriving with its reason was refused"
+git commit -qm "the dep" >/dev/null 2>&1
+# and a commit touching the manifest WITHOUT adding a dependency is not asked
+python3 -c "
+import json, pathlib
+p = pathlib.Path('package.json'); d = json.loads(p.read_text()); d['name'] = 'renamed'
+p.write_text(json.dumps(d, indent=2) + chr(10))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "renaming the package was treated as adding a dependency"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+git rm -qf package.json >/dev/null 2>&1; git commit -qm "dep fixture out" >/dev/null 2>&1
+
 # ── a market figure carries where it came from and when ────────────────────────────────────
 # New in 0.2.9. _ops/MARKET.md is the most hallucination-prone file a project can own: a plausible
 # number arrives free, reads as research, and is quoted for a year. The gate does not ask for a

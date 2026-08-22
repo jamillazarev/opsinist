@@ -24,7 +24,26 @@ files are the craft's business, and a run may rightly leave them for review.
 The four clauses: the form is the hook · six assertions, and the mutant that removes the gate is
 denied (108 → 107/1) · measured 2026-08-22 · the rule in `recovering.md`, fact 245, a situation.
 
-Eval state: **not run for this version** — it repairs what 0.2.9's round measured, and the honest
+**And the rung above every tool choice: does this need to exist at all.** Taken from a
+third-party ladder the owner brought — YAGNI · already here · standard library · native platform ·
+installed dependency · one line · only then the smallest thing that works — and **taken as a form,
+because the same ladder as prose is what this corpus measures at zero.** A commit that adds a
+dependency names it in `_ops/DECISIONS.md`, with what it replaces and what was rejected: the
+dependency's own **name**, not a keyword, because a gate satisfied by vocabulary teaches people to
+sprinkle words. A version bump is not a new dependency and is not asked. Four assertions, mutant
+denied. Its extractor took three iterations and reformatting was the adversary every time —
+re-indented neighbours, then collapsed-and-expanded braces — each caught by its own suite within
+the hour, and each named in the comment rather than smoothed over.
+
+Eval state: **RUN for the reach gate, 2026-08-22, and it moved the number it was built to move.**
+Same scenario, not one word changed, corpus at `4462d50`: the gate fired **5 of 5**, commits went
+**0 of 10 → 3 of 5**, job lines **1 of 10 → 3 of 5**. The two that did not commit read the refusal
+and **asked the owner what the job is** rather than inventing one, which this scenario's own Fail
+list forbids — so the honest count is 5 of 5 behaving correctly. The judge scored 2/5 because the
+expectation list did not say asking is an answer; that is fixed. **The dependency gate is not yet
+measured** — it ships with mutants and twins and no round.
+
+Superseded: not run for this version — it repairs what 0.2.9's round measured, and the honest
 next round re-runs N97 unchanged to see whether the ending-refusal moves the 0-of-10.
 
 ## 0.2.9 — 2026-08-22
