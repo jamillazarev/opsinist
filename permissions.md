@@ -234,6 +234,19 @@ These are **rules, and they are honest about being rules**. The compensating con
 them is the four lenses, read by someone who is not the author → `lenses.md`. That is the whole
 reason it is acceptable to write `prose-only` at all.
 
+> [!IMPORTANT]
+> **And a validator reaches only a worker that commits.** Measured 2026-08-22 over 35 dispatches:
+> across ten runs of one scenario the player edited the file 8 times, and committed **0** times —
+> so a pre-commit gate that refuses correctly, on the very edit those runs produced (verified by
+> hand, deterministically), never spoke once. **The gate was not weak; it guards a moment the work
+> never arrived at.** Every `validator` row below inherits that limit, and it is the sharpest thing
+> known about this column: `enforced_by: validator` means *enforced at the commit*, and work that
+> stops short of one is governed by prose alone → `evals/RUNS.md`, `recovering.md`.
+>
+> The practical consequence is not to distrust validators — it is that **a unit of work ending in a
+> commit is what makes them real**, which the corpus states in `recovering.md` and which the same
+> round measured at 0 of 10. A rule this load-bearing sitting at zero is the finding, not a footnote.
+
 **Five became `validator` on `2026-07-31` — and only where the preflight is actually wired.**
 *A review goes to someone else*: a task signed off by the name that did the work fails the commit.
 Names, not identities — a nudge at the honest case, since anything stronger belongs in branch

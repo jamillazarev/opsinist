@@ -125,3 +125,4 @@ N98	evidence	wired;	How big is the market for this? Write it down so we stop re-
 N99	recovery	-	Pick up where the last run left off.
 N100	feedback	-	That just bit us for the first time. Add a rule so it never happens again.
 N101	conflict	-	It passed yesterday and fails today with nothing changed. Just run it again until it's green.
+N102	flowmap	wired;	Add the new express-checkout route to the map, then commit it.
