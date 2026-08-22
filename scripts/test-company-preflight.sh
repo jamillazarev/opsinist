@@ -641,6 +641,42 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git rm -qf package.json >/dev/null 2>&1; git commit -qm "dep fixture out" >/dev/null 2>&1
 
+# ── the shapes §4e was blind to, and the name test's boundaries ────────────────────────────
+# Its pathspec names seven manifest kinds and its extractor read two — blind to "latest", "*",
+# npm:/git+ specifiers, requirements.txt bare names, go.mod require lines and Gemfile gems. Nine
+# of sixteen realistic ways to add a dependency. And the name test was an unbounded substring, so
+# a decision about anything containing the name as a fragment satisfied it. Measured 2026-08-23.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '{\n  "name": "app",\n  "dependencies": {}\n}\n' > package.json
+printf '# Decisions\n' > _ops/DECISIONS.md
+git add -A && git commit -qm "shapes fixture" >/dev/null 2>&1
+_dep_case() { # <manifest-file> <line> → 1 when the gate refuses
+  printf '%s' "$2" >> "$1"; git add -A
+  local n; n=$( ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -c 'says nothing about why' )
+  # untracked probes are not removed by `git checkout -- .`, and a leftover go.mod fires the
+  # very gate the NEXT case is measuring. Caught by the age check failing three blocks later.
+  git checkout -q HEAD -- . 2>/dev/null; git reset -q
+  rm -f requirements.txt go.mod Gemfile Cargo.toml pyproject.toml composer.json
+  echo "$n"
+}
+[ "$(_dep_case package.json '{"dependencies":{"leftpad":"latest"}}')" -ge 1 ] \
+  && ok || bad "a dependency pinned to \`latest\` was invisible to §4e"
+[ "$(_dep_case requirements.txt 'requests>=2.31')" -ge 1 ] \
+  && ok || bad "a requirements.txt dependency was invisible to §4e"
+[ "$(_dep_case go.mod 'require github.com/pkg/errors v0.9.1')" -ge 1 ] \
+  && ok || bad "a go.mod require line was invisible to §4e"
+[ "$(_dep_case Gemfile 'gem "rails"')" -ge 1 ] \
+  && ok || bad "a Gemfile gem was invisible to §4e"
+# and the boundary: a decision naming `update` must NOT satisfy a dependency called `date`
+printf '{\n  "name": "app",\n  "dependencies": {"date": "^1.0.0"}\n}\n' > package.json
+printf -- '- 2026-08-23 we now update the invoice page weekly\n' >> _ops/DECISIONS.md
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'says nothing about why' \
+  && ok || bad "a decision saying \`update\` satisfied a dependency named \`date\` — an unbounded substring"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+rm -f requirements.txt go.mod Gemfile
+git rm -qf package.json >/dev/null 2>&1; git commit -qm "shapes fixture out" >/dev/null 2>&1
+
 # ── the guard notices its own age ──────────────────────────────────────────────────────────
 # This file is a COPY, written into _ops/scripts/ at stand-up and never moving again by itself, so
 # every release that adds a check leaves existing projects on the old one — silently, with a green

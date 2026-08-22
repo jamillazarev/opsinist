@@ -378,24 +378,50 @@ rm -rf "$NRC" "$NRD" "$NRD2"
 # a commit, because this hook's own three-round measurement says a demand at Stop bought 1/5
 # while a prohibition held 5/5.
 RG="$T/reach"; mkdir -p "$RG/_ops"
-printf '# Map\n' > "$RG/_ops/MAP.md"; printf '# Guide\n' > "$RG/CLAUDE.md"
+printf '# Map\n' > "$RG/_ops/MAP.md"
+# The guide must NAME us, and the transcript must show a door opened — the reach gate is armed
+# like every other refusal here, and a fixture that skips either is testing an unarmed gate.
+printf '# P\n\n**Operated by:** Opsinist **0.2.10**\n' > "$RG/CLAUDE.md"
 git -C "$RG" init -q && git -C "$RG" add -A && \
   git -C "$RG" -c user.email=t@t -c user.name=t commit -qm init
-rstop() { printf '{"hook_event_name":"Stop","cwd":"%s"%s}' "$RG" "${1:-}"; }
+rstop() { printf '{"hook_event_name":"Stop","cwd":"%s","transcript_path":"%s"%s}' "$RG" "$TE" "${1:-}"; }
 
 check "reach: a clean tree ends freely" 0 "$(rstop)"
 printf '\n### express-checkout\n' >> "$RG/_ops/MAP.md"
 check "reach: uncommitted machinery refuses the ending" 2 "$(rstop)"
 # said ONCE — a transcript already carrying the refusal must not block a second time, or the
 # owner cannot deliberately leave work
-RT="$T/reach.jsonl"; printf 'machinery edited in this session is still uncommitted\n' > "$RT"
-check "reach: refused once, not twice" 0 "$(rstop ",\"transcript_path\":\"$RT\"")"
+RT="$T/reach.jsonl"
+# the once-only case needs a transcript that BOTH engages the skill and already carries the
+# refusal, so the marker count is what decides — not the arming.
+cat "$TE" > "$RT"; printf 'machinery edited in this session is still uncommitted\n' >> "$RT"
+check "reach: refused once, not twice" 0 "$(printf '{"hook_event_name":"Stop","cwd":"%s","transcript_path":"%s"}' "$RG" "$RT")"
 # and committing the same work clears it
 git -C "$RG" add -A && git -C "$RG" -c user.email=t@t -c user.name=t commit -qm move
 check "reach: committing the work clears the gate" 0 "$(rstop)"
 # the product's own files are not the machinery and are not held
 printf 'print(1)\n' > "$RG/app.py"
 check "reach: product files are the craft's business, not this gate's" 0 "$(rstop)"
+# ARMED, and the three ways it must stay silent. Four lenses found this independently on
+# 2026-08-23: the gate sat above the arming check and refused the ending of ANY session in ANY
+# git repository holding an uncommitted manifest — including one that never opened this skill.
+# A gate that fires outside its project is not strict, it is the kind of broken that gets a
+# plugin uninstalled rather than reported.
+# the tree must be DIRTY for these to mean anything — on a clean tree the gate is silent
+# whether it is armed or not, and the first version of these three asserted exactly that,
+# passing against a mutant with the arming removed. Caught by mutating it.
+printf '\n### a move\n' >> "$RG/_ops/MAP.md"
+check "reach: silent in a session that never opened the skill" 0 \
+  "$(printf '{"hook_event_name":"Stop","cwd":"%s","transcript_path":"%s"}' "$RG" "$TN")"
+printf '# Somebody else\n' > "$RG/CLAUDE.md"
+check "reach: silent in a repository this skill does not operate" 0 "$(rstop)"
+printf '# P\n\n**Operated by:** Opsinist **0.2.10**\n' > "$RG/CLAUDE.md"
+check "reach: silent with no transcript at all" 0 \
+  "$(printf '{"hook_event_name":"Stop","cwd":"%s"}' "$RG")"
+# and armed, on the same dirty tree, it speaks — the pair that makes the three above mean something
+check "reach: armed and dirty, it refuses" 2 "$(rstop)"
+git -C "$RG" checkout -q -- _ops/MAP.md
+
 # a manifest is watched too — it is not the craft's business, it is a standing commitment
 # another gate reads, and scoping this to _ops/ alone left that gate unreachable. Measured
 # 2026-08-22: a run edited package.json, ended, and nothing spoke.

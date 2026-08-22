@@ -88,10 +88,11 @@ commit; until one happens they are unreachable, and a run that edits and stops h
 all of them without meeting any. Measured 2026-08-22: 0 commits in 10 runs before this gate, 5 of
 5 answering it after.
 
-**It speaks once, and `_ops/` only.** Once, because a gate that repeats is one the next run learns
-to sit through, and because leaving work deliberately is a real answer — said in a line. `_ops/`
-only, because the product's own files are the craft's business and a run may rightly leave them
-for review; the machinery is what every other gate keys on. `OPSINIST_UNCOMMITTED_GATE=off` is
+**It speaks once, and it watches the ground the other gates guard** — `_ops/` and the package
+manifests, because a manifest is not the craft's business but a standing commitment another gate
+reads. Once, because a gate that repeats is one the next run learns
+to sit through, and because leaving work deliberately is a real answer — said in a line. It watches `_ops/` and the manifests, because those are what the other gates key on; the
+product's own source stays out, since a run may rightly leave that for review. `OPSINIST_UNCOMMITTED_GATE=off` is
 the deliberate door.
 
 **This is prose, and prose measures poorly** — it is the ordering habit the two forms beside it

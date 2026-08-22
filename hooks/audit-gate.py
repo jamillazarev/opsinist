@@ -390,8 +390,38 @@ def main():
         # demanding an act at Stop bought 1/5, while the one rule that only ever FORBIDS held 5/5
         # in all three. So this does not say "remember to commit" — it refuses the ending, and the
         # only ways past it are to commit the work or to say plainly that it is deliberately left.
+        # **ARMED, like every other refusal in this file.** The first version sat above the
+        # arming check at the foot of this function, so with the plugin merely installed it
+        # refused the ending of ANY session in ANY git repository holding an uncommitted
+        # manifest — including sessions that never opened this skill, in projects it does not
+        # operate. Four lenses found it independently, 2026-08-23, and the file's own docstring
+        # had said the opposite since the day it was written: *denies only when this session
+        # actually engaged the skill, and the repository is operated by us*.
+        #
+        # Two conditions, both cheap: the transcript must show a skill door opened, and the
+        # repository must carry a guide naming us. A gate that fires outside the project it
+        # was built for is not strict — it is broken, and it is the kind of broken that gets a
+        # plugin uninstalled rather than reported.
         _ur = repo_root(cwd)
-        if _ur and os.environ.get("OPSINIST_UNCOMMITTED_GATE", "") != "off":
+        _tp0 = payload.get("transcript_path", "")
+        _armed = False
+        if _ur and _tp0 and os.path.isfile(_tp0) and operated_by_us(_ur):
+            try:
+                _pr = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                try:
+                    _doors = sorted(os.listdir(os.path.join(_pr, "skills")))
+                except Exception:
+                    _doors = ["advisor", "join", "init"]
+                _pat = re.compile(r'"skill"\s*:\s*"(?:[\w-]+:)?(?:%s)"'
+                                  % "|".join(map(re.escape, _doors)))
+                with open(_tp0, encoding="utf-8", errors="replace") as _f:
+                    for _line in _f:
+                        if '"skill"' in _line and _pat.search(_line):
+                            _armed = True
+                            break
+            except Exception:
+                _armed = False
+        if _armed and os.environ.get("OPSINIST_UNCOMMITTED_GATE", "") != "off":
             try:
                 # **The ground the OTHER gates guard, which is this gate's whole purpose.**
                 # Scoped to `_ops/` alone for its first day, and measured 2026-08-22: a scenario
