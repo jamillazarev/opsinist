@@ -393,8 +393,17 @@ def main():
         _ur = repo_root(cwd)
         if _ur and os.environ.get("OPSINIST_UNCOMMITTED_GATE", "") != "off":
             try:
+                # **The ground the OTHER gates guard, which is this gate's whole purpose.**
+                # Scoped to `_ops/` alone for its first day, and measured 2026-08-22: a scenario
+                # whose work sat in `package.json` and `src/` ended with nothing said, so the
+                # dependency gate — which fires at the commit — never spoke, for exactly the
+                # reason this gate exists to remove. A manifest is not the craft's business; it
+                # is a standing commitment another gate reads. The product's own source stays
+                # out: a run may rightly leave that for review.
+                _watch = ["_ops", "package.json", "requirements.txt", "pyproject.toml",
+                          "go.mod", "Cargo.toml", "Gemfile", "composer.json"]
                 _d = subprocess.run(
-                    ["git", "-C", _ur, "status", "--porcelain", "--", "_ops"],
+                    ["git", "-C", _ur, "status", "--porcelain", "--"] + _watch,
                     capture_output=True, text=True, timeout=5)
                 _dirty = [l[3:] for l in _d.stdout.splitlines() if l.strip()] if _d.returncode == 0 else []
             except Exception:

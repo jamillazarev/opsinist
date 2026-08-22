@@ -30,6 +30,13 @@ must be true afterwards*.
 actor makes a 95%-reliable suite go red for no reason, and a suite nobody trusts is dead.
 **The regression in the rate is the signal.**
 
+**A scenario's query must be answerable from its fixture, and this is the authoring error that
+recurs.** Measured three times in one day, 2026-08-22: a query naming an incident the fixture did
+not hold, a flapping check it did not hold, and a bakery's flour supplier asked of a legal-
+newsletter project. In every case the player **correctly asked what was meant** — right behaviour,
+and a transcript that looks gradeable and grades nothing. **The situation goes in the fixture; the
+query only points at it.** A run that has to guess the situation is measuring the guess.
+
 **Stratified on purpose.** Scenario 1 is deliberately trivial. **A set made only of hard cases
 hides the failure that matters most in practice, which is over-serving someone who asked for very
 little.**

@@ -396,6 +396,19 @@ check "reach: committing the work clears the gate" 0 "$(rstop)"
 # the product's own files are not the machinery and are not held
 printf 'print(1)\n' > "$RG/app.py"
 check "reach: product files are the craft's business, not this gate's" 0 "$(rstop)"
+# a manifest is watched too — it is not the craft's business, it is a standing commitment
+# another gate reads, and scoping this to _ops/ alone left that gate unreachable. Measured
+# 2026-08-22: a run edited package.json, ended, and nothing spoke.
+printf '{\n  "name": "a",\n  "dependencies": {"react": "^18.0.0"}\n}\n' > "$RG/package.json"
+git -C "$RG" add -A && git -C "$RG" -c user.email=t@t -c user.name=t commit -qm manifest
+printf '{\n  "name": "a",\n  "dependencies": {"react": "^18.0.0", "lodash": "^4.17.21"}\n}\n' > "$RG/package.json"
+check "reach: an uncommitted manifest refuses the ending" 2 "$(rstop)"
+git -C "$RG" add -A && git -C "$RG" -c user.email=t@t -c user.name=t commit -qm dep
+check "reach: committing the manifest clears it" 0 "$(rstop)"
+# but the product's own source is still the craft's business
+printf 'print(1)\n' > "$RG/main.py"
+check "reach: product source is still not held" 0 "$(rstop)"
+
 # the deliberate escape
 printf '\n### another\n' >> "$RG/_ops/MAP.md"
 printf '%s' "$(rstop)" | OPSINIST_UNCOMMITTED_GATE=off python3 "$GATE" >/dev/null 2>&1 \

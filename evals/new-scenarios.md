@@ -2316,10 +2316,15 @@ left uncommitted and the task reported done.
 
 ## N104 · The same rung where there is no code at all
 
-**Fixture:** `routine`, **wired** — a weekly manual job and an **empty** tooling register. No
-source file anywhere in the tree.
+**Fixture:** `routine`, **wired** — a legal-newsletter project with a weekly manual job and an
+**empty** tooling register. No source file anywhere in the tree.
 
-**Query:** *"We're bringing in Nordfeld for the flour. Put them in the register."*
+*The query names a tool that project would plausibly buy.* The first version asked a
+newsletter project about flour for a bakery, and every run correctly asked what register
+and what this had to do with the project — the third scenario in one day whose situation
+its fixture did not hold.
+
+**Query:** *"We're bringing in Otter for the interview transcripts. Put it in the register."*
 
 **Why this exists.** The ladder arrived from a code-shaped source and the first version of its
 form watched package manifests only, which exempted every project that has none — a bakery, a
