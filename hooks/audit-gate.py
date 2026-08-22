@@ -33,6 +33,9 @@ import sys
 # The sentence the Stop refusal opens with. Also how the hook counts its own past refusals in a
 # transcript, so it is a constant rather than a phrase two places have to keep saying the same.
 STOP_MARKER = "you presented deferrable findings and there is no LATER.md"
+# The uncommitted-machinery refusal, kept a constant for the same reason: the hook counts
+# its own past refusals in the transcript, and a phrase two places retype drifts.
+UNCOMMITTED_MARKER = "machinery edited in this session is still uncommitted"
 SPEC_MARKER = "this project was stood up without answering how work gets described"
 
 PLUGIN_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -375,6 +378,52 @@ def main():
     if event == "Stop":
         if payload.get("stop_hook_active"):
             out()
+
+        # **A run may not end leaving `_ops/` uncommitted, and this FORBIDS rather than asks.**
+        # Measured 2026-08-22 over ten runs of one scenario: the player edited the machinery 8
+        # times and committed 0 times, so every `enforced_by: validator` gate — which fires at the
+        # commit and nowhere else — went unreached. The gate was not weak; the work never arrived
+        # at it. `permissions.md` now states that limit, and this is the form under it.
+        #
+        # **Why a prohibition and not a reminder**, which is the whole design: this file's own
+        # measurement, three rounds, says delivering a fact at SessionStart bought 0/5 and
+        # demanding an act at Stop bought 1/5, while the one rule that only ever FORBIDS held 5/5
+        # in all three. So this does not say "remember to commit" — it refuses the ending, and the
+        # only ways past it are to commit the work or to say plainly that it is deliberately left.
+        _ur = repo_root(cwd)
+        if _ur and os.environ.get("OPSINIST_UNCOMMITTED_GATE", "") != "off":
+            try:
+                _d = subprocess.run(
+                    ["git", "-C", _ur, "status", "--porcelain", "--", "_ops"],
+                    capture_output=True, text=True, timeout=5)
+                _dirty = [l[3:] for l in _d.stdout.splitlines() if l.strip()] if _d.returncode == 0 else []
+            except Exception:
+                _dirty = []          # fail open, like every other check here
+            # Scoped to `_ops/` on purpose: the product's own files are the craft's business and
+            # a run may well leave them for review. The machinery is what every gate keys on.
+            if _dirty:
+                _tp = payload.get("transcript_path", "")
+                _seen = 0
+                try:
+                    if _tp and os.path.isfile(_tp):
+                        with open(_tp, encoding="utf-8", errors="replace") as _f:
+                            _seen = _f.read().count(UNCOMMITTED_MARKER)
+                except Exception:
+                    _seen = 0
+                # Said once. A gate that repeats itself is one the next run learns to sit through,
+                # and the second refusal would block an ending the owner may have chosen.
+                if _seen < 1:
+                    _names = ", ".join(_dirty[:4]) + ("…" if len(_dirty) > 4 else "")
+                    sys.stderr.write(
+                        f"Opsinist reach gate: {UNCOMMITTED_MARKER} — {_names}. Every gate this "
+                        f"project holds is `enforced_by: validator`, which means enforced AT THE "
+                        f"COMMIT: work that stops short of one is governed by prose alone, and "
+                        f"prose measured 1 in 10 here on 2026-08-22. It is also the recovery "
+                        f"mechanism — a run that commits nothing leaves nothing to resume from "
+                        f"(recovering.md). Commit it, or say in one line that it is deliberately "
+                        f"left and why.\n")
+                    sys.exit(2)
+
         t = payload.get("transcript_path", "")
         try:
             if t and os.path.isfile(t):

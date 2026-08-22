@@ -371,5 +371,36 @@ case "$msg" in *"git init"*) pass=$((pass+1));; *) fail=$((fail+1)); echo "FAIL:
 case "$msg" in *"moves and changes nothing"*) pass=$((pass+1));; *) fail=$((fail+1)); echo "FAIL: the join case (a folder with files) is not reassured";; esac
 rm -rf "$NRC" "$NRD" "$NRD2"
 
+# ── the reach gate: a run may not end leaving `_ops/` uncommitted ──────────────────────────
+# New in 0.2.10. Measured 2026-08-22 over ten runs of one scenario: the player edited the
+# machinery 8 times and committed 0 times, so every `enforced_by: validator` gate — which fires
+# at the commit and nowhere else — went unreached. This forbids the ending rather than asking for
+# a commit, because this hook's own three-round measurement says a demand at Stop bought 1/5
+# while a prohibition held 5/5.
+RG="$T/reach"; mkdir -p "$RG/_ops"
+printf '# Map\n' > "$RG/_ops/MAP.md"; printf '# Guide\n' > "$RG/CLAUDE.md"
+git -C "$RG" init -q && git -C "$RG" add -A && \
+  git -C "$RG" -c user.email=t@t -c user.name=t commit -qm init
+rstop() { printf '{"hook_event_name":"Stop","cwd":"%s"%s}' "$RG" "${1:-}"; }
+
+check "reach: a clean tree ends freely" 0 "$(rstop)"
+printf '\n### express-checkout\n' >> "$RG/_ops/MAP.md"
+check "reach: uncommitted machinery refuses the ending" 2 "$(rstop)"
+# said ONCE — a transcript already carrying the refusal must not block a second time, or the
+# owner cannot deliberately leave work
+RT="$T/reach.jsonl"; printf 'machinery edited in this session is still uncommitted\n' > "$RT"
+check "reach: refused once, not twice" 0 "$(rstop ",\"transcript_path\":\"$RT\"")"
+# and committing the same work clears it
+git -C "$RG" add -A && git -C "$RG" -c user.email=t@t -c user.name=t commit -qm move
+check "reach: committing the work clears the gate" 0 "$(rstop)"
+# the product's own files are not the machinery and are not held
+printf 'print(1)\n' > "$RG/app.py"
+check "reach: product files are the craft's business, not this gate's" 0 "$(rstop)"
+# the deliberate escape
+printf '\n### another\n' >> "$RG/_ops/MAP.md"
+printf '%s' "$(rstop)" | OPSINIST_UNCOMMITTED_GATE=off python3 "$GATE" >/dev/null 2>&1 \
+  && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: reach: OPSINIST_UNCOMMITTED_GATE=off"; }
+rm -rf "$RG"
+
 echo "pass $pass · fail $fail"
 [ "$fail" = 0 ]

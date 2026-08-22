@@ -59,6 +59,25 @@ flowchart LR
 ordering: one row has already put its position on disk, the other still holds it in a session
 that no longer exists.
 
+### And the ending is refused while the machinery sits uncommitted
+
+**Measured 2026-08-22**: across ten runs of one scenario the player edited `_ops/` eight times and
+committed **zero** times — so every gate this project holds, all of them `enforced_by: validator`
+and therefore enforced *at the commit*, went unreached. The gates were not weak. The work never
+arrived at them.
+
+**So the reach is held by a hook at the moment the work would be abandoned**, and it **forbids**
+rather than asks. That distinction is the whole design and it is measured too: this system's own
+rounds found a fact delivered at session start bought 0 of 5, a demand at the ending bought 1 of
+5, and the one rule that only ever *forbids* held 5 of 5 in all three. A reminder to commit is the
+shape that does not work.
+
+**It speaks once, and `_ops/` only.** Once, because a gate that repeats is one the next run learns
+to sit through, and because leaving work deliberately is a real answer — said in a line. `_ops/`
+only, because the product's own files are the craft's business and a run may rightly leave them
+for review; the machinery is what every other gate keys on. `OPSINIST_UNCOMMITTED_GATE=off` is
+the deliberate door.
+
 **This is prose, and prose measures poorly** — it is the ordering habit the two forms beside it
 exist to survive. What actually enforces it is the dispatcher writing the run record rather than
 the worker (→ `cost.md`), and the guard warning when a task closes with no run record naming it

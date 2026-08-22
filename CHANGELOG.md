@@ -2,6 +2,31 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.10 — unreleased
+
+**The reach, not the gate.** 0.2.9's round measured what its gates could not: across ten runs the
+player edited the machinery 8 times and committed **0** times, so every rule this project holds —
+all `enforced_by: validator`, all enforced *at the commit* — went unreached. The gates were not
+weak; the work never arrived at them, and the paired arm proved it: with *"then commit it"* in the
+turn, the same gate was reached, refused, answered and satisfied **3 of 3**.
+
+**So the ending is refused while `_ops/` sits uncommitted** — a Stop hook, and it **forbids**
+rather than asks. That is the design, and it is measured too: this system's own rounds found a
+fact delivered at session start bought 0 of 5, a demand at the ending bought 1 of 5, and the one
+rule that only ever *forbids* held 5 of 5 in all three. A reminder to commit is precisely the
+shape that does not work.
+
+It speaks **once** — a gate that repeats is one the next run learns to sit through, and leaving
+work deliberately is a real answer, said in a line. It watches `_ops/` only: the product's own
+files are the craft's business, and a run may rightly leave them for review.
+`OPSINIST_UNCOMMITTED_GATE=off` is the deliberate door.
+
+The four clauses: the form is the hook · six assertions, and the mutant that removes the gate is
+denied (108 → 107/1) · measured 2026-08-22 · the rule in `recovering.md`, fact 245, a situation.
+
+Eval state: **not run for this version** — it repairs what 0.2.9's round measured, and the honest
+next round re-runs N97 unchanged to see whether the ending-refusal moves the 0-of-10.
+
 ## 0.2.9 — 2026-08-22
 
 > **Correction, 2026-08-22.** This entry shipped saying its eval state was `not run`. It ran the
