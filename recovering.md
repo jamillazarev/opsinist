@@ -72,6 +72,22 @@ rounds found a fact delivered at session start bought 0 of 5, a demand at the en
 5, and the one rule that only ever *forbids* held 5 of 5 in all three. A reminder to commit is the
 shape that does not work.
 
+```mermaid
+flowchart LR
+  W["work edited in `_ops/`"] --> E{"the run tries<br/>to end"}
+  E -->|"clean tree"| D([ends])
+  E -->|"machinery uncommitted"| R["**refused, once**<br/>naming the files"]
+  R --> C["commit it"] --> D
+  R --> S["say in one line that<br/>it is deliberately left"] --> D
+  R -.->|"the shape that does not work"| N(("'remember to commit'<br/>— measured 1 of 5"))
+  C ==>|"and only now"| G["every `validator` gate<br/>can finally speak"]
+```
+
+**The doubled edge is the whole reason this exists.** Every gate this project holds fires at the
+commit; until one happens they are unreachable, and a run that edits and stops has passed through
+all of them without meeting any. Measured 2026-08-22: 0 commits in 10 runs before this gate, 5 of
+5 answering it after.
+
 **It speaks once, and `_ops/` only.** Once, because a gate that repeats is one the next run learns
 to sit through, and because leaving work deliberately is a real answer — said in a line. `_ops/`
 only, because the product's own files are the craft's business and a run may rightly leave them

@@ -40,6 +40,25 @@ at about zero — the same rule as prose moved 1 run in 10 on 2026-08-22, and as
 5. A dependency arrives in a minute and leaves over a year; the person who just chose it is the
 only one who can write the line, and they can write it in seconds.
 
+```mermaid
+flowchart TB
+  Q(["a new standing commitment<br/>— a library · a supplier · a subscription · a licence"])
+  Q --> A{"does it need<br/>to exist at all?"}
+  A -->|no| X(["nothing is built —<br/>the cheapest outcome"])
+  A -->|yes| B{"already here?"} -->|yes| X
+  B -->|no| C{"standard library ·<br/>the craft's own staple?"} -->|yes| X
+  C -->|no| D{"native to the<br/>platform we run on?"} -->|yes| X
+  D -->|no| E{"something already<br/>installed?"} -->|yes| X
+  E -->|no| F{"one line?"} -->|yes| X
+  F -->|no| G["the smallest thing that works<br/>— and the commit NAMES it,<br/>with what it replaces"]
+  G -.->|"a manifest line"| S["refused without the name"]
+  G -.->|"a register row"| W["warned without the rung —<br/>`we had none` is an answer"]
+```
+
+**The two dotted edges are the same rung in two vocabularies**, which is the point: a project with
+no package manifest is not exempt. A bakery's dependency is a supplier and its manifest is
+`_ops/TOOLING.md`.
+
 **Native-first is the same rung, said earlier** — ask whether the runtime already does it before
 designing anything, and record the answer with its date → `tooling.md`.
 

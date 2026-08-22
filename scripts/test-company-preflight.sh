@@ -641,6 +641,32 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git rm -qf package.json >/dev/null 2>&1; git commit -qm "dep fixture out" >/dev/null 2>&1
 
+# ── and the same rung where there is no code at all ────────────────────────────────────────
+# A package manifest is one project's spelling of a new standing commitment; a bakery's is a
+# supplier. `_ops/TOOLING.md` is the universal register, so a row added there is asked the same
+# question — and it WARNS, because outside software `we had none` is very often the true answer.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# Tooling\n\n| Tool | What for | Ceiling |\n|---|---|---|\n' > _ops/TOOLING.md
+git add -A && git commit -qm "tooling fixture" >/dev/null 2>&1
+printf '| Nordfeld flour | the sourdough base | 200kg/month |\n' >> _ops/TOOLING.md
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'what it replaces' \
+  && ok || bad "a tooling row arrived with nothing about what it replaces and nothing said so"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '| Nordfeld flour | the sourdough base, instead of the mill we drove to weekly | 200kg |\n' >> _ops/TOOLING.md
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'what it replaces' \
+  && bad "a row saying what it replaces was still asked" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '| Nordfeld flour | the sourdough base; we had none, the recipe is new | |\n' >> _ops/TOOLING.md
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'what it replaces' \
+  && bad "\`we had none\` was not accepted — outside software it is usually the true answer" || ok
+# and it WARNS: the commit still passes
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "the tooling rung refused instead of warning"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+
 # ── a market figure carries where it came from and when ────────────────────────────────────
 # New in 0.2.9. _ops/MARKET.md is the most hallucination-prone file a project can own: a plausible
 # number arrives free, reads as research, and is quoted for a year. The gate does not ask for a
