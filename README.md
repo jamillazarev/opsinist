@@ -68,6 +68,13 @@ this. Everything else has a default good enough to leave alone.
   expansion surfaces, never advances itself.
 - **A gap found mid-build calls the owner, not the editor** — nobody edits the artefact another
   craft is standing on, in either direction.
+- **A run may not end leaving the machinery uncommitted** — the ending is refused, once, naming
+  the files. Every gate here fires *at the commit*, so work that stops short of one is held by
+  prose alone; measured, that was 0 commits in 10 runs, and 5 of 5 answering after.
+- **A new standing commitment says what it replaces** — a library, a supplier, a subscription, a
+  licence. Does it need to exist · is it already here · does the craft's own staple do it · is it
+  native · one line — every rung but the last is a judgement no script can make, and whether the
+  answer was written down is not.
 - **Every move on the map names the job it is hired for** — *when this happens, someone wants to
   do this, so they can get that*. A job story opens on a situation, so it can be checked and it
   can be wrong; *"as a user I want"* cannot be wrong, which is why there are no user stories here.
