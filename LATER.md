@@ -239,3 +239,29 @@ a pair that flips with the second run silently overwriting nothing; the twin is 
 agrees, and a second pair that disagrees with an escalation recorded between them.** Adding the
 field for the gate's sake alone would be the shape this corpus refuses — so it waits for a flow
 that wants the verdict written for its own reasons.
+
+## A "should this exist at all" ladder, and whether it changes anything
+
+**Named 2026-08-22**, from a third-party plugin the owner asked about
+(`github.com/DietrichGebert/ponytail`, MIT, 107,575 stars and 5,946 forks read from the API on
+2026-08-22, created 2026-06-12). Its content is one ladder an agent walks **before writing code**:
+does this need to exist · is it already in the codebase · standard library · a native platform
+feature · an installed dependency · can it be one line · only then a minimum implementation.
+
+**Why it is a real gap and not a duplicate.** `choosing-tools.md` holds a ladder for *which
+vendor* — free → open source → self-hostable → embeddable → agent-drivable. Nothing in the
+shipped corpus asks *should this code exist at all*. The nearest thing, **native-first**, lives in
+`AGENTS.md`, which governs work on this repository and never reaches a project.
+
+**Why it is not being taken today.** Two reasons, and the second is the corpus's own rule.
+· Its headline rates — *"~54% less code (up to 94%) · ~20% cheaper · ~27% faster · 100% safe"* —
+carry no denominator, no corpus, no date, and *100% safe* is not falsifiable. The ladder can be
+taken; those numbers cannot be quoted here without breaking the rung rule.
+· **A finding does not become a rule the day it is found** (`self-maintenance.md`). Two capabilities
+shipped in 0.2.9 whose prose measures 1 in 10 and whose gates the round could not reach. Adding a
+third before the first two are measured is the exact shape that section exists to refuse.
+
+**Revisit when** N97/N98 have measured the gates in the wild — that answers whether a ladder of
+this kind changes behaviour at all here, which is the only question worth spending a release on.
+**Do not install it alongside this skill**: two plugins instructing one agent about how to write
+code is the shadowing trap `evals/RUNS.md` already measured.
