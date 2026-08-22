@@ -4,14 +4,20 @@
 access is recorded. A tool missing from here is a tool nobody checks, whose token nobody
 rotates, and whose breaking change surprises the team.
 
+**Every row says what it REPLACES**, and `we had none` is a complete answer — often the true
+one, because the work was not being done at all. A tool arrives in a minute and is maintained
+for a year, and the rung above choosing one is asking whether the work already had a way
+(`choosing-tools.md`). The guard refuses a row that leaves it blank; it does not judge the
+answer, only its absence.
+
 One row per tool. **Operating detail does not live here** — it lives in
 `_ops/runbooks/<tool>.md`, so this stays scannable and the runbook stays deep.
 
-| Tool | What it's for | Licence / plan · **evidence** | Access & where the secret lives | Wired how | Checked |
-|---|---|---|---|---|---|
-| {{Sentry}} | {{error tracking for the web app}} | {{free tier · evidence: sentry.io/pricing, read 2026-07-23}} | {{the web group · token in the environment}} | {{MCP server}} | {{2026-07-23}} |
-| {{Vercel}} | {{hosting + preview deploys}} | {{hobby, non-commercial · evidence: vercel.com/pricing, read 2026-07-23}} | {{owner only — deploys are outward}} | {{CLI on the daemon machine}} | {{2026-07-23}} |
-| {{plotwright}} | {{charts}} | {{BUSL-1.1, production needs a commercial licence · evidence: `vendor/plotwright-LICENSE` · **commercial licence: none held**}} | {{bundled}} | {{npm}} | {{2026-07-23}} |
+| Tool | What it's for | **Replaces** | Licence / plan · **evidence** | Access & where the secret lives | Wired how | Checked |
+|---|---|---|---|---|---|---|
+| {{Sentry}} | {{error tracking for the web app}} | {{the log-grepping we did by hand}} | {{free tier · evidence: sentry.io/pricing, read 2026-07-23}} | {{the web group · token in the environment}} | {{MCP server}} | {{2026-07-23}} |
+| {{Vercel}} | {{hosting + preview deploys}} | {{we had none — nothing was deployed}} | {{hobby, non-commercial · evidence: vercel.com/pricing, read 2026-07-23}} | {{owner only — deploys are outward}} | {{CLI on the daemon machine}} | {{2026-07-23}} |
+| {{plotwright}} | {{charts}} | {{screenshots pasted by hand}} | {{BUSL-1.1, production needs a commercial licence · evidence: `vendor/plotwright-LICENSE` · **commercial licence: none held**}} | {{bundled}} | {{npm}} | {{2026-07-23}} |
 
 **Rules that keep this honest:**
 

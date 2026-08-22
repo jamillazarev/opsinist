@@ -677,6 +677,26 @@ git checkout -q HEAD -- . 2>/dev/null; git reset -q
 rm -f requirements.txt go.mod Gemfile
 git rm -qf package.json >/dev/null 2>&1; git commit -qm "shapes fixture out" >/dev/null 2>&1
 
+# ── §4f reads a FIELD, not a vocabulary ────────────────────────────────────────────────────
+# It was a keyword list, which is precisely the defect §4e was repaired away from in the same file
+# on the same day: a gate satisfied by words teaches people to sprinkle them, and refuses an honest
+# answer using different ones. Named by a lens, 2026-08-23. The register carries a **Replaces**
+# column now; a register predating it falls back to the keyword list, and that fallback is named
+# in the code rather than presented as a test.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# Tooling\n\n| Tool | What for | **Replaces** | Checked |\n|---|---|---|---|\n' > _ops/TOOLING.md
+git add -A && git commit -qm "replaces-column fixture" >/dev/null 2>&1
+_col(){ printf '%s\n' "$1" >> _ops/TOOLING.md; git add -A
+        local n; n=$( ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -c 'what it replaces' )
+        git reset -q; git checkout -q -- . 2>/dev/null; echo "$n"; }
+[ "$(_col '| Otter | transcripts |  | 2026-08-23 |')" -ge 1 ] \
+  && ok || bad "a blank Replaces cell passed — the column is the field this gate reads"
+[ "$(_col '| Otter | transcripts | Bob did it on Fridays | 2026-08-23 |')" = 0 ] \
+  && ok || bad "an honest answer using none of the old keywords was refused — that is the vocabulary defect"
+[ "$(_col '| Otter | transcripts | we had none | 2026-08-23 |')" = 0 ] \
+  && ok || bad "\`we had none\` was refused in the column form"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+
 # ── the guard notices its own age ──────────────────────────────────────────────────────────
 # This file is a COPY, written into _ops/scripts/ at stand-up and never moving again by itself, so
 # every release that adds a check leaves existing projects on the old one — silently, with a green
