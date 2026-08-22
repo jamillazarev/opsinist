@@ -384,7 +384,12 @@ printf '# Map\n' > "$RG/_ops/MAP.md"
 printf '# P\n\n**Operated by:** Opsinist **0.2.10**\n' > "$RG/CLAUDE.md"
 git -C "$RG" init -q && git -C "$RG" add -A && \
   git -C "$RG" -c user.email=t@t -c user.name=t commit -qm init
-rstop() { printf '{"hook_event_name":"Stop","cwd":"%s","transcript_path":"%s"%s}' "$RG" "$TE" "${1:-}"; }
+# The reach transcript both OPENS the skill and EDITS — these cases are about a session that
+# wrote. The engagement-only `$TE` stopped satisfying them the moment the gate learned to ask
+# whether this session touched anything, which is the check three lines of assertion below.
+TW="$T/wrote.jsonl"; cat "$TE" > "$TW"
+printf '{"message":{"content":[{"type":"tool_use","name":"Edit"}]}}\n' >> "$TW"
+rstop() { printf '{"hook_event_name":"Stop","cwd":"%s","transcript_path":"%s"%s}' "$RG" "$TW" "${1:-}"; }
 
 check "reach: a clean tree ends freely" 0 "$(rstop)"
 printf '\n### express-checkout\n' >> "$RG/_ops/MAP.md"
@@ -394,7 +399,7 @@ check "reach: uncommitted machinery refuses the ending" 2 "$(rstop)"
 RT="$T/reach.jsonl"
 # the once-only case needs a transcript that BOTH engages the skill and already carries the
 # refusal, so the marker count is what decides — not the arming.
-cat "$TE" > "$RT"; printf 'machinery edited in this session is still uncommitted\n' >> "$RT"
+cat "$TW" > "$RT"; printf 'machinery edited in this session is still uncommitted\n' >> "$RT"
 check "reach: refused once, not twice" 0 "$(printf '{"hook_event_name":"Stop","cwd":"%s","transcript_path":"%s"}' "$RG" "$RT")"
 # and committing the same work clears it
 git -C "$RG" add -A && git -C "$RG" -c user.email=t@t -c user.name=t commit -qm move
@@ -421,6 +426,30 @@ check "reach: silent with no transcript at all" 0 \
 # and armed, on the same dirty tree, it speaks — the pair that makes the three above mean something
 check "reach: armed and dirty, it refuses" 2 "$(rstop)"
 git -C "$RG" checkout -q -- _ops/MAP.md
+
+# a session that WROTE NOTHING is not blamed for the tree it inherited — a pure question was
+# refused an ending over work that predates it, and told to commit changes it did not make.
+# Measured 2026-08-23.
+printf '\n### inherited\n' >> "$RG/_ops/MAP.md"
+RQ="$T/question.jsonl"; cat "$TE" > "$RQ"
+check "reach: a session that wrote nothing ends freely" 0 \
+  "$(printf '{"hook_event_name":"Stop","cwd":"%s","transcript_path":"%s"}' "$RG" "$RQ")"
+printf '{"message":{"content":[{"type":"tool_use","name":"Edit"}]}}\n' >> "$RQ"
+check "reach: a session that edited is held" 2 \
+  "$(printf '{"hook_event_name":"Stop","cwd":"%s","transcript_path":"%s"}' "$RG" "$RQ")"
+git -C "$RG" checkout -q -- _ops/MAP.md
+
+# a manifest at DEPTH is watched — a monorepo's frontend/package.json was invisible, which is
+# the very shape this gate was widened for. Measured 2026-08-23.
+mkdir -p "$RG/frontend"
+printf '{\n  "name": "fe",\n  "dependencies": {}\n}\n' > "$RG/frontend/package.json"
+git -C "$RG" add -A && git -C "$RG" -c user.email=t@t -c user.name=t commit -qm mono
+printf '{\n  "name": "fe",\n  "dependencies": {"lodash": "^4.17.21"}\n}\n' > "$RG/frontend/package.json"
+RM="$T/mono.jsonl"; cat "$TE" > "$RM"
+printf '{"message":{"content":[{"type":"tool_use","name":"Edit"}]}}\n' >> "$RM"
+check "reach: a manifest at depth is watched" 2 \
+  "$(printf '{"hook_event_name":"Stop","cwd":"%s","transcript_path":"%s"}' "$RG" "$RM")"
+git -C "$RG" checkout -q -- . 2>/dev/null
 
 # a manifest is watched too — it is not the craft's business, it is a standing commitment
 # another gate reads, and scoping this to _ops/ alone left that gate unreachable. Measured

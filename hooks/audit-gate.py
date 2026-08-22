@@ -430,8 +430,12 @@ def main():
                 # reason this gate exists to remove. A manifest is not the craft's business; it
                 # is a standing commitment another gate reads. The product's own source stays
                 # out: a run may rightly leave that for review.
-                _watch = ["_ops", "package.json", "requirements.txt", "pyproject.toml",
-                          "go.mod", "Cargo.toml", "Gemfile", "composer.json"]
+                # Rooted AND at depth: a bare name is a pathspec anchored at the top level, so a
+                # monorepo's `frontend/package.json` was invisible — the very shape this gate was
+                # widened for. Measured 2026-08-23.
+                _m = ["package.json", "requirements.txt", "pyproject.toml",
+                      "go.mod", "Cargo.toml", "Gemfile", "composer.json"]
+                _watch = ["_ops"] + _m + [":(glob)**/" + x for x in _m]
                 _d = subprocess.run(
                     ["git", "-C", _ur, "status", "--porcelain", "--"] + _watch,
                     capture_output=True, text=True, timeout=5)
@@ -440,6 +444,22 @@ def main():
                 _dirty = []          # fail open, like every other check here
             # Scoped to `_ops/` on purpose: the product's own files are the craft's business and
             # a run may well leave them for review. The machinery is what every gate keys on.
+            # **This session must have TOUCHED it.** The gate read `git status` and never the
+            # transcript, so a session that wrote nothing — a pure question, `what's next?` — was
+            # refused an ending over work that predates it, and told to commit changes it did not
+            # make. Measured 2026-08-23. A gate that blames a run for the tree it inherited is
+            # worse than silent: it teaches the reader that the message is noise.
+            if _dirty:
+                _tp = payload.get("transcript_path", "")
+                try:
+                    with open(_tp, encoding="utf-8", errors="replace") as _f:
+                        _wrote = any(('"name":"Write"' in _l or '"name":"Edit"' in _l
+                                      or '"name": "Write"' in _l or '"name": "Edit"' in _l)
+                                     for _l in _f)
+                except Exception:
+                    _wrote = True          # unreadable transcript: fall back to speaking
+                if not _wrote:
+                    _dirty = []
             if _dirty:
                 _tp = payload.get("transcript_path", "")
                 _seen = 0

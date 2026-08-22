@@ -88,6 +88,11 @@ commit; until one happens they are unreachable, and a run that edits and stops h
 all of them without meeting any. Measured 2026-08-22: 0 commits in 10 runs before this gate, 5 of
 5 answering it after.
 
+**It asks whether THIS session wrote anything.** A run that only answered a question is not
+blamed for the tree it inherited — that version refused a pure *"what's next?"* over work that
+predates it and told the reader to commit changes they did not make, which teaches them the
+message is noise.
+
 **It speaks once, and it watches the ground the other gates guard** — `_ops/` and the package
 manifests, because a manifest is not the craft's business but a standing commitment another gate
 reads. Once, because a gate that repeats is one the next run learns
