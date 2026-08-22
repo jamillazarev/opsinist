@@ -40,7 +40,25 @@ Same scenario, not one word changed, corpus at `4462d50`: the gate fired **5 of 
 **0 of 10 → 3 of 5**, job lines **1 of 10 → 3 of 5**. The two that did not commit read the refusal
 and **asked the owner what the job is** rather than inventing one, which this scenario's own Fail
 list forbids — so the honest count is 5 of 5 behaving correctly. The judge scored 2/5 because the
-expectation list did not say asking is an answer; that is fixed. **The dependency gate is not yet
+expectation list did not say asking is an answer; that is fixed.
+
+**And the dependency gate is measured, in three passes.** First it was unreachable — the reach gate
+watched `_ops/` and this work sits in `package.json`, so the gate whose purpose is to make other
+gates reachable had left one unreachable. Widened; the chain then ran whole: **commits 0 → 5 of 5,
+the gate reached 5 of 5, the decision recorded naming the package 5 of 5.** One run wrote *"date-fns
+over native Intl"* — the ladder walked, the losing option named. The judge still scored 0/5,
+correctly, because all five added a library for something `Intl` does: **the form scored 5 of 5 on
+making the answer written down and 0 of 5 on making the judgement**, which is what its own rule
+says it cannot do.
+
+**The tooling rung shipped as a warning, and that was wrong — measured the same day.** As a
+warning: **0 of 5**. As a refusal accepting `we had none`: **2 of 5**. A warning is a demand, and
+this system's rounds put demands in the prose band; what makes a refusal fair is having an honest
+answer that satisfies it. Reported as a direction, not a rate — 2 of 5 sits at the noise edge.
+
+**And the guard is a COPY that never moved with an upgrade.** Four checks added today would have
+reached no existing project — silently, green, running fewer gates than their guide claims. It
+stamps its own version now and warns when the guide disagrees. **The dependency gate is not yet
 measured** — it ships with mutants and twins and no round.
 
 Superseded: not run for this version — it repairs what 0.2.9's round measured, and the honest
