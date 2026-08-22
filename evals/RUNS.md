@@ -1494,6 +1494,29 @@ check in `conflict`. Every player asked a clarifying question, which is **correc
 nothing was measured. Same class as the sibling's scenario 18 before it had a fixture: a transcript
 that looks gradeable and grades nothing. Both need their fixture halves before they mean anything.
 
+### The paired arm, same day: the gate reached, and it converts
+
+**N102** is N97 with *"then commit it"* in the turn — the only difference. **3 pass · 0 fail · 2
+void, rate 3/3.**
+
+| | reaches the gate | wrote a `**Job**` line |
+|---|---|---|
+| **N97** — commit not mentioned | **no** · 0 commits in 10 runs | **1 of 10** |
+| **N102** — *"then commit it"* | **yes** · 3 of 5 committed, every one refused first | **3 of 3** |
+
+**Every run that reached the gate was refused, read the refusal, wrote a job story, and committed
+successfully.** No run took `--no-verify`; the hits on that string in the transcripts are the
+guard's own source, which the players read. The two voids added no move at all and are not
+failures.
+
+**This is the effect the noise band cannot swallow** — 1 in 10 against 3 of 3, where this file's
+own rule is that one or two at N=5 is noise. **The form converts what the prose did not**, measured
+on a capability three days old, which is the corpus's central claim tested rather than restated.
+
+**And it locates the weakness precisely.** The gate holds; the reach does not. What 0.2.9 actually
+buys is compliance *among workers that commit*, and the corpus's own rule that work ends in a
+commit measured **0 of 10** in the arm that did not say so. The next lever is not a better gate.
+
 **Owed from here**, in order: give N100 and N101 the state their queries assume · decide whether a
 scenario that means to reach a gate must say *commit it* in the turn, or whether not-committing is
 itself the behaviour under test (both are legitimate, and they measure different things) · and

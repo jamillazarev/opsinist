@@ -12,6 +12,14 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 > here and was never stated until this round said it. The entry's own text is left exactly as it
 > shipped; this is the marked correction the frozen-entry rule permits — and it was written only
 > after that rule refused the rewrite, which is the gate doing its job on its own author.
+>
+> **Completed the same day, and the gate converts.** N102 is the same scenario with *"then commit
+> it"* in the turn — the only difference — and it scored **3 of 3**: every run that reached the gate
+> was refused, read the refusal, wrote a job story and committed. Against N97's **1 of 10**, which
+> never reached it. That is an effect the noise band cannot swallow, and it is the corpus's own
+> form-over-prose law measured on a capability three days old rather than restated. What 0.2.9
+> buys is compliance **among workers that commit**; the rule that work ends in a commit measured
+> 0 of 10 where the turn did not say so, and that — not the gate — is the next lever.
 
 **Three rules the corpus implied and never said, each with its prose named as prose.**
 
