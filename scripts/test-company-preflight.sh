@@ -780,6 +780,17 @@ git reset -q; git checkout -q -- . 2>/dev/null
 # `|-|-|` is valid GFM; requiring two dashes read the separator itself as a data row.
 printf '# Tooling\n\n| Tool | What for | Replaces | Checked |\n|-|-|-|-|\n' > _ops/TOOLING.md
 [ "$(_fires)" = 0 ] && ok || bad "a one-dash GFM separator was read as a data row"
+
+# **A row belongs to its own table.** A tooling file commonly carries a `## Retired` table
+# recording that something went AWAY, and every row in it was being asked what it replaces — the
+# opposite question. It passed or failed by accident, on whether the first table's column ordinal
+# happened to land on a filled cell. Adversarial lens, 2026-08-23.
+printf '# Tooling\n\n| Tool | What for | **Replaces** | Checked |\n|---|---|---|---|\n\n## Retired\n\n| Tool | Why it went |\n|---|---|\n| Trello | we stopped using it |\n' > _ops/TOOLING.md
+[ "$(_fires)" = 0 ] && ok || bad "a row recording that a tool went away was asked what it replaces"
+git reset -q; git checkout -q -- . 2>/dev/null
+printf '# Tooling\n\n| Tool | What for | **Replaces** | Checked |\n|---|---|---|---|\n| Otter | transcripts |  | 2026-08-23 |\n\n## Retired\n\n| Tool | Why it went |\n|---|---|\n' > _ops/TOOLING.md
+[ "$(_fires)" -ge 1 ] && ok || bad "a real register row went unchecked because a second table followed it"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 
 # An example table inside a fence is an illustration, not the register — the same lesson the

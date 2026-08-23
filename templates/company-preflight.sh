@@ -964,17 +964,48 @@ if ( changed --diff-filter=AMR -- '_ops/TOOLING.md' ) | hits . ; then
     c { if ($0 ~ /-->/) c = 0; next }
     !f { n++; L[n] = $0 }
   '
+  # **A row belongs to its own table, and the rung is only asked of the register's.** A tooling
+  # file commonly carries a second table — `## Retired`, recording that something went AWAY — and
+  # every row in it was being checked for what it replaces, which is the opposite question. Worse,
+  # it passed or failed by accident: the column index came from the first table and landed on
+  # whichever cell that ordinal happened to hit. Measured 2026-08-23 by an adversarial lens.
+  #
+  # So: find the header that HAS the column, anywhere in the file, and take only the rows under it.
   _hdr=$(printf '%s\n' "$_staged" | awk "$_rowsrc"'
-    END { for (i = 1; i <= n; i++) if (L[i+1] ~ /^[ \t]*\|[ \t]*:?-+/) { print L[i]; exit } }')
-  _real=$(printf '%s\n' "$_staged" | awk "$_rowsrc"'
     END {
       for (i = 1; i <= n; i++) {
-        if (L[i] !~ /^[ \t]*\|/) continue
-        if (L[i] ~ /^[ \t]*\|[ \t]*:?-+/) continue
-        if (L[i+1] ~ /^[ \t]*\|[ \t]*:?-+/) continue
-        print L[i]
+        if (L[i+1] !~ /^[ \t]*\|[ \t]*:?-+/) continue
+        h = tolower(L[i]); gsub(/[^a-z|]/, "", h)
+        if (h ~ /\|replaces\|/) { print L[i]; exit }
       }
     }')
+  if [ -n "$_hdr" ]; then
+    # rows under THAT header only, stopping at the first line that is not a table row
+    _real=$(printf '%s\n' "$_staged" | awk "$_rowsrc"'
+      END {
+        for (i = 1; i <= n; i++) {
+          if (L[i] != HDR) continue
+          for (j = i + 2; j <= n; j++) {
+            if (L[j] !~ /^[ \t]*\|/) break
+            if (L[j] ~ /^[ \t]*\|[ \t]*:?-+/) continue
+            print L[j]
+          }
+          exit
+        }
+      }' HDR="$_hdr")
+  else
+    # no Replaces column anywhere — an older register, so every table row is a candidate and the
+    # keyword fallback below does the judging
+    _real=$(printf '%s\n' "$_staged" | awk "$_rowsrc"'
+      END {
+        for (i = 1; i <= n; i++) {
+          if (L[i] !~ /^[ \t]*\|/) continue
+          if (L[i] ~ /^[ \t]*\|[ \t]*:?-+/) continue
+          if (L[i+1] ~ /^[ \t]*\|[ \t]*:?-+/) continue
+          print L[i]
+        }
+      }')
+  fi
   _added=$( ( git diff --cached -U0 -- _ops/TOOLING.md 2>/dev/null || true ) \
     | grep '^+' | grep -v '^+++ ' | sed 's/^+//' | grep -E '^[[:space:]]*\|' || true )
   if [ -n "$_real" ] && [ -n "$_added" ]; then
@@ -1012,7 +1043,7 @@ if [ -n "$_tool_rows" ]; then
   # header is the same column, and requiring the asterisks sent an honestly filled register to the
   # keyword fallback this block exists to avoid.
   _ci=$(printf '%s' "$_hdr" | awk -F'|' '{for(i=1;i<=NF;i++){c=tolower($i); gsub(/[^a-z]/,"",c); if(c=="replaces"){print i; exit}}}')
-  if [ -n "$_ci" ]; then
+  if [ -n "$_hdr" ] && [ -n "$_ci" ]; then
     _unanswered=0
     while IFS= read -r _row; do
       [ -n "$_row" ] || continue
