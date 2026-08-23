@@ -711,6 +711,29 @@ _col(){ printf '%s\n' "$1" >> _ops/TOOLING.md; git add -A
   && ok || bad "\`we had none\` was refused in the column form"
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 
+# The header is found by STRUCTURE — the line above the `|---|` — and not by the words in it.
+# The filter used to drop any row matching `tool|name|what`, which is a vocabulary one level
+# below the vocabulary §4e was cured of, in the same file. A register that names its columns
+# anything else had its own header read as a data row: standing up `_ops/TOOLING.md` from a
+# template, with no tools in it yet, was refused for containing no answer about what it replaced.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# Tooling\n\n| Thing | Why we have it | Owner |\n|---|---|---|\n' > _ops/TOOLING.md
+git add -A
+[ "$( ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -c 'what it replaces' )" = 0 ] \
+  && ok || bad "a register standing up with headers and no rows was refused — the header was read as a row"
+printf '| Otter | interview transcripts | me |\n' >> _ops/TOOLING.md; git add -A
+[ "$( ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -c 'what it replaces' )" -ge 1 ] \
+  && ok || bad "a real row in an unfamiliarly-headed register was not seen at all"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+
+# An example table inside a fence is an illustration, not the register — the same lesson the
+# market gate paid for when the shipped template was refused by the shipped guard.
+printf '# Tooling\n\n| Thing | Why | Owner |\n|---|---|---|\n\nExample:\n\n```\n| Foo | bar | me |\n```\n' > _ops/TOOLING.md
+git add -A
+[ "$( ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -c 'what it replaces' )" = 0 ] \
+  && ok || bad "a fenced example row was treated as a register row"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+
 # ── the guard notices its own age ──────────────────────────────────────────────────────────
 # This file is a COPY, written into _ops/scripts/ at stand-up and never moving again by itself, so
 # every release that adds a check leaves existing projects on the old one — silently, with a green
