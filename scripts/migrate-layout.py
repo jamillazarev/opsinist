@@ -245,6 +245,7 @@ def main():
     # source is this file's own directory, which is the only skill path a project can resolve
     # without knowing where its runtime cached the plugin.
     doors_done = []
+    _failed = []
 
     def recopy_doors():
         # Called from BOTH exits on purpose. A project already on `_ops/` returns early below,
@@ -333,13 +334,23 @@ def main():
                 # Measured: with `_ops/scripts/*.py` gitignored, or `_ops/scripts` a symlink, the
                 # bytes land and nothing is staged — so the guard passes here (it reads the
                 # worktree) and a clone of that commit hits the guard's hard refusal instead.
+                # **One remedy, chosen from what git actually said** — not a menu ending in
+                # "read the reason above and pick accordingly", which pointed at a parenthetical
+                # in the same sentence and, when git printed nothing, at an unresolved either/or.
+                # Named 2026-08-23 by a cold-read lens asking what it would do at the terminal.
+                _why = r.stderr.strip().splitlines()[0] if r.stderr.strip() else ""
+                if "symbolic link" in _why:
+                    _fix = ("`_ops/scripts` is a symlink out of the repository, so git cannot "
+                            "stage anything through it. Put `_ops/scripts` inside the repository "
+                            "— the door has to be a file this commit can carry")
+                elif "ignored" in _why or not _why:
+                    _fix = (f"the path looks ignored — `git add -f {rel}` stages it, and it is "
+                            f"worth asking why `_ops/scripts` is in `.gitignore` at all")
+                else:
+                    _fix = "git's reason is above; the door has to end up in the index either way"
                 print(f"  {rel} written but NOT staged"
-                      f"{': ' + r.stderr.strip().splitlines()[0] if r.stderr.strip() else ' (ignored, or outside the repo)'}"
-                      f" — the commit will not carry the door. `git add -f {rel}` works when the "
-                      f"path is IGNORED; it does not when `_ops/scripts` is a symlink out of the "
-                      f"repo or the door was removed from the index, which this script has "
-                      f"measured. Read the reason above and pick accordingly, or place the door "
-                      f"by hand and stage it")
+                      f"{': ' + _why if _why else ''} — the commit will not carry the door. {_fix}")
+                _failed.append(door)
             if differs:
                 # The docstring forbids the silent overwrite. A project that edited its door gets
                 # told which file was replaced, and where the copy it lost is.
@@ -349,9 +360,16 @@ def main():
                 print(f"  {rel} differed from the shipped door and was replaced"
                       f" — the previous file is at {keep.relative_to(root)}")
             doors_done.append(door)
-        if doors_done:
+        _ok = [d for d in doors_done if d not in _failed]
+        if _ok:
             verb = "would be re-copied" if dry else "re-copied"
-            print(f"  doors {verb} beside the guard: {' · '.join(doors_done)}")
+            print(f"  doors {verb} beside the guard: {' · '.join(_ok)}")
+        if _failed:
+            # A door written to disk and not staged is not a door this repository has. Printing
+            # "re-copied" over it read as success directly under two refusals — the same shape
+            # `git pull` uses to hide its own failures, which this project has already paid for
+            # once this week in an install that sat two releases behind.
+            print(f"  NOT carried by this commit: {' · '.join(_failed)} — see the line(s) above")
 
     if doors_only:
         # The whole job: put the two doors back and stop. Nothing is moved, nothing is reported,

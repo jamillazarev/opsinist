@@ -328,6 +328,29 @@ grep -q 'already in place and current' "$T/doors4.txt" \
   && bad "a door missing from the index was reported as already in place and current" || ok
 ( cd "$T/doors" && git ls-files --error-unmatch _ops/scripts/new-id.py >/dev/null 2>&1 ) \
   && ok || bad "the remedy did not put the door back in the index"
+
+# **`_ops/scripts` as a symlink out of the repository** — the case the refusal string named as
+# measured and no test had ever built. git refuses to stage through it, so the doors land on disk
+# and the commit cannot carry them. Two things must be true: the message picks ONE remedy from
+# git's own reason rather than offering a menu, and the summary line does not print "re-copied"
+# over a door that was not carried. Both were wrong until 2026-08-23; the second is the shape
+# `git pull` uses to hide its failures, which this project paid for the same week.
+SL="$T/sym"; mkdir -p "$SL/outside/scripts" "$SL/r/_ops"
+cp "$HERE/../templates/company-preflight.sh" "$SL/outside/scripts/preflight.sh"
+ln -s "$SL/outside/scripts" "$SL/r/_ops/scripts"
+printf '# P\n\n**Operated by:** Opsinist **%s**\n' \
+  "$(sed -n 's/^version: //p' "$HERE/../skills/advisor/SKILL.md" | head -1)" > "$SL/r/CLAUDE.md"
+( cd "$SL/r" && git init -q && git add -A >/dev/null 2>&1
+  git -c user.email=t@t -c user.name=t commit -qm init ) >/dev/null 2>&1
+( cd "$SL/r" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/sym.txt" 2>&1
+grep -q 'is a symlink out of the repository' "$T/sym.txt" \
+  && ok || bad "the symlink case did not name the one remedy that applies to it"
+grep -q 'Read the reason above and pick accordingly' "$T/sym.txt" \
+  && bad "the message still offers a menu instead of a remedy" || ok
+grep -q 'NOT carried by this commit' "$T/sym.txt" \
+  && ok || bad "doors that could not be staged were not named as uncarried"
+grep -q 'doors re-copied beside the guard' "$T/sym.txt" \
+  && bad "a door that was never staged was reported as re-copied" || ok
 # ...and a tree that really does declare another operator is still handed back untouched
 printf '# Guide\n\n**Operated by:** otherops 9.9.9\n' > "$T/doors/CLAUDE.md"
 rm -f "$T/doors/_ops/scripts/new-id.py"
