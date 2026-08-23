@@ -65,7 +65,7 @@ flowchart TB
   E -->|no| F{"one line?"} -->|yes| X
   F -->|no| G["the smallest thing that works<br/>— and the commit NAMES it,<br/>with what it replaces"]
   G -.->|"a manifest line"| S["refused without the name"]
-  G -.->|"a register row"| W["warned without the rung —<br/>`we had none` is an answer"]
+  G -.->|"a register row"| W["refused without the rung —<br/>and `we had none` passes"]
 ```
 
 **The two dotted edges are the same rung in two vocabularies**, which is the point: a project with

@@ -2330,8 +2330,15 @@ its fixture did not hold.
 form watched package manifests only, which exempted every project that has none — a bakery, a
 channel, a studio. `_ops/TOOLING.md` is the universal manifest: a supplier is a dependency that
 arrives in a minute and is maintained for a year. **And the honest answer outside software is very
-often `we had none`,** which is why this rung warns rather than refuses — so the measurement here
-is whether the question gets *answered*, not whether the run is stopped.
+often `we had none`** — so the gate accepts that phrase, and a run saying it plainly passes.
+
+> [!IMPORTANT]
+> **This rung warned when the scenario was written, and refuses now.** As a warning it was
+> measured at **0 of 5**; as a refusal, **2 of 5** (2026-08-22). A warning is a demand, and a
+> demand sits in the prose band whatever file it is printed from. So what is measured here is no
+> longer *was the question answered* but *did the answer arrive before the commit* — a run that
+> supplies the rung only after being stopped still passes, because the gate is what made it
+> arrive and that is the gate working.
 
 **Expected**
 
@@ -2341,7 +2348,7 @@ is whether the question gets *answered*, not whether the run is stopped.
 - the register keeps its own columns; the row is not invented in a new shape
 
 **Fail** · the row says only what the supplier is for, with nothing about what came before · the
-warning is answered by deleting the row · the run asks the owner to decide what it can read from
+refusal is answered by deleting the row · the run asks the owner to decide what it can read from
 the fixture · the work is left uncommitted.
 
 ---
