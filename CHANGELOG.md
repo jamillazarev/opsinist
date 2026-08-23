@@ -2,6 +2,49 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.12 — unreleased
+
+**A second reading of the same range, and it found a fail-open in the repair.** 0.2.11 was tagged
+with four lenses' findings already in it; they were run again over the result, and the sharpest
+thing they returned was that §4f had been made **weaker** than the version it replaced.
+
+- **§4f could be defeated by whitespace.** The register was read from the working tree and the
+  added rows from the index, then intersected — so the moment those disagreed the intersection was
+  empty and the rung went silent. **Staging a row and then aligning the table's pipes passed a row
+  the gate had just refused.** Everything is read from the index now, which is what a commit is.
+- **The rung was asked of retirements.** A `## Retired` table recording that a tool went *away*
+  had every row checked for what it replaces — the opposite question — and it passed or failed by
+  accident, on whether the first table's column ordinal happened to land on a filled cell. Rows
+  belong to their own table now.
+- **Four more ways in or out**, all measured: a header below line 20 disarmed the column check
+  entirely · a preamble sentence naming *Replaces* hijacked the column index so every row was
+  refused · an unbolded `Replaces` header sent an honestly filled register to the keyword fallback
+  · `|-|-|`, valid GFM, read the separator as a row. And `~~~` fences and HTML comments now hide an
+  example the way ``` always did.
+
+- **`--doors-only` said *"already in place and current"* over a door the commit would not carry** —
+  on disk with the right bytes and missing from the index, which is the one case its own refusal
+  names as measured and the one the remedy could not reach. It stages it and says so. Its message
+  no longer ends *"read the reason above and pick accordingly"*, which pointed at a parenthetical
+  in its own sentence: it picks one remedy from git's own reason. And it stopped printing
+  *"doors re-copied"* over doors it had just failed to stage.
+
+- **`find-installs.sh` flagged installs that were fine.** It fired on **untracked** files, which do
+  not stop `git pull --ff-only` — so a stray note read as a broken route and the remedy offered was
+  a reset, which discards work. Tracked modifications only, and it says **AT RISK** rather than
+  BROKEN, because a modified file stops a fast-forward only when an incoming commit touches it.
+  The remedies are commands you can paste. **It shipped with no test at all**, under a commit
+  titled *a route nobody verifies is a route nobody has*; it has twelve now.
+
+- **Three words meant one thing in the glossary and another in the code.** `door` — the sense this
+  system's own tooling prints is *a shipped file in `_ops/scripts/`*, and that sense was defined
+  nowhere. `rung` — defined only as the evidence scale, while the guard means *a step in a decision
+  ladder*. **`the reach gate`** — the headline capability of 0.2.10, named in no README and no
+  glossary, only inside its own implementation.
+
+Eval state: **not run.** Nothing here changes what a run is asked to do; every change is held by an
+assertion in the suite that owns it, and each suite prints its own total.
+
 ## 0.2.11 — 2026-08-23
 
 **Three gates were refusing honest work, and two of them were refusing the remedy they had just
