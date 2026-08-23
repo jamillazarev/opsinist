@@ -290,13 +290,28 @@ def main():
                           f"the commit would not have carried the door")
                     doors_done.append(door)
                     continue
-                print(f"  {_rel0} is on disk with the right bytes and is NOT in the index, and "
-                      f"`git add` did not put it there"
-                      f"{': ' + r0.stderr.strip().splitlines()[0] if r0.stderr.strip() else ''}"
-                      f" — the commit will not carry the door. `git add -f {_rel0}` works when the "
-                      f"path is IGNORED; when `_ops/scripts` is a symlink out of the repo, place "
-                      f"the door inside the repository instead")
+                # **The same chooser as the write path, and the same `_failed` bookkeeping.**
+                # This branch printed the old either/or menu that the write path had just been
+                # cured of, and never touched `_failed` — so `doors re-copied beside the guard`
+                # printed over two hard refusals and the run exited 0. Measured 2026-08-23 by an
+                # adversarial lens, on a repository whose doors were gitignored and untracked.
+                _w0 = r0.stderr.strip().splitlines()[0] if r0.stderr.strip() else ""
+                if "symbolic link" in _w0:
+                    _f0 = ("`_ops/scripts` is a symlink out of the repository, so git cannot stage "
+                           "anything through it. Put `_ops/scripts` inside the repository — the "
+                           "door has to be a file this commit can carry")
+                elif "ignored" in _w0:
+                    _f0 = (f"the path is ignored — `git add -f {_rel0}` stages it, and it is worth "
+                           f"asking why `_ops/scripts` is in `.gitignore` at all")
+                else:
+                    _f0 = (f"git gave no reason, so this does not guess at one. Run `git add "
+                           f"{_rel0}` yourself and read what it says; check `git ls-files -v "
+                           f"{_rel0}` for a `S` or `h` flag, and that `_ops/scripts` is not itself "
+                           f"a nested repository")
+                print(f"  {_rel0} is on disk with the right bytes and is NOT in the index"
+                      f"{': ' + _w0 if _w0 else ''} — the commit will not carry the door. {_f0}")
                 doors_done.append(door)
+                _failed.append(door)
                 continue
             keep = None
             if dst.is_file() and not dry:

@@ -781,6 +781,65 @@ git reset -q; git checkout -q -- . 2>/dev/null
 printf '# Tooling\n\n| Tool | What for | Replaces | Checked |\n|-|-|-|-|\n' > _ops/TOOLING.md
 [ "$(_fires)" = 0 ] && ok || bad "a one-dash GFM separator was read as a data row"
 
+# ── the header must not be able to switch this gate off (adversarial, 2026-08-23) ───────────
+# The header was handed back to awk as `HDR="$_hdr"`, a command-line assignment, which awk
+# escape-processes: a header containing `c:\temp` arrived with a TAB in it and the equality test
+# matched nothing, so §4f went silent for that file permanently. One character, and the gate is
+# gone. Cells are also split on unescaped pipes outside code spans now — `\|` and a pipe inside
+# backticks each shifted every field after them and the gate read the wrong cell.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+_reg(){ python3 - "$1" <<'RPY'
+import pathlib, sys
+pathlib.Path("_ops/TOOLING.md").write_text(sys.argv[1])
+RPY
+  git add -A
+  local n; n=$( ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -c 'what it replaces' )
+  git reset -q; git checkout -q -- . 2>/dev/null; echo "$n"; }
+
+[ "$(_reg '# T
+
+| Tool | c:\temp | **Replaces** | Checked |
+|---|---|---|---|
+| Otter | x |  | d |
+')" -ge 1 ] && ok || bad "a backslash in the header switched §4f off entirely"
+[ "$(_reg '# T
+
+| Tool | a \| b | **Replaces** | Checked |
+|---|---|---|---|
+| Otter | x |  | d |
+')" -ge 1 ] && ok || bad "an escaped pipe in the header shifted the column and the gate read the wrong cell"
+[ "$(_reg '# T
+
+| Tool | What for | **Replaces** | Checked |
+|---|---|---|---|
+| datadog | pipes `a|b` |  | d |
+')" -ge 1 ] && ok || bad "a pipe inside backticks shifted the row and satisfied a blank cell"
+[ "$(_reg '# T
+
+| Tool | What for | Checked |
+|---|---|---|
+| Otter | transcripts | d |
+
+## Retired
+
+| Tool | Why | **Replaces** |
+|---|---|---|
+')" -ge 1 ] && ok || bad "a Replaces column on a LATER table captured the gate and the register went unasked"
+[ "$(_reg '# T
+
+## Retired
+
+| Tool | Why | **Replaces** |
+|---|---|---|
+
+## Live
+
+| Tool | What for | **Replaces** | Checked |
+|---|---|---|---|
+| Otter | x |  | d |
+')" -ge 1 ] && ok || bad "a decoy table above the register captured the gate"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+
 # **A row belongs to its own table.** A tooling file commonly carries a `## Retired` table
 # recording that something went AWAY, and every row in it was being asked what it replaces — the
 # opposite question. It passed or failed by accident, on whether the first table's column ordinal
@@ -806,8 +865,13 @@ git reset -q; git checkout -q -- . 2>/dev/null
 printf '# Tooling\n\n| Thing | Why | Owner |\n|---|---|---|\n\n<!--\n| Draft | not yet | me |\n-->\n' > _ops/TOOLING.md
 [ "$(_fires)" = 0 ] && ok || bad "a row parked in an HTML comment was treated as live"
 git reset -q; git checkout -q -- . 2>/dev/null
-printf '# Tooling\n\n| Thing | Why | Owner |\n|---|---|---|\n\n~~~\n| Foo | bar | me |\n~~~\n| Otter | transcripts | me |\n' > _ops/TOOLING.md
-[ "$(_fires)" -ge 1 ] && ok || bad "a live row beside a fenced example was not seen"
+# The live row sits under its own header, where a table row lives; the fenced example follows.
+# The first version of this fixture put the row AFTER the fence with no header above it, which is
+# not a table row in markdown at all — the assertion passed only because the old extractor swept
+# every `|` line in the file. Corrected 2026-08-23 when the extractor started respecting table
+# boundaries and the fixture, not the code, turned out to be wrong.
+printf '# Tooling\n\n| Thing | Why | Owner |\n|---|---|---|\n| Otter | transcripts | me |\n\n~~~\n| Foo | bar | me |\n~~~\n' > _ops/TOOLING.md
+[ "$(_fires)" -ge 1 ] && ok || bad "a live row under its own header was not seen when a fenced example followed"
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 
 # ── the guard notices its own age ──────────────────────────────────────────────────────────

@@ -351,6 +351,26 @@ grep -q 'NOT carried by this commit' "$T/sym.txt" \
   && ok || bad "doors that could not be staged were not named as uncarried"
 grep -q 'doors re-copied beside the guard' "$T/sym.txt" \
   && bad "a door that was never staged was reported as re-copied" || ok
+
+# **The identical-bytes short-circuit is the other half, and it was not covered.** Doors on disk
+# with the shipped bytes, gitignored and never in the index: two hard refusals, then `doors
+# re-copied beside the guard`, then exit 0. `_failed` was appended on the write path only.
+# Measured 2026-08-23 by an adversarial lens.
+IG="$T/ig"; mkdir -p "$IG/_ops/scripts"
+cp "$HERE/../templates/company-preflight.sh" "$IG/_ops/scripts/preflight.sh"
+cp "$HERE/transition.py" "$HERE/new-id.py" "$IG/_ops/scripts/"
+printf '_ops/scripts/*.py\n' > "$IG/.gitignore"
+printf '# P\n\n**Operated by:** Opsinist **%s**\n' \
+  "$(sed -n 's/^version: //p' "$HERE/../skills/advisor/SKILL.md" | head -1)" > "$IG/CLAUDE.md"
+( cd "$IG" && git init -q && git add -A >/dev/null 2>&1
+  git -c user.email=t@t -c user.name=t commit -qm init ) >/dev/null 2>&1
+( cd "$IG" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/ig.txt" 2>&1
+grep -q 'doors re-copied beside the guard' "$T/ig.txt" \
+  && bad "doors that were never staged were reported as re-copied on the identical-bytes path" || ok
+grep -q 'NOT carried by this commit' "$T/ig.txt" \
+  && ok || bad "the identical-bytes path did not name the doors it could not stage"
+grep -q 'Read the reason above and pick accordingly' "$T/ig.txt" \
+  && bad "the identical-bytes path still prints the menu the write path was cured of" || ok
 # ...and a tree that really does declare another operator is still handed back untouched
 printf '# Guide\n\n**Operated by:** otherops 9.9.9\n' > "$T/doors/CLAUDE.md"
 rm -f "$T/doors/_ops/scripts/new-id.py"
