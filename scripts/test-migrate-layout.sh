@@ -343,8 +343,11 @@ printf '# P\n\n**Operated by:** Opsinist **%s**\n' \
 ( cd "$SL/r" && git init -q && git add -A >/dev/null 2>&1
   git -c user.email=t@t -c user.name=t commit -qm init ) >/dev/null 2>&1
 ( cd "$SL/r" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/sym.txt" 2>&1
-grep -q 'is a symlink out of the repository' "$T/sym.txt" \
-  && ok || bad "the symlink case did not name the one remedy that applies to it"
+# A `_ops/scripts` that links out of the tree is now refused BEFORE the write, so the write
+# path's symlink wording is no longer what fires here — the earlier, stronger refusal is. The
+# assertion moved with the behaviour rather than the behaviour being kept for the assertion.
+grep -qE 'OUTSIDE this repository — refusing|is a symlink out of the repository' "$T/sym.txt" \
+  && ok || bad "the symlink case did not name why the door cannot be placed"
 grep -q 'Read the reason above and pick accordingly' "$T/sym.txt" \
   && bad "the message still offers a menu instead of a remedy" || ok
 grep -q 'NOT carried by this commit' "$T/sym.txt" \
@@ -371,6 +374,43 @@ grep -q 'NOT carried by this commit' "$T/ig.txt" \
   && ok || bad "the identical-bytes path did not name the doors it could not stage"
 grep -q 'Read the reason above and pick accordingly' "$T/ig.txt" \
   && bad "the identical-bytes path still prints the menu the write path was cured of" || ok
+
+# ── a write that leaves the repository is refused, and the file outside survives ─────────────
+# **This overwrote somebody else's file.** `write_bytes` follows a symlink, so a door path
+# pointing out of the tree meant a 35-byte personal file was silently replaced by 19 KB of door,
+# with the only notice being "the previous file is at …" — naming a backup written INSIDE the
+# repo whose original was not. Measured 2026-08-23 by an adversarial lens. The test is the
+# RESOLVED destination, so `_ops/scripts` being a link is caught the same as the door being one.
+OUT="$T/outside"; mkdir -p "$OUT"
+printf '# MY OWN PRECIOUS FILE, not a door\n' > "$OUT/mine.py"
+_before=$(wc -c < "$OUT/mine.py")
+LK="$T/lk"; mkdir -p "$LK/_ops/scripts"
+cp "$HERE/../templates/company-preflight.sh" "$LK/_ops/scripts/preflight.sh"
+ln -s "$OUT/mine.py" "$LK/_ops/scripts/transition.py"
+printf '# P\n\n**Operated by:** Opsinist **%s**\n' \
+  "$(sed -n 's/^version: //p' "$HERE/../skills/advisor/SKILL.md" | head -1)" > "$LK/CLAUDE.md"
+( cd "$LK" && git init -q && git add -A >/dev/null 2>&1
+  git -c user.email=t@t -c user.name=t commit -qm init ) >/dev/null 2>&1
+( cd "$LK" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/lk.txt" 2>&1
+[ "$(wc -c < "$OUT/mine.py")" = "$_before" ] \
+  && ok || bad "a file OUTSIDE the repository was overwritten by --doors-only"
+grep -q 'OUTSIDE this repository — refusing' "$T/lk.txt" \
+  && ok || bad "the write outside the repository was not named as the reason"
+grep -q 'NOT carried by this commit' "$T/lk.txt" \
+  && ok || bad "the refused door was not named as uncarried"
+
+# the other shape: the DIRECTORY is the link, and the doors must not land in the other tree
+OD="$T/otherdir"; mkdir -p "$OD"
+LD="$T/ld"; mkdir -p "$LD/_ops"
+cp "$HERE/../templates/company-preflight.sh" "$OD/preflight.sh"
+ln -s "$OD" "$LD/_ops/scripts"
+printf '# P\n\n**Operated by:** Opsinist **%s**\n' \
+  "$(sed -n 's/^version: //p' "$HERE/../skills/advisor/SKILL.md" | head -1)" > "$LD/CLAUDE.md"
+( cd "$LD" && git init -q && git add -A >/dev/null 2>&1
+  git -c user.email=t@t -c user.name=t commit -qm init ) >/dev/null 2>&1
+( cd "$LD" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/ld.txt" 2>&1
+[ ! -e "$OD/transition.py" ] && [ ! -e "$OD/new-id.py" ] \
+  && ok || bad "the doors were written into a directory outside the repository"
 # ...and a tree that really does declare another operator is still handed back untouched
 printf '# Guide\n\n**Operated by:** otherops 9.9.9\n' > "$T/doors/CLAUDE.md"
 rm -f "$T/doors/_ops/scripts/new-id.py"

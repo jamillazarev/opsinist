@@ -266,6 +266,33 @@ def main():
                 print(f"  cannot re-copy {door}: not beside {here} — copy it by hand")
                 continue
             dst = root / "_ops" / "scripts" / door
+            # **Never write through a link that leaves the repository.** `write_bytes` follows a
+            # symlink, so a door path pointing outside the tree meant this silently overwrote
+            # somebody else's file: measured 2026-08-23, a 35-byte personal file replaced by 19 KB
+            # of door, with the only notice being "the previous file is at …" — a backup written
+            # INSIDE the repo, naming a path whose original was not. The tool was asked to place a
+            # door in a repository and instead modified something outside it.
+            #
+            # The test is the resolved destination, not the shape of the path: `_ops/scripts` being
+            # a symlink puts `dst` outside just as surely as `dst` being one. A door there cannot
+            # be carried by any commit either, so refusing costs nothing that was going to work.
+            try:
+                _root_real = root.resolve()
+                _dst_real = dst.resolve() if dst.exists() or dst.is_symlink() else (dst.parent.resolve() / dst.name)
+                _outside = _root_real not in _dst_real.parents
+            except OSError:
+                _outside = True
+                _dst_real = dst
+            if _outside:
+                print(f"  {door} would be written to {_dst_real}, which is OUTSIDE this "
+                      f"repository — refusing. Something on the path `_ops/scripts/{door}` is a "
+                      f"symlink leading out of the tree, so writing the door would modify a file "
+                      f"this command was never pointed at, and no commit here could carry it "
+                      f"anyway. Replace the link with a real directory or file inside the "
+                      f"repository, then run this again")
+                doors_done.append(door)
+                _failed.append(door)
+                continue
             # Identical bytes are not a re-copy. This file's contract is that a second run
             # finds nothing to do and says so, and a step that reports work every time turns
             # that line into noise — the same reason the guard warns rather than refuses above.

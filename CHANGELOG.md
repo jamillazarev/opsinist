@@ -29,6 +29,15 @@ Newest first. Each entry leads with what you can now do, not with which files mo
   paste. **It had no test at all**, under a commit titled *a route nobody verifies is a route
   nobody has*; it has twelve, and they are what forced BROKEN down to AT RISK.
 
+- **`--doors-only` overwrote a file outside the repository.** If `_ops/scripts/transition.py`
+  — or `_ops/scripts` itself — was a symlink leading out of the tree, the door was written
+  **through** it: a measured case replaced a 35-byte personal file with 19 KB of door, and the
+  only notice was *"the previous file is at …"*, naming a backup written inside the repo whose
+  original was not. **If you ran `--doors-only` in a repository where either path is a link, check
+  what is at the far end of it.** The destination is resolved now and a write that lands outside
+  the repository is refused, which costs nothing that was going to work: no commit there could
+  have carried the door either.
+
 - **Three words meant one thing in the glossary and another in the code** — `door`, `rung`, and
   **`the reach gate`**, which was 0.2.10's headline capability and appeared in no README and no
   glossary, only inside its own implementation.
