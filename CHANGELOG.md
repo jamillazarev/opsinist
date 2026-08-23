@@ -2,7 +2,7 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.10 — unreleased
+## 0.2.10 — 2026-08-23
 
 **The reach, not the gate.** 0.2.9's round measured what its gates could not: across ten runs the
 player edited the machinery 8 times and committed **0** times, so every rule this project holds —
@@ -34,6 +34,27 @@ sprinkle words. A version bump is not a new dependency and is not asked. Four as
 denied. Its extractor took three iterations and reformatting was the adversary every time —
 re-indented neighbours, then collapsed-and-expanded braces — each caught by its own suite within
 the hour, and each named in the comment rather than smoothed over.
+
+**Pass thirteen read this range before it shipped: 91 findings, 8 critical, and every critical is
+repaired here.** The four worst were mine, made the same day the capabilities were:
+
+- **The reach gate fired outside its own project.** It sat above the arming check, so with the
+  plugin merely installed it refused the ending of any session in any git repository holding an
+  uncommitted manifest — including sessions that never opened this skill. Four lenses, independently.
+  It is armed now, and it also asks whether **this** session wrote anything: a run that only
+  answered a question is not blamed for the tree it inherited.
+- **Both gates were blind outside the repository root** — a bare `package.json` is a pathspec
+  anchored at the top level, so a monorepo's `frontend/package.json` was invisible to the very gate
+  widened for that shape the day before.
+- **§4e refused the exact remedy its own refusal prescribes.** The boundary treats `.` as a name
+  character so `lodash.merge` holds together, which made `left-pad.` — a sentence ending in a full
+  stop — fail. A maintainer writing precisely what the message asked was refused again.
+- **§4f asked for a vocabulary**, the defect §4e had been cured of in the same file the same day.
+  The register carries a **Replaces** column now and the gate reads the cell: it does not judge the
+  answer, only its absence.
+- **And the documented stand-up act was refused by the guard that ships beside it** — writing
+  `_ops/MARKET.md` from its template. Every new project would have met that on arrival. The
+  assertion is now on the act, not the parts.
 
 Eval state: **RUN for the reach gate, 2026-08-22, and it moved the number it was built to move.**
 Same scenario, not one word changed, corpus at `4462d50`: the gate fired **5 of 5**, commits went
