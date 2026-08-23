@@ -2,7 +2,7 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.12 — unreleased
+## 0.2.12 — 2026-08-23
 
 **Four lenses read 0.2.11 after it was tagged. Everything here is what they found in it.**
 
