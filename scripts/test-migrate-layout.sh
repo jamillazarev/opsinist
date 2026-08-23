@@ -317,6 +317,17 @@ _ix=$( cd "$T/doors" && git ls-files -s -- _ops/scripts/new-id.py | awk '{print 
 _wt=$( cd "$T/doors" && git hash-object -- _ops/scripts/new-id.py )
 [ -n "$_ix" ] && [ "$_ix" = "$_wt" ] \
   && ok || bad "the index does not hold the restored door's bytes — the silence was the wrong silence"
+# **A door on disk with the right bytes and removed from the index** — the third case the refusal
+# string names as measured, and the one the remedy could not reach: the identical-bytes
+# short-circuit returned before `git add`, printed "already in place and current", and the guard
+# reads the worktree so it saw the file too. Nothing anywhere said the commit was about to go out
+# without the door. Found 2026-08-23 by an adversarial lens.
+( cd "$T/doors" && git rm -q --cached _ops/scripts/new-id.py ) >/dev/null 2>&1
+( cd "$T/doors" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/doors4.txt" 2>&1
+grep -q 'already in place and current' "$T/doors4.txt" \
+  && bad "a door missing from the index was reported as already in place and current" || ok
+( cd "$T/doors" && git ls-files --error-unmatch _ops/scripts/new-id.py >/dev/null 2>&1 ) \
+  && ok || bad "the remedy did not put the door back in the index"
 # ...and a tree that really does declare another operator is still handed back untouched
 printf '# Guide\n\n**Operated by:** otherops 9.9.9\n' > "$T/doors/CLAUDE.md"
 rm -f "$T/doors/_ops/scripts/new-id.py"

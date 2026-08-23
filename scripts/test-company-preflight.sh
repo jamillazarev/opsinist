@@ -788,6 +788,17 @@ printf '# Tooling\n\n| Thing | Why | Owner |\n|---|---|---|\n\nExample:\n\n```\n
 git add -A
 [ "$( ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -c 'what it replaces' )" = 0 ] \
   && ok || bad "a fenced example row was treated as a register row"
+# A ~~~ fence and an HTML comment hide an example the same way ``` does, and only ``` was skipped
+# — so four documentation-only edits were refused (adversarial, 2026-08-23).
+printf '# Tooling\n\n| Thing | Why | Owner |\n|---|---|---|\n\n~~~\n| Foo | bar | me |\n~~~\n' > _ops/TOOLING.md
+[ "$(_fires)" = 0 ] && ok || bad "a ~~~ fenced example row was treated as a register row"
+git reset -q; git checkout -q -- . 2>/dev/null
+printf '# Tooling\n\n| Thing | Why | Owner |\n|---|---|---|\n\n<!--\n| Draft | not yet | me |\n-->\n' > _ops/TOOLING.md
+[ "$(_fires)" = 0 ] && ok || bad "a row parked in an HTML comment was treated as live"
+git reset -q; git checkout -q -- . 2>/dev/null
+printf '# Tooling\n\n| Thing | Why | Owner |\n|---|---|---|\n\n~~~\n| Foo | bar | me |\n~~~\n| Otter | transcripts | me |\n' > _ops/TOOLING.md
+[ "$(_fires)" -ge 1 ] && ok || bad "a live row beside a fenced example was not seen"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 
 # ── the guard notices its own age ──────────────────────────────────────────────────────────

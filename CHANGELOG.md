@@ -27,7 +27,24 @@ and listing them here would have promised an upgrader a fix they already had.)
   is what the message tells you to do, left you refused by the same message with no hint that a
   column existed. **Both homes now count**: the cell, or a decision line that names the tool.
 
-**The pattern in all four: the condition a gate fires on was repaired and the sentence it prints
+**Four lenses then read the range before it was tagged, and the worst thing they found was a
+regression in the repair itself.** §4f had been reading the register from the working tree and the
+added lines from the index: the moment those disagreed the intersection was empty and the rung
+went **silent** — so staging a row and then aligning the table's pipes, which is the next thing a
+person does, passed a row the gate had just refused. That is weaker than what it replaced.
+Everything is read from the index now, which is what a commit is made of. Four more ways the same
+block could be defeated or could refuse honest work, all measured and all fixed: a header below
+line 20 disarmed the column check entirely · a sentence in the preamble naming *Replaces* hijacked
+the column index so every row was refused · a plain, unbolded `Replaces` header sent an honestly
+filled register to the keyword fallback · `|-|-|`, which is valid GFM, read the separator itself as
+a row. **And a `~~~` fence or an HTML comment no longer hides an example from being seen as one.**
+
+**Also repaired here, from the same reading:** `--doors-only` reported *"already in place and
+current"* for a door sitting on disk with the right bytes and **missing from the index** — the one
+case its own refusal names as measured, and the one the remedy could not reach. It stages it now
+and says so.
+
+**The pattern in all of it: the condition a gate fires on was repaired and the sentence it prints
 was not.** Assertions were added for each; the suites print their own totals, which is the only
 count with a guard on it.
 

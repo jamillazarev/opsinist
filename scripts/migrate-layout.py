@@ -268,7 +268,34 @@ def main():
             # Identical bytes are not a re-copy. This file's contract is that a second run
             # finds nothing to do and says so, and a step that reports work every time turns
             # that line into noise — the same reason the guard warns rather than refuses above.
+            #
+            # **But bytes on disk are not the whole question, and answering only that one made
+            # this print "already in place and current" over a door the commit would not carry.**
+            # A door removed from the index while its bytes stay on disk is the third case the
+            # refusal below names as measured, and it was the one case the remedy could not
+            # reach: this returned early, the guard reads the worktree and saw the file, and
+            # nothing anywhere said the commit was about to go out without it. Measured
+            # 2026-08-23 by an adversarial lens. So identical bytes still have to be IN the index.
             if dst.is_file() and dst.read_bytes() == src.read_bytes():
+                _rel0 = str(dst.relative_to(root))
+                _i0 = sh(root, "git", "ls-files", "-s", "--", _rel0).stdout.split()
+                _w0 = sh(root, "git", "hash-object", "--", str(dst)).stdout.strip()
+                if len(_i0) >= 2 and _w0 and _i0[1] == _w0:
+                    continue
+                r0 = sh(root, "git", "add", _rel0)
+                _i1 = sh(root, "git", "ls-files", "-s", "--", _rel0).stdout.split()
+                if r0.returncode == 0 and len(_i1) >= 2 and _i1[1] == _w0:
+                    print(f"  {_rel0} was on disk but not in the index — staged it; "
+                          f"the commit would not have carried the door")
+                    doors_done.append(door)
+                    continue
+                print(f"  {_rel0} is on disk with the right bytes and is NOT in the index, and "
+                      f"`git add` did not put it there"
+                      f"{': ' + r0.stderr.strip().splitlines()[0] if r0.stderr.strip() else ''}"
+                      f" — the commit will not carry the door. `git add -f {_rel0}` works when the "
+                      f"path is IGNORED; when `_ops/scripts` is a symlink out of the repo, place "
+                      f"the door inside the repository instead")
+                doors_done.append(door)
                 continue
             keep = None
             if dst.is_file() and not dry:
