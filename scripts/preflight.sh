@@ -446,6 +446,18 @@ for mf in package.json gemini-extension.json .claude-plugin/plugin.json \
   v=$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$mf" | head -1)
   [ "$v" = "$ref" ] || say_fail "$mf declares $v while SKILL.md declares $ref — one bump, seven manifests"
 done
+# **And the guard's own stamp, which is a version site nothing swept.** `templates/company-preflight.sh`
+# carries `# guard-version:` on line 2, and the guard compares it against the project's guide to
+# say *this copy is older than the skill running it*. So the stamp must equal the shipping version
+# EVERY release, whether or not the guard changed — otherwise a project that has just upgraded and
+# re-copied the guard is told the guard is stale, and **re-copying, the remedy the message
+# prescribes, does not clear it.** Measured 2026-08-23: the stamp sat at 0.2.10 against a declared
+# 0.2.11, and the sibling's at 0.4.9 against 0.4.11 — two releases, so every project that upgraded
+# to either met a warning it could not act on.
+gv=$(sed -n 's/^# guard-version:[[:space:]]*\([0-9.]*\).*/\1/p' templates/company-preflight.sh | head -1)
+[ "$gv" = "$ref" ] || say_fail "templates/company-preflight.sh is stamped guard-version $gv while \
+SKILL.md declares $ref — the guard compares that stamp against the project's guide, so every \
+upgraded project would be warned its guard is stale and re-copying would not clear it. Bump line 2"
 
 # 11 · the shipped guards are exercised, not hoped: a validator whose test only runs when
 #      somebody remembers is a hope with a filename (found by the lenses — both tests were

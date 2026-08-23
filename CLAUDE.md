@@ -110,9 +110,12 @@ nothing accumulates outside versions.
   `Updating <old>..<new>` on adjacent lines, so a glance reads it as success while the install
   sits versions behind. Recovery is stash-or-reset then pull, and the untracked eval artifacts
   in the way had to be compared against `origin/main` **before** removing them — they were
-  byte-identical, which is a thing to verify and not assume. **`find-installs.sh` now flags a
-  clone with a dirty tree in both repositories**, because the row was recommending `git pull` in
-  a directory where it could not work. Check what an install IS before choosing how to move it.
+  byte-identical, which is a thing to verify and not assume. **Both scripts now flag a clone with
+  a dirty tree, and this one's Antigravity row picks its route from what the directory IS** — the
+  two routes are mutually destructive, and it had been printing one flat route beside a flag
+  saying *do not rsync onto a clone*. Every install this script finds here is a plain copy today,
+  where rsync is right; the branch is there because *today* is the word that dates badly.
+  **Check what an install IS before choosing how to move it.**
 
 - Eval clean-room: homes under the session scratchpad need their **own** keychain entries
   (`Claude Code-credentials-<sha256(home)[:8]>`) and their own logins for long rounds —

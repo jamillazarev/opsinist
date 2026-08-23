@@ -4,8 +4,10 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.11 — unreleased
 
-**Three gates were refusing honest work, and one of them was refusing the remedy it had just
-printed.** All three shipped in 0.2.10; pass thirteen named them and this is the repair.
+**Three gates were refusing honest work, and two of them were refusing the remedy they had just
+printed.** All three shipped in 0.2.10 and are repaired here. (An earlier draft of this entry also
+claimed the tool-choosing diagram and its missing fact — those shipped *in* 0.2.10, not after it,
+and listing them here would have promised an upgrader a fix they already had.)
 
 - **`--doors-only` told you your door was not staged when it was.** It asked
   `git diff --cached --name-only`, which lists paths whose index entry differs from HEAD — so a
@@ -13,21 +15,25 @@ printed.** All three shipped in 0.2.10; pass thirteen named them and this is the
   list. **If you saw *"written but NOT staged"* while following the guard's own instruction, your
   tree was fine**, and the advice about gitignored paths and symlinked directories did not apply
   to you. It asks the index directly now.
-- **§4f read your register's header as a row** unless your first column was called Tool, Name or
-  What. **Standing up `_ops/TOOLING.md` from the template — headers written, no tools in it yet —
-  was refused for saying nothing about what it replaced.** The header is now found where it
-  structurally is, above the `|---|` separator, in any language. A fenced example table is no
-  longer a row either.
-- **The tool-choosing diagram still ended *"warned without the rung"*** after the measurement that
-  made §4f refuse. The rung's fact was missing from `facts.md` outright, and its scenario told a
-  grader the measurement was *whether the question got answered* — which would have passed a run
-  that ignored a refusal.
+- **§4f read your register's header as a row** unless your first column happened to be called
+  Tool, Name or What. **If you named your columns anything else — `| Thing | Why | Owner |` — then
+  standing up `_ops/TOOLING.md` at all, headers written and no tools in it yet, was refused for
+  saying nothing about what it replaced.** (The shipped template opens `| Tool |`, so a register
+  begun from it was not affected — which is exactly why this went unnoticed.) The header is now
+  found where it structurally is, above the separator, in any language and any GFM dialect. A
+  fenced example table is not a row, and neither is a separator written `|-|-|`.
+- **§4f was stricter than its own refusal message.** With a **Replaces** column in the register
+  the gate read that cell and nothing else — so writing the reason in `_ops/DECISIONS.md`, which
+  is what the message tells you to do, left you refused by the same message with no hint that a
+  column existed. **Both homes now count**: the cell, or a decision line that names the tool.
 
-**The pattern in all three: a measurement changed behaviour and nothing downstream followed.**
-Six assertions added across the two suites for the register cases, three for the door.
+**The pattern in all four: the condition a gate fires on was repaired and the sentence it prints
+was not.** Assertions were added for each; the suites print their own totals, which is the only
+count with a guard on it.
 
 Eval state: **not run.** Nothing here changes what a run is asked to do; it changes what the
-guards accept, and the guards are covered by their suites (145 · 58 · 118 · 19).
+guards accept, and every change is covered by an assertion in the suite that owns it —
+`test-company-preflight.sh`, `test-migrate-layout.sh`, `test-audit-gate.sh`.
 
 ## 0.2.10 — 2026-08-23
 

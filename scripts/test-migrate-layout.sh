@@ -308,8 +308,15 @@ grep -q 'NOT staged' "$T/doors3.txt" \
   && bad "a door restored to the bytes it already has at HEAD was reported as not staged" || ok
 [ -s "$T/doors/_ops/scripts/new-id.py" ] \
   && ok || bad "the restored door is not on disk"
-( cd "$T/doors" && git ls-files --error-unmatch _ops/scripts/new-id.py >/dev/null 2>&1 ) \
-  && ok || bad "the restored door is not in the index — the silence would have been the wrong silence"
+# The silence has to be the RIGHT silence, and asking `--error-unmatch` could not establish that:
+# the path is committed two lines above and `rm -f` touches only the worktree, so the index entry
+# survives no matter what the command under test does — an assertion that cannot fail. It also
+# asked the wrong question. The defect was that the index already held the CONTENT; presence was
+# never in doubt. Compare the index blob to the file's own hash, which is what the fix does.
+_ix=$( cd "$T/doors" && git ls-files -s -- _ops/scripts/new-id.py | awk '{print $2}' )
+_wt=$( cd "$T/doors" && git hash-object -- _ops/scripts/new-id.py )
+[ -n "$_ix" ] && [ "$_ix" = "$_wt" ] \
+  && ok || bad "the index does not hold the restored door's bytes — the silence was the wrong silence"
 # ...and a tree that really does declare another operator is still handed back untouched
 printf '# Guide\n\n**Operated by:** otherops 9.9.9\n' > "$T/doors/CLAUDE.md"
 rm -f "$T/doors/_ops/scripts/new-id.py"

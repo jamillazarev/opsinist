@@ -709,6 +709,18 @@ _col(){ printf '%s\n' "$1" >> _ops/TOOLING.md; git add -A
   && ok || bad "an honest answer using none of the old keywords was refused — that is the vocabulary defect"
 [ "$(_col '| Otter | transcripts | we had none | 2026-08-23 |')" = 0 ] \
   && ok || bad "\`we had none\` was refused in the column form"
+# **The gate must not be stricter than its own message.** With the column present it read the cell
+# and nothing else, so a maintainer doing exactly what the refusal prescribed — writing the reason
+# in `_ops/DECISIONS.md` — was refused again by the same message. That is §4e's defect one section
+# down, found by a cold-read lens 2026-08-23 and reproduced before it was believed.
+printf -- '- 2026-08-23 Otter replaces the intern typing them by hand\n' >> _ops/DECISIONS.md
+[ "$(_col '| Otter | transcripts |  | 2026-08-23 |')" = 0 ] \
+  && ok || bad "a blank cell with a decision naming the tool was refused — the message prescribes exactly that"
+git checkout -q HEAD -- _ops/DECISIONS.md 2>/dev/null
+printf -- '- 2026-08-23 we switched the invoice template\n' >> _ops/DECISIONS.md
+[ "$(_col '| Otter | transcripts |  | 2026-08-23 |')" -ge 1 ] \
+  && ok || bad "a decision about something else satisfied the rung — the name is the field"
+git checkout -q HEAD -- _ops/DECISIONS.md 2>/dev/null
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 
 # The header is found by STRUCTURE — the line above the `|---|` — and not by the words in it.
@@ -724,6 +736,50 @@ git add -A
 printf '| Otter | interview transcripts | me |\n' >> _ops/TOOLING.md; git add -A
 [ "$( ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -c 'what it replaces' )" -ge 1 ] \
   && ok || bad "a real row in an unfamiliarly-headed register was not seen at all"
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+
+# ── five ways this rung could be defeated or could refuse honest work (adversarial, 2026-08-23) ──
+# The sharpest was a REGRESSION: the register was read from the worktree and the added lines from
+# the index, so the moment the two disagreed the intersection was empty and the rung went silent.
+# Staging a row and then aligning the table's pipes — the next thing a person does — passed a row
+# the gate had just refused. Everything comes from the index now.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+printf '# Tooling\n\n| Tool | What for | **Replaces** | Checked |\n|---|---|---|---|\n' > _ops/TOOLING.md
+git add -A && git commit -qm "adversarial fixture" >/dev/null 2>&1
+_fires(){ git add -A; ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -c 'what it replaces'; }
+
+printf '| Figma | design files |  | 2026-08-23 |\n' >> _ops/TOOLING.md
+git add _ops/TOOLING.md
+python3 - <<'MUT'
+import pathlib
+p = pathlib.Path("_ops/TOOLING.md"); t = p.read_text()
+p.write_text(t.replace("| Figma | design files |  |", "| Figma  | design files  |  |"))
+MUT
+[ "$( ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -c 'what it replaces' )" -ge 1 ] \
+  && ok || bad "the rung fell open when the worktree and the index disagreed — whitespace is enough"
+git reset -q; git checkout -q -- . 2>/dev/null
+
+# A header past line 20 left the column index EMPTY, so awk read the whole row — never blank —
+# and every row passed. Four lines of extra preamble was the entire margin.
+{ printf '# Tooling\n'; for i in $(seq 1 25); do printf 'preamble line %s\n' "$i"; done
+  printf '\n| Tool | What for | **Replaces** | Checked |\n|---|---|---|---|\n| Figma | design |  | 2026-08-23 |\n'; } > _ops/TOOLING.md
+[ "$(_fires)" -ge 1 ] && ok || bad "a header below line 20 disarmed the column check entirely"
+git reset -q; git checkout -q -- . 2>/dev/null
+
+# Bold was required, so an honestly filled plain-header register went to the keyword fallback.
+printf '# Tooling\n\n| Tool | What for | Replaces | Checked |\n|---|---|---|---|\n| Figma | design | the whiteboard photos | 2026-08-23 |\n' > _ops/TOOLING.md
+[ "$(_fires)" = 0 ] && ok || bad "a plain \`Replaces\` header was not recognised as the column"
+git reset -q; git checkout -q -- . 2>/dev/null
+
+# A sentence in the preamble naming the column hijacked the index to field 1 — the empty string
+# before the first pipe — so every row read blank and every row was refused.
+printf '# Tooling\n\nEvery row fills *Replaces*; `we had none` is a complete answer.\n\n| Tool | What for | **Replaces** | Checked |\n|---|---|---|---|\n| Figma | design | the whiteboard photos | 2026-08-23 |\n' > _ops/TOOLING.md
+[ "$(_fires)" = 0 ] && ok || bad "a preamble mention of the column hijacked its index"
+git reset -q; git checkout -q -- . 2>/dev/null
+
+# `|-|-|` is valid GFM; requiring two dashes read the separator itself as a data row.
+printf '# Tooling\n\n| Tool | What for | Replaces | Checked |\n|-|-|-|-|\n' > _ops/TOOLING.md
+[ "$(_fires)" = 0 ] && ok || bad "a one-dash GFM separator was read as a data row"
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 
 # An example table inside a fence is an illustration, not the register — the same lesson the
