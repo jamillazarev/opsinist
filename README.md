@@ -68,9 +68,9 @@ this. Everything else has a default good enough to leave alone.
   expansion surfaces, never advances itself.
 - **A gap found mid-build calls the owner, not the editor** — nobody edits the artefact another
   craft is standing on, in either direction.
-- **A run may not end leaving the machinery uncommitted** — *the reach gate*, the one that asks
-  whether the rules got as far as the commit. The ending is refused, once, naming the files, in a
-  project this system operates and a session that opened it. Every gate here fires *at the commit*, so work that stops short of one is held by
+- **A run may not end leaving the machinery uncommitted** — *the reach gate*. The ending is
+  refused, once, naming the files, in a project this system operates and a session that opened it.
+  The checks in the guard are enforced *at the commit*, so work that stops short of one is held by
   prose alone; measured, that was 0 commits in 10 runs, and 5 of 5 answering after.
 - **A new standing commitment says what it replaces** — a library, a supplier, a subscription, a
   licence. Does it need to exist · is it already here · does the craft's own staple do it · is it

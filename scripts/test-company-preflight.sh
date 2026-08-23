@@ -791,7 +791,6 @@ git reset -q; git checkout -q -- . 2>/dev/null
 printf '# Tooling\n\n| Tool | What for | **Replaces** | Checked |\n|---|---|---|---|\n| Otter | transcripts |  | 2026-08-23 |\n\n## Retired\n\n| Tool | Why it went |\n|---|---|\n' > _ops/TOOLING.md
 [ "$(_fires)" -ge 1 ] && ok || bad "a real register row went unchecked because a second table followed it"
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
-git checkout -q HEAD -- . 2>/dev/null; git reset -q
 
 # An example table inside a fence is an illustration, not the register — the same lesson the
 # market gate paid for when the shipped template was refused by the shipped guard.
@@ -809,7 +808,6 @@ printf '# Tooling\n\n| Thing | Why | Owner |\n|---|---|---|\n\n<!--\n| Draft | n
 git reset -q; git checkout -q -- . 2>/dev/null
 printf '# Tooling\n\n| Thing | Why | Owner |\n|---|---|---|\n\n~~~\n| Foo | bar | me |\n~~~\n| Otter | transcripts | me |\n' > _ops/TOOLING.md
 [ "$(_fires)" -ge 1 ] && ok || bad "a live row beside a fenced example was not seen"
-git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 
 # ── the guard notices its own age ──────────────────────────────────────────────────────────
@@ -859,7 +857,6 @@ printf '| Otter | interview transcripts | me | service | 2026-08-22 |\n' >> _ops
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
   && bad "a row with nothing about what came before passed — a warning there measured 0 of 5" || ok
-git checkout -q HEAD -- . 2>/dev/null; git reset -q
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 
 # ── a market figure carries where it came from and when ────────────────────────────────────

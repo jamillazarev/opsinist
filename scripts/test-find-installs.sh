@@ -17,8 +17,17 @@ ok(){ pass=$((pass+1)); }; bad(){ fail=$((fail+1)); echo "  ✗ $1"; }
 
 # `clone_state` is a shell function inside the script; lift it out and call it directly rather
 # than reaching it through a whole inventory run, which would depend on this machine's installs.
+# **A failed lift must ABORT.** Without this exit, `clone_state` is simply undefined and every
+# later `[ -z "$(clone_state …)" ]` passes on empty output — three assertions go green over a
+# function that does not exist, which is the corpse this repository spent a commit on elsewhere
+# the same day. The lift needs `clone_state() {` at column 0 and a closing `}` at column 0.
 sed -n '/^clone_state() {/,/^}$/p' "$HERE/scripts/find-installs.sh" > "$T/fn.sh"
-[ -s "$T/fn.sh" ] && ok || bad "clone_state could not be lifted out of find-installs.sh"
+if [ ! -s "$T/fn.sh" ]; then
+  bad "clone_state could not be lifted out of scripts/find-installs.sh — it needs \`clone_state() {\` at column 0 and a closing \`}\` at column 0; every assertion below would have passed vacuously"
+  echo "find-installs: $pass passed, $fail failed"
+  exit "$fail"
+fi
+ok
 # shellcheck disable=SC1090
 . "$T/fn.sh"
 

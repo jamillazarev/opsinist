@@ -334,7 +334,7 @@ grep -q 'already in place and current' "$T/doors4.txt" \
 # and the commit cannot carry them. Two things must be true: the message picks ONE remedy from
 # git's own reason rather than offering a menu, and the summary line does not print "re-copied"
 # over a door that was not carried. Both were wrong until 2026-08-23; the second is the shape
-# `git pull` uses to hide its failures, which this project paid for the same week.
+# `git pull` uses to hide its failures — `Aborting` and `Updating <old>..<new>` on adjacent lines.
 SL="$T/sym"; mkdir -p "$SL/outside/scripts" "$SL/r/_ops"
 cp "$HERE/../templates/company-preflight.sh" "$SL/outside/scripts/preflight.sh"
 ln -s "$SL/outside/scripts" "$SL/r/_ops/scripts"

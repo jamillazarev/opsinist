@@ -7,7 +7,7 @@ rotates, and whose breaking change surprises the team.
 **Every row says what it REPLACES**, and `we had none` is a complete answer — often the true
 one, because the work was not being done at all. A tool arrives in a minute and is maintained
 for a year, and the rung above choosing one is asking whether the work already had a way
-(`choosing-tools.md`). The guard refuses a row that leaves it blank; it does not judge the
+(`choosing-tools.md`). The guard refuses a row that leaves it blank **unless a line in `_ops/DECISIONS.md` names this tool** and says what came before — either place counts, and the guard says so when it refuses. It; it does not judge the
 answer, only its absence.
 
 One row per tool. **Operating detail does not live here** — it lives in

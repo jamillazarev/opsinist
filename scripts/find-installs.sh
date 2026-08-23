@@ -73,7 +73,8 @@ add() {
   fi
 }
 
-# A clone whose working tree is dirty cannot take the route its own row recommends.
+# A clone with modified TRACKED files may not be able to take the route its own row
+# recommends — see the measured limits below; untracked files are not the trigger.
 # Measured 2026-08-23, on the sibling methodology's Antigravity install rather than this one: a
 # release had been delivered there by rsync ON TOP OF a git clone, so `git pull --ff-only` refused
 # — permanently, and for every release after — with *"Your local changes to the following files
@@ -83,7 +84,7 @@ add() {
 # this script finds here is a plain copy today, where rsync is right — the check is here because
 # "today" is the word that dates badly, and because a route nobody verifies is a route nobody has.
 clone_state() {
-  # $1: path → "" when fine, else a flag naming why the documented route will refuse
+  # $1: path → "" when fine, else a flag naming what puts the documented route at risk
   git -C "$1" rev-parse --is-inside-work-tree >/dev/null 2>&1 || { printf ''; return; }
   # **TRACKED modifications only.** `git status --porcelain` also lists untracked files, and an
   # untracked file does not stop `git pull --ff-only` — measured 2026-08-23, after a cold-read

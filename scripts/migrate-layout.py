@@ -343,11 +343,22 @@ def main():
                     _fix = ("`_ops/scripts` is a symlink out of the repository, so git cannot "
                             "stage anything through it. Put `_ops/scripts` inside the repository "
                             "— the door has to be a file this commit can carry")
-                elif "ignored" in _why or not _why:
-                    _fix = (f"the path looks ignored — `git add -f {rel}` stages it, and it is "
-                            f"worth asking why `_ops/scripts` is in `.gitignore` at all")
+                elif "ignored" in _why:
+                    _fix = (f"the path is ignored — `git add -f {rel}` stages it, and it is worth "
+                            f"asking why `_ops/scripts` is in `.gitignore` at all")
                 else:
-                    _fix = "git's reason is above; the door has to end up in the index either way"
+                    # **Do not diagnose what git did not say.** This branch used to be folded in
+                    # with the ignored case (`or not _why`) and asserted the path "looks ignored"
+                    # on no evidence — reachable through `skip-worktree`, `assume-unchanged` or a
+                    # nested repository, where `git add -f` does nothing. And its sibling ended
+                    # "git's reason is above", pointing three words to the left in the same
+                    # printed line. Both were the defect this message was rewritten to remove,
+                    # one branch deeper. Named 2026-08-23 by two lenses reading the same lines.
+                    _fix = (f"git gave no reason, so this does not guess at one. Run `git add "
+                            f"{rel}` yourself and read what it says: if it is silent, check "
+                            f"`git ls-files -v {rel}` for a `S` or `h` flag (skip-worktree or "
+                            f"assume-unchanged) and clear it, and check that `_ops/scripts` is "
+                            f"not itself a nested repository")
                 print(f"  {rel} written but NOT staged"
                       f"{': ' + _why if _why else ''} — the commit will not carry the door. {_fix}")
                 _failed.append(door)
@@ -367,8 +378,8 @@ def main():
         if _failed:
             # A door written to disk and not staged is not a door this repository has. Printing
             # "re-copied" over it read as success directly under two refusals — the same shape
-            # `git pull` uses to hide its own failures, which this project has already paid for
-            # once this week in an install that sat two releases behind.
+            # `git pull` uses to hide its own failures: it prints `Aborting` and `Updating
+            # <old>..<new>` on adjacent lines, and a glance takes the second.
             print(f"  NOT carried by this commit: {' · '.join(_failed)} — see the line(s) above")
 
     if doors_only:

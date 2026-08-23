@@ -1043,7 +1043,8 @@ if [ -n "$_tool_rows" ]; then
   # header is the same column, and requiring the asterisks sent an honestly filled register to the
   # keyword fallback this block exists to avoid.
   _ci=$(printf '%s' "$_hdr" | awk -F'|' '{for(i=1;i<=NF;i++){c=tolower($i); gsub(/[^a-z]/,"",c); if(c=="replaces"){print i; exit}}}')
-  if [ -n "$_hdr" ] && [ -n "$_ci" ]; then
+  # `_ci` is piped from `$_hdr`, so it cannot be non-empty when that is — one test, not two.
+  if [ -n "$_ci" ]; then
     _unanswered=0
     while IFS= read -r _row; do
       [ -n "$_row" ] || continue

@@ -4,46 +4,45 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.12 — unreleased
 
-**A second reading of the same range, and it found a fail-open in the repair.** 0.2.11 was tagged
-with four lenses' findings already in it; they were run again over the result, and the sharpest
-thing they returned was that §4f had been made **weaker** than the version it replaced.
+**Four lenses read 0.2.11 after it was tagged. Everything here is what they found in it.**
 
-- **§4f could be defeated by whitespace.** The register was read from the working tree and the
-  added rows from the index, then intersected — so the moment those disagreed the intersection was
-  empty and the rung went silent. **Staging a row and then aligning the table's pipes passed a row
-  the gate had just refused.** Everything is read from the index now, which is what a commit is.
-- **The rung was asked of retirements.** A `## Retired` table recording that a tool went *away*
-  had every row checked for what it replaces — the opposite question — and it passed or failed by
-  accident, on whether the first table's column ordinal happened to land on a filled cell. Rows
-  belong to their own table now.
-- **Four more ways in or out**, all measured: a header below line 20 disarmed the column check
-  entirely · a preamble sentence naming *Replaces* hijacked the column index so every row was
-  refused · an unbolded `Replaces` header sent an honestly filled register to the keyword fallback
-  · `|-|-|`, valid GFM, read the separator as a row. And `~~~` fences and HTML comments now hide an
-  example the way ``` always did.
+- **§4f asked the rung of retirements.** A tooling file commonly carries a second table —
+  `## Retired`, recording that something went **away** — and every row in it was checked for what
+  it replaces, which is the opposite question. It passed or failed by accident, on whether the
+  first table's column ordinal happened to land on a filled cell in the second. **Rows belong to
+  their own table now**, found by the header that actually carries the `Replaces` column. A
+  register with no such column anywhere keeps the old behaviour, where every table row is a
+  candidate — so a `## Retired` table in *that* shape is still asked, and that is the honest
+  limit of this fix.
 
-- **`--doors-only` said *"already in place and current"* over a door the commit would not carry** —
-  on disk with the right bytes and missing from the index, which is the one case its own refusal
-  names as measured and the one the remedy could not reach. It stages it and says so. Its message
-  no longer ends *"read the reason above and pick accordingly"*, which pointed at a parenthetical
-  in its own sentence: it picks one remedy from git's own reason. And it stopped printing
-  *"doors re-copied"* over doors it had just failed to stage.
+- **`--doors-only` ended its refusal with *"read the reason above and pick accordingly"*** —
+  pointing at a parenthetical in its own sentence, and, when git printed nothing, at an unresolved
+  either/or. It picks one remedy from git's own reason now. And it **stopped printing *"doors
+  re-copied beside the guard"* over doors it had just failed to stage** — the shape `git pull`
+  uses to hide its own failures, printed directly beneath two refusals.
 
-- **`find-installs.sh` flagged installs that were fine.** It fired on **untracked** files, which do
-  not stop `git pull --ff-only` — so a stray note read as a broken route and the remedy offered was
-  a reset, which discards work. Tracked modifications only, and it says **AT RISK** rather than
-  BROKEN, because a modified file stops a fast-forward only when an incoming commit touches it.
-  The remedies are commands you can paste. **It shipped with no test at all**, under a commit
-  titled *a route nobody verifies is a route nobody has*; it has twelve now.
+- **`find-installs.sh` called healthy installs broken.** It fired on **untracked** files, which do
+  not stop `git pull --ff-only`, and offered a `reset` — destructive advice for a false positive.
+  **If it told you an install was broken over a stray file, the install was fine.** It reads
+  tracked modifications only, says **AT RISK** rather than BROKEN (a modified file stops a
+  fast-forward only when an incoming commit touches it), and its remedies are commands you can
+  paste. **It had no test at all**, under a commit titled *a route nobody verifies is a route
+  nobody has*; it has twelve, and they are what forced BROKEN down to AT RISK.
 
-- **Three words meant one thing in the glossary and another in the code.** `door` — the sense this
-  system's own tooling prints is *a shipped file in `_ops/scripts/`*, and that sense was defined
-  nowhere. `rung` — defined only as the evidence scale, while the guard means *a step in a decision
-  ladder*. **`the reach gate`** — the headline capability of 0.2.10, named in no README and no
+- **Three words meant one thing in the glossary and another in the code** — `door`, `rung`, and
+  **`the reach gate`**, which was 0.2.10's headline capability and appeared in no README and no
   glossary, only inside its own implementation.
 
-Eval state: **not run.** Nothing here changes what a run is asked to do; every change is held by an
-assertion in the suite that owns it, and each suite prints its own total.
+> [!NOTE]
+> **An earlier draft of this entry claimed three fixes that shipped in 0.2.11** — §4f reading from
+> the index, the four column-finding defeats, and `--doors-only` staging a door missing from the
+> index. All three are in the `v0.2.11` tag; two lenses caught it independently by checking the
+> claims against `git show v0.2.11:`. **This is the third release running where a draft entry
+> promised an upgrader a fix they already had**, and 0.2.11's own entry carries a parenthetical
+> apologising for the second. A changelog claim is checkable against the tag in one command, and
+> checking it is not optional.
+
+Eval state: **not run.** Nothing here changes what a run is asked to do.
 
 ## 0.2.11 — 2026-08-23
 
