@@ -103,6 +103,17 @@ nothing accumulates outside versions.
   runner has the system tools and nothing the author installed, by any route. When a CI failure
   will not reproduce, strip the environment to the system, not to a package manager.
 
+- **Two delivery routes on one install directory, and the second breaks the first** (measured
+  2026-08-23). A release was rsync'd on top of a git *clone*, so the clone's own documented route
+  — `git pull --ff-only` — refused from then on and for every release after: *"Your local changes
+  would be overwritten."* **The output is the trap**: git prints `Aborting` and
+  `Updating <old>..<new>` on adjacent lines, so a glance reads it as success while the install
+  sits versions behind. Recovery is stash-or-reset then pull, and the untracked eval artifacts
+  in the way had to be compared against `origin/main` **before** removing them — they were
+  byte-identical, which is a thing to verify and not assume. **`find-installs.sh` now flags a
+  clone with a dirty tree in both repositories**, because the row was recommending `git pull` in
+  a directory where it could not work. Check what an install IS before choosing how to move it.
+
 - Eval clean-room: homes under the session scratchpad need their **own** keychain entries
   (`Claude Code-credentials-<sha256(home)[:8]>`) and their own logins for long rounds —
   copied tokens lose the refresh race. Details and traps: `evals/RUNS.md`.
