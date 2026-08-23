@@ -43,6 +43,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-company-preflight.sh` — The bypass net (§14) exercised end to end: a hand-flipped stage in a staged commit is
 - `scripts/test-corpus-preflight.sh` — The doors-regression check (preflight §1a) exercised on the mutant and the twin. The check
 - `scripts/test-eval-requeue.sh` — The void sweep in eval-requeue.sh, exercised against the shapes that produced it
+- `scripts/test-find-installs.sh` — `find-installs.sh` exercised on its mutants and its honest twins
 - `scripts/test-inventory.sh` — The inventory's three promises, exercised: identical twice, guest-safe, honest off git
 - `scripts/test-map-blocks.sh` — The touched-by executor exercised: blocks generated, only markers rewritten, and two live
 - `scripts/test-migrate-layout.sh` — The 0.2.0 layout migrator exercised on a flat 0.1.x fixture: history-preserving
