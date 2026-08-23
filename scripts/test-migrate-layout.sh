@@ -294,6 +294,22 @@ cp "$HERE/../templates/GUIDE-template.md" "$T/doors/CLAUDE.md"
   && ok || bad "the door was written but not staged"
 ( cd "$T/doors" && bash _ops/scripts/preflight.sh >/dev/null 2>&1 ) \
   && ok || bad "the commit is still refused after following the refusal's own instruction"
+# **A door already at HEAD, deleted and restored to identical bytes, is staged — and the check
+# used to say it was not.** `git diff --cached --name-only` lists paths whose index entry differs
+# from the COMMIT, so a byte-identical restore appears nowhere in it. The script then printed
+# "written but NOT staged" and pointed at ignored paths and symlinks, on the one path where the
+# message does most harm: someone running the remedy the guard just printed. The assertion above
+# passes only because that fixture's door is NEW; this one covers the case it cannot see.
+# Measured 2026-08-23.
+( cd "$T/doors" && git add -A && git -c user.email=t@t -c user.name=t commit -qm "doors in" ) >/dev/null 2>&1
+rm -f "$T/doors/_ops/scripts/new-id.py"
+( cd "$T/doors" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/doors3.txt" 2>&1
+grep -q 'NOT staged' "$T/doors3.txt" \
+  && bad "a door restored to the bytes it already has at HEAD was reported as not staged" || ok
+[ -s "$T/doors/_ops/scripts/new-id.py" ] \
+  && ok || bad "the restored door is not on disk"
+( cd "$T/doors" && git ls-files --error-unmatch _ops/scripts/new-id.py >/dev/null 2>&1 ) \
+  && ok || bad "the restored door is not in the index — the silence would have been the wrong silence"
 # ...and a tree that really does declare another operator is still handed back untouched
 printf '# Guide\n\n**Operated by:** otherops 9.9.9\n' > "$T/doors/CLAUDE.md"
 rm -f "$T/doors/_ops/scripts/new-id.py"

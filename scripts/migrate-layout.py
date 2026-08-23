@@ -290,8 +290,19 @@ def main():
             dst.chmod(0o755)
             rel = str(dst.relative_to(root))
             r = sh(root, "git", "add", rel)
-            staged = sh(root, "git", "diff", "--cached", "--name-only").stdout.split("\n")
-            if r.returncode != 0 or rel not in staged:
+            # **Ask the INDEX, not the difference from HEAD.** `git diff --cached --name-only`
+            # lists paths whose index entry differs from the commit — so a door restored to the
+            # exact bytes it already has at HEAD is staged correctly and appears nowhere in that
+            # list. The message below then fired on the one path where it does the most harm:
+            # a maintainer running the remedy the guard just printed, told their door was not
+            # staged and pointed at ignored paths and symlinks that were not their problem.
+            # Measured 2026-08-23. Comparing the index blob to the file's own hash asks the
+            # question actually being asked — is this content in the index — and is true whether
+            # or not HEAD already agrees.
+            _idx = sh(root, "git", "ls-files", "-s", "--", rel).stdout.split()
+            _want = sh(root, "git", "hash-object", "--", str(dst)).stdout.strip()
+            in_index = len(_idx) >= 2 and _want and _idx[1] == _want
+            if r.returncode != 0 or not in_index:
                 # Measured: with `_ops/scripts/*.py` gitignored, or `_ops/scripts` a symlink, the
                 # bytes land and nothing is staged — so the guard passes here (it reads the
                 # worktree) and a clone of that commit hits the guard's hard refusal instead.
