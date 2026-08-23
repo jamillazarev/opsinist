@@ -2,6 +2,33 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.11 — unreleased
+
+**Three gates were refusing honest work, and one of them was refusing the remedy it had just
+printed.** All three shipped in 0.2.10; pass thirteen named them and this is the repair.
+
+- **`--doors-only` told you your door was not staged when it was.** It asked
+  `git diff --cached --name-only`, which lists paths whose index entry differs from HEAD — so a
+  door deleted and restored to identical bytes is staged correctly and appears nowhere in that
+  list. **If you saw *"written but NOT staged"* while following the guard's own instruction, your
+  tree was fine**, and the advice about gitignored paths and symlinked directories did not apply
+  to you. It asks the index directly now.
+- **§4f read your register's header as a row** unless your first column was called Tool, Name or
+  What. **Standing up `_ops/TOOLING.md` from the template — headers written, no tools in it yet —
+  was refused for saying nothing about what it replaced.** The header is now found where it
+  structurally is, above the `|---|` separator, in any language. A fenced example table is no
+  longer a row either.
+- **The tool-choosing diagram still ended *"warned without the rung"*** after the measurement that
+  made §4f refuse. The rung's fact was missing from `facts.md` outright, and its scenario told a
+  grader the measurement was *whether the question got answered* — which would have passed a run
+  that ignored a refusal.
+
+**The pattern in all three: a measurement changed behaviour and nothing downstream followed.**
+Six assertions added across the two suites for the register cases, three for the door.
+
+Eval state: **not run.** Nothing here changes what a run is asked to do; it changes what the
+guards accept, and the guards are covered by their suites (145 · 58 · 118 · 19).
+
 ## 0.2.10 — 2026-08-23
 
 **The reach, not the gate.** 0.2.9's round measured what its gates could not: across ten runs the
