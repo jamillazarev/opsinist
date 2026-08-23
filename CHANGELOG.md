@@ -2,7 +2,7 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.11 — unreleased
+## 0.2.11 — 2026-08-23
 
 **Three gates were refusing honest work, and two of them were refusing the remedy they had just
 printed.** All three shipped in 0.2.10 and are repaired here. (An earlier draft of this entry also
