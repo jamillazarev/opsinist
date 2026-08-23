@@ -48,6 +48,16 @@ and says so.
 was not.** Assertions were added for each; the suites print their own totals, which is the only
 count with a guard on it.
 
+**Migration — and this one affects you if you upgraded to 0.2.10.** The guard copied into your
+repository at `_ops/scripts/preflight.sh` stamps its own version on line 2, and warns when that stamp
+disagrees with the version your guide says you run. **The stamp was not bumped for 0.2.10,
+so the warning fired on every commit — and re-copying the guard, which is exactly what the warning
+tells you to do, brought the same stale stamp and did not clear it.** It is stamped 0.2.11 now,
+and a check in this repository's own preflight refuses a release whose stamp lags the version, so
+it cannot be forgotten again. **What to do:** re-copy the guard once more from this release, along
+with the two scripts beside it, and the warning goes quiet. Nothing else about your repository has
+to change.
+
 Eval state: **not run.** Nothing here changes what a run is asked to do; it changes what the
 guards accept, and every change is covered by an assertion in the suite that owns it —
 `test-company-preflight.sh`, `test-migrate-layout.sh`, `test-audit-gate.sh`.
