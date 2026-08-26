@@ -18,9 +18,18 @@ with the version → `checking.md`.
 is packaged for its authors and kept outside this repository, because it is not this project's
 record → `self-maintenance.md`.
 
-| Date | Flow | Symptom | Evidence | Fix candidate |
-|---|---|---|---|---|
-| {{2026-08-01}} | {{release}} | {{the version number lives in five files and I moved four}} | {{the commit that missed one}} | {{a check that reads them all}} |
+| Date | Flow | Symptom | Evidence | Fix candidate | Closed |
+|---|---|---|---|---|---|
+| {{2026-08-01}} | {{release}} | {{the version number lives in five files and I moved four}} | {{the commit that missed one}} | {{a check that reads them all}} | {{0.3.1}} |
+| {{2026-08-04}} | {{review}} | {{two reviewers disagreed and both were recorded as done}} | {{the two records}} | {{a stop at the second disagreement}} | {{ }} |
+
+**`Closed` holds the version that shipped the fix, and blank means still open.** Eleven lines
+above, this file already told you an entry that ships is closed with the version — and until
+2026-08-23 the table it told you that about had nowhere to write it. A rule stated in prose with
+no cell to hold it is the shape this system measures at close to zero, and it was sitting in its
+own template. The column is also what makes the promotion ladder checkable later: a rule promoted
+from a note is supposed to cite the line it came from, and a citation is only checkable against a
+date if the line has a closed state to check it in.
 
 ## Sweeps
 
