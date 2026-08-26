@@ -265,3 +265,27 @@ third before the first two are measured is the exact shape that section exists t
 this kind changes behaviour at all here, which is the only question worth spending a release on.
 **Do not install it alongside this skill**: two plugins instructing one agent about how to write
 code is the shadowing trap `evals/RUNS.md` already measured.
+
+## Nothing here measures whether a DOCUMENT works, only whether a rule holds
+
+**What it is.** Every scenario in `evals/` puts a run in a situation and counts whether the rule
+survived. None of them asks the other question: given this document and a task, what comes back —
+how many tries to a clean result, how many violations of what it teaches, how big the output, how
+far each iteration moved, what the reading cost. A rule can hold inside a document nobody can use,
+and a document can produce good work while the rule inside it is never reached. The corpus has
+sixty-odd documents and no measurement of any of them as a document.
+
+**Why not now.** It is a second harness, not a scenario: several runs against one task, an
+artefact compared across them, and counts that are not pass/fail. The existing rig measures a
+verdict; this measures a distribution. Building it while the scenario rig still owes fixtures to
+18, 30, N100 and N101 would leave two half-harnesses instead of one whole one.
+
+**What reopens it.** A document is rewritten for readability and nobody can say whether it got
+better — the argument that has already happened twice about the always-loaded core and once about
+`diagrams.md`. That is the moment: the first time a rewrite is proposed and defended with taste
+alone.
+
+**Where the method came from.** Sanity Labs measured their own design system this way and
+published both the method and the runner (`catalogue.md`, *Does the design system survive an
+agent?*). Their counts are the borrowable half; their tool is theirs.
+
