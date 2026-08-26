@@ -286,6 +286,6 @@ better — the argument that has already happened twice about the always-loaded 
 alone.
 
 **Where the method came from.** Sanity Labs measured their own design system this way and
-published both the method and the runner (`catalogue.md`, *Does the design system survive an
+published the findings, the method and the runner (`catalogue.md`, *Does the design system survive an
 agent?*). Their counts are the borrowable half; their tool is theirs.
 
