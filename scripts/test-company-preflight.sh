@@ -802,6 +802,40 @@ RPY
 |---|---|---|---|
 | Otter | x |  | d |
 ')" -ge 1 ] && ok || bad "a backslash in the header switched §4f off entirely"
+
+# ── a comment hides a LINE, and a fence needs a closer (adversarial, 2026-08-27) ────────────
+# Three ways the register went silent, all measured: an inline `<!-- todo -->` in a live row made
+# that row invisible while GFM still rendered it · a bare `<!--` with no closer anywhere made
+# every row after it invisible permanently · a stray ``` at the top did the same. Openers are now
+# believed only when a closer exists, and an inline comment is stripped from its line rather than
+# swallowing it.
+[ "$(_reg '# T
+
+| Tool | What for | **Replaces** | Checked |
+|---|---|---|---|
+| Otter | notes | <!-- todo --> | d |
+')" -ge 1 ] && ok || bad "an inline HTML comment in a cell made the row invisible"
+[ "$(_reg '# T
+
+| Tool | What for | **Replaces** | Checked |
+|---|---|---|---|
+| Beta | write <!-- here |  | d |
+| Gamma | y |  | d |
+')" -ge 1 ] && ok || bad "an unterminated comment swallowed every row after it"
+[ "$(_reg '# T
+
+```
+
+| Tool | What for | **Replaces** | Checked |
+|---|---|---|---|
+| Otter | notes |  | d |
+')" -ge 1 ] && ok || bad "a stray fence opener with no closer hid the whole register"
+[ "$(_reg '# T
+
+<!--
+| Draft | not yet |  | d |
+-->
+')" = 0 ] && ok || bad "a genuinely commented-out row was treated as live"
 [ "$(_reg '# T
 
 | Tool | a \| b | **Replaces** | Checked |

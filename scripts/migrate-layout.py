@@ -283,6 +283,27 @@ def main():
             except OSError:
                 _outside = True
                 _dst_real = dst
+            # **A hardlink has no target to resolve, and `resolve()` is the whole test above.** So a
+            # door hardlinked to a file outside the tree passed containment and was written through
+            # exactly as a symlink used to be — measured 2026-08-27, a 36-byte file outside the
+            # repository replaced by 19 KB of door, reported as success at exit 0. Same outcome the
+            # symlink fix was written to stop, one link type over. There is nothing to resolve, so
+            # the test is the link COUNT: more than one name for these bytes means writing here
+            # writes somewhere else too, and this command was pointed at one repository.
+            _links = 0
+            try:
+                if dst.is_file() and not dst.is_symlink():
+                    _links = dst.stat().st_nlink
+            except OSError:
+                _links = 0
+            if _links > 1:
+                print(f"  {door} is a hard link with {_links} names — writing it here would rewrite "
+                      f"every other one, and this command was pointed at one repository. Refusing. "
+                      f"Replace `_ops/scripts/{door}` with an ordinary file (`rm` it, then run this "
+                      f"again) if the door is what you want here")
+                doors_done.append(door)
+                _failed.append(door)
+                continue
             if _outside:
                 print(f"  {door} would be written to {_dst_real}, which is OUTSIDE this "
                       f"repository — refusing. Something on the path `_ops/scripts/{door}` is a "

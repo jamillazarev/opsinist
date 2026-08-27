@@ -284,8 +284,10 @@ sixty-odd documents and no measurement of any of them as a document.
 
 **Why not now.** It is a second harness, not a scenario: several runs against one task, an
 artefact compared across them, and counts that are not pass/fail. The existing rig measures a
-verdict; this measures a distribution. Building it while the scenario rig still owes fixtures to
-18, 30, N100 and N101 would leave two half-harnesses instead of one whole one.
+verdict; this measures a distribution. Building it while the scenario rig still owes RUNS — N97 and N98
+have never measured the gates they were written for — would leave two half-harnesses instead of
+one whole one. (An earlier draft of this line said those scenarios owed *fixtures*; all four named
+are bound in `evals/runsheet.tsv`, and two of the ids were written without their `N`.)
 
 **What reopens it.** A document is rewritten for readability and nobody can say whether it got
 better — the argument that has already happened twice about the always-loaded core and once about

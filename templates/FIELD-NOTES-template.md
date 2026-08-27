@@ -1,7 +1,10 @@
 # Field notes
 
 **Friction, recorded the moment it happens.** One line each, newest last, **append-only** — a
-correction is a new entry, never an edit to an old one.
+correction is a new entry, never an edit to an old one. **The one exception is the `Closed` cell**,
+and it is narrow on purpose: closing only ever moves that cell from empty to a version, and a
+`Closed` cell that already holds one is never changed. Nothing a reader relied on is rewritten, so
+the guarantee append-only exists for still holds.
 
 **What goes here:** anything that made the work harder than it needed to be and **did not stop
 you**. If it stopped you, it is a blocking task instead, and the work it blocked takes a
@@ -21,15 +24,12 @@ record → `self-maintenance.md`.
 | Date | Flow | Symptom | Evidence | Fix candidate | Closed |
 |---|---|---|---|---|---|
 | {{2026-08-01}} | {{release}} | {{the version number lives in five files and I moved four}} | {{the commit that missed one}} | {{a check that reads them all}} | {{0.3.1}} |
-| {{2026-08-04}} | {{review}} | {{two reviewers disagreed and both were recorded as done}} | {{the two records}} | {{a stop at the second disagreement}} | {{ }} |
+| {{2026-08-04}} | {{review}} | {{two reviewers disagreed and both were recorded as done}} | {{the two records}} | {{a stop at the second disagreement}} |  |
 
-**`Closed` holds the version that shipped the fix, and blank means still open.** Eleven lines
-above, this file already told you an entry that ships is closed with the version — and until
-2026-08-23 the table it told you that about had nowhere to write it. A rule stated in prose with
-no cell to hold it is the shape this system measures at close to zero, and it was sitting in its
-own template. The column is also what makes the promotion ladder checkable later: a rule promoted
-from a note is supposed to cite the line it came from, and a citation is only checkable against a
-date if the line has a closed state to check it in.
+**`Closed` holds the version that shipped the fix; leave it empty while the note is still open.**
+The sweep at a status check is what fills it (`checking.md`) — the person closing the loop, not the
+person who wrote the note. **Nothing validates this table's shape**, so an existing file with five
+columns keeps working; add the column when you next close something, or never.
 
 ## Sweeps
 
