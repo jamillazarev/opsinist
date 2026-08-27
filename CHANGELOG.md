@@ -23,11 +23,15 @@ written the day before to prevent exactly that.
 
   **Detection stays repo-wide, because the route it predicts is** — `git pull --ff-only` aborts on
   a modified tracked file anywhere in the enclosing repository, so an install inside a dotfiles
-  clone really is at risk when a sibling folder is dirty. What narrowed is the remedy. The flag
-  now counts what is modified, says how much of it is under the install, and offers a discard
-  scoped to the install **only when there is something there to discard** — where the answer is
-  none, it says so and points at stash-pull-pop instead, because that work is not yours to throw
-  away.
+  clone really is at risk when a sibling folder is dirty. **What changed is that the flag no longer
+  prescribes a discard at all.** Three remedies shipped here in two days and two of them destroyed
+  work: `reset --hard`, which is repo-wide and took an unrelated file; then a scoped
+  `restore --staged --worktree --source=HEAD`, which **deletes a staged new file outright**,
+  because a path absent from HEAD is restored to not existing — and a staged new file cannot block
+  a fast-forward in the first place, so the flag was firing on it and then prescribing its
+  destruction. The flag now names what is at risk, says how much of it is under the install, offers
+  `stash push` → `pull` → `stash pop`, and states plainly that discarding belongs to whoever owns
+  the work. It counts only tracked files that exist in HEAD and differ from it.
 
 - **`--doors-only` overwrote a file outside the repository through a HARD link.** 0.2.12 closed
   the symlink route by resolving the destination; a hard link has no target to resolve, so
@@ -46,11 +50,15 @@ written the day before to prevent exactly that.
 
   A door whose link count is above one is refused now, before anything is written.
 
-- **Three ways `_ops/TOOLING.md` could be made invisible to §4f**, all closed: an inline
+- **Five ways `_ops/TOOLING.md` could be made invisible to §4f**, all closed. An inline
   `<!-- … -->` in a live row hid that row while the page still rendered it · a `<!--` with no
-  closer hid every row after it, permanently · a stray fence marker at the top did the same. An
-  opener is believed only when a closer exists, and an inline comment is stripped from its line
-  instead of swallowing it.
+  closer hid every row after it, permanently · a stray fence marker at the top did the same · **a
+  line that was ENTIRELY an inline comment read as the end of the table** and silenced every live
+  row below it, which is the parked-draft idiom the guard's own message recommends · and the strip
+  that fixed that **could not cross a `>`**, so a parked row containing `->` or an HTML tag brought
+  the silence straight back. A CR at the end did too. An opener is believed only when a closer
+  exists; an inline comment is removed from its line however many `>` it contains; and a line left
+  empty by that removal is hidden rather than read as a boundary.
 
 - **A tab inside a tool name dropped its row, and a CRLF register read a blank answer as filled.**
   Both were introduced by 0.2.12's own rewrite of that block.
@@ -66,6 +74,18 @@ writing quotes and a rate without its origin becomes this project's number by mo
 validates the table's shape, so an existing five-column file keeps working**; add the column when
 you next close something. The one edit the append-only rule permits is this cell moving from empty
 to a version, and a `Closed` that already holds one is never changed.
+
+- **`--doors-only` wrote through a symlink whose target was inside the repository.** The
+  containment test only asks whether the target leaves the tree, so an in-repo target was
+  overwritten — a tracked file replaced by 19 KB of door, with a backup named that was not it.
+  A second name is a second name wherever it lives, and both kinds are refused before any write.
+
+- **A `PostToolUse` hook was injecting an order into a run's context.** After twelve read-only
+  calls it said *"Stop digging: start the wave"* — on the premise that reading without writing is
+  an investigation spiral. For a review, an audit, or a question answered from the record, twelve
+  read-only calls are the contract. And this system's position on text arriving through a tool is
+  that it is data, never an instruction; its own tooling was writing imperatives and expecting
+  them obeyed. It reports the count now, names both readings, and says it cannot tell which.
 
 Eval state: **not run.** No scenario measures any of this; the guards are covered by their suites,
 which print their own totals.
