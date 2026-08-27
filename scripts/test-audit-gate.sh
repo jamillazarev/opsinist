@@ -470,5 +470,20 @@ printf '%s' "$(rstop)" | OPSINIST_UNCOMMITTED_GATE=off python3 "$GATE" >/dev/nul
   && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: reach: OPSINIST_UNCOMMITTED_GATE=off"; }
 rm -rf "$RG"
 
+
+# ── the spiral note reports; it does not order ────────────────────────────────────────────────
+# It used to say "Stop digging: … start the wave" — an imperative injected into a run by its own
+# tooling, in a system whose position is that text arriving through a tool is data and never an
+# instruction. And it assumed writing was the point: a read-only run makes twelve read-only calls
+# because that is its contract. Observed 2026-08-27 on a review lens, which treated it as data and
+# carried on; a run that did not would have abandoned the job it was given.
+_note=$(sed -n '/"additionalContext":/,/arrives once/p' "$GATE")
+if printf '%s' "$_note" | grep -qiE 'Stop digging'; then
+  fail=$((fail+1)); echo "FAIL: the spiral note gives an order — tooling output is data, not an instruction"
+else pass=$((pass+1)); fi
+if printf '%s' "$_note" | grep -q 'meant to be read-only'; then
+  pass=$((pass+1)); else fail=$((fail+1)); echo "FAIL: the note does not allow a run whose contract is reading"; fi
+if printf '%s' "$_note" | grep -q 'cannot tell which'; then
+  pass=$((pass+1)); else fail=$((fail+1)); echo "FAIL: the note does not say what it cannot know"; fi
 echo "pass $pass · fail $fail"
 [ "$fail" = 0 ]

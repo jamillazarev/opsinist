@@ -359,12 +359,25 @@ def main():
                     open(spoke, "w").write("1")
                     print(json.dumps({"hookSpecificOutput": {
                         "hookEventName": "PostToolUse",
+                        # **A note, not an order.** This said "Stop digging: … start the wave",
+                        # which is an imperative injected into a run's context by its own tooling —
+                        # and this system's whole position on text arriving through a tool is that
+                        # it is data, never an instruction. It also assumes writing is the point:
+                        # a read-only run (a review lens, an audit, a question answered from the
+                        # record) makes twelve read-only calls because that is its contract, and
+                        # was told to stop doing its job. Observed 2026-08-27 on a review lens,
+                        # which correctly treated it as data and carried on. It states the count
+                        # and names what it cannot know.
                         "additionalContext":
-                            "Opsinist (dispatching.md): twelve read-only calls and nothing "
-                            "written, dispatched or transitioned — this is the investigation "
-                            "spiral the run book names. Stop digging: say what you know, "
-                            "start the wave (a task, a dispatch), or ask the one question "
-                            "that is actually blocking. This note arrives once."}}))
+                            "Opsinist, for the record: twelve read-only calls so far and nothing "
+                            "written, dispatched or transitioned. If this run is meant to produce "
+                            "something, that pattern is the investigation spiral dispatching.md "
+                            "describes, and the way out is to say what is known, start a task, or "
+                            "ask the one blocking question. If this run is meant to be read-only "
+                            "— a review, an audit, a question answered from the record — then "
+                            "this is the expected shape and nothing here needs acting on. This "
+                            "hook cannot tell which, so it reports rather than directs, and "
+                            "arrives once."}}))
                     sys.exit(0)
         except Exception:
             out()
