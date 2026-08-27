@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# guard-version: 0.2.12   <!-- stamped from the skill at ship time; read by the check below -->
+# guard-version: 0.2.13   <!-- stamped from the skill at ship time; read by the check below -->
 # Docs guard for a company the advisor built — install it into the company's own repo, not ours.
 #
 #   cp templates/company-preflight.sh <repo>/_ops/scripts/preflight.sh

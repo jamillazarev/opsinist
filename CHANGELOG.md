@@ -2,6 +2,48 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.13 — unreleased
+
+**Four lenses read the tagged 0.2.12 and found that two repairs in it destroyed data.** Both were
+written the day before to prevent exactly that.
+
+- **`find-installs.sh` told you an install was at risk because of an edit somewhere else, and the
+  remedy it printed deleted that edit.** It read `git status` across the whole repository, so an
+  install living inside a larger one — a dotfiles clone carrying `.claude/plugins/<skill>` — was
+  flagged for a change in an unrelated folder, and the `git reset --hard` it prescribed is
+  repo-wide too. **If you ran that command, check what else it discarded.** Detection now reads
+  only the install directory, and the discard is `git restore --source=HEAD` on those paths.
+
+- **`--doors-only` overwrote a file outside the repository through a HARD link.** 0.2.12 closed
+  the symlink route by resolving the destination; a hard link has no target to resolve, so
+  containment passed and the door was written through — measured, a file outside replaced by 19 KB,
+  reported as success at exit 0. **If you ran `--doors-only` where a door path had more than one
+  name, check the other one.** A door with a link count above one is refused now.
+
+- **Three ways `_ops/TOOLING.md` could be made invisible to §4f**, all closed: an inline
+  `<!-- … -->` in a live row hid that row while the page still rendered it · a `<!--` with no
+  closer hid every row after it, permanently · a stray fence marker at the top did the same. An
+  opener is believed only when a closer exists, and an inline comment is stripped from its line
+  instead of swallowing it.
+
+- **A tab inside a tool name dropped its row, and a CRLF register read a blank answer as filled.**
+  Both were introduced by 0.2.12's own rewrite of that block.
+
+**Doctrine.** Five entries joined `facts.md`, and one of them had to be scoped before it shipped:
+*an interactive multi-step flow is a form that does not hold* is true of a flow a run walks
+**unattended**, and the progressive interview is the opposite case — a person answers at every
+turn, and that is what forces the next step. Written unqualified, it condemned this system's own
+front door. The other four carry their source in the line, because `facts.md` is what other
+writing quotes and a rate without its origin becomes this project's number by morning.
+
+**`_ops/FIELD-NOTES.md` gained a `Closed` column** — the version that shipped the fix. **Nothing
+validates the table's shape, so an existing five-column file keeps working**; add the column when
+you next close something. The one edit the append-only rule permits is this cell moving from empty
+to a version, and a `Closed` that already holds one is never changed.
+
+Eval state: **not run.** No scenario measures any of this; the guards are covered by their suites,
+which print their own totals.
+
 ## 0.2.12 — 2026-08-23
 
 **Four lenses read 0.2.11 after it was tagged. Everything here is what they found in it.**
