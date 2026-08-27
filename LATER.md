@@ -213,15 +213,18 @@ file, and there is no field declaring one. Inventing a field for the gate's conv
 shape this corpus refuses: the form should read something the work already writes.
 
 > [!NOTE]
-> **The precondition landed 2026-08-23, and the gate deliberately did not.** `checking.md` and the
-> field-notes template both said an entry that ships is closed with the version, and the template's
-> own table had no cell for it — so the closure this entry waits on was prose, not data. It is a
-> column now. **Building the gate in the same hour would be the law written the afternoon something
-> broke, which is the exact thing the ladder exists to filter** — so it waits for a closure written
-> by real work rather than by the person who added the column.
+> **The precondition landed 2026-08-27, and the gate deliberately did not.** Read the trigger
+> below before concluding otherwise: the column existing is not the trigger, a closure written by
+> real work is. The closure this entry waits on
+> (`checking.md`) was prose with no cell to hold it; it is a column now. **Building the gate in the
+> same hour would be the law written the afternoon something broke, which is the exact thing this
+> ladder exists to filter.**
 
-**Revisit when** a promotion has a declared shape — a field-note line closed with the version that
-carried it, **which the template can now hold**, and that closure is the natural declaration. The gate then reads: a rule added to an always-loaded file in the same commit as a
+**Revisit when** a `Closed` cell in this repository's own field notes is filled **by a sweep
+closing real work** — not by the person who added the column, and not by a note written to
+demonstrate the column. The template can hold the closure now; what the gate waits on is one
+written for its own reasons, because a gate built on a shape nobody has used yet is a gate built
+on a guess. The gate then reads: a rule added to an always-loaded file in the same commit as a
 closure whose dated origin is under seven days old is refused, naming both dates. **The mutant is
 a same-day promotion; the twin is one dated eight days back.** Until then the week is judgement,
 and it is written here rather than believed.

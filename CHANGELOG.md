@@ -53,6 +53,22 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 Eval state: **not run.** Nothing here changes what a run is asked to do.
 
+> [!IMPORTANT]
+> **Correction, 2026-08-27 — this entry omitted the most important thing in its own range.**
+> `91c6425` closed a **single-character bypass of §4f**: the register's header was handed back to
+> awk as a command-line assignment, which awk escape-processes, so a header containing a backslash
+> arrived mangled, the comparison matched nothing, and **the rung went silent for that file
+> permanently**. Anyone who wanted the gate gone edited one header cell. Three further evasions
+> closed with it — a `Replaces` column on a later table capturing the gate, a decoy table above the
+> register, and `-F"|"` shifting fields on an escaped or backticked pipe. **If you are on 0.2.11 or
+> earlier, this is the reason to move.**
+>
+> The entry also opened *"Everything here is what they found in it"*, which was false of the tag:
+> the range also carried five `facts.md` entries, a `runtimes.md` row, two `catalogue.md` rows, a
+> `LATER.md` entry and a rule change in `templates/TOOLING-template.md`. Found by two lenses reading
+> the tagged range four days later. The heading is frozen, so this is a marked correction rather
+> than a rewrite.
+
 ## 0.2.11 — 2026-08-23
 
 **Three gates were refusing honest work, and two of them were refusing the remedy they had just
