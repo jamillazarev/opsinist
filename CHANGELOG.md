@@ -21,10 +21,13 @@ written the day before to prevent exactly that.
   > staged is gone**, and no tool will bring it back; we would rather say that than let you spend
   > an evening looking.
 
-  Detection now reads only the install directory, and the discard offered is
-  `git restore --staged --worktree --source=HEAD` on those paths — the earlier draft of this line
-  said `--source=HEAD` alone, which leaves a staged change in place, so the flag would fire again
-  and the pull would still refuse.
+  **Detection stays repo-wide, because the route it predicts is** — `git pull --ff-only` aborts on
+  a modified tracked file anywhere in the enclosing repository, so an install inside a dotfiles
+  clone really is at risk when a sibling folder is dirty. What narrowed is the remedy. The flag
+  now counts what is modified, says how much of it is under the install, and offers a discard
+  scoped to the install **only when there is something there to discard** — where the answer is
+  none, it says so and points at stash-pull-pop instead, because that work is not yours to throw
+  away.
 
 - **`--doors-only` overwrote a file outside the repository through a HARD link.** 0.2.12 closed
   the symlink route by resolving the destination; a hard link has no target to resolve, so
@@ -36,8 +39,10 @@ written the day before to prevent exactly that.
   > The command wrote a copy of what it was about to overwrite, next to the door:
   > `_ops/scripts/<door>.replaced-<hash>`. That copy is an ordinary new file — it does not share
   > the link — so it holds the original bytes even though the door itself was rewritten. Look
-  > there first. To find what else shared the name: `ls -li _ops/scripts/<door>` for the inode,
-  > then `find ~ -inum <n>`.
+  > there first. To find the other name: for a **symlink**, `readlink _ops/scripts/<door>` prints
+  > it outright; for a **hard link**, `ls -li _ops/scripts/<door>` gives the inode and
+  > `find ~ -inum <n>` finds the rest. The inode hunt does nothing for a symlink — it returns the
+  > link itself — so read which kind you have first.
 
   A door whose link count is above one is refused now, before anything is written.
 

@@ -274,8 +274,9 @@ def main():
             # INSIDE the repo, naming a path whose original was not. The tool was asked to place a
             # door in a repository and instead modified something outside it.
             #
-            # The test is the resolved destination, not the shape of the path: `_ops/scripts` being
-            # a symlink puts `dst` outside just as surely as `dst` being one. A door there cannot
+            # This catches a symlinked ANCESTOR — `_ops/scripts` itself pointing out of the tree.
+            # A symlinked door is caught earlier, by the second-name check below, and for a truer
+            # reason: it does not matter where the other name lives, only that there is one. A door there cannot
             # be carried by any commit either, so refusing costs nothing that was going to work.
             try:
                 _root_real = root.resolve()
@@ -311,8 +312,11 @@ def main():
             if _links > 1:
                 print(f"  {door} is {_via} — writing it here would rewrite the other name too, "
                       f"and this command was pointed at one path. Refusing, so nothing is lost. "
-                      f"Replace `_ops/scripts/{door}` with an ordinary file — `rm` it and run this "
-                      f"again — if the door is what you want at that path")
+                      f"To put the door here instead, `rm _ops/scripts/{door}` and run this again — "
+                      f"that removes the LINK, never what it points at, so the other file keeps its "
+                      f"bytes. **If you want to keep the link there is no way through this command**: "
+                      f"place the door at that path by hand and stage it, or point the link at a "
+                      f"copy of the shipped door rather than at something else")
                 doors_done.append(door)
                 _failed.append(door)
                 continue

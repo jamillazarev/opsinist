@@ -418,9 +418,7 @@ printf '# P\n\n**Operated by:** Opsinist **%s**\n' \
 # ── a HARD link is the other way out of the repository, and it had no test ──────────────────
 # The symlink guard resolves the destination; a hard link has no target to resolve, so
 # containment passed and the door was written straight through — measured 2026-08-27, a file
-# outside replaced by 19 KB, reported as success. **The repair shipped without this test**, in a
-# release whose own doctrine says a gate without one is a hope. Writing it now rather than
-# claiming the suite covered it.
+# outside replaced by 19 KB, reported as success at exit 0.
 HL="$T/hl"; mkdir -p "$HL/_ops/scripts"
 printf 'PRECIOUS ORIGINAL CONTENT\n' > "$T/victim.py"
 _vbefore=$(wc -c < "$T/victim.py")

@@ -108,10 +108,11 @@ nothing accumulates outside versions.
   — `git pull --ff-only` — refused from then on and for every release after: *"Your local changes
   would be overwritten."* **The output is the trap**: git prints `Aborting` and
   `Updating <old>..<new>` on adjacent lines, so a glance reads it as success while the install
-  sits versions behind. Recovery is stash-or-reset then pull, and the untracked eval artifacts
+  sits versions behind. Recovery is `stash push` then pull then `stash pop` — **never `reset --hard`**, which is repo-wide and took an unrelated file the day this was written. The untracked eval artifacts
   in the way had to be compared against `origin/main` **before** removing them — they were
-  byte-identical, which is a thing to verify and not assume. **Both `find-installs.sh` now flag a
-  clone with modified TRACKED files — not a dirty tree**: an untracked file does not stop a pull,
+  byte-identical, which is a thing to verify and not assume. **Both `find-installs.sh` now flag a clone whose tracked files differ from HEAD anywhere in
+  the enclosing repository — the route is repo-wide, so the detection is — and say how many
+  of them are under the install. They prescribe no discard at all**: an untracked file does not stop a pull,
   and saying it did meant offering a `reset` for a stray note. The flag says **AT RISK**, because
   a modified file blocks a fast-forward only when an incoming commit touches it — a certainty
   after an rsync, which rewrites exactly what the next release changes. The Antigravity row also

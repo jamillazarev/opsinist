@@ -856,6 +856,25 @@ RPY
 <!-- sorted by date -->
 | live | notes |  | d |
 ')" -ge 1 ] && ok || bad "a comment-only note between rows ended the table early"
+# **The inline strip must survive a `>` and a CR.** `<!--[^>]*-->` could not cross a `>`, so a
+# parked row containing `->`, `>=` or an HTML tag was neither stripped nor hidden — it stayed as
+# non-pipe text and the row scan read it as the end of the table. `[ \t]` excluded `\r`, so a CRLF
+# register did the same. Both measured 2026-08-27: surviving instances of the very defect the
+# strip was written to close, because the repair generalised the finding and not the rule.
+[ "$(_reg '# T
+
+| Tool | What for | **Replaces** | Checked |
+|---|---|---|---|
+<!-- | draft | a -> b |  | d | -->
+| live | notes |  | d |
+')" -ge 1 ] && ok || bad "a parked row containing > silenced the gate for the live row below"
+[ "$(_reg '# T
+
+| Tool | What for | **Replaces** | Checked |
+|---|---|---|---|
+<!-- see issue #12 (>1 week) -->
+| live | notes |  | d |
+')" -ge 1 ] && ok || bad "a comment containing > ended the table early"
 [ "$(_reg '# T
 
 | Tool | a \| b | **Replaces** | Checked |
