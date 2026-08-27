@@ -11,14 +11,35 @@ written the day before to prevent exactly that.
   remedy it printed deleted that edit.** It read `git status` across the whole repository, so an
   install living inside a larger one — a dotfiles clone carrying `.claude/plugins/<skill>` — was
   flagged for a change in an unrelated folder, and the `git reset --hard` it prescribed is
-  repo-wide too. **If you ran that command, check what else it discarded.** Detection now reads
-  only the install directory, and the discard is `git restore --source=HEAD` on those paths.
+  repo-wide too.
+
+  > **If you ran it, here is how to tell what it took.** `git reflog` in that repository shows the
+  > reset and when — look for `reset: moving to`. What it discarded is every uncommitted tracked
+  > change in the whole repository at that moment, and the two halves recover differently:
+  > **anything that had been `git add`-ed is still in the object store** — `git fsck --lost-found`
+  > writes the dangling blobs into `.git/lost-found/` where you can read them. **Anything never
+  > staged is gone**, and no tool will bring it back; we would rather say that than let you spend
+  > an evening looking.
+
+  Detection now reads only the install directory, and the discard offered is
+  `git restore --staged --worktree --source=HEAD` on those paths — the earlier draft of this line
+  said `--source=HEAD` alone, which leaves a staged change in place, so the flag would fire again
+  and the pull would still refuse.
 
 - **`--doors-only` overwrote a file outside the repository through a HARD link.** 0.2.12 closed
   the symlink route by resolving the destination; a hard link has no target to resolve, so
   containment passed and the door was written through — measured, a file outside replaced by 19 KB,
-  reported as success at exit 0. **If you ran `--doors-only` where a door path had more than one
-  name, check the other one.** A door with a link count above one is refused now.
+  reported as success at exit 0.
+
+  > **If you ran `--doors-only` on a repository where `_ops/scripts/transition.py` or
+  > `_ops/scripts/new-id.py` was a symlink or a hard link, your file is probably still there.**
+  > The command wrote a copy of what it was about to overwrite, next to the door:
+  > `_ops/scripts/<door>.replaced-<hash>`. That copy is an ordinary new file — it does not share
+  > the link — so it holds the original bytes even though the door itself was rewritten. Look
+  > there first. To find what else shared the name: `ls -li _ops/scripts/<door>` for the inode,
+  > then `find ~ -inum <n>`.
+
+  A door whose link count is above one is refused now, before anything is written.
 
 - **Three ways `_ops/TOOLING.md` could be made invisible to §4f**, all closed: an inline
   `<!-- … -->` in a live row hid that row while the page still rendered it · a `<!--` with no

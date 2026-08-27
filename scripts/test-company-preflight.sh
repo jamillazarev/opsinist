@@ -832,10 +832,30 @@ RPY
 ')" -ge 1 ] && ok || bad "a stray fence opener with no closer hid the whole register"
 [ "$(_reg '# T
 
+| Tool | What for | **Replaces** | Checked |
+|---|---|---|---|
+
 <!--
 | Draft | not yet |  | d |
 -->
 ')" = 0 ] && ok || bad "a genuinely commented-out row was treated as live"
+# **A line that was ENTIRELY an inline comment is hidden, not empty.** Left visible-but-empty it
+# read as the end of the table, so one parked draft row — the idiom the guard itself recommends —
+# silenced the gate for every live row below. A regression of the comment rewrite, 2026-08-27.
+[ "$(_reg '# T
+
+| Tool | What for | **Replaces** | Checked |
+|---|---|---|---|
+<!-- | draft | parked |  | d | -->
+| live | notes |  | d |
+')" -ge 1 ] && ok || bad "a parked draft row silenced the gate for the live row below it"
+[ "$(_reg '# T
+
+| Tool | What for | **Replaces** | Checked |
+|---|---|---|---|
+<!-- sorted by date -->
+| live | notes |  | d |
+')" -ge 1 ] && ok || bad "a comment-only note between rows ended the table early"
 [ "$(_reg '# T
 
 | Tool | a \| b | **Replaces** | Checked |

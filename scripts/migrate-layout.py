@@ -14,6 +14,7 @@ Idempotent: a second run finds nothing to do and says so. A destination that
 already exists is a CONFLICT line and a nonzero exit, never a silent overwrite.
 """
 import re
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -290,17 +291,28 @@ def main():
             # symlink fix was written to stop, one link type over. There is nothing to resolve, so
             # the test is the link COUNT: more than one name for these bytes means writing here
             # writes somewhere else too, and this command was pointed at one repository.
-            _links = 0
+            # **A symlink whose target is INSIDE the repository is still a second name for other
+            # bytes.** The containment test only asks whether the target leaves the tree, and this
+            # link-count test skipped symlinks entirely — so `_ops/scripts/transition.py ->
+            # ../../tools/mine.py` was written straight through, replacing a tracked 30-byte file
+            # with 19 KB of door and naming a backup that was not it. Measured 2026-08-27. The
+            # question is not where the other name lives; it is that there IS another name, and
+            # this command was pointed at one path.
+            _links, _via = 0, ""
             try:
-                if dst.is_file() and not dst.is_symlink():
+                if dst.is_symlink():
+                    _links, _via = 2, f"a symlink to {os.readlink(dst)}"
+                elif dst.is_file():
                     _links = dst.stat().st_nlink
+                    if _links > 1:
+                        _via = f"a hard link with {_links} names"
             except OSError:
                 _links = 0
             if _links > 1:
-                print(f"  {door} is a hard link with {_links} names — writing it here would rewrite "
-                      f"every other one, and this command was pointed at one repository. Refusing. "
-                      f"Replace `_ops/scripts/{door}` with an ordinary file (`rm` it, then run this "
-                      f"again) if the door is what you want here")
+                print(f"  {door} is {_via} — writing it here would rewrite the other name too, "
+                      f"and this command was pointed at one path. Refusing, so nothing is lost. "
+                      f"Replace `_ops/scripts/{door}` with an ordinary file — `rm` it and run this "
+                      f"again — if the door is what you want at that path")
                 doors_done.append(door)
                 _failed.append(door)
                 continue

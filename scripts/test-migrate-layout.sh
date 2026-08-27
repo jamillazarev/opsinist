@@ -394,8 +394,11 @@ printf '# P\n\n**Operated by:** Opsinist **%s**\n' \
 ( cd "$LK" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/lk.txt" 2>&1
 [ "$(wc -c < "$OUT/mine.py")" = "$_before" ] \
   && ok || bad "a file OUTSIDE the repository was overwritten by --doors-only"
-grep -q 'OUTSIDE this repository — refusing' "$T/lk.txt" \
-  && ok || bad "the write outside the repository was not named as the reason"
+# A symlinked door is now caught by the second-name check BEFORE the containment check, and for
+# a truer reason: it does not matter where the other name lives, only that there is one. Either
+# refusal is correct; what must never happen is the write.
+grep -qE 'OUTSIDE this repository — refusing|is a symlink to' "$T/lk.txt" \
+  && ok || bad "the refusal did not name why the door cannot be placed"
 grep -q 'NOT carried by this commit' "$T/lk.txt" \
   && ok || bad "the refused door was not named as uncarried"
 
@@ -411,6 +414,56 @@ printf '# P\n\n**Operated by:** Opsinist **%s**\n' \
 ( cd "$LD" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/ld.txt" 2>&1
 [ ! -e "$OD/transition.py" ] && [ ! -e "$OD/new-id.py" ] \
   && ok || bad "the doors were written into a directory outside the repository"
+
+# ── a HARD link is the other way out of the repository, and it had no test ──────────────────
+# The symlink guard resolves the destination; a hard link has no target to resolve, so
+# containment passed and the door was written straight through — measured 2026-08-27, a file
+# outside replaced by 19 KB, reported as success. **The repair shipped without this test**, in a
+# release whose own doctrine says a gate without one is a hope. Writing it now rather than
+# claiming the suite covered it.
+HL="$T/hl"; mkdir -p "$HL/_ops/scripts"
+printf 'PRECIOUS ORIGINAL CONTENT\n' > "$T/victim.py"
+_vbefore=$(wc -c < "$T/victim.py")
+cp "$HERE/../templates/company-preflight.sh" "$HL/_ops/scripts/preflight.sh"
+ln "$T/victim.py" "$HL/_ops/scripts/transition.py"
+printf '# P\n\n**Operated by:** Opsinist **%s**\n' \
+  "$(sed -n 's/^version: //p' "$HERE/../skills/advisor/SKILL.md" | head -1)" > "$HL/CLAUDE.md"
+( cd "$HL" && git init -q && git add -A >/dev/null 2>&1
+  git -c user.email=t@t -c user.name=t commit -qm init ) >/dev/null 2>&1
+( cd "$HL" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/hl.txt" 2>&1
+[ "$(wc -c < "$T/victim.py")" = "$_vbefore" ] \
+  && ok || bad "a file outside the repository was overwritten through a HARD link"
+grep -q 'hard link' "$T/hl.txt" \
+  && ok || bad "the hard link was not named as the reason"
+grep -q 'NOT carried by this commit' "$T/hl.txt" \
+  && ok || bad "the refused door was not named as uncarried"
+# a hard link INSIDE the repository is legitimate and must still be refused for the same reason —
+# writing through it rewrites the other name, which is inside the tree but is still not this door
+printf 'sibling\n' > "$HL/other.py"
+rm -f "$HL/_ops/scripts/new-id.py"
+ln "$HL/other.py" "$HL/_ops/scripts/new-id.py"
+( cd "$HL" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/hl2.txt" 2>&1
+[ "$(cat "$HL/other.py")" = "sibling" ] \
+  && ok || bad "a hard link inside the repository was written through"
+
+# A SYMLINK whose target is inside the repository is a second name too. The containment test only
+# asks whether the target leaves the tree, and the link-count test skipped symlinks — so an
+# in-repo target was written straight through, 28 bytes replaced by 19 KB, with a backup named
+# that was not it. Measured 2026-08-27.
+IN="$T/inrepo"; mkdir -p "$IN/_ops/scripts" "$IN/tools"
+printf 'MY OWN FILE inside the repo\n' > "$IN/tools/mine.py"
+_ibefore=$(wc -c < "$IN/tools/mine.py")
+cp "$HERE/../templates/company-preflight.sh" "$IN/_ops/scripts/preflight.sh"
+( cd "$IN/_ops/scripts" && ln -s ../../tools/mine.py transition.py )
+printf '# P\n\n**Operated by:** Opsinist **%s**\n' \
+  "$(sed -n 's/^version: //p' "$HERE/../skills/advisor/SKILL.md" | head -1)" > "$IN/CLAUDE.md"
+( cd "$IN" && git init -q && git add -A >/dev/null 2>&1
+  git -c user.email=t@t -c user.name=t commit -qm init ) >/dev/null 2>&1
+( cd "$IN" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/in.txt" 2>&1
+[ "$(wc -c < "$IN/tools/mine.py")" = "$_ibefore" ] \
+  && ok || bad "a file INSIDE the repository was overwritten through a symlinked door"
+grep -q 'is a symlink to' "$T/in.txt" \
+  && ok || bad "the symlink was not named as the reason"
 # ...and a tree that really does declare another operator is still handed back untouched
 printf '# Guide\n\n**Operated by:** otherops 9.9.9\n' > "$T/doors/CLAUDE.md"
 rm -f "$T/doors/_ops/scripts/new-id.py"
