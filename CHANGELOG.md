@@ -2,10 +2,13 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.13 — unreleased
+## 0.2.13 — 2026-08-28
 
-**Four lenses read the tagged 0.2.12 and found that two repairs in it destroyed data.** Both were
-written the day before to prevent exactly that.
+**Eight rounds of lenses read the tagged 0.2.12. Five remedies for the same defect were written
+across three days; two of them shipped and destroyed data, and three more were caught before they
+could.** Every one was written to prevent exactly what it then did. The pattern is the entry: a
+repair that generalises its finding instead of its rule leaves the class standing, and the class
+is what comes back.
 
 - **`find-installs.sh` told you an install was at risk because of an edit somewhere else, and the
   remedy it printed deleted that edit.** It read `git status` across the whole repository, so an
