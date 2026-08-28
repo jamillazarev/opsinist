@@ -44,6 +44,14 @@ records *how a run ended* has no place to notice that they concluded opposite th
   reached because the sentence beside it was still a placeholder. All three now carry a paired
   assertion that fails if the fixture stops being examined.
 
+- **The capability bar's mutation clause gained the thing that made three of the above vacuous**
+  (`self-maintenance.md` §2). **A mutation asserts that it changed the file**, because a wrong
+  anchor makes the edit a no-op and the resulting green reads as *the mutant survived* — a
+  conclusion about the assertion when the truth is about the patch. With its two neighbours of the
+  same shape: `git checkout -- <file>` restores from the **index**, and a reused record id means a
+  gate scoped to *added* files never looks. A *must not fire* assertion is paired with a *must
+  fire* twin on the same fixture, and the pair is what proves the subject was examined.
+
 - **Four external review harnesses read, one mechanic kept as a candidate, one declined outright**
   → `catalogue.md`. `qa-swarm`'s convergence — two independent reviewers landing on the same file
   and line is evidence, not a duplicate — is named in `LATER.md` with its own bar, because lens

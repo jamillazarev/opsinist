@@ -183,6 +183,16 @@ looked finished and was not** (both siblings' ledgers carry the receipts):
    and ships honestly as an aid).
 2. **A mutation test showing the form denying the mutant AND passing the honest twin** — a
    gate without its test is a hope (`scripts/test-audit-gate.sh` is the house pattern).
+   **And the mutation asserts that it changed the file**, because a wrong anchor makes the edit
+   a no-op and the resulting green reads as *the mutant survived* — a conclusion about the
+   assertion when the truth is about the patch. Measured three times on 2026-08-28, twice in one
+   hour. Two neighbours of the same shape, same day: restoring a fixture with
+   `git checkout -- <file>` restores from the **index**, so state staged by an earlier assertion
+   survives and later ones pass on the leftover (`git checkout HEAD --` is the one that means
+   it); and reusing a record id an earlier commit already took means a gate scoped to *added*
+   files never examines the fixture at all. **All three make a green assertion that measures
+   nothing** — so a *must not fire* assertion is paired with a *must fire* twin on the same
+   fixture, and the pair is what proves the subject was looked at.
 3. **The claim dated, with the measurement behind it** — enforcement is a form × path ×
    version matrix, and a probe's evidence is a stamp, never the model's account of itself.
 4. **The showcase trio** — a diagram, a situation, a fact — or the mechanic is invisible to
