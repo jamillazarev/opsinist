@@ -206,8 +206,8 @@ the run with its source, never applies to the advisor's own session. → `strate
 else's.** Failures are visible. → `automations.md`
 
 **run** — one dispatch, appended to the task's history: started/ended · role · model · effort ·
-fast · trigger · outcome · attempt · four token numbers · tool uses · duration ·
-`skills_available[]` · `skills_used[]`. The resolved cascade values are recorded here so
+fast · trigger · **outcome · verdict** · attempt · reason · commits · checkpoint · four token
+numbers · tool uses · duration · `skills_available[]` · `skills_used[]`. The resolved cascade values are recorded here so
 "why did it cost that" is answerable afterwards. → `dispatching.md`
 
 **cascade** — the one resolution shape: **project → team → role → task**, most specific wins,
@@ -259,6 +259,8 @@ here. → `PATTERNS.md`
 **field notes** — friction recorded **the moment it happens**, append-only, one line
 (`date · flow · symptom · evidence · fix-candidate`); a correction is a new entry, never an edit.
 Swept into the backlog at natural checkpoints. → `self-maintenance.md`
+
+| **verdict** (a run record's field) · **verdict** (the thing `PATTERNS.md` §15 forbids) | the **field** is one of `pass · fail · mixed · none` and answers *what did this run conclude*, beside `outcome`, which answers *how did it stop*. §15's *evidence, not verdicts* is about a **tool** — a scanner's clean report is not approval, and who decides what a finding means is named separately. A run recording what it concluded is evidence about that run; a tool declaring the matter settled is the thing §15 refuses. The two do not conflict, and they are one word apart, so **say which one** → `dispatching.md` · `PATTERNS.md` §15 | is this a cell in a record, or a tool deciding? |
 
 **the four lenses** — deletion · adversarial · contradiction · cold-read, run in that order by
 someone who is not the author. The compensating control for every `prose-only` gate. An empty

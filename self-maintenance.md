@@ -185,8 +185,7 @@ looked finished and was not** (both siblings' ledgers carry the receipts):
    gate without its test is a hope (`scripts/test-audit-gate.sh` is the house pattern).
    **And the mutation asserts that it changed the file**, because a wrong anchor makes the edit
    a no-op and the resulting green reads as *the mutant survived* — a conclusion about the
-   assertion when the truth is about the patch. Measured three times on 2026-08-28, twice in one
-   hour. Two neighbours of the same shape, same day: restoring a fixture with
+   assertion when the truth is about the patch. Two neighbours of the same shape: restoring a fixture with
    `git checkout -- <file>` restores from the **index**, so state staged by an earlier assertion
    survives and later ones pass on the leftover (`git checkout HEAD --` is the one that means
    it); and reusing a record id an earlier commit already took means a gate scoped to *added*

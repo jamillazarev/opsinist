@@ -81,7 +81,7 @@ of them is visible from inside a single run.
 flowchart TB
   Q[one question] --> R1["run 1 · record says<br/>**Outcome** completed<br/>**Verdict** pass"]
   Q --> R2["run 2 · record says<br/>**Outcome** completed<br/>**Verdict** fail"]
-  R1 & R2 --> G{"the guard compares<br/>VERDICTS, not outcomes —<br/>both ended the same way"}
+  R1 & R2 --> G{"both COMPLETED, so the guard<br/>compares what they CONCLUDED —<br/>which `Outcome` never recorded"}
   G -->|"anything but pass-against-fail,<br/>or a run that did not complete"| OK([ordinary work, nothing to see])
   G -->|"opposite, and a record<br/>names the escalation"| OK
   G -->|"opposite, and nothing<br/>says anyone noticed"| X["**refused at the commit**<br/>at the SECOND disagreement,<br/>not the third"]
@@ -93,12 +93,15 @@ flowchart TB
 **Three attempts bound failure; this bounds contradiction** — the worse state, because every run
 inside it looks like a success and reports confidently.
 
-**A disagreement is recorded as its own outcome, never as the latest reading overwriting the
-last.** A record that keeps only the most recent answer has destroyed the evidence that there
+**A disagreement is recorded in its own right, never as the latest reading overwriting the
+last** — as two records whose `Verdict` cells differ, plus the `Escalated:` line that says someone
+saw it. (Not as an `Outcome`: that field is closed, it says how a run *stopped*, and both of these
+runs stopped the same way. This sentence said *"its own outcome"* until the field existed to
+contradict it.) A record that keeps only the most recent answer has destroyed the evidence that there
 was a disagreement at all — which is the same failure as a board that quietly holds the last
 known good state → `recovering.md`.
 
-**This is a form, since 2026-08-28.** A run record carries a `Verdict` — what the run *concluded*,
+**This is a form, since 0.2.14.** A run record carries a `Verdict` — what the run *concluded*,
 which is not what `Outcome` says — the diagram above draws the difference. §1f of the company
 guard reads it: a new record concluding `pass` where a completed
 sibling on the same task concluded `fail` — with neither naming an escalation — is refused at the
@@ -108,10 +111,17 @@ is refused is the second, opposite verdict landing with nothing anywhere saying 
 excused**, because a false refusal on ordinary work is how a project learns to reach for
 `--no-verify`.
 
-*Measured 2026-08-28:* four mutants of the guard, each failing assertions the honest twin passes —
-the gate disabled (5) · the sibling comparison made greedy (5) · anything-but-empty treated as an
-opposite, which is `none` and `mixed` (2) · the escalation test's `-i` dropped (5). The honest twin
-is 189 green.
+*Measured 2026-08-29:* **five** mutants of the guard, each failing assertions the honest twin
+passes — the gate disabled · the sibling comparison made greedy · anything-but-empty treated as an
+opposite · the escalation test's `-i` dropped · the neighbour table's memo guard naming a variable
+nothing assigns. The honest twin is **194 green**.
+
+**The per-mutant failure counts are deliberately not quoted.** They shift every time an assertion
+is added — this paragraph shipped `(5) · (5) · (2) · (5)`, and one day and five assertions later
+the same mutants gave 8 · 3 · 2 · 5. A number that moves whenever unrelated work lands is a claim
+that rots by construction, and a contradiction lens found this one already stale in the release
+that introduced it. What is stable, and what the bar actually asks for, is that each mutant fails
+where the twin passes.
 
 ---
 

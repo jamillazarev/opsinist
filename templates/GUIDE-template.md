@@ -41,7 +41,10 @@ Enabled modules: {{experts? personas? design QA? automations?}}.
 - a stage changes only through `_ops/scripts/transition.py <task> <to-stage> --by <you>` —
   editing the **Status** line by hand is the bypass the guard refuses
 - a dispatch lands as `_ops/runs/R-<id>.md` carrying its four token numbers — input · output ·
-  cache read · cache write. **A number you do not have is the word `unknown`, written by you
+  cache read · cache write — **and its `Verdict`**: what the run *concluded* (`pass · fail ·
+  mixed · none`), which is not `Outcome`, how it *stopped*. Most runs check nothing and write
+  `none`. Two records on one task concluding opposite things, with nothing recording that anyone
+  noticed, are refused at the commit. **A number you do not have is the word `unknown`, written by you
   into the cell — do not ask the owner how to format it, and do not leave the record unwritten
   while you wait for an answer.** A sentence in History is not a record
 - a type's ladder is a file in `_ops/pipelines/` — the door reads it, prose resolves nothing

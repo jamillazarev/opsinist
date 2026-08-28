@@ -4,7 +4,7 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.14 — unreleased
 
-**A rule this corpus had written in nine files and enforced in none is now a form.** `escalating.md`
+**A rule this corpus had written in file after file and enforced in none is now a form.** `escalating.md`
 stops work at the *second* disagreement between two runs on one question — the bound on
 **contradiction**, where the three-attempt rule bounds only **failure**. Contradiction is the worse
 state and the reason is structural: both runs finish, so both report confidently, and a ledger that
@@ -43,7 +43,7 @@ records *how a run ended* has no place to notice that they concluded opposite th
   reached because the sentence beside it was still a placeholder. All three now carry a paired
   assertion that fails if the fixture stops being examined.
 
-- **The capability bar took all three in, so the next form does not re-earn them**
+- **The capability bar took two of the three in, plus the one that follows from them**
   (`self-maintenance.md` §2), together with the one that follows from them: **a mutation asserts
   that it changed the file**, because a wrong anchor makes the edit a no-op and the green that
   follows reads as *the mutant survived* — a conclusion about the assertion when the truth is
@@ -56,8 +56,32 @@ records *how a run ended* has no place to notice that they concluded opposite th
   into three call sites has one home. **Consolidating three correct call sites produced one wrong
   helper**: the merged version lost `-i`, every record writes `**Escalated**:` with a capital E,
   and five assertions went red until it came back. It also found `mixed` shipped as a legal value
-  with no code path and no fixture, and the excused set spelled out four times in four files, no
-  two alike and none complete. One clause now, in one sentence, everywhere it appears.
+  with no code path and no fixture, and the excused set spelled out four times across three
+  files — two of them one mermaid edge and one sentence in the same file — no two alike and none
+  complete. One clause now, in one sentence, everywhere it appears.
+
+- **Two more lenses read it before the tag, and both found the release contradicting itself.** The
+  memo guarding the neighbour table still named the variable the deletion round had removed, so the
+  table was rebuilt once per changed record — **four builds for four records, 16s against 150 kept
+  ones** — reintroducing, in the commit titled *one walk paid for twice*, the exact cost a comment
+  in the same file says was removed in 2026-08-16. **No assertion could see it**; the check is
+  structural now, requiring the guard's variable to be the one its body assigns.
+
+  **House style switched the gate off.** This corpus writes every enum in backticks, including in
+  the sentences defining this one — and a record following that style wrote a backticked verdict
+  that §1f read as nothing. Bold did the same. Every fixture in the suite wrote the cell the one
+  bare way that worked, so nothing caught it. **A false refusal teaches `--no-verify`; a false
+  silence teaches nothing at all.**
+
+  **And the refusal was satisfied by pasting the refusal.** The line it prints ends in a
+  placeholder, and pasting the whole thing unedited passed — the shape §1f's own attempt gate
+  condemns eleven lines below, with the gate handing over the shortest path to it. The placeholder
+  has one home now, printed and excluded from the same string.
+
+  **The numbers in the entry did not survive checking.** *"Three mutants each fail 5 assertions"*
+  was four mutants failing 8 · 3 · 2 · 5 a day later. **Per-mutant counts shift whenever an
+  unrelated assertion lands, so quoting them is a claim that rots by construction** — the release
+  states which mutants and what the twin totals, and nothing finer.
 
 - **Four external review harnesses read, one mechanic kept as a candidate, one declined outright**
   → `catalogue.md`. `qa-swarm`'s convergence — two independent reviewers landing on the same file
@@ -66,6 +90,13 @@ records *how a run ended* has no place to notice that they concluded opposite th
   the thread ends the bots' authority over it* is the PR-thread spelling of a bound §1d already
   holds harder. `no-mistakes` is declined: prescriptive prose, no measurement, and its pipeline is
   this project's preflight plus its outward gate.
+
+**Nothing breaks, and there is one thing to do.** A run record written before this version has no
+`Verdict` cell at all; measured — such records are invisible to the check and every commit that
+touches them passes, so no migration is owed and none is offered. **To get the gate, re-copy
+`templates/company-preflight.sh` over `_ops/scripts/preflight.sh`**; until you do, the guard you
+have will say so itself at your next commit, because it compares its own stamp against the guide.
+Records written from here on carry `Verdict`, and `none` is the answer for most of them.
 
 Eval state: **not run.** No scenario dispatches two runs at one question; the guard is covered by
 its suite, which prints its own total.

@@ -229,7 +229,7 @@ closure whose dated origin is under seven days old is refused, naming both dates
 a same-day promotion; the twin is one dated eight days back.** Until then the week is judgement,
 and it is written here rather than believed.
 
-## ~~The contradiction stop has no form~~ — shipped 0.2.14, 2026-08-28
+## ~~The contradiction stop has no form~~ — shipped in 0.2.14
 
 **Closed.** The entry asked for *a run record that can carry the answer it reached, not only how
 it ended*, and refused to add the field for the gate's sake alone — *"it waits for a flow that

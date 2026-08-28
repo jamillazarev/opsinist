@@ -486,6 +486,25 @@ git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a third attempt that names its escalation was refused"
 git rm -qf _ops/runs/R-5.md >/dev/null 2>&1; git commit -qm "R-5 out" >/dev/null 2>&1
 
+# ── the neighbour table is built ONCE, and the guard names the table it guards ───────────────
+# **Correctness cannot see this.** A memo guarded on a variable nothing assigns rebuilds the table
+# per changed record and every assertion stays green — measured 2026-08-29, four builds for four
+# records, 16s against 150 kept ones, against a comment in the same file saying that exact cost
+# was removed in 2026-08-16. So the assertion is structural: the variable in the `if [ -z ... ]`
+# must be the one the body assigns.
+_guardvar=$(sed -n 's/^[[:space:]]*if \[ -z "\${\([_a-z]*\):-}" \]; then/\1/p' \
+  "$HERE/../templates/company-preflight.sh" | head -1)
+# the assignment INSIDE that guard, not the first mktemp in the file — the first draft of this
+# check read `tmp_l` from an unrelated section 300 lines earlier and failed on a correct guard.
+_assignvar=$(awk '/^[[:space:]]*if \[ -z "\$\{[_a-z]*:-\}" \]; then/{f=1}
+                  f && /^[[:space:]]*[_a-z]+=\$\(mktemp\)/{
+                    sub(/^[[:space:]]*/,""); sub(/=.*/,""); print; exit }' \
+  "$HERE/../templates/company-preflight.sh")
+[ -n "$_guardvar" ] && [ -n "$_assignvar" ] \
+  && ok || bad "neither the memo guard nor its assignment could be lifted out of the guard — this check is vacuous"
+[ "$_guardvar" = "$_assignvar" ] \
+  && ok || bad "the neighbour-table memo tests \`$_guardvar\` and assigns \`$_assignvar\` — the table is rebuilt once per changed record and no assertion can see it"
+
 # ── the contradiction stop: two runs, one question, opposite answers ─────────────────────────
 # **Three attempts bound FAILURE; nothing bounded CONTRADICTION** — the worse state, because both
 # runs end `completed` and each reports confidently. `escalating.md` has carried the rule as prose
@@ -634,6 +653,80 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
   && bad "the mixed-sibling assertion above is vacuous — §1f is not examining that record at all" || ok
 git rm -qf _ops/runs/R-W5.md _ops/runs/R-W6.md >/dev/null 2>&1
 git commit -qm "W fixtures out" >/dev/null 2>&1
+# **House style must not switch the gate off.** This corpus writes every enum value in backticks
+# — `escalating.md`, `dispatching.md` and this template's own neighbouring cells all do — so a
+# record following house style wrote `fail` and §1f went silent. Measured 2026-08-29 through
+# the real guard: refused when bare, PASSED when either side was backticked or bolded, with every
+# fixture in this suite writing the cell the one bare way that worked. A false refusal teaches
+# --no-verify; a false silence teaches nothing at all.
+# the backtick is built from its ordinal: written literally it sits inside `python3 -c "…"`,
+# a DOUBLE-quoted shell string, and the shell substitutes it away before python sees it — the
+# replacement then silently becomes empty and both assertions below fail for the wrong reason.
+_vrun R-B1 completed fail - T-VERDICT4
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/runs/R-B1.md')
+b = chr(96)
+p.write_text(p.read_text().replace('| **Verdict** | fail', '| **Verdict** | ' + b + 'fail' + b))"
+git add -A; git commit -qm "a backticked sibling" >/dev/null 2>&1
+_vrun R-B2 completed pass - T-VERDICT4
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a BACKTICKED sibling verdict was invisible to the gate — that is how this corpus writes every enum" || ok
+_vrun R-B2 completed pass - T-VERDICT4
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/runs/R-B2.md')
+p.write_text(p.read_text().replace('| **Verdict** | pass', '| **Verdict** | **pass**'))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a BOLDED verdict on the new record was invisible to the gate" || ok
+# and the unfilled cell must still read empty — `{` is not skipped
+_vrun R-B2 completed '{{pass · fail · mixed · none}}' - T-VERDICT4
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "widening past backticks also let an unfilled {{…}} cell read as a verdict"
+git rm -qf _ops/runs/R-B1.md _ops/runs/R-B2.md >/dev/null 2>&1
+git commit -qm "B fixtures out" >/dev/null 2>&1
+# **The line the refusal prints must not satisfy the refusal.** Pasting it whole, placeholder
+# untouched, passed §1f — one non-space character after the colon was the whole test, so the gate
+# handed the reader the shortest path to the thing its own attempt-gate comment condemns: *a gate
+# satisfied by denying the thing it asks for is worse than an absent one*. Found by a cold-read
+# lens 2026-08-29. Both directions are asserted, because a check that refuses the placeholder is
+# worthless if it also refuses a real answer.
+_pl=$(sed -n "s/^ESC_PLACEHOLDER='\(.*\)'$/\1/p" "$HERE/../templates/company-preflight.sh")
+[ -n "$_pl" ] && ok || bad "ESC_PLACEHOLDER could not be lifted out of the guard — the two assertions below are vacuous"
+_vrun R-P1 completed fail - T-VERDICT5
+git add -A; git commit -qm "a verdict to contradict" >/dev/null 2>&1
+_vrun R-P2 completed pass - T-VERDICT5
+printf '\n**Escalated**: the question is unstable — %s\n' "$_pl" >> _ops/runs/R-P2.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "the refusal's own line, pasted with the placeholder untouched, satisfied the refusal" || ok
+_vrun R-P2 completed pass - T-VERDICT5
+printf '\n**Escalated**: the question is unstable — the two runs read different working trees\n' >> _ops/runs/R-P2.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a REAL escalation was refused — the placeholder check is refusing honest answers too"
+git rm -qf _ops/runs/R-P1.md _ops/runs/R-P2.md >/dev/null 2>&1
+git commit -qm "P fixtures out" >/dev/null 2>&1
+# **A project whose records predate 0.2.14 keeps committing.** The entry promises this in so many
+# words, so it is asserted rather than believed: two records on one task, both `completed`, with
+# no `Verdict` cell at all — which is every record ever written before this release.
+_vrun R-C1 completed pass - T-VERDICT6
+python3 -c "
+import pathlib, re
+p = pathlib.Path('_ops/runs/R-C1.md')
+p.write_text(re.sub(r'^.*Verdict.*$', '', p.read_text(), flags=re.M))"
+git add -A; git commit -qm "a pre-0.2.14 record" >/dev/null 2>&1
+_vrun R-C2 completed fail - T-VERDICT6
+python3 -c "
+import pathlib, re
+p = pathlib.Path('_ops/runs/R-C2.md')
+p.write_text(re.sub(r'^.*Verdict.*$', '', p.read_text(), flags=re.M))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "records written before the Verdict field existed are refused — the entry promises they are not"
+git rm -qf _ops/runs/R-C1.md _ops/runs/R-C2.md >/dev/null 2>&1
+git commit -qm "C fixtures out" >/dev/null 2>&1
 git rm -qf _ops/runs/R-V1.md _ops/runs/R-V2.md >/dev/null 2>&1
 git commit -qm "verdict fixtures out" >/dev/null 2>&1
 

@@ -413,18 +413,35 @@ done < <(changed -- '_ops/pipelines/*.md' '_ops/process/types/*.md')
 # SIGPIPE whatever feeds it, which under `set -o pipefail` turns a found phrase into an absent
 # one. That is this project's own machine note, measured three times elsewhere — it is why the
 # form is `-c`, not something this consolidation demonstrated. **A `-q` variant of this helper was
-# put to the suite on 2026-08-28 and all 187 assertions stayed green**, so nothing here reproduces
-# the trap; the counting form is the safe one regardless, and saying which of those two sentences
-# is measurement and which is precaution is the point of writing both.
+# put to the suite and every assertion stayed green**, so the trap does
+# not reproduce here. Use `-c` regardless — the precaution is cheap and the failure is silent.
+# **The placeholder this gate's own refusal prints must not satisfy it.** The message hands the
+# reader `**Escalated**: … — <what differed between the two askings: …>`, and pasting that whole
+# line unedited passed: one non-space character after the colon was the whole test. That is the
+# shape §1f's attempt gate condemns eleven lines below — *a gate satisfied by denying the thing it
+# asks for is worse than an absent one* — and here the gate was handing over the shortest path to
+# it. Found by a cold-read lens 2026-08-29. The test is exact rather than a heuristic about angle
+# brackets, so an escalation that legitimately quotes `<…>` is never refused: the ONE string that
+# does not count is the unedited placeholder itself, which is defined once, printed by the
+# refusal, and excluded here.
+ESC_PLACEHOLDER='<what differed between the two askings: machine, version, shell, working tree, order>'
 escalation_count() {
   # **`-i` IS what this consolidation broke, measured**: every record writes `**Escalated**:` with
   # a capital E, all three original call sites carried `-i`, the merged helper did not, and five
   # assertions went red until it came back. Merging correct call sites is how a flag goes missing.
-  grep -ciE '^[[:space:]]*(\*\*)?(escalated|escalation)(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]' || true
+  grep -iE '^[[:space:]]*(\*\*)?(escalated|escalation)(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]' \
+    | grep -cvF "$ESC_PLACEHOLDER" || true
 }
 
 verdict_of() {
-  sed -nE "s/^[[:space:]]*\|[[:space:]]*(\\*\\*)?$1(\\*\\*)?[[:space:]]*\|[[:space:]]*([A-Za-z]+).*/\\3/p" \
+  # **Skip backticks and bold before the value.** The corpus writes every enum in backticks —
+  # `escalating.md`, `dispatching.md` and this template's own neighbouring cells all do — so a
+  # record following house style wrote `` `fail` `` and the gate went silent on it. Measured
+  # 2026-08-29 end to end: sibling `fail` against new `pass` REFUSED when bare, PASSED when either
+  # side was backticked or bolded. A false refusal teaches --no-verify; a false silence teaches
+  # nothing at all, which is worse. `{` is still not skipped, so an unfilled `{{…}}` still reads
+  # empty.
+  sed -nE "s/^[[:space:]]*\|[[:space:]]*(\\*\\*)?$1(\\*\\*)?[[:space:]]*\|[[:space:]]*[\`*]*([A-Za-z]+).*/\\3/p" \
     | head -1 | tr 'A-Z' 'a-z'
 }
 
@@ -478,13 +495,20 @@ runtime does not report one. A sentence in History is not a record"
     # minutes for is a hook they pass with --no-verify. Scoped to `R-*.md`, which is what §1f
     # applies to; the old glob read every `.md` in the directory, so an ordinary note living there
     # was parsed as a run record. Both measured 2026-08-16 (pass eleven).
-    if [ -z "${_sibtab:-}" ]; then
+    # **The guard names the table it guards.** It said `_sibtab` for an hour after the two tables
+    # were collapsed into `_vtab` — a variable nothing assigned any more, so the test was always
+    # true and the table was rebuilt once per changed record: measured 2026-08-29, four builds for
+    # four records, 16s against 150 kept ones. That is the exact regression the comment below says
+    # was removed on 2026-08-16, reintroduced by the commit titled *one walk paid for twice*.
+    # `scripts/test-company-preflight.sh` now refuses a guard whose variable is not the one the
+    # body assigns, because nothing about correctness notices this — all 189 assertions stayed
+    # green through it.
+    if [ -z "${_vtab:-}" ]; then
       # ONE table, five columns: task · file · outcome · verdict · does it name an escalation.
       # It shipped as two — the attempt counter's pair and the contradiction gate's five — built
       # side by side in this loop from the same buffer, with `record_task` forked twice over
-      # identical bytes. The comment sitting between them congratulated the loop for not walking
-      # the files twice while it forked three extra processes per kept record, which is the same
-      # cost by another route. A deletion lens found it the day it was written, 2026-08-28.
+      # identical bytes — three extra processes per kept record, which is the cost a second walk
+      # would have had, arrived at by another route. Found 2026-08-28.
       _vtab=$(mktemp) || _vtab=/tmp/.cpf-vtab.$$
       _cpf_tmp="$_cpf_tmp $_vtab"
       while IFS= read -r -d '' other; do
@@ -529,11 +553,11 @@ next reader can find the decision without reading the run"
   # reasons: a reviewer's conclusion is what the requester acts on, and a second reviewer can
   # only be compared to the first if the first wrote down what it concluded.
   #
-  # **The excused set is one clause, and it is spelled once.** Only `pass` against `fail` clashes
+  # **The excused set is ONE CLAUSE, wherever it appears.** Only `pass` against `fail` clashes
   # — every other value, and every run that did not complete, is excused. It shipped as four
-  # enumerations in four files, no two alike and none of them complete (one forgot unfinished
-  # runs, one forgot an unfilled cell, one forgot `unknown`); a deletion lens counted them the day
-  # they were written. Four lists to keep in sync is four chances to be wrong about one rule — this file's own history says a false refusal on ordinary work costs
+  # enumerations across three files, no two alike and none of them complete — one forgot
+  # unfinished runs, one forgot an unfilled cell; a deletion lens counted them the day they were
+  # written. Four lists to keep in sync is four chances to be wrong about one rule — this file's own history says a false refusal on ordinary work costs
   # more than the miss it closes, because it is how a project learns to reach for --no-verify.
   # **And a disagreement is not itself the failure.** Recording it satisfies the gate; what is
   # refused is a second, opposite verdict landing with nothing anywhere saying anyone noticed.
@@ -553,10 +577,10 @@ next reader can find the decision without reading the run"
       if [ "${_eme:-0}" -eq 0 ] && [ "${_ce:-0}" -eq 0 ]; then
         say_fail "$rf concludes \`$_vme\` on $rtask while \`$_cf\` concluded the opposite, and \
 neither record says anyone noticed. Two runs disagreeing on one question stop the work at the \
-SECOND disagreement, not the third — running it again until one agrees with you is sampling \
-until the answer is convenient. Add ONE line to this record:
-    **Escalated**: the question is unstable — <what differed between the two askings: machine, \
-version, shell, working tree, order>
+SECOND ANSWER, not the third — this is the first time the two have disagreed, and once is \
+already the finding, because running it again until one agrees with you is sampling until the \
+answer is convenient. Add ONE line to this record:
+    **Escalated**: the question is unstable — $ESC_PLACEHOLDER
 It escalates as \"the question is unstable\", never as \"which run was right\": arbitration \
 produces a winner rather than a resolution, and every one of those five differences has caught \
 something in this project's own history"

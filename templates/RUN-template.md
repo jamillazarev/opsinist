@@ -20,9 +20,24 @@ the escalation threshold, so this is the field that makes it countable}} |
 > [!NOTE]
 > **`Outcome` is how the run ended; `Verdict` is what it concluded.** Write the verdict where the
 > run reached one — a review, a check, an audit, a question answered from the record. **Most runs
-> check nothing and write `none`.** Two records on one task concluding opposite things, with
-> nothing recording that anyone noticed, are refused at the commit → `escalating.md`.
+> check nothing and write `none`**; `mixed` is for a run that concluded some of both, and it is
+> excused from the check below rather than treated as half a disagreement.
 >
+> **The enum is the cell's FIRST word.** `pass — does the migration hold` is read; `does the
+> migration hold — pass` is not, and nothing will tell you. Where this project ships
+> `_ops/scripts/preflight.sh`, two records on one task concluding opposite things — with nothing
+> recording that anyone noticed — are refused at the commit → `escalating.md`. Where it does not,
+> the same rule holds and nothing enforces it.
+>
+**Escalated**: {{— · or what you raised and to whom, when this record is a third attempt or the
+second answer to a question a sibling answered differently}}
+
+> **The line above is a LINE, not a table row**, and the guard reads it that way. It lives here
+> because the word appeared in no document in either repository until 2026-08-29 — the guard
+> printed it, the guide never mentioned it, and a reader told to *"add ONE line to this record"*
+> was being asked for a shape they had never seen. That is the same defect this file's own cache
+> cells paid for, reproduced in the same commit that cited the lesson.
+
 > This note sits under the table it describes because that is what this file measured about its
 > own cache cells, twenty lines below: the affordance was explained here and absent from the thing
 > being filled in, and **not one run of five** wrote the accepted word.
