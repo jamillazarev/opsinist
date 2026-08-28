@@ -486,6 +486,138 @@ git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a third attempt that names its escalation was refused"
 git rm -qf _ops/runs/R-5.md >/dev/null 2>&1; git commit -qm "R-5 out" >/dev/null 2>&1
 
+# ── the contradiction stop: two runs, one question, opposite answers ─────────────────────────
+# **Three attempts bound FAILURE; nothing bounded CONTRADICTION** — the worse state, because both
+# runs end `completed` and each reports confidently. `escalating.md` has carried the rule as prose
+# since 2026-08-21 and `LATER.md` named the missing half: a record could say how a run ENDED and
+# not what it CONCLUDED. These fixtures are the twin/mutant pair that entry specified.
+mkdir -p _ops/runs
+_vrun(){ python3 - "$1" "$2" "$3" "$4" "${5:-T-VERDICT}" > "_ops/runs/$1.md" <<'VPY'
+import sys
+rid, outcome, verdict, extra, task = sys.argv[1:6]
+print("# %s\n" % rid)
+print("| | |")
+print("|---|---|")
+print("| **Task** | %s · does the migration hold |" % task)
+print("| **Outcome** | %s |" % outcome)
+print("| **Verdict** | %s — does the migration hold |" % verdict)
+print("| **Attempt** | 1 |")
+print("| **Model that answered** | claude-sonnet-5 |")
+print("")
+if extra and extra != "-":
+    print(extra)
+    print("")
+print("| `input` | `output` | `cache_read` | `cache_write` |")
+print("|---|---|---|---|")
+print("| 100 | 20 | unknown | unknown |")
+VPY
+  git add -A; }
+
+_vrun R-V1 completed pass -
+git commit -qm "first verdict on T-VERDICT" >/dev/null 2>&1
+# **A second run that AGREES is ordinary work and must pass.** A gate that fires on agreement
+# would make every task with two runs unshippable, which is how a project learns --no-verify.
+_vrun R-V2 completed pass -
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "two runs agreeing on one question were refused — only a clash is a finding"
+# **The mutant: the same pair, flipped, with nothing recording that anyone noticed.**
+_vrun R-V2 completed fail -
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a second run concluding the OPPOSITE of the first passed, with no escalation anywhere — this is the contradiction the ledger was blind to" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'the question is unstable' \
+  && ok || bad "the refusal does not print the line to write — a gate that names no repair is one people satisfy by deleting the field"
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'which run was right' \
+  && ok || bad "the refusal does not say what it is NOT: arbitration produces a winner rather than a resolution"
+# **The twin: the same clash, with the escalation recorded.** A disagreement is not the failure;
+# an unnoticed one is.
+_vrun R-V2 completed fail '**Escalated**: the question is unstable — the two runs read different working trees.'
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a recorded disagreement that names its escalation was still refused"
+# and the escalation on the OTHER record satisfies it too — whoever noticed, noticed
+_vrun R-V2 completed fail -
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/runs/R-V1.md')
+p.write_text(p.read_text() + chr(10) + '**Escalated**: raised with the advisor — the two runs disagree.' + chr(10))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "the escalation was recorded on the FIRST record and the second was refused anyway"
+# **`git checkout -- <f>` restores from the INDEX, and the index holds the escalation just
+# added** — so R-V1 kept it, and the two assertions below then passed because a leftover
+# escalation satisfied the gate, not because their own fixtures did. Caught 2026-08-28 by the
+# one assertion that expected a REFUSAL; the two expecting a pass had been green and vacuous.
+# This file already carries the same lesson about `git checkout -- .` sixty lines up.
+git checkout -q HEAD -- _ops/runs/R-V1.md 2>/dev/null; git add -A
+# **`none` conflicts with nothing.** Most runs check nothing, and taxing them would be the shape
+# this corpus refuses — a field added for a gate's sake.
+_vrun R-V2 completed none -
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a run that concluded nothing was treated as a clash"
+# **An UNFILLED cell must not read as a verdict, and a HALF-filled one must.** The template ships
+# `{{pass · fail · mixed · none}}`, so a record nobody touched has to yield nothing — while
+# `pass — {{what it concluded}}`, where the verdict IS reached and only the sentence beside it is
+# a placeholder, has to yield `pass`. A guard written for the first case on 2026-08-28 broke the
+# second, and a mutation test showed it changed nothing about the first: the regex already
+# refuses `{` where it wants a letter. Both directions are asserted so neither can drift.
+_vrun R-V2 completed '{{pass · fail · mixed · none}}' -
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/runs/R-V1.md')
+p.write_text(p.read_text().replace('| **Verdict** | pass —', '| **Verdict** | fail —'))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "an unfilled {{…}} verdict cell was read as \`pass\` and clashed with a real \`fail\`"
+# the other direction: verdict reached, explanation still a placeholder — this IS a verdict
+_vrun R-V2 completed 'pass' -
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/runs/R-V2.md')
+p.write_text(p.read_text().replace('pass — does the migration hold', 'pass — {{what it concluded}}'))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a half-filled cell — verdict reached, sentence still a placeholder — was read as no verdict at all, so it did not clash with the opposite one" || ok
+git checkout -q HEAD -- _ops/runs/R-V1.md 2>/dev/null; git add -A
+# **Only two COMPLETED runs contradict.** A run that was interrupted did not conclude anything.
+_vrun R-V2 interrupted fail -
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "an interrupted run was compared as a conclusion — it did not reach one"
+
+# **The two conditions above test the NEW record; these test the SIBLING side of the filter.**
+# A mutant that dropped `completed` and the pass/fail test from the awk comparison passed the
+# whole suite on 2026-08-28, because every "must not clash" fixture put the excused value on the
+# new record — where a separate entry condition already stopped it. An over-greedy gate was
+# invisible. Here the new record is a legitimate `completed` + `fail`, and it is the OTHER one
+# that concluded nothing or never finished.
+_vrun R-W1 interrupted pass - T-VERDICT2
+git add -A; git commit -qm "an interrupted sibling" >/dev/null 2>&1
+_vrun R-W2 completed fail - T-VERDICT2
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a run clashed with an INTERRUPTED sibling — that run never reached a conclusion to disagree with"
+git rm -qf _ops/runs/R-W1.md _ops/runs/R-W2.md >/dev/null 2>&1
+_vrun R-W3 completed none - T-VERDICT2
+git add -A; git commit -qm "a sibling that concluded nothing" >/dev/null 2>&1
+# **A FRESH id, and this is not a detail.** The first draft reused R-W2, which the commit above
+# had already taken — so §1f, which examines only ADDED records, never looked at it and the
+# assertion passed on every mutant put to it. Caught 2026-08-28 by mutating the gate to treat
+# `none` as an opposite and watching the suite stay green.
+_vrun R-W4 completed fail - T-VERDICT2
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a run clashed with a sibling whose verdict was \`none\` — nothing is not the opposite of something"
+# and the proof that the record above was examined at all: the same fixture, sibling flipped to
+# the opposite verdict, must be refused. Without this pair the assertion cannot tell "did not
+# clash" from "was never read".
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/runs/R-W3.md')
+p.write_text(p.read_text().replace('| **Verdict** | none —', '| **Verdict** | pass —'))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "the none-sibling assertion above is vacuous — §1f is not examining that record at all" || ok
+git rm -qf _ops/runs/R-W4.md _ops/runs/R-W3.md >/dev/null 2>&1
+git commit -qm "W fixtures out" >/dev/null 2>&1
+git rm -qf _ops/runs/R-V1.md _ops/runs/R-V2.md >/dev/null 2>&1
+git commit -qm "verdict fixtures out" >/dev/null 2>&1
+
 # A child link that resolves to nothing is worse than a bare id — it reads as navigable. The
 # template writes children as checkbox links precisely so the board can be walked; measured on a
 # live project, twelve tasks with plainly dependent work and not one link between them.

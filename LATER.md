@@ -229,26 +229,34 @@ closure whose dated origin is under seven days old is refused, naming both dates
 a same-day promotion; the twin is one dated eight days back.** Until then the week is judgement,
 and it is written here rather than believed.
 
-## The contradiction stop has no form, though the ledger already writes its shape
+## ~~The contradiction stop has no form~~ — shipped 0.2.14, 2026-08-28
 
-**Named 2026-08-21, at the release that shipped it.** `escalating.md` now stops work at the
-second disagreement between runs on one question — the bound on *contradiction*, where the
-three-attempt rule bounds only *failure*. Unlike the week in the promotion ladder, **this one's
-data already exists**: two run records naming the same task, each with an `Outcome`, is exactly
-the shape a check can read.
+**Closed.** The entry asked for *a run record that can carry the answer it reached, not only how
+it ended*, and refused to add the field for the gate's sake alone — *"it waits for a flow that
+wants the verdict written for its own reasons."* That flow arrived: a reviewer's conclusion is
+what the requester acts on, and a second reviewer can only be compared to the first if the first
+wrote down what it concluded. The field is `Verdict` on `RUN-template.md`; the gate is in §1f;
+the mutant and twin are the pair this entry specified, and both behave as it predicted.
 
-**Why no form today.** `Outcome` says how the run ended (`completed` · `interrupted` · `limit` ·
-`failed` · `canceled`), not what it concluded — and a contradiction is two *completed* runs
-answering the same question differently. The ledger records that both finished, not that they
-disagreed, so the seam is present and the field is not.
+## Convergence between independent reviewers is not read as a signal
 
-**Revisit when** a run record can carry the answer it reached, not only how it ended — a
-`Verdict`-shaped cell on the checks a run performed. The gate then reads: two completed records
-on one task with conflicting verdicts and no escalation between them is refused. **The mutant is
-a pair that flips with the second run silently overwriting nothing; the twin is a pair that
-agrees, and a second pair that disagrees with an escalation recorded between them.** Adding the
-field for the gate's sake alone would be the shape this corpus refuses — so it waits for a flow
-that wants the verdict written for its own reasons.
+**Named 2026-08-28**, from `qa-swarm` (`catalogue.md`). The four lenses already run independently
+and each reports even when empty, which is half of what that harness does. The half we do not do
+is the cheap one: when two of them land on **the same file and the same line**, that agreement is
+evidence, and this project currently treats it as a duplicate to be merged away. A finding two
+blind readers reached separately is not the same object as a finding one reader reached twice.
+
+**Why no form today.** Lens output is prose in a task notification, not a record with a file and a
+line — so there is nothing to compare. The same objection `LATER.md` raised about the contradiction
+stop applies, and the same answer resolves it: **wait for a flow that wants the finding written
+structurally for its own reasons** rather than adding the shape for a counter's sake. The review
+request is the candidate — a review that lands as findings with locations is useful to the
+requester whether or not anything counts convergence.
+
+**Revisit when** a review answer carries findings as rows. The gate then reads: a finding two
+independent reviewers reached is promoted, and the promotion is recorded, so a later reader can
+tell an agreed finding from a repeated one. **The mutant is two findings from ONE reviewer merged
+and promoted; the twin is the same pair from two.**
 
 ## A "should this exist at all" ladder, and whether it changes anything
 

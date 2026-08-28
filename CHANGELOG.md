@@ -2,6 +2,59 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.14 — unreleased
+
+**A rule this corpus had written in nine files and enforced in none is now a form.** `escalating.md`
+stops work at the *second* disagreement between two runs on one question — the bound on
+**contradiction**, where the three-attempt rule bounds only **failure**. Contradiction is the worse
+state and the reason is structural: both runs finish, so both report confidently, and a ledger that
+records *how a run ended* has no place to notice that they concluded opposite things.
+
+- **A run record carries a `Verdict` — what it concluded — beside `Outcome`, which is how it
+  ended.** `LATER.md` named this gap on 2026-08-21 and deliberately refused to fill it: *"adding the
+  field for the gate's sake alone would be the shape this corpus refuses — so it waits for a flow
+  that wants the verdict written for its own reasons."* That flow is review. A reviewer's conclusion
+  is what the requester acts on, and **a second reviewer can only be compared to the first if the
+  first wrote down what it concluded.** Most runs check nothing and write `none`; the word is in the
+  cell, because this file already measured that an affordance explained beside the form and absent
+  from it does not get used — 0 of 5 runs wrote `unknown` when the cell did not say so.
+
+- **§1f of the company guard reads it.** A new record concluding `pass` where a completed sibling on
+  the same task concluded `fail`, with neither naming an escalation, is refused at the commit — and
+  the refusal prints the literal line to write, which is the shape that measured 5/5 on this corpus
+  where a keyword hunt measured worse than nothing. **Recording the disagreement satisfies the
+  gate**; what is refused is the second opposite verdict landing with nothing saying anyone noticed.
+  It escalates as *"the question is unstable, and here is what differed between the two askings"* —
+  never as *"which run was right"*, because that framing produces a winner rather than a resolution.
+  `mixed`, `none`, an unfilled cell and a run that never finished conflict with nothing: this file's
+  own history says a false refusal on ordinary work costs more than the miss it closes, since it is
+  how a project learns to reach for `--no-verify`.
+
+  *Measured 2026-08-28:* three mutants — the gate disabled, the sibling comparison made greedy, and
+  `none` treated as an opposite — each fail **5** assertions of a suite that is **187 green** on the
+  honest twin.
+
+- **Three of those assertions were vacuous when first written, and each was caught by a mutant
+  rather than by reading.** One restored a fixture with `git checkout -- <file>`, which restores
+  from the **index** — and the index held an escalation added two assertions earlier, so two checks
+  passed because of a leftover rather than because of what they tested. One reused a record id the
+  preceding commit had already taken, and §1f examines only *added* records, so nothing was
+  examined at all. And one guarded against an unfilled `{{…}}` cell that the regex already refused
+  — dead code, and worse than dead: on a **half**-filled cell it blanked a verdict genuinely
+  reached because the sentence beside it was still a placeholder. All three now carry a paired
+  assertion that fails if the fixture stops being examined.
+
+- **Four external review harnesses read, one mechanic kept as a candidate, one declined outright**
+  → `catalogue.md`. `qa-swarm`'s convergence — two independent reviewers landing on the same file
+  and line is evidence, not a duplicate — is named in `LATER.md` with its own bar, because lens
+  output is prose today and there is nothing structural to compare. `review-triage`'s *a human in
+  the thread ends the bots' authority over it* is the PR-thread spelling of a bound §1d already
+  holds harder. `no-mistakes` is declined: prescriptive prose, no measurement, and its pipeline is
+  this project's preflight plus its outward gate.
+
+Eval state: **not run.** No scenario dispatches two runs at one question; the guard is covered by
+its suite, which prints its own total.
+
 ## 0.2.13 — 2026-08-28
 
 **Eight rounds of lenses read the tagged 0.2.12. Five remedies for the same defect were written

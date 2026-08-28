@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# guard-version: 0.2.13   <!-- stamped from the skill at ship time; read by the check below -->
+# guard-version: 0.2.14   <!-- stamped from the skill at ship time; read by the check below -->
 # Docs guard for a company the advisor built — install it into the company's own repo, not ours.
 #
 #   cp templates/company-preflight.sh <repo>/_ops/scripts/preflight.sh
@@ -400,6 +400,18 @@ while IFS= read -r -d '' pf; do
   rm -f "$tmp_l"
 done < <(changed -- '_ops/pipelines/*.md' '_ops/process/types/*.md')
 
+# Reads the first word of a named table cell — `| **Verdict** | pass — … |` gives `pass`.
+# **An unfilled cell yields nothing, and the regex is what does it**: `{{pass · fail · …}}`
+# begins with `{`, which `[A-Za-z]` does not match, so the whole pattern fails and the cell reads
+# empty. There WAS a `case … *'{{'*` guard here for one hour on 2026-08-28; a mutation test found
+# it changed no outcome, and reading it again found it actively wrong — on a HALF-filled cell,
+# `| **Verdict** | pass — {{what it concluded}} |`, it blanked a verdict that had genuinely been
+# reached because the explanation beside it was still a placeholder. Both cases are asserted.
+verdict_of() {
+  sed -nE "s/^[[:space:]]*\|[[:space:]]*(\\*\\*)?$1(\\*\\*)?[[:space:]]*\|[[:space:]]*([A-Za-z]+).*/\\3/p" \
+    | head -1 | tr 'A-Z' 'a-z'
+}
+
 # 1f · a run record carries its numbers, or it is a sentence wearing the word "record". The
 #      guide calls it a door — `a dispatch lands as _ops/runs/R-<id>.md carrying its four token
 #      numbers` — and nothing read one. `unknown` is an accepted value, as the guide says; an
@@ -453,9 +465,21 @@ runtime does not report one. A sentence in History is not a record"
     if [ -z "${_sibtab:-}" ]; then
       _sibtab=$(mktemp) || _sibtab=/tmp/.cpf-sib.$$
       _cpf_tmp="$_cpf_tmp $_sibtab"
+      _vtab=$(mktemp) || _vtab=/tmp/.cpf-vtab.$$
+      _cpf_tmp="$_cpf_tmp $_vtab"
       while IFS= read -r -d '' other; do
-        printf '%s\t%s\n' "$( ( staged "$other" 2>/dev/null || cat "$other" 2>/dev/null || true ) \
-          | record_task )" "$other" >> "$_sibtab"
+        _ob=$( ( staged "$other" 2>/dev/null || cat "$other" 2>/dev/null || true ) )
+        printf '%s\t%s\n' "$(printf '%s' "$_ob" | record_task)" "$other" >> "$_sibtab"
+        # **Built in the SAME pass, deliberately.** §1f's own history has this exact bug: the
+        # neighbour table was once forked per record, O(new × kept), turning a commit into a
+        # two-minute wait — and a hook people wait two minutes for is a hook they pass with
+        # --no-verify. A second walk of the same files would have re-earned that.
+        printf '%s\t%s\t%s\t%s\t%s\n' \
+          "$(printf '%s' "$_ob" | record_task)" "$other" \
+          "$(printf '%s' "$_ob" | verdict_of Outcome)" \
+          "$(printf '%s' "$_ob" | verdict_of Verdict)" \
+          "$(printf '%s' "$_ob" | grep -ciE '^[[:space:]]*(\*\*)?(escalated|escalation)(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]' || true)" \
+          >> "$_vtab"
       done < <(git ls-files -z -- '_ops/runs/R-*.md')
     fi
     sib=$(grep -c "^${rtask}$(printf '\t')" "$_sibtab" 2>/dev/null || echo 0)
@@ -478,6 +502,45 @@ is the whole point:
     **Escalated**: <what you raised, and to whom — or why a fourth attempt is right anyway>
 Prose elsewhere in the record does not satisfy this and is not meant to: the field exists so the \
 next reader can find the decision without reading the run"
+  fi
+  # **The contradiction stop — the bound `escalating.md` has carried as prose since 2026-08-21.**
+  # Three attempts bound FAILURE. Nothing bounded CONTRADICTION, which is the worse state: two
+  # runs answering one question differently both end `completed`, so a ledger holding only
+  # `Outcome` records that both finished and loses the disagreement entirely. Every run inside it
+  # reports confidently, and the confidence is the problem. `LATER.md` named the missing half
+  # exactly — *a run record cannot carry the answer it reached, only how it ended* — and refused
+  # to add the field for a gate's sake alone. The review flow wants it written for its own
+  # reasons: a reviewer's conclusion is what the requester acts on, and a second reviewer can
+  # only be compared to the first if the first wrote down what it concluded.
+  #
+  # **Only `pass` against `fail` is a clash.** `mixed`, `none`, `unknown` and an empty cell
+  # conflict with nothing — this file's own history says a false refusal on ordinary work costs
+  # more than the miss it closes, because it is how a project learns to reach for --no-verify.
+  # **And a disagreement is not itself the failure.** Recording it satisfies the gate; what is
+  # refused is a second, opposite verdict landing with nothing anywhere saying anyone noticed.
+  _vme=$( ( staged "$rf" || true ) | verdict_of Verdict)
+  _ome=$( ( staged "$rf" || true ) | verdict_of Outcome)
+  if [ -n "${rtask:-}" ] && [ "${_ome:-}" = "completed" ] \
+     && { [ "${_vme:-}" = "pass" ] || [ "${_vme:-}" = "fail" ]; }; then
+    _clash=$(awk -F'\t' -v t="$rtask" -v me="$rf" -v v="$_vme" \
+      '$1==t && $2!=me && $3=="completed" && ($4=="pass"||$4=="fail") && $4!=v {print $2"\t"$5; exit}' \
+      "$_vtab" 2>/dev/null)
+    if [ -n "$_clash" ]; then
+      _cf=${_clash%%$(printf '\t')*}; _ce=${_clash##*$(printf '\t')}
+      _eme=$( ( staged "$rf" || true ) \
+              | grep -ciE '^[[:space:]]*(\*\*)?(escalated|escalation)(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]' || true)
+      if [ "${_eme:-0}" -eq 0 ] && [ "${_ce:-0}" -eq 0 ]; then
+        say_fail "$rf concludes \`$_vme\` on $rtask while \`$_cf\` concluded the opposite, and \
+neither record says anyone noticed. Two runs disagreeing on one question stop the work at the \
+SECOND disagreement, not the third — running it again until one agrees with you is sampling \
+until the answer is convenient. Add ONE line to this record:
+    **Escalated**: the question is unstable — <what differed between the two askings: machine, \
+version, shell, working tree, order>
+It escalates as \"the question is unstable\", never as \"which run was right\": arbitration \
+produces a winner rather than a resolution, and every one of those five differences has caught \
+something in this project's own history"
+      fi
+    fi
   fi
   for need in "model that answered" "attempt" "outcome"; do
     ( staged "$rf" || true ) | hits -iF "$need" || say_fail "$rf has no \`$need\` field — \

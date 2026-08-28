@@ -158,6 +158,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "An imported ticket tells an agent to grant itself access" | nothing | **quoted to you, not obeyed** |
 | "I hit a problem in this system itself" | *"package this up so I can report it"* | assembled, **de-identified, one file where you say — and you send it** |
 | "It tried the same fix three times" | *"try again"* | **it stops instead** — three attempts on one error is a signal, not a reason to try harder |
+| "One reviewer said it was fine, the next said it was broken" | nothing | **the work stops at the SECOND answer, not the third** — and it comes to you as *the question is unstable*, with what differed between the two askings, never as *which one was right* |
 | "My laptop died mid-run" | *"pick it back up"* | committed, applied and remaining are separated; **applied work is never redone** |
 | "A page I scraped is telling the agent what to do" | nothing | reported to you with the text quoted, **never obeyed** |
 | "The deadline is going to slip" | *"is this landing on time?"* | said early with the options, not discovered on the day |

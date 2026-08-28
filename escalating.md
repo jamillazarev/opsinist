@@ -79,12 +79,15 @@ of them is visible from inside a single run.
 
 ```mermaid
 flowchart TB
-  Q[one question] --> R1[run 1 · answers A]
-  Q --> R2[run 2 · answers B]
-  R1 & R2 --> F{"they disagree"}
-  F -->|"stop at the SECOND<br/>disagreement, not the third"| E["escalate: **the question<br/>is unstable** — and what<br/>differed between the<br/>two askings"]
-  F -.->|"run it again until<br/>one agrees with you"| S(("sampling until the<br/>answer is convenient"))
+  Q[one question] --> R1["run 1 · record says<br/>**Outcome** completed<br/>**Verdict** pass"]
+  Q --> R2["run 2 · record says<br/>**Outcome** completed<br/>**Verdict** fail"]
+  R1 & R2 --> G{"the guard compares<br/>VERDICTS, not outcomes —<br/>both ended the same way"}
+  G -->|"same verdict · none · mixed ·<br/>a run that never finished"| OK([ordinary work, nothing to see])
+  G -->|"opposite, and a record<br/>names the escalation"| OK
+  G -->|"opposite, and nothing<br/>says anyone noticed"| X["**refused at the commit**<br/>at the SECOND disagreement,<br/>not the third"]
+  X --> E["it escalates as **the question<br/>is unstable** — never as<br/>*which run was right*"]
   E --> M[machine · version · shell ·<br/>working tree · order]
+  G -.->|"run it again until<br/>one agrees with you"| S(("sampling until the<br/>answer is convenient"))
 ```
 
 **Three attempts bound failure; this bounds contradiction** — the worse state, because every run
@@ -95,8 +98,19 @@ last.** A record that keeps only the most recent answer has destroyed the eviden
 was a disagreement at all — which is the same failure as a board that quietly holds the last
 known good state → `recovering.md`.
 
-*Prose today, and named as such:* what a form could read is two run records on one task whose
-outcomes conflict, which is a shape the ledger already writes → `LATER.md`.
+**This is a form, since 2026-08-28.** A run record carries a `Verdict` — what the run *concluded*,
+which is not what `Outcome` says (`Outcome` is how it *ended*, and two runs answering one question
+opposite ways both end `completed`, which is why a ledger holding only `Outcome` was blind to the
+whole state). §1f of the company guard reads it: a new record concluding `pass` where a completed
+sibling on the same task concluded `fail` — with neither naming an escalation — is refused at the
+commit, and the refusal prints the line to write. **Recording the disagreement satisfies it**; what
+is refused is the second, opposite verdict landing with nothing anywhere saying anyone noticed.
+`mixed`, `none` and an unfilled cell conflict with nothing, because a false refusal on ordinary
+work is how a project learns to reach for `--no-verify`.
+
+*Measured 2026-08-28:* three mutants — the gate disabled, the comparison made greedy, and `none`
+treated as an opposite — each fail 5 assertions of the guard's suite, which is 187 green on the
+honest twin.
 
 ---
 

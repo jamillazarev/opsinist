@@ -14,6 +14,7 @@ belong, which is how a ledger quietly becomes prose.*
 | **Trigger** | {{a person · a schedule · an event · an automation}} |
 | **Attempt** | {{1}} — {{the price of not getting it right the first time; three on one task is 
 the escalation threshold, so this is the field that makes it countable}} |
+| **Verdict** | {{pass · fail · mixed · none}} — {{the question this run answered, and what it concluded}} |
 | **Commits · checkpoint** | {{sha, or `none`}} · {{where to resume from, or `—`}} |
 
 ## What answered
@@ -36,6 +37,16 @@ this cell is `unknown` — never the requested name by default.
 | `input` | `output` | `cache_read` | `cache_write` |
 |---|---|---|---|
 | {{12,400}} | {{3,110}} | {{188,900 · or `unknown`}} | {{6,200 · or `unknown`}} |
+
+> [!NOTE]
+> **`Outcome` is how the run ended; `Verdict` is what it concluded, and they are not the same
+> thing.** A run that answers *"the migration is safe"* and one that answers *"it is not"* both
+> end `completed`, so a ledger holding only `Outcome` records that both finished and loses the
+> fact that they disagreed — which is the state `escalating.md` calls worse than failure, because
+> every run inside it reports confidently. **Most runs check nothing and write `none`**; the word
+> is in the cell so nobody has to ask how to say it. Write the verdict where the run reached one:
+> a review, a check, an audit, a question answered from the record. Two records on one task that
+> conclude opposite things, with nothing recording that anyone noticed, are refused at the commit.
 
 > [!CAUTION]
 > **Write `unknown` in the cell.** Not a dash, not a blank, not a clarifying question back to
