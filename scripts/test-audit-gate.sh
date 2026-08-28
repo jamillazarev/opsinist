@@ -471,19 +471,80 @@ printf '%s' "$(rstop)" | OPSINIST_UNCOMMITTED_GATE=off python3 "$GATE" >/dev/nul
 rm -rf "$RG"
 
 
-# ── the spiral note reports; it does not order ────────────────────────────────────────────────
-# It used to say "Stop digging: … start the wave" — an imperative injected into a run by its own
-# tooling, in a system whose position is that text arriving through a tool is data and never an
-# instruction. And it assumed writing was the point: a read-only run makes twelve read-only calls
-# because that is its contract. Observed 2026-08-27 on a review lens, which treated it as data and
-# carried on; a run that did not would have abandoned the job it was given.
+# ── every notice this hook emits reports; none of them orders ─────────────────────────────────
+# **The three assertions here used to grep for the literal words "Stop digging".** An adversarial
+# lens put the order back with one word changed — *"Stop investigating and start the wave now. Do
+# not read another file."* — and all three passed. A spelling check is not a mutation test; it
+# denies one mutant and admits its synonyms. What follows checks the SHAPE instead, against
+# `security.md`'s own published test: text that "tells the reader to run, install, send, fetch,
+# grant, ignore, or contact" is an instruction found in data. The hook's own output travels the
+# same channel as any other tool result, so it is held to the same line — and the check covers
+# EVERY notice the file emits, not the one that was repaired, because the class outliving its
+# instance is exactly how the other three survived the first repair.
 _note=$(sed -n '/"additionalContext":/,/arrives once/p' "$GATE")
-if printf '%s' "$_note" | grep -qiE 'Stop digging'; then
-  fail=$((fail+1)); echo "FAIL: the spiral note gives an order — tooling output is data, not an instruction"
+_shape=$(python3 - "$GATE" <<'PYEOF'
+import re, sys
+src = open(sys.argv[1], encoding="utf-8").read()
+# Notices are the f-string runs handed to sys.stdout.write(...) or used as additionalContext.
+# Comments are excluded by construction: only string literals are scanned.
+notices, bad = [], []
+for m in re.finditer(r'(?:sys\.stdout\.write\(|"additionalContext":)(.*?)\n\s*(?:\)|\}|sys\.exit)',
+                     src, re.S):
+    body = m.group(1)
+    parts = re.findall(r'f?"((?:[^"\\]|\\.)*)"', body)
+    if parts:
+        notices.append(" ".join(parts))
+VERBS = r"(?:run|install|send|fetch|grant|ignore|contact|stop|start|assign|bump|append|open|say|do not)"
+for text in notices:
+    flat = re.sub(r"\\n|\*\*|" + chr(96), " ", text)   # a literal backtick here kills the outer $( ) parse
+    for sentence in re.split(r"(?<=[.!?:])\s+|—\s+", flat):   # a colon introduces an order as readily as a full stop
+        s = sentence.strip()
+        if re.match(r"^%s\b" % VERBS, s, re.I):
+            bad.append(s[:70])
+print(len(notices))
+for b in bad:
+    print("ORDER:" + b)
+PYEOF
+)
+_ncount=$(printf '%s' "$_shape" | head -1)
+[ "${_ncount:-0}" -ge 4 ] \
+  && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: only ${_ncount:-0} notice(s) found in the hook — the extractor has drifted and this check is scanning almost nothing"; }
+if printf '%s' "$_shape" | grep -q '^ORDER:'; then
+  fail=$((fail+1))
+  echo "FAIL: a notice gives an order — tooling output is material a run weighs, never an instruction:"
+  printf '%s\n' "$_shape" | grep '^ORDER:' | head -4 | sed 's/^/       /'
 else pass=$((pass+1)); fi
 if printf '%s' "$_note" | grep -q 'meant to be read-only'; then
   pass=$((pass+1)); else fail=$((fail+1)); echo "FAIL: the note does not allow a run whose contract is reading"; fi
 if printf '%s' "$_note" | grep -q 'cannot tell which'; then
   pass=$((pass+1)); else fail=$((fail+1)); echo "FAIL: the note does not say what it cannot know"; fi
+
+# ── "arrives once" has to survive parallel calls, because that is when it fires ───────────────
+# **Read, increment, write and the spoke test are four unsynchronised filesystem operations.** A
+# batch of parallel read-only calls put several past the threshold at once and each spoke: measured
+# 2026-08-28, twice in 6 of 12 trials — and parallel read-only batching is exactly the shape of run
+# the note was written not to harass. The exclusive create is atomic. Four trials here, not twelve;
+# the defect reproduced in half of them, so four is enough to fail loudly and cheap enough to ship.
+_dbl=0
+for _tr in 1 2 3 4; do
+  _sid="pf-race-$_tr-$$"
+  rm -f /tmp/opsinist-spiral-* 2>/dev/null
+  for _i in $(seq 1 11); do
+    printf '{"hook_event_name":"PostToolUse","tool_name":"Read","session_id":"%s","tool_input":{}}' "$_sid" \
+      | python3 "$GATE" >/dev/null 2>&1
+  done
+  _o=$(mktemp)
+  for _i in 1 2 3 4 5 6 7 8; do
+    ( printf '{"hook_event_name":"PostToolUse","tool_name":"Read","session_id":"%s","tool_input":{}}' "$_sid" \
+      | python3 "$GATE" 2>/dev/null >> "$_o" ) &
+  done
+  wait
+  [ "$(grep -c 'read-only calls so far' "$_o" 2>/dev/null || echo 0)" -gt 1 ] && _dbl=$((_dbl+1))
+  rm -f "$_o"
+done
+rm -f /tmp/opsinist-spiral-* 2>/dev/null
+if [ "$_dbl" -eq 0 ]; then pass=$((pass+1)); else
+  fail=$((fail+1)); echo "FAIL: the note arrived more than once in $_dbl of 4 parallel trials, while saying it arrives once"; fi
+
 echo "pass $pass · fail $fail"
 [ "$fail" = 0 ]

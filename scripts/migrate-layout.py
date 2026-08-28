@@ -320,6 +320,40 @@ def main():
                 doors_done.append(door)
                 _failed.append(door)
                 continue
+            # **A symlinked ANCESTOR pointing INSIDE the repository defeated both tests above.**
+            # `_outside` asks only whether the target leaves the tree, and the link-count test looks
+            # at the door itself — but `_ops/scripts -> scripts_real` makes the door an ordinary
+            # file with one name, sitting at a path git refuses to stage: *"beyond a symbolic
+            # link"*. Measured 2026-08-28: a tracked 45-byte file replaced by 19 KB of door, at
+            # exit 0, while the diagnosis printed *"a symlink OUT of the repository"* about a link
+            # that pointed in, and prescribed putting it inside — which it already was. The
+            # direction was never the point. Any symlink between the root and the door is a second
+            # name for the location, and no commit here can carry a file behind one.
+            _anc, _anc_to, _anc_in = None, "", False
+            try:
+                _walk = dst.parent
+                while True:
+                    if _walk.is_symlink():
+                        _anc, _anc_to = _walk, os.readlink(_walk)
+                        _w = _walk.resolve()
+                        _anc_in = _root_real == _w or _root_real in _w.parents
+                    if _walk.resolve() == _root_real or _walk.parent == _walk:
+                        break
+                    _walk = _walk.parent
+            except OSError:
+                pass
+            if _anc is not None:
+                _where = "inside this repository" if _anc_in else "OUT of this repository"
+                print(f"  {door} would be written through `{_anc}`, which is a symlink to "
+                      f"`{_anc_to}` — {_where}. Refusing, so nothing is lost. Either way git "
+                      f"cannot stage a path behind a symlink (*pathspec ... is beyond a symbolic "
+                      f"link*), so no commit here could carry the door, and the bytes it would "
+                      f"overwrite belong to a path this command was not pointed at. The direction "
+                      f"the link points does not change either of those. To place the door here, "
+                      f"replace that link with a real directory and run this again")
+                doors_done.append(door)
+                _failed.append(door)
+                continue
             if _outside:
                 print(f"  {door} would be written to {_dst_real}, which is OUTSIDE this "
                       f"repository — refusing. Something on the path `_ops/scripts/{door}` is a "

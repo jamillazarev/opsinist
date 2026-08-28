@@ -21,17 +21,48 @@ written the day before to prevent exactly that.
   > staged is gone**, and no tool will bring it back; we would rather say that than let you spend
   > an evening looking.
 
+  > **The second remedy took a different file, and it is recoverable by the same route.** Its
+  > victim is *by definition* one you had `git add`-ed — that is the only kind
+  > `restore --source=HEAD` deletes — so the blob is in the object store and
+  > `git fsck --lost-found` writes it out, exactly as above. Verified 2026-08-27 against real git:
+  > the staged file's contents came back byte-for-byte from `.git/lost-found/other/`.
+
   **Detection stays repo-wide, because the route it predicts is** — `git pull --ff-only` aborts on
   a modified tracked file anywhere in the enclosing repository, so an install inside a dotfiles
-  clone really is at risk when a sibling folder is dirty. **What changed is that the flag no longer
-  prescribes a discard at all.** Three remedies shipped here in two days and two of them destroyed
-  work: `reset --hard`, which is repo-wide and took an unrelated file; then a scoped
-  `restore --staged --worktree --source=HEAD`, which **deletes a staged new file outright**,
-  because a path absent from HEAD is restored to not existing — and a staged new file cannot block
-  a fast-forward in the first place, so the flag was firing on it and then prescribing its
-  destruction. The flag now names what is at risk, says how much of it is under the install, offers
-  `stash push` → `pull` → `stash pop`, and states plainly that discarding belongs to whoever owns
-  the work. It counts only tracked files that exist in HEAD and differ from it.
+  clone really is at risk when a sibling folder is dirty. **What changed is which files it counts,
+  and that is what makes a discard safe to print.** Four remedies were written here in three days.
+  Two shipped and destroyed work: `reset --hard`, repo-wide, which took an unrelated file; then a
+  scoped `restore --staged --worktree --source=HEAD`, which **deletes a staged new file outright**,
+  because a path absent from HEAD is restored to not existing. The third refused to name any
+  discard at all — safe, and unhelpful to someone whose route is stuck. **The fourth was one
+  command from shipping the same defect a third time:** counting with `--diff-filter=MDRT` looks
+  like it yields paths that exist in HEAD, and its `R` rows name a rename's *destination*, which
+  does not. Measured, with the file deleted. The count is `--no-renames --diff-filter=MDT` now, for
+  which the property is true and demonstrable: rename detection off decomposes that `R` into a `D`
+  at the **old** path — present in HEAD, and the path an incoming commit can actually collide with,
+  so detection gets sharper rather than weaker. The suite lifts the listing command out of the
+  printed message and checks that property against a tree containing a rename; a mutant restoring
+  `MDRT` fails it. The discard is printed in full — `restore --staged --worktree --source=HEAD` —
+  because dropping `--staged` leaves the index differing, which stops the pull while this flag
+  reads clean.
+
+  **A fifth remedy was in the same message the whole time, and it could take a stranger's work.**
+  `stash push` exits **0 having saved nothing** when the only difference is a submodule gitlink;
+  the `stash pop` that follows then pops whatever was already on the stack. Measured 2026-08-28,
+  with a week-old unrelated stash dumped into the tree and the stack left empty. The sequence is
+  printed guarded now — `refs/stash` compared across the push, `pop` only if it moved — and the
+  suite runs the printed line verbatim against exactly that repository and requires the unrelated
+  entry to survive; the unguarded form, run on the same fixture, consumes it.
+
+  **And the count has two blind spots, now stated wherever it is described.** `git pull --ff-only`
+  also aborts on a **staged new file** and on an **untracked file** when the incoming commit adds
+  that same path — both measured 2026-08-28 with the count at 0. Neither is countable without
+  knowing what is incoming, and counting every untracked file recreates the false positive that
+  started all of this. So the flag says outright that the count is a warning and the pull is the
+  only exact test, and it leads with the pull because running it costs nothing. **A shipped comment
+  said flatly that an untracked file never blocks a pull** — the stray-file measurement generalised
+  into a rule it does not support, in the function whose own entry accuses an earlier repair of
+  exactly that.
 
 - **`--doors-only` overwrote a file outside the repository through a HARD link.** 0.2.12 closed
   the symlink route by resolving the destination; a hard link has no target to resolve, so
@@ -50,15 +81,27 @@ written the day before to prevent exactly that.
 
   A door whose link count is above one is refused now, before anything is written.
 
-- **Five ways `_ops/TOOLING.md` could be made invisible to §4f**, all closed. An inline
-  `<!-- … -->` in a live row hid that row while the page still rendered it · a `<!--` with no
-  closer hid every row after it, permanently · a stray fence marker at the top did the same · **a
-  line that was ENTIRELY an inline comment read as the end of the table** and silenced every live
-  row below it, which is the parked-draft idiom the guard's own message recommends · and the strip
-  that fixed that **could not cross a `>`**, so a parked row containing `->` or an HTML tag brought
-  the silence straight back. A CR at the end did too. An opener is believed only when a closer
-  exists; an inline comment is removed from its line however many `>` it contains; and a line left
-  empty by that removal is hidden rather than read as a boundary.
+- **Eight ways `_ops/TOOLING.md` could be made invisible to §4f**, all closed, and they need
+  four cures. An inline `<!-- … -->` in a live row hid that row while the page still rendered it ·
+  a `<!--` with no closer hid every row after it, permanently · a stray fence marker at the top did
+  the same — *an opener is believed only when a closer exists.* **A line that was ENTIRELY an
+  inline comment read as the end of the table** and silenced every live row below it, which is the
+  parked-draft idiom the guard's own message recommends — *a line left empty by the strip is hidden
+  rather than read as a boundary.* The strip that fixed that **could not cross a `>`**, so a parked
+  row containing `->` or an HTML tag brought the silence straight back, and a CR at the end did too
+  — *the strip survives the text it walks.* And two more, found adversarially after all of that was
+  written: **a live row quoting the opener in backticks** — `` `<!--` `` — had no closer on its
+  line, so the multi-line path fired and swallowed every live row down to the next parked row,
+  meaning a register that documents its own parking idiom disarmed the gate; and **a bare `-->`
+  left standing** was read as the end of the table. *An opener inside a code span is text, and a
+  stray closer is not a boundary.* **This bullet said "three ways · one cure" through three of
+  these discoveries and "five" through two more**; the count moves with the next one.
+
+  The strip also **rebuilt the whole line every pass**, rescanning everything already walked:
+  **27.8s** on a 390 KB row against 0.06s for the single `gsub` it replaced — measured 2026-08-28,
+  a fresh regression from the repair above. A guard that slow is one people run with
+  `--no-verify`, which the file's own header names as its failure mode. The walked prefix is
+  consumed and never scanned again: same output, **0.7s**.
 
 - **A tab inside a tool name dropped its row, and a CRLF register read a blank answer as filled.**
   Both were introduced by 0.2.12's own rewrite of that block.
@@ -77,15 +120,63 @@ to a version, and a `Closed` that already holds one is never changed.
 
 - **`--doors-only` wrote through a symlink whose target was inside the repository.** The
   containment test only asks whether the target leaves the tree, so an in-repo target was
-  overwritten — a tracked file replaced by 19 KB of door, with a backup named that was not it.
-  A second name is a second name wherever it lives, and both kinds are refused before any write.
+  overwritten — a tracked file replaced by 19 KB of door. A second name is a second name wherever
+  it lives, and both kinds are refused before any write.
 
-- **A `PostToolUse` hook was injecting an order into a run's context.** After twelve read-only
-  calls it said *"Stop digging: start the wave"* — on the premise that reading without writing is
-  an investigation spiral. For a review, an audit, or a question answered from the record, twelve
-  read-only calls are the contract. And this system's position on text arriving through a tool is
-  that it is data, never an instruction; its own tooling was writing imperatives and expecting
-  them obeyed. It reports the count now, names both readings, and says it cannot tell which.
+  > **This one is the mildest of the three, and you have two ways back.** The target was tracked
+  > and its path is in `HEAD`, so `git restore -- <path>` returns it. And the
+  > `.replaced-<hash>` copy written beside the door **holds that file's original bytes** — the
+  > copy is made by reading the door path, which follows the symlink to the target, and written to
+  > a fresh path that shares no link with it. Either route is whole; the earlier entry's warning
+  > about a backup landing on the wrong side belongs to the *outside*-the-repository case, not
+  > this one.
+
+  **The same bullet's claim did not cover a symlinked DIRECTORY, and an adversarial lens walked
+  straight through it.** With `_ops/scripts -> scripts_real` the door is an ordinary file with one
+  name, so the second-name test saw nothing, and the containment test asks only whether the target
+  leaves the tree — which it does not. Measured 2026-08-28: a tracked 45-byte file replaced by 19 KB
+  of door at exit 0, **while the printed diagnosis said the link led *out* of the repository and
+  told the reader to move it *in*, where it already was.** Any symlink between the root and the
+  door is refused now, in either direction, and the reason is the one thing both directions share:
+  git cannot stage a path behind a symlink — *pathspec … is beyond a symbolic link* — so no commit
+  here could carry the door whichever way the link points. Your bytes are recoverable the same two
+  ways as above.
+- **Four notices in this project's own hooks were giving orders to the runs that read them, and
+  a fifth is in the sibling.** The one that started it fired after twelve read-only calls:
+  *"Stop digging: say what you know, start the wave (a task, a dispatch), or ask the one question
+  that is actually blocking."* For a review, an audit, or a question answered from the record,
+  twelve read-only calls are the contract, so for that reading the order was simply wrong. It
+  reports the count now, names both readings, and says it cannot tell which.
+
+  **Removing that instance left the class**, which an adversarial lens then found three more times
+  in the same file, on the same non-blocking channel: *"Before acting on it, say so, run the
+  migration audit"*, *"**bump the version line in the guide**"*, *"Reconcile the version line
+  before acting on the project"*. All three state what was found and what procedure this project
+  publishes now, and command nothing. The sibling's `dispatch-nudge.py` carried the twin defect
+  untouched — *"Assign it to an agent"*, *"take the next real step"* — and its suite **asserted
+  that it did**, requiring the note to say to dispatch. Both are repaired; that assertion is now
+  its opposite.
+
+  **The guard against all of this was a spelling check, and the lens proved it.** Three assertions
+  grepped for the literal words *"Stop digging"*; a mutant that put the order back as *"Stop
+  investigating and start the wave now. Do not read another file."* passed all three. The check is
+  a shape check now, run over **every** notice the file emits and keyed to `security.md`'s own
+  published test — text that "tells the reader to run, install, send, fetch, grant, ignore, or
+  contact" is an instruction found in data. It denies the synonym mutant, and it caught one more
+  place in the shipped tree where an option read as an order.
+
+  **The rule was also cited wrongly here.** This entry said the position is that *text arriving
+  through a tool* is data — a provenance test, and `security.md` exists to replace exactly that
+  one: *the test is who the text addresses, never where it came from.* The conclusion holds under
+  the real test; the reason given for it did not.
+
+  **And the note did not arrive once.** Read, increment, write and the already-spoke test are four
+  unsynchronised filesystem operations, so a batch of parallel read-only calls put several past the
+  threshold together and each one spoke — **twice in 6 of 12 trials, measured** — which is the run
+  it was written not to harass, harassed twice. An `O_CREAT|O_EXCL` create settles it atomically:
+  0 of 12 after, 5 of 12 for the unfixed form on the same probe, and four trials of it run in the
+  suite. The count in the text is the real count now, too; it was hard-coded to twelve while `n`
+  could arrive higher.
 
 Eval state: **not run.** No scenario measures any of this; the guards are covered by their suites,
 which print their own totals.

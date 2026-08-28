@@ -108,12 +108,21 @@ nothing accumulates outside versions.
   — `git pull --ff-only` — refused from then on and for every release after: *"Your local changes
   would be overwritten."* **The output is the trap**: git prints `Aborting` and
   `Updating <old>..<new>` on adjacent lines, so a glance reads it as success while the install
-  sits versions behind. Recovery is `stash push` then pull then `stash pop` — **never `reset --hard`**, which is repo-wide and took an unrelated file the day this was written. The untracked eval artifacts
-  in the way had to be compared against `origin/main` **before** removing them — they were
-  byte-identical, which is a thing to verify and not assume. **Both `find-installs.sh` now flag a clone whose tracked files differ from HEAD anywhere in
-  the enclosing repository — the route is repo-wide, so the detection is — and say how many
-  of them are under the install. They prescribe no discard at all**: an untracked file does not stop a pull,
-  and saying it did meant offering a `reset` for a stray note. The flag says **AT RISK**, because
+  sits versions behind. Recovery is a **guarded** `stash push` → pull → `stash pop` — **never
+  `reset --hard`**, which is repo-wide and took an unrelated file the day this was written. The
+  guard is not optional: `stash push` exits **0 having saved nothing** when the only difference is
+  a submodule gitlink, and the `pop` then drops whatever was already on the stack into your tree
+  (measured 2026-08-28). Compare `refs/stash` across the push; `find-installs.sh` prints the whole
+  line. The untracked eval artifacts in the way had to be compared against `origin/main` **before**
+  removing them — they were byte-identical, which is a thing to verify and not assume.
+  **Both `find-installs.sh` flag a clone with tracked files that differ from HEAD *and exist in
+  HEAD* — `--no-renames --diff-filter=MDT` — anywhere in the enclosing repository, since the route
+  is repo-wide, and say how many are under the install.** Every clause is load-bearing: `MDRT`'s
+  `R` rows name a rename's *destination*, absent from HEAD, and the per-path
+  `restore --staged --worktree --source=HEAD` the flag prints would delete those. **The count is a
+  warning, never a verdict** — a staged-new or untracked file at a path an incoming commit *adds*
+  also aborts the pull, with the count at 0, so the pull itself is the only exact test and it is
+  free to run. The flag says **AT RISK**, because
   a modified file blocks a fast-forward only when an incoming commit touches it — a certainty
   after an rsync, which rewrites exactly what the next release changes. The Antigravity row also
   picks its route from what the directory IS; the two routes are mutually destructive and it had

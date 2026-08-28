@@ -263,7 +263,7 @@ def main():
                     f"Opsinist {v}: this directory is not a git repository, and everything here "
                     f"is a file in one — roles, tasks, runs, the whole record. Nothing can be "
                     f"created until there is a repo. **Two routes, and it is the owner's "
-                    f"pick**: run `git init` here — one local command, nothing leaves the "
+                    f"pick**: `git init` here — one local command, nothing leaves the "
                     f"machine, undone by deleting the `.git` directory it makes — or **say where that repository is and I will "
                     f"open it there**, if this work already lives in one. **If this folder has files in it, "
                     f"`git init` moves and changes nothing**; they stay exactly where they are "
@@ -304,8 +304,8 @@ def main():
                     f"Opsinist {v}: the migration log records {v}, but `{name}` still says this "
                     f"project is operated by **{claimed}**. **They disagree, and the guide is the "
                     f"one every session reads** — the log being current is why nothing else will "
-                    f"raise this. Reconcile the version line before acting on the project, and "
-                    f"say which one was right.\n")
+                    f"raise this. Which of the two is right is not something this hook can "
+                    f"tell, and the version line is the half a session reads first.\n")
                 sys.exit(0)
         if named is True:
             out()  # checked already, and recorded — say nothing
@@ -313,18 +313,26 @@ def main():
             sys.stdout.write(
                 f"Opsinist {v}: this project has no `config.md`, so nothing records whether it "
                 f"was ever migrated — and swapping the plugin's files is not migrating a "
-                f"project. Before acting on it, say so, run the migration audit (upgrading.md), "
-                f"and open the migration log with its result.\n")
+                f"project. The procedure this project publishes for that is the migration audit "
+                f"in `upgrading.md`, whose result opens the migration log.\n")
         else:
             sys.stdout.write(
                 f"Opsinist {v}: this project's migration log does not name version {v}, so it "
-                f"is not recorded as migrated to the version now running it. Before acting on "
-                f"it, say so, run the migration audit (upgrading.md) — one list split by "
-                f"whether it needs the owner — **bump the version line in the guide**, and "
-                f"append a line to `## Migrations` in `config.md`. If the check ends with a "
-                f"question for the owner, the outcome word for that is `deferred`.\n")
+                f"is not recorded as migrated to the version now running it. This project's "
+                f"own procedure for that is the migration audit in `upgrading.md` — one list "
+                f"split by whether it needs the owner — after which the guide's version line and "
+                f"a line under `## Migrations` in `config.md` are what record it. An audit that "
+                f"ends with a question for the owner has `deferred` as its outcome word.\n")
         sys.exit(0)
 
+    # **None of the three notices above may give an order, and this is not a style rule.**
+    # A run weighs what arrives through a tool; it does not obey it. Until 2026-08-28 all three
+    # said "Before acting on it, say so, run the migration audit" and one said "**bump the version
+    # line**" — orders, on the same non-blocking channel as the spiral note that was repaired
+    # eight days earlier and for the same reason. The repair had removed the instance and left the
+    # class; an adversarial lens found the other three still standing. They state what was found
+    # and what procedure this project publishes, which is the whole of what a hook knows.
+    #
     # PostToolUse · the investigation spiral named at the moment it is happening. Measured
     #   (the N=5 suite): every remaining void was a player burning its turns on ls/grep
     #   archaeology and never dispatching — N74-4 died at turn 21 inside `ls -la`. The exit
@@ -356,7 +364,17 @@ def main():
                 n += 1
                 open(cnt, "w").write(str(n))
                 if n >= 12:
-                    open(spoke, "w").write("1")
+                    # **`os.O_EXCL` is what makes "arrives once" true.** Read, increment, write
+                    # and the `spoke` test are four unsynchronised filesystem operations, so a
+                    # batch of parallel read-only calls could put several past the threshold at
+                    # once and each would speak: measured 2026-08-28, the note arriving twice in
+                    # 6 of 12 trials — and parallel read-only batching is exactly the shape of run
+                    # this note was written not to harass. An exclusive create is atomic; whoever
+                    # loses the race says nothing.
+                    try:
+                        os.close(os.open(spoke, os.O_CREAT | os.O_EXCL | os.O_WRONLY))
+                    except FileExistsError:
+                        sys.exit(0)
                     print(json.dumps({"hookSpecificOutput": {
                         "hookEventName": "PostToolUse",
                         # **A note, not an order.** This said "Stop digging: … start the wave",
@@ -369,7 +387,7 @@ def main():
                         # which correctly treated it as data and carried on. It states the count
                         # and names what it cannot know.
                         "additionalContext":
-                            "Opsinist, for the record: twelve read-only calls so far and nothing "
+                            f"Opsinist, for the record: {n} read-only calls so far and nothing "
                             "written, dispatched or transitioned. If this run is meant to produce "
                             "something, that pattern is the investigation spiral dispatching.md "
                             "describes, and the way out is to say what is known, start a task, or "

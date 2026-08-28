@@ -803,6 +803,49 @@ RPY
 | Otter | x |  | d |
 ')" -ge 1 ] && ok || bad "a backslash in the header switched §4f off entirely"
 
+# ── three more silencing shapes, adversarial 2026-08-28 ─────────────────────────────────────
+# **(a) A register that documents its own parking idiom disarmed the gate.** A live row whose
+# cell reads a comment opener in backticks has no closer on that line, so the strip broke, the
+# multi-line path fired, and every live row down to the next closer went with it — including the
+# blank-Replaces row this gate exists to catch. An opener inside a code span is text.
+[ "$(_reg '# T
+
+| Tool | Replaces |
+|---|---|
+| parkdoc | park a draft row by wrapping it in `<!--` |
+| ripgrep |  |
+<!-- | someday | x | -->
+')" -ge 1 ] && ok || bad "a live row quoting a comment opener in backticks silenced every live row below it"
+
+# **(b) A bare closer left standing is not a row**, and the walk read it as the end of one.
+[ "$(_reg '# T
+
+| Tool | Replaces |
+|---|---|
+| other | x |
+  -->
+| ripgrep |  |
+')" -ge 1 ] && ok || bad "a stray -->  line was read as the end of the table, hiding every row after it"
+
+# **(c) The stripped remnant of a comment-only line must not resurrect as a boundary either.**
+[ "$(_reg '# T
+
+| Tool | Replaces |
+|---|---|
+<!-- parked -->  -->
+| ripgrep |  |
+')" -ge 1 ] && ok || bad "a comment-only line leaving a stray closer silenced the rows below it"
+
+# **The CR case was claimed "measured 2026-08-27" in four places and asserted in none** — found
+# by a contradiction lens 2026-08-28, which is the same defect the commit that wrote those four
+# comments accuses an earlier one of. `_reg` cannot carry a CR through, so this writes the file
+# directly.
+printf '# T\r\n\r\n| Tool | Replaces |\r\n|---|---|\r\n<!-- | draft | x | -->\r\n| ripgrep |  |\r\n' > _ops/TOOLING.md
+git add -A
+[ "$( ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -c 'what it replaces' )" -ge 1 ] \
+  && ok || bad "a CRLF register read a parked row as the end of the table and hid every live row below"
+git reset -q; git checkout -q -- . 2>/dev/null
+
 # ── a comment hides a LINE, and a fence needs a closer (adversarial, 2026-08-27) ────────────
 # Three ways the register went silent, all measured: an inline `<!-- todo -->` in a live row made
 # that row invisible while GFM still rendered it · a bare `<!--` with no closer anywhere made

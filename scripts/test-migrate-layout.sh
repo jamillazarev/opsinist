@@ -346,8 +346,34 @@ printf '# P\n\n**Operated by:** Opsinist **%s**\n' \
 # A `_ops/scripts` that links out of the tree is now refused BEFORE the write, so the write
 # path's symlink wording is no longer what fires here — the earlier, stronger refusal is. The
 # assertion moved with the behaviour rather than the behaviour being kept for the assertion.
-grep -qE 'OUTSIDE this repository — refusing|is a symlink out of the repository' "$T/sym.txt" \
+grep -qE 'OUTSIDE this repository — refusing|is a symlink to .* OUT of this repository' "$T/sym.txt" \
   && ok || bad "the symlink case did not name why the door cannot be placed"
+
+# ── a symlinked ancestor pointing INSIDE the repository is refused too ──────────────────────
+# **Both earlier guards missed this one.** Containment asks only whether the target leaves the
+# tree; the second-name check looks at the door itself, and behind `_ops/scripts -> scripts_real`
+# the door is an ordinary file with a single name. Measured 2026-08-28: a tracked 45-byte file
+# replaced by 19 KB of door at exit 0, while the printed diagnosis said the link led *out* of the
+# repository and told the reader to move it *in* — where it already was. What makes it refusable
+# is not the direction: git cannot stage a path behind a symlink either way, so no commit here
+# could carry the door, and the bytes overwritten sit at a path nobody pointed this command at.
+IN="$T/inlink"; mkdir -p "$IN/_ops/scripts_real" "$IN/docs"
+printf 'MY OWN FILE, TRACKED
+' > "$IN/_ops/scripts_real/transition.py"
+_kept=$(wc -c < "$IN/_ops/scripts_real/transition.py")
+printf '#!/bin/sh\necho guard\n' > "$IN/_ops/scripts_real/preflight.sh"
+ln -s scripts_real "$IN/_ops/scripts"
+printf 'adapter: claude\nversion: %s\n' \
+  "$(sed -n 's/^version: //p' "$HERE/../skills/advisor/SKILL.md" | head -1)" > "$IN/CLAUDE.md"
+( cd "$IN" && git init -q && git add -A >/dev/null 2>&1
+  git -c user.email=t@t -c user.name=t commit -qm init ) >/dev/null 2>&1
+( cd "$IN" && python3 "$HERE/migrate-layout.py" . --doors-only ) > "$T/inlink.txt" 2>&1
+[ "$(wc -c < "$IN/_ops/scripts_real/transition.py")" = "$_kept" ] \
+  && ok || bad "a tracked file was overwritten through a symlinked ancestor pointing INSIDE the repository"
+grep -q 'inside this repository' "$T/inlink.txt" \
+  && ok || bad "the refusal names the wrong direction — it said the link led out of a repository it points into, and prescribed a move that was already done"
+grep -q 'beyond a symbolic link' "$T/inlink.txt" \
+  && ok || bad "the refusal does not say why direction is irrelevant: git cannot stage behind a symlink either way"
 grep -q 'Read the reason above and pick accordingly' "$T/sym.txt" \
   && bad "the message still offers a menu instead of a remedy" || ok
 grep -q 'NOT carried by this commit' "$T/sym.txt" \
