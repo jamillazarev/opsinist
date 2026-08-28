@@ -248,7 +248,8 @@ Every dispatch appends one line to the task's history.
 | started · ended · duration | the shape of the work |
 | role · **model · effort · fast** | the resolved cascade — the answer to "why did it cost that" |
 | trigger | a person, a schedule, an event, an automation |
-| outcome | `completed` · `failed` · **`interrupted`** · `canceled` |
+| outcome | `completed` · `failed` · **`interrupted`** · `canceled` — how the run ENDED |
+| **verdict** | `pass` · `fail` · `mixed` · `none` — what it CONCLUDED, which is a different question. Two runs answering one thing opposite ways both end `completed`, so a record holding only `outcome` cannot show that they disagreed → `escalating.md` |
 | reason | when it is not `completed` |
 | attempt | the price of not getting it right the first time |
 | commits · checkpoint | where the work landed, and where to resume from |
