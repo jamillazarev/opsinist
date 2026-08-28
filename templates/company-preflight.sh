@@ -402,11 +402,27 @@ done < <(changed -- '_ops/pipelines/*.md' '_ops/process/types/*.md')
 
 # Reads the first word of a named table cell — `| **Verdict** | pass — … |` gives `pass`.
 # **An unfilled cell yields nothing, and the regex is what does it**: `{{pass · fail · …}}`
-# begins with `{`, which `[A-Za-z]` does not match, so the whole pattern fails and the cell reads
-# empty. There WAS a `case … *'{{'*` guard here for one hour on 2026-08-28; a mutation test found
-# it changed no outcome, and reading it again found it actively wrong — on a HALF-filled cell,
-# `| **Verdict** | pass — {{what it concluded}} |`, it blanked a verdict that had genuinely been
-# reached because the explanation beside it was still a placeholder. Both cases are asserted.
+# begins with `{`, which `[A-Za-z]` does not match. **Do not add a `{{` guard here** — it changes
+# no outcome, and it blanks a HALF-filled `pass — {{what it concluded}}` where a verdict genuinely
+# was reached. Both cases are asserted.
+# **One home for the escalation test.** Three literal copies of this pattern shipped in one
+# commit — the attempt gate, the neighbour table and the contradiction gate — and a change to any
+# one of them would have silently disagreed with the other two.
+#
+# **It counts rather than answering yes/no**, because `grep -q` exits on its first match and can
+# SIGPIPE whatever feeds it, which under `set -o pipefail` turns a found phrase into an absent
+# one. That is this project's own machine note, measured three times elsewhere — it is why the
+# form is `-c`, not something this consolidation demonstrated. **A `-q` variant of this helper was
+# put to the suite on 2026-08-28 and all 187 assertions stayed green**, so nothing here reproduces
+# the trap; the counting form is the safe one regardless, and saying which of those two sentences
+# is measurement and which is precaution is the point of writing both.
+escalation_count() {
+  # **`-i` IS what this consolidation broke, measured**: every record writes `**Escalated**:` with
+  # a capital E, all three original call sites carried `-i`, the merged helper did not, and five
+  # assertions went red until it came back. Merging correct call sites is how a flag goes missing.
+  grep -ciE '^[[:space:]]*(\*\*)?(escalated|escalation)(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]' || true
+}
+
 verdict_of() {
   sed -nE "s/^[[:space:]]*\|[[:space:]]*(\\*\\*)?$1(\\*\\*)?[[:space:]]*\|[[:space:]]*([A-Za-z]+).*/\\3/p" \
     | head -1 | tr 'A-Z' 'a-z'
@@ -463,27 +479,28 @@ runtime does not report one. A sentence in History is not a record"
     # applies to; the old glob read every `.md` in the directory, so an ordinary note living there
     # was parsed as a run record. Both measured 2026-08-16 (pass eleven).
     if [ -z "${_sibtab:-}" ]; then
-      _sibtab=$(mktemp) || _sibtab=/tmp/.cpf-sib.$$
-      _cpf_tmp="$_cpf_tmp $_sibtab"
+      # ONE table, five columns: task · file · outcome · verdict · does it name an escalation.
+      # It shipped as two — the attempt counter's pair and the contradiction gate's five — built
+      # side by side in this loop from the same buffer, with `record_task` forked twice over
+      # identical bytes. The comment sitting between them congratulated the loop for not walking
+      # the files twice while it forked three extra processes per kept record, which is the same
+      # cost by another route. A deletion lens found it the day it was written, 2026-08-28.
       _vtab=$(mktemp) || _vtab=/tmp/.cpf-vtab.$$
       _cpf_tmp="$_cpf_tmp $_vtab"
       while IFS= read -r -d '' other; do
         _ob=$( ( staged "$other" 2>/dev/null || cat "$other" 2>/dev/null || true ) )
-        printf '%s\t%s\n' "$(printf '%s' "$_ob" | record_task)" "$other" >> "$_sibtab"
-        # **Built in the SAME pass, deliberately.** §1f's own history has this exact bug: the
-        # neighbour table was once forked per record, O(new × kept), turning a commit into a
-        # two-minute wait — and a hook people wait two minutes for is a hook they pass with
-        # --no-verify. A second walk of the same files would have re-earned that.
         printf '%s\t%s\t%s\t%s\t%s\n' \
           "$(printf '%s' "$_ob" | record_task)" "$other" \
           "$(printf '%s' "$_ob" | verdict_of Outcome)" \
           "$(printf '%s' "$_ob" | verdict_of Verdict)" \
-          "$(printf '%s' "$_ob" | grep -ciE '^[[:space:]]*(\*\*)?(escalated|escalation)(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]' || true)" \
+          "$(printf '%s' "$_ob" | escalation_count)" \
           >> "$_vtab"
       done < <(git ls-files -z -- '_ops/runs/R-*.md')
     fi
-    sib=$(grep -c "^${rtask}$(printf '\t')" "$_sibtab" 2>/dev/null || echo 0)
-    grep -q "^${rtask}$(printf '\t')${rf}$" "$_sibtab" 2>/dev/null || sib=$(( sib + 1 ))
+    # field 1 is the task, so the attempt count reads this table unchanged; the second test
+    # anchors on the TAB after the filename, because the row no longer ends there.
+    sib=$(grep -c "^${rtask}$(printf '\t')" "$_vtab" 2>/dev/null || echo 0)
+    grep -q "^${rtask}$(printf '\t')${rf}$(printf '\t')" "$_vtab" 2>/dev/null || sib=$(( sib + 1 ))
     [ "${sib:-0}" -gt "${att:-0}" ] 2>/dev/null && att=$sib
   fi
   if [ -n "${att:-}" ] && [ "$att" -ge 3 ] 2>/dev/null; then
@@ -494,8 +511,7 @@ runtime does not report one. A sentence in History is not a record"
     # saying *"not a spec problem — the sandbox was flaky"* PASSED, because it contains the
     # substring `spec problem`. A gate satisfied by denying the thing it asks for is worse than an
     # absent one. The shape that measured 5/5 on this corpus prints the literal line to write.
-    ( staged "$rf" || true ) \
-      | hits -iE '^[[:space:]]*(\*\*)?(escalated|escalation)(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]' \
+    [ "$( ( staged "$rf" || true ) | escalation_count )" -gt 0 ] \
       || say_fail "$rf records attempt $att and carries no \`Escalated:\` line — three rounds on \
 one point is a spec problem, not a quality problem. Add ONE line to this record, and its content \
 is the whole point:
@@ -513,8 +529,11 @@ next reader can find the decision without reading the run"
   # reasons: a reviewer's conclusion is what the requester acts on, and a second reviewer can
   # only be compared to the first if the first wrote down what it concluded.
   #
-  # **Only `pass` against `fail` is a clash.** `mixed`, `none`, `unknown` and an empty cell
-  # conflict with nothing — this file's own history says a false refusal on ordinary work costs
+  # **The excused set is one clause, and it is spelled once.** Only `pass` against `fail` clashes
+  # — every other value, and every run that did not complete, is excused. It shipped as four
+  # enumerations in four files, no two alike and none of them complete (one forgot unfinished
+  # runs, one forgot an unfilled cell, one forgot `unknown`); a deletion lens counted them the day
+  # they were written. Four lists to keep in sync is four chances to be wrong about one rule — this file's own history says a false refusal on ordinary work costs
   # more than the miss it closes, because it is how a project learns to reach for --no-verify.
   # **And a disagreement is not itself the failure.** Recording it satisfies the gate; what is
   # refused is a second, opposite verdict landing with nothing anywhere saying anyone noticed.
@@ -527,8 +546,10 @@ next reader can find the decision without reading the run"
       "$_vtab" 2>/dev/null)
     if [ -n "$_clash" ]; then
       _cf=${_clash%%$(printf '\t')*}; _ce=${_clash##*$(printf '\t')}
-      _eme=$( ( staged "$rf" || true ) \
-              | grep -ciE '^[[:space:]]*(\*\*)?(escalated|escalation)(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]' || true)
+      # computed straight from the record rather than read out of _vtab field 5: the table is
+      # built from `staged || cat`, and coupling the refusal to that fallback would make this
+      # gate depend on a path it does not control.
+      _eme=$( ( staged "$rf" || true ) | escalation_count )
       if [ "${_eme:-0}" -eq 0 ] && [ "${_ce:-0}" -eq 0 ]; then
         say_fail "$rf concludes \`$_vme\` on $rtask while \`$_cf\` concluded the opposite, and \
 neither record says anyone noticed. Two runs disagreeing on one question stop the work at the \

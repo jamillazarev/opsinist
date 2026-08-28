@@ -556,9 +556,7 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
 # **An UNFILLED cell must not read as a verdict, and a HALF-filled one must.** The template ships
 # `{{pass · fail · mixed · none}}`, so a record nobody touched has to yield nothing — while
 # `pass — {{what it concluded}}`, where the verdict IS reached and only the sentence beside it is
-# a placeholder, has to yield `pass`. A guard written for the first case on 2026-08-28 broke the
-# second, and a mutation test showed it changed nothing about the first: the regex already
-# refuses `{` where it wants a letter. Both directions are asserted so neither can drift.
+# a placeholder, has to yield `pass`. Both directions are asserted so neither can drift.
 _vrun R-V2 completed '{{pass · fail · mixed · none}}' -
 python3 -c "
 import pathlib
@@ -614,6 +612,27 @@ git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
   && bad "the none-sibling assertion above is vacuous — §1f is not examining that record at all" || ok
 git rm -qf _ops/runs/R-W4.md _ops/runs/R-W3.md >/dev/null 2>&1
+git commit -qm "W3/W4 out" >/dev/null 2>&1
+# **`mixed` is excused deliberately, and a deliberate excusal nothing tests is indistinguishable
+# from an oversight.** A deletion lens found it shipped as a legal value with no code path and no
+# fixture — behaviourally identical to `none`, to `unknown` and to a typo, which by this project's
+# own capability bar is the toothless shape this release is about. It stays a value because a
+# reviewer genuinely concludes it. **On the SIBLING side**, like the two above: the first version
+# of this assertion put `mixed` on the new record, where a separate entry condition already stops
+# it, and the mutant that treats `mixed` as an opposite sailed past.
+_vrun R-W5 completed mixed - T-VERDICT3
+git add -A; git commit -qm "a sibling that concluded mixed" >/dev/null 2>&1
+_vrun R-W6 completed fail - T-VERDICT3
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a run clashed with a sibling whose verdict was \`mixed\` — partly-both is not the opposite of anything"
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/runs/R-W5.md')
+p.write_text(p.read_text().replace('| **Verdict** | mixed —', '| **Verdict** | pass —'))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "the mixed-sibling assertion above is vacuous — §1f is not examining that record at all" || ok
+git rm -qf _ops/runs/R-W5.md _ops/runs/R-W6.md >/dev/null 2>&1
 git commit -qm "W fixtures out" >/dev/null 2>&1
 git rm -qf _ops/runs/R-V1.md _ops/runs/R-V2.md >/dev/null 2>&1
 git commit -qm "verdict fixtures out" >/dev/null 2>&1

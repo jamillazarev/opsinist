@@ -13,11 +13,10 @@ records *how a run ended* has no place to notice that they concluded opposite th
 - **A run record carries a `Verdict` — what it concluded — beside `Outcome`, which is how it
   ended.** `LATER.md` named this gap on 2026-08-21 and deliberately refused to fill it: *"adding the
   field for the gate's sake alone would be the shape this corpus refuses — so it waits for a flow
-  that wants the verdict written for its own reasons."* That flow is review. A reviewer's conclusion
-  is what the requester acts on, and **a second reviewer can only be compared to the first if the
-  first wrote down what it concluded.** Most runs check nothing and write `none`; the word is in the
-  cell, because this file already measured that an affordance explained beside the form and absent
-  from it does not get used — 0 of 5 runs wrote `unknown` when the cell did not say so.
+  that wants the verdict written for its own reasons."* **That flow is review**, and the closed
+  entry carries the argument. Most runs check nothing and write `none`; the word sits in the cell
+  rather than beside it, which is the lesson `templates/RUN-template.md` already paid for on its
+  cache cells — not one run of five wrote the accepted word when the cell did not carry it.
 
 - **§1f of the company guard reads it.** A new record concluding `pass` where a completed sibling on
   the same task concluded `fail`, with neither naming an escalation, is refused at the commit — and
@@ -26,13 +25,13 @@ records *how a run ended* has no place to notice that they concluded opposite th
   gate**; what is refused is the second opposite verdict landing with nothing saying anyone noticed.
   It escalates as *"the question is unstable, and here is what differed between the two askings"* —
   never as *"which run was right"*, because that framing produces a winner rather than a resolution.
-  `mixed`, `none`, an unfilled cell and a run that never finished conflict with nothing: this file's
+  **Only `pass` against `fail` clashes — every other value, and every run that did not complete, is
+  excused**, because this file's
   own history says a false refusal on ordinary work costs more than the miss it closes, since it is
   how a project learns to reach for `--no-verify`.
 
-  *Measured 2026-08-28:* three mutants — the gate disabled, the sibling comparison made greedy, and
-  `none` treated as an opposite — each fail **5** assertions of a suite that is **187 green** on the
-  honest twin.
+  *Measured 2026-08-28, dated in `escalating.md` where the claim is made:* four mutants of the
+  guard each fail assertions the honest twin passes, on a suite that is **189 green**.
 
 - **Three of those assertions were vacuous when first written, and each was caught by a mutant
   rather than by reading.** One restored a fixture with `git checkout -- <file>`, which restores
@@ -44,13 +43,21 @@ records *how a run ended* has no place to notice that they concluded opposite th
   reached because the sentence beside it was still a placeholder. All three now carry a paired
   assertion that fails if the fixture stops being examined.
 
-- **The capability bar's mutation clause gained the thing that made three of the above vacuous**
-  (`self-maintenance.md` §2). **A mutation asserts that it changed the file**, because a wrong
-  anchor makes the edit a no-op and the resulting green reads as *the mutant survived* — a
-  conclusion about the assertion when the truth is about the patch. With its two neighbours of the
-  same shape: `git checkout -- <file>` restores from the **index**, and a reused record id means a
-  gate scoped to *added* files never looks. A *must not fire* assertion is paired with a *must
-  fire* twin on the same fixture, and the pair is what proves the subject was examined.
+- **The capability bar took all three in, so the next form does not re-earn them**
+  (`self-maintenance.md` §2), together with the one that follows from them: **a mutation asserts
+  that it changed the file**, because a wrong anchor makes the edit a no-op and the green that
+  follows reads as *the mutant survived* — a conclusion about the assertion when the truth is
+  about the patch.
+
+- **The deletion lens read it before the tag and found the guard paying twice for one walk.** The
+  neighbour table shipped as two tables built side by side from the same buffer, with `record_task`
+  forked twice over identical bytes — while the comment between them congratulated the loop for not
+  walking the files twice. One table now, one fork, and the escalation pattern that had been copied
+  into three call sites has one home. **Consolidating three correct call sites produced one wrong
+  helper**: the merged version lost `-i`, every record writes `**Escalated**:` with a capital E,
+  and five assertions went red until it came back. It also found `mixed` shipped as a legal value
+  with no code path and no fixture, and the excused set spelled out four times in four files, no
+  two alike and none complete. One clause now, in one sentence, everywhere it appears.
 
 - **Four external review harnesses read, one mechanic kept as a candidate, one declined outright**
   → `catalogue.md`. `qa-swarm`'s convergence — two independent reviewers landing on the same file

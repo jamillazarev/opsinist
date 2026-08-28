@@ -82,7 +82,7 @@ flowchart TB
   Q[one question] --> R1["run 1 · record says<br/>**Outcome** completed<br/>**Verdict** pass"]
   Q --> R2["run 2 · record says<br/>**Outcome** completed<br/>**Verdict** fail"]
   R1 & R2 --> G{"the guard compares<br/>VERDICTS, not outcomes —<br/>both ended the same way"}
-  G -->|"same verdict · none · mixed ·<br/>a run that never finished"| OK([ordinary work, nothing to see])
+  G -->|"anything but pass-against-fail,<br/>or a run that did not complete"| OK([ordinary work, nothing to see])
   G -->|"opposite, and a record<br/>names the escalation"| OK
   G -->|"opposite, and nothing<br/>says anyone noticed"| X["**refused at the commit**<br/>at the SECOND disagreement,<br/>not the third"]
   X --> E["it escalates as **the question<br/>is unstable** — never as<br/>*which run was right*"]
@@ -99,18 +99,19 @@ was a disagreement at all — which is the same failure as a board that quietly 
 known good state → `recovering.md`.
 
 **This is a form, since 2026-08-28.** A run record carries a `Verdict` — what the run *concluded*,
-which is not what `Outcome` says (`Outcome` is how it *ended*, and two runs answering one question
-opposite ways both end `completed`, which is why a ledger holding only `Outcome` was blind to the
-whole state). §1f of the company guard reads it: a new record concluding `pass` where a completed
+which is not what `Outcome` says — the diagram above draws the difference. §1f of the company
+guard reads it: a new record concluding `pass` where a completed
 sibling on the same task concluded `fail` — with neither naming an escalation — is refused at the
 commit, and the refusal prints the line to write. **Recording the disagreement satisfies it**; what
 is refused is the second, opposite verdict landing with nothing anywhere saying anyone noticed.
-`mixed`, `none` and an unfilled cell conflict with nothing, because a false refusal on ordinary
-work is how a project learns to reach for `--no-verify`.
+**Only `pass` against `fail` clashes — every other value, and every run that did not complete, is
+excused**, because a false refusal on ordinary work is how a project learns to reach for
+`--no-verify`.
 
-*Measured 2026-08-28:* three mutants — the gate disabled, the comparison made greedy, and `none`
-treated as an opposite — each fail 5 assertions of the guard's suite, which is 187 green on the
-honest twin.
+*Measured 2026-08-28:* four mutants of the guard, each failing assertions the honest twin passes —
+the gate disabled (5) · the sibling comparison made greedy (5) · anything-but-empty treated as an
+opposite, which is `none` and `mixed` (2) · the escalation test's `-i` dropped (5). The honest twin
+is 189 green.
 
 ---
 
