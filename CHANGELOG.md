@@ -65,13 +65,22 @@ records *how a run ended* has no place to notice that they concluded opposite th
   table was rebuilt once per changed record — **four builds for four records, 16s against 150 kept
   ones** — reintroducing, in the commit titled *one walk paid for twice*, the exact cost a comment
   in the same file says was removed in 2026-08-16. **No assertion could see it**; the check is
-  structural now, requiring the guard's variable to be the one its body assigns.
+  structural now, requiring the guard's variable to be the one its body assigns. Re-measured after
+  the repair: **one build, 5s at 150 kept records and 4 new ones.** The older three-attempt gate,
+  which now reads the same table, was re-probed and still refuses at three and passes at two.
 
   **House style switched the gate off.** This corpus writes every enum in backticks, including in
   the sentences defining this one — and a record following that style wrote a backticked verdict
   that §1f read as nothing. Bold did the same. Every fixture in the suite wrote the cell the one
   bare way that worked, so nothing caught it. **A false refusal teaches `--no-verify`; a false
   silence teaches nothing at all.**
+
+  **The repair for that then refused the reader who complied.** Someone who pastes the printed
+  line and types their answer *after* the angle brackets is still carrying the placeholder, and
+  got back the message asking for the line they had just written — *unfollowable in one
+  direction*, which is the failure the attempt gate beside it was rebuilt to stop, reproduced by
+  its own fix within the hour. The two mistakes have two messages now, and the second one names
+  the bracketed text and says to replace it rather than type around it.
 
   **And the refusal was satisfied by pasting the refusal.** The line it prints ends in a
   placeholder, and pasting the whole thing unedited passed — the shape §1f's own attempt gate

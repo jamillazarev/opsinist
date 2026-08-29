@@ -425,12 +425,19 @@ done < <(changed -- '_ops/pipelines/*.md' '_ops/process/types/*.md')
 # does not count is the unedited placeholder itself, which is defined once, printed by the
 # refusal, and excluded here.
 ESC_PLACEHOLDER='<what differed between the two askings: machine, version, shell, working tree, order>'
+# Emits the escalation lines themselves; `escalation_count` is this filtered and counted. Two
+# callers need the difference: a record with NO such line and a record whose line is still the
+# unedited placeholder are different mistakes, and telling a reader who wrote one that they wrote
+# the other is the failure this file names eleven lines below — *unfollowable in one direction*.
+escalation_lines() {
+  grep -iE '^[[:space:]]*(\*\*)?(escalated|escalation)(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]' || true
+}
+
 escalation_count() {
   # **`-i` IS what this consolidation broke, measured**: every record writes `**Escalated**:` with
   # a capital E, all three original call sites carried `-i`, the merged helper did not, and five
   # assertions went red until it came back. Merging correct call sites is how a flag goes missing.
-  grep -iE '^[[:space:]]*(\*\*)?(escalated|escalation)(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]' \
-    | grep -cvF "$ESC_PLACEHOLDER" || true
+  escalation_lines | grep -cvF "$ESC_PLACEHOLDER" || true
 }
 
 verdict_of() {
@@ -574,7 +581,17 @@ next reader can find the decision without reading the run"
       # built from `staged || cat`, and coupling the refusal to that fallback would make this
       # gate depend on a path it does not control.
       _eme=$( ( staged "$rf" || true ) | escalation_count )
-      if [ "${_eme:-0}" -eq 0 ] && [ "${_ce:-0}" -eq 0 ]; then
+      # **A line that is still the placeholder is a different mistake from no line at all.**
+      # Measured 2026-08-29: a reader who pasted the printed line and typed their answer AFTER the
+      # angle brackets was refused with the message that asks for the line they had just written.
+      _eraw=$( ( staged "$rf" || true ) | escalation_lines | grep -c . || true )
+      if [ "${_eme:-0}" -eq 0 ] && [ "${_eraw:-0}" -gt 0 ] && [ "${_ce:-0}" -eq 0 ]; then
+        say_fail "$rf has an \`Escalated:\` line that still carries the printed placeholder — \
+\`$ESC_PLACEHOLDER\` — so nothing in it says what actually differed. Replace that bracketed text \
+(do not type around it): the machine, the version, the shell, the working tree, or the order the \
+two runs ran in. Every one of those five has caught something in this project's own history, and \
+none of them is visible from inside a single run."
+      elif [ "${_eme:-0}" -eq 0 ] && [ "${_ce:-0}" -eq 0 ]; then
         say_fail "$rf concludes \`$_vme\` on $rtask while \`$_cf\` concluded the opposite, and \
 neither record says anyone noticed. Two runs disagreeing on one question stop the work at the \
 SECOND ANSWER, not the third — this is the first time the two have disagreed, and once is \

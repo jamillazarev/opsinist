@@ -701,6 +701,17 @@ printf '\n**Escalated**: the question is unstable — %s\n' "$_pl" >> _ops/runs/
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
   && bad "the refusal's own line, pasted with the placeholder untouched, satisfied the refusal" || ok
+# **and the reader is told WHICH mistake they made.** Refusing a pasted placeholder with the
+# message that asks for the line they just wrote is unfollowable in one direction — the exact
+# failure this guard's attempt gate was rebuilt to stop. Measured 2026-08-29 on a reader who typed
+# their answer AFTER the brackets instead of into them.
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'still carries the printed placeholder' \
+  && ok || bad "a record whose escalation line is still the placeholder gets the message for a record that has no line at all"
+_vrun R-P2 completed pass - T-VERDICT5
+printf '\n**Escalated**: the question is unstable — %s and the shell differed\n' "$_pl" >> _ops/runs/R-P2.md
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'still carries the printed placeholder' \
+  && ok || bad "typing an answer AFTER the placeholder instead of into it gets the wrong diagnosis"
 _vrun R-P2 completed pass - T-VERDICT5
 printf '\n**Escalated**: the question is unstable — the two runs read different working trees\n' >> _ops/runs/R-P2.md
 git add -A
