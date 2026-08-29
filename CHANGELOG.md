@@ -2,7 +2,7 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.14 — unreleased
+## 0.2.14 — 2026-08-29
 
 **A rule this corpus had written in file after file and enforced in none is now a form.** `escalating.md`
 stops work at the *second* disagreement between two runs on one question — the bound on
