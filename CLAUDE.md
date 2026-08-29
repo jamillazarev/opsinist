@@ -34,10 +34,28 @@ this file exists to stop anyone re-deriving per session.
    — no `v`, an em dash. The last two releases used `vX.Y.Z: <headline>` and broke a run of
    fifteen** (spotted 2026-08-22 on the release list, where the odd ones stand out at a glance) — the title already carries
    version and name, and a repeated heading is the first thing every reader scrolls past:
-   `python3 -c "…"` strips `## X.Y.Z — DATE` to `*DATE*`, then
-   `gh release create vX --notes-file …`.
-6. **Site — BOTH generators.** `cd ~/Dev/ai`, then this repo's own (`scripts/generate-opsinist.py
-   ~/Dev/opsinist`) **and the sibling's** (`scripts/generate.py <its repo>`). This step named only
+   `python3 -c "…"` strips `## X.Y.Z — DATE` to `*DATE*`, then `gh release create` with
+   `--notes-file`.
+   **And a correction to a FROZEN entry re-publishes that release in the same breath.** Release
+   notes are a snapshot taken once; a marked correction reaches `CHANGELOG.md` and the site and
+   never the page most people read, so the file admits an error the release goes on repeating.
+   Measured 2026-08-29, after the owner spotted two correction blocks on the site against one on
+   GitHub: **eight releases across the two repositories had drifted this way**, every missing
+   block dated after its own tag. `bash scripts/check-releases.sh` compares every published
+   release against its entry and prints the one command each gap needs (`--emit <dir>` writes the
+   files); it is a report, not a gate, because it needs the network and preflight runs offline.
+   Its first draft flagged 23 of 35 — all but three by a single blank line — so both sides are
+   normalised before comparison: **a check that cries wolf is a check nobody reads.**
+6. **Site — BOTH generators, then BUILD IT.** `cd ~/Dev/ai`, then this repo's own
+   (`scripts/generate-opsinist.py ~/Dev/opsinist`) **and the sibling's**
+   (`scripts/generate.py <its repo>`) — **and then `npm run build`, which must exit 0 before the
+   commit.** This step regenerated and pushed without ever building for as long as it has
+   existed, and a failed production build is invisible from here: Vercel keeps serving the last
+   good deployment, so the site looks merely *stale* rather than broken. It has happened twice —
+   `aec3c0d`, whose fix sat on one machine for days, and `cc3b9c0` on 2026-08-29, where **a
+   changelog sentence mentioning an unfilled `{{…}}` template cell killed the build**: VitePress
+   compiles every page as a Vue template, so `{{ }}` is an expression *even inside backticks*.
+   Both generators escape it now (`vue_safe`), and the build is the check that the escape held. This step named only
    the first for as long as it has existed, so the sibling's pages went stale by two releases —
    found 2026-08-20, its changelog page still showing a date corrected before that tag was cut,
    i.e. the site describing a version that shipped under a different one. A release touches one
