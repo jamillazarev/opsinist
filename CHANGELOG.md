@@ -92,6 +92,30 @@ records *how a run ended* has no place to notice that they concluded opposite th
   unrelated assertion lands, so quoting them is a claim that rots by construction** — the release
   states which mutants and what the twin totals, and nothing finer.
 
+- **The adversarial lens found the one rigid reader in a section that is loose everywhere else.**
+  Every other field check in §1f is a substring test; `record_task` was widened on 2026-08-21 with
+  the note that *the rigid reader in a loose section is the reader that silently counts zero*; and
+  `verdict_of`, written last week, read a table row and nothing else. **A record declaring
+  `**Verdict**: pass` as a line satisfied every other check in the section, was refused by
+  nothing, and was invisible to the gate** — for `Outcome` as well. Both shapes are read now, and
+  fenced blocks are skipped by both, because a record quoting this template for reference was
+  otherwise read as concluding whatever the example says.
+
+  **Three more, all silent.** A record declaring `Verdict` twice was read by its FIRST row, so
+  `none` above `pass` hid a real contradiction while the reverse order was caught — one verdict
+  per record now, and a second is a defect in the record. A value that is not one of the four —
+  `passed`, or `failed`, which is a legal *Outcome* two rows above the same cell — took the
+  silent-excuse path; it is refused with the four values named. And an empty `ESC_PLACEHOLDER`
+  would have made every line match the exclusion, refusing honest work with a message about a
+  placeholder it does not carry.
+
+  **And a false refusal, which is the costlier direction.** `T-A.1` and `T-A.2` both read as
+  `T-A`, so two records on genuinely different tasks were refused as one contradiction — **naming
+  a task id present in neither file**, which is this section's own condemned failure mode arriving
+  through the id reader rather than the matcher. An id that does not end where the guard stops
+  reading it is now skipped with a warning rather than compared against the wrong task. Measured
+  at 300 kept records: one table build, 7.6s per commit.
+
 - **Four external review harnesses read, one mechanic kept as a candidate, one declined outright**
   → `catalogue.md`. `qa-swarm`'s convergence — two independent reviewers landing on the same file
   and line is evidence, not a duplicate — is named in `LATER.md` with its own bar, because lens

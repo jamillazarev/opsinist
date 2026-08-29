@@ -738,6 +738,61 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
   && ok || bad "records written before the Verdict field existed are refused — the entry promises they are not"
 git rm -qf _ops/runs/R-C1.md _ops/runs/R-C2.md >/dev/null 2>&1
 git commit -qm "C fixtures out" >/dev/null 2>&1
+# ── four evasions and one false refusal, adversarial 2026-08-29 ─────────────────────────────
+# **A record written in the LINE form satisfied every other check in §1f and was invisible to
+# this one.** Every other field test in that section is `hits -iF`; `record_task` was widened for
+# exactly this on 2026-08-21 with the note that *the rigid reader in a loose section is the reader
+# that silently counts zero*; `verdict_of` was written last week and was not widened.
+_lrun(){ { printf '# %s\n\n**Task**: %s\n**Outcome**: %s\n**Verdict**: %s — q\n\n' "$1" "$4" "$2" "$3"
+  printf '| **Attempt** | 1 |\n| **Model that answered** | m |\n\n'
+  printf '| `input` | `output` | `cache_read` | `cache_write` |\n|---|---|---|---|\n| 1 | 1 | unknown | unknown |\n'
+  } > "_ops/runs/$1.md"; git add -A; }
+_vrun R-E1 completed fail - T-EVADE
+git add -A; git commit -qm "a sibling to contradict" >/dev/null 2>&1
+_lrun R-E2 completed pass T-EVADE
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a record declaring Task/Outcome/Verdict as LINES satisfied every other check and was invisible to this one" || ok
+# **One verdict per record.** Two rows and only the first is read, so which one the record
+# concluded is not decidable — measured, `none` above `pass` hid a real contradiction while the
+# reverse order was refused, which is the direction that matters.
+{ printf '# R-E3\n\n| | |\n|---|---|\n| **Task** | T-EVADE |\n| **Outcome** | completed |\n'
+  printf '| **Verdict** | none — q |\n| **Verdict** | pass — q |\n| **Attempt** | 1 |\n'
+  printf '| **Model that answered** | m |\n\n| `input` | `output` | `cache_read` | `cache_write` |\n|---|---|---|---|\n| 1 | 1 | unknown | unknown |\n'
+} > _ops/runs/R-E3.md; rm -f _ops/runs/R-E2.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a record declaring Verdict twice passed — only the first is read, so the record does not say what it concluded" || ok
+# **A word that is not one of the four is refused, not excused.** `failed` is a legal *Outcome*
+# two rows above the Verdict cell, so the confusion is the record's own invitation.
+rm -f _ops/runs/R-E3.md; _vrun R-E4 completed passed - T-EVADE
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "\`passed\` was read as no verdict and compared with nothing, silently" || ok
+git rm -qf _ops/runs/R-E1.md >/dev/null 2>&1; rm -f _ops/runs/R-E4.md; git add -A
+git commit -qm "E fixtures out" >/dev/null 2>&1
+# **And the false refusal the same reader caused.** `record_task` matches `T-[0-9A-Za-z-]+`, so
+# `T-A.1` and `T-A.2` both read `T-A`: two records on genuinely different tasks were refused as
+# one contradiction, naming a task id present in neither file — this file's own condemned failure
+# mode, *a number that appears nowhere*, arriving through the id reader.
+_vrun R-F1 completed pass - T-A.1
+git add -A; git commit -qm "a punctuated id" >/dev/null 2>&1
+_vrun R-F2 completed fail - T-A.2
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "two records on DIFFERENT tasks whose ids share a prefix before punctuation were refused as a contradiction"
+git rm -qf _ops/runs/R-F1.md _ops/runs/R-F2.md >/dev/null 2>&1
+git commit -qm "F fixtures out" >/dev/null 2>&1
+# **A quoted example is not a declaration.** A record showing this template for reference inside a
+# fence was read as concluding whatever the example says — and once one-verdict-per-record landed,
+# a record with a real row AND a quoted example was refused for declaring it twice. The check
+# written to close an evasion opened a false refusal within the hour; in this file's accounting
+# that is the more expensive direction, so both readers skip fences.
+{ printf '# R-G1\n\n| | |\n|---|---|\n| **Task** | T-FENCE |\n| **Outcome** | completed |\n'
+  printf '| **Verdict** | none — q |\n| **Attempt** | 1 |\n| **Model that answered** | m |\n\n'
+  printf 'For reference the template shows:\n\n```\n| **Verdict** | pass — the question |\n```\n\n'
+  printf '| `input` | `output` | `cache_read` | `cache_write` |\n|---|---|---|---|\n| 1 | 1 | unknown | unknown |\n'
+} > _ops/runs/R-G1.md
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a record quoting this template inside a fence was read as declaring a second verdict"
+git rm -qf _ops/runs/R-G1.md >/dev/null 2>&1 2>/dev/null; rm -f _ops/runs/R-G1.md; git add -A
 git rm -qf _ops/runs/R-V1.md _ops/runs/R-V2.md >/dev/null 2>&1
 git commit -qm "verdict fixtures out" >/dev/null 2>&1
 

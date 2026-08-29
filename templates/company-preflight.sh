@@ -434,11 +434,25 @@ escalation_lines() {
 }
 
 escalation_count() {
+  # **An empty `$ESC_PLACEHOLDER` would make `grep -vF ""` match every line**, so every record
+  # would read as having no escalation and honest work would be refused with the message about a
+  # placeholder it does not carry. Unreachable from any input — the assignment is a literal — but
+  # undefended until an adversarial lens constructed the state, 2026-08-29, and the suite already
+  # defends the analogous case for the memo variable.
+  [ -n "${ESC_PLACEHOLDER:-}" ] || { escalation_lines | grep -c . || true; return; }
   # **`-i` IS what this consolidation broke, measured**: every record writes `**Escalated**:` with
   # a capital E, all three original call sites carried `-i`, the merged helper did not, and five
   # assertions went red until it came back. Merging correct call sites is how a flag goes missing.
   escalation_lines | grep -cvF "$ESC_PLACEHOLDER" || true
 }
+
+# **A fenced block is an example, not a declaration.** Both readers below skip fences, and
+# the same idiom is used by §1g. Without it a record quoting this template for reference was
+# read as concluding whatever the example says — and once one-verdict-per-record landed, a
+# record with a real row AND a quoted example was refused for declaring it twice. Measured
+# 2026-08-29: the check written to close an evasion opened a false refusal within the hour,
+# which in this file's own accounting is the more expensive of the two.
+unfenced() { awk '/^[[:space:]]*(```|~~~)/{f=!f; next} !f'; }
 
 verdict_of() {
   # **Skip backticks and bold before the value.** The corpus writes every enum in backticks —
@@ -448,8 +462,26 @@ verdict_of() {
   # side was backticked or bolded. A false refusal teaches --no-verify; a false silence teaches
   # nothing at all, which is worse. `{` is still not skipped, so an unfilled `{{…}}` still reads
   # empty.
-  sed -nE "s/^[[:space:]]*\|[[:space:]]*(\\*\\*)?$1(\\*\\*)?[[:space:]]*\|[[:space:]]*[\`*]*([A-Za-z]+).*/\\3/p" \
+  # **BOTH shapes, because everything else in §1f reads both.** Every other field check here is
+  # `hits -iF`, and `record_task` was widened on 2026-08-21 for precisely this — the reader that
+  # is rigid in a loose section is the reader that silently counts zero. `verdict_of` was written
+  # last week and was not: a record writing `**Verdict**: pass` as a LINE satisfied every other
+  # check in this section, was refused by nothing, and was invisible to the contradiction gate.
+  # Measured 2026-08-29 by an adversarial lens, for `Outcome` as well as `Verdict`.
+  unfenced | sed -nE "s/^[[:space:]]*\|[[:space:]]*(\\*\\*)?$1(\\*\\*)?[[:space:]]*\|[[:space:]]*[\`*]*([A-Za-z]+).*/\\3/p
+           s/^[[:space:]]*[-*]?[[:space:]]*(\\*\\*)?$1(\\*\\*)?[[:space:]]*:[[:space:]]*[\`*]*([A-Za-z]+).*/\\3/pI" \
     | head -1 | tr 'A-Z' 'a-z'
+}
+
+# Every declaration of a named field, one per line — `verdict_of` is this taking the first.
+# A record declaring the same field twice is the one case where "the first" is a guess: measured
+# 2026-08-29, `| **Verdict** | none |` above `| **Verdict** | pass |` read `none` and hid a real
+# contradiction, while the reverse order was refused. So the count is checked rather than the
+# ambiguity resolved — one verdict per record, and a second one is a defect in the record.
+verdict_count() {
+  unfenced | sed -nE "s/^[[:space:]]*\|[[:space:]]*(\\*\\*)?$1(\\*\\*)?[[:space:]]*\|[[:space:]]*[\`*]*([A-Za-z]+).*/\\3/p
+           s/^[[:space:]]*[-*]?[[:space:]]*(\\*\\*)?$1(\\*\\*)?[[:space:]]*:[[:space:]]*[\`*]*([A-Za-z]+).*/\\3/pI" \
+    | grep -c . || true
 }
 
 # 1f · a run record carries its numbers, or it is a sentence wearing the word "record". The
@@ -495,6 +527,21 @@ runtime does not report one. A sentence in History is not a record"
   # learns to reach for --no-verify, which is the one outcome this file's header says it exists
   # to prevent — so the strictness costs more than the miss it was closing.
   rtask=$( ( staged "$rf" || true ) | record_task )
+  # **An id read from a record that does not END there was truncated, and comparing it is worse
+  # than skipping it.** `record_task` matches `T-[0-9A-Za-z-]+`, so `T-A.1` and `T-A.2` both read
+  # as `T-A`: two records on genuinely different tasks were refused as one contradiction, with a
+  # message naming a task id present in neither file — measured 2026-08-29, and the same
+  # truncation drove the three-attempt gate. That is the failure this section's own comment calls
+  # *"a number that appears nowhere in the file"*, arriving through the id READER rather than the
+  # matcher. `new-id.py` never mints punctuation, but an imported backlog's key is whatever the
+  # source used. A miss costs a missed contradiction; a false refusal costs `--no-verify`.
+  if [ -n "${rtask:-}" ] \
+     && [ "$( ( staged "$rf" || true ) | grep -cE "${rtask}[0-9A-Za-z._/]" || true )" -gt 0 ]; then
+    say_warn "$rf declares a task id that does not end where this guard stops reading it \
+(\`$rtask\` …) — §1f's neighbour count and the contradiction gate skip this record rather than \
+compare it against the wrong task. Ids minted by \`new-id.py\` are never affected"
+    rtask=""
+  fi
   if [ -n "${rtask:-}" ]; then
     # The neighbour table is built ONCE, on first use, not per record: the previous form forked
     # `git show` for every kept record for every new one — O(new × kept) — which on a project with
@@ -570,6 +617,21 @@ next reader can find the decision without reading the run"
   # refused is a second, opposite verdict landing with nothing anywhere saying anyone noticed.
   _vme=$( ( staged "$rf" || true ) | verdict_of Verdict)
   _ome=$( ( staged "$rf" || true ) | verdict_of Outcome)
+  # **One verdict per record**, or "the first one" is a guess that hid a contradiction (above).
+  [ "$( ( staged "$rf" || true ) | verdict_count Verdict )" -le 1 ] \
+    || say_fail "$rf declares \`Verdict\` more than once, and only the first is read — so which \
+one this record actually concluded is not decidable from the file. Keep one, in the run's table."
+  # **A word that is not one of the four is refused, not excused.** `failed` and `passed` came
+  # back whole and matched neither `pass` nor `fail`, so they took the silent-excuse path — and
+  # `failed` is a legal *Outcome* value two rows above the Verdict cell, which is exactly the
+  # confusion a run record invites. Measured 2026-08-29. An ABSENT verdict stays legal: that is
+  # every record written before this field existed.
+  case "${_vme:-}" in
+    ""|pass|fail|mixed|none) ;;
+    *) say_fail "$rf gives \`$_vme\` as its \`Verdict\`, which is not one of \`pass\` · \
+\`fail\` · \`mixed\` · \`none\`. Anything else is read as no verdict at all and compared with \
+nothing — silently. If you meant how the run ENDED, that is \`Outcome\`, two rows up.";;
+  esac
   if [ -n "${rtask:-}" ] && [ "${_ome:-}" = "completed" ] \
      && { [ "${_vme:-}" = "pass" ] || [ "${_vme:-}" = "fail" ]; }; then
     _clash=$(awk -F'\t' -v t="$rtask" -v me="$rf" -v v="$_vme" \
