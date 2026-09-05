@@ -2,7 +2,7 @@
   "name": "opsinist",
   "displayName": "Opsinist",
   "description": "An operations department for AI coding agents, in files \u2014 roles, work, cost, evidence and escalation out of one git repository.",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "author": {
     "name": "Jamil Lazarev"
   },

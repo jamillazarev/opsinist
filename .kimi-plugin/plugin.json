@@ -1,6 +1,6 @@
 {
   "name": "opsinist",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "Build and run a team of AI agents out of one git repository \u2014 every entity is a file, and the advisor stays your console for status, cost, recovery and shipping.",
   "license": "Apache-2.0",
   "homepage": "https://github.com/jamillazarev/opsinist",

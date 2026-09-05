@@ -1,6 +1,6 @@
 {
   "name": "opsinist",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "Opsinist skills and runtime bootstrap for coding agents",
   "type": "module",
   "main": ".opencode/plugins/opsinist.js",

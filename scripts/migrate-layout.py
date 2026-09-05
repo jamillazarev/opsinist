@@ -24,9 +24,23 @@ from pathlib import Path
 # ship there (the preflight) is claimed, below.
 ENTITY_DIRS = [
     "tasks", "specs", "roles", "teams", "panels", "pipelines", "requests", "threads",
-    "releases", "milestones", "automations", "resources", "skills",
+    "releases", "milestones", "automations", "resources",
     "runbooks", "research", "audience", "design-system", "brand", "process",
 ]
+
+# `skills/` is claimed CONDITIONALLY, for the same reason `scripts/` is not claimed at all: at a
+# project root the name is not ours by right. Reported 2026-09-05 from a live migration where
+# `skills/` held one README pointing at an unrelated repository — someone else's entity, moved
+# silently into `_ops/` and put back by hand. `docs/` already takes only the names it knows and
+# prints what it left; this is that same care, arrived at three directories late.
+# The test is the shape a pool actually has: a subdirectory carrying a `SKILL.md`.
+def looks_like_skill_pool(d):
+    if not d.is_dir():
+        return False
+    try:
+        return any((sub / "SKILL.md").is_file() for sub in d.iterdir() if sub.is_dir())
+    except OSError:
+        return False
 
 # docs/ members the machinery owns. Anything else under docs/ stays put.
 DOCS_FILES = [
@@ -506,6 +520,8 @@ def main():
 
     moves = []  # (src_rel, dst_rel)
 
+    left_alone = []
+
     def claim(src_rel, dst_rel):
         if (root / src_rel).exists():
             moves.append((src_rel, dst_rel))
@@ -513,6 +529,13 @@ def main():
     claim("config.md", "_ops/config.md")
     for d in ENTITY_DIRS:
         claim(d, f"_ops/{d}")
+    _sk = root / "skills"
+    if looks_like_skill_pool(_sk):
+        claim("skills", "_ops/skills")
+    elif _sk.is_dir():
+        left_alone.append(
+            "skills/ — nothing under it carries a SKILL.md, so this does not look like the "
+            "machinery's pool. Left where it is; move it yourself if it is ours")
     claim("cohorts", "_ops/panels")
     for f in DOCS_FILES:
         claim(f"docs/{f}", f"_ops/{RENAMES.get(f, f)}")
@@ -580,9 +603,18 @@ def main():
             sh(root, "git", "add", ".gitignore")
             print("  .gitignore  →  entries follow their files")
 
-    leftovers = sorted(p.name for p in (root / "docs").iterdir()) if (root / "docs").is_dir() else []
+    # **What this run is about to move is not left behind, and a dry run must not say it is.**
+    # `leftovers` read the directory from disk; under `--dry-run` nothing has moved yet, so every
+    # file the preview had just promised to move was printed a second time as staying put. The
+    # behaviour was right and only the preview lied — in the one place a preview exists for.
+    # Reported 2026-09-05. Named it `--dry-run` promises: *show what it would do before it does it*.
+    _claimed = {s for s, _ in moves}
+    leftovers = sorted(p.name for p in (root / "docs").iterdir()
+                       if f"docs/{p.name}" not in _claimed) if (root / "docs").is_dir() else []
     if leftovers:
         print(f"  left in docs/ as possibly the craft's own: {', '.join(leftovers)}")
+    for line in left_alone:
+        print(f"  left alone: {line}")
 
     for s, d in conflicts:
         print(f"  CONFLICT: {s} not moved — {d} already exists; merge by hand")

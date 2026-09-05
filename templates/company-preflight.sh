@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# guard-version: 0.2.14   <!-- stamped from the skill at ship time; read by the check below -->
+# guard-version: 0.2.15   <!-- stamped from the skill at ship time; read by the check below -->
 # Docs guard for a company the advisor built — install it into the company's own repo, not ours.
 #
 #   cp templates/company-preflight.sh <repo>/_ops/scripts/preflight.sh
@@ -1382,7 +1382,21 @@ done < <(git ls-files -z -- ':(glob)**/SKILL.md' 'SKILL.md')
 roles_dir=""
 for rd in _ops/roles roles; do [ -d "$rd" ] && { roles_dir="$rd"; break; }; done
 if [ -n "$roles_dir" ]; then
-  advisors=$(grep -rlE '^[[:space:]]*type:[[:space:]]*advisor[[:space:]]*$' "$roles_dir" 2>/dev/null | sort)
+  # **BOTH forms, because the template writes only one of them and it is not the YAML.**
+  # `templates/ROLE-template.md` produces `**Type**: advisor · **Grade**: senior` — it contains no
+  # `type:` line at all — so a role written from the shipped template was invisible to this check
+  # and to §8 below. Measured 2026-09-05 on a live migration: two declared advisors, one found;
+  # nineteen skills, zero counted. **This pair has been repaired once before** — the comment above
+  # records fixing the DIRECTORY in August while the format mismatch survived, so the gate went on
+  # reporting green about a file it never read. A guard that is green because it looked at nothing
+  # is worse than an absent one: it issues a report on a check that did not happen.
+  #
+  # The prose form allows backticks and bold around the value, as `verdict_of` learned to; the
+  # UNFILLED template placeholder `{{worker · expert · … · advisor}}` must not match, and does not,
+  # because `advisor` is not what follows the colon there.
+  advisors=$( { grep -rlE '^[[:space:]]*type:[[:space:]]*advisor[[:space:]]*$' "$roles_dir" 2>/dev/null
+                grep -rlE '^[[:space:]]*(\*\*)?[Tt]ype(\*\*)?[[:space:]]*:[[:space:]]*[\`*]*advisor([^A-Za-z]|$)' "$roles_dir" 2>/dev/null
+              } | sort -u)
   n=$(printf '%s' "$advisors" | grep -c . || true)
   if [ "${n:-0}" -gt 1 ]; then
     say_fail "there are $n advisors — exactly one holds the loop. Found: $(echo $advisors | tr '\n' ' ')"
@@ -1408,8 +1422,25 @@ fi
 if [ -n "$roles_dir" ]; then
   for r in "$roles_dir"/*.md; do
     [ -f "$r" ] || continue
-    n=$(sed -n 's/^[[:space:]]*-[[:space:]]*//p' "$r" | grep -c . || true)
-    skills=$(awk '/^skills:/{f=1;next}/^[a-z_]+:/{f=0}f&&/^[[:space:]]*-/{c++}END{print c+0}' "$r")
+    # **The table the template writes, and the YAML list a legacy file may carry.** The old
+    # counter read only the second, so a template-written role with nineteen skills counted zero
+    # and could never reach the threshold. On the YAML form it counted 20 of 19 — the frontmatter's
+    # closing `---` matched its own list-item pattern, which is the tell that neither path had been
+    # measured. Both fixed and both asserted, 2026-09-05.
+    # A header row, a separator row and a row still carrying `{{…}}` are not skills.
+    skills=$(awk '
+      /^##[[:space:]]+[Ss]kills/                       { tbl = 1; next }
+      tbl && /^##[[:space:]]/                          { tbl = 0 }
+      tbl && /^[[:space:]]*\|/ {
+        if ($0 ~ /^[[:space:]]*\|[[:space:]]*[-:| ]+$/)        next
+        if ($0 ~ /\{\{/)                                       next
+        if (tolower($0) ~ /^[[:space:]]*\|[[:space:]]*skill[[:space:]]*\|/) next
+        c++
+      }
+      /^skills:[[:space:]]*$/                          { yml = 1; next }
+      yml && (/^---[[:space:]]*$/ || /^[a-z_]+:/)      { yml = 0 }
+      yml && /^[[:space:]]*-[[:space:]]*[^[:space:]-]/ { c++ }
+      END { print c + 0 }' "$r")
     if [ "${skills:-0}" -ge 8 ]; then
       say_warn "$(basename "$r" .md) carries $skills skills — every one loads on every run it \
 makes, and a role carrying that many is worse at each of them. Usually the signal is a missing hire"

@@ -1,7 +1,7 @@
 {
   "name": "opsinist",
   "description": "Opsinist \u2014 an operations skill for Claude Code: build and run a team of AI agents out of one git repository, where every entity is a file and nothing load-bearing lives anywhere else.",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "license": "Apache-2.0",
   "author": {
     "name": "Jamil Lazarev",

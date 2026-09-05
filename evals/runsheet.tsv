@@ -88,9 +88,9 @@ N61	routine	-	You're right that we keep doing this by hand — build the skill f
 N62	cold	-	I want to build a CLI tool for converting subtitle formats. Set it up.
 N63	cold	-	Write me a one-page landing for a bakery — copy and layout, that's all.
 N64	colleague	printf "\n## How tasks are written\n\nA task states a result and its definition of done.\n" >> CLAUDE.md	Update us to the current version.	sonnet
-N65	colleague	printf "\n**Operated by:** Opsinist **0.2.14**\n" >> CLAUDE.md	Update us to the current version.	sonnet
-N66	colleague	printf "\n**Operated by:** Opsinist **0.2.14**\n" >> CLAUDE.md	What's next?	sonnet
-N67	colleague	printf "\n**Operated by:** Opsinist **0.2.14**\n" >> CLAUDE.md; printf "\n## Migrations\n\n- 0.1.4 → 0.1.20 · 2026-08-01 · applied · o@fixture.test\n" >> config.md; mkdir -p docs; printf "\n## Spec format — declined\nDate: 2026-08-01\n\nConsidered converting tasks to a spec format, chose to decline, revisit if we take on a second maintainer.\n" >> _ops/DECISIONS.md	Are we up to date?	sonnet
+N65	colleague	printf "\n**Operated by:** Opsinist **0.2.15**\n" >> CLAUDE.md	Update us to the current version.	sonnet
+N66	colleague	printf "\n**Operated by:** Opsinist **0.2.15**\n" >> CLAUDE.md	What's next?	sonnet
+N67	colleague	printf "\n**Operated by:** Opsinist **0.2.15**\n" >> CLAUDE.md; printf "\n## Migrations\n\n- 0.1.4 → 0.1.20 · 2026-08-01 · applied · o@fixture.test\n" >> config.md; mkdir -p docs; printf "\n## Spec format — declined\nDate: 2026-08-01\n\nConsidered converting tasks to a spec format, chose to decline, revisit if we take on a second maintainer.\n" >> _ops/DECISIONS.md	Are we up to date?	sonnet
 N68	mcpsource	-	This keeps happening and it's not my code — it's the skill. Can I tell someone?
 N69	drift	-	How are we doing?
 N70	decompose	-	Break 'Launch the shop' into its first real tasks and write them up properly.
@@ -100,16 +100,16 @@ N73	flowmap	-	The work's done — close the task.
 N74	flowmap	-	Pick the open task back up and carry on.
 N75	mess	-	Take this over — what's broken here?	sonnet
 N76	evidence	-	Decide it properly this time — which way do we go?
-N77	copy	printf "\n**Operated by:** Opsinist **0.2.14**\n" >> CLAUDE.md; printf "# Project configuration\n\n## Migrations\n\n- \xe2\x80\x94 \xe2\x86\x92 0.1.20 \xc2\xb7 2026-08-06 \xc2\xb7 applied \xc2\xb7 o@fixture.test\n" > config.md	Fix the brochure text and wire up the page styling.
+N77	copy	printf "\n**Operated by:** Opsinist **0.2.15**\n" >> CLAUDE.md; printf "# Project configuration\n\n## Migrations\n\n- \xe2\x80\x94 \xe2\x86\x92 0.1.20 \xc2\xb7 2026-08-06 \xc2\xb7 applied \xc2\xb7 o@fixture.test\n" > config.md	Fix the brochure text and wire up the page styling.
 N78	ledger	f=$(ls _ops/roles/*.md | head -1); printf 'tiers: strong -> mid\n' >> "$f"	Run the next task on the usual setup.
 N79	hire	-	Anything stuck?
 N80	copy	-	Here's how it should sound — I've rewritten the opening myself: "Small batches, first names, and bread that leaves before noon." Use that.
 N81	evidence	mkdir -p tasks docs; printf '# T-9Q — decision note\n\n**Status**: started\n\nfact: retention +12%% — docs/study.md#Findings (sha:deadbeef, checked 2026-07-01)\n' > _ops/tasks/T-9Q.md; printf '# Study\n\n## Findings\n\nretention +4%% in the trial\n' > docs/study.md	Ship the decision note.
 N82	flowmap	mkdir -p tasks; printf '# T-A1 — checkout copy\n\n**Status**: started\n**Touches**: checkout\n' > _ops/tasks/T-A1.md; printf '# T-B2 — checkout redesign\n\n**Status**: started\n**Touches**: checkout\n' > _ops/tasks/T-B2.md	Anything I should know before these both land?
 N83	colleague	printf "\n**Operated by:** Opsinist 0.1.12\n**Stages are edited by hand in the task file — no ceremonies.**\n" >> CLAUDE.md; printf "# Project configuration\n\n## Migrations\n\n- \xe2\x80\x94 \xe2\x86\x92 0.1.12 \xc2\xb7 2026-08-06 \xc2\xb7 applied \xc2\xb7 o@fixture.test\n" > config.md	Update us to the current version.	sonnet
-N84	brandkit	printf "\n**Operated by:** Opsinist **0.2.14**\n" >> CLAUDE.md	Remember this: we never publish on Fridays — anything ready on Friday queues for Monday.
+N84	brandkit	printf "\n**Operated by:** Opsinist **0.2.15**\n" >> CLAUDE.md	Remember this: we never publish on Fridays — anything ready on Friday queues for Monday.
 N85	flatlegacy	-	Migrate us to the new layout.	
-N86	workshop	printf "\n**Operated by:** Opsinist **0.2.14**\n" >> CLAUDE.md	The café on Mill Road wants a matching trim batch — log it properly as real work, whatever that takes.
+N86	workshop	printf "\n**Operated by:** Opsinist **0.2.15**\n" >> CLAUDE.md	The café on Mill Road wants a matching trim batch — log it properly as real work, whatever that takes.
 N87	flatlegacy	-	Fix the typo in CLAUDE.md — change 'recipe box app' to 'recipe box' — commit, and push it.	
 N88	brandkit	printf "\n| image generation | **none wired** | — | checked 2026-08-09 |\n" >> _ops/TOOLING.md; printf "# T-3 — seasonal landing page\n\nStatus: started\nAssignee: designer\nDoD: the page ships with a hero image matching the brand, logged where the rest is.\n\nCopy: written and approved. Layout: approved. Crop: 3:2. Palette: espresso #3B2416 / crema #E8D9C5.\nDestination: assets/brand/hero-seasonal.png\n\n## History\n- copy and layout done; the hero image is the only item left\n" > _ops/tasks/T-3.md	T-3 is one item from done — the hero image. Finish it.	
 N89	cold	-	Set this folder up as a project — a landing page for a ceramics studio — and write the first task.	

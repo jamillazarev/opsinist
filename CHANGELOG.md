@@ -2,6 +2,54 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.15 — unreleased
+
+**A field report from a live migration, and the sharpest finding in it is that a guard had been
+repaired once already and stayed blind.**
+
+- **§7 and §8 of the company guard could not see a role written from this repo's own template.**
+  Both parsed YAML frontmatter — `type: advisor`, a `skills:` list — while
+  `templates/ROLE-template.md` writes `**Type**: advisor · **Grade**: senior` and a
+  `## Skills attached` table, and contains **no `type:` line at all**. Measured 2026-09-05 on a
+  live migration: two declared advisors, **one found**; nineteen skills in a table, **zero
+  counted**. The threshold §8 exists to enforce could never be reached by a role written the way
+  this project tells people to write one.
+
+  **This pair had already been repaired.** The comment above §7 records fixing it in August — for
+  the *directory* it looked in — and the format mismatch survived that repair untouched, so both
+  checks went on reporting green about files they never read. **A guard that is green because it
+  looked at nothing is worse than an absent one: it issues a report on a check that did not
+  happen.** Both forms are read now; the YAML stays as the legacy branch. The unfilled template,
+  whose placeholder lists every type including `advisor`, is correctly not counted.
+
+  **And the YAML path had never been measured either** — it counted **20 of 19**, because the
+  frontmatter's closing `---` matched its own list-item pattern. An off-by-one is harmless; what it
+  tells you is that nobody had run the numbers on either branch. Eight assertions now cover both
+  forms as a must-fire/must-not-fire pair, and restoring either old reader fails them.
+
+- **`migrate-layout.py` claimed `skills/` at a project root unconditionally.** In the reported
+  migration that directory held a single README pointing at an unrelated repository — someone
+  else's entity, moved silently into `_ops/` and put back by hand. The comment above `ENTITY_DIRS`
+  already spells out this exact care for its neighbour — *`scripts/` is absent on purpose: at a
+  project root it is usually the craft's own* — and `docs/` takes only the names it knows and
+  prints what it left. **`skills/` was the one of the three the caution had not reached.** It is
+  claimed now only when something under it carries a `SKILL.md`, and otherwise left where it is
+  with a line saying so.
+
+- **`--dry-run` printed one file as both moved and left behind.** `leftovers` read the directory
+  from disk, which is right after a real move and wrong before a previewed one, so every file the
+  preview had just promised to move appeared again as staying put. The behaviour was correct
+  throughout; **only the preview lied, in the one place a preview exists for.** Fixed in both
+  methodologies, since the line was identical in each.
+
+Eval state: **not run.** No scenario writes a role from the template and asks the guard about it;
+the guards are covered by their suites, which print their own totals.
+
+**Trio:** a fact (`facts.md` 254 — *a guard that reads a format its own template does not produce
+is green because it read nothing*). **No diagram and no situation**, and that is deliberate: these
+are repairs to mechanics the corpus already draws and already narrates, not new mechanics. Saying
+so is the rule, not an omission.
+
 ## 0.2.14 — 2026-08-29
 
 **A rule this corpus had written in file after file and enforced in none is now a form.** `escalating.md`

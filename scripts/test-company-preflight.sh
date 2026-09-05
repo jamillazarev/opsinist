@@ -505,6 +505,56 @@ _assignvar=$(awk '/^[[:space:]]*if \[ -z "\$\{[_a-z]*:-\}" \]; then/{f=1}
 [ "$_guardvar" = "$_assignvar" ] \
   && ok || bad "the neighbour-table memo tests \`$_guardvar\` and assigns \`$_assignvar\` — the table is rebuilt once per changed record and no assertion can see it"
 
+# ── §7 and §8 read the form the TEMPLATE writes, not only the YAML ──────────────────────────
+# **Reported from a live migration, 2026-09-05, and reproduced here.** `templates/ROLE-template.md`
+# writes `**Type**: advisor · **Grade**: senior` and a `## Skills attached` table; it contains no
+# `type:` line and no `skills:` list. Both checks parsed YAML only, so a role written from the
+# shipped template was invisible to them: two declared advisors, one found; nineteen skills, zero
+# counted. **This pair had already been repaired once** — the directory was fixed in August while
+# the format mismatch survived — which is why the assertions below are a must-fire/must-not-fire
+# pair on BOTH forms rather than one happy path.
+_role_tpl(){ { printf '# %s — the craft\n\n**Type**: %s · **Grade**: senior\n\n' "$1" "$2"
+  printf '## Skills attached\n\n| Skill | Why this role needs it |\n|---|---|\n'
+  i=1; while [ "$i" -le "${3:-0}" ]; do printf '| skill-%s | because |\n' "$i"; i=$((i+1)); done
+  printf '\n## Trust\n'; } > "_ops/roles/$1.md"; }
+_role_yml(){ { printf -- '---\ntype: %s\nskills:\n' "$2"
+  i=1; while [ "$i" -le "${3:-0}" ]; do printf -- '  - skill-%s\n' "$i"; i=$((i+1)); done
+  printf -- '---\n\n# %s\n' "$1"; } > "_ops/roles/$1.md"; }
+_roleout(){ ( bash _ops/scripts/preflight.sh 2>&1 || true ); }
+mkdir -p _ops/roles
+
+# §7 · one advisor in the template's own form is fine; two are not.
+_role_tpl Solo advisor 0; git add -A
+_roleout | grep -q 'advisors — exactly one' \
+  && bad "one advisor was refused as several" || ok
+_role_tpl Second advisor 0; git add -A
+_roleout | grep -q 'advisors — exactly one' \
+  && ok || bad "two advisors written in the template's own form were invisible to §7 — the template writes no \`type:\` line at all"
+# and the two forms are counted as one population, not two
+rm -f _ops/roles/Second.md; _role_yml Legacy advisor 0; git add -A
+_roleout | grep -q 'advisors — exactly one' \
+  && ok || bad "a template-form advisor and a YAML-form advisor were not counted together"
+# **An UNFILLED template is not an advisor.** Its placeholder lists every type, `advisor` among
+# them, so a substring match would have counted the shipped template itself.
+rm -f _ops/roles/Legacy.md
+cp "$HERE/../templates/ROLE-template.md" _ops/roles/Unfilled.md; git add -A
+_roleout | grep -q 'advisors — exactly one' \
+  && bad "the unfilled ROLE-template placeholder counted as a second advisor" || ok
+rm -f _ops/roles/Unfilled.md _ops/roles/Solo.md; git add -A
+
+# §8 · the same count from either form, and the YAML off-by-one that proved nobody had measured it
+_role_tpl Wide worker 19; git add -A
+_roleout | grep -q 'Wide carries 19 skills' \
+  && ok || bad "a template-form role with 19 skills in its table was counted as none by §8"
+rm -f _ops/roles/Wide.md; _role_yml Old worker 19; git add -A
+_roleout | grep -q 'Old carries 19 skills' \
+  && ok || bad "the YAML counter is off — the frontmatter's closing --- was counted as a skill (it read 20 of 19)"
+# and under the threshold nothing is said, in either form
+rm -f _ops/roles/Old.md; _role_tpl Small worker 7; git add -A
+_roleout | grep -q 'Small carries' \
+  && bad "a role with 7 skills warned — the threshold is eight" || ok
+rm -f _ops/roles/Small.md; git add -A
+
 # ── the contradiction stop: two runs, one question, opposite answers ─────────────────────────
 # **Three attempts bound FAILURE; nothing bounded CONTRADICTION** — the worse state, because both
 # runs end `completed` and each reports confidently. `escalating.md` has carried the rule as prose

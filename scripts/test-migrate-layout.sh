@@ -496,5 +496,39 @@ rm -f "$T/doors/_ops/scripts/new-id.py"
 [ -f "$T/doors/_ops/scripts/new-id.py" ] \
   && bad "a door was copied into another system's tree" || ok
 
+
+# ── `skills/` at a project root is not always ours, and a dry run must not contradict itself ──
+# Both reported 2026-09-05 from a live migration. `skills/` held one README pointing at an
+# unrelated repository and was moved into `_ops/` silently, to be put back by hand — while the
+# comment above `ENTITY_DIRS` already spells out this exact care for `scripts/`, and `docs/` takes
+# only the names it knows. And `--dry-run` printed one file as both moved and left behind, because
+# it read the directory from disk when nothing had moved yet — the preview lying in the one place
+# a preview exists for.
+FS="$T/foreign"; mkdir -p "$FS/skills" "$FS/docs"
+printf '# see the other repository\n' > "$FS/skills/README.md"
+printf '# arch\n' > "$FS/docs/ARCHITECTURE.md"
+printf '# mine\n' > "$FS/docs/MINE.md"
+printf 'adapter: claude\n' > "$FS/config.md"
+( cd "$FS" && git init -q && git add -A >/dev/null 2>&1
+  git -c user.email=t@t -c user.name=t commit -qm init ) >/dev/null 2>&1
+( cd "$FS" && python3 "$HERE/migrate-layout.py" . --dry-run ) > "$T/fs.txt" 2>&1
+grep -q 'left alone: skills/' "$T/fs.txt" \
+  && ok || bad "a skills/ holding no SKILL.md was claimed as the machinery's pool — at a project root that name is not ours by right"
+grep -qE '^\s*skills\s+→' "$T/fs.txt" \
+  && bad "a foreign skills/ was still listed as a move" || ok
+# the dry run does not print one file as both moved and staying
+grep -q 'ARCHITECTURE.md  →' "$T/fs.txt" \
+  && ok || bad "the dry run did not name the move it was previewing"
+grep -E 'left in docs/' "$T/fs.txt" | grep -q 'ARCHITECTURE' \
+  && bad "the dry run printed ARCHITECTURE.md as moved AND left behind — it read the directory from disk before anything moved" || ok
+grep -E 'left in docs/' "$T/fs.txt" | grep -q 'MINE' \
+  && ok || bad "the dry run stopped naming what genuinely stays behind"
+# and a REAL pool is still claimed — the test above must not have bought its pass by refusing everything
+mkdir -p "$FS/skills/advisor" && printf '# s\n' > "$FS/skills/advisor/SKILL.md"
+( cd "$FS" && git add -A ) >/dev/null 2>&1
+( cd "$FS" && python3 "$HERE/migrate-layout.py" . --dry-run ) > "$T/fs2.txt" 2>&1
+grep -qE '^\s*skills\s+→' "$T/fs2.txt" \
+  && ok || bad "a genuine skills pool — a subdirectory carrying SKILL.md — was left behind"
+
 echo "migrate-layout: $pass passed, $fail failed"
 exit "$fail"
