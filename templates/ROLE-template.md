@@ -24,10 +24,11 @@
 ## Skills attached
 
 > **The guard reads this table and the `**Type**` line above it.** `_ops/scripts/preflight.sh`
-> counts the rows here — under a `##` heading, not `###` — and refuses a second advisor. A file
-> written as YAML frontmatter (`type:` / `skills:`) is still read, as the legacy shape; it appears
-> in no template and no example, so this is the form to write. Neither form was read at all until
-> 0.2.15, which is why a project may meet both checks for the first time on upgrading.
+> counts the rows under a `Skills attached` heading of any depth, and refuses a second advisor.
+> A file written as YAML frontmatter (`type:` / `skills:`) is still read, as the legacy shape; it
+> appears in no template and no example, so this is the form to write. **Until 0.2.15 only the
+> YAML shape was read** — and miscounted — so a role written the way this template instructs met
+> neither check, which is why a project may meet both for the first time on upgrading.
 
 | Skill | Why this role needs it |
 |---|---|

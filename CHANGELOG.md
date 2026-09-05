@@ -68,7 +68,8 @@ repaired once already and stayed blind.**
   three of them false refusals the repair itself introduced.** That is the costlier direction by
   this file's own accounting, and all four were in lines that had just been edited.
 
-  **§7 refused three honest repositories that committed the day before.** Widening it to the
+  **§7 refused two ordinary shapes that passed the day before** — built as fixtures, not counted
+  in the wild; the repair was unreleased, so nothing outside had met it. Widening it to the
   template's prose form left it a `grep -r` over the whole directory, so a `README.md` documenting
   the form and an `archive/` holding a retired role both counted as advisors. §8 has iterated
   `"$roles_dir"/*.md` all along; §7 now matches it, and a top-level README is excluded by name,
@@ -113,6 +114,14 @@ repaired once already and stayed blind.**
   preview had just promised to move appeared again as staying put. The behaviour was correct
   throughout; **only the preview lied, in the one place a preview exists for.** Fixed in both
   methodologies, since the line was identical in each.
+
+- **`scripts/check-releases.sh` gets the suite it shipped without.** Four defects were found in
+  it the day it was written and repaired by hand, in a release whose whole subject is a check that
+  reports green on something it never read — the script's own worst one being exactly that: `gh`'s
+  exit status was discarded, so no authentication read as *"0 releases checked, every one matches
+  its entry."* Fourteen assertions now, with a stubbed `gh` so the suite needs no network and no
+  credentials; four mutants, one per original defect, each failing the assertion written for it.
+  The release ritual names the script in `AGENTS.md` too, not only in `CLAUDE.md`.
 
 - **The `All-in-one client DB` row is gone from the shelf: InstantDB is sunsetting.** Read at
   source 2026-09-05 — *"Instant is sunsetting. Services will continue until August 31st, 2027"*,

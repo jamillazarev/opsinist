@@ -1375,8 +1375,9 @@ done < <(git ls-files -z -- ':(glob)**/SKILL.md' 'SKILL.md')
 
 # 7 · exactly one advisor. Two of them is not a busier project, it is two seats each
 #     believing it holds the loop, writing each other's model and effort, and each one
-#     recording decisions the other never saw. Stated in three files and, until now,
-#     enforced by none of them.
+#     recording decisions the other never saw. Stated in file after file and, until now,
+#     enforced by none of them — the count is deliberately not quoted, because it moves whenever
+#     unrelated writing lands and this release corrected two such numbers already.
 # Measured 2026-08-14: §7 and §8 never ran in the `_ops/` layout — both were gated on a flat
 # `roles/`, and §8 then looped over `_ops/roles/*.md`. Two advisors passed green.
 roles_dir=""
@@ -1385,8 +1386,8 @@ if [ -n "$roles_dir" ]; then
   # **BOTH forms, because the template writes only one of them and it is not the YAML.**
   # `templates/ROLE-template.md` produces `**Type**: advisor · **Grade**: senior` — it contains no
   # `type:` line at all — so a role written from the shipped template was invisible to this check
-  # and to §8 below. Measured 2026-09-05 on a live migration: two declared advisors, one found;
-  # nineteen skills, zero counted. **This pair has been repaired once before** — the comment above
+  # and to §8 below. Reported from a live migration 2026-09-05; the measurement is in `facts.md`
+  # 254, which is where it is quoted from and where it belongs. **This pair has been repaired once before** — the comment above
   # records fixing the DIRECTORY in August while the format mismatch survived, so the gate went on
   # reporting green about a file it never read — the shape `facts.md` 254 states in general.
   #
@@ -1396,9 +1397,10 @@ if [ -n "$roles_dir" ]; then
   # **A role is a file directly in this directory, and `grep -r` said otherwise.** Widening the
   # pattern to the template's prose form made a recursive search far more likely to hit something
   # that is not a role: a `README.md` documenting the form, an `archive/` holding a retired one.
-  # Measured 2026-09-05 by an adversarial lens — three honest repositories that committed under
-  # 0.2.14 were REFUSED by the repair, which is the direction this file's own history calls the
-  # more expensive one. §8 has iterated `"$roles_dir"/*.md` all along; §7 now matches it, and a
+  # **Two shapes, built as fixtures by an adversarial lens 2026-09-05** — not a count of projects
+  # in the wild; the repair was unreleased, so nothing outside had met it yet. Both passed under
+  # 0.2.14 and were REFUSED by the repair, which is the direction this file's own history calls
+  # the more expensive one. §8 has iterated `"$roles_dir"/*.md` all along; §7 now matches it, and a
   # top-level README is excluded by name because a document about roles is not one.
   advisors=$(for _rf in "$roles_dir"/*.md; do
       [ -f "$_rf" ] || continue

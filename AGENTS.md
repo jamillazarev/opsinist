@@ -168,6 +168,12 @@ Regenerate, rebuild, and check the pages that carry generated shapes: the diagra
 their files, the glossary still resolves, the help a command gives still names something that
 exists.
 
+**A correction to a frozen entry re-publishes its release.** Release notes are a snapshot taken
+once, so a marked correction reaches the changelog and the site and never the page most people
+read: the file admits an error the release goes on repeating. `scripts/check-releases.sh` compares
+every published release against its entry and prints the one command each gap needs. It is a
+report, not a gate — it needs the network and `gh`, and preflight runs offline.
+
 **The checks are green**, and the check-dates are not past their threshold.
 
 **The showcase trio answers for every new mechanic — by name, before the tag.** A capability
