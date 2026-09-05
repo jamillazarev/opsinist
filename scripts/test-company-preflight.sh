@@ -555,6 +555,34 @@ _roleout | grep -q 'Small carries' \
   && bad "a role with 7 skills warned — the threshold is eight" || ok
 rm -f _ops/roles/Small.md; git add -A
 
+# ── §11 reads the word the TASK template writes, in the shape it writes it ──────────────────
+# **The check that stops an agent approving its own work never fired on this project's own
+# format.** It read the author as `^(assigned|author|worker)[: ]` — a bare word at line start —
+# while `templates/TASK-template.md` writes `**Assignee**: …`: bold, and a different word. The
+# author therefore came back empty on every task written the way this project tells people to
+# write one, and the comparison could not be true. Measured 2026-09-05: **0 on the template's
+# form, 1 on `assigned: ui`.** Third instance of the class in one sweep, after §7 and §8.
+mkdir -p _ops/tasks
+_selfsign(){ printf '# T-%s — a thing\n\n**Status**: in review\n%s\n\n## History\n' "$1" "$2" > "_ops/tasks/T-$1.md"
+  git add -A; git commit -qm "task $1" >/dev/null 2>&1
+  printf -- '- 2026-09-05 — **reviewed by %s** · checked\n' "$3" >> "_ops/tasks/T-$1.md"; git add -A; }
+_selfsign SIGN01 '**Assignee**: ui' ui
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "a task written from the template — \`**Assignee**\`, in bold — was signed off by its own author and §11 said nothing" || ok
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q 'signed off by' \
+  && ok || bad "§11 refused for some other reason than the self-signoff"
+# an honest review by someone else must still pass — a check that refuses everything proves nothing
+git checkout -q HEAD -- _ops/tasks/T-SIGN01.md
+printf -- '- 2026-09-05 — **reviewed by qa** · checked\n' >> _ops/tasks/T-SIGN01.md; git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a review by someone who did NOT do the work was refused"
+# and the legacy shape keeps working
+git rm -qf _ops/tasks/T-SIGN01.md >/dev/null 2>&1; git commit -qm "sign01 out" >/dev/null 2>&1
+_selfsign SIGN02 'assigned: ui' ui
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "the legacy \`assigned:\` shape stopped being read" || ok
+git rm -qf _ops/tasks/T-SIGN02.md >/dev/null 2>&1; git commit -qm "sign02 out" >/dev/null 2>&1
+
 # ── the contradiction stop: two runs, one question, opposite answers ─────────────────────────
 # **Three attempts bound FAILURE; nothing bounded CONTRADICTION** — the worse state, because both
 # runs end `completed` and each reports confidently. `escalating.md` has carried the rule as prose

@@ -27,6 +27,25 @@ repaired once already and stayed blind.**
   tells you is that nobody had run the numbers on either branch. Eight assertions now cover both
   forms as a must-fire/must-not-fire pair, and restoring either old reader fails them.
 
+- **The sweep the report asked for found a third one, and it is the most expensive.** Its closing
+  caveat was that the question — *does this section read the shape its own template writes?* —
+  belongs to every check that greps a templated file, not only the two it measured. Put to all 29
+  sections: **§11 read the author of a task as `^(assigned|author|worker)[: ]`, a bare word at
+  line start, while `TASK-template.md` writes `**Assignee**:` — bold, and a different word.** The
+  author came back empty on every task written the way this project tells people to write one, so
+  the comparison could never be true and **the check that stops an agent approving its own work
+  never fired on this project's own format.** Measured: 0 on the template's form, 1 on
+  `assigned: ui`. Both shapes and both spellings are read now, the legacy form still works, and an
+  honest review by someone else still passes — that last assertion exists because a check that
+  refuses everything proves nothing.
+
+  The other sections held. §1c, §2, §3, §4d and §16 each spoke on a violation written from the
+  template and stayed silent on the honest twin. **The sweep's own probe was wrong five times**
+  before it was right — POSIX classes inside a Python regex, a section read line-by-line so a
+  check reading both shapes looked like one reading neither, `[Tt]ype` read as a bracket
+  expression, an optional bold group read as no bold, and a fixture whose `kind` field kept the
+  whole placeholder list. **A probe auditing guards needs exactly the scrutiny it is applying.**
+
 - **`migrate-layout.py` claimed `skills/` at a project root unconditionally.** In the reported
   migration that directory held a single README pointing at an unrelated repository — someone
   else's entity, moved silently into `_ops/` and put back by hand. The comment above `ENTITY_DIRS`

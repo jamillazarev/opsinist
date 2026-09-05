@@ -1575,8 +1575,15 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
     printf '%s' "$d" | hits -iE '^\+.*(reviewed by|approved by|accepted by)' || continue
     who=$(printf '%s' "$d" | grep -ioE '(reviewed|approved|accepted) by[: ]+@?[A-Za-z0-9._-]+' \
           | sed -E 's/.*by[: ]+@?//' | head -1)
-    author=$(grep -ioE '^(assigned|author|worker)[: ]+@?[A-Za-z0-9._-]+' "$t" 2>/dev/null \
-             | sed -E 's/.*[: ]+@?//' | head -1)
+    # **The word the template writes is `**Assignee**`, in bold, and this read neither.** It
+    # looked for `assigned`/`author`/`worker` bare at line start, so on a task written from
+    # `templates/TASK-template.md` the author was always empty and the comparison below could
+    # never be true: **the check that stops an agent approving its own work never fired on the
+    # shape this project tells people to use.** Measured 2026-09-05 — 0 on the template's form,
+    # 1 on `assigned: ui`. Third instance of the same class in one sweep, after §7 and §8, and
+    # the reason the sweep was worth running: `facts.md` 254.
+    author=$(grep -ioE '^[[:space:]]*[*`_]*(assignee|assigned|author|worker)[*`_]*[[:space:]]*[: ][[:space:]]*[*`_]*@?[A-Za-z0-9._-]+' "$t" 2>/dev/null \
+             | sed -E 's/.*[: ][[:space:]]*[*`_]*@?//' | head -1)
     [ -n "$who" ] && [ -n "$author" ] && [ "$who" = "$author" ] && \
       say_fail "$t is signed off by \`$who\`, who did the work — a review goes to someone else, \
 because a model reads its own output generously and the thread cannot tell the difference."
