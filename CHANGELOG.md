@@ -2,7 +2,7 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.15 — unreleased
+## 0.2.15 — 2026-09-05
 
 **Migration — and this one affects every project whose roles and tasks are written from the
 shipped templates, which is the shape this system tells people to use.** Three checks that were
