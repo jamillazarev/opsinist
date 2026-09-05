@@ -550,7 +550,19 @@ rm -f _ops/roles/Wide.md; _role_yml Old worker 19; git add -A
 _roleout | grep -q 'Old carries 19 skills' \
   && ok || bad "the YAML counter is off — the frontmatter's closing --- was counted as a skill (it read 20 of 19)"
 # and under the threshold nothing is said, in either form
-rm -f _ops/roles/Old.md; _role_tpl Small worker 7; git add -A
+# **An unfilled `{{name}}` row is not a skill**, and until this fixture nothing proved it: the
+# only `{{…}}` role in the suite was the template itself, whose table has one placeholder row —
+# 1 against 0, both under the bar, so deleting the skip changed no outcome. Seven real rows plus
+# the template's own placeholder is the pair that separates them: 7 silent, 8 warns.
+rm -f _ops/roles/Old.md; _role_tpl Ph worker 7
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/roles/Ph.md')
+p.write_text(p.read_text().replace('## Trust', '| {{name}} | {{the step it covers}} |' + chr(10) + chr(10) + '## Trust'))"
+git add -A
+_roleout | grep -q 'Ph carries' \
+  && bad "an unfilled {{…}} row was counted as a skill — seven real rows plus the template's own placeholder crossed the bar" || ok
+rm -f _ops/roles/Ph.md; _role_tpl Small worker 7; git add -A
 _roleout | grep -q 'Small carries' \
   && bad "a role with 7 skills warned — the threshold is eight" || ok
 rm -f _ops/roles/Small.md; git add -A
@@ -582,6 +594,52 @@ _selfsign SIGN02 'assigned: ui' ui
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
   && bad "the legacy \`assigned:\` shape stopped being read" || ok
 git rm -qf _ops/tasks/T-SIGN02.md >/dev/null 2>&1; git commit -qm "sign02 out" >/dev/null 2>&1
+
+# ── what the repair itself broke, and the half of §11 it left alone ─────────────────────────
+# **An adversarial lens ran on the repair the day it was written and found three false refusals
+# and one surviving evasion — all four in the lines that had just been edited.** Widening §7 to
+# the template's prose form made a recursive search hit things that are not roles; teaching §8 to
+# read a table made it miscount two ordinary tables; and §11's author half was taught bold and
+# backticks while its reviewer half — the other side of the same comparison — was not.
+_role_at(){ mkdir -p "$(dirname "_ops/roles/$1")"; printf '# %s\n\n**Type**: %s\n' "$(basename "$1" .md)" "$2" > "_ops/roles/$1"; }
+
+# §7 · a README documenting the form, and an archive holding a retired role, are not advisors
+_role_tpl OneAdv advisor 0
+printf '# How to write a role\n\nExample: **Type**: advisor · **Grade**: senior\n' > _ops/roles/README.md
+_role_at archive/old.md advisor
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "a README documenting the form, or an archived role, was counted as a second advisor — §7 recursed where §8 has always iterated \`*.md\`"
+rm -rf _ops/roles/README.md _ops/roles/archive _ops/roles/OneAdv.md; git add -A
+
+# §8 · the header is the first row whatever it is called, and a table ends at any heading
+{ printf '# Bold — c\n\n**Type**: worker\n\n## Skills attached\n\n| **Skill** | **Why** |\n|---|---|\n'
+  i=1; while [ "$i" -le 7 ]; do printf '| s-%s | because |\n' "$i"; i=$((i+1)); done; } > _ops/roles/Bold.md
+git add -A
+_roleout | grep -q 'Bold carries' \
+  && bad "a BOLDED header row was counted as a skill — seven real rows warned at a bar of eight" || ok
+rm -f _ops/roles/Bold.md
+{ printf '# Two — d\n\n**Type**: worker\n\n## Skills attached\n\n| Skill | Why |\n|---|---|\n| a | x |\n| b | x |\n| c | x |\n\n### Escalation\n\n| To | When |\n|---|---|\n'
+  i=1; while [ "$i" -le 6 ]; do printf '| r-%s | when |\n' "$i"; i=$((i+1)); done; } > _ops/roles/Two.md
+git add -A
+_roleout | grep -q 'Two carries' \
+  && bad "a second table under a \`###\` heading was counted into the skills — three skills warned as ten" || ok
+rm -f _ops/roles/Two.md; git add -A
+
+# §11 · the reviewer half, and a comparison that was case-sensitive on two -i greps
+_selfsign SIGN03 '**Assignee**: ui' 'x'
+python3 -c "
+import pathlib
+p = pathlib.Path('_ops/tasks/T-SIGN03.md')
+p.write_text(p.read_text().replace('**reviewed by x**', '**Reviewed by**: ui'))"
+git add -A
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "\`**Reviewed by**: ui\` extracted no reviewer — the author half was taught bold and this half was not" || ok
+git rm -qf _ops/tasks/T-SIGN03.md >/dev/null 2>&1; git commit -qm "sign03 out" >/dev/null 2>&1
+_selfsign SIGN04 '**Assignee**: ui' 'UI'
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && bad "\`UI\` reviewed \`ui\` and passed — both greps are -i and the comparison was not" || ok
+git rm -qf _ops/tasks/T-SIGN04.md >/dev/null 2>&1; git commit -qm "sign04 out" >/dev/null 2>&1
 
 # ── the contradiction stop: two runs, one question, opposite answers ─────────────────────────
 # **Three attempts bound FAILURE; nothing bounded CONTRADICTION** — the worse state, because both

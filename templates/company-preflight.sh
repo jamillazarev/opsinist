@@ -1388,15 +1388,26 @@ if [ -n "$roles_dir" ]; then
   # and to §8 below. Measured 2026-09-05 on a live migration: two declared advisors, one found;
   # nineteen skills, zero counted. **This pair has been repaired once before** — the comment above
   # records fixing the DIRECTORY in August while the format mismatch survived, so the gate went on
-  # reporting green about a file it never read. A guard that is green because it looked at nothing
-  # is worse than an absent one: it issues a report on a check that did not happen.
+  # reporting green about a file it never read — the shape `facts.md` 254 states in general.
   #
   # The prose form allows backticks and bold around the value, as `verdict_of` learned to; the
   # UNFILLED template placeholder `{{worker · expert · … · advisor}}` must not match, and does not,
   # because `advisor` is not what follows the colon there.
-  advisors=$( { grep -rlE '^[[:space:]]*type:[[:space:]]*advisor[[:space:]]*$' "$roles_dir" 2>/dev/null
-                grep -rlE '^[[:space:]]*(\*\*)?[Tt]ype(\*\*)?[[:space:]]*:[[:space:]]*[\`*]*advisor([^A-Za-z]|$)' "$roles_dir" 2>/dev/null
-              } | sort -u)
+  # **A role is a file directly in this directory, and `grep -r` said otherwise.** Widening the
+  # pattern to the template's prose form made a recursive search far more likely to hit something
+  # that is not a role: a `README.md` documenting the form, an `archive/` holding a retired one.
+  # Measured 2026-09-05 by an adversarial lens — three honest repositories that committed under
+  # 0.2.14 were REFUSED by the repair, which is the direction this file's own history calls the
+  # more expensive one. §8 has iterated `"$roles_dir"/*.md` all along; §7 now matches it, and a
+  # top-level README is excluded by name because a document about roles is not one.
+  advisors=$(for _rf in "$roles_dir"/*.md; do
+      [ -f "$_rf" ] || continue
+      _bn=$(basename "$_rf" | tr 'A-Z' 'a-z')
+      [ "$_bn" = readme.md ] && continue
+      [ "$_bn" = index.md ] && continue
+      grep -qE '^[[:space:]]*type:[[:space:]]*advisor[[:space:]]*$' "$_rf" 2>/dev/null && { printf '%s\n' "$_rf"; continue; }
+      grep -qE '^[[:space:]]*(\*\*|_|\`)*[Tt]ype(\*\*|_|\`)*[[:space:]]*:?(\*\*)?[[:space:]]*:?[[:space:]]*[\`*_]*advisor([^A-Za-z-]|$)' "$_rf" 2>/dev/null && printf '%s\n' "$_rf"
+    done | sort -u)
   n=$(printf '%s' "$advisors" | grep -c . || true)
   if [ "${n:-0}" -gt 1 ]; then
     say_fail "there are $n advisors — exactly one holds the loop. Found: $(echo $advisors | tr '\n' ' ')"
@@ -1428,13 +1439,19 @@ if [ -n "$roles_dir" ]; then
     # closing `---` matched its own list-item pattern, which is the tell that neither path had been
     # measured. Both fixed and both asserted, 2026-09-05.
     # A header row, a separator row and a row still carrying `{{…}}` are not skills.
+    # **The header is the first row of the table, whatever it is called, and the table ends at
+    # the next heading of ANY depth.** Recognising the header by its spelling counted
+    # `| **Skill** |` and `| Name |` as skills — a false warning at seven — and closing the table
+    # only on `## ` let a six-row `### Escalation` table below it push a three-skill role to ten.
+    # Both measured 2026-09-05; both are this counter's own first week. Shape, not spelling.
     skills=$(awk '
-      /^##[[:space:]]+[Ss]kills/                       { tbl = 1; next }
-      tbl && /^##[[:space:]]/                          { tbl = 0 }
+      /^#+[[:space:]]+[Ss]kills[[:space:]]+attached/   { tbl = 1; hdr = 0; next }
+      tbl && /^#+[[:space:]]/                          { tbl = 0 }
+      tbl && /^[[:space:]]*[^|[:space:]]/              { tbl = 0 }
       tbl && /^[[:space:]]*\|/ {
         if ($0 ~ /^[[:space:]]*\|[[:space:]]*[-:| ]+$/)        next
+        if (hdr == 0)                                  { hdr = 1; next }
         if ($0 ~ /\{\{/)                                       next
-        if (tolower($0) ~ /^[[:space:]]*\|[[:space:]]*skill[[:space:]]*\|/) next
         c++
       }
       /^skills:[[:space:]]*$/                          { yml = 1; next }
@@ -1442,8 +1459,10 @@ if [ -n "$roles_dir" ]; then
       yml && /^[[:space:]]*-[[:space:]]*[^[:space:]-]/ { c++ }
       END { print c + 0 }' "$r")
     if [ "${skills:-0}" -ge 8 ]; then
-      say_warn "$(basename "$r" .md) carries $skills skills — every one loads on every run it \
-makes, and a role carrying that many is worse at each of them. Usually the signal is a missing hire"
+      say_warn "$(basename "$r" .md) carries $skills skills, and the bar is eight — every one \
+loads on every run this role makes, needed or not, and a role carrying that many is worse at each \
+of them. Usually the signal is a missing hire. The count is the table under \`## Skills attached\`, \
+or a \`skills:\` list if the file is written in the older frontmatter form"
     fi
   done
 fi
@@ -1573,8 +1592,12 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
   while IFS= read -r -d '' t; do
     d=$(staged_diff "$t")
     printf '%s' "$d" | hits -iE '^\+.*(reviewed by|approved by|accepted by)' || continue
-    who=$(printf '%s' "$d" | grep -ioE '(reviewed|approved|accepted) by[: ]+@?[A-Za-z0-9._-]+' \
-          | sed -E 's/.*by[: ]+@?//' | head -1)
+    # **The author half was taught bold and backticks; this half was not, and it is half of the
+    # comparison.** `**Reviewed by**: ui` — the shape a bolded label naturally takes — extracted
+    # nothing, so the check passed on the very shape the repair was about. Measured 2026-09-05,
+    # in the two lines that same repair had edited.
+    who=$(printf '%s' "$d" | grep -ioE '(reviewed|approved|accepted)[*_\`]*[[:space:]]*(by)?[*_\`]*[[:space:]]*[: ][[:space:]]*[*_\`]*@?[A-Za-z0-9._-]+' \
+          | sed -E 's/.*[: ][[:space:]]*[*_\`]*@?//' | head -1)
     # **The word the template writes is `**Assignee**`, in bold, and this read neither.** It
     # looked for `assigned`/`author`/`worker` bare at line start, so on a task written from
     # `templates/TASK-template.md` the author was always empty and the comparison below could
@@ -1584,7 +1607,9 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
     # the reason the sweep was worth running: `facts.md` 254.
     author=$(grep -ioE '^[[:space:]]*[*`_]*(assignee|assigned|author|worker)[*`_]*[[:space:]]*[: ][[:space:]]*[*`_]*@?[A-Za-z0-9._-]+' "$t" 2>/dev/null \
              | sed -E 's/.*[: ][[:space:]]*[*`_]*@?//' | head -1)
-    [ -n "$who" ] && [ -n "$author" ] && [ "$who" = "$author" ] && \
+    # both greps are `-i`; comparing the results case-sensitively let `UI` review `ui`.
+    [ -n "$who" ] && [ -n "$author" ] \
+      && [ "$(printf '%s' "$who" | tr 'A-Z' 'a-z')" = "$(printf '%s' "$author" | tr 'A-Z' 'a-z')" ] && \
       say_fail "$t is signed off by \`$who\`, who did the work — a review goes to someone else, \
 because a model reads its own output generously and the thread cannot tell the difference."
   done < <(changed -- '_ops/tasks/*.md')

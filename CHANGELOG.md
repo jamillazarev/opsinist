@@ -4,6 +4,21 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.15 — unreleased
 
+**Migration — and this one affects every project whose roles and tasks are written from the
+shipped templates, which is the shape this system tells people to use.** Three checks that were
+silent on that shape now speak, and two of them **refuse a commit**: §7 where a project has two
+advisors, §11 where a task's assignee is also the name that reviewed it. §8 warns where a role
+carries eight or more skills. Measured on a fixture written exactly as `ROLE-template.md` and
+`TASK-template.md` instruct: **silent under 0.2.14, refusing under 0.2.15.** Nothing was wrong with
+those projects yesterday and nothing is wrong with them today — the checks simply could not see
+them, so a rule the corpus states in three files was enforced by nothing.
+
+**What to do:** re-copy `templates/company-preflight.sh` over `_ops/scripts/preflight.sh` — the
+guard is a copy and the fix does not arrive on its own. Then expect, once: a second advisor named
+where there should be one, a self-signoff that had been passing, and skill counts on roles that had
+been counting zero. None of the three is a defect in your project; they are three years of green
+that meant nothing.
+
 **A field report from a live migration, and the sharpest finding in it is that a guard had been
 repaired once already and stayed blind.**
 
@@ -24,8 +39,13 @@ repaired once already and stayed blind.**
 
   **And the YAML path had never been measured either** — it counted **20 of 19**, because the
   frontmatter's closing `---` matched its own list-item pattern. An off-by-one is harmless; what it
-  tells you is that nobody had run the numbers on either branch. Eight assertions now cover both
-  forms as a must-fire/must-not-fire pair, and restoring either old reader fails them.
+  tells you is that nobody had run the numbers on either branch. Both forms are covered now as
+  must-fire/must-not-fire pairs — the table and the YAML list, a filled role and an unfilled
+  template, above the bar and below it — and restoring either old reader fails them. **The count
+  of assertions is deliberately not quoted**: this entry said "eight", was corrected to "seven"
+  when they were counted, and was eight again an hour later when one more landed. A number that
+  moves whenever unrelated work touches the file is a claim that rots by construction, which this
+  corpus learned one release ago and repeated here anyway.
 
 - **The sweep the report asked for found a third one, and it is the most expensive.** Its closing
   caveat was that the question — *does this section read the shape its own template writes?* —
@@ -40,11 +60,31 @@ repaired once already and stayed blind.**
   refuses everything proves nothing.
 
   The other sections held. §1c, §2, §3, §4d and §16 each spoke on a violation written from the
-  template and stayed silent on the honest twin. **The sweep's own probe was wrong five times**
-  before it was right — POSIX classes inside a Python regex, a section read line-by-line so a
-  check reading both shapes looked like one reading neither, `[Tt]ype` read as a bracket
-  expression, an optional bold group read as no bold, and a fixture whose `kind` field kept the
-  whole placeholder list. **A probe auditing guards needs exactly the scrutiny it is applying.**
+  template and stayed silent on the honest twin. The sweep's own probe was wrong five times before
+  it was right, in five different ways, none of which ship: **a probe auditing guards needs exactly
+  the scrutiny it is applying**, or it manufactures the same green it went looking for.
+
+- **An adversarial lens read the repair the day it was written and found four defects in it —
+  three of them false refusals the repair itself introduced.** That is the costlier direction by
+  this file's own accounting, and all four were in lines that had just been edited.
+
+  **§7 refused three honest repositories that committed the day before.** Widening it to the
+  template's prose form left it a `grep -r` over the whole directory, so a `README.md` documenting
+  the form and an `archive/` holding a retired role both counted as advisors. §8 has iterated
+  `"$roles_dir"/*.md` all along; §7 now matches it, and a top-level README is excluded by name,
+  because a document about roles is not one.
+
+  **§8's new counter warned falsely at seven skills and at three.** It recognised the header row
+  by its spelling, so a bolded `| **Skill** |` or a column called `Name` counted as a skill; and it
+  closed the table only on `## `, so a six-row `### Escalation` table below pushed a three-skill
+  role to ten. **Shape, not spelling**: the header is the first row whatever it is called, and the
+  table ends at the next heading of any depth or the first line that is not a row.
+
+  **And §11's reviewer half kept the exact defect its author half had just been repaired for.**
+  `**Reviewed by**: ui` — the shape a bolded label naturally takes — extracted no reviewer at all,
+  so the check passed on the very form the repair was about. Both greps are `-i` and the comparison
+  between them was not, so `UI` could review `ui`. Both closed, both asserted, five mutants each
+  failing the assertion written for it.
 
 - **`migrate-layout.py` claimed `skills/` at a project root unconditionally.** In the reported
   migration that directory held a single README pointing at an unrelated repository — someone
@@ -55,11 +95,32 @@ repaired once already and stayed blind.**
   claimed now only when something under it carries a `SKILL.md`, and otherwise left where it is
   with a line saying so.
 
+- **Three more the same lens found, in code this release wrote.** `looks_like_skill_pool` was
+  fooled by a **symlinked** subdirectory — `is_dir()` follows links, so someone else's entity one
+  symlink away made the whole directory look like ours, which is the exact failure the check exists
+  to stop. The new `left alone:` line **could not print when it was the only thing to say**: it
+  lived after an early `return 0`, so a repository whose sole ambiguity was a foreign `skills/`
+  heard nothing about it, and the shipped test passed only because its fixture also had something
+  to move. And `scripts/check-releases.sh` **reported green on nothing**: `gh release list`'s exit
+  status was discarded, so no authentication, the wrong repository or no network read as *"0
+  releases checked, every one matches its entry"* — `facts.md` 254's own shape, shipped in the
+  three commits that quote it. It also printed "3 of 0" when a release had no entry, and took
+  `--emit` only as the first argument, so the natural `check-releases.sh owner/name --emit <dir>`
+  silently did nothing.
+
 - **`--dry-run` printed one file as both moved and left behind.** `leftovers` read the directory
   from disk, which is right after a real move and wrong before a previewed one, so every file the
   preview had just promised to move appeared again as staying put. The behaviour was correct
   throughout; **only the preview lied, in the one place a preview exists for.** Fixed in both
   methodologies, since the line was identical in each.
+
+- **The `All-in-one client DB` row is gone from the shelf: InstantDB is sunsetting.** Read at
+  source 2026-09-05 — *"Instant is sunsetting. Services will continue until August 31st, 2027"*,
+  the team having joined OpenAI. **The service outlives the recommendation by a year**, which is
+  the reason to take the row out rather than date it: a shelf exists to be started from, and
+  starting on something with a published end date is the one thing it must not suggest. Recorded
+  here rather than struck through in place, so the shelf stays a list of what to reach for and the
+  reason a name left it stays findable.
 
 Eval state: **not run.** No scenario writes a role from the template and asks the guard about it;
 the guards are covered by their suites, which print their own totals.

@@ -35,10 +35,14 @@ ENTITY_DIRS = [
 # prints what it left; this is that same care, arrived at three directories late.
 # The test is the shape a pool actually has: a subdirectory carrying a `SKILL.md`.
 def looks_like_skill_pool(d):
-    if not d.is_dir():
-        return False
+    # **A symlinked subdirectory is not evidence of a pool — it is the case this exists to stop.**
+    # `is_dir()` follows symlinks, so `skills/theirs -> /elsewhere/theirs/` carrying a `SKILL.md`
+    # made the whole directory look like ours and swept it into `_ops/`: the exact failure the
+    # check was written against, one symlink away. Measured 2026-09-05. `is_symlink()` is asked
+    # first, and the one `except` covers both an unreadable directory and a missing one.
     try:
-        return any((sub / "SKILL.md").is_file() for sub in d.iterdir() if sub.is_dir())
+        return any((sub / "SKILL.md").is_file()
+                   for sub in d.iterdir() if sub.is_dir() and not sub.is_symlink())
     except OSError:
         return False
 
@@ -534,8 +538,10 @@ def main():
         claim("skills", "_ops/skills")
     elif _sk.is_dir():
         left_alone.append(
-            "skills/ — nothing under it carries a SKILL.md, so this does not look like the "
-            "machinery's pool. Left where it is; move it yourself if it is ours")
+            "skills/ — nothing under it carries a SKILL.md, so it does not look like a pool of "
+            "the machinery's skills, and it has been left exactly where it was. If it IS one: "
+            "`git mv skills _ops/skills`. If a skill lands under it later — any subdirectory with "
+            "a SKILL.md — this command claims it on the next run without being asked")
     claim("cohorts", "_ops/panels")
     for f in DOCS_FILES:
         claim(f"docs/{f}", f"_ops/{RENAMES.get(f, f)}")
@@ -549,6 +555,13 @@ def main():
 
     conflicts = [(s, d) for s, d in moves if (root / d).exists()]
     moves = [(s, d) for s, d in moves if (root / d).exists() is False]
+
+    # **Said before the early exit, because it is the whole message when nothing moves.** A repo
+    # whose only ambiguity is a foreign `skills/` printed "nothing to migrate" and not a word about
+    # it: the line lived after a `return 0` it could not reach. Measured 2026-09-05; the shipped
+    # test passed only because its fixture also had something to move.
+    for line in left_alone:
+        print(f"  left alone: {line}")
 
     if not moves and not conflicts:
         recopy_doors()
@@ -613,8 +626,6 @@ def main():
                        if f"docs/{p.name}" not in _claimed) if (root / "docs").is_dir() else []
     if leftovers:
         print(f"  left in docs/ as possibly the craft's own: {', '.join(leftovers)}")
-    for line in left_alone:
-        print(f"  left alone: {line}")
 
     for s, d in conflicts:
         print(f"  CONFLICT: {s} not moved — {d} already exists; merge by hand")

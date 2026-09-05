@@ -514,6 +514,22 @@ printf 'adapter: claude\n' > "$FS/config.md"
 ( cd "$FS" && python3 "$HERE/migrate-layout.py" . --dry-run ) > "$T/fs.txt" 2>&1
 grep -q 'left alone: skills/' "$T/fs.txt" \
   && ok || bad "a skills/ holding no SKILL.md was claimed as the machinery's pool — at a project root that name is not ours by right"
+# **And the ACT, not only the message.** A mutant that put `skills` back in `ENTITY_DIRS` moved
+# the foreign directory and still printed "left alone: skills/", and the assertion above passed —
+# read alone it is a claim about the report. Measured by an adversarial lens 2026-09-05.
+( cd "$FS" && python3 "$HERE/migrate-layout.py" . ) > "$T/fs-real.txt" 2>&1
+[ -f "$FS/skills/README.md" ] && [ ! -e "$FS/_ops/skills" ] \
+  && ok || bad "a real run MOVED the foreign skills/ while the preview said it was left alone — the assertion above tests the message, this one tests the act"
+# **A symlinked subdirectory is not evidence of a pool** — `is_dir()` follows symlinks, so
+# `skills/theirs -> /elsewhere` carrying a SKILL.md swept someone else's entity into `_ops/`:
+# the exact failure this check exists to stop, one symlink away.
+mkdir -p "$T/elsewhere/theirs" && printf '# s\n' > "$T/elsewhere/theirs/SKILL.md"
+ln -s "$T/elsewhere/theirs" "$FS/skills/theirs" 2>/dev/null
+( cd "$FS" && git add -A ) >/dev/null 2>&1
+( cd "$FS" && python3 "$HERE/migrate-layout.py" . --dry-run ) > "$T/fs-sym.txt" 2>&1
+grep -qE '^\s*skills\s+→' "$T/fs-sym.txt" \
+  && bad "a SYMLINKED subdirectory carrying SKILL.md made the whole directory look like ours" || ok
+rm -f "$FS/skills/theirs"
 grep -qE '^\s*skills\s+→' "$T/fs.txt" \
   && bad "a foreign skills/ was still listed as a move" || ok
 # the dry run does not print one file as both moved and staying
