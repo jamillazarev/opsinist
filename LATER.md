@@ -258,6 +258,28 @@ independent reviewers reached is promoted, and the promotion is recorded, so a l
 tell an agreed finding from a repeated one. **The mutant is two findings from ONE reviewer merged
 and promoted; the twin is the same pair from two.**
 
+## The inventory is silent when a mount's CONFIG goes and its directory stays
+
+**Named 2026-09-05, doing the ritual.** `find-installs.sh` gained a hermes row because a mount is
+an install even though no file lands anywhere, and its comment covers one direction: *"it outlives
+the directory it points at, which is how a cleanup elsewhere silently unplugs it."* The other
+direction happened this release. `~/.hermes/` was removed between two runs; the row simply stopped
+appearing, and `~/.agents/skills/opsinist/skills` still holds 21 files that hermes had been
+mounting. The inventory's output is the canon by this project's own rule, so a canon that shrinks
+without saying why is a canon that has to be re-derived by hand — which is what it exists to stop.
+
+**Why no form today.** The honest check is not "did a row vanish" — rows vanish legitimately all
+the time, and a diff against a remembered count is the shape this corpus refuses. What it wants is
+a directory that *looks* mounted with no config naming it, and "looks mounted" has no test yet
+beyond "a runtime we happen to know about used to point here". Guessing at that would be a check
+that cries wolf, which is worse than this silence.
+
+**Revisit when** a runtime's mount is recorded somewhere the inventory can read back — a stamp the
+install itself carries, rather than a config only the runtime owns. The gate then reads: a
+directory carrying our manifest, inside a runtime root, that no config mounts is reported as
+orphaned. **The mutant is a live mount reported as orphaned; the twin is this exact case — config
+gone, directory full — reported once and by name.**
+
 ## A "should this exist at all" ladder, and whether it changes anything
 
 **Named 2026-08-22**, from a third-party plugin the owner asked about
