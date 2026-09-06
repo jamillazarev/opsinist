@@ -88,8 +88,8 @@ parent's wave plan, default `escalate` unchanged (`decomposing.md`).
 **Removed unrequested rather than reopened**: no dispatch had hit a context ceiling, and the
 owner chose deletion over shelf-keeping. **The idea survives in this paragraph and nowhere else**:
 `scripts/inventory.py` has no mode dispatch and no `pack`, so if a real ceiling ever shows up the
-mode is written from scratch. An earlier version of this line claimed the CLI was already shaped to accept one, which
-was not true when written — checked 2026-09-06.
+mode is written from scratch. An earlier version of this line claimed the CLI was already shaped
+to accept one, which was not true when written — checked 2026-09-06.
 
 ## ~~A nested layout — the machinery under one root directory~~ — carried in 0.2.0, by the owner's call
 
@@ -113,6 +113,66 @@ solution with no opportunity above it now fails a read even without the picture.
 
 **Revisit when** the first project running product discovery asks to *see* the tree, or a
 review finds a solution shipped with no opportunity above it.
+
+## Where this system's surface ends and a terminal multiplexer's begins — and the TUI it constrains
+
+**Named 2026-09-07**, when the owner asked how hard a herdr-like terminal UI would be. **The
+deferral is not "build a TUI" — it is the boundary, which is settled, and the build, which is not
+requested.** Without the boundary written down the question returns as a wish; with it, the answer
+is a paragraph.
+
+**Native-first, answered with its date.** `herdr` (herdr.dev, docs read 2026-09-07, 0.8.2) is **not
+an agent runtime** — it is a terminal multiplexer that supervises other CLI agents, each in a real
+pane, with a sidebar reading `name · state · which binary`. So this skill already runs inside it, by
+way of the agent it supervises; there is nothing to port. Its plugin v1 cannot carry this skill
+either: `herdr-plugin.toml` declares `[[actions]]`, `[[panes]]`, `[[events]]`, `[[link_handlers]]`,
+and every entrypoint is an argv command — *"Runtime action registration and native non-terminal
+plugin UI are not part of plugin v1"*, and the document contains no mechanism for a plugin to add
+instructions, context or skills to an agent. That is a different kind of object from the five
+manifests here, each of which does one thing: point a runtime at `./` so it loads this corpus.
+
+**The boundary, and it is the whole entry.** A pane holding a live process is that tool's object
+and it does that half well. **This system refuses that half on purpose** — nothing load-bearing
+lives in a session — and it owns the durable one: who exists, what they are for, what they are
+allowed to do without asking, what is assigned, what it costs, and what waits on the owner. **Build
+the live half here and the result is a worse multiplexer bought with the founding premise.** The
+move in the other direction is real and cheap: that sidebar says `blocked`, and `_ops/` knows *which
+task, which gate, and what the wait costs* — **the reason belongs on their row**, which needs no API
+and no cooperation from the agent, because the state is already files.
+
+**What is settled about the TUI, so it is not re-derived.** Each of these is an existing measured
+rule applied, not a new opinion:
+- **It holds no model. Every repaint re-reads the files.** An in-memory board is the second copy
+  `TASK-template.md` refuses — *"a copy that stops moving; 12 of 12 tasks disagreed"*. If reading
+  is slow, reading gets fixed; a cache is the defect.
+- **It never renders a silent subset.** A count line says how many entities it could not read,
+  because a display that quietly drops what it failed to parse is `facts.md` 254 with a screen
+  attached — and an empty board must not look like a calm project.
+- **One writer.** It reads; the agent writes; the owner edits files. Actions invoke the existing
+  flows rather than writing entities, or it becomes a second writer on files the agent owns.
+- **No chat outside a thread.** Talking to a role opens the thread file and lands the turn on disk
+  before anything is dispatched. A side channel that leaves no file is the thing this system exists
+  to refuse.
+- **The first view is the bill for the owner's attention, not the work** — what waits on them, aged
+  and priced, each line ending in a named offer. That is `/status` already; the TUI is that flow
+  repainting.
+- **Not columns.** *Automatic transitions are how boards begin to lie*, and everything surfaces as
+  ready and waits — so the board is a tree with wave separators, and it is the secondary screen.
+
+**Why not now.** Nobody has asked for the build, and the one screen with no substitute anywhere —
+*what changed in `_ops/` while I was away* — has never been wanted out loud. A view nobody reads is
+furniture, which is the argument the entry above already makes about a different view.
+
+**The candidate form**, when it earns the rung: the parser refuses a malformed entity and the count
+line reports it. **The mutant is a `_ops/` where one task's status line is bolded differently and
+the display shows the rest without a word; the twin is the same tree read whole.** The reader itself
+is not new work — `scripts/transition.py`'s `field()` already reads the prose form tolerantly, which
+is the reader whose bash twins were repaired three times in 0.2.15, and a TUI reuses it rather than
+becoming a fifth.
+
+**Revisit when** an owner asks *what changed while I was away* and answering it means reading
+`git log -- _ops/` by hand — or when a project runs `/status` more than once in a sitting, acting
+between the two, which is the behaviour a repainting view would replace.
 
 ## `starts: webhook` — an external trigger the automation can declare
 
