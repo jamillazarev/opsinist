@@ -230,6 +230,14 @@ reproduces it must be one that enters, or it measures the wrong thing.
 a round of thirty on this tier is no longer affordable before the reset. Three runs bought the
 finding; the second measurement waits.
 
+**And one owner's experience is a finding, not a rate.** Two occasions is the bar this project
+sets everywhere else, and it applies to its own evidence first: this reopens when that owner says
+what the forty minutes went on — whether they entered by a door or an anchor, how many turns
+passed before the first task, whether they answered the questions or took defaults — or when a
+second report of the same shape arrives. Held in `LATER.md` for a month until 2026-09-06, which
+was the wrong home: the fix shipped, so nothing here is deferred work. What is unfinished is the
+evidence, and evidence is what this file is for.
+
 ---
 
 ## 2026-08-01 — the tier was the answer, and this suite had never asked

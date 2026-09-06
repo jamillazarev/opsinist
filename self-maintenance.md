@@ -195,7 +195,20 @@ looked finished and was not** (both siblings' ledgers carry the receipts):
 3. **The claim dated, with the measurement behind it** — enforcement is a form × path ×
    version matrix, and a probe's evidence is a stamp, never the model's account of itself.
 4. **The showcase trio** — a diagram, a situation, a fact — or the mechanic is invisible to
-   everyone who did not write it.
+   everyone who did not write it. **The diagram lives beside the rule it draws; `diagrams.md`
+   holds the ones that cross several.** That answers a standing question — is that file a gallery
+   or a chapter — which mattered because it stood at 499 lines of a 500-line budget while this
+   clause kept asking for more. A gallery meets the budget at every new mechanic; a chapter of
+   the crossing ones does not. **And a repair to a mechanic the corpus already draws owes no new
+   diagram** — say so in the entry rather than manufacturing one, which is what a trio clause is
+   for when it is honest.
+
+**One capability shipped without two of these four, and it is named here rather than implied
+met**: the council carries its showcase trio and a declared field, and has no form where it can
+fail and therefore no mutation test and no dated measurement. A consultation leaves no artifact,
+and every enforceable rule here keys on a file — so the declaration is real guidance and
+unenforced guidance, the class this corpus keeps measuring near zero. `LATER.md` holds what would
+close it and the moment that reopens it; the admission sits here, against the bar it fails.
 
 ## When another sentence will not fix it
 

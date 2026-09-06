@@ -11,7 +11,7 @@ work now, which is a task with a blocker instead.
 ---
 
 
-## `diagrams.md` is at its budget, and the capability bar keeps asking for diagrams
+## ~~`diagrams.md` is at its budget~~ — answered 2026-09-06: beside the rule, not in a gallery
 
 **Measured 2026-08-15**: the file stood at **499 lines of a 500-line chapter budget** before this
 release added one, and `self-maintenance.md` §What-a-capability-owes requires a diagram for every
@@ -22,6 +22,13 @@ This release resolved its own case by putting the diagram in `cost.md`, the chap
 question is not "where does this one go" but **whether `diagrams.md` is a chapter or an index**: a
 gallery that must hold every diagram will keep hitting 500, while a chapter that holds the ones
 which cross several rules can stay small if the rest live beside their rules.
+
+**Answered 2026-09-06, and by use rather than argument.** Two releases running put their diagrams
+beside the rules they draw — the contradiction stop's in `escalating.md`, the cost one in
+`cost.md` — and twice in one session a repair to an existing mechanic owed no new diagram at all,
+which the entry said out loud instead of manufacturing one. The budget stops being a collision
+course the moment the file holds only what crosses several rules. `self-maintenance.md` §4 now
+says so; the budget was never the problem, the gallery reading was.
 
 **Revisit trigger:** the next new mechanic that owes a diagram. If its natural chapter has room,
 put it there and this becomes the convention; if it does not, the budget or the gallery has to give,
@@ -44,7 +51,10 @@ attempted**, because the criterion comes first.
 
 **The original entry, kept because the criteria are what made the verdict possible:**
 
-## Measure what the day-one cut actually bought
+## ~~Measure what the day-one cut actually bought~~ — the pre-registered criteria, kept
+
+*This is the entry above as it stood BEFORE the run, kept whole because criteria written after a
+result are not criteria. It is not open work.*
 
 **Deferred because** the account stood at **92% of its seven-day allowance** on `2026-08-01`, and
 an honest measurement of this change is three runs on the tier an owner actually uses — the tier
@@ -63,17 +73,6 @@ four files where there were thirteen.
 **Revisit when** the seven-day allowance resets, or sooner if the owner who reported the
 forty minutes comes back — **their session is worth more than a synthetic one**, and the fix was
 made for them.
-
----
-
-## The forty-minute report itself is still a single account
-
-**Deferred because** one owner's experience is a finding, not a rate — and the runs that measured
-it were synthetic, answering *"defaults"* to everything rather than thinking about the answers.
-
-**Revisit when** that owner replies, or when a second report of the same shape arrives. **Two
-occasions is the bar this project sets everywhere else**, and it applies to its own evidence
-first.
 
 ---
 
@@ -175,10 +174,18 @@ landed the same day) never gets its chance. The prose instruction alone does not
 contact, which is this corpus's oldest measurement. The candidate form: the plugin's own
 SessionStart hook already delivers the migration fact in operated projects — the same mechanism
 can say, once, *"this operated project has no wired guard and no doors"*. **Revisit when:** the
-next round re-measures N89 with the wired-project form in the field — if ad-hoc stand-ups
-persist, the hook line is built; a second round with no passes is the threshold — the next full round after 0.2.7.
+a round re-measures N89 with the wired-project form in the field — if ad-hoc stand-ups
+persist, the hook line is built, and a second round with no passes is the threshold. (This said
+*"the next full round after 0.2.7"*; eight releases later N89 has been measured once, so the
+version was never the condition — the second measurement is.)
 
 ## The council has a field but no gate, and a document has no seam to hold one
+
+> [!NOTE]
+> **This is a debt against the capability bar, not work consciously deferred** — the distinction
+> this file's own contract draws. It stays because the missing half IS deferrable and its trigger
+> is real; what belongs beside the bar, and not in a list of things not yet built, is the
+> admission that the bar was not met.
 
 **Named 2026-08-14, at the release that shipped it.** The capability bar has four clauses and
 says *no exceptions for small ones*; the council shipped with the showcase trio and a declared
@@ -220,9 +227,17 @@ shape this corpus refuses: the form should read something the work already write
 > same hour would be the law written the afternoon something broke, which is the exact thing this
 > ladder exists to filter.**
 
-**Revisit when** a `Closed` cell in this repository's own field notes is filled **by a sweep
-closing real work** — not by the person who added the column, and not by a note written to
-demonstrate the column. The template can hold the closure now; what the gate waits on is one
+**Revisit when** a `Closed` cell is filled **by a sweep closing real work** in a project running
+this skill, and that closure reaches here as a field report — not by the person who added the
+column, and not by a note written to demonstrate it.
+
+> [!NOTE]
+> **This trigger could not fire for a fortnight and nobody noticed.** It said *"this repository's
+> own field notes"*, and this repository has none — `_ops/FIELD-NOTES.md` lives in a **project's**
+> tree by `self-maintenance.md`'s own split, where friction in the work is noted, while friction
+> in the system operating it comes here. A deferral whose condition is unreachable is an
+> abandonment wearing this file's better clothes, which is the sentence at the top of this page.
+> Corrected 2026-09-06 by reading every trigger against reality. The template can hold the closure now; what the gate waits on is one
 written for its own reasons, because a gate built on a shape nobody has used yet is a gate built
 on a guess. The gate then reads: a rule added to an always-loaded file in the same commit as a
 closure whose dated origin is under seven days old is refused, naming both dates. **The mutant is
@@ -280,7 +295,7 @@ directory carrying our manifest, inside a runtime root, that no config mounts is
 orphaned. **The mutant is a live mount reported as orphaned; the twin is this exact case — config
 gone, directory full — reported once and by name.**
 
-## A "should this exist at all" ladder, and whether it changes anything
+## ~~A "should this exist at all" ladder~~ — closed 2026-09-06 by the measurement it waited for
 
 **Named 2026-08-22**, from a third-party plugin the owner asked about
 (`github.com/DietrichGebert/ponytail`, MIT, 107,575 stars and 5,946 forks read from the API on
@@ -301,10 +316,21 @@ taken; those numbers cannot be quoted here without breaking the rung rule.
 shipped in 0.2.9 whose prose measures 1 in 10 and whose gates the round could not reach. Adding a
 third before the first two are measured is the exact shape that section exists to refuse.
 
-**Revisit when** N97/N98 have measured the gates in the wild — that answers whether a ladder of
-this kind changes behaviour at all here, which is the only question worth spending a release on.
-**Do not install it alongside this skill**: two plugins instructing one agent about how to write
-code is the shadowing trap `evals/RUNS.md` already measured.
+**The trigger fired, and the answer is no.** N97/N98 ran; `evals/RUNS.md` records every cell
+inside the noise at N=5, so the verdicts settle nothing — but the counted artifacts do. **Across
+ten N97 runs the player added the move eight times, wrote the `**Job**` line ONCE, and committed
+ZERO times.** A declared gate, in the field, moved behaviour that little. The question this entry
+was held open for — *does a ladder of this kind change behaviour at all here* — has its answer,
+and it argues against adding a third such rule rather than for it. **Closed, not carried.**
+
+The one thing worth keeping: **do not install that plugin alongside this skill** — two plugins
+instructing one agent about how to write code is the shadowing trap `evals/RUNS.md` measured.
+That is a fact about coexistence, not a deferral, and it sits in `catalogue.md`'s own row for the
+plugin rather than here.
+
+**Held open a fortnight past its own trigger**, which is the failure mode this file exists to
+prevent: a deferral whose moment has come and whose keeper did not look. Found 2026-09-06 by
+reading every entry's trigger against reality rather than its prose.
 
 ## Nothing here measures whether a DOCUMENT works, only whether a rule holds
 

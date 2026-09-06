@@ -2,6 +2,65 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.16 — unreleased
+
+**The deferred list was read against reality instead of against its own prose, and three of its
+twelve entries were not what they said.** `LATER.md` opens with *a deferral with no trigger is an
+abandonment wearing better clothes*; this release adds the two failures that sentence does not
+cover, because a trigger can exist and still never bring an entry back.
+
+- **One trigger had already fired, and the answer was the opposite of what the entry hoped.** The
+  *should this exist at all* ladder waited on N97/N98 measuring whether a declared gate changes
+  behaviour in the field. They ran. Every cell sits inside the noise at N=5, so the verdicts
+  settle nothing — but the counted artifact does: **across ten runs the player added the move
+  eight times, wrote the declared line ONCE, and committed ZERO times.** That is the answer, and
+  it argues against adding a third such rule rather than for it. Closed, not carried, a fortnight
+  after its moment came.
+
+- **One trigger could not fire at all.** The promotion ladder's week waited on a `Closed` cell in
+  *"this repository's own field notes"* — a file this repository does not have and, by
+  `self-maintenance.md`'s own split, should not: `_ops/FIELD-NOTES.md` records friction in a
+  project, while friction in the system operating it comes here. The condition now names a real
+  occasion: a closure written by a sweep in a project, arriving here as a field report — which is
+  how the report behind 0.2.15 arrived.
+
+- **One trigger was pinned to a version, not a condition.** *"The next full round after 0.2.7"* is
+  eight releases old and N89 has been measured once, so the version was never what it was waiting
+  for.
+
+- **And one entry was not deferred work at all.** The forty-minute report is a caveat about how
+  strong a piece of evidence is; the fix it belongs to shipped long ago. It moved to
+  `evals/RUNS.md`, beside the measurement that already discusses it, where the missing half is
+  named: whether that owner entered by a door or an anchor, how many turns before the first task,
+  answered or defaulted. `LATER.md` holds what is **not done**, not what we are unsatisfied with.
+
+- **`diagrams.md` stopped being a collision course with the capability bar.** It stood at 499
+  lines of a 500-line budget while §4 asked for a diagram per mechanic, and the question was never
+  where one diagram goes but whether that file is a gallery or a chapter. **Answered by use:** two
+  releases running put their diagrams beside the rules they draw, and twice in one session a
+  repair to an existing mechanic owed none at all and said so. §4 now states it — *the diagram
+  lives beside the rule it draws; `diagrams.md` holds the ones that cross several* — and adds that
+  a repair to a drawn mechanic owes no new picture, which is what an honest trio clause says
+  instead of manufacturing one.
+
+- **The capability bar's one open debt moved beside the bar.** The council ships with a declared
+  field and no form, no mutation test and no dated measurement; that admission belongs against the
+  clause it fails, not in a list of things not yet built. What would close it, and the moment that
+  reopens it, stay in `LATER.md`.
+
+- **A `catalogue.md` row was removed, and the reason is the file's own contract.** It surveyed four
+  external review harnesses and concluded, for three of them, that this project already holds the
+  bound harder. The shelf says *load when you already know how to choose and want a starting point*
+  — a row is grepped by need, and nobody greps a shelf to be told the need is already met. A
+  deletion lens said so a release ago and the row was compressed instead of cut; the owner said it
+  plainly. **What was surveyed is not lost — it is in the entry that surveyed it.**
+
+Eval state: **not run.** Nothing here changes what a run is asked to do.
+
+**Trio:** a fact (`facts.md` 255 — *a trigger can be absent, unreachable, or already fired*). **No
+diagram and no situation, deliberately**, and by the rule this very release writes into §4: these
+are repairs and removals in a mechanic the corpus already draws.
+
 ## 0.2.15 — 2026-09-05
 
 **Migration — and this one affects every project whose roles and tasks are written from the
