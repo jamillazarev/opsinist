@@ -86,6 +86,18 @@ of four lenses that day noticed the staleness themselves and diffed against the 
 which is the habit, not the exception: check `git rev-parse HEAD` first, and if a finding is an
 absence, confirm it where the work actually lives.
 
+**The repair a lens causes is unread until a lens reads it — a second pass, pointed at the repair
+rather than at the range.** The first round reads text drafted *before* the findings existed; the
+repair is drafted *after* them, quickly, by the person who has just been persuaded — which is the
+condition every lens exists for. Measured across three releases: **2026-08-28**, eight rounds on a
+tagged version produced five remedies for one defect and three were caught only by a further round;
+**2026-09-05**, three of four adversarial findings were false refusals *the repair itself had
+introduced*; **2026-09-07**, three lenses converged on one wrong paragraph and the repair of it
+**reinstalled the same defect twice** — a corrected trigger naming a condition already met six
+lines above it, and a mutant/twin pair whose mutant passed. Only the pass aimed at the repair saw
+either; the three aimed at the range did not. **Give that reader the findings the repair was
+answering**, so it can check the answer and not only the text.
+
 **Temporary readers.** When they run as agents, they are created for the release and archived
 after — they read, they do not own. Archiving them is part of finishing the release
 (`PATTERNS.md` → *promote what outgrew itself* does not apply here: a lens never grows into a

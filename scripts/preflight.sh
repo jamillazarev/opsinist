@@ -279,7 +279,8 @@ if [ -n "$last_tag" ]; then
   tag_ver=$(git show "${last_tag}:skills/advisor/SKILL.md" 2>/dev/null \
             | grep -m1 '^version:' | tr -dc '0-9.')
   if [ -n "$tag_ver" ] && [ "$tag_ver" != "$sv" ]; then
-    say_warn "releasing $sv: run the four review lenses over ${last_tag}..HEAD before tagging, \
+    say_warn "releasing $sv: run the four review lenses over ${last_tag}..HEAD before tagging \
+AND one more pass over the repair those findings cause, \
 and record the eval state in the entry (AGENTS.md → the release ritual). Neither is checkable \
 from here — this line exists so the question is asked out loud rather than remembered"
     ( git diff --quiet "$last_tag" -- evals/runsheet.tsv 2>/dev/null ) \

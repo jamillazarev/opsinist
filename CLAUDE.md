@@ -18,7 +18,10 @@ this file exists to stop anyone re-deriving per session.
    the showcase trio. No exceptions for small ones — the sibling's ledger and ours both
    carry releases that looked finished without it.
 2. **Lenses** on anything of consequence — deletion · adversarial · contradiction ·
-   cold-read, by a reader who did not write it, each reporting even when empty.
+   cold-read, by a reader who did not write it, each reporting even when empty. **Then one more
+   pass on the repair they caused**, pointed at that diff and given the findings it answered —
+   measured three times, most recently a repair that reinstalled its own defect twice
+   (`lenses.md` → *Running them*).
 3. **The showcase trio** for every new mechanic: a diagram · a situation (`use-cases.md`) ·
    a fact (`facts.md`). Wording-only changes owe nothing — say so.
 4. **Checks**: `bash scripts/preflight.sh` (runs every shipped test suite itself) ·

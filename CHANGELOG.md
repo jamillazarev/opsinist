@@ -2,6 +2,44 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.17 — unreleased
+
+**A review is not finished when its findings are answered — the answer is the next thing to read.**
+`lenses.md` → *Running them* gains a second pass, aimed at the repair the first round caused rather
+than at the range, and given the findings that repair was answering. The four lenses read text
+drafted **before** the findings existed; the repair is drafted **after** them, at speed, by the
+person those findings have just convinced — which is the condition a lens exists for, arriving at
+the one moment nothing was reading.
+
+**Measured three times, and the third is what promoted it.** 2026-08-28: eight rounds on a tagged
+version produced five remedies for one defect, three caught only by a further round. 2026-09-05:
+three of four adversarial findings were false refusals *the repair itself had introduced* — the
+costlier direction. 2026-09-07: three lenses converged on one wrong paragraph, and the repair of it
+**reinstalled the same defect twice** — a corrected trigger naming a condition met a fortnight
+earlier six lines above it, and a mutant/twin pair whose mutant passed. The one lens pointed at the
+repair found both; the three pointed at the range found neither.
+
+- **The rule is stated in four places and each is the one its reader opens**: `lenses.md` for how
+  a lens runs, `AGENTS.md` for the release ritual, `CLAUDE.md` for this repository's session loop,
+  and `scripts/preflight.sh`'s release warning — the line actually read at tag time, which
+  previously named the range pass alone. Four copies of one sentence is the drift this corpus
+  warns about; they are here because the ritual line and the chapter line are read by different
+  people at different moments, and the chapter is the home the other three point at.
+
+**What to do: nothing, unless you run lenses.** If you do, the round has one more step, and it
+costs one pass. No check changed, and `templates/company-preflight.sh` differs from 0.2.16 by its
+version stamp alone.
+
+Eval state: **not run.** Nothing here changes what a run is asked to do; the change is to how a
+release is reviewed, which no scenario measures.
+
+**Trio:** a fact (`facts.md` 256 — *a repair written in answer to a review is the least-read text
+in the change*). **No diagram and no situation**: this adds a step to the lens round, a mechanic
+`lenses.md` already narrates and `diagrams.md` does not draw — and by 0.2.16's own admission that
+judgement has no test behind it yet, so it is stated as judgement. **The promotion ladder was
+checked rather than assumed this time**: rung 3 charges a week between the first dated line and the
+promotion, the first line is 2026-08-28, and the three occasions sit in three separate entries.
+
 ## 0.2.16 — 2026-09-07
 
 **A diagram now has one home rule: it lives beside the rule it draws, and `diagrams.md` keeps only
