@@ -23,16 +23,14 @@ question is not "where does this one go" but **whether `diagrams.md` is a chapte
 gallery that must hold every diagram will keep hitting 500, while a chapter that holds the ones
 which cross several rules can stay small if the rest live beside their rules.
 
-**Answered 2026-09-06, and by use rather than argument.** Two releases running put their diagrams
-beside the rules they draw — the contradiction stop's in `escalating.md`, the cost one in
-`cost.md` — and twice in one session a repair to an existing mechanic owed no new diagram at all,
-which the entry said out loud instead of manufacturing one. The budget stops being a collision
-course the moment the file holds only what crosses several rules. `self-maintenance.md` §4 now
-says so; the budget was never the problem, the gallery reading was.
-
-**Revisit trigger:** the next new mechanic that owes a diagram. If its natural chapter has room,
-put it there and this becomes the convention; if it does not, the budget or the gallery has to give,
-and that is a decision about what `diagrams.md` is for.
+**Answered 2026-09-06, and by use rather than argument** — the revisit trigger asked for the next
+mechanic that owed a diagram, and two releases running had already answered it. Both put their
+diagrams beside the rules they draw — the contradiction stop's in `escalating.md`, the cost one in
+`cost.md` — and twice in one session a repair to an existing mechanic owed none at all and said so
+instead of manufacturing one. **The gallery reading was the collision course, not the budget**: a
+file holding every diagram meets 500 at each new mechanic, a file holding only what crosses several
+rules does not. `self-maintenance.md` §4 now says so, with a diff-readable test for which side of
+the line a change falls on. The file sits at 500 of 500 today, and stays there.
 
 ## ~~Measure what the day-one cut actually bought~~ — run 2026-08-01, partly falsified
 
@@ -47,7 +45,9 @@ cannot see *emptiness*, so once the task exists every document passes. **The cor
 is four things and the hook enforces something narrower — the gap between them is the thirteen
 files.** The predicate that would close it is *refuse a document whose body is a heading and a
 template's braces*: checkable, a commission, and the shape that has worked twice. **Not
-attempted**, because the criterion comes first.
+attempted**, because the criterion comes first — **and that half is open work under a struck
+heading**, which the 2026-09-06 audit read past. It is carried by the entry two below on
+documents, whose form question is the same one.
 
 **The original entry, kept because the criteria are what made the verdict possible:**
 
@@ -86,9 +86,10 @@ parent's wave plan, default `escalate` unchanged (`decomposing.md`).
 ## ~~A `pack` mode for the inventory script~~ — deleted 2026-08-06, by the owner's call
 
 **Removed unrequested rather than reopened**: no dispatch had hit a context ceiling, and the
-owner chose deletion over shelf-keeping. The idea survives in one sentence — the inventory's
-CLI is shaped so `pack` could arrive as a second mode — and if a real ceiling ever shows up,
-that sentence is the door back.
+owner chose deletion over shelf-keeping. The idea survives in this paragraph and nowhere else: `scripts/inventory.py`
+has no mode dispatch and no `pack`, so if a real ceiling ever shows up the mode is written from
+scratch. An earlier version of this line claimed the CLI was already shaped to accept one, which
+was not true when written — checked 2026-09-06.
 
 ## ~~A nested layout — the machinery under one root directory~~ — carried in 0.2.0, by the owner's call
 
@@ -173,8 +174,7 @@ guard wired, no doors, no type file — so the guard's new doors check (the wire
 landed the same day) never gets its chance. The prose instruction alone does not survive
 contact, which is this corpus's oldest measurement. The candidate form: the plugin's own
 SessionStart hook already delivers the migration fact in operated projects — the same mechanism
-can say, once, *"this operated project has no wired guard and no doors"*. **Revisit when:** the
-a round re-measures N89 with the wired-project form in the field — if ad-hoc stand-ups
+can say, once, *"this operated project has no wired guard and no doors"*. **Revisit when:** a round re-measures N89 with the wired-project form in the field — if ad-hoc stand-ups
 persist, the hook line is built, and a second round with no passes is the threshold. (This said
 *"the next full round after 0.2.7"*; eight releases later N89 has been measured once, so the
 version was never the condition — the second measurement is.)
@@ -204,6 +204,33 @@ missing-declaration refusal with its mutant · **or** the next full round measur
 council fires with its price and its declaration at all, which would give the claim its date. If
 a round shows the field is simply not written, the honest repair is to delete the sentence rather
 than repeat it louder.
+
+## §4's repair test has no form, and it is the clause most worth faking
+
+**Named 2026-09-07, in the release that wrote it.** `self-maintenance.md` §4 now decides who owes a
+showcase trio by a diff-readable test — a change shipping a **new form** is a new mechanic; a change
+altering *what an existing form reads* is a repair, and owes the fact alone. **Nothing reads the
+diff.** Clauses 1–3 name artifacts a script can find; clause 4 is answered by a sentence in the
+changelog entry, written by the person who wants the answer. `check-structure.py` guards showcase
+*counts*, carries no facts count at all, and its findings are rewritten to warnings by
+`preflight.sh` §10 — `AGENTS.md` called it a failure until this release corrected the word.
+
+**Why no form today.** Every check this project ships reads a **file**; this test reads a **range of
+commits**. That is a different animal, and building it before the rule has been used twice is the
+shape `self-maintenance.md` itself refuses — the rule is one release old and has exactly one
+application, 0.2.14's missing situation, found by the rule on the day it was written.
+
+**The candidate form**, so it is not re-derived: preflight already resolves the last tag (§1a) and
+already reads the entry being shipped. A check that greps the range's diff for an added
+`enforced_by:`, a new `§` in `templates/company-preflight.sh`, or a new required field in a
+template — and then requires the entry to carry either a Trio line or the word *repair* — is
+mechanical, and reads the same two things the author reads. **The mutant is a release that adds a
+guard section and calls itself a repair; the twin is one that widens an existing grep and calls
+itself the same.** The twin has to pass, or the check just refuses every release.
+
+**Revisit when** the test is cited a third time, or the first time an entry claims *repair* for a
+change that added a form — whichever comes first. Either one is the second occasion the ladder
+asks for.
 
 ## The promotion ladder's week has no form, only a citation a form could read
 
@@ -237,7 +264,9 @@ column, and not by a note written to demonstrate it.
 > tree by `self-maintenance.md`'s own split, where friction in the work is noted, while friction
 > in the system operating it comes here. A deferral whose condition is unreachable is an
 > abandonment wearing this file's better clothes, which is the sentence at the top of this page.
-> Corrected 2026-09-06 by reading every trigger against reality. The template can hold the closure now; what the gate waits on is one
+> Corrected 2026-09-06 by reading every trigger against reality.
+
+The template can hold the closure now; what the gate waits on is one
 written for its own reasons, because a gate built on a shape nobody has used yet is a gate built
 on a guess. The gate then reads: a rule added to an always-loaded file in the same commit as a
 closure whose dated origin is under seven days old is refused, naming both dates. **The mutant is
@@ -255,7 +284,8 @@ the mutant and twin are the pair this entry specified, and both behave as it pre
 
 ## Convergence between independent reviewers is not read as a signal
 
-**Named 2026-08-28**, from `qa-swarm` (`catalogue.md`). The four lenses already run independently
+**Named 2026-08-28**, from `qa-swarm` — surveyed in the 0.2.14 entry, whose `catalogue.md` row
+0.2.16 removed. The four lenses already run independently
 and each reports even when empty, which is half of what that harness does. The half we do not do
 is the cheap one: when two of them land on **the same file and the same line**, that agreement is
 evidence, and this project currently treats it as a duplicate to be merged away. A finding two
@@ -295,7 +325,7 @@ directory carrying our manifest, inside a runtime root, that no config mounts is
 orphaned. **The mutant is a live mount reported as orphaned; the twin is this exact case — config
 gone, directory full — reported once and by name.**
 
-## ~~A "should this exist at all" ladder~~ — closed 2026-09-06 by the measurement it waited for
+## A "should this exist at all" ladder, and whether it changes anything
 
 **Named 2026-08-22**, from a third-party plugin the owner asked about
 (`github.com/DietrichGebert/ponytail`, MIT, 107,575 stars and 5,946 forks read from the API on
@@ -316,21 +346,31 @@ taken; those numbers cannot be quoted here without breaking the rung rule.
 shipped in 0.2.9 whose prose measures 1 in 10 and whose gates the round could not reach. Adding a
 third before the first two are measured is the exact shape that section exists to refuse.
 
-**The trigger fired, and the answer is no.** N97/N98 ran; `evals/RUNS.md` records every cell
-inside the noise at N=5, so the verdicts settle nothing — but the counted artifacts do. **Across
-ten N97 runs the player added the move eight times, wrote the `**Job**` line ONCE, and committed
-ZERO times.** A declared gate, in the field, moved behaviour that little. The question this entry
-was held open for — *does a ladder of this kind change behaviour at all here* — has its answer,
-and it argues against adding a third such rule rather than for it. **Closed, not carried.**
+**What the round did buy, and it narrows the question rather than answering it.** N97/N98 ran.
+The prose arm measured **1 of 10** — over ten runs the player added the move eight times and wrote
+the declared line once, committing ZERO times. **N102 is N97 with *"then commit it"* in the turn,
+the only difference, and it measured 3 of 3, every one refused first.** So a ladder of this kind
+**shipped as prose** lands in the band this corpus already measures near zero; whether one shipped
+as a **form** changes anything is untouched, and that is the half worth a release. If this ever
+arrives, it arrives as a form.
 
-The one thing worth keeping: **do not install that plugin alongside this skill** — two plugins
-instructing one agent about how to write code is the shadowing trap `evals/RUNS.md` measured.
-That is a fact about coexistence, not a deferral, and it sits in `catalogue.md`'s own row for the
-plugin rather than here.
+**Revisit when** a run actually reaches the gate. The old trigger said *"when N97/N98 have measured
+the gates in the wild"* — they ran without measuring them: a `validator` reaches only a worker that
+commits, ten runs committed nothing, and `evals/RUNS.md` closes that round with **"0.2.9 has no
+gate measurement"**. The condition is the reach, not the run: once a scenario decides whether
+committing is part of the behaviour under test, and N97/N98 are re-run against that answer.
 
-**Held open a fortnight past its own trigger**, which is the failure mode this file exists to
-prevent: a deferral whose moment has come and whose keeper did not look. Found 2026-09-06 by
-reading every entry's trigger against reality rather than its prose.
+**Do not install that plugin alongside this skill** — two plugins instructing one agent about how
+to write code is the shadowing trap `evals/RUNS.md` measured. That is a fact about coexistence
+rather than a deferral, and it stays in this entry because there is no shelf row holding it.
+
+> [!NOTE]
+> **This entry was closed on 2026-09-06 and reopened the same day, by three lenses reading it
+> separately.** The closure called the prose arm *"a declared gate, in the field"* and cited a page
+> whose own closing line says the gates were never reached — while this entry's paragraph above,
+> untouched, already said *whose gates the round could not reach*. **An audit that reads triggers
+> against reality has to read the evidence file, not the trigger's summary of what would satisfy
+> it**; the reading was the failure, not the trigger.
 
 ## Nothing here measures whether a DOCUMENT works, only whether a rule holds
 

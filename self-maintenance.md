@@ -196,19 +196,26 @@ looked finished and was not** (both siblings' ledgers carry the receipts):
    version matrix, and a probe's evidence is a stamp, never the model's account of itself.
 4. **The showcase trio** — a diagram, a situation, a fact — or the mechanic is invisible to
    everyone who did not write it. **The diagram lives beside the rule it draws; `diagrams.md`
-   holds the ones that cross several.** That answers a standing question — is that file a gallery
-   or a chapter — which mattered because it stood at 499 lines of a 500-line budget while this
-   clause kept asking for more. A gallery meets the budget at every new mechanic; a chapter of
-   the crossing ones does not. **And a repair to a mechanic the corpus already draws owes no new
-   diagram** — say so in the entry rather than manufacturing one, which is what a trio clause is
-   for when it is honest.
+   holds only the ones that cross several rules** — a gallery holding every diagram collides with
+   the chapter budget at each new mechanic, and a chapter of the crossing ones does not.
+   **A repair owes no new diagram and no new situation**, only the fact: say so in the entry
+   rather than manufacturing one.
+   **The line between a repair and a new mechanic is read off the diff, never off the author's
+   account of it** — a change that ships a **new form** (a gate, a field, a refusal) is a new
+   mechanic and owes the trio; a change that only alters *what an existing form reads* is a
+   repair. That test is mechanical because clause 1 already is, and it is here because the
+   exemption is otherwise granted by whoever wants it. By it, 0.2.15 — three checks taught to
+   read a second format — is a repair, while 0.2.14 shipped a new `Verdict` field and was not:
+   it owes a situation `use-cases.md` does not have, and that debt is this clause's first
+   finding rather than an exception to it.
 
 **One capability shipped without two of these four, and it is named here rather than implied
 met**: the council carries its showcase trio and a declared field, and has no form where it can
 fail and therefore no mutation test and no dated measurement. A consultation leaves no artifact,
 and every enforceable rule here keys on a file — so the declaration is real guidance and
-unenforced guidance, the class this corpus keeps measuring near zero. `LATER.md` holds what would
-close it and the moment that reopens it; the admission sits here, against the bar it fails.
+unenforced guidance, the class this corpus keeps measuring near zero. What would close it, and the
+moment that reopens it, are kept in this skill's own deferred list; the admission sits here,
+against the bar it fails.
 
 ## When another sentence will not fix it
 

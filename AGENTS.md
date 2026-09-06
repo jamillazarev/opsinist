@@ -178,11 +178,13 @@ report, not a gate — it needs the network and `gh`, and preflight runs offline
 
 **The showcase trio answers for every new mechanic — by name, before the tag.** A capability
 that landed in the corpus asks three questions nothing automates: does **a diagram** show it
-where its prose lives (`diagrams.md`, or beside the prose when the budget is full) · does **a
+beside the rule it draws — `diagrams.md` holds only what crosses several rules · does **a
 situation** say what an owner would say to reach it (`use-cases.md`) · does **a fact** state it
-in one true sentence (`facts.md`)? The counters are guarded — `check-structure` fails a showcase
-number that drifts — but **whether the trio exists at all is judgement, so it is a named step,
-not a hope**. Wording-only changes owe nothing; say so.
+in one true sentence (`facts.md`)? The counters are guarded — `check-structure` warns on a
+showcase number that drifts, and never fatally — but **whether the trio exists at all is
+judgement, so it is a named step, not a hope**. Wording-only changes owe nothing; say so. **A
+repair owes only the fact**, and `self-maintenance.md` §4 gives the diff-readable test for which
+one a change is, so the exemption is not granted by whoever wants it.
 
 **The developer machine is re-synced after the release, every install by its own route.**
 `scripts/find-installs.sh` names each installation and its update route — run it, follow the

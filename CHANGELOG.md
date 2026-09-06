@@ -4,62 +4,64 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.16 — unreleased
 
-**The deferred list was read against reality instead of against its own prose, and three of its
-twelve entries were not what they said.** `LATER.md` opens with *a deferral with no trigger is an
-abandonment wearing better clothes*; this release adds the two failures that sentence does not
-cover, because a trigger can exist and still never bring an entry back.
+**A repair and a new mechanic are now told apart by the diff rather than by the author's account
+of it.** `self-maintenance.md` §4 gains the rule that **a diagram lives beside the rule it draws**
+— `diagrams.md` keeps only what crosses several — and with it the test that decides who owes a
+showcase trio: **a change that ships a new form (a gate, a field, a refusal) is a new mechanic and
+owes one; a change that only alters what an existing form reads is a repair, and owes the fact
+alone.** The exemption was already in use a release early, granted by whoever wanted it. Its first
+application is a finding against this project rather than for it — 0.2.14 shipped a new `Verdict`
+field, and `use-cases.md` still carries no situation for it.
 
-- **One trigger had already fired, and the answer was the opposite of what the entry hoped.** The
-  *should this exist at all* ladder waited on N97/N98 measuring whether a declared gate changes
-  behaviour in the field. They ran. Every cell sits inside the noise at N=5, so the verdicts
-  settle nothing — but the counted artifact does: **across ten runs the player added the move
-  eight times, wrote the declared line ONCE, and committed ZERO times.** That is the answer, and
-  it argues against adding a third such rule rather than for it. Closed, not carried, a fortnight
-  after its moment came.
-
-- **One trigger could not fire at all.** The promotion ladder's week waited on a `Closed` cell in
+- **The deferred list was read against reality instead of against its own prose, and three entries
+  were not what they said.** One trigger **could not fire at all**: it waited on a `Closed` cell in
   *"this repository's own field notes"* — a file this repository does not have and, by
-  `self-maintenance.md`'s own split, should not: `_ops/FIELD-NOTES.md` records friction in a
-  project, while friction in the system operating it comes here. The condition now names a real
-  occasion: a closure written by a sweep in a project, arriving here as a field report — which is
-  how the report behind 0.2.15 arrived.
+  `self-maintenance.md`'s own split, should not, since `_ops/FIELD-NOTES.md` records friction in a
+  project while friction in the system operating it comes here. It now names a real occasion: a
+  closure written by a sweep in a project, arriving as a field report, which is how 0.2.15's report
+  arrived. One was **pinned to a version, not a condition** — *"the next full round after 0.2.7"*,
+  eight releases old, with N89 measured once in between. And one **was not deferred work at all**:
+  the forty-minute report is a caveat about how strong a piece of evidence is, and it moved to
+  `evals/RUNS.md` beside the measurement that already discusses it. `LATER.md` holds what is **not
+  done**, not what we are unsatisfied with.
 
-- **One trigger was pinned to a version, not a condition.** *"The next full round after 0.2.7"* is
-  eight releases old and N89 has been measured once, so the version was never what it was waiting
-  for.
-
-- **And one entry was not deferred work at all.** The forty-minute report is a caveat about how
-  strong a piece of evidence is; the fix it belongs to shipped long ago. It moved to
-  `evals/RUNS.md`, beside the measurement that already discusses it, where the missing half is
-  named: whether that owner entered by a door or an anchor, how many turns before the first task,
-  answered or defaulted. `LATER.md` holds what is **not done**, not what we are unsatisfied with.
-
-- **`diagrams.md` stopped being a collision course with the capability bar.** It stood at 499
-  lines of a 500-line budget while §4 asked for a diagram per mechanic, and the question was never
-  where one diagram goes but whether that file is a gallery or a chapter. **Answered by use:** two
-  releases running put their diagrams beside the rules they draw, and twice in one session a
-  repair to an existing mechanic owed none at all and said so. §4 now states it — *the diagram
-  lives beside the rule it draws; `diagrams.md` holds the ones that cross several* — and adds that
-  a repair to a drawn mechanic owes no new picture, which is what an honest trio clause says
-  instead of manufacturing one.
+- **A fourth entry was closed by that audit and reopened the same day by its own lenses — and that
+  is the finding worth the version.** The *should this exist at all* ladder waited on N97/N98
+  measuring whether a declared gate moves behaviour in the field. The closure read the round's
+  **prose** arm — the declared line written once across ten runs — as *"a declared gate, in the
+  field, moved behaviour that little"*, and cited a page whose closing line reads **"0.2.9 has no
+  gate measurement"**: a `validator` reaches only a worker that commits, those ten runs committed
+  nothing, and the paired arm that did reach the gate converted **3 of 3**. The entry's own
+  paragraph, four lines above the closure, already said *whose gates the round could not reach*.
+  **An audit that reads triggers against reality has to read the evidence file, not the trigger's
+  summary of what would satisfy it.** The entry is open again, its trigger now naming the reach
+  rather than the run. Three lenses landed on that paragraph separately — the convergence signal
+  `LATER.md` is still waiting for a form to read.
 
 - **The capability bar's one open debt moved beside the bar.** The council ships with a declared
-  field and no form, no mutation test and no dated measurement; that admission belongs against the
-  clause it fails, not in a list of things not yet built. What would close it, and the moment that
-  reopens it, stay in `LATER.md`.
+  field and no form, and therefore no mutation test and no dated measurement; that admission
+  belongs against the clause it fails, not in a list of things not yet built.
 
-- **A `catalogue.md` row was removed, and the reason is the file's own contract.** It surveyed four
-  external review harnesses and concluded, for three of them, that this project already holds the
-  bound harder. The shelf says *load when you already know how to choose and want a starting point*
-  — a row is grepped by need, and nobody greps a shelf to be told the need is already met. A
-  deletion lens said so a release ago and the row was compressed instead of cut; the owner said it
-  plainly. **What was surveyed is not lost — it is in the entry that surveyed it.**
+- **A `catalogue.md` row was removed, and one sentence went with it.** It surveyed four external
+  review harnesses and concluded, for three of them, that this project already holds the bound
+  harder. The shelf says *load when you already know how to choose and want a starting point* — a
+  row is grepped by need, and nobody greps a shelf to be told the need is already met. Three of the
+  four survive in the **0.2.14** entry that surveyed them. `babysit-prs`'s asymmetry — *an unknown
+  state counts as unsafe, and a wrongly-allowed push cannot be undone* — survives only in this
+  sentence, which is the honest accounting: the bound it describes is already the outward gate's,
+  but the phrasing was borrowed and is not written anywhere else.
+
+**What to do: nothing.** No check changed. The guard's version stamp moves with the release, so a
+project re-copying `templates/company-preflight.sh` gets a byte-identical file — and the stamp
+warning it silences is the only reason to bother.
 
 Eval state: **not run.** Nothing here changes what a run is asked to do.
 
-**Trio:** a fact (`facts.md` 255 — *a trigger can be absent, unreachable, or already fired*). **No
-diagram and no situation, deliberately**, and by the rule this very release writes into §4: these
-are repairs and removals in a mechanic the corpus already draws.
+**Trio:** a fact (`facts.md` 255 — *a trigger fails by being absent, unreachable, or already fired,
+and the reader is the fourth way*). **No diagram and no situation**, by the test §4 itself adds:
+nothing here ships a new form. **That test convicts this entry too** — §4's new clause is a rule
+without a form, the class this corpus measures near zero, and it is written down as such rather
+than counted as met. What a form would read is in `LATER.md`.
 
 ## 0.2.15 — 2026-09-05
 
