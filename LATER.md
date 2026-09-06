@@ -345,6 +345,34 @@ independent reviewers reached is promoted, and the promotion is recorded, so a l
 tell an agreed finding from a repeated one. **The mutant is two findings from ONE reviewer merged
 and promoted; the twin is the same pair from two.**
 
+## An install copy carries what the source gitignores, and the inventory reads it as ok
+
+**Measured 2026-09-07**, during 0.2.16's re-sync. Both copy-route installs on this machine hold
+**13 MB against a tracked source of 3.1** — `ledger/` and `brandkit/` (eval fixtures, 330 files
+each) and `.claude/worktrees/` (lens worktrees, ephemeral by construction). All three are
+gitignored here and shipped by nothing: `git ls-files` over them returns **zero**. Some earlier
+rsync ran without excludes, and every re-sync since has preserved them.
+
+**Why it is more than megabytes.** An install directory holding a lens worktree is holding a second
+checkout of this repository at some other commit, inside the tree a runtime loads. Nothing reads
+it; nothing says it is there either. `find-installs.sh` reads both copies as **ok**, because it
+checks the version stamp and not what else came along — the same shape as the entry below, where
+the inventory is silent about a state it never looks at.
+
+**Half of it is already closed.** The two copies were moved this time by `git archive <tag> | tar
+-x`, which emits tracked files only and cannot carry an ignored path, so the drift stops growing.
+It does not shrink: nothing was deleted, because the note in `CLAUDE.md` about untracked artifacts
+in a pull's way says to compare before removing rather than assume, and that comparison was not
+done.
+
+**Why no form today.** The obvious check — `git check-ignore` the copy's paths against the source —
+needs the source present, which is the one thing a copy install does not guarantee. A form reading
+the copy alone would need the ignore list shipped beside it, and that is a new artifact for a
+condition seen once.
+
+**Revisit when** a copy install is moved by anything other than `git archive`, or a second machine
+shows the same spread — the second occasion the ladder charges for.
+
 ## The inventory is silent when a mount's CONFIG goes and its directory stays
 
 **Named 2026-09-05, doing the ritual.** `find-installs.sh` gained a hermes row because a mount is
