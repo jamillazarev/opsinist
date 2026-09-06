@@ -4,14 +4,23 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.16 — unreleased
 
-**A repair and a new mechanic are now told apart by the diff rather than by the author's account
-of it.** `self-maintenance.md` §4 gains the rule that **a diagram lives beside the rule it draws**
-— `diagrams.md` keeps only what crosses several — and with it the test that decides who owes a
-showcase trio: **a change that ships a new form (a gate, a field, a refusal) is a new mechanic and
-owes one; a change that only alters what an existing form reads is a repair, and owes the fact
-alone.** The exemption was already in use a release early, granted by whoever wanted it. Its first
-application is a finding against this project rather than for it — 0.2.14 shipped a new `Verdict`
-field, and `use-cases.md` still carries no situation for it.
+**A diagram now has one home rule: it lives beside the rule it draws, and `diagrams.md` keeps only
+what crosses several.** `self-maintenance.md` §4 says so, promoted on two occasions a fortnight
+apart rather than argued — the contradiction stop's diagram went to `escalating.md`, the cost one
+to `cost.md`, and the standing question of whether that file is a gallery or a chapter is answered
+by that use. It matters because the gallery reading was on a collision course with the bar itself:
+a file holding every diagram meets the 500-line chapter budget at each new mechanic, and
+`diagrams.md` is at 500 today.
+
+**A second rule was written the same day and taken back out before the tag, by this project's own
+ladder.** It would have decided *repair* versus *new mechanic* off the diff — a change shipping a
+new form owes the trio, a change altering what an existing form reads owes the fact alone — closing
+an exemption currently granted by whoever wants it. `self-maintenance.md` puts a rule at rung 3 and
+charges **a week between the first dated line and the promotion**; this one was conceived and
+promoted in a single sitting, which is the dotted branch of that section's own diagram: *promoted
+the same day → a rule that was true once, on one machine, about one version.* **It is in `LATER.md`
+with its candidate form and the price it still owes.** The exemption stays judgement and is now
+labelled as judgement, which is the honest state rather than a settled one.
 
 - **The deferred list was read against reality instead of against its own prose, and three entries
   were not what they said.** One trigger **could not fire at all**: it waited on a `Closed` cell in
@@ -51,17 +60,26 @@ field, and `use-cases.md` still carries no situation for it.
   sentence, which is the honest accounting: the bound it describes is already the outward gate's,
   but the phrasing was borrowed and is not written anywhere else.
 
-**What to do: nothing.** No check changed. The guard's version stamp moves with the release, so a
-project re-copying `templates/company-preflight.sh` gets a byte-identical file — and the stamp
-warning it silences is the only reason to bother.
+**What to do: nothing.** `templates/company-preflight.sh` differs from 0.2.15 by exactly one line,
+its version stamp — no check was added, widened or removed. Re-copy it only to silence the guard's
+own stamp warning, which otherwise reports a version gap that has nothing behind it.
 
 Eval state: **not run.** Nothing here changes what a run is asked to do.
 
 **Trio:** a fact (`facts.md` 255 — *a trigger fails by being absent, unreachable, or already fired,
-and the reader is the fourth way*). **No diagram and no situation**, by the test §4 itself adds:
-nothing here ships a new form. **That test convicts this entry too** — §4's new clause is a rule
-without a form, the class this corpus measures near zero, and it is written down as such rather
-than counted as met. What a form would read is in `LATER.md`.
+and the reader is the fourth way*). **No diagram and no situation**, and that claim is judgement,
+not a test — nothing here ships a form, and the rule that would have made the judgement checkable
+is the one held back above. `diagrams.md`'s placement rule is drawn by the file it governs; a
+release that moves prose between files owes no picture. **Said as judgement rather than as a
+result**, which is the state this entry is in and the reason the test is owed.
+
+**Four lenses, and the fourth found the release's own worst sentence.** Three read the range and
+converged on one paragraph: an entry closed on a trigger that had not fired. The fourth read the
+*repair* and found the repair had reinstalled the same defect twice — a corrected trigger naming a
+condition met a fortnight earlier, and a mutant/twin pair whose mutant passed. Both are fixed
+above, both are recorded where they happened. **The pattern is now six releases old: the sharpest
+finding is always in text written the same day**, which is the argument for the ladder and against
+trusting a rule because it is new and feels right.
 
 ## 0.2.15 — 2026-09-05
 

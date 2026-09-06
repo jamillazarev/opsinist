@@ -29,8 +29,8 @@ diagrams beside the rules they draw — the contradiction stop's in `escalating.
 `cost.md` — and twice in one session a repair to an existing mechanic owed none at all and said so
 instead of manufacturing one. **The gallery reading was the collision course, not the budget**: a
 file holding every diagram meets 500 at each new mechanic, a file holding only what crosses several
-rules does not. `self-maintenance.md` §4 now says so, with a diff-readable test for which side of
-the line a change falls on. The file sits at 500 of 500 today, and stays there.
+rules does not. `self-maintenance.md` §4 now says so. The file sits at 500 of 500 today, and stays
+there — which is the whole point of dropping the gallery reading.
 
 ## ~~Measure what the day-one cut actually bought~~ — run 2026-08-01, partly falsified
 
@@ -46,8 +46,8 @@ is four things and the hook enforces something narrower — the gap between them
 files.** The predicate that would close it is *refuse a document whose body is a heading and a
 template's braces*: checkable, a commission, and the shape that has worked twice. **Not
 attempted**, because the criterion comes first — **and that half is open work under a struck
-heading**, which the 2026-09-06 audit read past. It is carried by the entry two below on
-documents, whose form question is the same one.
+heading**, which the 2026-09-06 audit read past. Its form question is the last entry in this file,
+on whether anything measures a document rather than a rule.
 
 **The original entry, kept because the criteria are what made the verdict possible:**
 
@@ -86,9 +86,9 @@ parent's wave plan, default `escalate` unchanged (`decomposing.md`).
 ## ~~A `pack` mode for the inventory script~~ — deleted 2026-08-06, by the owner's call
 
 **Removed unrequested rather than reopened**: no dispatch had hit a context ceiling, and the
-owner chose deletion over shelf-keeping. The idea survives in this paragraph and nowhere else: `scripts/inventory.py`
-has no mode dispatch and no `pack`, so if a real ceiling ever shows up the mode is written from
-scratch. An earlier version of this line claimed the CLI was already shaped to accept one, which
+owner chose deletion over shelf-keeping. **The idea survives in this paragraph and nowhere else**:
+`scripts/inventory.py` has no mode dispatch and no `pack`, so if a real ceiling ever shows up the
+mode is written from scratch. An earlier version of this line claimed the CLI was already shaped to accept one, which
 was not true when written — checked 2026-09-06.
 
 ## ~~A nested layout — the machinery under one root directory~~ — carried in 0.2.0, by the owner's call
@@ -174,8 +174,10 @@ guard wired, no doors, no type file — so the guard's new doors check (the wire
 landed the same day) never gets its chance. The prose instruction alone does not survive
 contact, which is this corpus's oldest measurement. The candidate form: the plugin's own
 SessionStart hook already delivers the migration fact in operated projects — the same mechanism
-can say, once, *"this operated project has no wired guard and no doors"*. **Revisit when:** a round re-measures N89 with the wired-project form in the field — if ad-hoc stand-ups
-persist, the hook line is built, and a second round with no passes is the threshold. (This said
+can say, once, *"this operated project has no wired guard and no doors"*.
+
+**Revisit when:** a round re-measures N89 with the wired-project form in the field — if ad-hoc
+stand-ups persist, the hook line is built, and a second round with no passes is the threshold. (This said
 *"the next full round after 0.2.7"*; eight releases later N89 has been measured once, so the
 version was never the condition — the second measurement is.)
 
@@ -205,32 +207,72 @@ council fires with its price and its declaration at all, which would give the cl
 a round shows the field is simply not written, the honest repair is to delete the sentence rather
 than repeat it louder.
 
-## §4's repair test has no form, and it is the clause most worth faking
+## The repair exemption is judgement, and the test that would replace it has not paid its price
 
-**Named 2026-09-07, in the release that wrote it.** `self-maintenance.md` §4 now decides who owes a
-showcase trio by a diff-readable test — a change shipping a **new form** is a new mechanic; a change
-altering *what an existing form reads* is a repair, and owes the fact alone. **Nothing reads the
-diff.** Clauses 1–3 name artifacts a script can find; clause 4 is answered by a sentence in the
-changelog entry, written by the person who wants the answer. `check-structure.py` guards showcase
-*counts*, carries no facts count at all, and its findings are rewritten to warnings by
-`preflight.sh` §10 — `AGENTS.md` called it a failure until this release corrected the word.
+**Named 2026-09-07, the day it was written and taken back out.** `self-maintenance.md` §4 says a
+repair owes only the fact, not the diagram and not the situation. **Nothing decides what a repair
+is.** Clauses 1–3 of the bar name artifacts a script can find; this one is answered by a sentence
+in the changelog entry, written by the person who wants the answer — and it was claimed twice in
+one session before anything checked it.
 
-**Why no form today.** Every check this project ships reads a **file**; this test reads a **range of
-commits**. That is a different animal, and building it before the rule has been used twice is the
-shape `self-maintenance.md` itself refuses — the rule is one release old and has exactly one
-application, 0.2.14's missing situation, found by the rule on the day it was written.
+**The test that would close it**, drafted so it is not re-derived: *a change shipping a **new form**
+— a gate, a field, a refusal — is a new mechanic and owes the trio; a change that only alters what
+an existing form reads is a repair.* Read off the diff, not off the author's account.
 
-**The candidate form**, so it is not re-derived: preflight already resolves the last tag (§1a) and
-already reads the entry being shipped. A check that greps the range's diff for an added
-`enforced_by:`, a new `§` in `templates/company-preflight.sh`, or a new required field in a
-template — and then requires the entry to carry either a Trio line or the word *repair* — is
-mechanical, and reads the same two things the author reads. **The mutant is a release that adds a
-guard section and calls itself a repair; the twin is one that widens an existing grep and calls
-itself the same.** The twin has to pass, or the check just refuses every release.
+**Why it did not ship the day it was written.** `self-maintenance.md`'s own ladder puts a rule at
+rung 3, and rung 3 costs **a week between the first dated line and the promotion, and it still
+reproduces**. This was conceived and written into a standing chapter in one sitting, on one
+occasion — the dotted branch of that section's own diagram, *promoted the same day* → *a rule that
+was true once, on one machine, about one version*. The exception is a defect with a live blast
+radius; a test telling authors how to classify their own changes is a lesson, and lessons climb.
+**A lens caught it in the same release that wrote it**, which is the ladder working at the only
+moment it can.
 
-**Revisit when** the test is cited a third time, or the first time an entry claims *repair* for a
-change that added a form — whichever comes first. Either one is the second occasion the ladder
-asks for.
+**What a form would read**, when it has earned the rung: `preflight.sh` §1b-bis already resolves
+the last tag (`last_tag=$(git describe --tags --abbrev=0 …)`) and already names `${last_tag}..HEAD`
+as the range the lenses run over, and §11 already reads the entry being shipped. A check would grep
+that range's diff for a **new section header in `templates/company-preflight.sh`** — the shape that
+file actually writes is `# N · `, **never `§`**, whose 44 occurrences there are all prose
+cross-references — or a **new required field in a template**, which is what `+| **Verdict** |`
+was. Then it asks the entry the question the signal raises.
+
+**The mutant and the twin, and the first draft of this pair did not discriminate**: it accepted
+*the word `repair`* as a valid answer, which is exactly what the mutant says, so the mutant passed.
+The pair only works if the check refuses a **form signal answered by an unbacked claim**. **The
+mutant is a release whose diff adds a section header and whose entry says *repair* with no trio;
+the twin is one whose diff adds no form and whose entry says *repair*** — the twin passes, the
+mutant is denied, and neither is decided by the author's word.
+
+**Revisit when** the exemption is claimed in a release at least a week after 2026-09-07 and still
+reads right — the ladder's own price, a second occasion recorded separately. **Do not count the
+citations inside the release that wrote it**: 0.2.16 applied the idea three times in one commit,
+which is one occasion, and reading those three as three is the mistake `checking.md` calls *a
+second occurrence recorded nowhere is a first occurrence again*.
+
+## The two capability bars have diverged, and neither repository says so
+
+**Named 2026-09-07** by a lens asked to compare them. `self-maintenance.md`'s bar and the sibling's
+`AGENTS.md` bar agree on clauses 1 and 2 — a form where the rule can fail, a mutation test — and
+are disjoint on 3 and 4: this repository asks for **the claim dated with its measurement** and
+**the showcase trio**, the sibling for **a scenario and the fixture it needs** and **a door**. Each
+file says *four things* as though its own partition were the finding.
+
+**It is mostly one set cut two ways, and that is the part worth fixing.** The sibling's *door* is
+this repository's rule too — `AGENTS.md` carries *every capability has a door* outside the bar. The
+sibling's *scenario and fixture* is enforced here in code and omitted from the stated bar:
+`preflight.sh` warns when a version bumps and `evals/runsheet.tsv` is unchanged. The trio lives in
+the sibling as a session-loop step with a narrower fact rule; the dated claim is folded into its
+clause 1.
+
+**Why not now.** Reconciling two bars is a change to both repositories' always-loaded contracts, and
+the honest first step was the smaller one already taken: §4 no longer claims *both siblings' ledgers
+carry the receipts* for clauses the sibling does not hold. Merging the partitions is a bigger move
+than one release, and doing it while the divergence is one day old repeats the mistake the entry
+above records.
+
+**Revisit when** a third repository takes this bar, or when a capability ships in one repository and
+is ported to the other — the first time the two lists have to agree on one object, which is when a
+difference stops being a wording question.
 
 ## The promotion ladder's week has no form, only a citation a form could read
 
@@ -347,18 +389,27 @@ shipped in 0.2.9 whose prose measures 1 in 10 and whose gates the round could no
 third before the first two are measured is the exact shape that section exists to refuse.
 
 **What the round did buy, and it narrows the question rather than answering it.** N97/N98 ran.
-The prose arm measured **1 of 10** — over ten runs the player added the move eight times and wrote
-the declared line once, committing ZERO times. **N102 is N97 with *"then commit it"* in the turn,
-the only difference, and it measured 3 of 3, every one refused first.** So a ladder of this kind
-**shipped as prose** lands in the band this corpus already measures near zero; whether one shipped
-as a **form** changes anything is untouched, and that is the half worth a release. If this ever
-arrives, it arrives as a form.
+The prose arm measured **1 of 10** — over ten dispatches the player added the move eight times and
+wrote the declared line once, committing ZERO times. **N102 is N97 with *"then commit it"* in the
+turn, the only difference, and it converted 3 of 3, every one refused first.** **The two rates do
+not share a denominator and this entry will not pretend they do**: 1-of-10 is over every dispatch,
+3-of-3 is over the three of five that reached the gate — the other two were void. That is the
+comparison `evals/RUNS.md` itself draws and defends as outside the noise band; it is quoted here
+with its shape rather than as a headline, because the paragraph above refuses a third party's rates
+for carrying no denominator and this entry does not get an exemption from its own rule.
 
-**Revisit when** a run actually reaches the gate. The old trigger said *"when N97/N98 have measured
-the gates in the wild"* — they ran without measuring them: a `validator` reaches only a worker that
-commits, ten runs committed nothing, and `evals/RUNS.md` closes that round with **"0.2.9 has no
-gate measurement"**. The condition is the reach, not the run: once a scenario decides whether
-committing is part of the behaviour under test, and N97/N98 are re-run against that answer.
+So a ladder of this kind **shipped as prose** lands in the band this corpus already measures near
+zero; whether one shipped as a **form** changes anything is untouched, and that is the half worth a
+release. If this ever arrives, it arrives as a form.
+
+**Revisit when N97/N98 are re-run** against a decision this round left open — whether a scenario
+meaning to reach a gate must say *commit it* in the turn, or whether not-committing is itself the
+behaviour under test. `evals/RUNS.md` names that choice as owed and says the re-run waits on it.
+The old trigger said *"when N97/N98 have measured the gates in the wild"*, and they ran without
+measuring them: a `validator` reaches only a worker that commits, ten runs committed nothing, and
+the round closes with **"0.2.9 has no gate measurement"**. **A first draft of this correction said
+*revisit when a run reaches the gate*, which N102 had already done six lines above** — the same
+failure, in the sentence repairing it.
 
 **Do not install that plugin alongside this skill** — two plugins instructing one agent about how
 to write code is the shadowing trap `evals/RUNS.md` measured. That is a fact about coexistence

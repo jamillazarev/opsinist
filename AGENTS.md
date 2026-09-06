@@ -183,8 +183,10 @@ situation** say what an owner would say to reach it (`use-cases.md`) · does **a
 in one true sentence (`facts.md`)? The counters are guarded — `check-structure` warns on a
 showcase number that drifts, and never fatally — but **whether the trio exists at all is
 judgement, so it is a named step, not a hope**. Wording-only changes owe nothing; say so. **A
-repair owes only the fact**, and `self-maintenance.md` §4 gives the diff-readable test for which
-one a change is, so the exemption is not granted by whoever wants it.
+repair owes only the fact — and which one a change is, is judgement too.** A test that would read
+it off the diff was drafted and held back for the week the promotion ladder charges; until it has
+paid that, an entry claiming *repair* is claiming it on its author's word, and should say which
+form it did not add rather than only that it added none.
 
 **The developer machine is re-synced after the release, every install by its own route.**
 `scripts/find-installs.sh` names each installation and its update route — run it, follow the

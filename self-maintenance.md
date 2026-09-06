@@ -175,7 +175,12 @@ produce the file, we say where it is, we name the ways — **they post it.**
 ## What a capability owes before it ships
 
 **Four things, each traced to a release where shipping without it produced something that
-looked finished and was not** (both siblings' ledgers carry the receipts):
+looked finished and was not.** Clauses 1 and 2 are the sibling's word for word and both ledgers
+carry those receipts. **Clauses 3 and 4 are this repository's partition, not a shared one** — the
+sibling's bar reads *a scenario and the fixture it needs* and *a door* where this one reads a
+dated claim and the trio. The obligations behind the two lists are close to the same set cut
+differently, and neither repository said so until 2026-09-07; **the partition is not the finding,
+the clauses are** (`LATER.md` holds the reconciliation):
 
 1. **A form where the rule can fail — never a stronger sentence.** Rules stated clearly in
    the always-loaded core measured 0/5; the same rules rebuilt as refusing hooks went 5/5.
@@ -197,17 +202,14 @@ looked finished and was not** (both siblings' ledgers carry the receipts):
 4. **The showcase trio** — a diagram, a situation, a fact — or the mechanic is invisible to
    everyone who did not write it. **The diagram lives beside the rule it draws; `diagrams.md`
    holds only the ones that cross several rules** — a gallery holding every diagram collides with
-   the chapter budget at each new mechanic, and a chapter of the crossing ones does not.
-   **A repair owes no new diagram and no new situation**, only the fact: say so in the entry
-   rather than manufacturing one.
-   **The line between a repair and a new mechanic is read off the diff, never off the author's
-   account of it** — a change that ships a **new form** (a gate, a field, a refusal) is a new
-   mechanic and owes the trio; a change that only alters *what an existing form reads* is a
-   repair. That test is mechanical because clause 1 already is, and it is here because the
-   exemption is otherwise granted by whoever wants it. By it, 0.2.15 — three checks taught to
-   read a second format — is a repair, while 0.2.14 shipped a new `Verdict` field and was not:
-   it owes a situation `use-cases.md` does not have, and that debt is this clause's first
-   finding rather than an exception to it.
+   the chapter budget at each new mechanic, and a chapter of the crossing ones does not. Promoted
+   2026-09-07 on two occasions a fortnight apart, both recorded in the deferred list: the
+   contradiction stop's diagram went to `escalating.md` and the cost one to `cost.md`, and the
+   question of what `diagrams.md` is for was answered by that use rather than by argument.
+   **Whether the trio exists at all is still judgement, and so is whether a change is a repair
+   that owes only the fact** — the deferred list carries the candidate test and the price it has
+   not yet paid. Do not read the exemption as settled: it was claimed twice in one session before
+   anything checked it, and one of those releases turned out to be wrong about its own evidence.
 
 **One capability shipped without two of these four, and it is named here rather than implied
 met**: the council carries its showcase trio and a declared field, and has no form where it can
