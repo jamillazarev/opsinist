@@ -2,7 +2,7 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.16 — unreleased
+## 0.2.16 — 2026-09-07
 
 **A diagram now has one home rule: it lives beside the rule it draws, and `diagrams.md` keeps only
 what crosses several.** `self-maintenance.md` §4 says so, promoted on two occasions a fortnight
