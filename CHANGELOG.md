@@ -19,15 +19,33 @@ costlier direction. 2026-09-07: three lenses converged on one wrong paragraph, a
 earlier six lines above it, and a mutant/twin pair whose mutant passed. The one lens pointed at the
 repair found both; the three pointed at the range found neither.
 
-- **The rule is stated in four places and each is the one its reader opens**: `lenses.md` for how
-  a lens runs, `AGENTS.md` for the release ritual, `CLAUDE.md` for this repository's session loop,
-  and `scripts/preflight.sh`'s release warning — the line actually read at tag time, which
-  previously named the range pass alone. Four copies of one sentence is the drift this corpus
-  warns about; they are here because the ritual line and the chapter line are read by different
-  people at different moments, and the chapter is the home the other three point at.
+- **The pass has a question of its own, an input it can actually get, and a stopping condition.**
+  *Did the repair do what the finding asked, and did it introduce what it was fixing?* — the two
+  failure modes measured, both answerable **from the repair's diff alone**, which is the only input
+  it may require: findings are prose in a notification, not a record with a file and a line, so a
+  round that no longer has them is still a round. It **reports when it finds nothing**, like the
+  four. And it is **one pass, not a recursion** — its own repair is read by the next release's
+  first round, because a pass that spawns a pass has no stopping condition.
+
+- **One home, three pointers.** The rule was written into four files at once and they had already
+  drifted in wording on arrival — the drift `AGENTS.md` warns about, inside a day. `lenses.md`
+  holds it; `AGENTS.md`, `CLAUDE.md` and `scripts/preflight.sh`'s release warning name the step and
+  point there. That warning is the line actually read at tag time, and it named the range pass
+  alone until now.
+
+**The release ran its own rule, and the fifth pass was the one that paid.** The four found the
+range clean enough; the pass over the repair found that the new rule **required an input this
+repository states it does not produce** — an open entry in `LATER.md` says lens output is prose and
+not a record, and the rule as first written demanded the findings be handed over. It also found the
+pass had **no question of its own**, in a file whose own argument is that *a reader holding four
+questions holds none of them*; that *report even when empty* was scoped to "the four" and did not
+reach it; that the release warning said *"neither"* of what were by then three obligations; and that
+`facts.md` 256 said *"every one"* where both its siblings say *three of four*. All are repaired
+above. **A rule about reading repairs, caught by reading its own.**
 
 **What to do: nothing, unless you run lenses.** If you do, the round has one more step, and it
-costs one pass. No check changed, and `templates/company-preflight.sh` differs from 0.2.16 by its
+costs one pass — bounded, not open-ended. No check's verdict changed; `scripts/preflight.sh`'s
+release warning changed its text, and `templates/company-preflight.sh` differs from 0.2.16 by its
 version stamp alone.
 
 Eval state: **not run.** Nothing here changes what a run is asked to do; the change is to how a

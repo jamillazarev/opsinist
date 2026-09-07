@@ -155,11 +155,11 @@ of a run — fixture, player, assertion, judge — is a form in
 [evals/README.md](evals/README.md), because *"run the evals"* is the instruction that gets
 performed as reading them.
 
-**Run the four lenses, then read the repair.** The second pass is not optional courtesy: three
-releases running, the sharpest defect was in the text written to answer the first round. **Run the
-four** — deletion, adversarial, contradiction, cold-read — **by someone who did
+**Run the four lenses** — deletion, adversarial, contradiction, cold-read — **by someone who did
 not write the change**, and **state each one even when it found nothing**. A silent lens is
-indistinguishable from a skipped one → [lenses.md](lenses.md).
+indistinguishable from a skipped one. **Then one bounded pass over the repair those findings
+cause**, which is where the sharpest defect has been three releases running → [lenses.md](lenses.md),
+which holds the whole rule including the fifth pass's own question and why it does not recurse.
 
 **Keep the guards current** → [shipping.md](shipping.md).
 

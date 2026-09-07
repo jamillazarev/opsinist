@@ -95,8 +95,22 @@ tagged version produced five remedies for one defect and three were caught only 
 introduced*; **2026-09-07**, three lenses converged on one wrong paragraph and the repair of it
 **reinstalled the same defect twice** — a corrected trigger naming a condition already met six
 lines above it, and a mutant/twin pair whose mutant passed. Only the pass aimed at the repair saw
-either; the three aimed at the range did not. **Give that reader the findings the repair was
-answering**, so it can check the answer and not only the text.
+either; the three aimed at the range did not.
+
+**It holds a fifth question, because a reader holding no question holds the others' — *did the
+repair do what the finding asked, and did it introduce what it was fixing?*** Those are the two
+failure modes measured above, and they are answerable from the repair's diff alone, which is the
+only input this pass is allowed to require. **Hand it the findings as well when they are still to
+hand** — it can then check the answer rather than only the text — **but a round that cannot is
+still a round**: lens output is prose in a notification and not a record with a file and a line, so
+the findings may simply be gone by the time the repair is written. That gap is a deferral of its
+own and not a reason to skip the pass.
+
+**And it is stated when it found nothing, exactly like the four.** *"The repair reads clean"* is a
+result; a fifth pass that reports only when it fires is indistinguishable from one nobody ran,
+which is the failure the other four are stated for. **One pass, not a recursion** — its own repair
+is read at the next release's first round, because a pass that spawns a pass has no stopping
+condition and this one is bounded on purpose.
 
 **Temporary readers.** When they run as agents, they are created for the release and archived
 after — they read, they do not own. Archiving them is part of finishing the release

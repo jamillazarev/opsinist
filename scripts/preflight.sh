@@ -231,7 +231,7 @@ sys.exit(1 if bad else 0)
 DATEPY
 
 
-# 1a-ter · a generated file that nobody regenerates is a stale file with a confident header.
+# 1a-quater · a generated file that nobody regenerates is a stale file with a confident header.
 #          `evals/COVERAGE.md` says "edit the tree, not this file" and had drifted two suites
 #          behind its own generator — in the document whose subject is how well the corpus is
 #          covered. Nothing ran the generator, so nothing noticed.
@@ -281,7 +281,7 @@ if [ -n "$last_tag" ]; then
   if [ -n "$tag_ver" ] && [ "$tag_ver" != "$sv" ]; then
     say_warn "releasing $sv: run the four review lenses over ${last_tag}..HEAD before tagging \
 AND one more pass over the repair those findings cause, \
-and record the eval state in the entry (AGENTS.md → the release ritual). Neither is checkable \
+and record the eval state in the entry (AGENTS.md → the release ritual). None of the three is checkable \
 from here — this line exists so the question is asked out loud rather than remembered"
     ( git diff --quiet "$last_tag" -- evals/runsheet.tsv 2>/dev/null ) \
       && say_warn "version bumped $tag_ver → $sv and evals/runsheet.tsv is unchanged — a release \

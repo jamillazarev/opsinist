@@ -1658,3 +1658,28 @@ this skill wants, and the fourth rewrite of a paragraph is not the way to take i
 
 **Not rewriting those messages again.** The previous entry said the next attempt should not be a
 fourth rewrite; this round is the evidence for that sentence rather than another attempt at it.
+
+---
+
+## The day-one cut — the pre-registered criteria
+
+*Written before the run and kept whole, because criteria written after a result are not criteria.
+Held in `LATER.md` until 2026-09-07, which was the wrong file: this is evidence, not deferred work.*
+
+**Deferred because** the account stood at **92% of its seven-day allowance** on `2026-08-01`, and
+an honest measurement of this change is three runs on the tier an owner actually uses — the tier
+where the problem was found and the only one where the answer means anything.
+
+**What to run:** `S2` on the strong tier, three runs, three turns, `defaults` answered — the exact
+shape of the diagnostic that produced the numbers being compared against. **The baseline is
+recorded**: `11–13 minutes` of advisor time across three turns, `10–13` files before any work
+existed, the first task arriving in turn two of one run and turn three of the other
+(`evals/RUNS.md`).
+
+**What would falsify the fix:** the first task still arriving after the scaffolding, or the second
+turn still running past five minutes. **What would confirm it:** a task in turn one or two, and
+four files where there were thirteen.
+
+**Revisit when** the seven-day allowance resets, or sooner if the owner who reported the
+forty minutes comes back — **their session is worth more than a synthetic one**, and the fix was
+made for them.

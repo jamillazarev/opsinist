@@ -49,30 +49,9 @@ attempted**, because the criterion comes first — **and that half is open work 
 heading**, which the 2026-09-06 audit read past. Its form question is the last entry in this file,
 on whether anything measures a document rather than a rule.
 
-**The original entry, kept because the criteria are what made the verdict possible:**
-
-## ~~Measure what the day-one cut actually bought~~ — the pre-registered criteria, kept
-
-*This is the entry above as it stood BEFORE the run, kept whole because criteria written after a
-result are not criteria. It is not open work.*
-
-**Deferred because** the account stood at **92% of its seven-day allowance** on `2026-08-01`, and
-an honest measurement of this change is three runs on the tier an owner actually uses — the tier
-where the problem was found and the only one where the answer means anything.
-
-**What to run:** `S2` on the strong tier, three runs, three turns, `defaults` answered — the exact
-shape of the diagnostic that produced the numbers being compared against. **The baseline is
-recorded**: `11–13 minutes` of advisor time across three turns, `10–13` files before any work
-existed, the first task arriving in turn two of one run and turn three of the other
-(`evals/RUNS.md`).
-
-**What would falsify the fix:** the first task still arriving after the scaffolding, or the second
-turn still running past five minutes. **What would confirm it:** a task in turn one or two, and
-four files where there were thirteen.
-
-**Revisit when** the seven-day allowance resets, or sooner if the owner who reported the
-forty minutes comes back — **their session is worth more than a synthetic one**, and the fix was
-made for them.
+**The criteria that made the verdict possible** — written before the run, kept whole because
+criteria written after a result are not criteria — are in `evals/RUNS.md`, beside the run. They were
+held here until 2026-09-07; they are evidence, and the entry itself said *"It is not open work."*
 
 ---
 
@@ -114,65 +93,50 @@ solution with no opportunity above it now fails a read even without the picture.
 **Revisit when** the first project running product discovery asks to *see* the tree, or a
 review finds a solution shipped with no opportunity above it.
 
-## Where this system's surface ends and a terminal multiplexer's begins — and the TUI it constrains
+## A terminal UI over `_ops/` — deferred, with the boundary that would shape it
 
 **Named 2026-09-07**, when the owner asked how hard a herdr-like terminal UI would be. **The
-deferral is not "build a TUI" — it is the boundary, which is settled, and the build, which is not
-requested.** Without the boundary written down the question returns as a wish; with it, the answer
-is a paragraph.
+deferred thing is the build**; what follows is why not, and what is already decided so it is not
+re-argued when the moment comes.
 
 **Native-first, answered with its date.** `herdr` (herdr.dev, docs read 2026-09-07, 0.8.2) is **not
-an agent runtime** — it is a terminal multiplexer that supervises other CLI agents, each in a real
-pane, with a sidebar reading `name · state · which binary`. So this skill already runs inside it, by
-way of the agent it supervises; there is nothing to port. Its plugin v1 cannot carry this skill
-either: `herdr-plugin.toml` declares `[[actions]]`, `[[panes]]`, `[[events]]`, `[[link_handlers]]`,
-and every entrypoint is an argv command — *"Runtime action registration and native non-terminal
-plugin UI are not part of plugin v1"*, and the document contains no mechanism for a plugin to add
-instructions, context or skills to an agent. That is a different kind of object from the five
-manifests here, each of which does one thing: point a runtime at `./` so it loads this corpus.
+an agent runtime** — it supervises other CLI agents, each in a pane, with a sidebar reading
+`name · state · which binary`. This skill already runs inside it by way of the agent it supervises,
+so there is nothing to port; and its plugin v1 could not carry this corpus anyway, every entrypoint
+being an argv command with no mechanism to add instructions or context to an agent.
 
-**The boundary, and it is the whole entry.** A pane holding a live process is that tool's object
-and it does that half well. **This system refuses that half on purpose** — nothing load-bearing
-lives in a session — and it owns the durable one: who exists, what they are for, what they are
-allowed to do without asking, what is assigned, what it costs, and what waits on the owner. **Build
-the live half here and the result is a worse multiplexer bought with the founding premise.** The
-move in the other direction is real and cheap: that sidebar says `blocked`, and `_ops/` knows *which
-task, which gate, and what the wait costs* — **the reason belongs on their row**, which needs no API
-and no cooperation from the agent, because the state is already files.
+**The boundary, stated without naming anyone, because that tool is an instance and not the reason.**
+A pane holding a live process belongs to whatever supervises the session. **This system refuses that
+half on purpose** — nothing load-bearing lives in a session — and owns the durable one: who exists,
+what they are for, what they may do without asking, what is assigned, what it costs, what waits on
+the owner. **Build the session half here and the result is a worse supervisor bought with the
+founding premise.** The cheap move is the other direction and holds for any supervisor: it can see
+that an agent stopped and not why, while `_ops/` knows which task, which gate and what the wait
+costs — **the reason can go on someone else's status row without this system growing a session
+model**, because the state is already files and the agent is not the source.
 
-**What is settled about the TUI, so it is not re-derived.** Each of these is an existing measured
-rule applied, not a new opinion:
-- **It holds no model. Every repaint re-reads the files.** An in-memory board is the second copy
-  `TASK-template.md` refuses — *"a copy that stops moving; 12 of 12 tasks disagreed"*. If reading
-  is slow, reading gets fixed; a cache is the defect.
-- **It never renders a silent subset.** A count line says how many entities it could not read,
-  because a display that quietly drops what it failed to parse is `facts.md` 254 with a screen
-  attached — and an empty board must not look like a calm project.
-- **One writer.** It reads; the agent writes; the owner edits files. Actions invoke the existing
-  flows rather than writing entities, or it becomes a second writer on files the agent owns.
-- **No chat outside a thread.** Talking to a role opens the thread file and lands the turn on disk
-  before anything is dispatched. A side channel that leaves no file is the thing this system exists
-  to refuse.
-- **The first view is the bill for the owner's attention, not the work** — what waits on them, aged
-  and priced, each line ending in a named offer. That is `/status` already; the TUI is that flow
-  repainting.
-- **Not columns.** *Automatic transitions are how boards begin to lie*, and everything surfaces as
-  ready and waits — so the board is a tree with wave separators, and it is the secondary screen.
+**Settled about the TUI, each an existing measured rule applied rather than a new opinion:** it
+holds **no model** — every repaint re-reads, because an in-memory board is the second copy
+`TASK-template.md` refuses (*12 of 12 tasks disagreed*) · it never renders a **silent subset**, a
+count line saying what it could not read, or it is `facts.md` 254 with a screen attached and an
+empty board looks like a calm project · **one writer** — it reads, the agent writes, the owner edits
+files, and its actions invoke existing flows · **no chat outside a thread**, so talking to a role
+lands the turn on disk first · the first view is **the bill for the owner's attention**, which is
+`/status` repainting · and **not columns**, because automatic transitions are how boards begin to
+lie and a wave is not a column — a tree with wave separators, secondary.
 
-**Why not now.** Nobody has asked for the build, and the one screen with no substitute anywhere —
-*what changed in `_ops/` while I was away* — has never been wanted out loud. A view nobody reads is
-furniture, which is the argument the entry above already makes about a different view.
+**Why not now.** Nobody asked for the build, and the one screen with no substitute — *what changed
+in `_ops/` while I was away* — has never been wanted out loud. A view nobody reads is furniture,
+the same argument the Opportunity-Solution-Tree entry makes about a different view.
 
 **The candidate form**, when it earns the rung: the parser refuses a malformed entity and the count
-line reports it. **The mutant is a `_ops/` where one task's status line is bolded differently and
-the display shows the rest without a word; the twin is the same tree read whole.** The reader itself
-is not new work — `scripts/transition.py`'s `field()` already reads the prose form tolerantly, which
-is the reader whose bash twins were repaired three times in 0.2.15, and a TUI reuses it rather than
-becoming a fifth.
+line reports it. **The mutant is a tree where one task's status line is bolded differently and the
+display shows the rest without a word; the twin is that tree read whole.** The reader is not new
+work — `scripts/transition.py`'s `field()` already reads the prose form tolerantly, and a TUI reuses
+it rather than becoming a fifth reader of a format this project has watched go blind.
 
-**Revisit when** an owner asks *what changed while I was away* and answering it means reading
-`git log -- _ops/` by hand — or when a project runs `/status` more than once in a sitting, acting
-between the two, which is the behaviour a repainting view would replace.
+**Revisit when** an owner asks *what changed while I was away* and answering means reading
+`git log -- _ops/` by hand.
 
 ## `starts: webhook` — an external trigger the automation can declare
 
@@ -271,43 +235,36 @@ than repeat it louder.
 
 **Named 2026-09-07, the day it was written and taken back out.** `self-maintenance.md` §4 says a
 repair owes only the fact, not the diagram and not the situation. **Nothing decides what a repair
-is.** Clauses 1–3 of the bar name artifacts a script can find; this one is answered by a sentence
-in the changelog entry, written by the person who wants the answer — and it was claimed twice in
-one session before anything checked it.
+is** — clauses 1–3 of the bar name artifacts a script can find; this one is answered by a sentence
+in the changelog, written by the person who wants the answer, and it was claimed twice in one
+session before anything checked it.
 
-**The test that would close it**, drafted so it is not re-derived: *a change shipping a **new form**
-— a gate, a field, a refusal — is a new mechanic and owes the trio; a change that only alters what
-an existing form reads is a repair.* Read off the diff, not off the author's account.
+**The test that would close it:** *a change shipping a **new form** — a gate, a field, a refusal —
+is a new mechanic and owes the trio; a change that only alters what an existing form reads is a
+repair.* Read off the diff, not off the author's account.
 
-**Why it did not ship the day it was written.** `self-maintenance.md`'s own ladder puts a rule at
-rung 3, and rung 3 costs **a week between the first dated line and the promotion, and it still
-reproduces**. This was conceived and written into a standing chapter in one sitting, on one
-occasion — the dotted branch of that section's own diagram, *promoted the same day* → *a rule that
-was true once, on one machine, about one version*. The exception is a defect with a live blast
-radius; a test telling authors how to classify their own changes is a lesson, and lessons climb.
-**A lens caught it in the same release that wrote it**, which is the ladder working at the only
-moment it can.
+**Why it did not ship the day it was written.** The ladder puts a rule at rung 3, and rung 3 costs
+**a week between the first dated line and the promotion, and it still reproduces**. This was
+conceived and written into a standing chapter in one sitting, on one occasion — the dotted branch
+of that section's own diagram, *promoted the same day* → *a rule that was true once, on one machine,
+about one version*. The exception is a defect with a live blast radius; a test telling authors how
+to classify their own changes is a lesson, and lessons climb. **A lens caught it in the release that
+wrote it**, which is the ladder working at the only moment it can.
 
-**What a form would read**, when it has earned the rung: `preflight.sh` §1b-bis already resolves
-the last tag (`last_tag=$(git describe --tags --abbrev=0 …)`) and already names `${last_tag}..HEAD`
-as the range the lenses run over, and §11 already reads the entry being shipped. A check would grep
-that range's diff for a **new section header in `templates/company-preflight.sh`** — the shape that
-file actually writes is `# N · `, **never `§`**, whose 44 occurrences there are all prose
-cross-references — or a **new required field in a template**, which is what `+| **Verdict** |`
-was. Then it asks the entry the question the signal raises.
+**What a form would read**, when it has earned the rung: `preflight.sh` §1b-bis already resolves the
+last tag and names `${last_tag}..HEAD` as the lens range, and §11 already reads the entry being
+shipped. A check greps that range's diff for a **new section header in `templates/company-preflight.sh`**
+— the shape that file writes is `# N · `, **never `§`**, whose occurrences there are all prose
+cross-references — or a **new required field in a template**, which is what `+| **Verdict** |` was.
 
-**The mutant and the twin, and the first draft of this pair did not discriminate**: it accepted
-*the word `repair`* as a valid answer, which is exactly what the mutant says, so the mutant passed.
-The pair only works if the check refuses a **form signal answered by an unbacked claim**. **The
-mutant is a release whose diff adds a section header and whose entry says *repair* with no trio;
-the twin is one whose diff adds no form and whose entry says *repair*** — the twin passes, the
-mutant is denied, and neither is decided by the author's word.
+**The mutant and the twin, and the first draft did not discriminate**: it accepted *the word
+`repair`* as a valid answer, which is what the mutant says, so the mutant passed. **The mutant is a
+release whose diff adds a section header and whose entry says *repair* with no trio; the twin is one
+whose diff adds no form and says the same** — the twin must pass, or the check refuses everything.
 
 **Revisit when** the exemption is claimed in a release at least a week after 2026-09-07 and still
-reads right — the ladder's own price, a second occasion recorded separately. **Do not count the
-citations inside the release that wrote it**: 0.2.16 applied the idea three times in one commit,
-which is one occasion, and reading those three as three is the mistake `checking.md` calls *a
-second occurrence recorded nowhere is a first occurrence again*.
+reads right. **Do not count the citations inside the release that wrote it**: 0.2.16 applied the
+idea three times in one commit, which is one occasion.
 
 ## The two capability bars have diverged, and neither repository says so
 
@@ -408,30 +365,29 @@ and promoted; the twin is the same pair from two.**
 ## An install copy carries what the source gitignores, and the inventory reads it as ok
 
 **Measured 2026-09-07**, during 0.2.16's re-sync. Both copy-route installs on this machine hold
-**13 MB against a tracked source of 3.1** — `ledger/` and `brandkit/` (eval fixtures, 330 files
-each) and `.claude/worktrees/` (lens worktrees, ephemeral by construction). All three are
-gitignored here and shipped by nothing: `git ls-files` over them returns **zero**. Some earlier
-rsync ran without excludes, and every re-sync since has preserved them.
+**13 MB against a tracked source of 3.1** — `ledger/`, `brandkit/` and `.claude/worktrees/`, all
+gitignored here and shipped by nothing (`git ls-files` over them returns zero). An earlier rsync ran
+without excludes and every re-sync since preserved them.
 
-**Why it is more than megabytes.** An install directory holding a lens worktree is holding a second
-checkout of this repository at some other commit, inside the tree a runtime loads. Nothing reads
-it; nothing says it is there either. `find-installs.sh` reads both copies as **ok**, because it
-checks the version stamp and not what else came along — the same shape as the entry below, where
+**Why it is more than megabytes.** An install directory holding a lens worktree holds a second
+checkout of this repository, at some other commit, inside a tree a runtime loads. Nothing reads it;
+nothing says it is there either. `find-installs.sh` reads both copies as **ok** because it checks
+the version stamp and not what else came along — the same shape as the mount-config entry, where
 the inventory is silent about a state it never looks at.
 
-**Half of it is already closed.** The two copies were moved this time by `git archive <tag> | tar
--x`, which emits tracked files only and cannot carry an ignored path, so the drift stops growing.
-It does not shrink: nothing was deleted, because the note in `CLAUDE.md` about untracked artifacts
-in a pull's way says to compare before removing rather than assume, and that comparison was not
-done.
+**Half of it is already closed.** The copies were moved this time by `git archive <tag> | tar -x`,
+which emits tracked files only and cannot carry an ignored path, so the drift stops growing. It does
+not shrink: nothing was deleted.
+
+**And one act is owed rather than deferred**: the 13 MB stayed because the comparison `CLAUDE.md`
+requires — untracked artifacts checked against `origin/main` before removal — **was not run**. That
+waits on somebody, not on a moment. Do it the next time a copy install is touched for any reason.
 
 **Why no form today.** The obvious check — `git check-ignore` the copy's paths against the source —
-needs the source present, which is the one thing a copy install does not guarantee. A form reading
-the copy alone would need the ignore list shipped beside it, and that is a new artifact for a
-condition seen once.
+needs the source present, which is the one thing a copy install does not guarantee.
 
 **Revisit when** a copy install is moved by anything other than `git archive`, or a second machine
-shows the same spread — the second occasion the ladder charges for.
+shows the same spread.
 
 ## The inventory is silent when a mount's CONFIG goes and its directory stays
 
@@ -504,12 +460,11 @@ to write code is the shadowing trap `evals/RUNS.md` measured. That is a fact abo
 rather than a deferral, and it stays in this entry because there is no shelf row holding it.
 
 > [!NOTE]
-> **This entry was closed on 2026-09-06 and reopened the same day, by three lenses reading it
-> separately.** The closure called the prose arm *"a declared gate, in the field"* and cited a page
-> whose own closing line says the gates were never reached — while this entry's paragraph above,
-> untouched, already said *whose gates the round could not reach*. **An audit that reads triggers
-> against reality has to read the evidence file, not the trigger's summary of what would satisfy
-> it**; the reading was the failure, not the trigger.
+> **Closed 2026-09-06 and reopened the same day by three lenses reading it separately.** The closure
+> called the round's prose arm *"a declared gate, in the field"* and cited a page whose closing line
+> says the gates were never reached — while the paragraph above, untouched, already said so. **An
+> audit that reads triggers against reality has to read the evidence file, not the trigger's summary
+> of what would satisfy it**; the reading was the failure, not the trigger.
 
 ## Nothing here measures whether a DOCUMENT works, only whether a rule holds
 
