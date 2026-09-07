@@ -36,8 +36,8 @@ there — which is the whole point of dropping the gallery reading.
 
 **Closed by measurement, and the verdict is split.** The **ordering** claim confirmed: the first
 task is now written second, before every document, where it used to arrive after the scaffolding.
-The **volume** and **time** claims **falsified** against the criteria written below before the
-run: still ten to thirteen files, and turn two still at four hundred seconds against a stated
+The **volume** and **time** claims **falsified** against criteria written before the run and kept
+in `evals/RUNS.md`: still ten to thirteen files, and turn two still at four hundred seconds against a stated
 threshold of three hundred. `evals/RUNS.md` carries the table.
 
 **What it taught, and the next thing to try:** the gate could see *order* and enforced it; it
@@ -46,12 +46,13 @@ is four things and the hook enforces something narrower — the gap between them
 files.** The predicate that would close it is *refuse a document whose body is a heading and a
 template's braces*: checkable, a commission, and the shape that has worked twice. **Not
 attempted**, because the criterion comes first — **and that half is open work under a struck
-heading**, which the 2026-09-06 audit read past. Its form question is the last entry in this file,
-on whether anything measures a document rather than a rule.
+heading**, which the 2026-09-06 audit read past. Its form question is the *Nothing here measures
+whether a DOCUMENT works* entry, which asks the same thing.
 
 **The criteria that made the verdict possible** — written before the run, kept whole because
-criteria written after a result are not criteria — are in `evals/RUNS.md`, beside the run. They were
-held here until 2026-09-07; they are evidence, and the entry itself said *"It is not open work."*
+criteria written after a result are not criteria — are in `evals/RUNS.md` under *the day-one cut*.
+They were held here until 2026-09-07; they are evidence, and the entry itself said *"It is not open
+work."*
 
 ---
 
@@ -99,41 +100,34 @@ review finds a solution shipped with no opportunity above it.
 deferred thing is the build**; what follows is why not, and what is already decided so it is not
 re-argued when the moment comes.
 
-**Native-first, answered with its date.** `herdr` (herdr.dev, docs read 2026-09-07, 0.8.2) is **not
-an agent runtime** — it supervises other CLI agents, each in a pane, with a sidebar reading
-`name · state · which binary`. This skill already runs inside it by way of the agent it supervises,
-so there is nothing to port; and its plugin v1 could not carry this corpus anyway, every entrypoint
-being an argv command with no mechanism to add instructions or context to an agent.
+**Native-first, answered with its date.** `herdr` (herdr.dev, read 2026-09-07) **supervises CLI
+agents rather than being one**, so this skill already runs inside it by way of the agent it
+supervises and there is nothing to port; its plugin surface carries executables, not context.
 
 **The boundary, stated without naming anyone, because that tool is an instance and not the reason.**
 A pane holding a live process belongs to whatever supervises the session. **This system refuses that
 half on purpose** — nothing load-bearing lives in a session — and owns the durable one: who exists,
 what they are for, what they may do without asking, what is assigned, what it costs, what waits on
 the owner. **Build the session half here and the result is a worse supervisor bought with the
-founding premise.** The cheap move is the other direction and holds for any supervisor: it can see
-that an agent stopped and not why, while `_ops/` knows which task, which gate and what the wait
-costs — **the reason can go on someone else's status row without this system growing a session
-model**, because the state is already files and the agent is not the source.
+founding premise.** The move the other way is cheap and holds for any supervisor: it can see that an
+agent stopped and not why, while `_ops/` knows which task, which gate and what the wait costs — so
+**the reason can go on someone else's status row without this system growing a session model.**
 
-**Settled about the TUI, each an existing measured rule applied rather than a new opinion:** it
-holds **no model** — every repaint re-reads, because an in-memory board is the second copy
-`TASK-template.md` refuses (*12 of 12 tasks disagreed*) · it never renders a **silent subset**, a
-count line saying what it could not read, or it is `facts.md` 254 with a screen attached and an
-empty board looks like a calm project · **one writer** — it reads, the agent writes, the owner edits
-files, and its actions invoke existing flows · **no chat outside a thread**, so talking to a role
-lands the turn on disk first · the first view is **the bill for the owner's attention**, which is
-`/status` repainting · and **not columns**, because automatic transitions are how boards begin to
-lie and a wave is not a column — a tree with wave separators, secondary.
+**Settled about the TUI, each an existing rule applied rather than a new opinion:** **no model in
+memory**, every repaint re-reads — an in-memory board is the second copy `TASK-template.md` refuses
+· **no silent subset**, a count line says what it could not read (`facts.md` 254), or an empty board
+looks like a calm project · **one writer** — it reads, the agent writes, the owner edits files ·
+**no chat outside a thread**, so a turn lands on disk first · the first view is **the bill for the
+owner's attention**, which is `/status` repainting · **not columns** — a wave is not a column, so a
+tree with wave separators, and secondary.
 
 **Why not now.** Nobody asked for the build, and the one screen with no substitute — *what changed
-in `_ops/` while I was away* — has never been wanted out loud. A view nobody reads is furniture,
-the same argument the Opportunity-Solution-Tree entry makes about a different view.
+in `_ops/` while I was away* — has never been wanted aloud.
 
 **The candidate form**, when it earns the rung: the parser refuses a malformed entity and the count
 line reports it. **The mutant is a tree where one task's status line is bolded differently and the
 display shows the rest without a word; the twin is that tree read whole.** The reader is not new
-work — `scripts/transition.py`'s `field()` already reads the prose form tolerantly, and a TUI reuses
-it rather than becoming a fifth reader of a format this project has watched go blind.
+work — `scripts/transition.py`'s `field()` already reads the prose form tolerantly.
 
 **Revisit when** an owner asks *what changed while I was away* and answering means reading
 `git log -- _ops/` by hand.
@@ -243,13 +237,12 @@ session before anything checked it.
 is a new mechanic and owes the trio; a change that only alters what an existing form reads is a
 repair.* Read off the diff, not off the author's account.
 
-**Why it did not ship the day it was written.** The ladder puts a rule at rung 3, and rung 3 costs
-**a week between the first dated line and the promotion, and it still reproduces**. This was
-conceived and written into a standing chapter in one sitting, on one occasion — the dotted branch
-of that section's own diagram, *promoted the same day* → *a rule that was true once, on one machine,
-about one version*. The exception is a defect with a live blast radius; a test telling authors how
-to classify their own changes is a lesson, and lessons climb. **A lens caught it in the release that
-wrote it**, which is the ladder working at the only moment it can.
+**Why it did not ship the day it was written.** `self-maintenance.md`'s promotion ladder puts a rule
+at rung 3 and charges **a week between the first dated line and the promotion, and it still
+reproduces**; this was conceived and written into a standing chapter in one sitting, which is that
+section's own dotted branch — *promoted the same day* → *a rule that was true once, on one machine,
+about one version*. Its exception is a defect with a live blast radius, and a test telling authors
+how to classify their own changes is a lesson.
 
 **What a form would read**, when it has earned the rung: `preflight.sh` §1b-bis already resolves the
 last tag and names `${last_tag}..HEAD` as the lens range, and §11 already reads the entry being
@@ -257,10 +250,9 @@ shipped. A check greps that range's diff for a **new section header in `template
 — the shape that file writes is `# N · `, **never `§`**, whose occurrences there are all prose
 cross-references — or a **new required field in a template**, which is what `+| **Verdict** |` was.
 
-**The mutant and the twin, and the first draft did not discriminate**: it accepted *the word
-`repair`* as a valid answer, which is what the mutant says, so the mutant passed. **The mutant is a
-release whose diff adds a section header and whose entry says *repair* with no trio; the twin is one
-whose diff adds no form and says the same** — the twin must pass, or the check refuses everything.
+**The mutant is a release whose diff adds a section header and whose entry says *repair* with no
+trio; the twin is one whose diff adds no form and says the same** (a first draft accepted *the word
+`repair`* as an answer, so the mutant passed) — the twin must pass, or the check refuses everything.
 
 **Revisit when** the exemption is claimed in a release at least a week after 2026-09-07 and still
 reads right. **Do not count the citations inside the release that wrote it**: 0.2.16 applied the
@@ -317,14 +309,6 @@ shape this corpus refuses: the form should read something the work already write
 this skill, and that closure reaches here as a field report — not by the person who added the
 column, and not by a note written to demonstrate it.
 
-> [!NOTE]
-> **This trigger could not fire for a fortnight and nobody noticed.** It said *"this repository's
-> own field notes"*, and this repository has none — `_ops/FIELD-NOTES.md` lives in a **project's**
-> tree by `self-maintenance.md`'s own split, where friction in the work is noted, while friction
-> in the system operating it comes here. A deferral whose condition is unreachable is an
-> abandonment wearing this file's better clothes, which is the sentence at the top of this page.
-> Corrected 2026-09-06 by reading every trigger against reality.
-
 The template can hold the closure now; what the gate waits on is one
 written for its own reasons, because a gate built on a shape nobody has used yet is a gate built
 on a guess. The gate then reads: a rule added to an always-loaded file in the same commit as a
@@ -340,6 +324,39 @@ wants the verdict written for its own reasons."* That flow arrived: a reviewer's
 what the requester acts on, and a second reviewer can only be compared to the first if the first
 wrote down what it concluded. The field is `Verdict` on `RUN-template.md`; the gate is in §1f;
 the mutant and twin are the pair this entry specified, and both behave as it predicted.
+
+## The lens round has no form, and its range cannot see the repairs it prompts
+
+**Named 2026-09-07**, by the adversarial lens reading the release that added the repair pass.
+**Nothing counts passes**, so a lens that was skipped and a lens that reported empty are the same
+artifact — `preflight.sh` says so out loud at every release (*"None of the three is checkable from
+here"*), which is honest and is not a check.
+
+**And the range has a hole the moment the tag is cut early.** The round reads `<last tag>..HEAD`,
+which contains a repair right up until that repair's own tag exists — after which it is an ancestor
+and the next release's range excludes it forever. Measured: `1727542`, the repair 0.2.16's own
+re-run produced, is an ancestor of `v0.2.16`, and `git log v0.2.16..5f76d30` returns one commit that
+is not it. **The commit that motivated the rule is the one a deferral to "the next round" would have
+missed.** `lenses.md` closes it by ordering — re-run before tagging — which is a rule, not a form:
+nothing refuses a tag cut between the rounds.
+
+**The candidate form**, and it is one comparison: record the reviewed range in the entry, and have
+preflight refuse a tag when that range does not reach `HEAD` — which is exactly the state a tag cut
+between rounds produces. **The mutant is a release whose recorded range stops short of its own
+repair commits; the twin is one whose range reaches them.** It is a form where ordering-by-sentence
+is now.
+
+**Why no form today.** The rule it would enforce is one release old, and a range expression that
+reaches further back doubles what every round reads — a cost this project has never measured for a
+lens round at all, which is the same missing number as below.
+
+**And the cost is undeclared.** One agent round per release, forever, and nothing in `cost.md` or
+`evals/RUNS.md` puts a number on a lens pass. The adversarial lens's own fourth question is *who
+pays for it, in tokens, in attention, in a wait nobody sees*; this rule was reviewed by that lens
+and did not answer it.
+
+**Revisit when** a release ships a defect that the previous release's repair introduced — the case
+the range hole exists to let through — or when any lens round is measured for what it costs.
 
 ## Convergence between independent reviewers is not read as a signal
 
@@ -375,9 +392,8 @@ nothing says it is there either. `find-installs.sh` reads both copies as **ok** 
 the version stamp and not what else came along — the same shape as the mount-config entry, where
 the inventory is silent about a state it never looks at.
 
-**Half of it is already closed.** The copies were moved this time by `git archive <tag> | tar -x`,
-which emits tracked files only and cannot carry an ignored path, so the drift stops growing. It does
-not shrink: nothing was deleted.
+**Half of it is closed**: the copies moved this time by `git archive <tag> | tar -x`, which emits
+tracked files only and cannot carry an ignored path — the drift stops growing, and does not shrink.
 
 **And one act is owed rather than deferred**: the 13 MB stayed because the comparison `CLAUDE.md`
 requires — untracked artifacts checked against `origin/main` before removal — **was not run**. That
@@ -413,58 +429,49 @@ gone, directory full — reported once and by name.**
 
 ## A "should this exist at all" ladder, and whether it changes anything
 
-**Named 2026-08-22**, from a third-party plugin the owner asked about
-(`github.com/DietrichGebert/ponytail`, MIT, 107,575 stars and 5,946 forks read from the API on
-2026-08-22, created 2026-06-12). Its content is one ladder an agent walks **before writing code**:
-does this need to exist · is it already in the codebase · standard library · a native platform
-feature · an installed dependency · can it be one line · only then a minimum implementation.
+**Named 2026-08-22**, from a third-party plugin the owner asked about (`DietrichGebert/ponytail`,
+MIT, read from the API 2026-08-22). Its content is one ladder an agent walks **before writing
+code**: does this need to exist · is it already in the codebase · standard library · a native
+platform feature · an installed dependency · can it be one line · only then a minimum
+implementation.
 
-**Why it is a real gap and not a duplicate.** `choosing-tools.md` holds a ladder for *which
-vendor* — free → open source → self-hostable → embeddable → agent-drivable. Nothing in the
-shipped corpus asks *should this code exist at all*. The nearest thing, **native-first**, lives in
-`AGENTS.md`, which governs work on this repository and never reaches a project.
+**Why it is a real gap and not a duplicate.** `choosing-tools.md` holds a ladder for *which vendor*
+— free → open source → self-hostable → embeddable → agent-drivable. Nothing in the shipped corpus
+asks *should this code exist at all*; the nearest thing, **native-first**, lives in `AGENTS.md`,
+which governs work on this repository and never reaches a project.
 
-**Why it is not being taken today.** Two reasons, and the second is the corpus's own rule.
-· Its headline rates — *"~54% less code (up to 94%) · ~20% cheaper · ~27% faster · 100% safe"* —
-carry no denominator, no corpus, no date, and *100% safe* is not falsifiable. The ladder can be
-taken; those numbers cannot be quoted here without breaking the rung rule.
-· **A finding does not become a rule the day it is found** (`self-maintenance.md`). Two capabilities
-shipped in 0.2.9 whose prose measures 1 in 10 and whose gates the round could not reach. Adding a
-third before the first two are measured is the exact shape that section exists to refuse.
+**Why it is not being taken.** Its headline rates — *"~54% less code · ~20% cheaper · ~27% faster ·
+100% safe"* — carry no denominator, no corpus, no date, and *100% safe* is not falsifiable; the
+ladder can be taken, those numbers cannot be quoted here. And **a finding does not become a rule the
+day it is found**: two capabilities shipped in 0.2.9 whose prose measures 1 in 10 and whose gates
+that round could not reach, so a third before the first two are measured is what
+`self-maintenance.md` refuses.
 
-**What the round did buy, and it narrows the question rather than answering it.** N97/N98 ran.
-The prose arm measured **1 of 10** — over ten dispatches the player added the move eight times and
-wrote the declared line once, committing ZERO times. **N102 is N97 with *"then commit it"* in the
-turn, the only difference, and it converted 3 of 3, every one refused first.** **The two rates do
-not share a denominator and this entry will not pretend they do**: 1-of-10 is over every dispatch,
-3-of-3 is over the three of five that reached the gate — the other two were void. That is the
-comparison `evals/RUNS.md` itself draws and defends as outside the noise band; it is quoted here
-with its shape rather than as a headline, because the paragraph above refuses a third party's rates
-for carrying no denominator and this entry does not get an exemption from its own rule.
-
-So a ladder of this kind **shipped as prose** lands in the band this corpus already measures near
-zero; whether one shipped as a **form** changes anything is untouched, and that is the half worth a
-release. If this ever arrives, it arrives as a form.
+**What the round did buy, and it narrows the question rather than answering it.** The prose arm
+measured **1 of 10** — over ten dispatches the player added the move eight times and wrote the
+declared line once, committing ZERO times. **N102 is N97 with *"then commit it"* in the turn, the
+only difference, and it converted 3 of 3.** **The two rates do not share a denominator and this
+entry will not pretend they do**: 1-of-10 is over every dispatch, 3-of-3 over the three of five that
+reached the gate. So a ladder of this kind **shipped as prose** lands in the band this corpus
+measures near zero; whether one shipped as a **form** changes anything is untouched. If it ever
+arrives, it arrives as a form.
 
 **Revisit when N97/N98 are re-run** against a decision this round left open — whether a scenario
 meaning to reach a gate must say *commit it* in the turn, or whether not-committing is itself the
-behaviour under test. `evals/RUNS.md` names that choice as owed and says the re-run waits on it.
-The old trigger said *"when N97/N98 have measured the gates in the wild"*, and they ran without
-measuring them: a `validator` reaches only a worker that commits, ten runs committed nothing, and
-the round closes with **"0.2.9 has no gate measurement"**. **A first draft of this correction said
-*revisit when a run reaches the gate*, which N102 had already done six lines above** — the same
-failure, in the sentence repairing it.
+behaviour under test. `evals/RUNS.md` names that choice as owed. The old trigger said *"when N97/N98
+have measured the gates in the wild"*, and they ran without measuring them: a `validator` reaches
+only a worker that commits, ten runs committed nothing, and the round closes with **"0.2.9 has no
+gate measurement"**.
 
-**Do not install that plugin alongside this skill** — two plugins instructing one agent about how
-to write code is the shadowing trap `evals/RUNS.md` measured. That is a fact about coexistence
-rather than a deferral, and it stays in this entry because there is no shelf row holding it.
+**Do not install that plugin alongside this skill** — two plugins instructing one agent about how to
+write code is the shadowing trap `evals/RUNS.md` measured.
 
 > [!NOTE]
 > **Closed 2026-09-06 and reopened the same day by three lenses reading it separately.** The closure
 > called the round's prose arm *"a declared gate, in the field"* and cited a page whose closing line
-> says the gates were never reached — while the paragraph above, untouched, already said so. **An
-> audit that reads triggers against reality has to read the evidence file, not the trigger's summary
-> of what would satisfy it**; the reading was the failure, not the trigger.
+> says the gates were never reached. **An audit that reads triggers against reality has to read the
+> evidence file, not the trigger's summary of what would satisfy it.** A first correction then named
+> a condition N102 had already met — the same failure, in the sentence repairing it.
 
 ## Nothing here measures whether a DOCUMENT works, only whether a rule holds
 

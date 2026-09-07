@@ -247,7 +247,7 @@ result. A file headed 'edit the tree, not this file' is only true if something r
   fi
 fi
 
-# 1a-quater · a correction, once committed, is not deleted. The freeze above compares HEAD
+# 1a-quinquies · a correction, once committed, is not deleted. The freeze above compares HEAD
 #             against each tag, so a blockquote added after the tag and removed later looks
 #             exactly like one never written — and a correction is where this repository
 #             admits an error, which is the last thing that should be quietly removable.
@@ -280,7 +280,7 @@ if [ -n "$last_tag" ]; then
             | grep -m1 '^version:' | tr -dc '0-9.')
   if [ -n "$tag_ver" ] && [ "$tag_ver" != "$sv" ]; then
     say_warn "releasing $sv: run the four review lenses over ${last_tag}..HEAD before tagging \
-AND one more pass over the repair those findings cause, \
+AND the round again over the repair those findings cause, before the tag, \
 and record the eval state in the entry (AGENTS.md → the release ritual). None of the three is checkable \
 from here — this line exists so the question is asked out loud rather than remembered"
     ( git diff --quiet "$last_tag" -- evals/runsheet.tsv 2>/dev/null ) \

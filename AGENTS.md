@@ -156,9 +156,9 @@ of a run — fixture, player, assertion, judge — is a form in
 performed as reading them.
 
 **Run the four lenses** — deletion, adversarial, contradiction, cold-read — **by someone who did
-not write the change**, and **state each one even when it found nothing**. A silent lens is
-indistinguishable from a skipped one. **Then one bounded pass over the repair those findings
-cause**, which is where the sharpest defect has been three releases running → [lenses.md](lenses.md),
+not write the change**, and **state each one even when it found nothing** — a silent lens is
+indistinguishable from a skipped one. **Then run the round again over the repair those findings
+cause, before the tag**, where the range already contains it, which is where the sharpest defect has been on three occasions → [lenses.md](lenses.md),
 which holds the whole rule including the fifth pass's own question and why it does not recurse.
 
 **Keep the guards current** → [shipping.md](shipping.md).

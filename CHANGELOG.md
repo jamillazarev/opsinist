@@ -5,58 +5,65 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 ## 0.2.17 — unreleased
 
 **A review is not finished when its findings are answered — the answer is the next thing to read.**
-`lenses.md` → *Running them* gains a second pass, aimed at the repair the first round caused rather
-than at the range, and given the findings that repair was answering. The four lenses read text
+`lenses.md` → *Running them* now says to **run the round again over the repair the findings caused,
+before the tag is cut**. No new mechanism: the range is still `<last tag>..HEAD`, so it already
+contains the repair — the same four questions over a range that grew. The first round reads text
 drafted **before** the findings existed; the repair is drafted **after** them, at speed, by the
-person those findings have just convinced — which is the condition a lens exists for, arriving at
-the one moment nothing was reading.
+person those findings have just convinced, which is the condition a lens exists for arriving at the
+one moment nothing is reading.
 
-**Measured three times, and the third is what promoted it.** 2026-08-28: eight rounds on a tagged
-version produced five remedies for one defect, three caught only by a further round. 2026-09-05:
-three of four adversarial findings were false refusals *the repair itself had introduced* — the
-costlier direction. 2026-09-07: three lenses converged on one wrong paragraph, and the repair of it
-**reinstalled the same defect twice** — a corrected trigger naming a condition met a fortnight
-earlier six lines above it, and a mutant/twin pair whose mutant passed. The one lens pointed at the
-repair found both; the three pointed at the range found neither.
+**And do not tag between the rounds**, because that is what puts a repair beyond reach: it becomes
+an ancestor of the tag, and every later range excludes it by construction. Measured on this
+repository — the commit that motivated this whole rule is an ancestor of its own release's tag, and
+the next range does not contain it.
 
-- **The pass has a question of its own, an input it can actually get, and a stopping condition.**
-  *Did the repair do what the finding asked, and did it introduce what it was fixing?* — the two
-  failure modes measured, both answerable **from the repair's diff alone**, which is the only input
-  it may require: findings are prose in a notification, not a record with a file and a line, so a
-  round that no longer has them is still a round. It **reports when it finds nothing**, like the
-  four. And it is **one pass, not a recursion** — its own repair is read by the next release's
-  first round, because a pass that spawns a pass has no stopping condition.
+- **Three occasions, and the entry first cited the wrong one.** 2026-08-23: four lenses read a range
+  before its tag and *the worst thing they found was a regression in the repair itself*. 2026-09-05:
+  three of four adversarial findings were false refusals **the repair had introduced**. 2026-09-07:
+  the re-run found the defects listed below. A first draft cited 0.2.13 instead — eight rounds on an
+  already-tagged version, a different mechanism — and claimed the promotion ladder had been *checked
+  rather than assumed*. It had not been; an adversarial lens checked it.
 
-- **One home, three pointers.** The rule was written into four files at once and they had already
-  drifted in wording on arrival — the drift `AGENTS.md` warns about, inside a day. `lenses.md`
-  holds it; `AGENTS.md`, `CLAUDE.md` and `scripts/preflight.sh`'s release warning name the step and
-  point there. That warning is the line actually read at tag time, and it named the range pass
-  alone until now.
+- **It wants the findings, and says why it often cannot have them.** *Did the repair do what the
+  finding asked* cannot be read off a diff. **Nothing retains them** — a lens reports into a
+  notification, not into a record anything reads back — so the round answers the half that can be
+  read and **names the half it could not**.
 
-**The release ran its own rule, and the fifth pass was the one that paid.** The four found the
-range clean enough; the pass over the repair found that the new rule **required an input this
-repository states it does not produce** — an open entry in `LATER.md` says lens output is prose and
-not a record, and the rule as first written demanded the findings be handed over. It also found the
-pass had **no question of its own**, in a file whose own argument is that *a reader holding four
-questions holds none of them*; that *report even when empty* was scoped to "the four" and did not
-reach it; that the release warning said *"neither"* of what were by then three obligations; and that
-`facts.md` 256 said *"every one"* where both its siblings say *three of four*. All are repaired
-above. **A rule about reading repairs, caught by reading its own.**
+- **What it costs is one more round per release, and this project has never measured that.** The
+  adversarial lens's own fourth question is *who pays for it — in tokens, in attention, in a wait
+  nobody sees*. **No form holds any of it**: nothing counts rounds, so a skipped one and a
+  stated-empty one are the same artifact, and nothing refuses a tag cut between rounds. `LATER.md`
+  carries the candidate — record the reviewed range in the entry, refuse a tag when it does not
+  reach `HEAD` — with its mutant and twin.
 
-**What to do: nothing, unless you run lenses.** If you do, the round has one more step, and it
-costs one pass — bounded, not open-ended. No check's verdict changed; `scripts/preflight.sh`'s
-release warning changed its text, and `templates/company-preflight.sh` differs from 0.2.16 by its
+- **One home, three pointers.** The rule was written into four files at once and they had drifted in
+  wording within a day. `lenses.md` holds it; `AGENTS.md` and `CLAUDE.md` point there, and the
+  release warning points at `AGENTS.md`'s ritual.
+
+**What this release did, said plainly, because the clean version would be false.** Four lenses were
+launched at the range; a usage limit killed three and cold-read landed. Its findings were repaired.
+The round was then re-launched over a range that now contained that repair — and **every serious
+finding came from the second round**: a stopping condition pointing at a range that excluded what it
+deferred · a half-question unanswerable from the input the text called sufficient · a label repair
+that moved a collision instead of removing it · a pointer claiming criteria sat *beside* a run they
+sat 1,516 lines from · `LATER.md` grown 227 lines over two releases and through its budget. **The
+rule was rewritten three times in one day under those findings** — which is the argument for the
+week the promotion ladder charges, made by the release that paid it.
+
+**What to do: nothing, unless you run lenses.** If you do, the round runs once more over the repair,
+before the tag. No check's verdict changed; the release warning changed its text and two preflight
+comment labels were disambiguated, and `templates/company-preflight.sh` differs from 0.2.16 by its
 version stamp alone.
 
 Eval state: **not run.** Nothing here changes what a run is asked to do; the change is to how a
 release is reviewed, which no scenario measures.
 
-**Trio:** a fact (`facts.md` 256 — *a repair written in answer to a review is the least-read text
-in the change*). **No diagram and no situation**: this adds a step to the lens round, a mechanic
-`lenses.md` already narrates and `diagrams.md` does not draw — and by 0.2.16's own admission that
-judgement has no test behind it yet, so it is stated as judgement. **The promotion ladder was
-checked rather than assumed this time**: rung 3 charges a week between the first dated line and the
-promotion, the first line is 2026-08-28, and the three occasions sit in three separate entries.
+**Trio:** a fact (`facts.md` 256 — *a repair written in answer to a review is the part of a change
+least likely to be read*). **No new diagram and no situation.** `diagrams.md` **does** draw this
+round — *four lenses, by someone who did not write it* — and that line stays true, because the
+second round is the same four over a longer range and not a fifth reader. An earlier draft of this
+entry said the corpus did not draw it at all, which was false and would have skipped a diagram that
+was in scope.
 
 ## 0.2.16 — 2026-09-07
 

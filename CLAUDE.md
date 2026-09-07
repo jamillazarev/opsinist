@@ -18,9 +18,9 @@ this file exists to stop anyone re-deriving per session.
    the showcase trio. No exceptions for small ones — the sibling's ledger and ours both
    carry releases that looked finished without it.
 2. **Lenses** on anything of consequence — deletion · adversarial · contradiction ·
-   cold-read, by a reader who did not write it, each reporting even when empty. **Then one
-   bounded pass on the repair they caused** — `lenses.md` → *Running them* holds its question,
-   its input, and why it is one pass and not a recursion.
+   cold-read, by a reader who did not write it, each reporting even when empty. **Then the round
+   again over the repair they caused, before the tag** — the range still contains it — until a
+   round reports clean (`lenses.md` → *Running them*, which holds its input and its cost).
 3. **The showcase trio** for every new mechanic: a diagram · a situation (`use-cases.md`) ·
    a fact (`facts.md`). Wording-only changes owe nothing — say so.
 4. **Checks**: `bash scripts/preflight.sh` (runs every shipped test suite itself) ·
