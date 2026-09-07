@@ -10,7 +10,6 @@ work now, which is a task with a blocker instead.
 
 ---
 
-
 ## ~~`diagrams.md` is at its budget~~ — answered 2026-09-06: beside the rule, not in a gallery
 
 **Measured 2026-08-15**: the file stood at **499 lines of a 500-line chapter budget** before this
@@ -328,17 +327,15 @@ the mutant and twin are the pair this entry specified, and both behave as it pre
 ## The lens round has no form, and its range cannot see the repairs it prompts
 
 **Named 2026-09-07**, by the adversarial lens reading the release that added the repair pass.
-**Nothing counts passes**, so a lens that was skipped and a lens that reported empty are the same
-artifact — `preflight.sh` says so out loud at every release (*"None of the three is checkable from
-here"*), which is honest and is not a check.
+**Nothing counts rounds**, so a skipped lens and an empty one are the same artifact — `preflight.sh`
+says so at every release, which is honest and is not a check.
 
-**And the range has a hole the moment the tag is cut early.** The round reads `<last tag>..HEAD`,
-which contains a repair right up until that repair's own tag exists — after which it is an ancestor
-and the next release's range excludes it forever. Measured: `1727542`, the repair 0.2.16's own
-re-run produced, is an ancestor of `v0.2.16`, and `git log v0.2.16..5f76d30` returns one commit that
-is not it. **The commit that motivated the rule is the one a deferral to "the next round" would have
-missed.** `lenses.md` closes it by ordering — re-run before tagging — which is a rule, not a form:
-nothing refuses a tag cut between the rounds.
+**And the range has a hole the moment the tag is cut early.** `<last tag>..HEAD` contains a repair
+until that repair's own tag exists, after which it is an ancestor and every later range excludes it.
+Measured: `1727542`, the repair 0.2.16's re-run produced, is an ancestor of `v0.2.16` and absent from
+`git log v0.2.16..5f76d30` — **the commit that motivated the rule is the one a deferral to "the next
+round" would have missed.** `lenses.md` closes it by ordering, which is a rule and not a form:
+nothing refuses a tag cut between rounds.
 
 **The candidate form**, and it is one comparison: record the reviewed range in the entry, and have
 preflight refuse a tag when that range does not reach `HEAD` — which is exactly the state a tag cut
@@ -346,14 +343,17 @@ between rounds produces. **The mutant is a release whose recorded range stops sh
 repair commits; the twin is one whose range reaches them.** It is a form where ordering-by-sentence
 is now.
 
-**Why no form today.** The rule it would enforce is one release old, and a range expression that
-reaches further back doubles what every round reads — a cost this project has never measured for a
-lens round at all, which is the same missing number as below.
+**The sibling already ships two thirds of this.** Its `scripts/lens.sh <lens> <base-ref>` runs one
+lens as an isolated headless session — own config home, no connectors, `Write` denied — beside a run
+record that lists `not run` rather than omitting it. **And it has the state this
+project lacks**: *a lens that exhausts its turn budget is recorded as **not completed**,
+indistinguishable from one nobody ran*. Measured here 2026-09-07, when nine lens agents died on
+usage limits across three rounds and there was nowhere to record it but prose.
 
-**And the cost is undeclared.** One agent round per release, forever, and nothing in `cost.md` or
-`evals/RUNS.md` puts a number on a lens pass. The adversarial lens's own fourth question is *who
-pays for it, in tokens, in attention, in a wait nobody sees*; this rule was reviewed by that lens
-and did not answer it.
+**Why no form today.** A runner is a capability and owes the bar; the rule it serves is one release
+old and changed shape three times in a day. **And the cost is undeclared** — one round per release,
+forever, with no number on a lens pass anywhere, which is the adversarial lens's own fourth question
+unanswered by a rule it reviewed.
 
 **Revisit when** a release ships a defect that the previous release's repair introduced — the case
 the range hole exists to let through — or when any lens round is measured for what it costs.
@@ -497,4 +497,3 @@ alone.
 **Where the method came from.** Sanity Labs measured their own design system this way and
 published the findings, the method and the runner (`catalogue.md`, *Does the design system survive an
 agent?*). Their counts are the borrowable half; their tool is theirs.
-
