@@ -60,6 +60,12 @@ vocabulary instead of the corpus's** — found by listing every row name in orde
 until you next edit it; a finding is a new file you write when you next answer a question worth
 keeping.
 
+**A lens that ran out of budget is now recorded as `not completed`, never as empty.** The two are
+identical in a report and opposite in fact. Measured on this release: **three rounds lost twelve
+lens agents to usage limits**, and the only place to say so was prose. **A round carrying a `not
+completed` has not reported clean** — which is what the tag waits on, so this release waited.
+Ported from the sibling, where the state has been in use since 2026-08-15 rather than invented here.
+
 Eval state: **not run.** `N61` is the regression test for the skill half and it is the *before*
 measurement — 0 of 5 — so the next round says whether the form moved it.
 

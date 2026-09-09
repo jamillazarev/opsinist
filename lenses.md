@@ -66,7 +66,12 @@ Against the corpus, not against taste. **Name both sides**, with locations.
 ## Running them
 
 **Each lens is stated, including when it found nothing.** *"Deletion: nothing found"* is a
-result; silence is indistinguishable from a skipped lens.
+result; silence is indistinguishable from a skipped lens. **And a lens that ran out of budget is
+recorded as `not completed`, never as empty** — those two are identical in the report and opposite
+in fact, so *"deletion: nothing found"* written over a lens killed at its third tool call is a
+false clean. Measured 2026-09-10: **three rounds in one session lost twelve lens agents to usage
+limits**, with nowhere to record it but prose. **A round carrying a `not completed` has not reported
+clean**, which is the condition the tag waits on.
 
 **A finding names its place and its fix:** path, line, the defect in one sentence, and what
 would resolve it. A finding without a location is an opinion.
