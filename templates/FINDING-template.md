@@ -1,6 +1,6 @@
 # {{the question, as a question — not a topic}}
 
-**Decides**: {{[T-XXXXXX](../tasks/T-XXXXXX-slug.md) — the decision waiting on this, or `nothing yet`}} ·
+**Decides**: {{a link to the task this decides — `T-XXXXXX`, as a link and not a bare id — or `nothing yet`}} ·
 **Status**: {{open · settled · stale}} · **Depth**: {{orienting · deciding · standing}}
 **Answered**: {{YYYY-MM-DD}} · **Recheck when**: {{a named event, never a date}}
 

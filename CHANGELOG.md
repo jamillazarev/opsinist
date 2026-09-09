@@ -4,66 +4,67 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.17 — unreleased
 
-**A review is not finished when its findings are answered — the answer is the next thing to read.**
-`lenses.md` → *Running them* now says to **run the round again over the repair the findings caused,
-before the tag is cut**. No new mechanism: the range is still `<last tag>..HEAD`, so it already
-contains the repair — the same four questions over a range that grew. The first round reads text
-drafted **before** the findings existed; the repair is drafted **after** them, at speed, by the
-person those findings have just convinced, which is the condition a lens exists for arriving at the
-one moment nothing is reading.
+**Migration — and this one adds two refusals to the guard your project copies.** `_ops/preflight.sh`
+is a copy that does not update itself, so **re-copy `templates/company-preflight.sh`**: §15 refuses a
+skill that runs commands without recording what it refused, §17 refuses a research finding with
+nothing to order it or expire it. Until you re-copy, neither fires and nothing says so. Two templates
+change and one is new — `SKILL-SCAFFOLD.md`, `ANSWER-template.md`, and `FINDING-template.md`.
 
-**And do not tag between the rounds**, because that is what puts a repair beyond reach: it becomes
-an ancestor of the tag, and every later range excludes it by construction. Measured on this
-repository — the commit that motivated this whole rule is an ancestor of its own release's tag, and
-the next range does not contain it.
+**A skill now records the test instead of being asked for it.** `skills.md` already said *every
+command a skill contains is run before the file is saved, against an input it must reject* — and
+`N61` scored **0 of 5** on exactly that clause, counted from transcripts across three rounds, with
+one run **declaring itself tested by reading a manual** while the sentence describing that failure
+sat in the file it was reading. So the scaffold carries `## Tested against`, which asks for three
+things a reading cannot produce: the defective input, **what the command actually printed when it
+refused**, and the date. You cannot paste output you never generated. Where a skill runs nothing —
+as all twenty-one of this project's own do, measured before building — `none:` is the whole answer,
+and §15 leaves it alone, because gating doors would teach everyone to write the section without
+meaning it.
 
-- **Three occasions, and the entry first cited the wrong one.** 2026-08-23: four lenses read a range
-  before its tag and *the worst thing they found was a regression in the repair itself*. 2026-09-05:
-  three of four adversarial findings were false refusals **the repair had introduced**. 2026-09-07:
-  the re-run found the defects listed below. A first draft cited 0.2.13 instead — eight rounds on an
-  already-tagged version, a different mechanism — and claimed the promotion ladder had been *checked
-  rather than assumed*. It had not been; an adversarial lens checked it.
+**Research got the layer it was missing: a finding is not its task.** The task carries the cost, the
+depth and the done-when, and it closes; **the conclusion stays true until a named event retires it**
+and is where the next question starts. `_ops/research/` existed as a name with no form — one line in
+the layout, no template, no prioritisation — and now holds one file per **question**, because a topic
+never closes and a question does. It opens with *what we now believe* in a paragraph, which is read
+**instead of** the sources under it; the register is for whoever argues. **`Decides` is what orders
+them**, so the reading order is the order of the decisions waiting and no second list is kept — a
+second list is a list that lies.
 
-- **It wants the findings, and says why it often cannot have them.** *Did the repair do what the
-  finding asked* cannot be read off a diff. **Nothing retains them** — a lens reports into a
-  notification, not into a record anything reads back — so the round answers the half that can be
-  read and **names the half it could not**.
+**How deep is a question with a price, asked before the fetching starts.** Three rungs named by what
+they buy: `orienting` is a direction and never a finding · `deciding` is a defensible call ·
+`standing` is something quotable in a year, **and it is the only one that obliges every source to
+have been read against the others** — §17 refuses it while the register still says otherwise, which
+is claiming work nobody did. A run that outgrows its rung is a new question at a new price.
 
-- **What it costs is one more round per release, and this project has never measured that.** The
-  adversarial lens's own fourth question is *who pays for it — in tokens, in attention, in a wait
-  nobody sees*. **No form holds any of it**: nothing counts rounds, so a skipped one and a
-  stated-empty one are the same artifact, and nothing refuses a tag cut between rounds. `LATER.md`
-  carries the candidate — record the reviewed range in the entry, refuse a tag when it does not
-  reach `HEAD` — with its mutant and twin.
+**The register can say what pulls against an entry.** Nothing read contradiction *between* sources —
+verified by grep before building — and **2 of 20 entries carried a comparison buried in a prose
+paragraph** where no field held it. `Reads against` names the entries this one must be read beside,
+or one of two words that are **not the same answer**: `none found` is a claim that someone looked,
+`not checked` is honest ignorance, and an empty field is neither. It is symmetric, so
+`fetch-source.py --verify-reads` refuses a one-way pair — **it caught two on its first run, in
+entries written the same hour**. The most useful finding was not a disagreement at all: six sources
+on synthetic personas look opposed and measure different things, and that resolution is what the
+rules downstream rest on.
 
-- **One home, three pointers.** The rule was written into four files at once and they had drifted in
-  wording within a day. `lenses.md` holds it; `AGENTS.md` and `CLAUDE.md` point there, and the
-  release warning points at `AGENTS.md`'s ritual.
+**The shelf grew by a third and lost three rows it should never have gained.** `catalogue.md` 128 →
+149, shaped by its own contract — *keep only the anchors that carry a licensing or fallback
+decision* — so roughly a hundred and ten resources became rows carrying decisions: a typeface is
+licensed per use-class and webfonts are metered by pageviews · a mockup licence covers client work
+and almost never redistribution · product reading splits three ways because only one of them is
+disinterested. **Three licences were mis-stated upstream and are read from the repository here**:
+GitButler is FSL-1.1-MIT and not OSI open source, RudderStack is Elastic License 2.0, and
+`sharechat` has no LICENSE file at all. **And three rows were duplicates I added by grepping my own
+vocabulary instead of the corpus's** — found by listing every row name in order, folded back.
 
-**What this release did, said plainly, because the clean version would be false.** Four lenses were
-launched at the range; a usage limit killed three and cold-read landed. Its findings were repaired.
-The round was then re-launched over a range that now contained that repair — and **every serious
-finding came from the second round**: a stopping condition pointing at a range that excluded what it
-deferred · a half-question unanswerable from the input the text called sufficient · a label repair
-that moved a collision instead of removing it · a pointer claiming criteria sat *beside* a run they
-sat 1,516 lines from · `LATER.md` grown 227 lines over two releases and through its budget. **The
-rule was rewritten three times in one day under those findings** — which is the argument for the
-week the promotion ladder charges, made by the release that paid it.
+**What to do:** re-copy the guard. Nothing else is required. A skill you already have keeps working
+until you next edit it; a finding is a new file you write when you next answer a question worth
+keeping.
 
-**What to do: nothing, unless you run lenses.** If you do, the round runs once more over the repair,
-before the tag. No check's verdict changed; the release warning changed its text and two preflight
-comment labels were disambiguated, and `templates/company-preflight.sh` differs from 0.2.16 by its
-version stamp alone.
+Eval state: **not run.** `N61` is the regression test for the skill half and it is the *before*
+measurement — 0 of 5 — so the next round says whether the form moved it.
 
-Eval state: **not run.** Nothing here changes what a run is asked to do; the change is to how a
-release is reviewed, which no scenario measures.
-
-**Trio:** a fact (`facts.md` 256 — *a repair written in answer to a review is the part of a change
-least likely to be read*). **No new diagram and no situation.** `diagrams.md` **does** draw this
-round — *four lenses, by someone who did not write it* — and that line stays true, because the
-second round is the same four over a longer range and not a fifth reader. An earlier draft of this
-entry said the corpus did not draw it at all, which was false and would have skipped a diagram that
-was in scope.
+**Trio:** four diagrams, each beside the rule it draws · four situations · `facts.md` **257–260**.
+Suites: company-preflight **237** · verify-reads **9** · audit-gate **123**, all zero-fail.
 
 ## 0.2.16 — 2026-09-07
 
