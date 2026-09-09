@@ -55,13 +55,30 @@ trigger. **Modularity is cheap at birth and expensive at five hundred lines.**
 - **Full at birth is a design smell.** If the first draft hits the budget, it wants splitting.
 
 **Test before you trust it.** Hand it to a fresh worker that has never seen the routine and check
-it reaches the outcome. **A skill nobody tested is a hypothesis.**
+it reaches the outcome. **A skill nobody tested is a hypothesis** — and the hypothesis is recorded
+rather than believed: `SKILL-SCAFFOLD.md` → *Tested against* is a required section carrying the
+input, the refusal it printed, and the date. **This sentence alone measured 0 of 5** (`N61`,
+counted from transcripts, three rounds), with one run declaring itself tested by reading a manual,
+which is why there is now a field instead of a firmer sentence.
 
 **Every command it contains is run before the file is saved — against an input it must reject.**
 Not a passing case: **a checker that reads nothing and a checker that finds nothing wrong return
 the identical silence**, so a clean run against good input proves only that nothing crashed. Give
 it the defect and watch it refuse; that is the smallest test that can distinguish working from
 inert.
+
+```mermaid
+flowchart TD
+  S["a skill with commands"] --> Q{"was a command run<br/>against an input it<br/>must REJECT?"}
+  Q -->|"yes"| F["**Tested against**<br/>input · what it printed · date"]
+  Q -->|"read the manual"| M(("not a test —<br/>you cannot paste<br/>output you never<br/>produced"))
+  Q -->|"a passing case"| P(("proves nothing —<br/>read-nothing and<br/>found-nothing are<br/>the same silence"))
+  S -.->|"runs nothing"| N["`none:` — the whole<br/>answer for a door"]
+  F --> G["§15 lets the commit through"]
+  M --> G2["§15 refuses"]
+  P --> G2
+  N --> G
+```
 
 **Reading a command does not find what running it finds.** Measured here twice, both on commands
 read carefully and never once executed: a pattern that matched one ordinary markdown spelling of a

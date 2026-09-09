@@ -1955,5 +1955,98 @@ done
 git rm -qf "_ops/tasks/T-SP-control.md" "_ops/tasks/T-SP with space.md" "_ops/tasks/$nl_name" >/dev/null 2>&1
 git commit -qm "space fixture out" >/dev/null 2>&1
 
+# ── §15 · a skill that runs commands must record what it refused ───────────────────────────
+# The rule existed in prose and measured 0 of 5 (`N61`, counted from transcripts, three rounds),
+# with one run declaring itself tested by reading a manual. Every mutant below is paired with the
+# honest twin on the same fixture, because a gate that refuses everything and a gate that reads
+# nothing both look like a refusal from outside.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+mkdir -p _ops/skills/assemble
+
+# the honest twin: it runs something, and it pasted what the command printed when it refused
+cat > _ops/skills/assemble/SKILL.md <<'SK'
+# Assemble the newsletter
+
+    python3 _ops/scripts/assemble.py --check
+
+## Tested against
+
+- **Input:** `_ops/drafts/empty.md` — a draft whose body is only a heading
+- **Refused with:** `assemble.py: refusing _ops/drafts/empty.md — body is a heading and nothing else`
+- **Run on:** 2026-09-10
+SK
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "§15 refused an honest skill — the gate refuses everything"
+
+# a door that runs nothing needs no test, and `none:` is the whole answer
+cat > _ops/skills/assemble/SKILL.md <<'SK'
+# A door
+
+Load the advisor skill and run the flow in `checking.md`.
+
+## Tested against
+
+- none: this skill routes and runs nothing
+SK
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "§15 refused a door that runs nothing — it would teach everyone to fake the section"
+
+# mutant 1 · runs commands, no section at all
+cat > _ops/skills/assemble/SKILL.md <<'SK'
+# Assemble the newsletter
+
+    python3 _ops/scripts/assemble.py --check
+SK
+grep -q 'assemble.py' _ops/skills/assemble/SKILL.md || bad "MUTATION DID NOT APPLY (no section)"
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a skill running commands with no Tested-against section passed" || ok
+
+# mutant 2 · the template's braces, copied and not filled
+cat > _ops/skills/assemble/SKILL.md <<'SK'
+# Assemble the newsletter
+
+    python3 _ops/scripts/assemble.py --check
+
+## Tested against
+
+- **Input:** {{the defective input the command was given}}
+- **Refused with:** {{what it actually printed}}
+- **Run on:** {{YYYY-MM-DD}}
+SK
+grep -q '{{' _ops/skills/assemble/SKILL.md || bad "MUTATION DID NOT APPLY (braces)"
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "an unfilled Tested-against template passed" || ok
+
+# mutant 3 · a test claimed with nothing where the refusal goes — the reading-the-manual shape
+cat > _ops/skills/assemble/SKILL.md <<'SK'
+# Assemble the newsletter
+
+    python3 _ops/scripts/assemble.py --check
+
+## Tested against
+
+- **Input:** checked the documentation and the flags look right
+- **Run on:** 2026-09-10
+SK
+grep -q 'documentation' _ops/skills/assemble/SKILL.md || bad "MUTATION DID NOT APPLY (no refusal)"
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a test claimed with nothing pasted under Refused with passed" || ok
+
+# mutant 4 · `none` claimed while commands are present
+cat > _ops/skills/assemble/SKILL.md <<'SK'
+# Assemble the newsletter
+
+    python3 _ops/scripts/assemble.py --check
+
+## Tested against
+
+- none: this skill routes and runs nothing
+SK
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "'none' passed on a skill that runs commands" || ok
+
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+rm -rf _ops/skills/assemble
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

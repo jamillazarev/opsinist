@@ -1738,6 +1738,58 @@ proposed to a human, never edited by whoever works under it.";;
   fi
 fi
 
+# 15 · a skill nobody tested is a hypothesis, and the sentence saying so measured 0 of 5.
+#      `skills.md` asks for it in prose — every command a skill contains is run before the file
+#      is saved, against an input it must REJECT — and N61 scored zero on exactly that clause,
+#      counted from transcripts across three rounds, with one run declaring itself tested by
+#      reading a manual. So the scaffold carries a `## Tested against` section and this refuses
+#      the two shapes that make it decoration: still holding the template's braces, or claiming
+#      a test with nothing pasted where the refusal goes.
+#
+#      **It fires only where the skill actually runs something.** A door that routes and runs
+#      nothing answers `none:` and passes — gating those would teach everyone to write the
+#      section without meaning it, which is the failure this whole check exists to stop.
+#
+#      Shapes, not spellings: the section heading is matched at any depth, the fields with or
+#      without their bold, because the template writes them bold and a hand-written skill often
+#      does not — the defect facts.md 254 records, three times in one sweep.
+while IFS= read -r -d '' sk; do
+  [ -f "$sk" ] || continue
+  # Does it run anything? A fenced command line, or an inline call to a script. If not, the
+  # section is optional in substance and `none:` is the honest answer.
+  runs=$(grep -cE '^[[:space:]]*(bash|sh|python3?|node|npx|make|\./)[[:space:]]' "$sk")
+  [ "$runs" -gt 0 ] || continue
+
+  sec=$(grep -cE '^#+[[:space:]]+Tested against' "$sk")
+  if [ "$sec" -eq 0 ]; then
+    say_fail "$sk runs commands and has no \`## Tested against\` section — a skill nobody tested \
+is a hypothesis, and silence is not \`none\`. The section wants the defective input, what the \
+command actually printed when it refused, and the date (the skill's SKILL-SCAFFOLD → Tested against)."
+    continue
+  fi
+
+  # `none:` is a complete answer only where nothing runs; here something does.
+  if [ "$(grep -cE '^[[:space:]]*[-*]?[[:space:]]*(\*\*)?none(\*\*)?[[:space:]]*:' "$sk")" -gt 0 ]; then
+    say_fail "$sk answers \`none\` in \`Tested against\` while running commands — one of the two \
+is wrong, and the cheap one to check is which."
+    continue
+  fi
+
+  # Unfilled braces anywhere in the section body are the template, not an answer.
+  body=$(awk '/^#+[[:space:]]+Tested against/{f=1; next} /^#+[[:space:]]/{f=0} f' "$sk")
+  if [ "$(printf '%s' "$body" | grep -c '{{')" -gt 0 ]; then
+    say_fail "$sk still carries the template's braces under \`Tested against\` — the section was \
+copied, not filled. What did the command reject, and what did it print?"
+    continue
+  fi
+  # "Refused with" is the field a reading cannot fill: you cannot paste output you never produced.
+  if [ "$(printf '%s' "$body" | grep -ciE '(\*\*)?refused with(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]')" -eq 0 ]; then
+    say_fail "$sk records a test with nothing under \`Refused with\` — a passing case proves \
+nothing, because a checker that reads nothing and one that finds nothing wrong return the \
+identical silence. Paste what it printed when it refused."
+  fi
+done < <(changed -- '_ops/skills/*.md' '_ops/skills/**/*.md')
+
 # 5 · a cheap last line on credentials. NOT a secret scanner — gitleaks/trufflehog are,
 #     and they belong in CI. This catches the obvious paste before it reaches history,
 #     where removing it means rewriting history and rotating the key anyway.

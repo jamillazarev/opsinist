@@ -12,6 +12,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 
 | Situation | Just say | Runs |
 |---|---|---|
+| "We keep doing this by hand — make it a skill" | *"build the skill for the newsletter assembly, it's in T-18 and T-21"* | the routine is read **out of the tree**, not asked about · the skill is born from the scaffold with its budget in the frontmatter · **and its commands are run against an input they must reject before the file is saved**, with what they printed pasted into `Tested against`. **A door that runs nothing answers `none:`** — a commit that skips either is refused by §15, because the sentence asking for it politely measured 0 of 5 |
 | "Someone quoted a study at me — how solid is it, really?" | *"we're about to bet on this finding — what pulls against it?"* | the **register entry** is read out with its `Reads against` field, which names what it must be read beside and whether anyone looked. **The three answers are different and the field keeps them apart**: named tensions with the resolution · `none found`, a claim that someone checked · `not checked`, which is why the answer arrives with *"and nobody has looked"* rather than confidence nobody earned |
 | "I'm a designer and I want one helper, not a team" | *"I need someone to draft screens and write the docs for them"* | **one role**, its craft and its tools — no roster, no org chart |
 | "I'm a PM and I want a second opinion" | *"what do you make of this pricing idea?"* | an answer, **nothing created** — and disagreement when the evidence disagrees |
