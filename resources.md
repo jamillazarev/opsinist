@@ -190,6 +190,20 @@ was true.
 **Research rots as a whole document.** A competitor pricing study from six months ago is not a
 fact. Citing one past its date **triggers a re-check** rather than being quoted as it stands.
 
+**Where a source comes from, when there is not one yet.** The register has an intake ramp and no
+search, and until 2026-09-10 nothing joined the two: **`catalogue.md` knows where to look** — its
+*Academic & research sources* and *Deep research, run as a job* rows — **`fetch-source.py --resolve
+<doi|arxiv|url>` turns an identifier into a skeleton** stamped with today's date and born with its
+`Reads against` line, and **the distillate is written by hand in our own words** because that is
+the part a licence tier permits and a copy does not. Three steps, each one a thing to open.
+
+**What this system deliberately does not build is the search itself.** A deep-research pipeline
+that returns two hundred sources and eighty thousand words is a different product with a different
+premise: it maximises what was found, and this corpus exists to keep what was found from rotting
+unnoticed. **The two are complements and the seam is the register** — bring the result of any such
+run in through `--resolve`, one entry at a time, each with its licence tier and its check-date.
+A synthesis carried in whole is a document that rots as a whole, which is the rule above.
+
 **A register that can only answer *what do we have on X* is a pile.** It will hold two entries
 pulling opposite ways and never say so, because nothing asks. So every entry carries
 **`Reads against`** — the entries it must be read beside **and what the tension is** — or one of

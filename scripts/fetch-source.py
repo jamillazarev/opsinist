@@ -68,7 +68,15 @@ def emit(entry_id, citation, live, licence, note):
     print(f"- **Licence:** {licence}")
     print("- **Distillate:** {{one paragraph, own words — what it shows, not what it is}}")
     print(f"- **Check-date:** {TODAY}")
-    print("- **Cited-by:** {{file:line, …}}")
+    # `Reads against` is REQUIRED by --verify-reads, so the skeleton is born with it: a template
+    # that does not produce the shape its own guard demands is facts.md 254 inside out, and a new
+    # entry would be refused the moment it was written. `not checked` is the honest default —
+    # never `none found`, which is a claim nobody has earned yet.
+    print("- **Reads against:** `not checked`")
+    # FILES, never line numbers. This printed `file:line` while the register's own header says a
+    # line number is wrong the next time anything above it is edited — the generator contradicted
+    # the rule the file states about itself. Found 2026-09-10.
+    print("- **Cited-by:** {{file.md · other-file.md — files, never line numbers}}")
 
 
 def resolve(ident):
@@ -210,7 +218,7 @@ def verify_reads(path="sources/SOURCES.md"):
         print("  no register at %s — nothing to check" % path)
         return 0
     blocks = re.split(r"^### ", text, flags=re.M)[1:]
-    ids, reads, bad = [], {}, []
+    ids, reads, raw, bad = [], {}, {}, []
     for b in blocks:
         eid = b.split(" \u00b7")[0].split("\n")[0].strip()
         ids.append(eid)
@@ -222,6 +230,7 @@ def verify_reads(path="sources/SOURCES.md"):
         named = set(re.findall(r"`([a-z0-9][a-z0-9-]*)`", val))
         named.discard("none"); named.discard("not")
         reads[eid] = named
+        raw[eid] = val
     known = set(ids)
     for eid, named in reads.items():
         for other in sorted(named):
@@ -234,7 +243,16 @@ def verify_reads(path="sources/SOURCES.md"):
     if bad:
         print("  %d problem(s) in %d entries" % (len(bad), len(ids)))
         return 1
+    # A REPORT, not a gate. `not checked` is a legal answer and gating it would push everyone to
+    # write `none found` instead — the confident word — which is the lie the field exists to
+    # prevent. So the state is printed and the exit code stays 0: an entry nobody has read for
+    # conflict is the thin one, and half a register saying `not checked` is a fact about the
+    # register rather than a defect in it.
+    nc = sum(1 for e, n in reads.items() if not n and "not checked" in raw.get(e, ""))
+    nf = sum(1 for e, n in reads.items() if not n and "none found" in raw.get(e, ""))
+    named = sum(1 for n in reads.values() if n)
     print("  \u2713 %d entries, every 'Reads against' present, resolvable and symmetric" % len(ids))
+    print("    %d name a tension \u00b7 %d say 'none found' \u00b7 %d say 'not checked' — the last group is the thin one" % (named, nf, nc))
     return 0
 
 def verify():
