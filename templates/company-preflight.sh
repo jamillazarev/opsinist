@@ -1790,6 +1790,37 @@ identical silence. Paste what it printed when it refused."
   fi
 done < <(changed -- '_ops/skills/*.md' '_ops/skills/**/*.md')
 
+# 16 · a research answer that does not say how hard anyone looked reads as if someone looked
+#      hard. `ANSWER-template.md` carries a required `Depth:` — orienting | deciding | standing —
+#      chosen BEFORE the run because how long it takes is a spend, and spending is the owner's.
+#      This refuses the two shapes that hollow it: absent, or a word that is not one of the three
+#      (which is how a field becomes free text and then becomes nothing).
+#
+#      `standing` carries one extra obligation and it is checkable from here: it is the rung that
+#      promises every source was read against the others, so an answer claiming it while its own
+#      register entries still say `not checked` is claiming work nobody did.
+while IFS= read -r -d '' ans; do
+  [ -f "$ans" ] || continue
+  d=$(grep -ioE '^[[:space:]]*(\*\*)?depth(\*\*)?[[:space:]]*:[[:space:]]*[a-z]+' "$ans" | head -1 \
+      | sed -E 's/.*:[[:space:]]*//' | tr '[:upper:]' '[:lower:]')
+  if [ -z "$d" ]; then
+    say_fail "$ans has no \`Depth:\` — orienting, deciding or standing, chosen before the run. \
+An answer that does not say how hard anyone looked reads as if someone looked hard."
+    continue
+  fi
+  case "$d" in
+    orienting|deciding|standing) : ;;
+    *) say_fail "$ans says \`Depth: $d\`, which is not one of orienting | deciding | standing. \
+Free text here is how the field stops meaning anything."; continue ;;
+  esac
+  if [ "$d" = "standing" ] && [ -f sources/SOURCES.md ]; then
+    nc=$(grep -c 'Reads against:\*\* `not checked`' sources/SOURCES.md)
+    [ "$nc" -eq 0 ] || say_fail "$ans claims \`Depth: standing\` while $nc register entr(ies) \
+still say \`Reads against: not checked\` — that rung promises every source was read against the \
+others, and this one says nobody looked."
+  fi
+done < <(changed -- '_ops/**/ANSWER*.md' '_ops/**/answer*.md')
+
 # 5 · a cheap last line on credentials. NOT a secret scanner — gitleaks/trufflehog are,
 #     and they belong in CI. This catches the obvious paste before it reaches history,
 #     where removing it means rewriting history and rotating the key anyway.

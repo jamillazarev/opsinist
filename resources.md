@@ -190,6 +190,13 @@ was true.
 **Research rots as a whole document.** A competitor pricing study from six months ago is not a
 fact. Citing one past its date **triggers a re-check** rather than being quoted as it stands.
 
+**How deep is a question with a price, and it is asked before the fetching starts.**
+`templates/ANSWER-template.md` → *Depth* carries the three rungs and what each buys; the one that
+touches this file is **`standing`**, which is the only rung that requires every entry's
+`Reads against` to be **completed** rather than left at `not checked`. That is why the field has
+two ways of saying nothing: `orienting` and `deciding` may honestly leave it unchecked, and
+**`standing` may not**.
+
 **Where a source comes from, when there is not one yet.** The register has an intake ramp and no
 search, and until 2026-09-10 nothing joined the two: **`catalogue.md` knows where to look** — its
 *Academic & research sources* and *Deep research, run as a job* rows — **`fetch-source.py --resolve

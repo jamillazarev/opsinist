@@ -12,6 +12,27 @@ consultations are the ones that crossed the bridge.
 
 ---
 
+## How deep, and who agreed to it
+
+**Depth is chosen before the fetching starts, and it is a price the owner agrees to** — the three
+rungs and what each buys are in `templates/ANSWER-template.md` → *Depth*, and the answer carries
+the word it ran at. **An answer that does not say how hard anyone looked reads as if someone
+looked hard**, which is the whole reason the field exists rather than a habit.
+
+```mermaid
+flowchart TD
+  Q["a question with<br/>nothing to build"] --> D{"how deep?"}
+  D -->|"orienting"| O["minutes, one turn<br/>— a direction,<br/>never a finding"]
+  D -->|"deciding"| E["tens of minutes<br/>— the call, defensible"]
+  D -->|"standing"| S["hours — and every<br/>register entry read<br/>against the others"]
+  D -.->|"not asked"| A(("the advisor proposes<br/>one WITH its price<br/>and waits — time is<br/>a spend"))
+  S --> V{"any entry still<br/>`not checked`?"}
+  V -->|"yes"| R["§16 refuses:<br/>the rung claims<br/>work nobody did"]
+  V -->|"no"| K["the answer stands"]
+  O --> K
+  E --> K
+```
+
 ## Zero standing footprint
 
 **No project, task, role, group, label or document is created.** Nothing survives the session

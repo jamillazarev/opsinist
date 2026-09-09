@@ -2048,5 +2048,54 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "'none' passed on a skill 
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 rm -rf _ops/skills/assemble
 
+# ── §16 · an answer states the depth it was run at ─────────────────────────────────────────
+# The twin comes first: a gate that refuses every answer and a gate that reads none look the
+# same from outside.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+mkdir -p _ops/research
+
+cat > _ops/research/ANSWER-pricing.md <<'AN'
+# Which billing provider
+
+Depth: deciding — 2026-09-10
+
+Stripe, because the two others cannot do usage billing without a second service.
+AN
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "§16 refused an answer that states its depth"
+
+# mutant 1 · no Depth at all
+printf '# Which billing provider\n\nStripe, because it is what everyone uses.\n' > _ops/research/ANSWER-pricing.md
+grep -qi 'depth' _ops/research/ANSWER-pricing.md && bad "MUTATION DID NOT APPLY (no depth)"
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "an answer with no Depth passed" || ok
+
+# mutant 2 · a word that is not one of the three
+printf '# Which billing provider\n\nDepth: thorough — 2026-09-10\n\nStripe.\n' > _ops/research/ANSWER-pricing.md
+grep -q 'thorough' _ops/research/ANSWER-pricing.md || bad "MUTATION DID NOT APPLY (free text)"
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "free text in Depth passed — the field stops meaning anything" || ok
+
+# mutant 3 · `standing` claimed while the register says nobody looked
+mkdir -p sources
+cat > sources/SOURCES.md <<'SR'
+### alpha · A study
+- **Reads against:** `not checked`
+SR
+printf '# Which billing provider\n\nDepth: standing — 2026-09-10\n\nStripe.\n' > _ops/research/ANSWER-pricing.md
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "'standing' passed while the register says not checked" || ok
+
+# the twin for mutant 3 · `standing` with the register actually read
+cat > sources/SOURCES.md <<'SR'
+### alpha · A study
+- **Reads against:** `none found`
+SR
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "'standing' refused on a register with nothing unchecked — the rung would be unreachable"
+
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+rm -rf _ops/research sources
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"
