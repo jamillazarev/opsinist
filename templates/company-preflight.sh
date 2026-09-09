@@ -1790,36 +1790,47 @@ identical silence. Paste what it printed when it refused."
   fi
 done < <(changed -- '_ops/skills/*.md' '_ops/skills/**/*.md')
 
-# 16 · a research answer that does not say how hard anyone looked reads as if someone looked
-#      hard. `ANSWER-template.md` carries a required `Depth:` — orienting | deciding | standing —
-#      chosen BEFORE the run because how long it takes is a spend, and spending is the owner's.
-#      This refuses the two shapes that hollow it: absent, or a word that is not one of the three
-#      (which is how a field becomes free text and then becomes nothing).
+# 17 · a finding is read INSTEAD of the sources under it, so the two fields that make it
+#      readable are the two that can be quietly skipped. `Decides` is what orders them — the
+#      reading order is the order of the decisions waiting, and a second priority list is a list
+#      that lies — and `Recheck when` is what keeps a settled finding from being quoted forever.
+#      Both are refused empty or still holding the template's braces.
 #
-#      `standing` carries one extra obligation and it is checkable from here: it is the rung that
-#      promises every source was read against the others, so an answer claiming it while its own
-#      register entries still say `not checked` is claiming work nobody did.
-while IFS= read -r -d '' ans; do
-  [ -f "$ans" ] || continue
-  d=$(grep -ioE '^[[:space:]]*(\*\*)?depth(\*\*)?[[:space:]]*:[[:space:]]*[a-z]+' "$ans" | head -1 \
-      | sed -E 's/.*:[[:space:]]*//' | tr '[:upper:]' '[:lower:]')
-  if [ -z "$d" ]; then
-    say_fail "$ans has no \`Depth:\` — orienting, deciding or standing, chosen before the run. \
-An answer that does not say how hard anyone looked reads as if someone looked hard."
-    continue
-  fi
-  case "$d" in
-    orienting|deciding|standing) : ;;
-    *) say_fail "$ans says \`Depth: $d\`, which is not one of orienting | deciding | standing. \
-Free text here is how the field stops meaning anything."; continue ;;
+#      `Status: settled` carries one more: a settled finding with no `What we now believe` body
+#      is a title claiming a conclusion, which is the shape this whole layer exists to prevent.
+while IFS= read -r -d '' fnd; do
+  [ -f "$fnd" ] || continue
+  case "$fnd" in */raw/*) continue ;; esac
+  for field in "Decides" "Recheck when" "Depth"; do
+    line=$(grep -iE "\*\*${field}\*\*[[:space:]]*:" "$fnd" | head -1)
+    if [ -z "$line" ]; then
+      say_fail "$fnd has no \`${field}\` — a finding without it is either unordered or immortal \
+(templates/FINDING-template.md)."
+      continue
+    fi
+    printf '%s' "$line" | hits '{{' && say_fail "$fnd still carries the template's braces in \
+\`${field}\` — the file was copied, not answered."
+  done
+  # Depth is one of three words. Free text here is how a field stops meaning anything, and
+  # `standing` is the rung that PROMISES every source was read against the others — so a finding
+  # claiming it while the register still says `not checked` is claiming work nobody did.
+  dp=$(grep -ioE '\*\*Depth\*\*[[:space:]]*:[[:space:]]*[a-z]+' "$fnd" | head -1 | sed -E 's/.*:[[:space:]]*//' | tr '[:upper:]' '[:lower:]')
+  case "$dp" in
+    orienting|deciding|standing|"") : ;;
+    *) say_fail "$fnd says \`Depth: $dp\`, which is not one of orienting | deciding | standing." ;;
   esac
-  if [ "$d" = "standing" ] && [ -f sources/SOURCES.md ]; then
+  if [ "$dp" = "standing" ] && [ -f sources/SOURCES.md ]; then
     nc=$(grep -c 'Reads against:\*\* `not checked`' sources/SOURCES.md)
-    [ "$nc" -eq 0 ] || say_fail "$ans claims \`Depth: standing\` while $nc register entr(ies) \
-still say \`Reads against: not checked\` — that rung promises every source was read against the \
-others, and this one says nobody looked."
+    [ "$nc" -eq 0 ] || say_fail "$fnd claims \`Depth: standing\` while $nc register entr(ies) say \`Reads against: not checked\` — that rung promises every source was read against the others."
   fi
-done < <(changed -- '_ops/**/ANSWER*.md' '_ops/**/answer*.md')
+  st=$(grep -ioE '\*\*Status\*\*[[:space:]]*:[[:space:]]*[a-z]+' "$fnd" | head -1 | sed -E 's/.*:[[:space:]]*//' | tr '[:upper:]' '[:lower:]')
+  if [ "$st" = "settled" ]; then
+    body=$(awk '/^##[[:space:]]+What we now believe/{f=1; next} /^##[[:space:]]/{f=0} f' "$fnd" \
+           | grep -vE '^[[:space:]]*$' | grep -v '{{')
+    [ -n "$body" ] || say_fail "$fnd says \`Status: settled\` with nothing under \`What we now \
+believe\` — a title is not a conclusion, and this section is the one read instead of the sources."
+  fi
+done < <(changed -- '_ops/research/*.md' '_ops/research/**/*.md')
 
 # 5 · a cheap last line on credentials. NOT a secret scanner — gitleaks/trufflehog are,
 #     and they belong in CI. This catches the obvious paste before it reaches history,

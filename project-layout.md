@@ -54,7 +54,10 @@ your-project/
                         #   transition.py · new-id.py (from the skill's scripts/) —
                         #   plus the project's own helpers, grown as you go
     runbooks/           # how to operate a wired thing, kept out of the guide
-    research/           # studies and their distillates
+    research/           # one file per QUESTION, from templates/FINDING-template.md — what we
+                        # now believe, what would change it, and the source ids under it. A topic
+                        # never closes and a question does, so the file is named for the question.
+      raw/              # transcripts, exports, screenshots — raw material, never a finding
     audience/           # segments, personas, their grounding
     design-system/      # tokens, components, their rules
     brand/              # voice, identity, what may not bend
@@ -178,6 +181,7 @@ shape each time produces a document only its author can read.
 | `_ops/config.md` | `templates/CONFIG-template.md` |
 | `_ops/FIELD-NOTES.md` | `templates/FIELD-NOTES-template.md` |
 | `_ops/MARKET.md` | `templates/MARKET-template.md` |
+| `_ops/research/<question>.md` | `templates/FINDING-template.md` |
 | `_ops/ARCHITECTURE.md` | `templates/ARCHITECTURE-template.md` |
 | `_ops/MAP.md` | `templates/MAP-template.md` |
 | `_ops/process/types/<type>.md` | `templates/TYPE-template.md` |

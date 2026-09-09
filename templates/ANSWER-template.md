@@ -14,9 +14,12 @@ subject. Each stopped one step before the answer.**
 
 ---
 
-## Depth — chosen before the run, and stated in the answer
+## Depth — chosen before the run, and priced when it is offered
 
-**Required field, one word:** `Depth: orienting | deciding | standing` — and the date.
+**This is the price list; the field lives on the finding.** An answer worth keeping becomes
+`_ops/research/<question>.md` (`templates/FINDING-template.md`), which carries `Depth:` as a
+required field — one layer, one home. Use the table below to **quote the rung before the work**,
+and quote it in the words of what it buys rather than in hours.
 **A research document that does not say how hard anyone looked reads as if someone looked hard**,
 which is the failure this field exists to stop. The owner picks; where they have not, the advisor
 **proposes one with its price and waits**, because how long this takes is a spend and spending is

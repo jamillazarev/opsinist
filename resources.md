@@ -190,6 +190,28 @@ was true.
 **Research rots as a whole document.** A competitor pricing study from six months ago is not a
 fact. Citing one past its date **triggers a re-check** rather than being quoted as it stands.
 
+```mermaid
+flowchart TD
+  T["a research TASK<br/>— cost, depth, done-when"] -->|"produces"| F["a FINDING<br/>_ops/research/&lt;question&gt;.md"]
+  F -->|"Decides"| D["the decision<br/>waiting on it"]
+  F -->|"Sources: by id"| R["the register<br/>sources/SOURCES.md"]
+  R -->|"Reads against"| R
+  F -->|"Recheck when"| E["a named event —<br/>never a date"]
+  N["the NEXT question"] -.->|"look inward first"| F
+  T -.->|"closes"| X(("archived"))
+  F ==>|"stays true<br/>until its recheck fires"| F
+  RAW["_ops/research/raw/<br/>transcripts, exports"] -.->|"material,<br/>not a finding"| F
+```
+
+**A source is not a conclusion, and the layer above this one is where the conclusion lives.**
+`_ops/research/<question>.md` (`templates/FINDING-template.md`) holds **what we now believe**, what
+would change it, and the source ids underneath — so an agent that needs the answer reads one
+paragraph instead of the register, and **the register is for whoever argues**. The relation runs
+both ways: the task that bought the research links to the finding, the finding links back to the
+decision it was for, and **a new question checks the findings before it fetches anything**, because
+*look inward first* is a law and re-deriving what this project already concluded spends money to
+arrive where it was.
+
 **How deep is a question with a price, and it is asked before the fetching starts.**
 `templates/ANSWER-template.md` → *Depth* carries the three rungs and what each buys; the one that
 touches this file is **`standing`**, which is the only rung that requires every entry's

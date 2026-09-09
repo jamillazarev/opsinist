@@ -2048,54 +2048,102 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "'none' passed on a skill 
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 rm -rf _ops/skills/assemble
 
-# ── §16 · an answer states the depth it was run at ─────────────────────────────────────────
-# The twin comes first: a gate that refuses every answer and a gate that reads none look the
-# same from outside.
+# ── §17 · a finding carries what orders it and what expires it ─────────────────────────────
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
-mkdir -p _ops/research
+mkdir -p _ops/research/raw
 
-cat > _ops/research/ANSWER-pricing.md <<'AN'
-# Which billing provider
+honest() { cat > _ops/research/panels.md <<'FD'
+# Should we pay for synthetic panels
 
-Depth: deciding — 2026-09-10
+**Decides**: [T-AB12CD](../tasks/T-AB12CD-panels.md) · **Status**: settled · **Depth**: deciding
+**Answered**: 2026-09-10 · **Recheck when**: a replacement for park-self-reports ships
 
-Stripe, because the two others cannot do usage billing without a second service.
-AN
+## What we now believe
+
+No, for percentages; yes, for surfacing an angle nobody asked about.
+
+## Under it
+
+**Sources**: `park-self-reports` · `wang-flattening`
+FD
+}
+
+honest; git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "§17 refused an honest finding"
+
+# raw material is not a finding and must not be judged as one
+honest; printf '# interview transcript\n\nnothing else\n' > _ops/research/raw/notes.md
 git add -A >/dev/null 2>&1
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "§16 refused an answer that states its depth"
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "§17 judged a raw artifact as a finding"
 
-# mutant 1 · no Depth at all
-printf '# Which billing provider\n\nStripe, because it is what everyone uses.\n' > _ops/research/ANSWER-pricing.md
-grep -qi 'depth' _ops/research/ANSWER-pricing.md && bad "MUTATION DID NOT APPLY (no depth)"
+# mutant 1 · no Decides — nothing orders it
+honest; python3 - <<'PP'
+import pathlib
+p=pathlib.Path('_ops/research/panels.md'); t=p.read_text()
+p.write_text(t.replace('**Decides**: [T-AB12CD](../tasks/T-AB12CD-panels.md) · ',''))
+PP
+grep -q 'Decides' _ops/research/panels.md && bad "MUTATION DID NOT APPLY (decides)"
 git add -A >/dev/null 2>&1
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "an answer with no Depth passed" || ok
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a finding with no Decides passed" || ok
 
-# mutant 2 · a word that is not one of the three
-printf '# Which billing provider\n\nDepth: thorough — 2026-09-10\n\nStripe.\n' > _ops/research/ANSWER-pricing.md
-grep -q 'thorough' _ops/research/ANSWER-pricing.md || bad "MUTATION DID NOT APPLY (free text)"
+# mutant 2 · Recheck still the template's braces — immortal by omission
+honest; python3 - <<'PP'
+import pathlib
+p=pathlib.Path('_ops/research/panels.md'); t=p.read_text()
+p.write_text(t.replace('a replacement for park-self-reports ships','{{a named event, never a date}}'))
+PP
+grep -q '{{' _ops/research/panels.md || bad "MUTATION DID NOT APPLY (recheck braces)"
 git add -A >/dev/null 2>&1
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "free text in Depth passed — the field stops meaning anything" || ok
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "an unanswered Recheck passed" || ok
 
-# mutant 3 · `standing` claimed while the register says nobody looked
+# mutant 3 · Depth as free text — the field stops meaning anything
+honest; python3 - <<'PP'
+import pathlib
+p=pathlib.Path('_ops/research/panels.md'); t=p.read_text()
+p.write_text(t.replace('**Depth**: deciding','**Depth**: thorough'))
+PP
+grep -q 'thorough' _ops/research/panels.md || bad "MUTATION DID NOT APPLY (depth free text)"
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "free text in Depth passed" || ok
+
+# mutant 4 · `standing` claimed while the register says nobody looked
 mkdir -p sources
-cat > sources/SOURCES.md <<'SR'
-### alpha · A study
-- **Reads against:** `not checked`
-SR
-printf '# Which billing provider\n\nDepth: standing — 2026-09-10\n\nStripe.\n' > _ops/research/ANSWER-pricing.md
+printf '### alpha · A study\n- **Reads against:** `not checked`\n' > sources/SOURCES.md
+honest; python3 - <<'PP'
+import pathlib
+p=pathlib.Path('_ops/research/panels.md'); t=p.read_text()
+p.write_text(t.replace('**Depth**: deciding','**Depth**: standing'))
+PP
 git add -A >/dev/null 2>&1
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "'standing' passed while the register says not checked" || ok
 
-# the twin for mutant 3 · `standing` with the register actually read
-cat > sources/SOURCES.md <<'SR'
-### alpha · A study
-- **Reads against:** `none found`
-SR
+# its twin · `standing` with the register actually read, or the rung is unreachable
+printf '### alpha · A study\n- **Reads against:** `none found`\n' > sources/SOURCES.md
 git add -A >/dev/null 2>&1
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "'standing' refused on a register with nothing unchecked — the rung would be unreachable"
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "'standing' refused on a fully-read register"
+rm -rf sources
+
+# mutant 5 · settled with an empty conclusion — a title claiming an answer
+honest; python3 - <<'PP'
+import pathlib
+p=pathlib.Path('_ops/research/panels.md'); t=p.read_text()
+p.write_text(t.replace('No, for percentages; yes, for surfacing an angle nobody asked about.',''))
+PP
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "'settled' with no conclusion passed" || ok
+
+# the twin for mutant 3 · open with an empty conclusion is legitimate — work in progress
+honest; python3 - <<'PP'
+import pathlib
+p=pathlib.Path('_ops/research/panels.md'); t=p.read_text()
+t = t.replace('**Status**: settled','**Status**: open')
+p.write_text(t.replace('No, for percentages; yes, for surfacing an angle nobody asked about.',''))
+PP
+git add -A >/dev/null 2>&1
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "an OPEN finding with no conclusion was refused — work in progress would be impossible"
 
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
-rm -rf _ops/research sources
+rm -rf _ops/research
 
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

@@ -15,8 +15,10 @@ consultations are the ones that crossed the bridge.
 ## How deep, and who agreed to it
 
 **Depth is chosen before the fetching starts, and it is a price the owner agrees to** — the three
-rungs and what each buys are in `templates/ANSWER-template.md` → *Depth*, and the answer carries
-the word it ran at. **An answer that does not say how hard anyone looked reads as if someone
+rungs and what each buys are priced in `templates/ANSWER-template.md` → *Depth*, and **the answer
+that is worth keeping becomes a finding** (`_ops/research/<question>.md`) which carries the rung as
+a required field. A consultation that leaves no file is fine and common; one worth quoting later is
+a finding, and the difference is whether anything downstream will rest on it. **An answer that does not say how hard anyone looked reads as if someone
 looked hard**, which is the whole reason the field exists rather than a habit.
 
 ```mermaid
