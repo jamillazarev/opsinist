@@ -11,7 +11,17 @@ their check-date at the moment of use, never cached here to rot.
 
 **One fixed form per entry**, so a wrong entry is visibly wrong:
 **id · full citation · live URL/DOI/arXiv · archive link · licence · one-paragraph distillate
-(our words) · check-date · cited-by**.
+(our words) · check-date · cited-by · reads-against**.
+
+**`Reads against` is the field that stops a register becoming a pile.** A register that can only
+answer *"what do we have on X"* will happily hold two entries that pull opposite ways and never
+say so — measured here 2026-09-10, when **2 of 20 entries carried a comparison with another entry
+buried inside a distillate paragraph and no field held it**, so nothing could read it back. The
+field names the entries this one must be read beside **and what the tension is**, or one of two
+words that are not the same answer: **`none found`** — looked, and nothing here pulls against it —
+or **`not checked`**, which is honest ignorance. An empty field is a defect; the two words are not.
+**It is symmetric**: if A reads against B, B says so too, and `--verify-reads` refuses the pair
+that only points one way.
 
 **Cited-by names files, never line numbers.** A line number is wrong the next time anything above
 it is edited, and every entry here once pointed at a line — in files that no longer exist. The
@@ -38,6 +48,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted — cite + our distillate
 - **Distillate:** One desired outcome → the opportunity space (customer needs, mapped before features) → solutions → assumption tests. The layer teams skip is opportunities; the failure mode is jumping insight-to-solution. The tree is the discovery spine for outcome-oriented teams.
 - **Check-date:** 2026-08-06
+- **Reads against:** `not checked`
 - **Cited-by:** process-discovery.md · catalogue.md · templates/SPEC-template.md
 
 ### helmer-7powers · Helmer, 7 Powers
@@ -47,6 +58,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted — cite + our distillate
 - **Distillate:** Seven durable sources of differential margin — scale economies · network economies · counter-positioning · switching costs · branding · cornered resource · process power. The current firm-level canon for "why does this position endure"; each power has a benefit and a barrier, and a claim without the barrier named is not a power.
 - **Check-date:** 2026-08-06
+- **Reads against:** `morningstar-moats` — the older taxonomy covering the same ground with less explanatory power; kept for the shared vocabulary
 - **Cited-by:** catalogue.md
 
 ### morningstar-moats · Morningstar's economic moats (Stoffel's teaching table)
@@ -56,6 +68,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted — cite + our distillate
 - **Distillate:** The older valuation lens: five moat types graded wide/narrow/none per company. Useful as a shared vocabulary and a checklist; weaker than 7 Powers at explaining *why* a moat holds. Source of the "no moat" honesty: name recognition without pricing power is not a moat.
 - **Check-date:** 2026-08-06
+- **Reads against:** `helmer-7powers` — same subject, and this is the older lens: a taxonomy without a mechanism. Where they disagree, 7 Powers explains *why* a position endures and this one does not
 - **Cited-by:** catalogue.md · templates/COMPETITORS-template.md
 
 ### kaushik-stdc · Kaushik, See-Think-Do-Care
@@ -65,6 +78,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted — cite + our distillate
 - **Distillate:** Intent-based content planning: audiences clustered by intent (See — largest addressable, Think — considering, Do — ready, Care — customers) with content and measurement per cluster. The modern reach where an awareness ladder feels dated; frame-level, not persona-level.
 - **Check-date:** 2026-08-06
+- **Reads against:** `not checked`
 - **Cited-by:** catalogue.md
 
 ### perspective-ost-2026 · the starving-tree finding
@@ -74,6 +88,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted — cite + our distillate
 - **Distillate:** The commonest 2026 failure is not drawing the tree wrong but **starving it**: opportunity spaces refreshed quarterly at best under a weekly-moving market. A vendor's practice guide, not a study — the rung is `cited`, and the claim is carried as the craft's practice literature, not as measurement.
 - **Check-date:** 2026-08-06
+- **Reads against:** `not checked`
 - **Cited-by:** process-discovery.md
 
 ---
@@ -87,6 +102,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (author © under arXiv's non-exclusive distribution licence) — cite + archive + our distillate
 - **Distillate:** Agents built from a person's **own self-reports** reproduce that person's survey answers at **83%** (interview-grounded) / **82%** (survey-grounded) / **86%** (both) of the person's two-week test-retest ceiling, versus **74%** for demographics-only; a free-text "persona paragraph" scores **0.71**, below even the demographics baseline (0.74). Self-report grounding also **reduces accuracy disparities** across racial and ideological groups. The takeaway the skill leans on: the grounding artifact — the interview transcript — *is* the product, not a written bio.
 - **Check-date:** 2026-07-27
+- **Reads against:** `argyle-silicon` · `wang-flattening` · `kapania-simulacrum` · `tjuatja-biases` · `sharma-sycophancy` · `park-hai-brief` — **the first four look opposed and are not, and the distinction is load-bearing**: this entry's 83–86% is grounded in *the person's own interview*, and its own demographics-only arm scores **74%**, which is the number the pessimistic four are actually measuring. Read together they say **grounding is the variable**, not the model
 - **Cited-by:** audience.md · templates/PERSONA-template.md
 
 ### park-hai-brief · Park et al., Stanford HAI policy brief
@@ -97,6 +113,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (Stanford HAI, free to read) — cite + archive + our distillate
 - **Distillate:** The policy brief frames the **consent machinery** for simulating individuals and legitimizes the **AI-conducted interview** as the grounding step. It matches the v1 ("1,000 People") framing and carries the stronger **"demographic personas amplify stereotype bias"** phrasing that the current peer-reviewed version later softened to "reduces accuracy disparities" — which is why the skill attributes the sharper claim to the brief, not the paper.
 - **Check-date:** 2026-07-27
+- **Reads against:** `park-self-reports` — the same programme's policy framing, carrying a **stronger** claim about demographic personas amplifying stereotype bias than the peer-reviewed paper does. Cite the paper for the finding, this for the consent machinery
 - **Cited-by:** audience.md · templates/PERSONA-template.md
 
 ### ashokkumar-nature · Ashokkumar et al., direction not magnitude
@@ -106,6 +123,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (Springer Nature) — cite + archive + our distillate
 - **Distillate:** Across a large replication set, LLM simulations track the **direction** of experimental effects at about **r≈0.85** while **systematically overestimating their magnitude**. This is the evidence for the theatre's hardest rule: a synthetic verdict may state direction, **never a magnitude** (no "23% would churn").
 - **Check-date:** 2026-07-27
+- **Reads against:** `tjuatja-biases` — direction correlates at r≈0.85 while magnitude is overestimated; together they are the whole case for *direction, never a magnitude*
 - **Cited-by:** audience.md · skills/advisor/SKILL.md (the second pyramid)
 
 ### ls-types · Lewis & Sauro, a taxonomy of synthetic users
@@ -115,6 +133,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (MeasuringU) — cite + archive + our distillate
 - **Distillate:** Names five types of synthetic user — AI proto-persona, demographic-based, persona-based, research-grounded, and digital twin — ordered by the **strength of their tie to real human data**. This is the stage vocabulary the theatre uses (proto vs validated vs twin).
 - **Check-date:** 2026-07-27
+- **Reads against:** `not checked`
 - **Cited-by:** audience.md
 
 ### ls-review · Lewis & Sauro, a review of synthetic-user experiments
@@ -124,6 +143,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (MeasuringU) — cite + archive + our distillate
 - **Distillate:** Reviews ~12 recent experiments with synthetic users and finds mixed results, with synthetic responses showing **artificially low variability** and **distorted magnitudes** relative to real respondents — so they can indicate direction but not the size of an effect. (Their framing — low variability and distortion — is what the skill states, *not* "clustering toward neutral.")
 - **Check-date:** 2026-07-27
+- **Reads against:** `not checked`
 - **Cited-by:** audience.md
 
 <!-- Mahajan restore point: an earlier draft credited a "Mahajan synthetic-users taxonomy" by
@@ -140,6 +160,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (author © under arXiv's non-exclusive distribution licence) — cite + archive + our distillate
 - **Distillate:** Sycophancy — telling the user what they want to hear — is a **trained-in property** of RLHF'd assistants, consistent across several models and tasks. A persona built on such a model **inherits that compliance**, which is why the theatre's calibration layer suppresses sycophancy explicitly (a synthetic respondent is a pleaser unless corrected).
 - **Check-date:** 2026-07-27
+- **Reads against:** `park-self-reports` — a compliance property of the model that any persona inherits, whatever it is grounded in
 - **Cited-by:** audience.md · skills/advisor/SKILL.md (useful over agreeable)
 
 ### tjuatja-biases · Tjuatja et al., LLM response biases ≠ human ones
@@ -149,6 +170,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (author © under arXiv's non-exclusive distribution licence) — cite + archive + our distillate
 - **Distillate:** Tests whether LLMs reproduce known **human survey response biases** (acquiescence, question-order effects) and finds their biases **do not reliably mirror human ones** — sometimes absent, sometimes inverted. Caveats how far a synthetic survey respondent can stand in for a human one.
 - **Check-date:** 2026-07-27
+- **Reads against:** `park-self-reports` · `ashokkumar-nature` — response *biases* do not mirror human ones even where *answers* correlate, which is why a synthetic rate is refused while a direction is allowed
 - **Cited-by:** audience.md
 
 ### argyle-silicon · Argyle et al., silicon sampling and its diversity limits
@@ -158,6 +180,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (Cambridge University Press) — cite + archive + our distillate
 - **Distillate:** Introduces **"silicon sampling"** — conditioning an LLM on demographic backstories to simulate human survey samples — and shows it can reproduce some subgroup patterns while **collapsing within-group diversity**. Backs the caution that synthetic samples flatten variety rather than represent it.
 - **Check-date:** 2026-07-27
+- **Reads against:** `park-self-reports` — same subject, different grounding: demographic backstories here, the person's own interview there. Collapsing within-group diversity is what demographics-only produces, and `park-self-reports`' 74% arm agrees
 - **Cited-by:** audience.md
 
 ### wang-flattening · Wang et al., identity flattening
@@ -167,6 +190,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (author © under arXiv's non-exclusive distribution licence; journal © Springer Nature) — cite + archive + our distillate
 - **Distillate:** Finds that using LLMs to replace human participants can **harmfully misportray and flatten identity groups** — reproducing majority stereotypes and erasing within-group variation. This is the direct evidence for the **never-assign-a-bias-from-demographics** rule: a demographic backstory produces a caricature, not a person.
 - **Check-date:** 2026-07-27
+- **Reads against:** `park-self-reports` — the pessimistic pole, and it is measuring demographic conditioning; not a contradiction of the interview-grounded result
 - **Cited-by:** audience.md
 
 ### kapania-simulacrum · Kapania et al., LLMs as qualitative participants
@@ -176,6 +200,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (author © under arXiv's non-exclusive distribution licence) — cite + archive + our distillate
 - **Distillate:** Treating LLMs as **qualitative research participants** yields plausible but hollow "simulacra of stories" that miss the lived specificity of real interviews. Marks the boundary of synthetic personas in qualitative work — a **supplement, never a replacement** for a real transcript.
 - **Check-date:** 2026-07-27
+- **Reads against:** `park-self-reports` — qualitative use specifically. Even interview-grounded, a simulacrum is a supplement; this bounds the optimistic result rather than denying it
 - **Cited-by:** audience.md · templates/PERSONA-template.md
 
 ## Cost routing — cheap-first, conditional on a good verifier
@@ -187,6 +212,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (author © under arXiv's non-exclusive distribution licence) — cite + archive + our distillate
 - **Distillate:** A **cascade** that queries cheaper models first and escalates only on low confidence can **match the best single model's accuracy at up to −98% cost**. The evidence for cheap-first-then-escalate routing at decomposition.
 - **Check-date:** 2026-07-27
+- **Reads against:** `not checked`
 - **Cited-by:** cost.md · dispatching.md
 
 ### routerbench · Hu et al., RouterBench
@@ -196,6 +222,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (author © under arXiv's non-exclusive distribution licence) — cite + archive + our distillate
 - **Distillate:** Cascades beat both any individual LLM and a zero-cost router **only when the verifier is good** — judge error **≤0.1**, deteriorating past **0.2**. The load-bearing caveat: cheap-first routing is **conditional on a good verifier**. In the skill, the **review gates are that verifier**, so the condition is already met — the caveat reads as a strength, not a risk.
 - **Check-date:** 2026-07-27
+- **Reads against:** `not checked`
 - **Cited-by:** cost.md · dispatching.md
 
 ## Repository context files
@@ -207,6 +234,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** copyrighted (author © under arXiv's non-exclusive distribution licence) — cite + archive + our distillate
 - **Distillate:** A coding-agent benchmark finds repository-level context files (AGENTS.md) **do not improve task success rates** and add roughly **+20% inference cost**; **LLM-generated** context files perform **slightly worse** than none. The evidence behind "curate the shared guide, don't autogenerate it."
 - **Check-date:** 2026-07-27
+- **Reads against:** `not checked`
 - **Cited-by:** project-layout.md · AGENTS.md
 
 ## Method provenance and standards (references, not evidence claims)
@@ -218,6 +246,7 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** free — cookiy's `user-research-skill` is **MIT** (a copy may be carried later; today only the method shape is adapted, nothing embedded). agentman: **no licence stated on the page**; concepts taken, nothing embedded (no code carried, so no licence obligation).
 - **Distillate:** Method lineage, not evidence. cookiy's MIT skill supplied the **shape** of the qualitative-research flows (its `qualitative-research-planner` → our persona-interview flow, its `synthesize-research-report` → our QDA step), adapted through the import gate. agentman supplied the **calibration and panel concepts** behind the persona response-calibration layer. Recorded so every adaptation is auditable and no vendor wrapper is smuggled in.
 - **Check-date:** 2026-07-27
+- **Reads against:** `not checked`
 - **Cited-by:** TRADEMARKS.md · PATTERNS.md
 
 ### standards-cluster · named review standards
@@ -227,4 +256,5 @@ prints a skeleton, `--archive <url>` triggers a Wayback snapshot, `--verify` wal
 - **Licence:** WCAG is a **W3C open standard** (free); Nielsen's heuristics are **copyrighted** (NN/g) — cited, never reproduced; cognitive walkthrough is a **named academic method** (not copyrightable as a procedure).
 - **Distillate:** The external rubrics the design lens points at — **not** evidence claims about the world. Nielsen's 10 usability heuristics (the usability lens), WCAG (accessibility), and the cognitive-walkthrough method (first-use flows). Referenced as standards a reviewer applies, never copied into the skill.
 - **Check-date:** 2026-07-27
+- **Reads against:** `not checked`
 - **Cited-by:** choosing-tools.md · security.md

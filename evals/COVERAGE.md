@@ -49,6 +49,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-map-blocks.sh` — The touched-by executor exercised: blocks generated, only markers rewritten, and two live
 - `scripts/test-migrate-layout.sh` — The 0.2.0 layout migrator exercised on a flat 0.1.x fixture: history-preserving
 - `scripts/test-transition.sh` — The transition door, exercised end to end on a throwaway fixture — same habit as
+- `scripts/test-verify-reads.sh` — `--verify-reads` shown refusing each mutant and passing its honest twin
 
 ## Behavioural scenarios
 

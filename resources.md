@@ -190,6 +190,35 @@ was true.
 **Research rots as a whole document.** A competitor pricing study from six months ago is not a
 fact. Citing one past its date **triggers a re-check** rather than being quoted as it stands.
 
+**A register that can only answer *what do we have on X* is a pile.** It will hold two entries
+pulling opposite ways and never say so, because nothing asks. So every entry carries
+**`Reads against`** — the entries it must be read beside **and what the tension is** — or one of
+two words that are **not the same answer**: `none found` (looked, nothing here pulls against it)
+and `not checked` (honest ignorance). An empty field is a defect; either word is not.
+
+**The field is symmetric, which is what makes it checkable**: if A reads against B, B says so —
+`python3 scripts/fetch-source.py --verify-reads` refuses a one-way pair, a pointer at an entry
+that is not here, and a missing line, because **silence reads as "no conflict" and is not**. It
+caught two one-way pairs on its first run over entries written the same hour.
+
+**Measured 2026-09-10: 2 of 20 entries carried a comparison with another entry buried in a
+distillate paragraph**, where no field held it and nothing could read it back. The most useful
+answers turned out not to be disagreements at all — six entries on synthetic personas *look*
+opposed, and the field records why they are not: one is grounded in a person's own interview and
+the others in demographic backstories, which is the distinction the rules downstream rest on.
+**Recording the resolution is worth more than detecting the clash**, and only a field can hold it.
+
+```mermaid
+flowchart LR
+  C["a claim in a chapter"] --> R["the register entry<br/>it rests on"]
+  R -->|"Reads against"| O["the entries that<br/>pull against it"]
+  O -->|"must say so too"| R
+  R -.->|"empty"| X(("a defect —<br/>silence is not<br/>'none found'"))
+  R -.->|"`none found`"| K["a claim: looked,<br/>nothing pulls"]
+  R -.->|"`not checked`"| H["honest ignorance,<br/>and visible"]
+  O ==>|"one-way, or a<br/>dangling id"| V["--verify-reads<br/>refuses"]
+```
+
 ---
 
 ## The record is a pointer; the thing it points at outranks it

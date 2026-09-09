@@ -193,6 +193,50 @@ def _alive(url):
             return getattr(e2, "code", None) in (403, 405, 429), getattr(e2, "code", type(e2).__name__)
 
 
+
+# ── --verify-reads · the register must not hold a one-way disagreement ───────────────────────
+# A register that can only answer "what do we have on X" will hold two entries pulling opposite
+# ways and never say so. `Reads against` records the tension; this refuses the three shapes that
+# make the record a decoration: a MISSING field (silence that reads as "no conflict"), a DANGLING
+# id (a pointer at an entry that is not here), and a ONE-WAY pair (A names B, B does not name A —
+# which is how the reverse half of every typed relation rots, and the same defect `Cited-by` has).
+# `none found` and `not checked` are both legal and they are NOT the same answer: one is a claim,
+# the other is honest ignorance, and collapsing them is what the field exists to prevent.
+def verify_reads(path="sources/SOURCES.md"):
+    import re
+    try:
+        text = open(path, encoding="utf-8").read()
+    except OSError:
+        print("  no register at %s — nothing to check" % path)
+        return 0
+    blocks = re.split(r"^### ", text, flags=re.M)[1:]
+    ids, reads, bad = [], {}, []
+    for b in blocks:
+        eid = b.split(" \u00b7")[0].split("\n")[0].strip()
+        ids.append(eid)
+        m = re.search(r"^- \*\*Reads against:\*\* (.+)$", b, re.M)
+        if not m:
+            bad.append("%s has no 'Reads against' line — silence is not 'none found'" % eid)
+            continue
+        val = m.group(1)
+        named = set(re.findall(r"`([a-z0-9][a-z0-9-]*)`", val))
+        named.discard("none"); named.discard("not")
+        reads[eid] = named
+    known = set(ids)
+    for eid, named in reads.items():
+        for other in sorted(named):
+            if other not in known:
+                bad.append("%s reads against '%s', which is not an entry here" % (eid, other))
+            elif eid not in reads.get(other, set()):
+                bad.append("%s reads against %s and %s does not say so — a one-way pair" % (eid, other, other))
+    for line in bad:
+        print("  \u2717 %s" % line)
+    if bad:
+        print("  %d problem(s) in %d entries" % (len(bad), len(ids)))
+        return 1
+    print("  \u2713 %d entries, every 'Reads against' present, resolvable and symmetric" % len(ids))
+    return 0
+
 def verify():
     try:
         text = open("sources/SOURCES.md", encoding="utf-8").read()
@@ -223,6 +267,7 @@ if __name__ == "__main__":
     g.add_argument("--resolve", metavar="ID", help="doi | arxiv-id | url → SOURCES.md skeleton")
     g.add_argument("--archive", metavar="URL", help="Wayback Save Page Now + availability link")
     g.add_argument("--verify", action="store_true", help="check every live URL in the register")
+    g.add_argument("--verify-reads", action="store_true", help="Reads against: present, resolvable, symmetric")
     a = ap.parse_args()
 
     try:  # self-log; telemetry must never break the fetcher
@@ -238,5 +283,7 @@ if __name__ == "__main__":
         sys.exit(resolve(a.resolve))
     if a.archive:
         sys.exit(archive(a.archive))
+    if a.verify_reads:
+        raise SystemExit(verify_reads())
     if a.verify:
         sys.exit(verify())
