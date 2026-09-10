@@ -52,6 +52,8 @@ shipped structure check had been saying so. And `consulting.md`'s depth diagram 
 answer either way** — the same hole that withdrew `Depth`'s gate before the last tag. The diamond now
 carries its own precondition, matching the conditional `preflight.sh` already uses.
 
+**One shelf row re-verified by running the tool it describes** (`AGENTS.md` §3). The codebase-orientation row called graphify's zero-credit local build a README claim; it is now a measurement, and the measurement narrows it — **the free half is an index, and the edges that make it a graph need an API key.** Asked the very question this session had got wrong by grepping a word, its query made the identical mistake and matched a bash function of the same name.
+
 **What to do: nothing.** No template moved and nothing a project copies changed;
 `templates/company-preflight.sh` differs from 0.2.17 by its version stamp alone. The checker repaired
 here reads this corpus, not yours.
