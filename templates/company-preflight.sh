@@ -1738,7 +1738,7 @@ proposed to a human, never edited by whoever works under it.";;
   fi
 fi
 
-# 15 · a skill nobody tested is a hypothesis, and the sentence saying so measured 0 of 5.
+# 18 · a skill nobody tested is a hypothesis, and the sentence saying so measured 0 of 5.
 #      `skills.md` asks for it in prose — every command a skill contains is run before the file
 #      is saved, against an input it must REJECT — and N61 scored zero on exactly that clause,
 #      counted from transcripts across three rounds, with one run declaring itself tested by
@@ -1757,7 +1757,10 @@ while IFS= read -r -d '' sk; do
   [ -f "$sk" ] || continue
   # Does it run anything? A fenced command line, or an inline call to a script. If not, the
   # section is optional in substance and `none:` is the honest answer.
-  runs=$(grep -cE '^[[:space:]]*(bash|sh|python3?|node|npx|make|\./)[[:space:]]' "$sk")
+  # Seven words was a guess. A command is an indented or fenced line whose first word looks like
+  # one — a known runner, a path, or a bare name followed by an argument. Measured 2026-09-10:
+  # grep, jq, git, curl, `uv run`, pnpm and python3.11 all passed the first version untouched.
+  runs=$(grep -cE '^([[:space:]]{4,}|[[:space:]]*\$ )([a-zA-Z_][a-zA-Z0-9_.-]*|\./[^[:space:]]+)[[:space:]]+[^[:space:]]' "$sk")
   [ "$runs" -gt 0 ] || continue
 
   sec=$(grep -cE '^#+[[:space:]]+Tested against' "$sk")
@@ -1769,7 +1772,10 @@ command actually printed when it refused, and the date (the skill's SKILL-SCAFFO
   fi
 
   # `none:` is a complete answer only where nothing runs; here something does.
-  if [ "$(grep -cE '^[[:space:]]*[-*]?[[:space:]]*(\*\*)?none(\*\*)?[[:space:]]*:' "$sk")" -gt 0 ]; then
+  # Scoped to the SECTION, not the file: its two neighbours below already do this, and reading
+  # the whole file refused a genuine door whose prose happened to name a command at line start.
+  nonebody=$(awk '/^#+[[:space:]]+Tested against/{f=1; next} /^#+[[:space:]]/{f=0} f' "$sk")
+  if [ "$(printf '%s' "$nonebody" | grep -cE '^[[:space:]]*[-*]?[[:space:]]*(\*\*)?none(\*\*)?[[:space:]]*:')" -gt 0 ]; then
     say_fail "$sk answers \`none\` in \`Tested against\` while running commands — one of the two \
 is wrong, and the cheap one to check is which."
     continue
@@ -1783,14 +1789,19 @@ copied, not filled. What did the command reject, and what did it print?"
     continue
   fi
   # "Refused with" is the field a reading cannot fill: you cannot paste output you never produced.
-  if [ "$(printf '%s' "$body" | grep -ciE '(\*\*)?refused with(\*\*)?[[:space:]]*:[[:space:]]*[^[:space:]]')" -eq 0 ]; then
+  # The first form ended `[^[:space:]]` and on `- **Refused with:**` that character is the
+  # CLOSING BOLD MARKER — so the empty field written in the scaffold's own house style passed
+  # while the same emptiness written plainly failed. Strip the markers, then look for content.
+  refused=$(printf '%s' "$body" | grep -iE '(\*\*)?refused with(\*\*)?[[:space:]]*:' | head -1 \
+            | sed -E 's/.*[Rr]efused with(\*\*)?[[:space:]]*:[[:space:]]*//; s/^\*\*//; s/[[:space:]]*$//')
+  if [ -z "$refused" ]; then
     say_fail "$sk records a test with nothing under \`Refused with\` — a passing case proves \
 nothing, because a checker that reads nothing and one that finds nothing wrong return the \
 identical silence. Paste what it printed when it refused."
   fi
 done < <(changed -- '_ops/skills/*.md' '_ops/skills/**/*.md')
 
-# 17 · a finding is read INSTEAD of the sources under it, so the two fields that make it
+# 19 · a finding is read INSTEAD of the sources under it, so the two fields that make it
 #      readable are the two that can be quietly skipped. `Decides` is what orders them — the
 #      reading order is the order of the decisions waiting, and a second priority list is a list
 #      that lies — and `Recheck when` is what keeps a settled finding from being quoted forever.
@@ -1801,9 +1812,14 @@ done < <(changed -- '_ops/skills/*.md' '_ops/skills/**/*.md')
 while IFS= read -r -d '' fnd; do
   [ -f "$fnd" ] || continue
   case "$fnd" in */raw/*) continue ;; esac
-  for field in "Decides" "Recheck when" "Depth"; do
-    line=$(grep -iE "\*\*${field}\*\*[[:space:]]*:" "$fnd" | head -1)
-    if [ -z "$line" ]; then
+  for field in "Decides" "Recheck when"; do
+    # Bold is OPTIONAL — §15 fifty lines above says shapes and not spellings, and requiring it
+    # here was facts.md 254 reintroduced inside the change that cites it.
+    line=$(grep -iE "(\*\*)?${field}(\*\*)?[[:space:]]*:" "$fnd" | head -1)
+    # And the VALUE is what must be non-empty. The first form tested the matched line, which is
+    # never empty when grep matched — so a bare `**Decides**:` cleared every check.
+    val=$(printf '%s' "$line" | sed -E "s/.*${field}(\*\*)?[[:space:]]*:[[:space:]]*//; s/^\*\*//; s/[[:space:]]*\$//")
+    if [ -z "$line" ] || [ -z "$val" ]; then
       say_fail "$fnd has no \`${field}\` — a finding without it is either unordered or immortal \
 (templates/FINDING-template.md)."
       continue
@@ -1811,18 +1827,6 @@ while IFS= read -r -d '' fnd; do
     printf '%s' "$line" | hits '{{' && say_fail "$fnd still carries the template's braces in \
 \`${field}\` — the file was copied, not answered."
   done
-  # Depth is one of three words. Free text here is how a field stops meaning anything, and
-  # `standing` is the rung that PROMISES every source was read against the others — so a finding
-  # claiming it while the register still says `not checked` is claiming work nobody did.
-  dp=$(grep -ioE '\*\*Depth\*\*[[:space:]]*:[[:space:]]*[a-z]+' "$fnd" | head -1 | sed -E 's/.*:[[:space:]]*//' | tr '[:upper:]' '[:lower:]')
-  case "$dp" in
-    orienting|deciding|standing|"") : ;;
-    *) say_fail "$fnd says \`Depth: $dp\`, which is not one of orienting | deciding | standing." ;;
-  esac
-  if [ "$dp" = "standing" ] && [ -f sources/SOURCES.md ]; then
-    nc=$(grep -c 'Reads against:\*\* `not checked`' sources/SOURCES.md)
-    [ "$nc" -eq 0 ] || say_fail "$fnd claims \`Depth: standing\` while $nc register entr(ies) say \`Reads against: not checked\` — that rung promises every source was read against the others."
-  fi
   st=$(grep -ioE '\*\*Status\*\*[[:space:]]*:[[:space:]]*[a-z]+' "$fnd" | head -1 | sed -E 's/.*:[[:space:]]*//' | tr '[:upper:]' '[:lower:]')
   if [ "$st" = "settled" ]; then
     body=$(awk '/^##[[:space:]]+What we now believe/{f=1; next} /^##[[:space:]]/{f=0} f' "$fnd" \

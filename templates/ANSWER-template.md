@@ -16,7 +16,10 @@ subject. Each stopped one step before the answer.**
 
 ## Depth — chosen before the run, and priced when it is offered
 
-**This is the price list; the field lives on the finding.** An answer worth keeping becomes
+**This is the price list, and nothing enforces it.** The field lives on the finding as an optional
+line; a guard for it was written and withdrawn the same day for having no measured defect behind it
+(`LATER.md` → *Depth was demoted before its tag*). Quote a rung because the owner is paying for it,
+not because a check will refuse you. An answer worth keeping becomes
 `_ops/research/<question>.md` (`templates/FINDING-template.md`), which carries `Depth:` as a
 required field — one layer, one home. Use the table below to **quote the rung before the work**,
 and quote it in the words of what it buys rather than in hours.

@@ -213,11 +213,12 @@ decision it was for, and **a new question checks the findings before it fetches 
 arrive where it was.
 
 **How deep is a question with a price, and it is asked before the fetching starts.**
-`templates/ANSWER-template.md` → *Depth* carries the three rungs and what each buys; the one that
-touches this file is **`standing`**, which is the only rung that requires every entry's
-`Reads against` to be **completed** rather than left at `not checked`. That is why the field has
-two ways of saying nothing: `orienting` and `deciding` may honestly leave it unchecked, and
-**`standing` may not**.
+`templates/ANSWER-template.md` → *Depth* carries the three rungs and what each buys. The one that
+touches this file is **`standing`**, which is the rung that means *every entry it rests on was read
+against the others* — so `orienting` and `deciding` may honestly leave `Reads against` at
+`not checked` and `standing` may not. **Nothing enforces that**: it was a guard for one day and was
+withdrawn before the tag for reading a path no operated project has. It is a claim the author makes
+and a reader can check by opening the register.
 
 **Where a source comes from, when there is not one yet.** The register has an intake ramp and no
 search, and until 2026-09-10 nothing joined the two: **`catalogue.md` knows where to look** — its

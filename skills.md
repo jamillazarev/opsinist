@@ -62,6 +62,9 @@ counted from transcripts, three rounds), with one run declaring itself tested by
 which is why there is now a field instead of a firmer sentence.
 
 **Every command it contains is run before the file is saved — against an input it must reject.**
+**The form behind this is narrower than the sentence**, and the gap is stated rather than hidden:
+§18 fires on a line that *looks like* a command — indented or prompted, a runner or a path — so a
+command named mid-paragraph is the author's to test and nobody's to catch.
 Not a passing case: **a checker that reads nothing and a checker that finds nothing wrong return
 the identical silence**, so a clean run against good input proves only that nothing crashed. Give
 it the defect and watch it refuse; that is the smallest test that can distinguish working from
@@ -74,8 +77,8 @@ flowchart TD
   Q -->|"read the manual"| M(("not a test —<br/>you cannot paste<br/>output you never<br/>produced"))
   Q -->|"a passing case"| P(("proves nothing —<br/>read-nothing and<br/>found-nothing are<br/>the same silence"))
   S -.->|"runs nothing"| N["`none:` — the whole<br/>answer for a door"]
-  F --> G["§15 lets the commit through"]
-  M --> G2["§15 refuses"]
+  F --> G["§18 lets the commit through"]
+  M --> G2["§18 refuses"]
   P --> G2
   N --> G
 ```

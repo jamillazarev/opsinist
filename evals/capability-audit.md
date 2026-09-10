@@ -119,7 +119,7 @@ row in this audit to move from a verdict to a mechanism** — from *"this is wha
 | trust that moves both ways on recorded evidence | `N21` | 1/5, 0/5 | **claimed, measured, does not happen** |
 | a tool gap met twice becomes a `tooling` task | `N5` | 0/5, 0/5 (mostly void) | **claimed, never once demonstrated** |
 | a routine that repeats becomes a **`tooling` task** | `N5` | 0/5, 0/5 | **claimed, never once demonstrated** |
-| a routine that repeats becomes a **skill**, by the birth procedure `skills.md` specifies | `N61` — **written 2026-07-31, the last row here to get a scenario** | 0/5 | **claimed in three files, now measured once, and it fails on two laws at the same time** — see below |
+| a routine that repeats becomes a **skill**, by the birth procedure `skills.md` specifies | `N61` — **written 2026-07-31, the last row here to get a scenario** | 0/5 | **claimed in three files, measured three times across three corpora, and it fails on two laws at the same time** — see below. **The birth-procedure clause got a form on 2026-09-10** (`SKILL-SCAFFOLD.md` → *Tested against*, guard §18); this zero is its *before* |
 
 **That last row was the whole reason this audit ran, and it now has a number.** *"A repeated
 primitive becomes a skill"* appears in `skills.md`, `self-maintenance.md` and `checking.md`, and

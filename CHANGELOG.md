@@ -30,11 +30,16 @@ never closes and a question does. It opens with *what we now believe* in a parag
 them**, so the reading order is the order of the decisions waiting and no second list is kept — a
 second list is a list that lies.
 
-**How deep is a question with a price, asked before the fetching starts.** Three rungs named by what
-they buy: `orienting` is a direction and never a finding · `deciding` is a defensible call ·
-`standing` is something quotable in a year, **and it is the only one that obliges every source to
-have been read against the others** — §17 refuses it while the register still says otherwise, which
-is claiming work nobody did. A run that outgrows its rung is a new question at a new price.
+**How deep is a question with a price, asked before the fetching starts — and it ships as guidance
+that admits it, not as a gate.** Three rungs named by what they buy: `orienting` is a direction and
+never a finding · `deciding` is a defensible call · `standing` is something quotable in a year. **It
+went in as a required field with a guard and came back out before the tag**, because an adversarial
+lens found no measured defect behind it and two dead parts in the check: its `standing` cross-check
+read `sources/SOURCES.md`, **a path no operated project has**, so the clause led with something that
+could not fire where it shipped; and its enum accepted the empty string, waving a blank `Depth:`
+through while refusing an honest `Depth: TBD`. The rungs stay as a price list; nothing gates them,
+`LATER.md` holds what would earn the gate back, and `facts.md` 259 says *judgement call* rather than
+implying a measurement.
 
 **The register can say what pulls against an entry.** Nothing read contradiction *between* sources —
 verified by grep before building — and **2 of 20 entries carried a comparison buried in a prose
@@ -46,19 +51,29 @@ entries written the same hour**. The most useful finding was not a disagreement 
 on synthetic personas look opposed and measure different things, and that resolution is what the
 rules downstream rest on.
 
-**The shelf grew by a third and lost three rows it should never have gained.** `catalogue.md` 128 →
-149, shaped by its own contract — *keep only the anchors that carry a licensing or fallback
+**The shelf grew by a sixth in rows and by two fifths in anchors, and lost three rows it should
+never have gained.** `catalogue.md` **124 → 145 resource rows** (the first draft of this line said
+128 → 149 and was counting four table headers as rows), carrying **453 → 628 distinct anchors**, shaped by its own contract — *keep only the anchors that carry a licensing or fallback
 decision* — so roughly a hundred and ten resources became rows carrying decisions: a typeface is
 licensed per use-class and webfonts are metered by pageviews · a mockup licence covers client work
 and almost never redistribution · product reading splits three ways because only one of them is
-disinterested. **Three licences were mis-stated upstream and are read from the repository here**:
-GitButler is FSL-1.1-MIT and not OSI open source, RudderStack is Elastic License 2.0, and
-`sharechat` has no LICENSE file at all. **And three rows were duplicates I added by grepping my own
+disinterested. **Three licences are read from the repository rather than from a page, and only one was actually
+mis-stated upstream**: GitButler calls itself open source and is **FSL-1.1-MIT**, source-available
+until it converts. The other two are this shelf's own imprecision made exact — RudderStack was
+carried as *"Elastic-style custom licence — flag"* and is **Elastic License 2.0** — and an absence
+rather than a claim: `sharechat` has **no LICENSE file at all**. **And three rows were duplicates I added by grepping my own
 vocabulary instead of the corpus's** — found by listing every row name in order, folded back.
 
 **What to do:** re-copy the guard. Nothing else is required. A skill you already have keeps working
 until you next edit it; a finding is a new file you write when you next answer a question worth
 keeping.
+
+**The lens round runs a second time over the repair it caused, before the tag.** No new mechanism:
+the range is still `<last tag>..HEAD`, so it already contains the repair — the same four questions
+over a range that grew. **And do not tag between the rounds**, because that is what puts a repair
+beyond reach: it becomes an ancestor of the tag and every later range excludes it. What it costs is
+one more round per release and **nothing here has measured that** (`facts.md` 256). This release ran
+it four times, and every repair below came out of a later round rather than the first.
 
 **A lens that ran out of budget is now recorded as `not completed`, never as empty.** The two are
 identical in a report and opposite in fact. Measured on this release: **three rounds lost twelve
@@ -69,7 +84,7 @@ Ported from the sibling, where the state has been in use since 2026-08-15 rather
 Eval state: **not run.** `N61` is the regression test for the skill half and it is the *before*
 measurement — 0 of 5 — so the next round says whether the form moved it.
 
-**Trio:** four diagrams, each beside the rule it draws · four situations · `facts.md` **257–260**.
+**Trio:** four diagrams, each beside the rule it draws · four situations · `facts.md` **256–260**.
 Suites: company-preflight **237** · verify-reads **9** · audit-gate **123**, all zero-fail.
 
 ## 0.2.16 — 2026-09-07

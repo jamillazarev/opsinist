@@ -1,7 +1,8 @@
 # {{the question, as a question — not a topic}}
 
 **Decides**: {{a link to the task this decides — `T-XXXXXX`, as a link and not a bare id — or `nothing yet`}} ·
-**Status**: {{open · settled · stale}} · **Depth**: {{orienting · deciding · standing}}
+**Status**: {{open · settled · stale}} · **Depth**: {{orienting · deciding · standing — see
+`ANSWER-template.md`; guidance, not a gate: nothing has measured whether stating it changes anything}}
 **Answered**: {{YYYY-MM-DD}} · **Recheck when**: {{a named event, never a date}}
 
 > [!NOTE]
@@ -15,7 +16,7 @@
 reads this and stops, and the register underneath is for whoever argues.}}
 
 **Confidence**: {{measured · cited · recalled · judgement call}} — the rung travels with the claim
-(`evidence.md`), and a finding built on `cited` sources does not become `measured` by being written
+(`permissions.md` → *the evidence ladder*), and a finding built on `cited` sources does not become `measured` by being written
 down.
 
 ## What would change it

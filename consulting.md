@@ -14,7 +14,7 @@ consultations are the ones that crossed the bridge.
 
 ## How deep, and who agreed to it
 
-**Depth is chosen before the fetching starts, and it is a price the owner agrees to** — the three
+**Depth is chosen before the fetching starts, and it is a price the owner agrees to — stated, not enforced.** Nothing measures whether stating it changes a run, so it is guidance carrying its own admission rather than a gate — the three
 rungs and what each buys are priced in `templates/ANSWER-template.md` → *Depth*, and **the answer
 that is worth keeping becomes a finding** (`_ops/research/<question>.md`) which carries the rung as
 a required field. A consultation that leaves no file is fine and common; one worth quoting later is
@@ -29,7 +29,7 @@ flowchart TD
   D -->|"standing"| S["hours — and every<br/>register entry read<br/>against the others"]
   D -.->|"not asked"| A(("the advisor proposes<br/>one WITH its price<br/>and waits — time is<br/>a spend"))
   S --> V{"any entry still<br/>`not checked`?"}
-  V -->|"yes"| R["§16 refuses:<br/>the rung claims<br/>work nobody did"]
+  V -->|"yes"| R["the rung claims<br/>work nobody did —<br/>say so, nothing gates it"]
   V -->|"no"| K["the answer stands"]
   O --> K
   E --> K

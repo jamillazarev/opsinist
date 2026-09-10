@@ -2096,34 +2096,12 @@ grep -q '{{' _ops/research/panels.md || bad "MUTATION DID NOT APPLY (recheck bra
 git add -A >/dev/null 2>&1
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "an unanswered Recheck passed" || ok
 
-# mutant 3 · Depth as free text — the field stops meaning anything
-honest; python3 - <<'PP'
-import pathlib
-p=pathlib.Path('_ops/research/panels.md'); t=p.read_text()
-p.write_text(t.replace('**Depth**: deciding','**Depth**: thorough'))
-PP
-grep -q 'thorough' _ops/research/panels.md || bad "MUTATION DID NOT APPLY (depth free text)"
-git add -A >/dev/null 2>&1
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "free text in Depth passed" || ok
+# Depth was a required field with a guard when this suite was written, and was DEMOTED to
+# guidance the same day by an adversarial lens: no measured defect stood behind it, and its
+# `standing` cross-check guarded on a path no operated project has. Its three assertions came out
+# with the gate — a suite that tests a removed gate is a suite that will be deleted as noisy.
 
-# mutant 4 · `standing` claimed while the register says nobody looked
-mkdir -p sources
-printf '### alpha · A study\n- **Reads against:** `not checked`\n' > sources/SOURCES.md
-honest; python3 - <<'PP'
-import pathlib
-p=pathlib.Path('_ops/research/panels.md'); t=p.read_text()
-p.write_text(t.replace('**Depth**: deciding','**Depth**: standing'))
-PP
-git add -A >/dev/null 2>&1
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "'standing' passed while the register says not checked" || ok
-
-# its twin · `standing` with the register actually read, or the rung is unreachable
-printf '### alpha · A study\n- **Reads against:** `none found`\n' > sources/SOURCES.md
-git add -A >/dev/null 2>&1
-bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "'standing' refused on a fully-read register"
-rm -rf sources
-
-# mutant 5 · settled with an empty conclusion — a title claiming an answer
+# mutant 3 · settled with an empty conclusion — a title claiming an answer
 honest; python3 - <<'PP'
 import pathlib
 p=pathlib.Path('_ops/research/panels.md'); t=p.read_text()

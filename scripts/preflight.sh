@@ -430,6 +430,18 @@ else
   say_ok "nothing built is tracked"
 fi
 
+# 9b · the register's disagreements, which nothing ran. `--verify-reads` shipped wired to nothing
+#       — not this file, not CI, not the ritual — so the real register was checked only when a
+#       human typed the command, which is the shape `verify.py` was found in once before.
+if [ -f sources/SOURCES.md ] && [ -f scripts/fetch-source.py ]; then
+  _vr=$(python3 scripts/fetch-source.py --verify-reads 2>&1); _vrc=$?
+  if [ "$_vrc" -ne 0 ]; then
+    say_fail "sources register: $(printf '%s' "$_vr" | grep -c '✗') problem(s) in Reads against — run: python3 scripts/fetch-source.py --verify-reads"
+  else
+    say_ok "$(printf '%s' "$_vr" | tail -1 | sed 's/^[[:space:]]*//')"
+  fi
+fi
+
 # 10 · heuristic structure guards (never fatal)
 if [ -f scripts/check-structure.py ]; then
   python3 scripts/check-structure.py 2>/dev/null | while read -r line; do

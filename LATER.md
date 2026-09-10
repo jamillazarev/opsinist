@@ -95,38 +95,34 @@ review finds a solution shipped with no opportunity above it.
 
 ## A terminal UI over `_ops/` — deferred, with the boundary that would shape it
 
-**Named 2026-09-07**, when the owner asked how hard a herdr-like terminal UI would be. **The
-deferred thing is the build**; what follows is why not, and what is already decided so it is not
-re-argued when the moment comes.
+**Named 2026-09-07**, when the owner asked how hard a herdr-like terminal UI would be. **The deferred
+thing is the build**; what follows is why not, and what is decided so it is not re-argued.
 
-**Native-first, answered with its date.** `herdr` (herdr.dev, read 2026-09-07) **supervises CLI
-agents rather than being one**, so this skill already runs inside it by way of the agent it
-supervises and there is nothing to port; its plugin surface carries executables, not context.
+**Native-first, dated.** `herdr` (read 2026-09-07) **supervises CLI agents rather than being one**,
+so this skill already runs inside it and there is nothing to port; its plugin surface carries
+executables, not context.
 
-**The boundary, stated without naming anyone, because that tool is an instance and not the reason.**
-A pane holding a live process belongs to whatever supervises the session. **This system refuses that
-half on purpose** — nothing load-bearing lives in a session — and owns the durable one: who exists,
-what they are for, what they may do without asking, what is assigned, what it costs, what waits on
-the owner. **Build the session half here and the result is a worse supervisor bought with the
-founding premise.** The move the other way is cheap and holds for any supervisor: it can see that an
-agent stopped and not why, while `_ops/` knows which task, which gate and what the wait costs — so
-**the reason can go on someone else's status row without this system growing a session model.**
+**The boundary, stated without naming anyone.** A pane holding a live process belongs to whatever
+supervises the session. **This system refuses that half on purpose** — nothing load-bearing lives in
+a session — and owns the durable one: who exists, what they may do without asking, what is assigned,
+what it costs, what waits on the owner. **Build the session half here and the result is a worse
+supervisor bought with the founding premise.** The move the other way is cheap and holds for any
+supervisor: it sees that an agent stopped and not why, while `_ops/` knows which task, which gate
+and what the wait costs — **the reason can go on someone else's status row without this system
+growing a session model.**
 
-**Settled about the TUI, each an existing rule applied rather than a new opinion:** **no model in
-memory**, every repaint re-reads — an in-memory board is the second copy `TASK-template.md` refuses
-· **no silent subset**, a count line says what it could not read (`facts.md` 254), or an empty board
-looks like a calm project · **one writer** — it reads, the agent writes, the owner edits files ·
-**no chat outside a thread**, so a turn lands on disk first · the first view is **the bill for the
-owner's attention**, which is `/status` repainting · **not columns** — a wave is not a column, so a
-tree with wave separators, and secondary.
+**Settled, each an existing rule applied:** **no model in memory**, every repaint re-reads · **no
+silent subset**, a count line says what it could not read · **one writer** — it reads, the agent
+writes, the owner edits · **no chat outside a thread** · the first view is **the bill for the
+owner's attention**, which is `/status` repainting · **not columns**, because a wave is not a column.
 
 **Why not now.** Nobody asked for the build, and the one screen with no substitute — *what changed
 in `_ops/` while I was away* — has never been wanted aloud.
 
-**The candidate form**, when it earns the rung: the parser refuses a malformed entity and the count
-line reports it. **The mutant is a tree where one task's status line is bolded differently and the
-display shows the rest without a word; the twin is that tree read whole.** The reader is not new
-work — `scripts/transition.py`'s `field()` already reads the prose form tolerantly.
+**The candidate form:** the parser refuses a malformed entity and the count line reports it. **The
+mutant is a tree where one task's status line is bolded differently and the display shows the rest
+without a word; the twin is that tree read whole.** `scripts/transition.py`'s `field()` already reads
+the prose form tolerantly.
 
 **Revisit when** an owner asks *what changed while I was away* and answering means reading
 `git log -- _ops/` by hand.
@@ -324,6 +320,22 @@ what the requester acts on, and a second reviewer can only be compared to the fi
 wrote down what it concluded. The field is `Verdict` on `RUN-template.md`; the gate is in §1f;
 the mutant and twin are the pair this entry specified, and both behave as it predicted.
 
+## Depth was demoted before its tag, and owes the measurement it never had
+
+**Named 2026-09-10, by the adversarial lens on the release that shipped it.** A three-rung depth
+ladder for research — *orienting · deciding · standing* — went in as a **required field with a
+guard**, and no measured defect stood behind it. The bar asks for **the claim dated with its
+measurement**; the date belonged to a runtime check and nobody had been observed getting it wrong.
+*A rule that cannot point back at its dated origin has not climbed — it was declared.*
+
+**Demoted the same day to guidance that admits it.** Two defects went with the gate: its `standing`
+cross-check guarded on `sources/SOURCES.md`, **a path no operated project has**, so the clause the
+entry led with was dead everywhere it shipped; and its enum accepted the empty string, waving a
+blank `Depth:` through while refusing an honest `Depth: TBD`.
+
+**Revisit when** a research request is measured against a stated rung, or an owner objects to what
+a search cost after it ran.
+
 ## The lens round has no form, and its range cannot see the repairs it prompts
 
 **Named 2026-09-07**, by the adversarial lens reading the release that added the repair pass.
@@ -337,26 +349,22 @@ Measured: `1727542`, the repair 0.2.16's re-run produced, is an ancestor of `v0.
 round" would have missed.** `lenses.md` closes it by ordering, which is a rule and not a form:
 nothing refuses a tag cut between rounds.
 
-**The candidate form**, and it is one comparison: record the reviewed range in the entry, and have
-preflight refuse a tag when that range does not reach `HEAD` — which is exactly the state a tag cut
-between rounds produces. **The mutant is a release whose recorded range stops short of its own
-repair commits; the twin is one whose range reaches them.** It is a form where ordering-by-sentence
-is now.
+**The candidate form:** record the reviewed range in the entry, and have preflight refuse a tag when
+that range does not reach `HEAD`. **The mutant is a release whose recorded range stops short of its
+own repair commits; the twin is one whose range reaches them.**
 
 **The sibling already ships two thirds of this.** Its `scripts/lens.sh <lens> <base-ref>` runs one
 lens as an isolated headless session — own config home, no connectors, `Write` denied — beside a run
-record that lists `not run` rather than omitting it. **And it has the state this
-project lacks**: *a lens that exhausts its turn budget is recorded as **not completed**,
-indistinguishable from one nobody ran*. Measured here 2026-09-07, when nine lens agents died on
-usage limits across three rounds and there was nowhere to record it but prose.
+record that lists `not run` rather than omitting it. **And it has the state this project lacked**: a
+lens that exhausts its budget is recorded as **not completed**. That half was ported 2026-09-10 after
+nine agents died on usage limits across three rounds with nowhere to record it but prose.
 
-**Why no form today.** A runner is a capability and owes the bar; the rule it serves is one release
-old and changed shape three times in a day. **And the cost is undeclared** — one round per release,
-forever, with no number on a lens pass anywhere, which is the adversarial lens's own fourth question
-unanswered by a rule it reviewed.
+**Why no form today.** A runner is a capability and owes the bar. **And the cost is undeclared** —
+one round per release, with no number on a lens pass anywhere, which is the adversarial lens's own
+fourth question unanswered by a rule it reviewed.
 
-**Revisit when** a release ships a defect that the previous release's repair introduced — the case
-the range hole exists to let through — or when any lens round is measured for what it costs.
+**Revisit when** a release ships a defect the previous release's repair introduced, or when any lens
+round is measured for what it costs.
 
 ## Convergence between independent reviewers is not read as a signal
 
@@ -430,48 +438,41 @@ gone, directory full — reported once and by name.**
 ## A "should this exist at all" ladder, and whether it changes anything
 
 **Named 2026-08-22**, from a third-party plugin the owner asked about (`DietrichGebert/ponytail`,
-MIT, read from the API 2026-08-22). Its content is one ladder an agent walks **before writing
-code**: does this need to exist · is it already in the codebase · standard library · a native
-platform feature · an installed dependency · can it be one line · only then a minimum
-implementation.
+MIT). Its content is one ladder an agent walks **before writing code**: does this need to exist · is
+it already in the codebase · standard library · a native platform feature · an installed dependency
+· can it be one line · only then a minimum implementation.
 
-**Why it is a real gap and not a duplicate.** `choosing-tools.md` holds a ladder for *which vendor*
-— free → open source → self-hostable → embeddable → agent-drivable. Nothing in the shipped corpus
+**Why it is a real gap.** `choosing-tools.md` holds a ladder for *which vendor*. Nothing shipped
 asks *should this code exist at all*; the nearest thing, **native-first**, lives in `AGENTS.md`,
-which governs work on this repository and never reaches a project.
+which governs this repository and never reaches a project.
 
-**Why it is not being taken.** Its headline rates — *"~54% less code · ~20% cheaper · ~27% faster ·
-100% safe"* — carry no denominator, no corpus, no date, and *100% safe* is not falsifiable; the
-ladder can be taken, those numbers cannot be quoted here. And **a finding does not become a rule the
-day it is found**: two capabilities shipped in 0.2.9 whose prose measures 1 in 10 and whose gates
-that round could not reach, so a third before the first two are measured is what
-`self-maintenance.md` refuses.
+**Why it is not taken.** Its headline rates carry no denominator, no corpus and no date, and
+*100% safe* is not falsifiable — the ladder can be taken, those numbers cannot be quoted. And **a
+finding does not become a rule the day it is found**: two capabilities shipped in 0.2.9 whose prose
+measures 1 in 10, so a third before the first two are measured is what `self-maintenance.md`
+refuses.
 
-**What the round did buy, and it narrows the question rather than answering it.** The prose arm
-measured **1 of 10** — over ten dispatches the player added the move eight times and wrote the
-declared line once, committing ZERO times. **N102 is N97 with *"then commit it"* in the turn, the
-only difference, and it converted 3 of 3.** **The two rates do not share a denominator and this
-entry will not pretend they do**: 1-of-10 is over every dispatch, 3-of-3 over the three of five that
-reached the gate. So a ladder of this kind **shipped as prose** lands in the band this corpus
-measures near zero; whether one shipped as a **form** changes anything is untouched. If it ever
-arrives, it arrives as a form.
+**What the round bought, and it narrows rather than answers.** The prose arm measured **1 of 10**.
+**N102 is N97 with *"then commit it"* in the turn, the only difference, and it converted 3 of 3** —
+**the two rates do not share a denominator**: 1-of-10 is over every dispatch, 3-of-3 over the three
+of five that reached the gate. So a ladder **shipped as prose** lands in the band this corpus
+measures near zero; whether one shipped as a **form** changes anything is untouched. If it arrives,
+it arrives as a form.
 
 **Revisit when N97/N98 are re-run** against a decision this round left open — whether a scenario
 meaning to reach a gate must say *commit it* in the turn, or whether not-committing is itself the
-behaviour under test. `evals/RUNS.md` names that choice as owed. The old trigger said *"when N97/N98
-have measured the gates in the wild"*, and they ran without measuring them: a `validator` reaches
-only a worker that commits, ten runs committed nothing, and the round closes with **"0.2.9 has no
-gate measurement"**.
+behaviour under test. The old trigger said *"when N97/N98 have measured the gates in the wild"*, and
+they ran without measuring them: a `validator` reaches only a worker that commits, ten runs
+committed nothing, and the round closes with **"0.2.9 has no gate measurement"**.
 
 **Do not install that plugin alongside this skill** — two plugins instructing one agent about how to
 write code is the shadowing trap `evals/RUNS.md` measured.
 
 > [!NOTE]
-> **Closed 2026-09-06 and reopened the same day by three lenses reading it separately.** The closure
-> called the round's prose arm *"a declared gate, in the field"* and cited a page whose closing line
-> says the gates were never reached. **An audit that reads triggers against reality has to read the
-> evidence file, not the trigger's summary of what would satisfy it.** A first correction then named
-> a condition N102 had already met — the same failure, in the sentence repairing it.
+> **Closed 2026-09-06 and reopened the same day by three lenses.** The closure called the round's
+> prose arm *"a declared gate, in the field"* and cited a page whose closing line says the gates were
+> never reached. **An audit that reads triggers against reality has to read the evidence file, not
+> the trigger's summary of what would satisfy it.**
 
 ## Nothing here measures whether a DOCUMENT works, only whether a rule holds
 
