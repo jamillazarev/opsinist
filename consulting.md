@@ -17,11 +17,13 @@ consultations are the ones that crossed the bridge.
 **Depth is chosen before the fetching starts, and it is a price the owner agrees to — stated, not enforced.** Nothing measures whether stating it changes a run, so it is guidance carrying its own admission rather than a gate — the three
 rungs and what each buys are priced in `templates/ANSWER-template.md` → *Depth*, and **the answer
 that is worth keeping becomes a finding** (`_ops/research/<question>.md`) which carries the rung as
-an optional line — nothing gates it, and the demotion is recorded in `LATER.md`. **`standing` is the
-one rung that names an artifact**: it means every register entry was read against the others, so a
-project keeping no register cannot reach it and `deciding` is its ceiling — the same reading
-`templates/ANSWER-template.md` and `resources.md` already carry. A consultation that leaves no file
-is fine and common; one worth quoting later is a finding, and the difference is whether anything downstream will rest on it. **An answer that does not say how hard anyone looked reads as if someone
+an optional line — nothing gates it, and the demotion is recorded in `LATER.md`. **The top rung
+names an artifact the project may not keep**: `standing` means every entry of a **source register**
+(`resources.md`) was read against the others, so where no register exists the rung has nothing to be
+true of and the honest answer is the rung below. `templates/ANSWER-template.md` prices what each buys
+and puts the register under `deciding` too, so a project that keeps none is being honest at
+`orienting` — **which is a claim about that project's evidence, not a fault in the ladder.** A
+consultation that leaves no file is fine and common; one worth quoting later is a finding, and the difference is whether anything downstream will rest on it. **An answer that does not say how hard anyone looked reads as if someone
 looked hard**, which is the whole reason the field exists rather than a habit.
 
 ```mermaid
@@ -32,7 +34,8 @@ flowchart TD
   D -->|"standing"| S["hours — every register entry<br/>read against the others"]
   D -.->|"not asked"| A(("the advisor proposes<br/>one WITH its price<br/>and waits — time is<br/>a spend"))
   S --> V{"is there a register,<br/>and is every entry read?"}
-  V -->|"no register"| N["**`standing` is not available** —<br/>the rung names an artifact<br/>this project does not keep;<br/>`deciding` is the ceiling"]
+  V -->|"no register"| N["**the rung has nothing<br/>to be true of** — name the<br/>rung the evidence supports<br/>and say why"]
+  N --> K
   V -->|"an entry is<br/>still `not checked`"| R["the rung claims<br/>work nobody did —<br/>say so, nothing gates it"]
   V -->|"yes"| K["the answer stands"]
   O --> K

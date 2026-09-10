@@ -299,7 +299,7 @@ _span = re.compile(r"`[^`]*`")
 #
 # **The `**Trio:**` line is exempt inside that entry too**, because it is the one shape here that
 # states a DELTA in a total's words: "four diagrams" means four that this release added, and no
-# corpus count can confirm or deny it. Four such lines exist in the whole file.
+# corpus count can confirm or deny it.
 #
 # A count wrongly matched is a separate defect from a count wrongly compared: `"one mermaid edge"`
 # was read as a claim about the diagram count and is a regex misfire, live in every file. Scoping
@@ -315,8 +315,16 @@ try:
         _m = re.search(r"^## " + re.escape(_v.group(1)) + r"\b.*?(?=^## |\Z)", _cl, re.S | re.M)
         if _m:
             _CL_OFFSET = _cl[:_m.start()].count("\n")
-            _CL_LINES = ["" if l.lstrip().startswith("**Trio:**") else l
-                         for l in _m.group(0).split("\n")]
+            # The Trio STATEMENT is what states a delta, and it wraps — this release's own runs
+            # to five source lines. Blanking only the first left its continuation compared, so the
+            # exemption runs to the end of the paragraph (the next blank line).
+            _CL_LINES, _in_trio = [], False
+            for l in _m.group(0).split("\n"):
+                if l.lstrip().startswith("**Trio:**"):
+                    _in_trio = True
+                elif not l.strip():
+                    _in_trio = False
+                _CL_LINES.append("" if _in_trio else l)
         else:
             _CL_LINES = []           # no entry for the current version: nothing to compare
 except Exception:

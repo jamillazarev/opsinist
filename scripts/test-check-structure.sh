@@ -82,8 +82,27 @@ sed -i '' 's/^    _v = re\.search/    _v = None; _unused = re.search/' "$T/scrip
 run
 saw 'nine diagrams' && ok \
   || bad "with the scoping removed the old entry still passed — the scope is not what silences it"
+
+#    …and the Trio exemption isolated from the scoping. The mutation above kills BOTH, because the
+#    Trio filter lives inside the same branch — so on its own it cannot tell which one silenced the
+#    line. This one neuters only the filter, with the scoping intact.
+twin
+sed -i '' 's/if l\.lstrip()\.startswith("\*\*Trio:\*\*"):/if False:/' "$T/scripts/check-structure.py"
+[ "$(grep -c 'if False:' "$T/scripts/check-structure.py")" -gt 0 ] \
+  || bad "MUTATION DID NOT APPLY (the Trio filter) — the assertion below proves nothing"
+run
 saw 'five diagrams' && ok \
-  || bad "with the scoping removed the Trio line still passed — the Trio rule is not what silences it"
+  || bad "with only the Trio filter removed the line still passed — the filter is not what silences it"
+
+# ── the exempt lines are BLANKED, never dropped. A filter that drops them renumbers everything
+#    below, and a checker naming the wrong line sends its reader to innocent text. Only a fixture
+#    with a Trio line ABOVE a compared claim can tell the two apart — without one, a dropping
+#    mutant passes the whole suite. ─────────────────────────────────────────────────────────────
+twin
+printf '# Changelog\n\n## 0.1.0 — unreleased\n\n**Trio:** five diagrams.\n\nThe corpus now has nine diagrams.\n' > "$T/CHANGELOG.md"
+run
+saw 'CHANGELOG.md:7' && ok \
+  || bad "a claim under a Trio line was numbered as if the Trio line were gone: $(cat "$T/out.txt")"
 
 # ── the scoping drops ONE comparison, not every check the changelog gets ─────────────────────
 #    A `continue` one loop higher would silence the changelog entirely and look identical.

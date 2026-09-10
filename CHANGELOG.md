@@ -4,78 +4,92 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.18 — unreleased
 
+**Migration — nothing to re-copy, and one thing to look for in `_ops/`.**
+`templates/RUN-template.md` is read from the skill when a run record is written, not installed into
+your project, so this upgrade delivers its fix on its own. What it cannot fix is **the run records
+already written** while that template's `Attempt` row was wrapped across two source lines: markdown
+reads that as a row plus a one-cell fragment, so those records render a broken table. They are found
+by grepping `_ops/` for `**Attempt**` and repaired by joining the wrapped line — no tool does it for
+you. The one file you *do* hold a copy of, `_ops/scripts/preflight.sh`, differs from 0.2.17 by its
+version stamp alone: **re-copy it only to silence the guard's own stamp warning**, which otherwise
+reports a version gap with nothing behind it.
+
+**The corpus-count check now reads the entry being written, and only that one.** Every count in an
+older `CHANGELOG.md` entry was true on its date, and comparing those against a corpus that has moved
+on warns forever and grows by one line per release. The region read is the entry for the version in
+`skills/advisor/SKILL.md` — **the same cut `scripts/preflight.sh` already makes on this file**, so
+two checks in one repository no longer disagree about what a changelog claim is. **The `**Trio:**`
+line is exempt inside it**, because it is the one shape here that states a delta in a total's words:
+`four diagrams` means four this release added, and no corpus total can confirm or deny that.
+
+*The first cut of this exempted the whole file, and the review round convicted it: that silences the
+one entry describing today's corpus, and made `AGENTS.md`'s promise that showcase counters are
+guarded false exactly where the trio is written.*
+
+**What the noise was hiding, measured 2026-09-10** — by running the v0.2.17 checker over the v0.2.17
+tree, so this is a count and not a recollection. Thirteen warnings stood in the list; **eight were
+false by construction, and the five real ones were printing second through sixth, above every false
+one**: a
+`templates/RUN-template.md` table row wrapped onto a second source line, which stops being a table
+row · a paragraph in `choosing-tools.md` whose line broke before `5.`, which markdown reads as an
+ordered list · a hyphenated word split across a line break in `evals/README.md` · and a
+`catalogue.md` row that had lost its third cell to the row eight lines below it, which the check
+reported **twice**, once against each malformed row. **Only that last one was new in 0.2.17**: the
+wrapped table row has shipped in **thirty-five consecutive releases**, since v0.1.2 on 2026-07-31,
+and the other two since at least 0.2.13. They were never hard to see — they were at the top of a list
+nobody finished.
+
+**The eight false ones were three different defects, not one.** Six were the stale comparison above.
+One was a miscount of the checker's own: a sentence ending in a colon is read as introducing a list,
+and one written inside a bullet — *"…and only one carried a measurement:"* — was charged with the
+three **sibling** bullets that followed it. A list item's peers were never its list, so the count now
+stops at the first item shallower than its intro, and at any peer where the intro is itself an item.
+**And one was a plain regex misfire**: `mermaid` was read as a counted noun inside *"one mermaid
+edge"* — across this whole corpus that spelling matched exactly one phrase and matched it wrongly, so
+it now has to name what it counts (`five mermaid blocks`). **Thirteen warnings became zero**, and
+none of them by raising a threshold. *A checker that cries wolf gets bypassed* was already the rule
+in `AGENTS.md`; this is its dated instance, seen from inside the file it was hiding in.
+
+**And the checker got its first test.** `scripts/test-check-structure.sh` **17/17** — a fixture tree
+carrying a copy of the script, since it chdirs to its own parent's parent. It shows the count firing
+on a chapter, firing on the entry being written, and silent on a superseded entry and on a Trio line;
+and it **mutates the rule itself**, because a scoping rule that silences a warning and a fixture with
+nothing to warn about return the identical silence (`facts.md` 254). Two assertions hold the blast
+radius: the changelog's other checks still fire, and the reported line number is the line in the
+file, not the line in the entry.
+
+**One repair to `consulting.md`'s depth diagram.** It drew `any entry still not checked?` as a plain
+step — a question a project keeping no source register cannot answer either way, which is the hole
+that withdrew `Depth`'s gate before the last tag (`LATER.md` → *Depth was demoted before its tag*).
+The diamond now names that third outcome instead of assuming it away.
+
 **The release ritual asks one more question, at the moment the date is set: what did this session
 learn about the machine?** A note about how the tools behave here is evidence, so it moves without a
 tag and lands wherever it is written — and **written after the date it falls outside the release
 whose work produced it**, leaving the entry that describes that work without the lesson. Nothing is
 lost when that happens; the note rides the next range. **What is lost is the join** between a
-measurement and the release that produced it, which is what a changelog is for.
-
-**Measured before it was written, which is the point.** Machine notes landed after their own tag
-**six times across four releases** — 0.2.11, 0.2.14, 0.2.16 and 0.2.17 — eighteen days end to end, the last two
-three days apart, one of them three notes in a single evening. **The rung was checked rather than assumed**:
-`self-maintenance.md` charges a week and a second occurrence for a rule, and this had four occasions
-over eighteen days and still reproduced on the day it was written.
-
-**The corpus-count check stops comparing changelog entries against today's corpus.** Every count in
-`CHANGELOG.md` is either a **delta** — `"four diagrams"` meaning what that release added — or a total
-that was true on its date. Neither is comparable to a corpus that has moved on, so the comparison
-warned forever and **grew by one line per release**. `scripts/check-structure.py` now skips that one
-comparison there, and keeps every other check reading the file.
-
-**What the noise was hiding, measured 2026-09-10** — by running the v0.2.17 checker over the v0.2.17
-tree, so this is a count and not a recollection. Eight permanently-false warnings stood in the list,
-and **all five real ones sat among them and shipped in 0.2.17**: a `templates/RUN-template.md` table
-row wrapped onto a second source line, which stops being a table row · a paragraph in
-`choosing-tools.md` whose line broke before `5.`, which markdown reads as an ordered list · a
-hyphenated word split across a line break in `evals/README.md` · and a `catalogue.md` row that had
-lost its third cell to the row eight lines below it, which the check reported **twice**, once against
-each malformed row.
-
-**And the last one standing was a miscount of its own.** A sentence ending in a colon is read as
-introducing a list, and one inside a bullet — *"…and only one carried a measurement:"* — was charged
-with the three **sibling** bullets that followed it. A list item's peers were never its list, so the
-count now stops at the first item shallower than its intro, and at any peer where the intro is itself
-an item. **Thirteen warnings became zero**, and none of them by raising a threshold.
-**A checker that cries wolf gets bypassed** was already the rule in `AGENTS.md`; this is its dated
-instance, seen from inside the file it was hiding in.
-
-**And the checker got its first test.** `scripts/test-check-structure.sh` **16/16** — shows
-the count firing on a chapter and silent on the changelog, and **mutates the rule itself**: with the
-exemption removed the same line is refused again, because an exemption that silences a warning and a
-fixture with nothing to warn about return the identical silence (`facts.md` 254). Two assertions hold
-the blast radius — the changelog's other checks still fire, so what was dropped is one comparison and
-not the file.
-
-**Two more repairs to what 0.2.17 shipped.** A `catalogue.md` row had lost its third cell to the row
-eight lines below it — *why Graphite is here* was rendering inside the investor-database row, and the
-shipped structure check had been saying so. And `consulting.md`'s depth diagram still drew
-`any entry still not checked?` as a plain step, a question **a project with no source register cannot
-answer either way** — the same hole that withdrew `Depth`'s gate before the last tag. The diamond now
-carries its own precondition, matching the conditional `preflight.sh` already uses.
+measurement and the release that produced it, which is what a changelog is for. Machine notes landed
+after their own tag **six times across four releases** — 0.2.11, 0.2.14, 0.2.16 and 0.2.17, eighteen
+days end to end and the last two three days apart. **Its rung on the promotion ladder was checked
+rather than assumed** (`self-maintenance.md` → *A finding does not become a rule the day it is
+found*): a rule costs a week and a second occurrence, and this had four occasions over eighteen days
+and still reproduced on the day it was written.
 
 **One shelf row re-verified by running the tool it describes** — `AGENTS.md`,
 *What the automation checks — and what it cannot*: **"If a sentence explains what a tool does, run
-the tool."** The codebase-orientation row called graphify's zero-credit local build a README claim; it is now a measurement, and the measurement narrows it — **the free half is an index, and the edges that make it a graph need an API key.** Asked the very question this session had got wrong by grepping a word, its query made the identical mistake and matched a bash function of the same name.
-
-**What to do: re-copy `templates/RUN-template.md` if you copied it at 0.2.17 or earlier.** Its
-`Attempt` row was wrapped across two source lines, which in markdown is not one table row but a row
-and a one-cell fragment — so a run record built from that copy renders a broken table. The fix is the
-line rejoined; nothing else in the template moved. `templates/company-preflight.sh` differs from
-0.2.17 by its version stamp alone, and the checker repaired here reads this corpus rather than yours.
-
-*The first draft of this paragraph said "What to do: nothing", having generalised from the guard to
-every template. Three of the four review lenses caught it independently — which is the argument for
-running four.*
+the tool."** The codebase-orientation row called a graph tool's zero-credit local build a README
+claim; it is now a measurement, and the measurement narrows it — **what that build produces is an
+index, and the edges that make it a graph need an API key.**
 
 Eval state: **not run.** Nothing here changes what a run is asked to do — it changes when one
 question is asked during a release, and what a checker says about this repository.
 
 **Trio:** no diagram and no situation, and `facts.md` **261**. **Everything here is a repair**, and a
-repair owes the fact alone. The ritual question adds one step to a flow `AGENTS.md` already narrates
-and `diagrams.md` draws as a node, resting on `facts.md` 62 — *every recorded fact that can change
-carries the date it was checked* — applied to the machine notes themselves; the rest fix things that
-0.2.17 shipped. **Said rather than manufactured**, which is the whole allowance a repair gets.
+repair owes the fact alone. The ritual question adds one step to a flow `AGENTS.md` already narrates;
+`diagrams.md` § *Before a release* draws the gates and the lenses and stops short of the entry, the
+date and the notes, so **there is no node this step belongs beside and none was manufactured**. The
+rest fix things 0.2.17 shipped. **Said rather than manufactured**, which is the whole allowance a
+repair gets.
 
 ## 0.2.17 — 2026-09-10
 

@@ -110,6 +110,15 @@ nothing accumulates outside versions.
   that, because it prints on every path. Same family as the pipe eating the exit code: watching for a
   sign of SUCCESS where the only reliable sign is COMPLETION.
 
+- **`"$var:word"` is a zsh modifier, and it eats the word** (measured 2026-09-10). This tool's shell
+  is zsh, where `:t` `:h` `:r` `:e` are history modifiers that apply to a parameter expansion — so
+  `git show "$t:templates/RUN-template.md"` expanded to **`v0.2.17emplates/RUN-template.md`**, the
+  `:t` consumed as *tail of path*. Every tag reported *"file not found"*, and the conclusion waiting
+  to be drawn was that a defect had never shipped — when it had shipped in thirty-five consecutive
+  releases. **Brace it: `"${t}:path"`.** Fifth member of the author's-tool class, and the first where
+  the wrong answer is a plausible one rather than an error: `grep`, `awk`, `timeout` and `claude`
+  fail loudly, and this one succeeds at something else.
+
 - **A tool can report a failure without exiting on one, and then its exit code proves nothing**
   (measured 2026-09-10). `scripts/check-structure.py` prints `FAIL:`/`WARN:` lines for preflight to
   render and **exits 0 on every path**; a mutation suite written against `[ "$(run)" = "1" ]` was
