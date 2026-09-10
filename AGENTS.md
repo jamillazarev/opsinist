@@ -134,8 +134,8 @@ to this repository itself.
 about how the tools behave here is evidence and moves without a tag, so it lands wherever it is
 written; **written after the date, it falls outside the release whose work produced it**, and the
 entry that describes that work never carries the lesson. Measured across four releases — 0.2.11,
-0.2.14, 0.2.16 and 0.2.17, the last three of them the same week — machine notes landed **after**
-their own tag six times, one of them three notes in a single evening. **Nothing is lost when that
+0.2.14, 0.2.16 and 0.2.17, eighteen days end to end and the last two three days apart — machine
+notes landed **after** their own tag six times, one of them three notes in a single evening. **Nothing is lost when that
 happens**: the note rides the next range and the next site build. What is lost is the join between
 the measurement and the release that produced it, which is the thing this ritual exists to keep.
 So the question is asked once, at the moment the date is set, and answered in `CLAUDE.md`'s machine

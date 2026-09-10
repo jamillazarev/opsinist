@@ -256,8 +256,12 @@ CLAIMS = [
     (r"\b(%s|\d+)\s+recurring forms\b", _pat),
     (r"\b(%s|\d+)\s+shapes this system reuses\b", _pat),
     # "diagrams", not "mermaid": the guard once watched a phrase nobody writes, so the count in
-    # the release notes drifted by two while the check reported clean.
-    (r"\b(%s|\d+)\s+(?:mermaid|diagrams)\b", _count("diagrams.md", r"^```mermaid")),
+    # the release notes drifted by two while the check reported clean. **But bare `mermaid` is an
+    # adjective far more often than a counted noun** — across this corpus it matched exactly one
+    # phrase, *"one mermaid edge"*, and matched it wrongly (measured 2026-09-10, in a warning that
+    # had stood so long it read as furniture). So that spelling now has to name what it counts.
+    (r"\b(%s|\d+)\s+(?:mermaid\s+(?:blocks?|diagrams?)|diagrams)\b",
+        _count("diagrams.md", r"^```mermaid")),
     (r"\b(%s|\d+)\s+evaluation scenarios\b",
         (_count("evals/README.md", r"^## \d+ · ") or 0)
         + (_count("evals/new-scenarios.md", r"^## N\d+ · ") or 0)),
@@ -284,19 +288,44 @@ _num = "|".join(sorted(WORDS, key=len, reverse=True))
 # example of a defect this very check exists to catch must not itself trip it. Same reasoning as
 # the link checker, which strips spans before deciding what is a link.
 _span = re.compile(r"`[^`]*`")
-# The changelog is a dated, append-only record, and every count in it is either a DELTA — "four
-# diagrams" meaning what this release added — or a total that was true on its date. Neither is
-# comparable to today's corpus, so comparing them warns forever and grows by one line per release.
-# Measured 2026-09-10: seven such warnings stood permanently, and three REAL ones — a wrapped
-# table row, a "5." that markdown read as a list, a hyphenated word split by a line break — sat
-# among them and shipped in 0.2.17. A checker that cries wolf gets bypassed, and this is what it
-# looks like from the inside. Every other check here still reads the changelog: what is dropped is
-# only the comparison against a corpus that has moved on, which is the one it cannot win.
-_NO_CORPUS_CLAIMS = {"CHANGELOG.md"}
+# **The changelog is newest-first and append-only, so only the entry being written describes
+# today's corpus.** Every entry below it is a dated record whose counts were true when written,
+# and comparing those against a corpus that has moved on warns forever and grows by one line per
+# release — measured 2026-09-10, when six such warnings stood permanently and five REAL defects
+# sat among them, all five already shipped. So the region read here is the entry for the
+# version in `skills/advisor/SKILL.md`, which is **the same cut `scripts/preflight.sh` already
+# makes on this file** for suite counts: two checks in one repository disagreeing about what a
+# changelog claim is would be the drift this file exists to catch.
+#
+# **The `**Trio:**` line is exempt inside that entry too**, because it is the one shape here that
+# states a DELTA in a total's words: "four diagrams" means four that this release added, and no
+# corpus count can confirm or deny it. Four such lines exist in the whole file.
+#
+# A count wrongly matched is a separate defect from a count wrongly compared: `"one mermaid edge"`
+# was read as a claim about the diagram count and is a regex misfire, live in every file. Scoping
+# hid it rather than fixing it, so `CLAIMS` now requires a plural or an explicit total — see the
+# `mermaid|diagrams` entry.
+# **Blanked, never dropped, and offset by where the entry starts**: a filtered body renumbers
+# every line under it, and a checker that names the wrong line sends its reader to innocent text.
+_CL_LINES, _CL_OFFSET = None, 0
+try:
+    _v = re.search(r"^version:\s*(\S+)", _read("skills/advisor/SKILL.md"), re.M)
+    _cl = _read("CHANGELOG.md")
+    if _v and _cl:
+        _m = re.search(r"^## " + re.escape(_v.group(1)) + r"\b.*?(?=^## |\Z)", _cl, re.S | re.M)
+        if _m:
+            _CL_OFFSET = _cl[:_m.start()].count("\n")
+            _CL_LINES = ["" if l.lstrip().startswith("**Trio:**") else l
+                         for l in _m.group(0).split("\n")]
+        else:
+            _CL_LINES = []           # no entry for the current version: nothing to compare
+except Exception:
+    _CL_LINES = None                 # unreadable manifest: fall back to reading the whole file
 for f in DOCS:
-    if os.path.basename(f) in _NO_CORPUS_CLAIMS:
-        continue
-    for lineno, ln in enumerate(_read(f).split("\n"), 1):
+    _lines, _off = _read(f).split("\n"), 0
+    if os.path.basename(f) == "CHANGELOG.md" and _CL_LINES is not None:
+        _lines, _off = _CL_LINES, _CL_OFFSET
+    for lineno, ln in enumerate(_lines, 1 + _off):
         ln = _span.sub("", ln)
         for tmpl, real in CLAIMS:
             if real is None:

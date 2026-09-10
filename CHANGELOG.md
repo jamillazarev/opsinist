@@ -12,22 +12,25 @@ lost when that happens; the note rides the next range. **What is lost is the joi
 measurement and the release that produced it, which is what a changelog is for.
 
 **Measured before it was written, which is the point.** Machine notes landed after their own tag
-**six times across four releases** — 0.2.11, 0.2.14, 0.2.16 and 0.2.17, the last three inside one
-week, one of them three notes in a single evening. **The rung was checked rather than assumed**:
+**six times across four releases** — 0.2.11, 0.2.14, 0.2.16 and 0.2.17 — eighteen days end to end, the last two
+three days apart, one of them three notes in a single evening. **The rung was checked rather than assumed**:
 `self-maintenance.md` charges a week and a second occurrence for a rule, and this had four occasions
 over eighteen days and still reproduced on the day it was written.
 
 **The corpus-count check stops comparing changelog entries against today's corpus.** Every count in
-`CHANGELOG.md` is either a **delta** — *"four diagrams"* meaning what that release added — or a total
+`CHANGELOG.md` is either a **delta** — `"four diagrams"` meaning what that release added — or a total
 that was true on its date. Neither is comparable to a corpus that has moved on, so the comparison
 warned forever and **grew by one line per release**. `scripts/check-structure.py` now skips that one
 comparison there, and keeps every other check reading the file.
 
-**What the noise was hiding, measured 2026-09-10.** Eight permanently-false warnings stood in the
-list, and **three of the five real ones sat among them and shipped in 0.2.17**: a `templates/RUN-template.md` table
+**What the noise was hiding, measured 2026-09-10** — by running the v0.2.17 checker over the v0.2.17
+tree, so this is a count and not a recollection. Eight permanently-false warnings stood in the list,
+and **all five real ones sat among them and shipped in 0.2.17**: a `templates/RUN-template.md` table
 row wrapped onto a second source line, which stops being a table row · a paragraph in
 `choosing-tools.md` whose line broke before `5.`, which markdown reads as an ordered list · a
-hyphenated word split across a line break in `evals/README.md`.
+hyphenated word split across a line break in `evals/README.md` · and a `catalogue.md` row that had
+lost its third cell to the row eight lines below it, which the check reported **twice**, once against
+each malformed row.
 
 **And the last one standing was a miscount of its own.** A sentence ending in a colon is read as
 introducing a list, and one inside a bullet — *"…and only one carried a measurement:"* — was charged
@@ -37,13 +40,12 @@ an item. **Thirteen warnings became zero**, and none of them by raising a thresh
 **A checker that cries wolf gets bypassed** was already the rule in `AGENTS.md`; this is its dated
 instance, seen from inside the file it was hiding in.
 
-**And the checker got its first test.** `scripts/test-check-structure.sh` — **13 assertions** — shows
+**And the checker got its first test.** `scripts/test-check-structure.sh` **16/16** — shows
 the count firing on a chapter and silent on the changelog, and **mutates the rule itself**: with the
 exemption removed the same line is refused again, because an exemption that silences a warning and a
 fixture with nothing to warn about return the identical silence (`facts.md` 254). Two assertions hold
 the blast radius — the changelog's other checks still fire, so what was dropped is one comparison and
-not the file. *The suite's own first run failed three of its assertions by testing an exit code the
-script never sets*, which is the check working on its author before it worked on anything else.
+not the file.
 
 **Two more repairs to what 0.2.17 shipped.** A `catalogue.md` row had lost its third cell to the row
 eight lines below it — *why Graphite is here* was rendering inside the investor-database row, and the
@@ -52,11 +54,19 @@ shipped structure check had been saying so. And `consulting.md`'s depth diagram 
 answer either way** — the same hole that withdrew `Depth`'s gate before the last tag. The diamond now
 carries its own precondition, matching the conditional `preflight.sh` already uses.
 
-**One shelf row re-verified by running the tool it describes** (`AGENTS.md` §3). The codebase-orientation row called graphify's zero-credit local build a README claim; it is now a measurement, and the measurement narrows it — **the free half is an index, and the edges that make it a graph need an API key.** Asked the very question this session had got wrong by grepping a word, its query made the identical mistake and matched a bash function of the same name.
+**One shelf row re-verified by running the tool it describes** — `AGENTS.md`,
+*What the automation checks — and what it cannot*: **"If a sentence explains what a tool does, run
+the tool."** The codebase-orientation row called graphify's zero-credit local build a README claim; it is now a measurement, and the measurement narrows it — **the free half is an index, and the edges that make it a graph need an API key.** Asked the very question this session had got wrong by grepping a word, its query made the identical mistake and matched a bash function of the same name.
 
-**What to do: nothing.** No template moved and nothing a project copies changed;
-`templates/company-preflight.sh` differs from 0.2.17 by its version stamp alone. The checker repaired
-here reads this corpus, not yours.
+**What to do: re-copy `templates/RUN-template.md` if you copied it at 0.2.17 or earlier.** Its
+`Attempt` row was wrapped across two source lines, which in markdown is not one table row but a row
+and a one-cell fragment — so a run record built from that copy renders a broken table. The fix is the
+line rejoined; nothing else in the template moved. `templates/company-preflight.sh` differs from
+0.2.17 by its version stamp alone, and the checker repaired here reads this corpus rather than yours.
+
+*The first draft of this paragraph said "What to do: nothing", having generalised from the guard to
+every template. Three of the four review lenses caught it independently — which is the argument for
+running four.*
 
 Eval state: **not run.** Nothing here changes what a run is asked to do — it changes when one
 question is asked during a release, and what a checker says about this repository.

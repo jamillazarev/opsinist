@@ -17,8 +17,11 @@ consultations are the ones that crossed the bridge.
 **Depth is chosen before the fetching starts, and it is a price the owner agrees to — stated, not enforced.** Nothing measures whether stating it changes a run, so it is guidance carrying its own admission rather than a gate — the three
 rungs and what each buys are priced in `templates/ANSWER-template.md` → *Depth*, and **the answer
 that is worth keeping becomes a finding** (`_ops/research/<question>.md`) which carries the rung as
-an optional line — nothing gates it, and the demotion is recorded in `LATER.md`. A consultation that leaves no file is fine and common; one worth quoting later is
-a finding, and the difference is whether anything downstream will rest on it. **An answer that does not say how hard anyone looked reads as if someone
+an optional line — nothing gates it, and the demotion is recorded in `LATER.md`. **`standing` is the
+one rung that names an artifact**: it means every register entry was read against the others, so a
+project keeping no register cannot reach it and `deciding` is its ceiling — the same reading
+`templates/ANSWER-template.md` and `resources.md` already carry. A consultation that leaves no file
+is fine and common; one worth quoting later is a finding, and the difference is whether anything downstream will rest on it. **An answer that does not say how hard anyone looked reads as if someone
 looked hard**, which is the whole reason the field exists rather than a habit.
 
 ```mermaid
@@ -26,11 +29,12 @@ flowchart TD
   Q["a question with<br/>nothing to build"] --> D{"how deep?"}
   D -->|"orienting"| O["minutes, one turn<br/>— a direction,<br/>never a finding"]
   D -->|"deciding"| E["tens of minutes<br/>— the call, defensible"]
-  D -->|"standing"| S["hours — and where a source<br/>register exists, every entry<br/>read against the others"]
+  D -->|"standing"| S["hours — every register entry<br/>read against the others"]
   D -.->|"not asked"| A(("the advisor proposes<br/>one WITH its price<br/>and waits — time is<br/>a spend"))
-  S --> V{"a register, and an entry<br/>still `not checked`?"}
-  V -->|"yes"| R["the rung claims<br/>work nobody did —<br/>say so, nothing gates it"]
-  V -->|"no register,<br/>or none left"| K["the answer stands"]
+  S --> V{"is there a register,<br/>and is every entry read?"}
+  V -->|"no register"| N["**`standing` is not available** —<br/>the rung names an artifact<br/>this project does not keep;<br/>`deciding` is the ceiling"]
+  V -->|"an entry is<br/>still `not checked`"| R["the rung claims<br/>work nobody did —<br/>say so, nothing gates it"]
+  V -->|"yes"| K["the answer stands"]
   O --> K
   E --> K
 ```
