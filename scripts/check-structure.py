@@ -87,10 +87,8 @@ for f in DOCS:
         if not want:
             continue
         got, j = 0, i
-        # An intro that is itself inside a list item can only introduce items NESTED under it.
-        # Sibling bullets at a shallower indent belong to the outer list and were never its count
-        # — measured 2026-09-10 on a changelog entry whose "…and only one carried a measurement:"
-        # sat inside a bullet and was charged with the three bullets that followed it.
+        # An intro that is itself inside a list item can only introduce items NESTED under it;
+        # its peers belong to the outer list and were never its count (CHANGELOG 0.2.18).
         _intro_indent = len(l) - len(l.lstrip())
         _intro_is_item = bool(re.match(r"^\s*([-*]|\d+\.) ", l))
         while j < len(lines):
@@ -257,9 +255,8 @@ CLAIMS = [
     (r"\b(%s|\d+)\s+shapes this system reuses\b", _pat),
     # "diagrams", not "mermaid": the guard once watched a phrase nobody writes, so the count in
     # the release notes drifted by two while the check reported clean. **But bare `mermaid` is an
-    # adjective far more often than a counted noun** — across this corpus it matched exactly one
-    # phrase, *"one mermaid edge"*, and matched it wrongly (measured 2026-09-10, in a warning that
-    # had stood so long it read as furniture). So that spelling now has to name what it counts.
+    # adjective far more often than a counted noun**, so that spelling has to name what it counts
+    # (`mermaid blocks`) — the misfire it replaced is in CHANGELOG 0.2.18.
     (r"\b(%s|\d+)\s+(?:mermaid\s+(?:blocks?|diagrams?)|diagrams)\b",
         _count("diagrams.md", r"^```mermaid")),
     (r"\b(%s|\d+)\s+evaluation scenarios\b",
@@ -288,23 +285,11 @@ _num = "|".join(sorted(WORDS, key=len, reverse=True))
 # example of a defect this very check exists to catch must not itself trip it. Same reasoning as
 # the link checker, which strips spans before deciding what is a link.
 _span = re.compile(r"`[^`]*`")
-# **The changelog is newest-first and append-only, so only the entry being written describes
-# today's corpus.** Every entry below it is a dated record whose counts were true when written,
-# and comparing those against a corpus that has moved on warns forever and grows by one line per
-# release — measured 2026-09-10, when six such warnings stood permanently and five REAL defects
-# sat among them, all five already shipped. So the region read here is the entry for the
-# version in `skills/advisor/SKILL.md`, which is **the same cut `scripts/preflight.sh` already
-# makes on this file** for suite counts: two checks in one repository disagreeing about what a
-# changelog claim is would be the drift this file exists to catch.
-#
-# **The `**Trio:**` line is exempt inside that entry too**, because it is the one shape here that
-# states a DELTA in a total's words: "four diagrams" means four that this release added, and no
-# corpus count can confirm or deny it.
-#
-# A count wrongly matched is a separate defect from a count wrongly compared: `"one mermaid edge"`
-# was read as a claim about the diagram count and is a regex misfire, live in every file. Scoping
-# hid it rather than fixing it, so `CLAIMS` now requires a plural or an explicit total — see the
-# `mermaid|diagrams` entry.
+# **Only the changelog entry being written is read** — the one for the version in
+# `skills/advisor/SKILL.md`. Older entries are dated records whose counts were true when written,
+# and `scripts/preflight.sh` makes the same cut on this file for suite counts; the two must agree.
+# **Its `**Trio:**` paragraph is exempt too**: it states what this release ADDED, in a total's words,
+# and no corpus count can judge a delta. Why this cut and not the whole file: CHANGELOG 0.2.18.
 # **Blanked, never dropped, and offset by where the entry starts**: a filtered body renumbers
 # every line under it, and a checker that names the wrong line sends its reader to innocent text.
 _CL_LINES, _CL_OFFSET = None, 0

@@ -114,7 +114,7 @@ nothing accumulates outside versions.
   is zsh, where `:t` `:h` `:r` `:e` are history modifiers that apply to a parameter expansion — so
   `git show "$t:templates/RUN-template.md"` expanded to **`v0.2.17emplates/RUN-template.md`**, the
   `:t` consumed as *tail of path*. Every tag reported *"file not found"*, and the conclusion waiting
-  to be drawn was that a defect had never shipped — when it had shipped in thirty-five consecutive
+  to be drawn was that a defect had never shipped — when it had shipped in eleven consecutive
   releases. **Brace it: `"${t}:path"`.** Fifth member of the author's-tool class, and the first where
   the wrong answer is a plausible one rather than an error: `grep`, `awk`, `timeout` and `claude`
   fail loudly, and this one succeeds at something else.

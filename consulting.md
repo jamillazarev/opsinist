@@ -19,7 +19,7 @@ rungs and what each buys are priced in `templates/ANSWER-template.md` → *Depth
 that is worth keeping becomes a finding** (`_ops/research/<question>.md`) which carries the rung as
 an optional line — nothing gates it, and the demotion is recorded in `LATER.md`. **The top rung
 names an artifact the project may not keep**: `standing` means every entry of a **source register**
-(`resources.md`) was read against the others, so where no register exists the rung has nothing to be
+(this skill's `resources.md` defines one) was read against the others, so where no register exists the rung has nothing to be
 true of and the honest answer is the rung below. `templates/ANSWER-template.md` prices what each buys
 and puts the register under `deciding` too, so a project that keeps none is being honest at
 `orienting` — **which is a claim about that project's evidence, not a fault in the ladder.** A
@@ -30,16 +30,19 @@ looked hard**, which is the whole reason the field exists rather than a habit.
 flowchart TD
   Q["a question with<br/>nothing to build"] --> D{"how deep?"}
   D -->|"orienting"| O["minutes, one turn<br/>— a direction,<br/>never a finding"]
-  D -->|"deciding"| E["tens of minutes<br/>— the call, defensible"]
+  D -->|"deciding"| E["tens of minutes<br/>— the call, defensible,<br/>its sources registered"]
   D -->|"standing"| S["hours — every register entry<br/>read against the others"]
   D -.->|"not asked"| A(("the advisor proposes<br/>one WITH its price<br/>and waits — time is<br/>a spend"))
-  S --> V{"is there a register,<br/>and is every entry read?"}
-  V -->|"no register"| N["**the rung has nothing<br/>to be true of** — name the<br/>rung the evidence supports<br/>and say why"]
+  E --> GE{"is there a<br/>source register?"}
+  GE -->|"no"| N["**the rung has nothing<br/>to be true of** — say<br/>`orienting`, and why"]
+  GE -->|"yes"| K["the answer stands"]
+  S --> GS{"a register, and every<br/>entry read against<br/>the others?"}
+  GS -->|"no register"| N
+  GS -->|"an entry is<br/>still `not checked`"| R["the rung claims<br/>work nobody did —<br/>say `deciding`, and which"]
+  GS -->|"yes"| K
   N --> K
-  V -->|"an entry is<br/>still `not checked`"| R["the rung claims<br/>work nobody did —<br/>say so, nothing gates it"]
-  V -->|"yes"| K["the answer stands"]
+  R --> K
   O --> K
-  E --> K
 ```
 
 ## Zero standing footprint

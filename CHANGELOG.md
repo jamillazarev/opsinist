@@ -4,15 +4,20 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.18 — unreleased
 
-**Migration — nothing to re-copy, and one thing to look for in `_ops/`.**
-`templates/RUN-template.md` is read from the skill when a run record is written, not installed into
-your project, so this upgrade delivers its fix on its own. What it cannot fix is **the run records
-already written** while that template's `Attempt` row was wrapped across two source lines: markdown
-reads that as a row plus a one-cell fragment, so those records render a broken table. They are found
-by grepping `_ops/` for `**Attempt**` and repaired by joining the wrapped line — no tool does it for
-you. The one file you *do* hold a copy of, `_ops/scripts/preflight.sh`, differs from 0.2.17 by its
-version stamp alone: **re-copy it only to silence the guard's own stamp warning**, which otherwise
-reports a version gap with nothing behind it.
+**Migration — one thing to look for in `_ops/`, and one optional re-copy.**
+`templates/RUN-template.md` is copied into each run record as that record is written, and never
+installed as a file of its own, so this upgrade fixes every record written from now on. It cannot fix
+**the records already written** while the template's `Attempt` row was wrapped across two source
+lines: markdown reads that as a row plus a one-cell fragment, so those render a broken table. This
+finds exactly those rows and no others — a whole `Attempt` row ends in `|`, a wrapped one does not:
+
+    grep -rnF '| **Attempt**' _ops/ | grep -v '|[[:space:]]*$'
+
+Join each line it prints to the one below it. **`-F` is not optional**: without it BSD grep reads
+`**` as a repetition operator and exits 2 having searched nothing. Separately, the one file you hold
+a copy of, `_ops/scripts/preflight.sh`, differs from 0.2.17 by its version stamp alone — **re-copy it
+only to silence the guard's own stamp warning**, which otherwise reports a version gap with nothing
+behind it.
 
 **The corpus-count check now reads the entry being written, and only that one.** Every count in an
 older `CHANGELOG.md` entry was true on its date, and comparing those against a corpus that has moved
@@ -28,16 +33,16 @@ guarded false exactly where the trio is written.*
 
 **What the noise was hiding, measured 2026-09-10** — by running the v0.2.17 checker over the v0.2.17
 tree, so this is a count and not a recollection. Thirteen warnings stood in the list; **eight were
-false by construction, and the five real ones were printing second through sixth, above every false
-one**: a
+false by construction, and the five real ones were printing second through sixth** — under a single
+false one and above the other seven: a
 `templates/RUN-template.md` table row wrapped onto a second source line, which stops being a table
 row · a paragraph in `choosing-tools.md` whose line broke before `5.`, which markdown reads as an
 ordered list · a hyphenated word split across a line break in `evals/README.md` · and a
 `catalogue.md` row that had lost its third cell to the row eight lines below it, which the check
 reported **twice**, once against each malformed row. **Only that last one was new in 0.2.17**: the
-wrapped table row has shipped in **thirty-five consecutive releases**, since v0.1.2 on 2026-07-31,
-and the other two since at least 0.2.13. They were never hard to see — they were at the top of a list
-nobody finished.
+wrapped `Attempt` row has shipped in **eleven consecutive releases**, since v0.2.7 on 2026-08-16 —
+the row did not exist before that — and the other two since at least 0.2.13. They were never hard
+to see; they were near the top of a list nobody finished.
 
 **The eight false ones were three different defects, not one.** Six were the stale comparison above.
 One was a miscount of the checker's own: a sentence ending in a colon is read as introducing a list,
@@ -50,7 +55,7 @@ it now has to name what it counts (`five mermaid blocks`). **Thirteen warnings b
 none of them by raising a threshold. *A checker that cries wolf gets bypassed* was already the rule
 in `AGENTS.md`; this is its dated instance, seen from inside the file it was hiding in.
 
-**And the checker got its first test.** `scripts/test-check-structure.sh` **17/17** — a fixture tree
+**And the checker got its first test.** `scripts/test-check-structure.sh` **18/18** — a fixture tree
 carrying a copy of the script, since it chdirs to its own parent's parent. It shows the count firing
 on a chapter, firing on the entry being written, and silent on a superseded entry and on a Trio line;
 and it **mutates the rule itself**, because a scoping rule that silences a warning and a fixture with
@@ -65,7 +70,7 @@ The diamond now names that third outcome instead of assuming it away.
 
 **The release ritual asks one more question, at the moment the date is set: what did this session
 learn about the machine?** A note about how the tools behave here is evidence, so it moves without a
-tag and lands wherever it is written — and **written after the date it falls outside the release
+tag and lands wherever it is written — and **written after the date, it falls outside the release
 whose work produced it**, leaving the entry that describes that work without the lesson. Nothing is
 lost when that happens; the note rides the next range. **What is lost is the join** between a
 measurement and the release that produced it, which is what a changelog is for. Machine notes landed

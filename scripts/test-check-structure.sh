@@ -104,6 +104,15 @@ run
 saw 'CHANGELOG.md:7' && ok \
   || bad "a claim under a Trio line was numbered as if the Trio line were gone: $(cat "$T/out.txt")"
 
+# ── the Trio exemption covers the whole PARAGRAPH, not its first line. A Trio statement wraps —
+#    0.2.18's own runs to five source lines — so blanking only the line that starts `**Trio:**`
+#    leaves a delta on the continuation compared as a total. Without a wrapped fixture, a mutant
+#    that reverts to first-line-only passes every other assertion here. ────────────────────────
+twin
+printf '# Changelog\n\n## 0.1.0 — unreleased\n\n**Trio:** one diagram and\nseven diagrams more.\n\n## 0.0.9 — 2026-01-01\n\nOld.\n' > "$T/CHANGELOG.md"
+run
+saw 'seven diagrams' && bad "a delta on the Trio paragraph's continuation line was compared as a total" || ok
+
 # ── the scoping drops ONE comparison, not every check the changelog gets ─────────────────────
 #    A `continue` one loop higher would silence the changelog entirely and look identical.
 twin
