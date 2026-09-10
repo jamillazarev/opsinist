@@ -130,6 +130,17 @@ entry, the sweep, the checks — then stop: the tag, the Release, the site and t
 re-sync follow an explicit yes for **this** version. `shipping.md`'s outward law, applied
 to this repository itself.
 
+**Before the tag, ask what this session learned about the machine — and write it then.** A note
+about how the tools behave here is evidence and moves without a tag, so it lands wherever it is
+written; **written after the date, it falls outside the release whose work produced it**, and the
+entry that describes that work never carries the lesson. Measured across four releases — 0.2.11,
+0.2.14, 0.2.16 and 0.2.17, the last three of them the same week — machine notes landed **after**
+their own tag six times, one of them three notes in a single evening. **Nothing is lost when that
+happens**: the note rides the next range and the next site build. What is lost is the join between
+the measurement and the release that produced it, which is the thing this ritual exists to keep.
+So the question is asked once, at the moment the date is set, and answered in `CLAUDE.md`'s machine
+notes rather than remembered.
+
 **Before the tag: the manifest sweep.** Seven files carry the version and one bump has already
 missed three of them — `scripts/preflight.sh` now compares them against the SKILL.md line and
 fails on a straggler, and the ritual's own step is simply: run it, read it, then tag. The

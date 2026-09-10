@@ -27,8 +27,10 @@ this file exists to stop anyone re-deriving per session.
    `python3 scripts/check-links.py .` · `bash scripts/test-audit-gate.sh`. Green is evidence
    about the corpus, not about behaviour — behaviour is the eval suite's job.
 5. **Changelog entry** (capability first; it is the migration map; **it names its eval state — a run recorded, or `not run` said**) → **manifest sweep runs
-   inside preflight** → **set the entry's date to the day the tag is actually cut, as the last
-   act before tagging** — it is written days earlier and the tag waits for the developer, so the
+   inside preflight** → **ask what this session learned about the machine and write it into the
+   notes below first** (AGENTS.md → the release ritual — otherwise the note lands outside the release
+   whose work produced it), then **set the entry's date to the day the tag is actually cut, as the
+   last act before tagging** — it is written days earlier and the tag waits for the developer, so the
    two dates drift by however long that takes and a reader takes the heading for the ship date
    (measured 2026-08-22: 0.2.8 and 0.4.7 both said 08-16 against tags cut 08-20; preflight §1a-ter
    now compares them) → tag → **GitHub Release whose notes are the entry whole, with the

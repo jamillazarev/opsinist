@@ -2,6 +2,33 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.18 — unreleased
+
+**The release ritual asks one more question, at the moment the date is set: what did this session
+learn about the machine?** A note about how the tools behave here is evidence, so it moves without a
+tag and lands wherever it is written — and **written after the date it falls outside the release
+whose work produced it**, leaving the entry that describes that work without the lesson. Nothing is
+lost when that happens; the note rides the next range. **What is lost is the join** between a
+measurement and the release that produced it, which is what a changelog is for.
+
+**Measured before it was written, which is the point.** Machine notes landed after their own tag
+**six times across four releases** — 0.2.11, 0.2.14, 0.2.16 and 0.2.17, the last three inside one
+week, one of them three notes in a single evening. **The rung was checked rather than assumed**:
+`self-maintenance.md` charges a week and a second occurrence for a rule, and this had four occasions
+over eighteen days and still reproduced on the day it was written.
+
+**What to do: nothing.** No check changed and no template moved;
+`templates/company-preflight.sh` differs from 0.2.17 by its version stamp alone.
+
+Eval state: **not run.** Nothing here changes what a run is asked to do — it changes when one
+question is asked during a release.
+
+**Trio:** no diagram and no situation. This adds a question to a ritual `AGENTS.md` already
+narrates and `diagrams.md` draws as one node; the fact it rests on is `facts.md` 62 — *every
+recorded fact that can change carries the date it was checked* — applied to the machine notes
+themselves. **A repair to a step in an existing flow, and it says so rather than manufacturing a
+trio.**
+
 ## 0.2.17 — 2026-09-10
 
 **Migration — and this one adds two refusals to the guard your project copies.**
