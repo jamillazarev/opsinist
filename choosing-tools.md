@@ -49,9 +49,9 @@ this corpus knows what plausible sentences are worth. A gate demanding **the nam
 just chose, and what it replaces** cannot be met by anyone who did not make the choice.
 
 **Why a form and not a paragraph.** The ladder is good advice and this corpus measures good advice
-at about zero — the same rule as prose moved 1 run in 10 on 2026-08-22, and as a refusal moved 5 in
-5. A dependency arrives in a minute and leaves over a year; the person who just chose it is the
-only one who can write the line, and they can write it in seconds.
+at about zero — the same rule as prose moved 1 run in 10 on 2026-08-22, and as a refusal moved
+5 in 5. A dependency arrives in a minute and leaves over a year; the person who just chose it
+is the only one who can write the line, and they can write it in seconds.
 
 ```mermaid
 flowchart TB

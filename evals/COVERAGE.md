@@ -41,6 +41,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-audit-gate.sh` — Mutation tests for hooks/audit-gate.py — the same discipline as preflight §13: every rule
 - `scripts/test-check-releases.sh` — `check-releases.sh` exercised on its mutants and its honest twins
 - `scripts/test-check-shell-exec.sh` — The shell-exec checker, exercised on its mutants and its twins — the form the capability bar
+- `scripts/test-check-structure.sh` — The corpus-count claims shown firing on a chapter and staying silent on the changelog
 - `scripts/test-company-preflight.sh` — The bypass net (§14) exercised end to end: a hand-flipped stage in a staged commit is
 - `scripts/test-corpus-preflight.sh` — The doors-regression check (preflight §1a) exercised on the mutant and the twin. The check
 - `scripts/test-eval-requeue.sh` — The void sweep in eval-requeue.sh, exercised against the shapes that produced it

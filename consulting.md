@@ -26,11 +26,11 @@ flowchart TD
   Q["a question with<br/>nothing to build"] --> D{"how deep?"}
   D -->|"orienting"| O["minutes, one turn<br/>— a direction,<br/>never a finding"]
   D -->|"deciding"| E["tens of minutes<br/>— the call, defensible"]
-  D -->|"standing"| S["hours — and every<br/>register entry read<br/>against the others"]
+  D -->|"standing"| S["hours — and where a source<br/>register exists, every entry<br/>read against the others"]
   D -.->|"not asked"| A(("the advisor proposes<br/>one WITH its price<br/>and waits — time is<br/>a spend"))
-  S --> V{"any entry still<br/>`not checked`?"}
+  S --> V{"a register, and an entry<br/>still `not checked`?"}
   V -->|"yes"| R["the rung claims<br/>work nobody did —<br/>say so, nothing gates it"]
-  V -->|"no"| K["the answer stands"]
+  V -->|"no register,<br/>or none left"| K["the answer stands"]
   O --> K
   E --> K
 ```

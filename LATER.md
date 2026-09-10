@@ -12,24 +12,17 @@ work now, which is a task with a blocker instead.
 
 ## ~~`diagrams.md` is at its budget~~ — answered 2026-09-06: beside the rule, not in a gallery
 
-**Measured 2026-08-15**: the file stood at **499 lines of a 500-line chapter budget** before this
-release added one, and `self-maintenance.md` §What-a-capability-owes requires a diagram for every
-new mechanic. Those two rules meet at the next mechanic, not at some point in the future.
+**Measured 2026-08-15**: the file stood at **499 of a 500-line chapter budget** while
+`self-maintenance.md` §What-a-capability-owes requires a diagram for every new mechanic — two rules
+meeting at the next one. The question was never where a diagram goes but **whether `diagrams.md` is
+a chapter or an index.**
 
-This release resolved its own case by putting the diagram in `cost.md`, the chapter it illustrates
-— which is arguably where it always belonged, and `consulting.md` already carried its own. So the
-question is not "where does this one go" but **whether `diagrams.md` is a chapter or an index**: a
-gallery that must hold every diagram will keep hitting 500, while a chapter that holds the ones
-which cross several rules can stay small if the rest live beside their rules.
-
-**Answered 2026-09-06, and by use rather than argument** — the revisit trigger asked for the next
-mechanic that owed a diagram, and two releases running had already answered it. Both put their
-diagrams beside the rules they draw — the contradiction stop's in `escalating.md`, the cost one in
-`cost.md` — and twice in one session a repair to an existing mechanic owed none at all and said so
-instead of manufacturing one. **The gallery reading was the collision course, not the budget**: a
-file holding every diagram meets 500 at each new mechanic, a file holding only what crosses several
-rules does not. `self-maintenance.md` §4 now says so. The file sits at 500 of 500 today, and stays
-there — which is the whole point of dropping the gallery reading.
+**Answered 2026-09-06, by use rather than argument.** Two releases running put their diagrams beside
+the rules they draw — the contradiction stop's in `escalating.md`, the cost one in `cost.md` — and
+twice in one session a repair owed none and said so instead of manufacturing one. **The gallery
+reading was the collision course, not the budget**: a file holding every diagram meets 500 at each
+new mechanic; one holding only what crosses several rules does not. `self-maintenance.md` §4 now
+says so, and the file sits at 500 of 500 and stays there.
 
 ## ~~Measure what the day-one cut actually bought~~ — run 2026-08-01, partly falsified
 
@@ -455,6 +448,37 @@ alone.
 **Where the method came from.** Sanity Labs measured their own design system this way and
 published the findings, the method and the runner (`catalogue.md`, *Does the design system survive an
 agent?*). Their counts are the borrowable half; their tool is theirs.
+
+---
+
+## A lens reporting an absence never says how it looked — and twice in one day it had grepped
+
+**Two false findings on 2026-09-10, both from the same round, both the same shape**: the lens
+searched for a term, found nothing, and reported the mechanic missing.
+
+- **"The 500-line chapter budget has no form."** `scripts/preflight.sh` reads `chapter_budget`
+  from `SKILL.md` and had failed on it three times that day. The lens grepped the literal `500`.
+- **"`use-cases.md` has no situation for the contradiction stop."** The row *"It passed, then it
+  failed, then it passed"* carries the whole mechanic — the stop at the **second** disagreement,
+  the count as flips, the escalation as *the question is unstable*. The lens grepped `contradict`,
+  a word that file is built to avoid: **its rows are the owner's words by construction**, so the
+  mechanic's own vocabulary is the one thing guaranteed not to be there.
+
+**The shape is narrower than "a lens can be wrong": a search for a mechanic by its name fails
+wherever the convention requires it to appear under another one** — a value against its variable, an
+internal term against an owner's sentence. Both looked exactly like a true finding, because **an
+absence is the one claim that needs no evidence to state.** The form it wants exists next door:
+`Reads against` makes the writer choose between `none found` — a claim — and `not checked` — honest
+ignorance, and an absence wants the same cut, **what was searched and where**, so a reader can see
+that one grep of one word is not a search. `lenses.md`, *What the lenses do not cover*, is its home.
+
+**Not promoted today, deliberately** — both occasions are one session, and rung 3 costs a week
+(`self-maintenance.md`, *the ladder*). This is rung 2, and writing the rule now is the dotted branch
+that ladder draws.
+
+**Revisit when** a third false absence is reported, or the week has passed and these two still
+reproduce. **The cost to weigh then is real**: every finding would carry the line, and most findings
+are not absences.
 
 ---
 

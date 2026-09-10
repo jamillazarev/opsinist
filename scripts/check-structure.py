@@ -87,6 +87,12 @@ for f in DOCS:
         if not want:
             continue
         got, j = 0, i
+        # An intro that is itself inside a list item can only introduce items NESTED under it.
+        # Sibling bullets at a shallower indent belong to the outer list and were never its count
+        # — measured 2026-09-10 on a changelog entry whose "…and only one carried a measurement:"
+        # sat inside a bullet and was charged with the three bullets that followed it.
+        _intro_indent = len(l) - len(l.lstrip())
+        _intro_is_item = bool(re.match(r"^\s*([-*]|\d+\.) ", l))
         while j < len(lines):
             nl = lines[j]
             # a list belonging to a different section is not this sentence's count —
@@ -94,6 +100,9 @@ for f in DOCS:
             if re.match(r"^#{1,6}\s", nl) or re.match(r"^ {0,3}(-{3,}|\*{3,}|_{3,})\s*$", nl):
                 break
             if re.match(r"^\s*([-*]|\d+\.) ", nl):
+                _d = len(nl) - len(nl.lstrip())
+                if _d < _intro_indent or (_intro_is_item and _d <= _intro_indent):
+                    break
                 got += 1
             elif nl.strip() and not nl.startswith("  ") and got:
                 break
@@ -275,7 +284,18 @@ _num = "|".join(sorted(WORDS, key=len, reverse=True))
 # example of a defect this very check exists to catch must not itself trip it. Same reasoning as
 # the link checker, which strips spans before deciding what is a link.
 _span = re.compile(r"`[^`]*`")
+# The changelog is a dated, append-only record, and every count in it is either a DELTA — "four
+# diagrams" meaning what this release added — or a total that was true on its date. Neither is
+# comparable to today's corpus, so comparing them warns forever and grows by one line per release.
+# Measured 2026-09-10: seven such warnings stood permanently, and three REAL ones — a wrapped
+# table row, a "5." that markdown read as a list, a hyphenated word split by a line break — sat
+# among them and shipped in 0.2.17. A checker that cries wolf gets bypassed, and this is what it
+# looks like from the inside. Every other check here still reads the changelog: what is dropped is
+# only the comparison against a corpus that has moved on, which is the one it cannot win.
+_NO_CORPUS_CLAIMS = {"CHANGELOG.md"}
 for f in DOCS:
+    if os.path.basename(f) in _NO_CORPUS_CLAIMS:
+        continue
     for lineno, ln in enumerate(_read(f).split("\n"), 1):
         ln = _span.sub("", ln)
         for tmpl, real in CLAIMS:

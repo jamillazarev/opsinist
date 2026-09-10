@@ -17,17 +17,53 @@ week, one of them three notes in a single evening. **The rung was checked rather
 `self-maintenance.md` charges a week and a second occurrence for a rule, and this had four occasions
 over eighteen days and still reproduced on the day it was written.
 
-**What to do: nothing.** No check changed and no template moved;
-`templates/company-preflight.sh` differs from 0.2.17 by its version stamp alone.
+**The corpus-count check stops comparing changelog entries against today's corpus.** Every count in
+`CHANGELOG.md` is either a **delta** — *"four diagrams"* meaning what that release added — or a total
+that was true on its date. Neither is comparable to a corpus that has moved on, so the comparison
+warned forever and **grew by one line per release**. `scripts/check-structure.py` now skips that one
+comparison there, and keeps every other check reading the file.
+
+**What the noise was hiding, measured 2026-09-10.** Eight permanently-false warnings stood in the
+list, and **three of the five real ones sat among them and shipped in 0.2.17**: a `templates/RUN-template.md` table
+row wrapped onto a second source line, which stops being a table row · a paragraph in
+`choosing-tools.md` whose line broke before `5.`, which markdown reads as an ordered list · a
+hyphenated word split across a line break in `evals/README.md`.
+
+**And the last one standing was a miscount of its own.** A sentence ending in a colon is read as
+introducing a list, and one inside a bullet — *"…and only one carried a measurement:"* — was charged
+with the three **sibling** bullets that followed it. A list item's peers were never its list, so the
+count now stops at the first item shallower than its intro, and at any peer where the intro is itself
+an item. **Thirteen warnings became zero**, and none of them by raising a threshold.
+**A checker that cries wolf gets bypassed** was already the rule in `AGENTS.md`; this is its dated
+instance, seen from inside the file it was hiding in.
+
+**And the checker got its first test.** `scripts/test-check-structure.sh` — **13 assertions** — shows
+the count firing on a chapter and silent on the changelog, and **mutates the rule itself**: with the
+exemption removed the same line is refused again, because an exemption that silences a warning and a
+fixture with nothing to warn about return the identical silence (`facts.md` 254). Two assertions hold
+the blast radius — the changelog's other checks still fire, so what was dropped is one comparison and
+not the file. *The suite's own first run failed three of its assertions by testing an exit code the
+script never sets*, which is the check working on its author before it worked on anything else.
+
+**Two more repairs to what 0.2.17 shipped.** A `catalogue.md` row had lost its third cell to the row
+eight lines below it — *why Graphite is here* was rendering inside the investor-database row, and the
+shipped structure check had been saying so. And `consulting.md`'s depth diagram still drew
+`any entry still not checked?` as a plain step, a question **a project with no source register cannot
+answer either way** — the same hole that withdrew `Depth`'s gate before the last tag. The diamond now
+carries its own precondition, matching the conditional `preflight.sh` already uses.
+
+**What to do: nothing.** No template moved and nothing a project copies changed;
+`templates/company-preflight.sh` differs from 0.2.17 by its version stamp alone. The checker repaired
+here reads this corpus, not yours.
 
 Eval state: **not run.** Nothing here changes what a run is asked to do — it changes when one
-question is asked during a release.
+question is asked during a release, and what a checker says about this repository.
 
-**Trio:** no diagram and no situation. This adds a question to a ritual `AGENTS.md` already
-narrates and `diagrams.md` draws as one node; the fact it rests on is `facts.md` 62 — *every
-recorded fact that can change carries the date it was checked* — applied to the machine notes
-themselves. **A repair to a step in an existing flow, and it says so rather than manufacturing a
-trio.**
+**Trio:** no diagram and no situation, and `facts.md` **261**. **Everything here is a repair**, and a
+repair owes the fact alone. The ritual question adds one step to a flow `AGENTS.md` already narrates
+and `diagrams.md` draws as a node, resting on `facts.md` 62 — *every recorded fact that can change
+carries the date it was checked* — applied to the machine notes themselves; the rest fix things that
+0.2.17 shipped. **Said rather than manufactured**, which is the whole allowance a repair gets.
 
 ## 0.2.17 — 2026-09-10
 

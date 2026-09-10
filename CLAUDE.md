@@ -110,6 +110,16 @@ nothing accumulates outside versions.
   that, because it prints on every path. Same family as the pipe eating the exit code: watching for a
   sign of SUCCESS where the only reliable sign is COMPLETION.
 
+- **A tool can report a failure without exiting on one, and then its exit code proves nothing**
+  (measured 2026-09-10). `scripts/check-structure.py` prints `FAIL:`/`WARN:` lines for preflight to
+  render and **exits 0 on every path**; a mutation suite written against `[ "$(run)" = "1" ]` was
+  therefore green on the honest twin *and* on every mutant. Three assertions in that suite's first
+  draft failed for exactly this, which is the check working on its author before it worked on
+  anything. **Assert on what a tool REPORTS unless you have watched it exit non-zero on a known-bad
+  input** — and watch it, rather than reading the script for intent. Same family as the pipe eating
+  the exit code, from the other side: there the code is destroyed in transit, here there was never
+  one to read, and both look identical from a green suite.
+
 - **The `grep` you test at the prompt is not the `grep` a script gets** (measured 2026-08-15).
   In this tool's shell `grep` is a **shell function** (from the zsh snapshot) resolving to
   **ugrep 7.5.0**; a plain `bash script.sh` gets **`/usr/bin/grep`, BSD 2.6.0-FreeBSD**. They

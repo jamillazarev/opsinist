@@ -12,8 +12,7 @@ belong, which is how a ledger quietly becomes prose.*
 | **Outcome** | {{completed · interrupted · limit · failed · canceled}} |
 | **Reason** | {{why, when the outcome is not `completed` — otherwise `—`}} |
 | **Trigger** | {{a person · a schedule · an event · an automation}} |
-| **Attempt** | {{1}} — {{the price of not getting it right the first time; three on one task is 
-the escalation threshold, so this is the field that makes it countable}} |
+| **Attempt** | {{1}} — {{the price of not getting it right the first time; three on one task is the escalation threshold, so this is the field that makes it countable}} |
 | **Verdict** | {{pass · fail · mixed · none}} — {{the question this run answered, and what it concluded}} |
 | **Commits · checkpoint** | {{sha, or `none`}} · {{where to resume from, or `—`}} |
 
