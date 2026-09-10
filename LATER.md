@@ -55,33 +55,6 @@ work."*
 
 ---
 
-## ~~A wave's failure policy~~ — carried in 2026-08-06, with its second occasion
-
-**The bar was met, then the shelf was cleared**: Dify's iteration modes were the first
-occasion, the conveyor case named at carry-in (a batch where one corrupt source must not hold
-thirty) the second, and the owner took it into the release — `on_child_failure` on the
-parent's wave plan, default `escalate` unchanged (`decomposing.md`).
-
-## ~~A `pack` mode for the inventory script~~ — deleted 2026-08-06, by the owner's call
-
-**Removed unrequested rather than reopened**: no dispatch had hit a context ceiling, and the
-owner chose deletion over shelf-keeping. **The idea survives in this paragraph and nowhere else**:
-`scripts/inventory.py` has no mode dispatch and no `pack`, so if a real ceiling ever shows up the
-mode is written from scratch. An earlier version of this line claimed the CLI was already shaped
-to accept one, which was not true when written — checked 2026-09-06.
-
-## ~~A nested layout — the machinery under one root directory~~ — carried in 0.2.0, by the owner's call
-
-**The deferral said** flat `tasks/`-shaped paths were load-bearing across every validator,
-hook, fixture and chapter, so nesting was a whole-stack format migration paid twice — once by
-us, once by each owner. **The owner re-counted and overrode it**: the real path-logic surface
-was ~10 points in three scripts, the rest plain text substitution — and the residue the entry
-itself had named honest, the **name collision** with a project's own `tasks/` or `docs/`, was
-the argument *for* moving. So it landed exactly as the entry priced it: a major-version
-migration with its own map (`scripts/migrate-layout.py`), the machinery under `_ops/` — named
-to sort first and to collide with nothing — and a flat-root fallback in the door so an
-unmigrated project fails toward the notice, not a stack.
-
 ## A generated Opportunity-Solution-Tree view over the specs
 
 **Deferred because** the data half landed on 2026-08-06 — the spec's `Opportunity` field names
@@ -138,16 +111,6 @@ did not run is worse than one that says it was late*.
 
 **Revisit when** the first automation actually needs an external event — and the first step
 then is verifying OpenClaw's trigger surface (its cron/gateway API), not building one.
-
-## ~~Project-local skills must survive an upgrade that ships a same-named stock skill~~ — reopened 2026-08-05, taken into the release
-
-**Its own trigger fired the day it was written**: the owner read the entry and took it into the
-spec-format release (batch 6, beside the screener work). The rule it called for is the one being
-added: **local wins, upgrade never overwrites it, and the collision is surfaced rather than
-silent.** Kept here because the check that produced it is evidence: `upgrading.md` protects the
-owner's *conventions*, and nothing protected their *files of the same name* until this.
-
----
 
 ## A tripwire for work bypassing the machinery wholesale
 
@@ -245,9 +208,12 @@ shipped. A check greps that range's diff for a **new section header in `template
 — the shape that file writes is `# N · `, **never `§`**, whose occurrences there are all prose
 cross-references — or a **new required field in a template**, which is what `+| **Verdict** |` was.
 
-**The mutant is a release whose diff adds a section header and whose entry says *repair* with no
-trio; the twin is one whose diff adds no form and says the same** (a first draft accepted *the word
-`repair`* as an answer, so the mutant passed) — the twin must pass, or the check refuses everything.
+**The pair only works if the check refuses a form signal answered by an unbacked claim** — that is
+the condition, and a trim once replaced it with the weaker *"the twin must pass"*, which states what
+lets the honest case through and not what stops the dishonest one. **The mutant is a release whose
+diff adds a section header and whose entry says *repair* with no trio; the twin is one whose diff
+adds no form and says the same** (a first draft accepted *the word `repair`* as an answer, so the
+mutant passed) — the twin must pass, or the check refuses everything.
 
 **Revisit when** the exemption is claimed in a release at least a week after 2026-09-07 and still
 reads right. **Do not count the citations inside the release that wrote it**: 0.2.16 applied the
@@ -310,15 +276,6 @@ on a guess. The gate then reads: a rule added to an always-loaded file in the sa
 closure whose dated origin is under seven days old is refused, naming both dates. **The mutant is
 a same-day promotion; the twin is one dated eight days back.** Until then the week is judgement,
 and it is written here rather than believed.
-
-## ~~The contradiction stop has no form~~ — shipped in 0.2.14
-
-**Closed.** The entry asked for *a run record that can carry the answer it reached, not only how
-it ended*, and refused to add the field for the gate's sake alone — *"it waits for a flow that
-wants the verdict written for its own reasons."* That flow arrived: a reviewer's conclusion is
-what the requester acts on, and a second reviewer can only be compared to the first if the first
-wrote down what it concluded. The field is `Verdict` on `RUN-template.md`; the gate is in §1f;
-the mutant and twin are the pair this entry specified, and both behave as it predicted.
 
 ## Depth was demoted before its tag, and owes the measurement it never had
 
@@ -438,7 +395,7 @@ gone, directory full — reported once and by name.**
 ## A "should this exist at all" ladder, and whether it changes anything
 
 **Named 2026-08-22**, from a third-party plugin the owner asked about (`DietrichGebert/ponytail`,
-MIT). Its content is one ladder an agent walks **before writing code**: does this need to exist · is
+**MIT, read 2026-08-22**). Its content is one ladder an agent walks **before writing code**: does this need to exist · is
 it already in the codebase · standard library · a native platform feature · an installed dependency
 · can it be one line · only then a minimum implementation.
 
@@ -498,3 +455,20 @@ alone.
 **Where the method came from.** Sanity Labs measured their own design system this way and
 published the findings, the method and the runner (`catalogue.md`, *Does the design system survive an
 agent?*). Their counts are the borrowable half; their tool is theirs.
+
+---
+
+## Closed — the outcome, kept so they can be told from the ones nobody wrote down
+
+| What was deferred | How it ended |
+|---|---|
+| A wave's failure policy | carried in 2026-08-06, with its second occasion |
+| A `pack` mode for the inventory script | deleted 2026-08-06, by the owner's call |
+| A nested layout — the machinery under one root directory | carried in 0.2.0, by the owner's call |
+| Project-local skills must survive an upgrade that ships a same-named stock skill | reopened 2026-08-05, taken into the release |
+| The contradiction stop has no form | shipped in 0.2.14 |
+
+**Bodies removed 2026-09-10.** Each of these ended in a decision that shipped and left no open
+question, so the reasoning lives in the release that carried it and the row here says which. **Two
+struck entries above are NOT in this table**: the diagrams one because `self-maintenance.md` cites
+it by name, and the day-one cut because it still hides open work under a struck heading.

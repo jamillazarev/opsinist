@@ -4,21 +4,24 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.17 — unreleased
 
-**Migration — and this one adds two refusals to the guard your project copies.** `_ops/preflight.sh`
-is a copy that does not update itself, so **re-copy `templates/company-preflight.sh`**: §15 refuses a
-skill that runs commands without recording what it refused, §17 refuses a research finding with
-nothing to order it or expire it. Until you re-copy, neither fires and nothing says so. Two templates
+**Migration — and this one adds two refusals to the guard your project copies.**
+`_ops/scripts/preflight.sh` is a copy that does not update itself, so **re-copy
+`templates/company-preflight.sh` over it**: **§18** refuses a skill that runs commands without
+recording what it refused, **§19** refuses a research finding with nothing to order it or expire it.
+Until you re-copy, neither fires and nothing says so. **Verify by the section numbers, not by
+grepping a version**: §18 and §19 are absent from an unmigrated copy, where §15 and §16 mean other
+things entirely. Two templates
 change and one is new — `SKILL-SCAFFOLD.md`, `ANSWER-template.md`, and `FINDING-template.md`.
 
 **A skill now records the test instead of being asked for it.** `skills.md` already said *every
 command a skill contains is run before the file is saved, against an input it must reject* — and
 `N61` scored **0 of 5** on exactly that clause, counted from transcripts across three rounds, with
 one run **declaring itself tested by reading a manual** while the sentence describing that failure
-sat in the file it was reading. So the scaffold carries `## Tested against`, which asks for three
-things a reading cannot produce: the defective input, **what the command actually printed when it
-refused**, and the date. You cannot paste output you never generated. Where a skill runs nothing —
+sat in the file it was reading. So the scaffold carries `## Tested against`, which asks for the two
+things a reading cannot produce — the defective input and **what the command actually printed when
+it refused** — beside the date. You cannot paste output you never generated. Where a skill runs nothing —
 as all twenty-one of this project's own do, measured before building — `none:` is the whole answer,
-and §15 leaves it alone, because gating doors would teach everyone to write the section without
+and §18 leaves it alone, because gating doors would teach everyone to write the section without
 meaning it.
 
 **Research got the layer it was missing: a finding is not its task.** The task carries the cost, the
@@ -32,14 +35,10 @@ second list is a list that lies.
 
 **How deep is a question with a price, asked before the fetching starts — and it ships as guidance
 that admits it, not as a gate.** Three rungs named by what they buy: `orienting` is a direction and
-never a finding · `deciding` is a defensible call · `standing` is something quotable in a year. **It
-went in as a required field with a guard and came back out before the tag**, because an adversarial
-lens found no measured defect behind it and two dead parts in the check: its `standing` cross-check
-read `sources/SOURCES.md`, **a path no operated project has**, so the clause led with something that
-could not fire where it shipped; and its enum accepted the empty string, waving a blank `Depth:`
-through while refusing an honest `Depth: TBD`. The rungs stay as a price list; nothing gates them,
-`LATER.md` holds what would earn the gate back, and `facts.md` 259 says *judgement call* rather than
-implying a measurement.
+never a finding · `deciding` is a defensible call · `standing` is something quotable in a year. **It went in as a required
+field with a guard and came back out before the tag** — the reasons, and the two dead parts of that
+check, are in `LATER.md` → *Depth was demoted before its tag*. The rungs stay as a price list;
+nothing gates them, and `facts.md` 259 says *judgement call* rather than implying a measurement.
 
 **The register can say what pulls against an entry.** Nothing read contradiction *between* sources —
 verified by grep before building — and **2 of 20 entries carried a comparison buried in a prose
@@ -51,9 +50,7 @@ entries written the same hour**. The most useful finding was not a disagreement 
 on synthetic personas look opposed and measure different things, and that resolution is what the
 rules downstream rest on.
 
-**The shelf grew by a sixth in rows and by two fifths in anchors, and lost three rows it should
-never have gained.** `catalogue.md` **124 → 145 resource rows** (the first draft of this line said
-128 → 149 and was counting four table headers as rows), carrying **453 → 628 distinct anchors**, shaped by its own contract — *keep only the anchors that carry a licensing or fallback
+**The shelf grew by a sixth in rows and by two fifths in anchors.** `catalogue.md` **124 → 145 resource rows**, carrying **453 → 628 distinct anchors**, shaped by its own contract — *keep only the anchors that carry a licensing or fallback
 decision* — so roughly a hundred and ten resources became rows carrying decisions: a typeface is
 licensed per use-class and webfonts are metered by pageviews · a mockup licence covers client work
 and almost never redistribution · product reading splits three ways because only one of them is
@@ -61,12 +58,7 @@ disinterested. **Three licences are read from the repository rather than from a 
 mis-stated upstream**: GitButler calls itself open source and is **FSL-1.1-MIT**, source-available
 until it converts. The other two are this shelf's own imprecision made exact — RudderStack was
 carried as *"Elastic-style custom licence — flag"* and is **Elastic License 2.0** — and an absence
-rather than a claim: `sharechat` has **no LICENSE file at all**. **And three rows were duplicates I added by grepping my own
-vocabulary instead of the corpus's** — found by listing every row name in order, folded back.
-
-**What to do:** re-copy the guard. Nothing else is required. A skill you already have keeps working
-until you next edit it; a finding is a new file you write when you next answer a question worth
-keeping.
+rather than a claim: `sharechat` has **no LICENSE file at all**.
 
 **The lens round runs a second time over the repair it caused, before the tag.** No new mechanism:
 the range is still `<last tag>..HEAD`, so it already contains the repair — the same four questions
@@ -80,6 +72,10 @@ identical in a report and opposite in fact. Measured on this release: **three ro
 lens agents to usage limits**, and the only place to say so was prose. **A round carrying a `not
 completed` has not reported clean** — which is what the tag waits on, so this release waited.
 Ported from the sibling, where the state has been in use since 2026-08-15 rather than invented here.
+
+**What to do:** re-copy the guard. Nothing else is required. A skill you already have keeps working
+until you next edit it; a finding is a new file you write when you next answer a question worth
+keeping.
 
 Eval state: **not run.** `N61` is the regression test for the skill half and it is the *before*
 measurement — 0 of 5 — so the next round says whether the form moved it.

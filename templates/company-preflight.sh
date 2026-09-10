@@ -1755,8 +1755,10 @@ fi
 #      does not — the defect facts.md 254 records, three times in one sweep.
 while IFS= read -r -d '' sk; do
   [ -f "$sk" ] || continue
-  # Does it run anything? A fenced command line, or an inline call to a script. If not, the
-  # section is optional in substance and `none:` is the honest answer.
+  # Does it run anything? An INDENTED or PROMPTED line whose first word looks like a command.
+  # It does NOT see a fenced block at column 0, nor a command named inline in a sentence — the
+  # form is narrower than the sentence it enforces and `skills.md` says so rather than hiding it.
+  # If nothing matches, the section is optional in substance and `none:` is the honest answer.
   # Seven words was a guess. A command is an indented or fenced line whose first word looks like
   # one — a known runner, a path, or a bare name followed by an argument. Measured 2026-09-10:
   # grep, jq, git, curl, `uv run`, pnpm and python3.11 all passed the first version untouched.
@@ -1827,7 +1829,7 @@ while IFS= read -r -d '' fnd; do
     printf '%s' "$line" | hits '{{' && say_fail "$fnd still carries the template's braces in \
 \`${field}\` — the file was copied, not answered."
   done
-  st=$(grep -ioE '\*\*Status\*\*[[:space:]]*:[[:space:]]*[a-z]+' "$fnd" | head -1 | sed -E 's/.*:[[:space:]]*//' | tr '[:upper:]' '[:lower:]')
+  st=$(grep -ioE '(\*\*)?Status(\*\*)?[[:space:]]*:[[:space:]]*[a-z]+' "$fnd" | head -1 | sed -E 's/.*:[[:space:]]*//' | tr '[:upper:]' '[:lower:]')
   if [ "$st" = "settled" ]; then
     body=$(awk '/^##[[:space:]]+What we now believe/{f=1; next} /^##[[:space:]]/{f=0} f' "$fnd" \
            | grep -vE '^[[:space:]]*$' | grep -v '{{')

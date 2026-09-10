@@ -20,8 +20,8 @@ subject. Each stopped one step before the answer.**
 line; a guard for it was written and withdrawn the same day for having no measured defect behind it
 (`LATER.md` → *Depth was demoted before its tag*). Quote a rung because the owner is paying for it,
 not because a check will refuse you. An answer worth keeping becomes
-`_ops/research/<question>.md` (`templates/FINDING-template.md`), which carries `Depth:` as a
-required field — one layer, one home. Use the table below to **quote the rung before the work**,
+`_ops/research/<question>.md` (`templates/FINDING-template.md`), which carries `Depth:` as an
+optional line — one layer, one home. Use the table below to **quote the rung before the work**,
 and quote it in the words of what it buys rather than in hours.
 **A research document that does not say how hard anyone looked reads as if someone looked hard**,
 which is the failure this field exists to stop. The owner picks; where they have not, the advisor

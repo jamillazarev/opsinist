@@ -17,7 +17,7 @@ consultations are the ones that crossed the bridge.
 **Depth is chosen before the fetching starts, and it is a price the owner agrees to — stated, not enforced.** Nothing measures whether stating it changes a run, so it is guidance carrying its own admission rather than a gate — the three
 rungs and what each buys are priced in `templates/ANSWER-template.md` → *Depth*, and **the answer
 that is worth keeping becomes a finding** (`_ops/research/<question>.md`) which carries the rung as
-a required field. A consultation that leaves no file is fine and common; one worth quoting later is
+an optional line — nothing gates it, and the demotion is recorded in `LATER.md`. A consultation that leaves no file is fine and common; one worth quoting later is
 a finding, and the difference is whether anything downstream will rest on it. **An answer that does not say how hard anyone looked reads as if someone
 looked hard**, which is the whole reason the field exists rather than a habit.
 

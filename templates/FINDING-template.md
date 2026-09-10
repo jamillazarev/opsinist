@@ -3,7 +3,7 @@
 **Decides**: {{a link to the task this decides — `T-XXXXXX`, as a link and not a bare id — or `nothing yet`}} ·
 **Status**: {{open · settled · stale}} · **Depth**: {{orienting · deciding · standing — see
 `ANSWER-template.md`; guidance, not a gate: nothing has measured whether stating it changes anything}}
-**Answered**: {{YYYY-MM-DD}} · **Recheck when**: {{a named event, never a date}}
+**Answered**: {{YYYY-MM-DD}} · **Recheck when**: {{the named event from *What would change it* below, in a few words}}
 
 > [!NOTE]
 > **A topic never closes; a question does.** Name this file for the question, and the day it is
@@ -26,8 +26,10 @@ trigger; *"periodically"* is an abandonment wearing better clothes.}}
 
 ## Under it
 
-**Sources**: {{`source-id` · `source-id` — by id from the register, never by link. Links rot, ids
-grep, and `Reads against` already holds the tensions between them.}}
+**Sources**: {{where the project keeps a source register, by **id** — links rot and ids grep. Where
+it does not, a full citation with its date and where the copy lives: `_ops/resources/` holds the
+local file every external thing keeps. **Never a bare URL**, which is the one form that rots
+silently.}}
 
 **Earlier findings this rests on**: {{`<other-question>.md` in this directory — or `none`. **Checked before the
 work started, not after**: *look inward first* is a law, and a research task that re-derives what
