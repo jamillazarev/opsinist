@@ -99,6 +99,15 @@ nothing accumulates outside versions.
   `[ "$(… | grep -c pattern)" -gt 0 ]`. Measured again 2026-08-16 at rc=141 on a large input with
   the match on line 1, in a check written the day before by someone who had read this note.
 
+- **Wait on a completion marker, never on a content string** (measured 2026-09-10). The shape
+  `until grep -q '<phrase>' out.txt; do sleep 10; done` **spins forever when the watched command dies
+  before printing that phrase** — here a suite was invoked from the wrong directory, exited with
+  *"No such file or directory"*, and the loop waited 56 minutes for a line that could never come.
+  It survived a `ps` sweep because it is a `sleep` inside bash, not the script it was named for.
+  **Give the background command its own marker** — `cmd > out 2>&1; echo "DONE rc=$?"` — and wait for
+  that, because it prints on every path. Same family as the pipe eating the exit code: watching for a
+  sign of SUCCESS where the only reliable sign is COMPLETION.
+
 - **The `grep` you test at the prompt is not the `grep` a script gets** (measured 2026-08-15).
   In this tool's shell `grep` is a **shell function** (from the zsh snapshot) resolving to
   **ugrep 7.5.0**; a plain `bash script.sh` gets **`/usr/bin/grep`, BSD 2.6.0-FreeBSD**. They
