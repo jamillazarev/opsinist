@@ -2,7 +2,7 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.17 — unreleased
+## 0.2.17 — 2026-09-10
 
 **Migration — and this one adds two refusals to the guard your project copies.**
 `_ops/scripts/preflight.sh` is a copy that does not update itself, so **re-copy
