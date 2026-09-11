@@ -13,9 +13,9 @@ finds exactly those rows and no others — a whole `Attempt` row ends in `|`, a 
 
     grep -rnF '| **Attempt**' _ops/ | grep -v '|[[:space:]]*$'
 
-Join each line it prints to the one below it. **Keep the `-F`**: without it `**` is a regex operator
-and the result depends on which grep your shell has — BSD grep exits 2, but ugrep prints nothing and
-exits as if no row were broken, which is the dangerous case because it looks like a clean result. Separately, the one file you hold
+Join each line it prints to the one below it. **Keep the `-F`.** Without it `**` becomes a regex
+operator, and depending on which grep your shell has, the search either stops with an error or
+quietly prints nothing. The quiet one is the danger: it looks exactly like having no broken rows. Separately, the one file you hold
 a copy of, `_ops/scripts/preflight.sh`, differs from 0.2.17 by its version stamp alone — **re-copy it
 only to silence the guard's own stamp warning**, which otherwise reports a version gap with nothing
 behind it.
@@ -67,9 +67,9 @@ file, not the line in the entry.
 **`consulting.md`'s depth diagram now matches its own prose.** It drew `any entry still not
 checked?` as a plain step — a question a project keeping no source register cannot answer either way,
 which is the hole that withdrew `Depth`'s gate before the last tag (`LATER.md` → *Depth was demoted
-before its tag*). Three changes: that case is now named rather than assumed away; **`deciding` passes
-the register check too**, as `templates/ANSWER-template.md` already priced it, where it had gone
-straight to the answer; and the not-yet-checked branch, which ended nowhere, now reaches the answer
+before its tag*). Three changes: that case is now named rather than assumed away; **the `deciding` rung
+now passes the same source-register check as `standing`** — `templates/ANSWER-template.md` already
+required a register for it, but the diagram drew `deciding` going straight to the answer; and the not-yet-checked branch, which ended nowhere, now reaches the answer
 at the rung its evidence supports.
 
 **The release ritual asks one more question, at the moment the date is set: what did this session
