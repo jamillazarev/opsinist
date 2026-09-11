@@ -4,7 +4,7 @@
 repeating.
 
 Not a setting — **a chain, with typed fast lanes**. The other sense of the word, *when work stops
-and asks the owner*, is configured and cascades → `permissions.md`.
+and asks the owner*, is configured and cascades → [`permissions.md`](permissions.md).
 
 ---
 
@@ -53,7 +53,7 @@ line in the file, because it changes what the escalation *asks for*: not *"who i
 **"settle what done means here"**. Arbitration between two readings produces a winner; settling
 the definition produces a task that can finish.
 
-**An exchange in a thread is bounded the same way** → `addressing.md`. Try the team's aggregation
+**An exchange in a thread is bounded the same way** → [`addressing.md`](addressing.md). Try the team's aggregation
 rule first — it exists for exactly this — and only then escalate.
 
 **The evidence is free.** Exchanges and attempts are runs, so *"this cost X across N runs"* is an
@@ -99,7 +99,7 @@ saw it. (Not as an `Outcome`: that field is closed, it says how a run *stopped*,
 runs stopped the same way. This sentence said *"its own outcome"* until the field existed to
 contradict it.) A record that keeps only the most recent answer has destroyed the evidence that there
 was a disagreement at all — which is the same failure as a board that quietly holds the last
-known good state → `recovering.md`.
+known good state → [`recovering.md`](recovering.md).
 
 **This is a form, since 0.2.14.** A run record carries a `Verdict` — what the run *concluded*,
 which is not what `Outcome` says — the diagram above draws the difference. §1f of the company
@@ -129,7 +129,7 @@ where the twin passes.
 
 Not a louder message in a thread. A **request** (`kind: question` or `decision`) has an age, sits
 in the attention view, and can be answered later rather than living in a conversation that
-scrolls away → `requests.md`.
+scrolls away → [`requests.md`](requests.md).
 
 This applies to everything that needs an owner's decision, and the places that most often get it
 wrong are the ones that produce **reports**: an audit finding, a link that cannot be repaired
@@ -147,7 +147,7 @@ and does not die on it.** Mid-build, the worker finds the spec's assumption fals
 its Opportunity cites outdated, a state nobody designed. The flow has one shape, both
 directions: **name the gap and the artefact it invalidates** — the spec section, the cited
 insight, the map node, quoted to its place; **address the owning group of that artefact**
-(`PATTERNS.md` §19 — the group's routing rule picks the person, never the caller's guess) as a
+([`PATTERNS.md`](PATTERNS.md) §19 — the group's routing rule picks the person, never the caller's guess) as a
 request with an age; **a fix task is born there and the calling task takes `blocked_by`** — or
 narrows its scope and says so, when the gap does not block the rest. The run parks or
 continues on the unblocked remainder; **unblocking surfaces, never resumes by itself.**
@@ -184,17 +184,17 @@ about a slipping deadline is exactly the thing that gets scrolled past.
 **The other escalation with two directions is the one where nothing upstream is wrong: the work
 is sound, the step is clear, and the executor simply cannot perform it.** No image generation on
 the connected model, no voice, no camera, no key for the paid API, a surface only a person can
-operate (`choosing-tools.md`). The gap is in the **actuator**, not in the spec and not in what
+operate ([`choosing-tools.md`](choosing-tools.md)). The gap is in the **actuator**, not in the spec and not in what
 anybody knows.
 
 **Discovered mid-run, not at dispatch — which is what makes it its own flow.** Missing runtime
-capabilities are announced before the work (`runtimes.md`); a modality is met at the step that
+capabilities are announced before the work ([`runtimes.md`](runtimes.md)); a modality is met at the step that
 needs it, by a worker already holding the context.
 
 **So the worker works to the boundary and hands over one operation, never the job.** It gathers
 the references, writes the brief, produces the payload, writes the predicate **first**, names the
 destination, and raises a **`relay`** — the request kind that exists for exactly this, with the
-four things it must carry and the return leg it owes → `requests.md`. The calling task stays
+four things it must carry and the return leg it owes → [`requests.md`](requests.md). The calling task stays
 `started` with the worker as assignee, carries `waiting_on`, and **ages like a request** rather
 than sitting on the board looking busy.
 
@@ -215,15 +215,15 @@ flowchart TD
 ```
 
 **And the second time is the last time it is an escalation.** The threshold everywhere here is
-**twice** (`tooling.md`), and it forks: **wire the thing** — a `tooling` task, and the shelf
+**twice** ([`tooling.md`](tooling.md)), and it forks: **wire the thing** — a `tooling` task, and the shelf
 usually already has the row — **or declare the arrangement**, because a person who supplies this
 repeatedly is not an interruption, they are a **`human` on the roster** who may hold an
-assignment, taken rather than given (`hiring.md`). Either way the task type's definition of done
+assignment, taken rather than given ([`hiring.md`](hiring.md)). Either way the task type's definition of done
 names the supply, so the next task starts knowing.
 
 **Left as a `relay` forever, a standing arrangement wears the shape of an emergency** — it ages,
 it surfaces, it reads as something going wrong, every single time, and the owner learns to ignore
 the surface that was built to catch real trouble.
 
-*The diagram is here rather than in the gallery because `diagrams.md` sits at its line budget —
+*The diagram is here rather than in the gallery because [`diagrams.md`](diagrams.md) sits at its line budget —
 and beside the rule it draws is not a worse home.*

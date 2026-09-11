@@ -13,7 +13,7 @@ stops matching its file, the file wins and the diagram is wrong.
 
 Read from the ground, never asked; doors exist for every branch, none is how a route is chosen.
 **`no repo` is two arrivals** — an empty folder is a fresh start, a folder holding work is a
-takeover nobody committed — and both pass the repository rung first (`arriving.md`).
+takeover nobody committed — and both pass the repository rung first ([`arriving.md`](arriving.md)).
 
 ```mermaid
 flowchart TD
@@ -47,7 +47,7 @@ flowchart LR
 ```
 
 The advisor is the session, so nothing here sets its model — it is read and recorded, never
-stored → `hiring.md`.
+stored → [`hiring.md`](hiring.md).
 
 ---
 
@@ -72,7 +72,7 @@ flowchart TD
   CUT -. below .-> STORE[(your store)]
 ```
 
-→ `storing.md`
+→ [`storing.md`](storing.md)
 
 ---
 
@@ -94,7 +94,7 @@ flowchart LR
 ```
 
 **Nothing transitions itself** — the barrier lifting surfaces the next wave as ready; it does
-not start it → `decomposing.md`.
+not start it → [`decomposing.md`](decomposing.md).
 
 ---
 
@@ -125,7 +125,7 @@ flowchart TB
   world -. never summed with .-> people
 ```
 
-Three live interviews and twenty synthetic runs are never "23 responses" → `audience.md`.
+Three live interviews and twenty synthetic runs are never "23 responses" → [`audience.md`](audience.md).
 
 ---
 
@@ -146,7 +146,7 @@ flowchart TD
   Q4 -- no --> GO[proceed]
 ```
 
-→ `permissions.md`
+→ [`permissions.md`](permissions.md)
 
 ---
 
@@ -167,7 +167,7 @@ flowchart LR
   HK -. no hooks here .-> PO
 ```
 
-**The downgrade is announced at dispatch, not discovered** → `runtimes.md`.
+**The downgrade is announced at dispatch, not discovered** → [`runtimes.md`](runtimes.md).
 
 ---
 
@@ -184,7 +184,7 @@ flowchart TD
   C3 --> DO[done now]
 ```
 
-→ `recovering.md`
+→ [`recovering.md`](recovering.md)
 
 ---
 
@@ -199,7 +199,7 @@ flowchart LR
   PU[publish<br/>ongoing] -->|nothing comes back| US2[(we are canonical)]
 ```
 
-→ `importing.md`
+→ [`importing.md`](importing.md)
 
 ---
 
@@ -227,7 +227,7 @@ flowchart TD
   X -- no --> Z[keep going]
 ```
 
-**A guest reads less, not more** → `entering.md`.
+**A guest reads less, not more** → [`entering.md`](entering.md).
 
 ---
 
@@ -248,7 +248,7 @@ flowchart LR
   REV -- pass --> A[acceptance moves the status —<br/>also never the author]
 ```
 
-**Done is checked against the list, never against the feeling of doneness** → `writing-work.md`.
+**Done is checked against the list, never against the feeling of doneness** → [`writing-work.md`](writing-work.md).
 
 ---
 
@@ -269,7 +269,7 @@ flowchart TD
   DoD --> M
 ```
 
-**A map known to be stale is worse than no map: it answers confidently** → `mapping.md`, which
+**A map known to be stale is worse than no map: it answers confidently** → [`mapping.md`](mapping.md), which
 also draws the one diagram this gallery does not: **a move and the job it is hired for**.
 
 ---
@@ -292,7 +292,7 @@ flowchart LR
 
 **Nothing is fixed before they have seen the list**, and both ends are performed rather than
 promised: a mutating call before the list exists is refused, and a run that presented deferrable
-findings and wrote no `_ops/LATER.md` is stopped once and asked to write them → `entering.md`.
+findings and wrote no `_ops/LATER.md` is stopped once and asked to write them → [`entering.md`](entering.md).
 
 ---
 
@@ -322,7 +322,7 @@ flowchart TD
   G --> Z[declined → _ops/DECISIONS.md · deferred → _ops/LATER.md]
 ```
 
-**A guest trips none of this**, and *nothing-required* is a line worth writing → `upgrading.md`.
+**A guest trips none of this**, and *nothing-required* is a line worth writing → [`upgrading.md`](upgrading.md).
 
 ---
 
@@ -347,7 +347,7 @@ flowchart TD
 
 **The same signals the reading uses are the ones the hooks read** — `CODEOWNERS`, a contributor
 guide, a PR template, a history in many hands — and on doubt they stand down, because ambiguity
-is guest → `entering.md`.
+is guest → [`entering.md`](entering.md).
 
 ---
 
@@ -366,7 +366,7 @@ flowchart TD
   DOOR -- yes --> SHIP[cut it]
 ```
 
-→ `shipping.md`
+→ [`shipping.md`](shipping.md)
 
 ---
 
@@ -392,7 +392,7 @@ flowchart TD
 ```
 
 **`/opsinist:report` is the door**, and a sentence reaches the same place →
-`self-maintenance.md`.
+[`self-maintenance.md`](self-maintenance.md).
 
 ---
 
@@ -409,7 +409,7 @@ flowchart LR
   P -. never .-> SELF[self-merged]
 ```
 
-**Self-editing is proposed, never self-merged** → `self-maintenance.md`.
+**Self-editing is proposed, never self-merged** → [`self-maintenance.md`](self-maintenance.md).
 
 ---
 
@@ -442,7 +442,7 @@ flowchart LR
 ```
 
 **"Same as me" is the most expensive default available**, and it hides in the bill as ordinary
-work → `dispatching.md`.
+work → [`dispatching.md`](dispatching.md).
 
 **The one tier no setting can raise is the advisor's own**, because the advisor *is* the session:
 
@@ -479,7 +479,7 @@ flowchart TD
 ```
 
 **Every escalation is a request with an age**, answerable later rather than living in a
-conversation → `escalating.md`.
+conversation → [`escalating.md`](escalating.md).
 
 ---
 
@@ -497,4 +497,4 @@ flowchart LR
 ```
 
 **A role never loosens its own gate**, which is `nobody edits the bar they are measured against`
-applied where it is most tempting to skip → `permissions.md`.
+applied where it is most tempting to skip → [`permissions.md`](permissions.md).

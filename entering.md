@@ -16,7 +16,7 @@ down, and the fastest way to lose their trust — and the project's history — 
 is a normal way for a takeover to arrive — years of files, no history, nobody ever ran `git init`
 — and **everything below assumes a repo**: the ground read from commits, the audit's before-state,
 the debt list, the fixes-in-batches the owner approves. Run the day-zero ladder first
-(`arriving.md`), and on the repository rung say the thing that actually unblocks somebody:
+([`arriving.md`](arriving.md)), and on the repository rung say the thing that actually unblocks somebody:
 **`git init` here moves and changes nothing** — every file stays exactly where it is until
 someone commits it. **Auditing a tree with no history is a different, thinner job**, and saying
 so beats performing the fuller one on evidence that is not there.
@@ -69,11 +69,11 @@ file in a contributor's checkout is how it ends up in a review.
 dropped, because the restraint above is the memorable part: guest work is where the record is
 *most* useful, since the checkout may be deleted the moment the work lands and then nothing else
 remembers what you changed, why, or what it cost. **Open the record before the first change and
-tell the owner where it is** → `storing.md`. This is the arrival where that stops being a
+tell the owner where it is** → [`storing.md`](storing.md). This is the arrival where that stops being a
 preference and becomes the only correct answer.
 
 **Their tree is a ship target.** The work leaves through their process — a patch, a review, their
-checks — and that is `outward`, gated like any other departure → `shipping.md`.
+checks — and that is `outward`, gated like any other departure → [`shipping.md`](shipping.md).
 
 ---
 
@@ -83,7 +83,7 @@ checks — and that is `outward`, gated like any other departure → `shipping.m
 
 **Inventory** — what is here: the repository shape, existing conventions, tools already wired,
 whatever process files exist, and **the environment fingerprint**, because the same repo behaves
-differently on a different machine → `drift.md`.
+differently on a different machine → [`drift.md`](drift.md).
 
 ### How much of it to read is a decision, not a reflex
 
@@ -104,7 +104,7 @@ judgement, not a measurement** — it has not been calibrated against a spread o
 and a project that finds it wrong should move it and say why.
 
 **Three depths, offered with the recommended one already filled in** — the same shape as every
-other choice here (`PATTERNS.md` §26):
+other choice here ([`PATTERNS.md`](PATTERNS.md) §26):
 
 | Depth | What gets read | When it is the recommendation |
 |---|---|---|
@@ -130,7 +130,7 @@ codebase, and a map that does not say where it ends is the version of that failu
 **The reading itself is dispatched, not done in the turn.** Three parts, and only the middle one
 waits: **measuring is inline** — it is shell commands and seconds. **The depth is a question**, so
 it blocks, as questions do. **The read is background work** — minutes, and the next sentence of the
-conversation does not depend on it → `dispatching.md`. An owner watching a survey scroll for four
+conversation does not depend on it → [`dispatching.md`](dispatching.md). An owner watching a survey scroll for four
 minutes is being made to wait for something that had no reason to hold the session.
 
 **And it runs a tier down.** Reading a tree and extracting a map is extraction, not reasoning the
@@ -157,12 +157,12 @@ same way a "it's built" claim is: named ground the callers contradict is a findi
 
 **What the read learned about how the product is walked lands in `_ops/MAP.md`** — the corridor's
 product half is the map's first version, written down instead of evaporating with the session →
-`mapping.md`.
+[`mapping.md`](mapping.md).
 
 **The corridor widens on demand, and widening is announced.** A task reaching past what has been
 read says so and reads further; it does not quietly expand into a survey. **What has been covered
 so far belongs in the record**, so the next session starts from the map that already exists rather
-than rebuilding it → `storing.md`.
+than rebuilding it → [`storing.md`](storing.md).
 
 **A guest reads less, not more.** Someone else's repository is where a full survey is least
 justified and most expensive: read the corridor the issue actually touches, and stop.
@@ -176,7 +176,7 @@ review that goes to someone other than the author.
 **"Invariant" names what we stand up and check for, not what the owner may not touch.** Three of
 the four **protect the work from itself**, and an owner who says they do not want one has said it
 — the risk is named once and it goes off in writing, with the manifest telling the truth
-afterwards (`requests.md`). **The four gated kinds are the exception**, because they protect the
+afterwards ([`requests.md`](requests.md)). **The four gated kinds are the exception**, because they protect the
 owner *from us*: spending, leaving the project, destroying, and changing the shape of the team.
 A set nobody may decline would not be a small set of invariants, it would be a licence agreement.
 
@@ -187,7 +187,7 @@ badly.
 **Respect incumbent conventions.** Their labels, their ladder, their naming. A convention that
 works and differs from the default is not a defect, and replacing it costs more than it returns.
 
-**An old format makes this a migration target, not a broken project** → `upgrading.md`.
+**An old format makes this a migration target, not a broken project** → [`upgrading.md`](upgrading.md).
 
 ---
 
@@ -209,7 +209,7 @@ classification is just criticism.
 - **this machine lacks what the project declares** — an entry of `mise.toml` or `.mcp.json` that is
   not here → every run is a run on a different project. The line carries what `mise install
   --dry-run` and `mise bootstrap packages apply --dry-run` would change, and **installing — `mise
-  trust` first — is the owner's word** (`tooling.md` → *What the project needs from the machine*)
+  trust` first — is the owner's word** ([`tooling.md`](tooling.md) → *What the project needs from the machine*)
 
 **Deferrable** — real, and survivable for now. Goes to the deferred list **with a revisit trigger
 that is a moment, not a date**: *"before anything public ships"*, *"at the first paying customer"*.
@@ -243,7 +243,7 @@ other side. **A deferral nobody wrote down is a deferral nobody revisits.**
 **A guest trips neither half**, because a guest owes no debt list at all: `CODEOWNERS`, a
 contributor guide, a PR template or a history in many hands stand both gates down, and
 *ambiguity is guest* means they stand down on doubt rather than press. Where the runtime does
-not honour hooks this is prose again (`runtimes.md`), and **the gates check the order, never the
+not honour hooks this is prose again ([`runtimes.md`](runtimes.md)), and **the gates check the order, never the
 honesty**: a list written to get past one is exactly the forgery a gate cannot see and a reader
 can.
 
@@ -257,10 +257,10 @@ Four parts, and blending them hides the ones after the first:
 
 | Question | Source |
 |---|---|
-| **what needs me** | open requests, with their ages → `requests.md` |
+| **what needs me** | open requests, with their ages → [`requests.md`](requests.md) |
 | **what happened** | the notification feed — events, bounded, ageing out |
-| **what changed that we did not change** | the environment fingerprint → `drift.md` |
-| **what is still undecided** | records kept outside the repository, with their age → `storing.md` |
+| **what changed that we did not change** | the environment fingerprint → [`drift.md`](drift.md) |
+| **what is still undecided** | records kept outside the repository, with their age → [`storing.md`](storing.md) |
 
 **Computed from the task histories, never stored**: closed since the last session, requests open
 and how long, spend since then, **anything that regressed** — an interrupted run marked at session
@@ -288,7 +288,7 @@ lid — because nothing is left in it.
 different tool, different machine — and **the arrival summary is the first thing said**: what
 needs you, what happened, what changed that you did not change, what is still undecided — **and
 who holds the live checkout**, read from `_ops/.checkout` where one exists, with a stale
-holder surfaced like any aged wait (`dispatching.md`). That is
+holder surfaced like any aged wait ([`dispatching.md`](dispatching.md)). That is
 where the previous state comes from. **Nothing is carried in the session, so nothing has to be.**
 
 ```mermaid
@@ -312,7 +312,7 @@ it. The plugin holds both halves in the runtime's own documented channels (cited
 `hooks/pre-compact.sh` carries the order as PreCompact's JSON `additionalContext` — plain
 stdout never reaches a compaction, which the first draft of this hook got wrong — and
 `hooks/post-compact.sh`, on SessionStart matched to `compact`, reconciles the fresh summary
-against the canon it was allowed to drop. **Half of it is measured now** (2026-08-06, a live headless compaction — `evals/RUNS.md`): the
+against the canon it was allowed to drop. **Half of it is measured now** (2026-08-06, a live headless compaction — [`evals/RUNS.md`](evals/RUNS.md)): the
 post-compact hook fired and **its words reached the context verbatim**. The PreCompact half
 emitted no events in that same run — its `additionalContext` is unobserved in either
 direction, still `cited`, and the difference is stated rather than averaged. And a
@@ -322,7 +322,7 @@ faithful restore**, which is why living forever was never the goal.
 
 **If the session ended badly — a crash, a closed lid, a limit — the next start says so.** The
 interrupted run is marked, the task visibly regresses, and recovery separates committed from
-applied from remaining → `recovering.md`. **A bad ending costs a summary line, not the work.**
+applied from remaining → [`recovering.md`](recovering.md). **A bad ending costs a summary line, not the work.**
 
 ---
 

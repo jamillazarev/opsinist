@@ -68,7 +68,7 @@ normal. Wanting to track upstream is a **different, explicit choice**: an extern
 
 ## The environment fingerprint
 
-*Three-way compare when both sides can change — `PATTERNS.md` §17.*
+*Three-way compare when both sides can change — [`PATTERNS.md`](PATTERNS.md) §17.*
 
 **`project = f(repo)` is false until this exists.** Skills, plugins, hooks, settings and servers
 load from outside the repository into every session, so the same repo on two machines behaves
@@ -81,7 +81,7 @@ map plus the commit it was taken at.
 *different* and stops there, which leaves the premise half-kept. So alongside the hashes the
 project **declares what it requires from outside** — each MCP server, skill or plugin by name,
 with **what it is for, where it comes from, and which credential it needs by reference**. Values
-stay out (`permissions.md`); the requirement does not. **Detection answers "has this changed";
+stay out ([`permissions.md`](permissions.md)); the requirement does not. **Detection answers "has this changed";
 the declaration answers "what do I install to work here"**, and only the second survives a new
 laptop.
 
@@ -111,12 +111,12 @@ Three different questions, and blending them hides the third:
 
 | Question | Answer from |
 |---|---|
-| what needs me | open requests → `requests.md` |
-| what happened | the notification feed → `requests.md` |
+| what needs me | open requests → [`requests.md`](requests.md) |
+| what happened | the notification feed → [`requests.md`](requests.md) |
 | **what changed that we did not change** | **this file** |
 
 The summary is **computed from the task histories**, never stored: closed since the last session,
 requests open and their ages, spend since then, anything that regressed. Atoms recorded, summary
 derived.
 
-**Leaving should be as deliberate as arriving** → `entering.md`, which owns both ends of it.
+**Leaving should be as deliberate as arriving** → [`entering.md`](entering.md), which owns both ends of it.

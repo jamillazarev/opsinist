@@ -53,7 +53,7 @@ garbage happened.**
 **A discovered process lands as a type and its pipeline.** `_ops/process/types/<kind>.md` carries
 the definition of done and the cut on the description ladder — proposed at the type's wave —
 and `_ops/pipelines/<name>.md` carries the stages and the gates **as data the door reads**
-(`pipelines.md`, `writing-work.md`). So the next run of the same kind of work **starts from it
+([`pipelines.md`](pipelines.md), [`writing-work.md`](writing-work.md)). So the next run of the same kind of work **starts from it
 rather than rediscovering it**, the state block and the transition validator work from day
 one, and a better process found later is **a diff to a file rather than a silent drift**.
 Prose keeps the why; the files are the process.
@@ -66,21 +66,21 @@ argues with the previous answer instead of re-deriving it.
 **Product discovery — *what do we know about the problem* — is this method pointed at a
 question instead of a craft.** Its findings have three homes: **the spec's own fields** —
 prior attempts with outcomes, open questions, the cost of doing nothing
-(`templates/SPEC-template.md`) — **the interviews**, which walk the JTBD timeline
-(`audience.md`), and **the choice**, which runs the decision loop. **A research type's own chain — facts → insights →
+([`templates/SPEC-template.md`](templates/SPEC-template.md)) — **the interviews**, which walk the JTBD timeline
+([`audience.md`](audience.md)), and **the choice**, which runs the decision loop. **A research type's own chain — facts → insights →
 opportunities → recommendations, each layer carrying its confidence — arrives from the
 craft's standards at the type's wave**, never as a built-in pipeline: the same
 anti-encyclopedia law as everywhere in this file. **The opportunity layer is the one teams
 skip**: an insight names what is true, an opportunity names a need it opens, and jumping from
 insight straight to a solution is how a feature ships with no need under it — the discovery
 spine the craft itself now teaches is outcome → opportunities → solutions → assumption tests
-(`catalogue.md`, the frames row). **The tree those links form is a view, never a source** —
-assembled from the specs' own references (`PATTERNS.md` §6), not drawn beside them.
+([`catalogue.md`](catalogue.md), the frames row). **The tree those links form is a view, never a source** —
+assembled from the specs' own references ([`PATTERNS.md`](PATTERNS.md) §6), not drawn beside them.
 
 **And discovery is a cadence, not a phase.** The craft's own practice literature
 (`sources/` → perspective-ost-2026, `cited`): the commonest failure is not a wrong tree but
 **a starved one** — evidence refreshed quarterly under opportunities that change weekly. Where a project runs product discovery at all, the stock
-answer is an automation holding the touchpoint (`automations.md`), and interview evidence
+answer is an automation holding the touchpoint ([`automations.md`](automations.md)), and interview evidence
 carries its date like every other fact: past its recheck it is `unknown`, not background.
 
 ---
@@ -92,7 +92,7 @@ research the real thing, draft it with reasons, show it for cutting, then tool e
 step.
 
 Naming it once is what stops it being re-invented per situation with slightly different rules each
-time — which is the whole argument for `PATTERNS.md`.
+time — which is the whole argument for [`PATTERNS.md`](PATTERNS.md).
 
 ---
 

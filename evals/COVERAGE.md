@@ -25,6 +25,8 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/deps-report.py` — What the project depends on, why, and how much each available update matters
 - `scripts/fetch-source.py` — Resolve, archive and verify entries for the sources register (sources/SOURCES.md)
 - `scripts/inventory.py` — A deterministic inventory of a tree — the map of the territory, never the territory
+- `scripts/link-ids.py` — In a project, an id or a path named in passing becomes a link — so Obsidian's graph, GitHub and
+- `scripts/link-names.py` — A backticked name of a file in this tree becomes a link, so GitHub, Obsidian's graph and
 - `scripts/map-blocks.py` — Regenerate the map's `touched by:` blocks from the tasks' own declarations
 - `scripts/migrate-layout.py` — Move a pre-0.2.0 flat project into the `_ops/` layout — as history, not as loss
 - `scripts/new-id.py` — Mint an entity id that is not already taken
@@ -49,6 +51,8 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-eval-requeue.sh` — The void sweep in eval-requeue.sh, exercised against the shapes that produced it
 - `scripts/test-find-installs.sh` — `find-installs.sh` exercised on its mutants and its honest twins
 - `scripts/test-inventory.sh` — The inventory's three promises, exercised: identical twice, guest-safe, honest off git
+- `scripts/test-link-ids.sh` — link-ids.py — an id or a path named in passing becomes a link — shown on a throwaway project that
+- `scripts/test-link-names.sh` — link-names.py — a backticked name of a file in this tree becomes a link — shown on a throwaway
 - `scripts/test-map-blocks.sh` — The touched-by executor exercised: blocks generated, only markers rewritten, and two live
 - `scripts/test-migrate-layout.sh` — The 0.2.0 layout migrator exercised on a flat 0.1.x fixture: history-preserving
 - `scripts/test-native-register.sh` — §20 and §21 of the project guard — the native files and the register held to each other —

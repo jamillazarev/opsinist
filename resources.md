@@ -18,12 +18,12 @@ claim it makes. **Blurring them is how bookmark piles form.**
 | `target` | the URL or the path |
 | **`why`** | **what it is for and when to consult it** |
 | `scope` | project · team · role · **task** |
-| `added_by` · `added_at` | provenance, which is mandatory (`PATTERNS.md` §13) |
+| `added_by` · `added_at` | provenance, which is mandatory ([`PATTERNS.md`](PATTERNS.md) §13) |
 | `last_checked` · `status` | ok · moved · broken — maintained by the link check |
-| `cited-by` | **generated, never hand-written** (`PATTERNS.md` §5): the files that reference this resource, found by its name and targets — the delta sweep's stored input. Absent until a generator runs; **until then the sweep searches**, and says so |
+| `cited-by` | **generated, never hand-written** ([`PATTERNS.md`](PATTERNS.md) §5): the files that reference this resource, found by its name and targets — the delta sweep's stored input. Absent until a generator runs; **until then the sweep searches**, and says so |
 
 **`why` is mandatory, and it is the whole difference between a resource and a bookmark**
-(`PATTERNS.md` §14)**.** A link
+([`PATTERNS.md`](PATTERNS.md) §14)**.** A link
 with no stated purpose is consulted by nobody and removed by nobody, because removing it might
 lose something and nobody knows what.
 
@@ -31,8 +31,8 @@ lose something and nobody knows what.
 documentation, example — a project that wants board columns and filters over those declares a
 `select` field and gets them. **A taxonomy baked into the core would be right for one domain and
 wrong for the rest.** The seeds worth naming when a project does declare one: `depends-on` ·
-`promotes` (the campaign's subject, `tooling.md`) · `competes-with` (a register row,
-`templates/COMPETITORS-template.md`) · `informs` — because **`why` says the words and the
+`promotes` (the campaign's subject, [`tooling.md`](tooling.md)) · `competes-with` (a register row,
+[`templates/COMPETITORS-template.md`](templates/COMPETITORS-template.md)) · `informs` — because **`why` says the words and the
 relation makes them walkable**: a sweep can group by relation, and a delta knows that
 `depends-on` breaking is a request while `competes-with` moving is content.
 
@@ -45,7 +45,7 @@ they are one thing; merging them into one URL loses three doors.
 
 **Walking a resource starts from its own map, never from crawling.** Its `llms.txt`, its
 sitemap, its README — the thing's self-description is the cheapest index there is, and only
-where none exists does the deep pass earn its cost (`catalogue.md` → reading pages, Crawl4AI
+where none exists does the deep pass earn its cost ([`catalogue.md`](catalogue.md) → reading pages, Crawl4AI
 for *a corpus, not a page*). **The register read whole is the map of resources**; a generated
 view over it earns itself when the register outgrows a screenful — the same bar as every
 derived surface.
@@ -54,7 +54,7 @@ derived surface.
 
 ## Scope, and the one that is not a rung
 
-**Project · team · role** resolve by the usual cascade — **own → team → project** (`PATTERNS.md` §3), and the
+**Project · team · role** resolve by the usual cascade — **own → team → project** ([`PATTERNS.md`](PATTERNS.md) §3), and the
 effective set is **recorded on the run**, like skills, so what an agent actually had is never
 reconstructed by guesswork afterwards.
 
@@ -86,15 +86,28 @@ The alternative — a growing shelf nobody consults — is the failure this enti
 **And a resource serves every flow that meets its need.** Filed by one flow, scoped to none:
 the shelf a review cites is the same shelf a build or a consultation opens; a link the owner
 hands over on a task joins the register with its why and is read wherever it is relevant —
-never re-asked for (`quick.md`). This holds for the stock shelves (`catalogue.md`) and for
+never re-asked for ([`quick.md`](quick.md)). This holds for the stock shelves ([`catalogue.md`](catalogue.md)) and for
 everything the project's own register carries, alike.
 
 **And the point of a shelf is a shorter search, which puts it at the search's head.** The same
 order every choice runs (*look inward first*, `SKILL.md`; the ladder's search step,
-`choosing-tools.md`): **the register first** — pre-read, its licences already read — **the live
+[`choosing-tools.md`](choosing-tools.md)): **the register first** — pre-read, its licences already read — **the live
 web where the register runs out**, and a find worth keeping **lands back on a register with its
 why**, so the next search starts further along. Recalling from memory is not a step on this
 path at all.
+
+**When the question's words are not the notes' words, grep misses — and that one miss has a
+tool.** A search for *contradict* finds nothing in a file whose row says *"it passed, then it
+failed, then it passed"*. Where that keeps happening, the project may opt in to **ck** (the
+catalogue's *Finding a thing in the project's notes when it is written in other words*) as it
+would to any tool: an entry in `mise.toml` — `"github:BeaconBay/ck"`, released for macOS, Windows
+and x86 Linux — and its register row, which the guard's §21 asks for. Then `ck --hybrid "<the
+question>" _ops/` ranks keywords and meaning together, `--jsonl` gives an agent one result a line,
+and `ck --serve` makes it a server `.mcp.json` can carry. It refreshes its index before every
+search, so it does not answer from a stale one; **it writes `.ck/` and a `.ckignore` into the tree
+it indexes**, so `.ck/` goes into `.gitignore` — and in a repository that is not yours it is not
+run at all, since its first index puts a file of ours at their root (read in ck's README,
+2026-09-11).
 
 **Who maintains them:** the owner adds them in conversation; any agent may **propose** additions
 and removals, with a stated `why` for both. A role proposing something at **project** scope is
@@ -114,15 +127,15 @@ nothing load-bearing is lost.
 **Same shape for binaries git cannot diff**: a note beside the file saying what it is, what
 produced it, and what it is for. **This is also how a deliverable that cannot live in git is
 held** — a render, a design file, a batch: the thing lives where it is made, the repository holds
-the pointer → `storing.md`.
+the pointer → [`storing.md`](storing.md).
 
-**`last_synced` is a check-date and ages like one** (`PATTERNS.md` §11)**.** A snapshot is a `cited` claim — *this is what
+**`last_synced` is a check-date and ages like one** ([`PATTERNS.md`](PATTERNS.md) §11)**.** A snapshot is a `cited` claim — *this is what
 was there on that date* — and it is honest exactly as long as it is labelled and dated. The moment
 it is read as current it becomes the cached fast-rotting fact the freshness law forbids.
 
 **Writing to an external system is an outward operation**, therefore gated. And a two-way
 relationship is declared once — with `version_seen` and three-way comparison — rather than
-guessed at per file → `drift.md`.
+guessed at per file → [`drift.md`](drift.md).
 
 ---
 
@@ -158,7 +171,7 @@ very blocks the ladder then has to interpret**, so the checker manufactures its 
 positives. `last_checked` exists; use it.
 
 **Never repair a link inside a generated block** — fix the source it is generated from
-→ `drift.md`.
+→ [`drift.md`](drift.md).
 
 **The choice is a request, not a report line.** *"Replace, keep, or drop"* needs an owner's answer,
 and an answer needed from a report is an answer that does not arrive.
@@ -204,7 +217,7 @@ flowchart TD
 ```
 
 **A source is not a conclusion, and the layer above this one is where the conclusion lives.**
-`_ops/research/<question>.md` (`templates/FINDING-template.md`) holds **what we now believe**, what
+`_ops/research/<question>.md` ([`templates/FINDING-template.md`](templates/FINDING-template.md)) holds **what we now believe**, what
 would change it, and the source ids underneath — so an agent that needs the answer reads one
 paragraph instead of the register, and **the register is for whoever argues**. The relation runs
 both ways: the task that bought the research links to the finding, the finding links back to the
@@ -213,7 +226,7 @@ decision it was for, and **a new question checks the findings before it fetches 
 arrive where it was.
 
 **How deep is a question with a price, and it is asked before the fetching starts.**
-`templates/ANSWER-template.md` → *Depth* carries the three rungs and what each buys. The one that
+[`templates/ANSWER-template.md`](templates/ANSWER-template.md) → *Depth* carries the three rungs and what each buys. The one that
 touches this file is **`standing`**, which is the rung that means *every entry it rests on was read
 against the others* — so `orienting` and `deciding` may honestly leave `Reads against` at
 `not checked` and `standing` may not. **Nothing enforces that**: it was a guard for one day and was
@@ -221,7 +234,7 @@ withdrawn before the tag for reading a path no operated project has. It is a cla
 and a reader can check by opening the register.
 
 **Where a source comes from, when there is not one yet.** The register has an intake ramp and no
-search, and until 2026-09-10 nothing joined the two: **`catalogue.md` knows where to look** — its
+search, and until 2026-09-10 nothing joined the two: **[`catalogue.md`](catalogue.md) knows where to look** — its
 *Academic & research sources* and *Deep research, run as a job* rows — **`fetch-source.py --resolve
 <doi|arxiv|url>` turns an identifier into a skeleton** stamped with today's date and born with its
 `Reads against` line, and **the distillate is written by hand in our own words** because that is
@@ -357,8 +370,8 @@ tense.**
 | | What to do |
 |---|---|
 | the task does **not** lean on it | proceed, and **say what was skipped** — visible, not silent |
-| the task **leans** on it | a blocker like any other → `escalating.md`: a request carrying the claim and its old date |
+| the task **leans** on it | a blocker like any other → [`escalating.md`](escalating.md): a request carrying the claim and its old date |
 
 **There is no third move.** The stale figure travelling unmarked into a decision is the same
-small lie `shipping.md` catches at release, produced one step earlier — where nothing catches it.
+small lie [`shipping.md`](shipping.md) catches at release, produced one step earlier — where nothing catches it.
 

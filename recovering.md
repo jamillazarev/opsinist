@@ -35,7 +35,7 @@ one habit**: the inventory reads `applied` from the tree, the attempt count read
 write "at the end" never wrote.
 
 **So the ordering is a rule, not a preference:** the record opens when the work opens (→
-`entering.md`), the checkpoint moves when the work moves, and the outcome is the *last* field
+[`entering.md`](entering.md)), the checkpoint moves when the work moves, and the outcome is the *last* field
 filled rather than the first. A run that ends `interrupted` should still leave a record that
 says what it did — that is the difference between an interruption and a disappearance.
 
@@ -102,8 +102,8 @@ the deliberate door.
 
 **This is prose, and prose measures poorly** — it is the ordering habit the two forms beside it
 exist to survive. What actually enforces it is the dispatcher writing the run record rather than
-the worker (→ `cost.md`), and the guard warning when a task closes with no run record naming it
-(→ `checking.md`). Neither can make a live run write sooner; they make its silence visible after.
+the worker (→ [`cost.md`](cost.md)), and the guard warning when a task closes with no run record naming it
+(→ [`checking.md`](checking.md)). Neither can make a live run write sooner; they make its silence visible after.
 
 ---
 
@@ -131,14 +131,14 @@ time is worth reading rather than guessing at.
 
 **The reset is a known future moment**, which makes it a one-shot schedule rather than something to
 poll. A limit hit at 02:10 that resets at 07:00 should not wait for a human to come back and
-notice → `automations.md`.
+notice → [`automations.md`](automations.md).
 
 **Levers, when limits keep firing rather than happening once:**
 
 - **Model and effort tiering** — the top tier on the part that needs it, not on everything
 - **Fewer concurrent workers** — past three to five, coordination costs more than it returns
 - **An API key instead of a subscription** — pay per token, no session window; and note that the
-  ledger then becomes the bill rather than an attribution → `cost.md`
+  ledger then becomes the bill rather than an attribution → [`cost.md`](cost.md)
 - **Smaller units of work** — a task that fits one run cannot be half-killed by a window
 
 ---
@@ -157,7 +157,7 @@ that wrote nonsense into its own context will keep being confused if you resume 
 rerunning by hand three times is three attempts the automatic bound never sees. Say which one is
 happening.
 
-**Three attempts on one task stop it** → `escalating.md`. The count is per task rather than per
+**Three attempts on one task stop it** → [`escalating.md`](escalating.md). The count is per task rather than per
 "the same error", because deciding two errors are the same is a judgement an agent makes about its
 own failure.
 
@@ -191,9 +191,9 @@ leaving a project deserves the same and usually does not get it.
 The wrap-up that was owed can be taken retroactively: reopen the last session, ask for the three
 writes, close it clean. This is salvage, not a lifestyle — the transcript stays a source and
 never becomes the record — and **in a runtime that keeps no transcripts the door does not exist**,
-which is resolved and said per runtime rather than assumed (`runtimes.md`). What it buys is
+which is resolved and said per runtime rather than assumed ([`runtimes.md`](runtimes.md)). What it buys is
 narrow and real: the only thing a silent ending ever risks is what lived in talk alone, and this
 recovers exactly that.
 
 **On returning, three questions, and they must not be blended:** what needs me · what happened ·
-**what changed that we did not change** → `requests.md`, `drift.md`.
+**what changed that we did not change** → [`requests.md`](requests.md), [`drift.md`](drift.md).

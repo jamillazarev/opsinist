@@ -11,7 +11,7 @@ real tools**.
 
 ## Structure first
 
-**Run process discovery before drawing anything** → `process-discovery.md`. For an interface it
+**Run process discovery before drawing anything** → [`process-discovery.md`](process-discovery.md). For an interface it
 typically surfaces: information architecture → user flows → low-fidelity wireframes → **the owner
 approves the structure** → high fidelity → design system. **Discovered per project, not
 hardcoded**, and the owner cuts or adds steps.
@@ -98,7 +98,7 @@ model) · `panel` (personas, direction-only), with the provenance line in a corn
 separated from its prose is a lossy copy of the claim** — forwarded alone, a prediction travels
 as a fact — and the label on the pixels is the only rung that survives the forward. A
 *continuous* heatmap is a model run, which makes it a tool: it enters through the import gate
-like any tool, never silently inside a consultation (`catalogue.md` — visual hierarchy &
+like any tool, never silently inside a consultation ([`catalogue.md`](catalogue.md) — visual hierarchy &
 predicted attention).
 
 **Assets obey the same conformance.** One icon set, one illustration style, one photographic look,
@@ -157,7 +157,7 @@ goes stale between releases while a field does not. **A row that predates this a
 | `model` | the exact model or endpoint, version included — `flux-1.1-pro`, not "the fal one" |
 | `prompt` | **verbatim, the whole string.** Not a description of it |
 | `seed` | the number, or **`seed: none`** where the model exposes none — an honest answer, and the only other one accepted |
-| `reference` | the path or url of a style/reference image, where one was used — **this, not a preset name, is what actually makes two images match** (`catalogue.md` → *Style presets*) |
+| `reference` | the path or url of a style/reference image, where one was used — **this, not a preset name, is what actually makes two images match** ([`catalogue.md`](catalogue.md) → *Style presets*) |
 
 **This is a field, not an instruction to be careful**, and it is enforced where the project can
 see it: `templates/company-preflight.sh` refuses a commit whose asset register declares a row
@@ -168,10 +168,10 @@ write `seed: none` — one edit, needing no new information.
 **Why a field and not a sentence:** the cheap answer is impossible to write. *"Generated with AI"*
 satisfies nothing, and a prompt cannot be reconstructed from memory without visibly being generic
 — the same property that made *what did the page say* work where *what did you check* was answered
-with three fabricated dates (`self-maintenance.md`).
+with three fabricated dates ([`self-maintenance.md`](self-maintenance.md)).
 
 **Recovery, when a recipe is already lost, is the expensive repair** — a vision model reads the
-image back into words (`catalogue.md` → *Image → prompt*), and what comes out is a new prompt that
+image back into words ([`catalogue.md`](catalogue.md) → *Image → prompt*), and what comes out is a new prompt that
 resembles the old one, never the old one. **It is a salvage route, not a substitute for the
 field.**
 
@@ -188,5 +188,5 @@ flowchart TD
 ```
 
 **The preset is a vocabulary, the recipe is the mechanism, and salvage is the expensive repair.**
-This diagram lives here rather than in the gallery because `diagrams.md` is at its line budget —
+This diagram lives here rather than in the gallery because [`diagrams.md`](diagrams.md) is at its line budget —
 and a diagram beside the rule it draws is not a worse home for it.

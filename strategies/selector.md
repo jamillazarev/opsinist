@@ -19,7 +19,7 @@ rather than to judgement.
 **The tier words map to the corpus's own** (one home for this, cited elsewhere): **reasoning**
 = a model that chains its own thought — the top tier, and most of the mid tier today;
 **light** = the cheap fast tier that does not. The fallback chain's `strong → mid`
-(`dispatching.md`) and the cost file's top/mid/cheap name *rungs of capability*; this table
+([`dispatching.md`](../dispatching.md)) and the cost file's top/mid/cheap name *rungs of capability*; this table
 asks only one property of them. **In doubt, read the tier as reasoning** — the cost of that
 error is a skipped `cot` prefix, the cost of the opposite is paid noise.
 
@@ -30,7 +30,7 @@ error is a skipped `cot` prefix, the cost of the opposite is paid noise.
 | a `decide` with real consequences | `self-consistent` | `self-consistent` |
 | anything unrecognised | `standard` | `standard` |
 
-**Cost gates the silence** (`PATTERNS.md` §24, §21). Up to ~2× a single pass the selector acts
+**Cost gates the silence** ([`PATTERNS.md`](../PATTERNS.md) §24, §21). Up to ~2× a single pass the selector acts
 silently. N-fold strategies (`self-consistent`) switch on silently **only for the classes the
 project agreed to in config** — the stock one is `decide` with consequences — and anywhere
 else they are offered in one line with the price, needing a nod: automation that quietly

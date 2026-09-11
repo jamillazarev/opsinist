@@ -22,7 +22,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "I want to know how real users would react" | *"run this past our audience"* | **angles, never percentages** — said before anything runs |
 | "I'm a solo founder wearing every hat" | *"I'll do the design, you do the rest"* | **you hold an assignment like anyone**, reviewed by an agent that did not write it |
 | "I'm a writer and this is not software" | *"we publish a weekly essay"* | *ship* means the issue goes out; the words follow yours |
-| "I'm promoting my open-source library" | *"the product lives in its own repo — this is the campaign"* | the library becomes a **watched resource** (`version_seen`, releases land in triage as content candidates); its tree is mapped read-only; the competitors get a register with dated cells → `tooling.md`, `templates/COMPETITORS-template.md` |
+| "I'm promoting my open-source library" | *"the product lives in its own repo — this is the campaign"* | the library becomes a **watched resource** (`version_seen`, releases land in triage as content candidates); its tree is mapped read-only; the competitors get a register with dated cells → [`tooling.md`](tooling.md), [`templates/COMPETITORS-template.md`](templates/COMPETITORS-template.md) |
 | "I'm an engineer inside a company repo" | *"fix the flaky test in this repo"* | **guest mode** — their conventions bind, nothing of ours lands in their tree |
 | "I run a workshop, not a product" | *"we glaze tiles to order"* | the process is discovered first, then a tool per step |
 | "I already have Claude Code / Codex / Gemini CLI" | — | it installs into all of them; **what it can run depends on the runtime**, and it says so |
@@ -51,7 +51,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "I just have a question" | *"what do you make of X?"* | an answer, and **nothing is created** |
 | "I want it to interview me properly" | *"ask me what you need"* | progressive — defaults everywhere, and only two questions have none |
 | "I don't know what I'm building yet" | *"help me think about it"* | consulting, and it turns into a project only when you say so |
-| "A colleague handed me this project" | *"take this over"* | besides the debt list, **what this machine lacks of what the project declares**: each `mise.toml` and `.mcp.json` entry not here, with what the dry runs would change; **nothing is installed — `mise trust` included — before you say yes**, because a project that changes versions by itself breaks the other projects on your machine → `tooling.md` |
+| "A colleague handed me this project" | *"take this over"* | besides the debt list, **what this machine lacks of what the project declares**: each `mise.toml` and `.mcp.json` entry not here, with what the dry runs would change; **nothing is installed — `mise trust` included — before you say yes**, because a project that changes versions by itself breaks the other projects on your machine → [`tooling.md`](tooling.md) |
 | "My project is on the old flat layout" | *"migrate the layout"* | `migrate-layout.py` — every move a `git mv`, the hook and `.gitignore` follow, and anything it does not recognise stays put, named |
 
 ## Day to day
@@ -81,13 +81,13 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "Show me how work moves here" | *"show the pipeline"* — the ladder drawn from its own block: stages as nodes, gates on the edges |
 | "Spec this one properly" | *"spec it"* — the type's cut decides the shape; where no format is bound, the stock template carries guardrail metrics, prior attempts and a plan per outcome |
 | "Did we already try this?" | *"prior attempts?"* — answered from the spec's own section, **with outcomes named**, including "effect never measured" |
-| "Did anything we watch move?" | *"check the resources for new versions"* — the sweep runs now: **unchanged is said per row**, a move arrives as its distillate, and accepting it opens the delta against everything that cites it → `tooling.md` |
-| "Is anything we use out of date — and does it matter?" | *"check our dependencies"* — mise, npm and osv-scanner are asked and the answers sorted: **a vulnerability first, a move outside the pin as a decision with its release notes, a move inside it as one routine line**; anything that could not be asked is said, never read as current, and nothing is installed → `tooling.md` |
-| "What is this package even for?" | *"why do we have lodash?"* — `deps-report.py --why` answers from the project's own files: the register row, or the decision that named it, or *no why recorded* — a view, not a second list to keep → `tooling.md` |
-| "The build just found a hole in the spec" | *"the spec assumed X and it's false"* — the gap is named to its place and **the artefact's owning group gets the request**; a fix task is born there, the build takes `blocked_by` or narrows and says so → `escalating.md` |
-| "I don't want everyone to see this at once" | *"roll it out quietly"* — the release names its rollout: soft · canary · staged · flag-gated · shadow — **guardrails own the halt, the kill switch is named first, expansion never advances itself** → `shipping.md` |
-| "Which survey do we attach to this?" | *"what should we ask, and when?"* — the instrument matches the layer: effort at the step, the scenario after it closes, the software quarterly, the brand twice a year — **and one layer read with another's tool is the trap** → `catalogue.md` |
-| "Remember this — always do it this way" | *"remember: we never ship on Fridays"* — the rule is routed to where workers read: **a guide line, an ABOUT.md word, a decision, a register entry** — named back to you, never left in the chat's memory → `checking.md` |
+| "Did anything we watch move?" | *"check the resources for new versions"* — the sweep runs now: **unchanged is said per row**, a move arrives as its distillate, and accepting it opens the delta against everything that cites it → [`tooling.md`](tooling.md) |
+| "Is anything we use out of date — and does it matter?" | *"check our dependencies"* — mise, npm and osv-scanner are asked and the answers sorted: **a vulnerability first, a move outside the pin as a decision with its release notes, a move inside it as one routine line**; anything that could not be asked is said, never read as current, and nothing is installed → [`tooling.md`](tooling.md) |
+| "What is this package even for?" | *"why do we have lodash?"* — `deps-report.py --why` answers from the project's own files: the register row, or the decision that named it, or *no why recorded* — a view, not a second list to keep → [`tooling.md`](tooling.md) |
+| "The build just found a hole in the spec" | *"the spec assumed X and it's false"* — the gap is named to its place and **the artefact's owning group gets the request**; a fix task is born there, the build takes `blocked_by` or narrows and says so → [`escalating.md`](escalating.md) |
+| "I don't want everyone to see this at once" | *"roll it out quietly"* — the release names its rollout: soft · canary · staged · flag-gated · shadow — **guardrails own the halt, the kill switch is named first, expansion never advances itself** → [`shipping.md`](shipping.md) |
+| "Which survey do we attach to this?" | *"what should we ask, and when?"* — the instrument matches the layer: effort at the step, the scenario after it closes, the software quarterly, the brand twice a year — **and one layer read with another's tool is the trap** → [`catalogue.md`](catalogue.md) |
+| "Remember this — always do it this way" | *"remember: we never ship on Fridays"* — the rule is routed to where workers read: **a guide line, an ABOUT.md word, a decision, a register entry** — named back to you, never left in the chat's memory → [`checking.md`](checking.md) |
 | "Break this big thing up" | *"split the checkout flow"* — parallel children share a **wave**, and the next one waits |
 | "Run these two at once" | *"do both"* — they never own the same file, decided at decomposition |
 | "Three people told me the same thing" | *"users say the transfer screen is confusing"* — filed as **triage, marked recalled**, not designed off memory |
@@ -116,7 +116,9 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "The session died and I lost the thread" | *"what did that run actually do?"* | the record was opened when the work opened and its checkpoint moved with it, so `committed · applied · remains` reads from the tree — **a run that writes only at the end leaves nothing to resume from** |
 | "We keep writing rules the day something breaks" | *"is this a lesson or a repair?"* | a repair lands now; a **lesson** waits a week between its dated field note and any promotion into the guide, because what survives the week is about the system and what evaporates was about that afternoon |
 | "It passed, then it failed, then it passed" | *"the answer will not hold still"* | the work stops at the **second** disagreement — the count is flips, not attempts — and what escalates is *the question is unstable, and here is what differed between the askings*, never *which run was right* |
-| "A new study says the opposite of one we rely on" | *"add this paper to the sources"* | the entry records what it **reads against**, and the commit is **refused** until every finding resting on the contested source is re-read — `Answered` re-stamped — or marked `stale`; a finding is read instead of its sources, so this is the only place the disagreement could reach it → `resources.md` |
+| "A new study says the opposite of one we rely on" | *"add this paper to the sources"* | the entry records what it **reads against**, and the commit is **refused** until every finding resting on the contested source is re-read — `Answered` re-stamped — or marked `stale`; a finding is read instead of its sources, so this is the only place the disagreement could reach it → [`resources.md`](resources.md) |
+| "Obsidian shows my project as a scatter of islands" | *"link the mentions"* | the ids and files the notes name in passing are counted by `link-ids.py`, and its `--write` turns them into links — **only on your word**; a task's heading, a run's `**Task**` row and the History logs stay as written, because readers parse them → [`project-layout.md`](project-layout.md) |
+| "I know we wrote it down — search can't find it" | *"find where we said the test keeps flipping"* | grep first; where the words differ and it keeps missing, **ck** is the opt-in — declared in `mise.toml` with its row like any tool, installed only on your word, and never run in a repository that is not yours, because its first index writes into the tree → [`resources.md`](resources.md) |
 | "Where did you get that?" | *"source?"* | named, with a date — or said plainly to be a judgement call |
 | "Was that price still true?" | *"check it"* | recorded facts carry check-dates and are re-verified before a decision |
 | "Just npm install it" | — | the commit is **refused** unless the decision log names the package, what it replaces and what was rejected. Every rung above it — already here · standard library · native · one line — is a judgement only the person choosing can make, and it takes them seconds |
@@ -139,7 +141,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "This one's prompt was never written down" | *"read it back into words"* | a vision model recovers a prompt that resembles the old one; you are told plainly it is **salvage, not the original** |
 | "Where does that video say it?" | *"get me the transcript"* | the caption track first, the audio transcribed only when there is none — nobody pays GPU time for words already written down |
 | "Turn this into a deck" | *"make the slides"* | markdown in the repo, so the deck diffs and reviews like everything else; a `.pptx` only when a person outside the repo must edit it |
-| "Being wrong here is expensive — don't just agree with me" | *"council this"* · *"прогони через совет"* | you hear the price **before** it runs — nine runs, not one — and what comes back leads with **the strongest dissent**, declaring `provider: one` when every voice was the same model → `consulting.md` §A council |
+| "Being wrong here is expensive — don't just agree with me" | *"council this"* · *"прогони через совет"* | you hear the price **before** it runs — nine runs, not one — and what comes back leads with **the strongest dissent**, declaring `provider: one` when every voice was the same model → [`consulting.md`](consulting.md) §A council |
 
 ## Money and control
 
@@ -195,4 +197,4 @@ is wrong** → `SKILL.md`.
 commands have their own place, and plain language reaches everything either way.
 
 **If a situation you hit is not here and the route was not obvious, that is a field note**, not a
-failure of memory → `self-maintenance.md`.
+failure of memory → [`self-maintenance.md`](self-maintenance.md).

@@ -49,7 +49,7 @@ direction-only**.
 A plausible figure arrives free, reads as research, and is quoted for a year — so the rule is not
 *get the number right*, which nobody can promise, but **make the number checkable**:
 `_ops/MARKET.md`, one line per figure, each carrying **where it came from and when**
-(`templates/MARKET-template.md`). The guard refuses a figure without both.
+([`templates/MARKET-template.md`](templates/MARKET-template.md)). The guard refuses a figure without both.
 
 **Three sizes, three different questions**, and confusing them is how a plan that looked funded
 turns out not to be. **TAM** is the ceiling if everyone who could ever want this bought it —
@@ -139,7 +139,7 @@ way) → **passive looking** (what caught the eye, unasked) → **active looking
 compared, and against what) → **deciding** (the moment, and what almost stopped it) →
 **consuming** (did the hire do the job). Each stage is asked as *what happened*, never as *what
 do you value* — the same discipline as the bias rule below: behaviour over self-description.
-The frame is a craft lens from the catalogue (`catalogue.md`), stocked here because interviews
+The frame is a craft lens from the catalogue ([`catalogue.md`](catalogue.md)), stocked here because interviews
 are where it earns most.
 
 ## Bias profiles — 2 to 4, each with its source

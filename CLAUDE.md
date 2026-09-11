@@ -13,16 +13,16 @@ this file exists to stop anyone re-deriving per session.
 1. **Change** — one home per rule; cite patterns, never restate; anchors are headings.
    When a rule does not hold, the repair is **a form, not a stronger sentence** (measured).
    **Any new capability meets the capability bar before it ships** — the four clauses of
-   `self-maintenance.md` §What-a-capability-owes: a form where it can fail · the mutation
+   [`self-maintenance.md`](self-maintenance.md) §What-a-capability-owes: a form where it can fail · the mutation
    test denying the mutant and passing the twin · the claim dated with its measurement ·
    the showcase trio. No exceptions for small ones — the sibling's ledger and ours both
    carry releases that looked finished without it.
 2. **Lenses** on anything of consequence — deletion · adversarial · contradiction ·
    cold-read, by a reader who did not write it, each reporting even when empty. **Then the round
    again over the repair they caused, before the tag** — the range still contains it — until a
-   round reports clean (`lenses.md` → *Running them*, which holds its input and its cost).
-3. **The showcase trio** for every new mechanic: a diagram · a situation (`use-cases.md`) ·
-   a fact (`facts.md`). Wording-only changes owe nothing — say so.
+   round reports clean ([`lenses.md`](lenses.md) → *Running them*, which holds its input and its cost).
+3. **The showcase trio** for every new mechanic: a diagram · a situation ([`use-cases.md`](use-cases.md)) ·
+   a fact ([`facts.md`](facts.md)). Wording-only changes owe nothing — say so.
 4. **Checks**: `bash scripts/preflight.sh` (runs every shipped test suite itself) ·
    `python3 scripts/check-links.py .` · `bash scripts/test-audit-gate.sh`. Green is evidence
    about the corpus, not about behaviour — behaviour is the eval suite's job.
@@ -80,7 +80,7 @@ this file exists to stop anyone re-deriving per session.
 **The tag waits for the developer — every release, its own word.** Everything before it —
 the entry, the bump, the checks — is preparation and may land in `main`; **the tag, the
 GitHub Release, the site push and the machine re-sync are cut only after an explicit yes**,
-and an earlier yes does not roll forward to the next version. This is `shipping.md`'s own
+and an earlier yes does not roll forward to the next version. This is [`shipping.md`](shipping.md)'s own
 law — *deploy and announce are outward, owner-confirmed every time* — applied to the one
 repository where it is easiest to forget.
 
@@ -190,7 +190,7 @@ nothing accumulates outside versions.
 
 - Eval clean-room: homes under the session scratchpad need their **own** keychain entries
   (`Claude Code-credentials-<sha256(home)[:8]>`) and their own logins for long rounds —
-  copied tokens lose the refresh race. Details and traps: `evals/RUNS.md`.
+  copied tokens lose the refresh race. Details and traps: [`evals/RUNS.md`](evals/RUNS.md).
 - BSD `find -delete` on the `/tmp` symlink is a silent no-op — resolve the physical path.
 - Hook enforcement is a form × path × version matrix — never narrate a probe, stamp it. On 2.1.220 (mechanical, 2026-08-08): plugin hooks fire under `-p`; **exit-2 denies enforce from the plugin**, the `permissionDecision` JSON form is ignored there and honored from `settings.json`. The 2026-08-07 "plugin hooks don't fire under -p" held on the older CLI — date every such claim.
 - Lenses run in worktree isolation, and the tree is checked clean before any tag — `--disallowedTools` does not see a shell redirect (the sibling's read-only lens wrote 15 MB).

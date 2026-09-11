@@ -388,6 +388,19 @@ else
   grep 'FAIL:' /tmp/pf-links | while read -r l; do say_fail "$l"; done; FAIL=1
 fi
 
+# 7b · a name is an edge only when it is a link. Measured 2026-09-11: 88 links against 1,340
+#      backticked names, so Obsidian's graph and the check above saw about 6% of what the corpus
+#      cites. `link-names.py --write` converted them once; this keeps a new chapter from starting
+#      the drift again. The fix is mechanical, so the refusal says the one command that makes it.
+if [ -f scripts/link-names.py ]; then
+  _ln=$(python3 scripts/link-names.py 2>&1); _lnc=$?
+  if [ "$_lnc" -ne 0 ]; then
+    say_fail "$(printf '%s\n' "$_ln" | tail -1) — first: $(printf '%s\n' "$_ln" | head -1)"
+  else
+    say_ok "every backticked name of a file in this tree is a link"
+  fi
+fi
+
 # 8 · recorded facts are not past their recheck
 python3 scripts/check-freshness.py >/tmp/pf-fresh 2>&1
 if grep -q '^0 FAIL' /tmp/pf-fresh; then

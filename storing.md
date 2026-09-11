@@ -12,7 +12,7 @@ switch those off with them. Nothing here removes a capability; it decides a dest
 ## Six layers, ordered by what they mean to someone without agents
 
 **A message from outside the team is stored once, verbatim, dated** — `_ops/threads/`, one
-file per counterpart (`templates/THREAD-template.md`). Tasks link to it and never re-quote it:
+file per counterpart ([`templates/THREAD-template.md`](templates/THREAD-template.md)). Tasks link to it and never re-quote it:
 measured on a live project, one inbound letter had five copies across two tasks, a roadmap, a
 decision log and a research note, and not one of them said when it arrived.
 
@@ -25,16 +25,16 @@ decision log and a research note, and not one of them said when it arrived.
 | 5 | **telemetry** | runs, cost, the evidence trail | none |
 | 6 | **results** | the thing the work produced | it *is* the product |
 
-**The setting is a cut point on that ladder, not six switches** (`PATTERNS.md` §25)**.** Everything above the line goes to
+**The setting is a cut point on that ladder, not six switches** ([`PATTERNS.md`](PATTERNS.md) §25)**.** Everything above the line goes to
 the repository, everything below stays with you. One position to state, one to change, and the
 common answer is a nod.
 
 **Layer 6 is different in kind.** Layers 1–5 describe the work; layer 6 *is* the work — a video, a
 design file, an article, a batch. **Its destination is dictated by the nature of the artifact, not
 by preference**: a 4 GB render does not go in git, a design file lives where it is edited. What
-lands in the repository is a pointer note with a snapshot and a distillate → `resources.md`. **A
+lands in the repository is a pointer note with a snapshot and a distillate → [`resources.md`](resources.md). **A
 definition of done may therefore name something outside git**, and the release checks that the
-referent still exists → `shipping.md`.
+referent still exists → [`shipping.md`](shipping.md).
 
 ---
 
@@ -162,7 +162,7 @@ is where such artefacts wait between projects — a shelf, not a runtime.
 **It is always complete, and completeness is not authority.** Every layer is present locally so
 the graph resolves, search answers, and a migration needs no interrogation. **Who is canonical is
 declared once per connection and does not move** — a source of truth that changes owner over time
-is the reliable way to produce a conflict nobody can adjudicate → `drift.md`.
+is the reliable way to produce a conflict nobody can adjudicate → [`drift.md`](drift.md).
 
 **The key is not the identity.** A record holds a generated id and an **append-only list of every
 key it has carried** — a normalised remote (host and path, without protocol, credentials or
@@ -172,7 +172,7 @@ it freely, lookup reads content.
 
 **Treat the store like terminal history, because that is what it is.** It holds threads,
 decisions, what things cost and whatever was quoted into a task — business context, third-party
-names, sometimes a customer's words. **No secret values live there** (`permissions.md`), but the
+names, sometimes a customer's words. **No secret values live there** ([`permissions.md`](permissions.md)), but the
 contents are still the project's private material sitting in a home directory that nothing
 protects by default. **Say that once when the store is created**, and treat a request to hand it
 to someone as `outward`, because it is.
@@ -182,10 +182,10 @@ machine, not a repository. Offering to push it is a one-time, explicit offer, ne
 
 **The link graph beside it is a cache, and is treated like one.** It answers *what points at
 this* fast enough to be worth having, and a generated code index can sit next to it for the same
-reason → `catalogue.md`. **Delete it and it rebuilds by rescanning; nothing is lost but time.**
+reason → [`catalogue.md`](catalogue.md). **Delete it and it rebuilds by rescanning; nothing is lost but time.**
 So it is never committed and **never the authority for a reference** — a link that only resolves
 because the cache remembered it is a link that breaks on a clean machine, which is exactly what
-the cut is supposed to survive (`cost.md` draws this same line for rollups).
+the cut is supposed to survive ([`cost.md`](cost.md) draws this same line for rollups).
 
 ---
 
@@ -216,7 +216,7 @@ to linking.
 is a judgement, not a pattern; a checker firing on every bare link would be bypassed within a
 week. What *is* enforced is one rung down: **the manifest must exist whenever the layers are
 split**, so what is missing from a clone is always discoverable. The four lenses are the
-compensating control for the rest → `lenses.md`.
+compensating control for the rest → [`lenses.md`](lenses.md).
 
 ---
 
@@ -232,7 +232,7 @@ Storage earns layer 6 and heavy attachments.
 **Telemetry is usually local only**, and that is fine as long as it is declared.
 
 **One deep connection beats five shallow ones.** A one-time import needs no adapter at all — an
-export and the method carry it, and the source can be anything → `importing.md`. A standing
+export and the method carry it, and the source can be anything → [`importing.md`](importing.md). A standing
 arrangement needs a live connection, and that is where the list stays short. **Before building
 anything, inventory what the runtime already has connected** rather than assuming it has nothing.
 
@@ -242,10 +242,10 @@ anything, inventory what the runtime already has connected** rather than assumin
 
 **Four directions, and no new gates:** into the repository is `outward` · out of it is
 `destructive`, because files leave a tracked place · to another repository is `outward` · deletion
-is `destructive` → `permissions.md`.
+is `destructive` → [`permissions.md`](permissions.md).
 
 **A safety copy taken before any of these is finished, not abandoned** — removed on success,
-restored from and then removed on failure, and the owner told either way → `upgrading.md`.
+restored from and then removed on failure, and the owner told either way → [`upgrading.md`](upgrading.md).
 
 **Deletion of a store record differs in kind, not in volume.** That directory is a git repository
 that was never pushed, so `rm -rf` destroys history that exists nowhere else — unlike deleting

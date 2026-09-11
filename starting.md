@@ -12,7 +12,7 @@ assembled around a guess.
 **This is the first question and the one with the sharpest edge**, because getting it wrong
 touches something that is not ours.
 
-**One is read, the rest are proposed** (`PATTERNS.md` §26) — asking all three in a row is how a
+**One is read, the rest are proposed** ([`PATTERNS.md`](PATTERNS.md) §26) — asking all three in a row is how a
 first contact turns into an interrogation:
 
 1. **Does a repository already exist?** **Read it, do not ask it.** If one is here, use it — do
@@ -67,7 +67,7 @@ arriving earlier.
 
 **What shaping does not produce is a roster.** It produces understanding: what is hard, what the
 surfaces are, what the first tasks are. **Roles are still hired one at a time, when a task needs a
-craft nobody has** → `hiring.md`. A team proposed at the end of shaping would be the batch hire
+craft nobody has** → [`hiring.md`](hiring.md). A team proposed at the end of shaping would be the batch hire
 this system exists to avoid — and the understanding is what makes the first hires obvious rather
 than speculative.
 
@@ -76,7 +76,7 @@ than speculative.
 ## The interview
 
 **Waves of three or four, each with its default visible**, and the next only after the previous is
-answered → `arriving.md`.
+answered → [`arriving.md`](arriving.md).
 
 **Two hard gates, never skipped: control & expertise, and governance.**
 
@@ -90,9 +90,9 @@ answered → `arriving.md`.
 | **stage ladder** | build → review → accept, with design in front where design precedes build, and **parallel gates inside review** |
 | **capability and cost** | **the tier is model × effort, asked together and in outcome terms** — stronger, medium, light — because **a cheaper model at high effort often beats a dearer one at default**. Presented as a prompt, never a menu: a free answer wins |
 | **what you already use** | **asked outright, before anything is proposed** — skills, servers, tools. Discovering them on day three means the team was built around a worse choice. Each goes through the import gate |
-| **integrations** | inventory first, connect-or-create per service → `tooling.md` |
-| **how documentation is written** | markdown, **laid out to open as a vault** — relative links and diagrams, readable both on the host and locally. *Where* it lands is the storage form, asked before the first lasting write → `storing.md` |
-| **how work gets described** — **asked only when the deliverable is code or a long-lived system**, skipped everywhere else | **the floor**: a task states its result and its definition of done. **The question is where to cut the ladder**, offered in one question with its consequence, never as a menu of names — a document the task points at and closing updates, **a checkable artefact written first** — a failing test, a golden sample — with a format the project already runs **bound** rather than invented, and the stocked options named → `writing-work.md`, `catalogue.md`. **Asked rather than defaulted because it decides what every task looks like**, and a project that answers it on day ninety rewrites every task it has written. **Each type refines the cut at its own wave** → `pipelines.md` |
+| **integrations** | inventory first, connect-or-create per service → [`tooling.md`](tooling.md) |
+| **how documentation is written** | markdown, **laid out to open as a vault** — relative links and diagrams, readable both on the host and locally. *Where* it lands is the storage form, asked before the first lasting write → [`storing.md`](storing.md) |
+| **how work gets described** — **asked only when the deliverable is code or a long-lived system**, skipped everywhere else | **the floor**: a task states its result and its definition of done. **The question is where to cut the ladder**, offered in one question with its consequence, never as a menu of names — a document the task points at and closing updates, **a checkable artefact written first** — a failing test, a golden sample — with a format the project already runs **bound** rather than invented, and the stocked options named → [`writing-work.md`](writing-work.md), [`catalogue.md`](catalogue.md). **Asked rather than defaulted because it decides what every task looks like**, and a project that answers it on day ninety rewrites every task it has written. **Each type refines the cut at its own wave** → [`pipelines.md`](pipelines.md) |
 | **modules** | everything beyond the invariants is off until asked for |
 | **language** | conversation language and artifact language, **which may differ on purpose** |
 
@@ -116,8 +116,8 @@ measured.**
 | Created now | Why it cannot wait |
 |---|---|
 | **the project guide**, generated into the root instruction file | every worker loads it natively; without it nothing that follows is read |
-| **`_ops/config.md`** — the git-host adapter, `schema_version`, and **the migration log opened with its first line** (`— → <version> · <date> · applied · <who>`) | a project born without the log reads forever as one that was never migrated → `upgrading.md` |
-| **the pre-commit guard, with the doors beside it** — the guard from `templates/company-preflight.sh`, the doors from the skill's `scripts/transition.py` and `scripts/new-id.py`, all three into `_ops/scripts/` | it is what makes every other check real — and its §14 refusal **names the door**, so installing the refusal without the door strands the very next commit → `project-layout.md` |
+| **`_ops/config.md`** — the git-host adapter, `schema_version`, and **the migration log opened with its first line** (`— → <version> · <date> · applied · <who>`) | a project born without the log reads forever as one that was never migrated → [`upgrading.md`](upgrading.md) |
+| **the pre-commit guard, with the doors beside it** — the guard from `templates/company-preflight.sh`, the doors from the skill's `scripts/transition.py` and `scripts/new-id.py`, all three into `_ops/scripts/` | it is what makes every other check real — and its §14 refusal **names the door**, so installing the refusal without the door strands the very next commit → [`project-layout.md`](project-layout.md) |
 | **branch protection where a remote exists** | a review gate without it is a sentence, not a gate |
 
 **And the first task — which comes *before* the rest of the machinery, not after it — with its type's file and ladder**, because the type proposes the task's fields at its birth and the ladder is what the door reads.
@@ -151,4 +151,4 @@ enough to leave alone.
 
 That is not an aspiration — **it is testable**, and it is the first eval scenario for exactly that
 reason: every setting this system has added since its predecessor pushes against it, and the test
-is what keeps the pressure visible → `evals/new-scenarios.md`.
+is what keeps the pressure visible → [`evals/new-scenarios.md`](evals/new-scenarios.md).

@@ -1,6 +1,6 @@
 # Installing
 
-One repository, one skill, several runtimes. The corpus lives at **`skills/advisor/SKILL.md`**
+One repository, one skill, several runtimes. The corpus lives at **[`skills/advisor/SKILL.md`](skills/advisor/SKILL.md)**
 with one folder per verb beside it (`skills/init/`, `skills/ship/`…) — the layout Claude Code
 specifies, where **the folder name becomes the command**: `skills/init/` is `/opsinist:init`.
 The chapters sit at the repository root and the manifests around them, so the same directory
@@ -15,8 +15,8 @@ freshness law — past its recheck a row is a claim to re-verify, not a fact.
 | Kimi Code CLI | `.kimi-plugin/plugin.json` — **which manifest path Kimi reads is unverified** | **2026-07-31 · partly measured**: the command is `kimi plugin install`, and `kimi plugin` is **absent from 0.14.2** here; syntax cited from moonshotai.github.io/kimi-cli |
 | Gemini CLI | `gemini-extension.json` + `GEMINI.md` | **2026-07-31 · measured end to end** — at 0.1.1, resolved **from the GitHub release** (`v0.1.1`). **`extensions update` reported "already up to date" while sitting at 0.1.0**: this route follows *releases*, and a pushed tag is not one. Publishing the release, then uninstall and reinstall, moved it — the install prompt is interactive and needs `--consent` in a non-interactive shell |
 | OpenCode | `package.json` + `.opencode/plugins/` — or the shared skills path | 2026-07-30 · cited from opencode.ai/docs/skills |
-| OpenClaw | a symlink or copy in `~/.openclaw/skills/` (targeting `skills/advisor` works — chapter resolution canonicalises the link) | **2026-08-06 · measured live** — `skills list` carries the description, and an embedded agent turn opened `entering.md` through the symlinked install and quoted its heading verbatim. The richest host profile seen so far: **cron, agent hooks and a resident gateway**, which makes it the first candidate to actually *hold* schedule and webhook triggers |
-| Hermes Agent | `skills.external_dirs` in `~/.hermes/config.yaml` pointing at the package's `skills/` directory | **2026-08-06 · measured live** — a headless `-z` turn opened `entering.md` through the mounted path and quoted its heading verbatim; the mount does not fence `../../` — which is precisely what lets the mounted `skills/` reach the chapters at the package root, so it is the feature this install relies on, not a hole to close. Ships **cron, webhook, hooks and secret sources (Bitwarden · 1Password)** — the second resident host, and the one whose secrets machinery matches `security.md`'s landing-place protocol |
+| OpenClaw | a symlink or copy in `~/.openclaw/skills/` (targeting `skills/advisor` works — chapter resolution canonicalises the link) | **2026-08-06 · measured live** — `skills list` carries the description, and an embedded agent turn opened [`entering.md`](entering.md) through the symlinked install and quoted its heading verbatim. The richest host profile seen so far: **cron, agent hooks and a resident gateway**, which makes it the first candidate to actually *hold* schedule and webhook triggers |
+| Hermes Agent | `skills.external_dirs` in `~/.hermes/config.yaml` pointing at the package's `skills/` directory | **2026-08-06 · measured live** — a headless `-z` turn opened [`entering.md`](entering.md) through the mounted path and quoted its heading verbatim; the mount does not fence `../../` — which is precisely what lets the mounted `skills/` reach the chapters at the package root, so it is the feature this install relies on, not a hole to close. Ships **cron, webhook, hooks and secret sources (Bitwarden · 1Password)** — the second resident host, and the one whose secrets machinery matches [`security.md`](security.md)'s landing-place protocol |
 | Cursor | `.cursor-plugin/plugin.json` | 2026-07-30 · not yet run here |
 | Factory Droid · GitHub Copilot CLI | `.claude-plugin/marketplace.json` (Claude-compatible) | 2026-07-30 · not yet run here |
 | Pi | `package.json` (`pi` field) + `.pi/extensions/` | 2026-07-30 · not yet run here |
@@ -265,7 +265,7 @@ under `agent.personalities` and switch with `/personality`.
 npx skills add jamillazarev/opsinist
 ```
 
-**Measured 2026-07-31**: the installer finds `skills/advisor/SKILL.md` inside this repository —
+**Measured 2026-07-31**: the installer finds [`skills/advisor/SKILL.md`](skills/advisor/SKILL.md) inside this repository —
 the corpus does **not** need to sit at the repo root — lands it in **`~/.agents/skills/opsinist`**,
 and symlinks it into every harness that reads its own path. **Run it from your home directory
 unless you mean a project-scoped install**: from inside a project it writes
@@ -273,7 +273,7 @@ unless you mean a project-scoped install**: from inside a project it writes
 
 Some thirty tools read the Agent Skills standard directly — point them at
 `skills/advisor/`. CrewAI: `Agent(skills=[Path(".")])`. The capabilities differ per runtime even
-when installation succeeds — `runtimes.md` is the map of what degrades
+when installation succeeds — [`runtimes.md`](runtimes.md) is the map of what degrades
 where.
 
 ---
@@ -282,7 +282,7 @@ where.
 
 **There is no single command, and assuming there is one is how a runtime sits on an old version
 while reporting itself current.** The choice made above decides how it updates. Measured end to
-end on `2026-07-31`, and the flow that uses this table is `upgrading.md` — **updating moves the
+end on `2026-07-31`, and the flow that uses this table is [`upgrading.md`](upgrading.md) — **updating moves the
 bytes; upgrading moves the project.**
 
 | Installed as | What moves it | The trap |

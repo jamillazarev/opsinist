@@ -4,7 +4,7 @@ You have landed in the skill's own repository. **Start at [SKILL.md](skills/advi
 about changing *this*, not about using it.
 
 **This repository is a project like any other, and its machinery is this skill.** So everything in
-`self-maintenance.md` applies here unchanged: a change to the machinery is a task, it carries full
+[`self-maintenance.md`](self-maintenance.md) applies here unchanged: a change to the machinery is a task, it carries full
 history however small, and **it is never self-merged**.
 
 ---
@@ -24,6 +24,12 @@ exists.
 **An anchor must be a heading.** A reference to a bold line or a table row is invisible to tooling
 and dies silently the first time the section is reorganised — the link checker cannot see it, and
 neither will you.
+
+**A file named in prose is a link, not a backticked name.** The link is the edge GitHub, Obsidian's
+graph and the link checker can all see; a name is an edge only a reader infers, and a rename
+leaves it pointing at nothing. `scripts/link-names.py --write` makes the links and preflight §7b
+refuses the drift. The names a project also carries — `CLAUDE.md`, `LATER.md` and the rest — stay
+names, because in prose they usually mean the project's own file.
 
 ---
 
@@ -127,7 +133,7 @@ fix the checker rather than learning to ignore it.
 
 **The tag is cut on the developer's word, never on momentum.** Prepare everything — the
 entry, the sweep, the checks — then stop: the tag, the Release, the site and the install
-re-sync follow an explicit yes for **this** version. `shipping.md`'s outward law, applied
+re-sync follow an explicit yes for **this** version. [`shipping.md`](shipping.md)'s outward law, applied
 to this repository itself.
 
 **Before the tag, ask what this session learned about the machine — and write it then.** A note
@@ -144,7 +150,7 @@ notes rather than remembered.
 **Before the tag: the manifest sweep.** Seven files carry the version and one bump has already
 missed three of them — `scripts/preflight.sh` now compares them against the SKILL.md line and
 fails on a straggler, and the ritual's own step is simply: run it, read it, then tag. The
-notes of the release are the changelog entry whole (`shipping.md`) — **with the entry's own
+notes of the release are the changelog entry whole ([`shipping.md`](shipping.md)) — **with the entry's own
 heading collapsed to the bare date**, because the release title already carries the version
 and the name, and a heading repeated under itself is the first thing every reader scrolls
 past.
@@ -191,9 +197,9 @@ report, not a gate — it needs the network and `gh`, and preflight runs offline
 
 **The showcase trio answers for every new mechanic — by name, before the tag.** A capability
 that landed in the corpus asks three questions nothing automates: does **a diagram** show it
-beside the rule it draws — `diagrams.md` holds only what crosses several rules · does **a
-situation** say what an owner would say to reach it (`use-cases.md`) · does **a fact** state it
-in one true sentence (`facts.md`)? **A showcase total is guarded wherever one is written** —
+beside the rule it draws — [`diagrams.md`](diagrams.md) holds only what crosses several rules · does **a
+situation** say what an owner would say to reach it ([`use-cases.md`](use-cases.md)) · does **a fact** state it
+in one true sentence ([`facts.md`](facts.md))? **A showcase total is guarded wherever one is written** —
 a count that drifts is reported as a warning, never a failure (`preflight.sh` §10 renders all of
 `check-structure`'s output as warnings) — **but the trio's own counts are deltas, and are not**:
 an entry's `**Trio:**` line says what that release added, which no corpus total can confirm, so the

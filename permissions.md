@@ -5,7 +5,7 @@ the team; or the owner is setting how much they want to be asked.
 
 Two different questions share the word *escalation*. **This file is the first:** when work stops
 and asks. It is **configured** and it **cascades**. The second — where a stuck agent goes — is a
-chain, not a setting → `escalating.md`.
+chain, not a setting → [`escalating.md`](escalating.md).
 
 ---
 
@@ -90,7 +90,7 @@ they have done lately. A role with a perfect year still asks before it spends.
 
 **The right to spawn helpers rides this ladder too — never a switch set at birth.** The default is
 open, because reads are cheap and the tier law already keeps helpers below the parent
-(`dispatching.md`); what the ladder moves is **breadth**: a role whose helpers keep producing
+([`dispatching.md`](dispatching.md)); what the ladder moves is **breadth**: a role whose helpers keep producing
 nothing the run used gets its spawning tightened — a tier cap, or ask-first — **with the ledger
 lines as the evidence**, and can earn it back the same way. A static allow/deny flag answers the
 wrong question: the failure mode is not *that* a role delegates, it is what the delegation has
@@ -106,7 +106,7 @@ work — nothing (the owner does), the previous one finishing, or a schedule —
 mode and parallelism are the others. Keeping them in one place is what prevents the state where
 two settings both claim to decide the same thing.
 
-**A change applies at the next boundary, never mid-flight** (`PATTERNS.md` §10). Work in progress
+**A change applies at the next boundary, never mid-flight** ([`PATTERNS.md`](PATTERNS.md) §10). Work in progress
 finishes under the settings it started with. There is **no way to halt a running isolated agent
 short of the harness**, and saying so is more useful than implying a dial has instant reach.
 
@@ -152,7 +152,7 @@ does.
 
 **Two dials compose into how the owner works here, and there is no list of modes.** `flow` says
 **who plans** — the advisor, or them. The sign-off map says **who accepts**. Add that they may
-also hold an assignment themselves (`hiring.md`) and every arrangement people ask for is a
+also hold an assignment themselves ([`hiring.md`](hiring.md)) and every arrangement people ask for is a
 combination: agents work while they consult · they direct and accept · they take part of the work
 and an agent reviews it. **An enumeration would need extending the first time someone wants a
 pairing nobody listed**, and each of these already resolves through the cascade, so it changes
@@ -162,14 +162,14 @@ mid-project like any other setting rather than being chosen once at the start.
 
 ## A rule instructs; only a gate constrains
 
-Every gate declares what actually holds it (`PATTERNS.md` §16):
+Every gate declares what actually holds it ([`PATTERNS.md`](PATTERNS.md) §16):
 
 | `enforced_by` | Means | Example |
 |---|---|---|
 | `request` | a person must answer before it proceeds | the four kinds; a review |
 | `validator` | a script refuses | duplicate ids; a stage not in the pipeline; a dangling link |
 | `git-host` | branch protection, required reviews | merge to the default branch |
-| `harness` | the runtime refuses | a tool absent from the role's allowlist; a turn cap. **The only row that is not portable** — it resolves per runtime and is recorded on the run → `runtimes.md` |
+| `harness` | the runtime refuses | a tool absent from the role's allowlist; a turn cap. **The only row that is not portable** — it resolves per runtime and is recorded on the run → [`runtimes.md`](runtimes.md) |
 | `prose-only` | **nothing enforces it** | see below |
 
 **A blocker is cleared by evidence or by the owner — never by the run that is blocked.** Finding
@@ -185,20 +185,20 @@ confidence. So the `prose-only` list is written out by name rather than left imp
 
 - read the file before acting on its subject
 - ~~three attempts on one point escalates~~ — **structural since 0.2.7**: the run record
-  carries `attempt`, and a third attempt naming no escalation is refused (`escalating.md`)
+  carries `attempt`, and a third attempt naming no escalation is refused ([`escalating.md`](escalating.md))
 - **a council's synthesis declares `angles · voices · provider`** — a consultation leaves no
   artifact, so no gate can read the declaration; named here rather than believed in
-  (`consulting.md` §A council, and the two owed bar clauses in `LATER.md`)
+  ([`consulting.md`](consulting.md) §A council, and the two owed bar clauses in `LATER.md`)
 - report the trend, not the level — **partly structural now**: the budget carries a *rate vs the
   previous read* column and a *runs out* column, so a level quoted alone leaves visible blanks
-  (`templates/BUDGET-template.md`). Prose wherever a number is reported outside that file
+  ([`templates/BUDGET-template.md`](templates/BUDGET-template.md)). Prose wherever a number is reported outside that file
 - small stays small
 - a type's fields are the few its craft's standard names — the landing is owner-gated, the fewness is not
 - an argument without a source is an opinion
 - speak the domain's own language
 - mention only those whose answer changes something
 - the rung travels with the claim — **partly structural now**: a decision records its basis as its
-  own labelled field with the tier named (`templates/DECISIONS-template.md`), because measured
+  own labelled field with the tier named ([`templates/DECISIONS-template.md`](templates/DECISIONS-template.md)), because measured
   three times, a qualifier living inside a sentence was dropped first by summarising. **Prose
   everywhere else a claim is repeated**
 - **look inward before searching outward** — nothing can tell that a register went unread.
@@ -214,7 +214,7 @@ confidence. So the `prose-only` list is written out by name rather than left imp
 - **the graph cache is never the authority for a reference**
 - **an id resolves to a file, never to a task service** — nothing can stop a run reaching for a
   harness's own task tools instead of the tree, and where those tools exist the names collide.
-  Measured 2 of 5 (`writing-work.md`, `runtimes.md`); **the repair is a hypothesis, not a fix**,
+  Measured 2 of 5 ([`writing-work.md`](writing-work.md), [`runtimes.md`](runtimes.md)); **the repair is a hypothesis, not a fix**,
   and it is written here rather than counted as one
 - **a spend cap, in the half that stays prose** — **nothing halts a run in flight**, and on a
   subscription the authoritative figure is the harness's rather than ours. **The other half is a
@@ -224,14 +224,14 @@ confidence. So the `prose-only` list is written out by name rather than left imp
   entirely while reading as a gate, which is precisely what the list is for
 - **a tool allowlist, wherever the runtime does not enforce one** — the same line reads `harness`
   in one place and belongs on this list in another, which is why it is resolved per runtime and
-  recorded on the run rather than written once → `runtimes.md`
+  recorded on the run rather than written once → [`runtimes.md`](runtimes.md)
 - **a price was fetched rather than recalled** — the *recording* is enforceable (a validator sees
   whether price · currency · date · source are all there) but **the fetching is not**: a run that
   quoted a remembered figure and wrote "checked just now" is indistinguishable, from the outside,
   from one that looked. Found by an eval that could not tell the two apart
 
 These are **rules, and they are honest about being rules**. The compensating control for all of
-them is the four lenses, read by someone who is not the author → `lenses.md`. That is the whole
+them is the four lenses, read by someone who is not the author → [`lenses.md`](lenses.md). That is the whole
 reason it is acceptable to write `prose-only` at all.
 
 > [!IMPORTANT]
@@ -241,10 +241,10 @@ reason it is acceptable to write `prose-only` at all.
 > hand, deterministically), never spoke once. **The gate was not weak; it guards a moment the work
 > never arrived at.** Every `validator` row below inherits that limit, and it is the sharpest thing
 > known about this column: `enforced_by: validator` means *enforced at the commit*, and work that
-> stops short of one is governed by prose alone → `evals/RUNS.md`, `recovering.md`.
+> stops short of one is governed by prose alone → [`evals/RUNS.md`](evals/RUNS.md), [`recovering.md`](recovering.md).
 >
 > The practical consequence is not to distrust validators — it is that **a unit of work ending in a
-> commit is what makes them real**, which the corpus states in `recovering.md` and which the same
+> commit is what makes them real**, which the corpus states in [`recovering.md`](recovering.md) and which the same
 > round measured at 0 of 10. A rule this load-bearing sitting at zero is the finding, not a footnote.
 
 **Five became `validator` on `2026-07-31` — and only where the preflight is actually wired.**
@@ -264,7 +264,7 @@ register with no receipt, file or URL behind it fails the commit.
 **Transitions became `validator` on `2026-08-06` — same condition.** A stage change has one
 door, `_ops/scripts/transition.py`, which reads the same yaml block a person reads and refuses an
 illegal move with the reason — the gate kinds and the door's behaviour live in one home →
-`pipelines.md`. **The preflight holds the bypass**: a staged stage change with no transition
+[`pipelines.md`](pipelines.md). **The preflight holds the bypass**: a staged stage change with no transition
 line in the same diff fails the commit. A gate written only as prose still reads, and the door
 says so — *prose-only, nothing holds this one* — rather than pretending.
 
@@ -274,10 +274,10 @@ says so — *prose-only, nothing holds this one* — rather than pretending.
 Ship the skill alone and those five are **back on this list**, unenforced, in every project where
 nobody ran that step. **A rule whose gate lives in a file somebody still has to install is
 `prose-only` until they do**, and saying otherwise would be the exact failure this section exists
-to name. Standing a project up therefore includes wiring it → `project-layout.md`.
+to name. Standing a project up therefore includes wiring it → [`project-layout.md`](project-layout.md).
 
 **None of the five was fixed by writing the rule more clearly** — each had been stated correctly
-for a long time. → `self-maintenance.md`, *when another sentence will not fix it*
+for a long time. → [`self-maintenance.md`](self-maintenance.md), *when another sentence will not fix it*
 
 **Where a gate can become real, it should.** Branch protection is why merge is not forbidden by a
 sentence. A tool allowlist is why a copywriter cannot delete files. A validator is why two

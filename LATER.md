@@ -13,15 +13,15 @@ work now, which is a task with a blocker instead.
 ## ~~`diagrams.md` is at its budget~~ — answered 2026-09-06: beside the rule, not in a gallery
 
 **Measured 2026-08-15**: the file stood at **499 of a 500-line chapter budget** while
-`self-maintenance.md` §What-a-capability-owes requires a diagram for every new mechanic — two rules
-meeting at the next one. The question was never where a diagram goes but **whether `diagrams.md` is
+[`self-maintenance.md`](self-maintenance.md) §What-a-capability-owes requires a diagram for every new mechanic — two rules
+meeting at the next one. The question was never where a diagram goes but **whether [`diagrams.md`](diagrams.md) is
 a chapter or an index.**
 
 **Answered 2026-09-06, by use rather than argument.** Two releases running put their diagrams beside
-the rules they draw — the contradiction stop's in `escalating.md`, the cost one in `cost.md` — and
+the rules they draw — the contradiction stop's in [`escalating.md`](escalating.md), the cost one in [`cost.md`](cost.md) — and
 twice in one session a repair owed none and said so instead of manufacturing one. **The gallery
 reading was the collision course, not the budget**: a file holding every diagram meets 500 at each
-new mechanic; one holding only what crosses several rules does not. `self-maintenance.md` §4 now
+new mechanic; one holding only what crosses several rules does not. [`self-maintenance.md`](self-maintenance.md) §4 now
 says so, and the file sits at 500 of 500 and stays there.
 
 ## ~~Measure what the day-one cut actually bought~~ — run 2026-08-01, partly falsified
@@ -29,8 +29,8 @@ says so, and the file sits at 500 of 500 and stays there.
 **Closed by measurement, and the verdict is split.** The **ordering** claim confirmed: the first
 task is now written second, before every document, where it used to arrive after the scaffolding.
 The **volume** and **time** claims **falsified** against criteria written before the run and kept
-in `evals/RUNS.md`: still ten to thirteen files, and turn two still at four hundred seconds against a stated
-threshold of three hundred. `evals/RUNS.md` carries the table.
+in [`evals/RUNS.md`](evals/RUNS.md): still ten to thirteen files, and turn two still at four hundred seconds against a stated
+threshold of three hundred. [`evals/RUNS.md`](evals/RUNS.md) carries the table.
 
 **What it taught, and the next thing to try:** the gate could see *order* and enforced it; it
 cannot see *emptiness*, so once the task exists every document passes. **The corpus says day one
@@ -42,7 +42,7 @@ heading**, which the 2026-09-06 audit read past. Its form question is the *Nothi
 whether a DOCUMENT works* entry, which asks the same thing.
 
 **The criteria that made the verdict possible** — written before the run, kept whole because
-criteria written after a result are not criteria — are in `evals/RUNS.md` under *the day-one cut*.
+criteria written after a result are not criteria — are in [`evals/RUNS.md`](evals/RUNS.md) under *the day-one cut*.
 They were held here until 2026-09-07; they are evidence, and the entry itself said *"It is not open
 work."*
 
@@ -52,7 +52,7 @@ work."*
 
 **Deferred because** the data half landed on 2026-08-06 — the spec's `Opportunity` field names
 the need and cites its insight, so every new spec feeds the tree — and only the generator
-remains: mermaid between markers (`PATTERNS.md` §6, same shape as `touched by:`), a day of
+remains: mermaid between markers ([`PATTERNS.md`](PATTERNS.md) §6, same shape as `touched by:`), a day of
 work with no requester yet. A view nobody reads is furniture; the field is not, because a
 solution with no opportunity above it now fails a read even without the picture.
 
@@ -128,7 +128,7 @@ ages past its threshold unseen in a real project — that is the moment the need
 
 ## A market-recon distillate template for `research/`
 
-**The folder exists with no named shape** (`project-layout.md` — "studies and their
+**The folder exists with no named shape** ([`project-layout.md`](project-layout.md) — "studies and their
 distillates"), and a live project's recon produced clean per-study documents with nowhere agreed
 to converge. The substance worth keeping from the 2026-08-14 gap analysis: analogs land in the
 competitor register (now with stage/outcome) · what-to-borrow and risks-and-failures as
@@ -178,7 +178,7 @@ than repeat it louder.
 
 ## The repair exemption is judgement, and the test that would replace it has not paid its price
 
-**Named 2026-09-07, the day it was written and taken back out.** `self-maintenance.md` §4 says a
+**Named 2026-09-07, the day it was written and taken back out.** [`self-maintenance.md`](self-maintenance.md) §4 says a
 repair owes only the fact, not the diagram and not the situation. **Nothing decides what a repair
 is** — clauses 1–3 of the bar name artifacts a script can find; this one is answered by a sentence
 in the changelog, written by the person who wants the answer, and it was claimed twice in one
@@ -188,7 +188,7 @@ session before anything checked it.
 is a new mechanic and owes the trio; a change that only alters what an existing form reads is a
 repair.* Read off the diff, not off the author's account.
 
-**Why it did not ship the day it was written.** `self-maintenance.md`'s promotion ladder puts a rule
+**Why it did not ship the day it was written.** [`self-maintenance.md`](self-maintenance.md)'s promotion ladder puts a rule
 at rung 3 and charges **a week between the first dated line and the promotion, and it still
 reproduces**; this was conceived and written into a standing chapter in one sitting, which is that
 section's own dotted branch — *promoted the same day* → *a rule that was true once, on one machine,
@@ -214,7 +214,7 @@ idea three times in one commit, which is one occasion.
 
 ## The two capability bars have diverged, and neither repository says so
 
-**Named 2026-09-07** by a lens asked to compare them. `self-maintenance.md`'s bar and the sibling's
+**Named 2026-09-07** by a lens asked to compare them. [`self-maintenance.md`](self-maintenance.md)'s bar and the sibling's
 `AGENTS.md` bar agree on clauses 1 and 2 — a form where the rule can fail, a mutation test — and
 are disjoint on 3 and 4: this repository asks for **the claim dated with its measurement** and
 **the showcase trio**, the sibling for **a scenario and the fixture it needs** and **a door**. Each
@@ -239,7 +239,7 @@ difference stops being a wording question.
 
 ## The promotion ladder's week has no form, only a citation a form could read
 
-**Named 2026-08-21, at the release that shipped it.** `self-maintenance.md` now says a lesson
+**Named 2026-08-21, at the release that shipped it.** [`self-maintenance.md`](self-maintenance.md) now says a lesson
 waits a week between its dated field-note line and its promotion to a rule — a filter against a
 corpus that fills with laws written the afternoon something broke. **Two of its three parts are
 already machine-readable** and one is not: field notes carry a `Date` column, and a promotion is
@@ -255,7 +255,7 @@ shape this corpus refuses: the form should read something the work already write
 > **The precondition landed 2026-08-27, and the gate deliberately did not.** Read the trigger
 > below before concluding otherwise: the column existing is not the trigger, a closure written by
 > real work is. The closure this entry waits on
-> (`checking.md`) was prose with no cell to hold it; it is a column now. **Building the gate in the
+> ([`checking.md`](checking.md)) was prose with no cell to hold it; it is a column now. **Building the gate in the
 > same hour would be the law written the afternoon something broke, which is the exact thing this
 > ladder exists to filter.**
 
@@ -279,7 +279,7 @@ measurement**; the date belonged to a runtime check and nobody had been observed
 *A rule that cannot point back at its dated origin has not climbed — it was declared.*
 
 **Demoted the same day to guidance that admits it.** Two defects went with the gate: its `standing`
-cross-check guarded on `sources/SOURCES.md`, **a path no operated project has**, so the clause the
+cross-check guarded on [`sources/SOURCES.md`](sources/SOURCES.md), **a path no operated project has**, so the clause the
 entry led with was dead everywhere it shipped; and its enum accepted the empty string, waving a
 blank `Depth:` through while refusing an honest `Depth: TBD`.
 
@@ -296,7 +296,7 @@ says so at every release, which is honest and is not a check.
 until that repair's own tag exists, after which it is an ancestor and every later range excludes it.
 Measured: `1727542`, the repair 0.2.16's re-run produced, is an ancestor of `v0.2.16` and absent from
 `git log v0.2.16..5f76d30` — **the commit that motivated the rule is the one a deferral to "the next
-round" would have missed.** `lenses.md` closes it by ordering, which is a rule and not a form:
+round" would have missed.** [`lenses.md`](lenses.md) closes it by ordering, which is a rule and not a form:
 nothing refuses a tag cut between rounds.
 
 **The candidate form:** record the reviewed range in the entry, and have preflight refuse a tag when
@@ -318,7 +318,7 @@ round is measured for what it costs.
 
 ## Convergence between independent reviewers is not read as a signal
 
-**Named 2026-08-28**, from `qa-swarm` — surveyed in the 0.2.14 entry, whose `catalogue.md` row
+**Named 2026-08-28**, from `qa-swarm` — surveyed in the 0.2.14 entry, whose [`catalogue.md`](catalogue.md) row
 0.2.16 removed. The four lenses already run independently
 and each reports even when empty, which is half of what that harness does. The half we do not do
 is the cheap one: when two of them land on **the same file and the same line**, that agreement is
@@ -392,14 +392,14 @@ gone, directory full — reported once and by name.**
 it already in the codebase · standard library · a native platform feature · an installed dependency
 · can it be one line · only then a minimum implementation.
 
-**Why it is a real gap.** `choosing-tools.md` holds a ladder for *which vendor*. Nothing shipped
+**Why it is a real gap.** [`choosing-tools.md`](choosing-tools.md) holds a ladder for *which vendor*. Nothing shipped
 asks *should this code exist at all*; the nearest thing, **native-first**, lives in `AGENTS.md`,
 which governs this repository and never reaches a project.
 
 **Why it is not taken.** Its headline rates carry no denominator, no corpus and no date, and
 *100% safe* is not falsifiable — the ladder can be taken, those numbers cannot be quoted. And **a
 finding does not become a rule the day it is found**: two capabilities shipped in 0.2.9 whose prose
-measures 1 in 10, so a third before the first two are measured is what `self-maintenance.md`
+measures 1 in 10, so a third before the first two are measured is what [`self-maintenance.md`](self-maintenance.md)
 refuses.
 
 **What the round bought, and it narrows rather than answers.** The prose arm measured **1 of 10**.
@@ -416,7 +416,7 @@ they ran without measuring them: a `validator` reaches only a worker that commit
 committed nothing, and the round closes with **"0.2.9 has no gate measurement"**.
 
 **Do not install that plugin alongside this skill** — two plugins instructing one agent about how to
-write code is the shadowing trap `evals/RUNS.md` measured.
+write code is the shadowing trap [`evals/RUNS.md`](evals/RUNS.md) measured.
 
 > [!NOTE]
 > **Closed 2026-09-06 and reopened the same day by three lenses.** The closure called the round's
@@ -442,11 +442,11 @@ are bound in `evals/runsheet.tsv`, and two of the ids were written without their
 
 **What reopens it.** A document is rewritten for readability and nobody can say whether it got
 better — the argument that has already happened twice about the always-loaded core and once about
-`diagrams.md`. That is the moment: the first time a rewrite is proposed and defended with taste
+[`diagrams.md`](diagrams.md). That is the moment: the first time a rewrite is proposed and defended with taste
 alone.
 
 **Where the method came from.** Sanity Labs measured their own design system this way and
-published the findings, the method and the runner (`catalogue.md`, *Does the design system survive an
+published the findings, the method and the runner ([`catalogue.md`](catalogue.md), *Does the design system survive an
 agent?*). Their counts are the borrowable half; their tool is theirs.
 
 ---
@@ -454,7 +454,7 @@ agent?*). Their counts are the borrowable half; their tool is theirs.
 ## A lens's verdict never says how it looked — and three times it looked at a proxy
 
 **Three false verdicts, two shapes, one cause.** Two absences on 2026-09-10: *"the 500-line budget
-has no form"* — the lens grepped `500`, while `preflight.sh` reads `chapter_budget` — and *"`use-cases.md`
+has no form"* — the lens grepped `500`, while `preflight.sh` reads `chapter_budget` — and *"[`use-cases.md`](use-cases.md)
 has no situation for the contradiction stop"*, where it grepped `contradict` in a file whose rows are
 the owner's words by construction. And one confirmation on 2026-09-11: **three of four lenses agreed**
 that `check-structure` *fails* a drifted count, each having read the script's `fail()` call, while
@@ -464,16 +464,16 @@ that `check-structure` *fails* a drifted count, each having read the script's `f
 **independent readers do not help when they share a method**: three lenses, one path, one wrong
 answer, in a round that looked clean. The form this wants is the cut `Reads against` makes between
 `none found` and `not checked`: **a verdict states what was checked and where**, so *"it calls
-`fail()`"* reads as the half-check it is. Home: `lenses.md`, *What the lenses do not cover*.
+`fail()`"* reads as the half-check it is. Home: [`lenses.md`](lenses.md), *What the lenses do not cover*.
 
-**Rung 2, not a rule** — three occasions in two days, and rung 3 costs a week (`self-maintenance.md`,
+**Rung 2, not a rule** — three occasions in two days, and rung 3 costs a week ([`self-maintenance.md`](self-maintenance.md),
 *the ladder*). **Revisit when** a fourth proxy verdict is caught, or the week has passed and these
 still reproduce. The cost is real: every finding would carry the line.
 
 ## A lens round costs more than a session holds, and re-reading the whole range is why
 
 **Nine round attempts across two releases, five lost whole to the session limit** — 0.2.17 three of
-four, 0.2.18 two of five, each lens dying a line in. `lenses.md` says of the re-round's cost that
+four, 0.2.18 two of five, each lens dying a line in. [`lenses.md`](lenses.md) says of the re-round's cost that
 *nothing here has measured that*; this is the measurement. **Every re-round re-read the full range**,
 yet in 0.2.18 the sharpest finding of each re-round sat in the latest repair commit — and the one
 re-round that read only that commit, 231 lines against 688, completed first time. **Rung 2,
@@ -495,5 +495,5 @@ the lines it touched.
 
 **Bodies removed 2026-09-10.** Each of these ended in a decision that shipped and left no open
 question, so the reasoning lives in the release that carried it and the row here says which. **Two
-struck entries above are NOT in this table**: the diagrams one because `self-maintenance.md` cites
+struck entries above are NOT in this table**: the diagrams one because [`self-maintenance.md`](self-maintenance.md) cites
 it by name, and the day-one cut because it still hides open work under a struck heading.

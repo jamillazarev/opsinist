@@ -26,7 +26,7 @@ the thing we wrote.** Same slot, two origins, and the rule is identical: it is n
 gets trimmed, fitted, or repaired in place.
 
 **An update diffs source against source.** Comparing the new upstream against a copy we already
-trimmed shows *our own* cuts as changes, and the one real change hides among them → `security.md`.
+trimmed shows *our own* cuts as changes, and the one real change hides among them → [`security.md`](security.md).
 After the diff lands, trimming and fitting run again from scratch — cheap, because both are
 selection rather than writing.
 
@@ -38,7 +38,7 @@ path the machinery uses on itself**, which is why it is stated rather than assum
 
 ## Create — a routine repeated twice
 
-**Evidence first: name the two occasions** (`PATTERNS.md` §22). *"We might
+**Evidence first: name the two occasions** ([`PATTERNS.md`](PATTERNS.md) §22). *"We might
 need it"* is neither. Same bar that governs adding a guard and raising a tooling need to a task —
 one threshold, three uses.
 
@@ -98,7 +98,7 @@ third, and **raising the budget is a decision with a stated cost, never a reflex
 
 ## Import — untrusted code *and* untrusted instructions
 
-Screening, the prose diff, and who decides what a finding means: → `security.md`. Three things
+Screening, the prose diff, and who decides what a finding means: → [`security.md`](security.md). Three things
 specific to skills:
 
 **Trim after screening — and trim the copy, never the source.** Imported skills carry generic
@@ -162,7 +162,7 @@ it.** Local wins — it was screened, adapted and paid for by this project — a
 surfaces at upgrade rather than resolving silently: the upgrade names the shadowed skill, says
 what the stock version would have added, and the owner chooses keep, merge or rename. **Checked
 2026-08-05: nothing held this** — an upgrade shipping a same-named stock skill would have
-clobbered the local copy unremarked, because `upgrading.md` protects the owner's conventions
+clobbered the local copy unremarked, because [`upgrading.md`](upgrading.md) protects the owner's conventions
 and nothing protected their files.
 
 **Re-import it as an external skill so there is exactly one source of truth.** The in-project copy
@@ -195,7 +195,7 @@ which, because it is the migration map**.
 ## What the pool costs
 
 Every attached skill loads on **every run that role makes**. The budget, the share of the window,
-and why crossing the line is a hiring signal rather than a pruning task: → `hiring.md`.
+and why crossing the line is a hiring signal rather than a pruning task: → [`hiring.md`](hiring.md).
 
 **Declared against used is measured, not guessed.** Every run records both, so *"this skill has
 been attached to five roles for two months and fired once"* is **evidence**. What it is evidence

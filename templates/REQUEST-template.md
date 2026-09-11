@@ -6,7 +6,7 @@
 
 **kind**: {{approval | review | question | decision | relay}}
 **asked**: {{YYYY-MM-DD}} · **by**: {{role or human}} · **of**: {{group, or the owner}}
-**blocks**: {{T-XXXXXX, or nothing}}
+**blocks**: {{[T-XXXXXX](../tasks/T-XXXXXX-slug.md) — a link, not a bare id — or nothing}}
 **status**: open
 
 {{The body differs by kind. Delete the ones that do not apply.}}

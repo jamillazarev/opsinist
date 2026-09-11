@@ -58,7 +58,7 @@ credential access. **Route by what the finding would let the thing do**, and say
 **A body that executes anything is flagged before any talk of merit.** A pattern or skill whose
 *text* runs things — an extension hook, a shell call, a tool invocation living inside the prompt
 body — is the border case of the law that a command a file told you to run has no author
-(`dispatching.md`): some upstream ecosystems ship this as a feature, and the screen names it as
+([`dispatching.md`](dispatching.md)): some upstream ecosystems ship this as a feature, and the screen names it as
 a finding every time, with the owner deciding what it means.
 
 **Screening is not a one-time event.** The version you vetted is not the version you are about to
@@ -68,13 +68,13 @@ install: on any update, diff against the screened one, scan again, and **read th
 **Record what was screened**: source, version or commit, date, who approved. Without it an
 upgrade cannot tell what it is updating.
 
-**A whole prebuilt agent never imports as a hire** → `hiring.md`.
+**A whole prebuilt agent never imports as a hire** → [`hiring.md`](hiring.md).
 
 ---
 
 ## Secrets
 
-**The register lives in `permissions.md`** — references, never values; the value in the
+**The register lives in [`permissions.md`](permissions.md)** — references, never values; the value in the
 environment or a keychain, never in the repository, a task, or a comment. It is written there
 because credentials are one of the **human-only** kinds, and a rule kept in two files goes stale
 in one.
@@ -96,7 +96,7 @@ carries the environment-variable name or keychain entry the value should land in
 puts it there and answers "done" — the word, never the value**. The agent then verifies
 existence, not content — a `test -n "$THE_VAR"`-class check that can pass without the secret
 entering a transcript. A value pasted into the conversation is spilled and rotates
-(`catalogue.md`, the secrets row).
+([`catalogue.md`](catalogue.md), the secrets row).
 
 **A role's environment carries only what that role's own work needs** — never project-wide
 administrative credentials.
@@ -126,9 +126,9 @@ holding user data or money earns a real penetration test before it ships — aut
 first, a human afterwards.
 
 **Free tooling covers most of it**: secret scanning in CI, static analysis, dependency alerts,
-and an automated pass before the human pentest. **The named set lives in `catalogue.md`**
+and an automated pass before the human pentest. **The named set lives in [`catalogue.md`](catalogue.md)**
 (*Security scanning*) — naming it here too is how one list goes stale in one file. Record what
-is wired and where → `tooling.md`.
+is wired and where → [`tooling.md`](tooling.md).
 
 ---
 

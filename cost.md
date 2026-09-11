@@ -5,7 +5,7 @@ turns on price.
 
 **Measured at the atom, everything else derived.** Store once, at the run. **Never store
 rollups** — they drift the moment anything is edited. Task, role, release, period and project are
-all sums (`PATTERNS.md` §4).
+all sums ([`PATTERNS.md`](PATTERNS.md) §4).
 
 ---
 
@@ -41,7 +41,7 @@ input.
 ## Four token numbers, never one total
 
 `input` · `output` · `cache_read` · `cache_write`. **The run is written from
-`templates/RUN-template.md`, which gives the four their own cells** — the sentence-where-numbers-belong
+[`templates/RUN-template.md`](templates/RUN-template.md), which gives the four their own cells** — the sentence-where-numbers-belong
 failure below is what a form prevents and a paragraph does not.
 
 **The dispatcher writes them, not the worker.** A worker does not reliably see its own usage —
@@ -87,7 +87,7 @@ again. **Batch guide and instruction changes**; never dribble small edits mid-fl
 **Model tiering.** Top tier for reasoning, mid for building, cheap for translation and bulk. And
 route verification and search work **one tier down** — it does not need the top model.
 
-**Terse by default, readable where a human reads** → `dispatching.md`.
+**Terse by default, readable where a human reads** → [`dispatching.md`](dispatching.md).
 
 **Do not re-derive.** Read the file rather than reconstructing it from memory, and commit
 incrementally so a rerun resumes from the repository instead of redoing work.
@@ -101,7 +101,7 @@ size — and writes `~N tokens, from M similar runs` on the run **before it star
 judgement-rung, never a promise. Actual-vs-estimate accumulates in the same ledger, which is
 what narrows the band honestly instead of a number invented per dispatch. **An estimate that
 would change the owner's decision is said before the dispatch, not discovered in the ledger** —
-said once, at the moment it matters (`PATTERNS.md` §21), and where it is that large, said as a
+said once, at the moment it matters ([`PATTERNS.md`](PATTERNS.md) §21), and where it is that large, said as a
 share of the budget's window rather than a bare token count.
 
 ---
@@ -168,7 +168,7 @@ preflight wired, a commit that records spend while `_ops/BUDGET.md` reads at or 
 threshold is refused (§12). It stays quiet on an unfilled template and on a commit that touches
 nothing spend-shaped, because a gate that cries wolf is a gate people bypass.
 
-**Unwired, the line is still only a rule**, and it is listed by name in `permissions.md` —
+**Unwired, the line is still only a rule**, and it is listed by name in [`permissions.md`](permissions.md) —
 believing an unenforced cap is a gate is the failure that list exists to prevent.
 
 **A shrinking budget re-proposes the stack**, rather than only raising an alarm. An alarm says
@@ -184,7 +184,7 @@ something is wrong; a re-proposal says what to do.
 |---|---|---|
 | the task's history | the measured atoms, **written by whoever dispatched the run** | **yes** — project history, and what makes a rerun resumable |
 | the period report | the generated rollup a human reads | yes, **marked generated** |
-| the index | the derived cache the rollups compute from — generated, never maintained (`PATTERNS.md` §7) | **no** — rebuildable |
+| the index | the derived cache the rollups compute from — generated, never maintained ([`PATTERNS.md`](PATTERNS.md) §7) | **no** — rebuildable |
 
 **The cache is not a record**, which is why it may live outside markdown and outside git: nothing
 is lost by deleting it. That is the boundary of *"if the system records it, a human can read it
@@ -192,14 +192,14 @@ in markdown"* — a record must be readable, a cache must be disposable.
 
 **"Committed" above assumes telemetry lands in the repository, and often it should not** — in
 someone else's tree it cannot, and on a small job nobody wants it there. The atoms are still
-written, to wherever the record lands → `storing.md`. What changes is durability, and **that is
+written, to wherever the record lands → [`storing.md`](storing.md). What changes is durability, and **that is
 stated rather than discovered**: a local-only ledger answers *what did this cost* for exactly as
 long as the machine survives.
 
 **Publishing cost outward** — to a spreadsheet, a dashboard, a tracker — is an **outward
 operation** and therefore gated. Two conditions: **markdown stays canon**, and the publish is
 **one-way, never read back as truth**. If the outside system must also write, that is a checkout
-relationship with its own `version_seen` and drift detection, declared once → `drift.md`.
+relationship with its own `version_seen` and drift detection, declared once → [`drift.md`](drift.md).
 
 ## What a task owes when it closes
 

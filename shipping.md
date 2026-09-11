@@ -29,11 +29,11 @@ the eval pass. A release that ships a stale price or a dead link ships a small l
 
 **Where done names something outside git, the referent is checked here.** A design file, a render,
 a hosted batch — a clean checkout proves nothing about them, so the release confirms the thing is
-still where the pointer says and still what the snapshot described → `storing.md`. **And every
+still where the pointer says and still what the snapshot described → [`storing.md`](storing.md). **And every
 declared destination is reachable**: a release that quietly skipped one has shipped a partial
 truth about its own completeness.
 
-**The four lenses**, read by someone who did not write the change → `lenses.md`.
+**The four lenses**, read by someone who did not write the change → [`lenses.md`](lenses.md).
 
 **Keep the guards current.** *A guard that no longer matches reality passes silently*, which is
 worse than no guard.
@@ -42,7 +42,7 @@ worse than no guard.
 README on a registry — each is a surface derived from the source, and **a derived surface left
 behind does not go blank, it keeps confidently stating the previous version.** Regenerate it in the
 same release, from the tree being tagged, and check the numbers it prints against the numbers the
-repository actually has. **Health checks a generated surface against hand edits** (`checking.md`);
+repository actually has. **Health checks a generated surface against hand edits** ([`checking.md`](checking.md));
 this is the other direction, and only the release notices it.
 
 **Every capability has a door.** A capability nothing points at — no entrance, no use case, no
@@ -66,7 +66,7 @@ before the first user sees it** — a rollback nobody rehearsed is a plan-per-ou
 wrote. And **expansion surfaces as ready, never advances itself** — the canary passing its
 window is a fact; widening it is a decision, recorded like one.
 
-**The measure window names its instrument** — which number, read when, by whom (`catalogue.md`,
+**The measure window names its instrument** — which number, read when, by whom ([`catalogue.md`](catalogue.md),
 the measurement row) — because a window nobody named an instrument for is a window nobody will
 read. *Did the rollout work* is answered there, not by the absence of complaints.
 
@@ -103,7 +103,7 @@ it helps. Not which files moved.
 
 **And it says what kind of change it is** — a fix that alters no instruction, a new capability, or
 something that requires existing projects to act — **because the changelog is the migration map**
-→ `upgrading.md`.
+→ [`upgrading.md`](upgrading.md).
 
 **Batch, don't drip.** A release of *"renamed a column"* reads as a product made of noise. Pool
 small changes; ship an urgent one alone; keep the note short and aimed at the reader rather than
@@ -122,13 +122,13 @@ and "works" are different claims; say which one you are making.**
 **A miss is a result**, not a failure to report. Killing something that is not working is the point
 of measuring, and a measurement that can only confirm was never a measurement.
 
-**Compare the impact predicted with the impact that arrived** → `grouping.md`. Without that,
+**Compare the impact predicted with the impact that arrived** → [`grouping.md`](grouping.md). Without that,
 scoring never improves; it only accumulates.
 
 **A surprise becomes a learn item on the roadmap**, with what was expected and what happened.
 
 **Record the cost beside it** — what this shipment consumed, per role, with the trend rather than
-the level → `cost.md`. Cost next to outcome is the only place either number means anything.
+the level → [`cost.md`](cost.md). Cost next to outcome is the only place either number means anything.
 
 ---
 
@@ -153,7 +153,7 @@ exists to survive.
 dispositions, and what recurs is what matters — a report seen once is a data point, and the same
 report five times is a finding.
 
-**A release that has to be undone is undone.** Rollback is normal → `recovering.md`.
+**A release that has to be undone is undone.** Rollback is normal → [`recovering.md`](recovering.md).
 
 **The site and anything generated from the release regenerate from the released ref, never from
 the working tree** — a regeneration from a working tree with an unmerged branch checked out

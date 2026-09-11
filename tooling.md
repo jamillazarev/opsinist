@@ -25,7 +25,7 @@ go to the owner. Which roles reach which tool is a field on the role, so the run
 that answer saved into the project, which is where it stops looking foreign. A registered server
 is trusted to be **the right place to ask**; that is a different claim from being allowed to tell
 a run what to do next, and the gap between them is where the measured failure lives
-→ `security.md`.
+→ [`security.md`](security.md).
 
 ---
 
@@ -47,7 +47,7 @@ and editing it churns the cache for everyone.
 **Who writes it:** the role that wires the tool starts the runbook with what it just learned;
 anyone who later hits an operation or a failure mode adds to it. **Docs follow decisions** applies
 here as much as to specs. **A procedure that repeats across projects graduates into a skill**, and
-the runbook links to it → `skills.md`.
+the runbook links to it → [`skills.md`](skills.md).
 
 ---
 
@@ -107,7 +107,7 @@ honest cost is on the first half: a pinned runtime is mise's own copy even when 
 exists through another route, because that copy is what the isolation is.
 
 **Nothing is installed without the owner's word — mise included.** Taking a project over
-(`entering.md`) already refuses to fix anything before the owner has seen the list, and what this
+([`entering.md`](entering.md)) already refuses to fix anything before the owner has seen the list, and what this
 machine is missing is one more line on it: what `mise ls --missing` and `mise bootstrap packages
 status --missing` report, what `mise install --dry-run` and `mise bootstrap packages apply
 --dry-run` would change, and the owner's yes before anything runs. **A `mise.toml` carrying
@@ -165,9 +165,9 @@ mismatch a task, or an explicit *"still true, checked"*.
 
 **The report reads and never writes** — no install, no upgrade, not even `mise trust` — and exits 0
 whatever it found, because the gate on what is declared is the guard. It needs the network, so it
-runs with the health checks (`checking.md` → *Health*: on arriving, before a release, when something
+runs with the health checks ([`checking.md`](checking.md) → *Health*: on arriving, before a release, when something
 feels wrong) rather than riding `status` the way a resource's tag comparison does. An accepted
-update lands at the next boundary, never under work in progress (`upgrading.md` → *When it
+update lands at the next boundary, never under work in progress ([`upgrading.md`](upgrading.md) → *When it
 applies*).
 
 **`--why` answers the other question — what is this for?** — from the project's own files, offline:
@@ -257,7 +257,7 @@ A campaign project for an open-source library does not vendor it, submodule it, 
 its tree — **the library is a watched resource**: a pointer with a `why`, `version_seen`, and a
 watch on its releases, whose distillate lands in triage as **content candidates** — a release
 note is a post the campaign has not written yet. The inventory maps the product's tree
-read-only when content needs the shape of it (`entering.md`), nothing of the campaign's lands
+read-only when content needs the shape of it ([`entering.md`](entering.md)), nothing of the campaign's lands
 in the product's repository unless it is also yours — and where it is yours, the two stay two
 projects: one ships the product, one ships the campaign, and the watch is the whole coupling.
 
@@ -287,7 +287,7 @@ nothing. That is the runbook.
 
 **If the need is not one-off, it becomes its own task and the original waits on it** — a `tooling`
 task in the system stream, with the original taking a `blocked_by`. And unblocking does not start
-the original: it surfaces as ready → `self-maintenance.md`.
+the original: it surfaces as ready → [`self-maintenance.md`](self-maintenance.md).
 
 **Inline or a task?** The same threshold as everywhere: **twice**. Once is part of this job; twice
 is a pattern that deserves its own.

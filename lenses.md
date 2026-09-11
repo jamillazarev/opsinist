@@ -24,7 +24,7 @@ cannot see what they assumed, because assuming it is what made the text feel com
 - Does it restate a rule that already lives somewhere? (If so, one of the two is the home and
   the other points.)
 - Is a new entity doing work an existing one could do with **one more value**?
-- Is this a pattern already named in `PATTERNS.md`, being paraphrased instead of cited?
+- Is this a pattern already named in [`PATTERNS.md`](PATTERNS.md), being paraphrased instead of cited?
 
 The bar is not "is this good" but "would we notice it gone". A change that survives deletion is
 the smallest version of itself, and that is the only version worth reviewing further.
@@ -122,7 +122,7 @@ a stated-empty one are the same artifact. `LATER.md` carries the candidate.
 
 **Temporary readers.** When they run as agents, they are created for the release and archived
 after — they read, they do not own. Archiving them is part of finishing the release
-(`PATTERNS.md` → *promote what outgrew itself* does not apply here: a lens never grows into a
+([`PATTERNS.md`](PATTERNS.md) → *promote what outgrew itself* does not apply here: a lens never grows into a
 role).
 
 ---
@@ -130,7 +130,7 @@ role).
 ## What the lenses do not cover
 
 They read **text**. They do not run the code, walk the links, or measure a number — those are
-`checking.md` and the eval suite. Four green lenses over a claim that was never true is exactly
+[`checking.md`](checking.md) and the eval suite. Four green lenses over a claim that was never true is exactly
 the failure mode the corpus names: *a statement that parsed perfectly, linked correctly, and was
 false*. The six reading rules in `AGENTS.md` are the chapter habit for that, and the eval
 pass-rate is the measurement.

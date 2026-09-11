@@ -19,13 +19,13 @@ therefore discovered at the worst possible time.
 
 | Check | The failure it prevents |
 |---|---|
-| **the environment fingerprint** | the same repo behaving differently on two machines → `drift.md` |
+| **the environment fingerprint** | the same repo behaving differently on two machines → [`drift.md`](drift.md) |
 | **branch protection**, where a remote exists | a review gate that is a sentence rather than a gate |
 | **the tooling register against reality** | a tool nobody checks, whose token nobody rotates |
-| **versions and breaking changes** — the skill's `scripts/deps-report.py`, each update sorted by what it asks (`tooling.md`) | **a tool that changed its interface breaks agents silently**, and a published vulnerability rides unread |
+| **versions and breaking changes** — the skill's `scripts/deps-report.py`, each update sorted by what it asks ([`tooling.md`](tooling.md)) | **a tool that changed its interface breaks agents silently**, and a published vulnerability rides unread |
 | **free-tier headroom**, in the unit that actually bites | discovering the ceiling by hitting it |
 | **credentials: expiry and last use** | an expired key found mid-run; a key nobody has used in a year |
-| **link health** | a reference that quietly stopped existing → `resources.md` |
+| **link health** | a reference that quietly stopped existing → [`resources.md`](resources.md) |
 | **generated surfaces against their hashes** | a hand edit **reported before** it is overwritten |
 | **the guards themselves** | *a guard that no longer matches reality passes silently* |
 
@@ -35,7 +35,7 @@ no check**, because its green is read as evidence.
 **An audit over a whole repository is dispatched, not performed in the turn.** It is minutes of
 work, and a conversation that blocks for it has taken the owner hostage to a sweep they asked for
 casually — **say what was sent, roughly how long, and how to see it**, then stay answerable while
-it runs → `dispatching.md`. **Measured 2026-07-31, five of five:** *"audit the whole repo and
+it runs → [`dispatching.md`](dispatching.md). **Measured 2026-07-31, five of five:** *"audit the whole repo and
 tell me what's rotten"* ran fifteen tool calls inline, and the owner's next question waited for
 all of them.
 
@@ -56,7 +56,8 @@ The half people skip is the second one.
 the reviewer coincide** · requests and waits past their age · **facts past their check-date** · a
 missing or stale architecture map · edits to locked surfaces · roles over their load budget ·
 un-archived temporary roles · unsourced scores, and **rankings that flip when a score moves by
-one**.
+one** · ids and files named in passing where a link would be an edge (the skill's
+`scripts/link-ids.py` counts them).
 
 **Opportunities:** stage and gate design that keeps bouncing the same work · tier savings ·
 **skills worth creating** · automation candidates · roles idle or bottlenecked · **settings that
@@ -66,20 +67,20 @@ have stopped being signals**.
 apart, a check that only reads what is underfoot reports health it has not looked at. It catches
 **both asymmetries** — content sitting in a destination nobody declared, and a declaration with
 nothing behind it — and **a destination it cannot reach is a finding, never a silent skip**
-→ `storing.md`.
+→ [`storing.md`](storing.md).
 
-**Findings are evidence, not verdicts** (`PATTERNS.md` §15) — and each one names its place, the defect in one sentence,
+**Findings are evidence, not verdicts** ([`PATTERNS.md`](PATTERNS.md) §15) — and each one names its place, the defect in one sentence,
 and what would fix it. A finding without a location is an opinion.
 
 **The field notes are swept here, and until this line existed nothing swept them.**
-`_ops/FIELD-NOTES.md` collects friction the moment it happens, and `self-maintenance.md` has
+`_ops/FIELD-NOTES.md` collects friction the moment it happens, and [`self-maintenance.md`](self-maintenance.md) has
 always said it is *"swept at natural checkpoints"* — **a status check is the checkpoint**, and
 naming a sweeper is what turns that sentence into an act. Entries go to the backlog,
 deduplicated so a re-sweep is idempotent; **an entry seen twice becomes a task with both
 occasions named in it**; an entry that has shipped is closed with the version.
 
 **An empty sweep still writes itself**, with its scope — the rule and its reasoning live in
-`self-maintenance.md`; what belongs here is that this is where it happens.
+[`self-maintenance.md`](self-maintenance.md); what belongs here is that this is where it happens.
 
 ---
 
@@ -106,9 +107,9 @@ and costs twice.
 **Time in stage**, from the task histories — which is what makes a bottleneck visible before it is
 folklore. **And where it keeps pointing at the same edge, the audit proposes a better ladder** —
 as a diff to the pipeline file with the numbers that argue for it, because the ladder is a
-locked surface: proposed to the owner, never edited by whoever works under it (`pipelines.md`).
+locked surface: proposed to the owner, never edited by whoever works under it ([`pipelines.md`](pipelines.md)).
 
-**An owner's edit to a worker's output is a signal, and it is offered a home** (`PATTERNS.md`
+**An owner's edit to a worker's output is a signal, and it is offered a home** ([`PATTERNS.md`](PATTERNS.md)
 §21). The diff already says what the system got wrong; unrecorded, the same correction returns
 next month. So the edit is offered — once, concretely — one of three homes: **an eval fixture**,
 the regression that catches it next time · **a line in the project guide**, the rule the edit
@@ -117,7 +118,7 @@ and declined is an answer.
 
 **And the spoken rule is the same signal in words** — *"remember this"*, *"always do X"*,
 *"never touch Y"*. It is routed to where workers actually read, never to the conversation's
-memory: a behaviour → **a guide line** (taking effect at the next boundary, `PATTERNS.md`
+memory: a behaviour → **a guide line** (taking effect at the next boundary, [`PATTERNS.md`](PATTERNS.md)
 §10) · a word or a fact of the domain → **`_ops/ABOUT.md`** · a choice with reasons →
 **`_ops/DECISIONS.md`** · a place to look → **the resource register, with its why**. The
 advisor names which home it heard and writes it there — a rule that lives only in a chat log
@@ -125,11 +126,11 @@ is the one promise `project = f(repo)` exists to refuse. **And the harness's own
 is not one of these homes**: a rule written there is the conversation's memory grown a
 filesystem — private to the assistant, outside the repository, unread by every worker.
 Measured 2026-08-07: two runs of two routed the owner's rule exactly there and named no home
-back (`evals/RUNS.md`).
+back ([`evals/RUNS.md`](evals/RUNS.md)).
 
 **A repeated primitive.** *"We keep doing this by hand"* is the trigger for making a skill or a
 tool, and **the honest ranking is that recorded friction from real use finds it better and cheaper
-than any analysis of the data** → `self-maintenance.md`. The machine signals are the backstop, not
+than any analysis of the data** → [`self-maintenance.md`](self-maintenance.md). The machine signals are the backstop, not
 the primary path — and if a direct signal is wanted, it costs one field: **a short line on each run
 saying what was actually done**, which makes near-duplicates findable.
 
@@ -165,9 +166,9 @@ filled without opening the destination:
 
 | The shape seen | The offer it ends in |
 |---|---|
-| a quick job past its estimate | *becomes a task from `templates/TASK-template.md` — it gets an id and the work already done comes with it — yes?* → `quick.md` |
-| the same note recorded twice | *becomes a `tooling` task in the system stream, with both dates in it — yes?* → `self-maintenance.md` |
-| a milestone that outgrew its shape | *promoted to a release, every id under it kept — yes?* → `grouping.md`, `PATTERNS.md` §23 |
+| a quick job past its estimate | *becomes a task from [`templates/TASK-template.md`](templates/TASK-template.md) — it gets an id and the work already done comes with it — yes?* → [`quick.md`](quick.md) |
+| the same note recorded twice | *becomes a `tooling` task in the system stream, with both dates in it — yes?* → [`self-maintenance.md`](self-maintenance.md) |
+| a milestone that outgrew its shape | *promoted to a release, every id under it kept — yes?* → [`grouping.md`](grouping.md), [`PATTERNS.md`](PATTERNS.md) §23 |
 
 **An open question is not an offer.** *"Step back?"* hands the shape back to the owner to design;
 the offer names the act and asks only for the yes. The owner still chooses — nothing is promoted
@@ -182,7 +183,7 @@ findings that most need an owner — a link that cannot be repaired unambiguousl
 replacing, a deadline at risk, a debt that blocks — are exactly the ones that get scrolled past.
 
 Findings land in **`triage`**, with the four dispositions, so each gets an age and a place in the
-attention view → `requests.md`.
+attention view → [`requests.md`](requests.md).
 
 ---
 
@@ -193,4 +194,4 @@ attention view → `requests.md`.
 **Audit:** on a cadence the project chooses, before a release, and **after any restructure** —
 because a line count proves a file got shorter and only behaviour proves it still works.
 
-**Both, plus the eval pass, are the release gate** → `shipping.md`.
+**Both, plus the eval pass, are the release gate** → [`shipping.md`](shipping.md).

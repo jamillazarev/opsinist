@@ -23,10 +23,10 @@ fields, memory, DMs, rename-with-links, search — and the same lifecycle. They 
 | `worker` | `grade` | assignable · accountable · counted in capacity |
 
 | `expert` | domain / credentials | **never assigned** · not in capacity · consulted only. A synthetic expert **cites** sources; a live expert **is** one |
-| `persona` | grounding · accuracy · bias profile · consent pointer · `effort: low` | **never assignable**, output always marked, verdicts **direction-only** → `audience.md` |
+| `persona` | grounding · accuracy · bias profile · consent pointer · `effort: low` | **never assignable**, output always marked, verdicts **direction-only** → [`audience.md`](audience.md) |
 | `human` | — | a real person. **Never dispatched — but may hold an assignment**, taken rather than given; their contribution is the **top evidence rung**; **paying them is spend**, and inviting them is an access decision |
 
-**A role is written from `templates/ROLE-template.md`**, whose defaults are mostly *unset* on purpose — a role naming its own model pins a choice the cascade would make correctly.
+**A role is written from [`templates/ROLE-template.md`](templates/ROLE-template.md)**, whose defaults are mostly *unset* on purpose — a role naming its own model pins a choice the cascade would make correctly.
 
 **The advisor's own model is the one setting the cascade cannot reach.** Every other role's
 `model` and `effort` are written into its file and resolved at dispatch — but **the advisor is
@@ -42,7 +42,7 @@ and usually will, so a line in `_ops/config.md` saying which one advises would b
 and wrong silently. It goes where the resolved cascade values go — **onto the thing being
 recorded, at the moment it is recorded**. The *runtime* is different and does persist: which
 harness this is belongs to the environment fingerprint, which already hashes it and compares on
-waking → `drift.md`.
+waking → [`drift.md`](drift.md).
 
 **And say so when the session is running light while the work is not**: a cheap model executing
 this methodology degrades the advice quietly, and the owner has no reason to connect a thin
@@ -58,7 +58,7 @@ work onto a person is a queue that will.
 runtime's fields** rather than into a private mechanism of ours. In Claude Code those are `model` ·
 `effort` · `tools` · `disallowedTools` · `mcpServers` · `skills` · `maxTurns` · `isolation` ·
 `hooks` · `color`; **the names are that runtime's, not this skill's**, and elsewhere they differ or
-are missing → `runtimes.md`.
+are missing → [`runtimes.md`](runtimes.md).
 
 **Whether the tool allowlist is a gate depends on the runtime, and it is asked rather than
 assumed.** Where the runtime enforces it, `enforced_by: harness` is a fact; where it does not, the
@@ -71,7 +71,7 @@ its name fails with *agent type not found* — measured 2026-08-01, in the runti
 support for tool restriction there is. **The run is not blocked by this**: the work goes to a
 general worker with the role's instructions inlined, which is the correct fallback and the
 honest one — **but `tools` restricts nothing in that mode**, and it is said at dispatch like any
-other downgrade (`runtimes.md`). **The restriction becomes real at the next session**, when the
+other downgrade ([`runtimes.md`](runtimes.md)). **The restriction becomes real at the next session**, when the
 registry is collected with the role already on disk. **A team created and dispatched in one
 sitting is a team whose allowlists are prose until it is opened again** — worth knowing before
 building a roster around them, and worth saying to an owner who asked for exactly that gate.
@@ -116,7 +116,7 @@ competence levels stopped helping on current models even where it once did. Writ
 
 **Present tiers to the owner in outcome terms** — stronger (best, slower, pricier) · medium ·
 light (fast and cheap) — then map them onto the models actually available, **asked of the
-runtime at that moment rather than remembered** → `dispatching.md`. The owner chooses by
+runtime at that moment rather than remembered** → [`dispatching.md`](dispatching.md). The owner chooses by
 result and speed, not by a name they may not recognise. **The tiers are a prompt, never a menu**:
 a free answer wins over the three buckets. *A team all on one tier because nobody asked is the
 bug the first user test found.*
@@ -160,7 +160,7 @@ smaller half: **irrelevant instructions in context measurably degrade the work**
 carrying twelve skills is worse at each of them than a focused one. **Caching makes breadth
 cheap; it does not make it good.**
 
-**Budget it as a share of the window, not a fixed number** (`PATTERNS.md` §24) — providers differ, and the real
+**Budget it as a share of the window, not a fixed number** ([`PATTERNS.md`](PATTERNS.md) §24) — providers differ, and the real
 question is how much room is left for the task.
 
 | | Share | On a 200k window |
@@ -202,8 +202,8 @@ engineer — build the **whole package: skills · tooling · resources**, not ju
    actually does day to day, and what they would be blamed for missing.
 2. **Skills** — the project's own pool first, then curated sources, then a broader search.
 3. **Tooling** — the role's instruments: registries before hand-wiring, then CLIs and APIs, and
-   obey the selection ladder → `choosing-tools.md`.
-4. **Resources** — what it must consult, each with its `why` → `resources.md`.
+   obey the selection ladder → [`choosing-tools.md`](choosing-tools.md).
+4. **Resources** — what it must consult, each with its `why` → [`resources.md`](resources.md).
 5. **Propose the package** with its weight → create on approval → record it.
 
 **A prebuilt agent is a parts bin, not a hire.** When discovery turns up a ready-made agent —
@@ -269,5 +269,5 @@ their colour **from their type**. The rule is one: **the background always answe
 am I reading".**
 
 The image is **a file, stored with the team layer** wherever that lands, with its generator
-recorded as provenance → `storing.md`. A bare URL would break offline, break the premise, and
+recorded as provenance → [`storing.md`](storing.md). A bare URL would break offline, break the premise, and
 join the link-check set for no reason.

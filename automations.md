@@ -3,7 +3,7 @@
 **Load when:** something should happen on a schedule, on an event, or when a threshold is crossed.
 
 **An automation is the thing that fires. A pipeline is the path work travels.** They were briefly
-one word, which would have been expensive → `pipelines.md`.
+one word, which would have been expensive → [`pipelines.md`](pipelines.md).
 
 ---
 
@@ -73,7 +73,7 @@ automation is a fork nobody will remember to update.
 fail and notify nobody, indefinitely.
 
 Here a failed run is **an ordinary resident of the attention view**, like anything else that
-needs a person → `requests.md`.
+needs a person → [`requests.md`](requests.md).
 
 **A schedule that silently did not run is worse than one that says it was late.** Lateness is a
 fact you can act on; silence is indistinguishable from success.
@@ -127,7 +127,7 @@ scrutiny as any other.
 **A sweep that surfaces what got stuck** — interrupted runs, requests past their age, waits nobody
 chased.
 
-**A watch on dependencies** that publishes a feed → `tooling.md`.
+**A watch on dependencies** that publishes a feed → [`tooling.md`](tooling.md).
 
 **A wake after a limit resets.** A limit hit at 02:10 that resets at 07:00 currently waits for a
 human to come back, and the reset time is a **known future moment** — which is a one-shot
@@ -135,7 +135,7 @@ schedule, not a poll.
 
 **A regeneration pass** so generated surfaces are not stale, and — because the hash check runs
 where regeneration runs — so that a hand edit is **reported before it is overwritten** rather than
-after → `drift.md`.
+after → [`drift.md`](drift.md).
 
 ---
 

@@ -36,9 +36,9 @@ label gets more wrong with every level.
 **An audit flags a tree deeper than three as a smell, not a violation.** Usually it means a piece
 has outgrown being a piece.
 
-**Promote what outgrew itself; do not nest deeper** (`PATTERNS.md` §23). When a child needs
+**Promote what outgrew itself; do not nest deeper** ([`PATTERNS.md`](PATTERNS.md) §23). When a child needs
 children of its own and a life of its own, it stops being a child — it becomes a task in its own
-right (`templates/TASK-template.md`): remove the parent link and it
+right ([`templates/TASK-template.md`](templates/TASK-template.md)): remove the parent link and it
 is a task. One field, and every link still resolves because links point at the id.
 
 ---
@@ -77,7 +77,7 @@ wave closes over the gap **and the gap becomes its own task**, named, not forgot
 values are for conveyor work — a batch of thumbnails where one corrupt source must not hold
 thirty; that conveyor case, met at carry-in, is the second occasion beside Dify's iteration
 modes, which is what earned this its bar. **The policy is declared on the parent, in its wave
-plan** (`writing-work.md`, the field table), **and the barrier is held by whoever dispatched
+plan** ([`writing-work.md`](writing-work.md), the field table), **and the barrier is held by whoever dispatched
 the wave** — the dispatcher session, or the role that owns the parent where one does.
 
 **`wave`, not `stage`.** One word cannot mean both the step of a pipeline and the parallel group;
@@ -91,7 +91,7 @@ the corpus that used one word for both paid for it.
 and only the owner of the result has it.
 
 **Children are addressed to groups, and routing runs again** — possibly into other groups
-entirely → `addressing.md`.
+entirely → [`addressing.md`](addressing.md).
 
 **Leaves have owners; parents may not.** A parent spanning several crafts is nobody's craft, so
 it stays unassigned, and that is the shape rather than a defect. It gives one testable
@@ -124,5 +124,5 @@ time before anyone can tell whether it is going anywhere. **Right** is a self-co
 producing a clear deliverable — a screen, a test file, a review, a decision.
 
 **Start low on grade when difficulty is unclear** and let the review gate return *"needs a higher
-grade"* → `hiring.md`. Guessing the grade before the work is a guess; failing the review is
+grade"* → [`hiring.md`](hiring.md). Guessing the grade before the work is a guess; failing the review is
 information.

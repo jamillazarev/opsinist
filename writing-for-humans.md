@@ -5,13 +5,13 @@ decision record, a document.
 
 **Write like a product page.** First line is the point. Lists over prose. Tables for data.
 **Readability, not brevity** — terse trims words, this shapes them to be scanned. They are
-different goals, and compressed reasoning is for machines → `dispatching.md`.
+different goals, and compressed reasoning is for machines → [`dispatching.md`](dispatching.md).
 
 **Everything opens with what it is and who it is for.**
 
 **What the thread discusses is in the thread.** The artifact under discussion — the screen, the
 draft, the diff, the number — is **embedded where it embeds, and linked with a still where it does
-not** (`project-layout.md`). A thread debating something nobody in it can see is a meeting without
+not** ([`project-layout.md`](project-layout.md)). A thread debating something nobody in it can see is a meeting without
 the document, and the next reader inherits the blindness. The forms, by what is being said:
 
 | Saying something about… | The thread carries |
@@ -25,10 +25,10 @@ the document, and the next reader inherits the blindness. The forms, by what is 
 or three steps — a flow being proposed, a handoff sequence, how a change travels — gets a small
 fenced ```mermaid block in the thread, because five sentences about ordering hide the fork that a
 five-node drawing makes unmissable, and the block renders wherever the thread is read — the git
-host, a vault, Notion — with no plugin (`project-layout.md`). Two bounds keep this from becoming
+host, a vault, Notion — with no plugin ([`project-layout.md`](project-layout.md)). Two bounds keep this from becoming
 decoration: **where the move already lives on the product map, point at `_ops/MAP.md` instead of
 redrawing it** — a second drawing is a second source of truth — and a thread's sketch is working
-material, which climbs to the map only by shipping (`mapping.md`).
+material, which climbs to the map only by shipping ([`mapping.md`](mapping.md)).
 
 **The bar is shown, not described.** What follows is each artifact as a weak version and a strong
 one, because **the difference is what teaches**. The weak versions are not strawmen — **every one
@@ -213,10 +213,10 @@ the affordance is how the batch is delivered where it exists. **A free answer wi
 buckets in either form** — an owner who describes their own practice has answered better than the
 options could, and shaping that into a configuration is the advisor's work, not theirs.
 
-**Presented together, consented per line** → `requests.md`.
+**Presented together, consented per line** → [`requests.md`](requests.md).
 
 **Options may be produced in parallel when speed matters** — one worker per option, isolated, the
-fan-out announced with its cost (`consulting.md`); one agent working the options in sequence is
+fan-out announced with its cost ([`consulting.md`](consulting.md)); one agent working the options in sequence is
 the cheap default. Two bounds: **the comparison is assembled by someone who authored none of the
 options**, for the same reason a review never goes to the author — an option's author scores it
 generously. And **options from one provider converge on that provider's tastes**: where the choice
@@ -225,7 +225,7 @@ author's provider.
 
 **Where measurement settles it cheaper than argument, propose the experiment instead of the
 table**: the split, the metric and the threshold, all named before anything runs — a threshold
-chosen after the data is a fit, not a test. Synthetic panels stay direction-only (`audience.md`).
+chosen after the data is a fit, not a test. Synthetic panels stay direction-only ([`audience.md`](audience.md)).
 
 ## A rejected decision
 
@@ -274,7 +274,7 @@ the two-line version; this is the full one):
 - **bold-everywhere and bullet-itis** — emphasis that marks everything marks nothing
 
 **The deep pass is a skill, not a longer list** — the shelf names it, with its limits
-(`catalogue.md` → *Writing without the AI smell*). One clause the row does not carry: **a rewrite
+([`catalogue.md`](catalogue.md) → *Writing without the AI smell*). One clause the row does not carry: **a rewrite
 that smuggles a new fact in is worse than slop** — slop wastes attention; a fabricated specific
 spends trust.
 

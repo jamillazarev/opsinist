@@ -44,13 +44,13 @@ duplication: two parents mean two guides, two skill sets and two background colo
 **These are not the harness's teams.** Ours are durable groups in files, invisible to the
 runtime; the harness's are the live subagent sessions one session spawns, deleted when it ends. Our routing
 is read by the advisor, which then spawns a worker — so **our team structure costs nothing at
-runtime** (`GLOSSARY.md`).
+runtime** ([`GLOSSARY.md`](GLOSSARY.md)).
 
 ---
 
 ## A mention opens a conversation, not a task
 
-A mention is a **bridge** (`PATTERNS.md` §18): its outcome is open. Most end in an answer and
+A mention is a **bridge** ([`PATTERNS.md`](PATTERNS.md) §18): its outcome is open. Most end in an answer and
 create nothing. The ones that cross — *"yes, let's do it"* — **seed work and leave the
 conversation as it was**. There is no mode to switch and nothing to register.
 
@@ -90,7 +90,7 @@ four validation runs, an owner's deliberate choice, and a line in the ledger.
 | agent → human | **an answer**, on human time |
 
 The type does the enforcing: a mention of an expert or a persona **cannot become work**, because
-neither is assignable. → `audience.md`
+neither is assignable. → [`audience.md`](audience.md)
 
 **Live people answer in days, agents in seconds.** A live consult **must never silently hold a
 gate running at agent speed**. Name the trade-off out loud — a separate stage, a deadline, or
@@ -104,9 +104,9 @@ hanging on people **who do not know they are blocking anything**.
 absent**: a task is discussed in its thread, an opinion is asked of someone.
 
 **Attachments dropped in a task thread become task resources** — registered, carrying a `why`,
-link-checked, and surviving the thread's rotation — distillation at rotation is `PATTERNS.md` §12. A screenshot that only exists in a rotated
+link-checked, and surviving the thread's rotation — distillation at rotation is [`PATTERNS.md`](PATTERNS.md) §12. A screenshot that only exists in a rotated
 archive is the "private tool became the only place the finding exists" failure.
-→ `resources.md`
+→ [`resources.md`](resources.md)
 
 ---
 
@@ -119,11 +119,11 @@ tokens are real and the disagreement is not converging.
 one, and this is the moment it is for.
 
 **Then escalate, as a request.** Not a louder message in the thread: a request has an age,
-lives in the attention view, and can be answered later (`requests.md`).
+lives in the attention view, and can be answered later ([`requests.md`](requests.md)).
 
 **And frame it correctly, because this is the part people get wrong:** a third round on one
 point is a **spec problem, not a quality problem**. The escalation asks the advisor to **settle
-what "done" means here** — not to judge who is right. → `escalating.md`
+what "done" means here** — not to judge who is right. → [`escalating.md`](escalating.md)
 
 **The evidence is free.** Thread exchanges are runs, so "this disagreement cost X across N runs"
 is an ordinary group-by. The bound holds by **measurement**, not only by counting rounds.
@@ -139,7 +139,7 @@ than handing back half-finished work.
 Find the questioning skill in this order, and the order is about gates rather than convenience:
 **the project's own skill pool** → the curated sources → a broader search. **A skill from the
 pool is already screened, carries provenance and is paid for**; an outside one costs the full
-import gate again. → `skills.md`
+import gate again. → [`skills.md`](skills.md)
 
 ---
 
@@ -158,5 +158,5 @@ no warning, and the wrong worker runs. Uniqueness is checked at creation and a d
 refused with an alternative offered.
 
 **Latin characters by default**, because the name becomes a slug and a path. Cyrillic is
-possible and is a **known untested area** (`evals/new-scenarios.md`) — a flag, not a ban, and it
+possible and is a **known untested area** ([`evals/new-scenarios.md`](evals/new-scenarios.md)) — a flag, not a ban, and it
 is removed by a test rather than by a decision.

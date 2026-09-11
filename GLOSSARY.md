@@ -18,7 +18,7 @@ is that file's business; a term used in two is canon, and canon lives here.
 | These look alike | …and are not | The test |
 |---|---|---|
 | **relay** (a request kind) · **"the owner takes it by hand"** (the door) | a `relay` is **one operation the owner performs while the worker keeps the task**; *by hand* means the owner **takes the whole thing** — one of the three doors in the core. **The bare phrase *by hand* has a second, ordinary sense — *manually, not by a script* — and that one is fine everywhere**; only the door collides | who still owns the task afterwards? |
-| **a form** · **a rule** | a rule is a sentence someone must follow; **a form is a shape that fails without them** — a field a liar cannot fill cheaply, a template hole that is visibly empty when skipped, a check that refuses, a writer restriction. The distinction is the whole of this system's measured practice: rules stated in always-loaded prose have measured at or near zero across several rounds, and the same rules rebuilt as refusals have measured far higher — the rounds and their exact rates are in `evals/RUNS.md`, each with its tier, because a rate quoted without one is a claim about a machine nobody ran. So *"this needs a form"* never means *say it more firmly* — it means *find the artifact where the omission shows* | if nobody reads the sentence, does anything still stop? |
+| **a form** · **a rule** | a rule is a sentence someone must follow; **a form is a shape that fails without them** — a field a liar cannot fill cheaply, a template hole that is visibly empty when skipped, a check that refuses, a writer restriction. The distinction is the whole of this system's measured practice: rules stated in always-loaded prose have measured at or near zero across several rounds, and the same rules rebuilt as refusals have measured far higher — the rounds and their exact rates are in [`evals/RUNS.md`](evals/RUNS.md), each with its tier, because a rate quoted without one is a claim about a machine nobody ran. So *"this needs a form"* never means *say it more firmly* — it means *find the artifact where the omission shows* | if nobody reads the sentence, does anything still stop? |
 | **the reach gate** | one named `Stop` refusal: it will not let a session end with the machinery uncommitted, and its message opens `Opsinist reach gate:`. **It is not the only gate that fires at an ending** — `hooks/audit-gate.py` holds a second `Stop` gate, and several `PreToolUse` refusals fire at a tool call rather than at a commit. What it is *for* is the gap the others leave: **the checks that live in the guard are enforced at the commit**, so a run that stops short of one meets none of them | did the machinery reach a commit? |
 | **a door** (a request kind) · **a door** (a shipped path) · **a door** (a branch on a diagram) | the sense the tooling prints most is the **second**: a path the guard expects beside itself — `_ops/scripts/transition.py`, `_ops/scripts/new-id.py`, and the directories `_ops/runs/` and `_ops/pipelines/`. It is *paths*, not only files, and `--doors-only` restores the two scripts. In the core, *the owner takes it by hand* is one of the **three doors** a request can leave by. On a diagram, a door is any branch a route may leave through. **Read the refusal, not the word** — `preflight.sh` also says *door* of a slash-command `SKILL.md` and of a heading in a template | which door does THIS message mean? |
 | **rung** — at least four senses, and the file will not settle them for you | **evidence rung**: *measured › cited › recalled › judgement*, one scale for claims about the world. **audience rung**: *live › twin › validated persona › proto*, never pooled with the first. **a ladder step**: something that must be passed before the next, as in the tool-choosing ladder — the guard's *"the rung above choosing"* is this one, and asks what the work did **before** the tool. **a settings level**: which rungs a setting declares (project → team → role → task). The word carries its sense from its neighbour, always | what is the scale, or what had to be true first? |
@@ -30,7 +30,7 @@ is that file's business; a term used in two is canon, and canon lives here.
 | **segment** · **panel** | a segment is a **property of one persona** (SMB, enterprise, novice); a panel is a **named composition for a run** ("5 SMB, 3 enterprise, 2 churned") | is it *an attribute* or *a group*? |
 | **release** · **milestone** | a release **ships, has a version and gets measured**; a milestone is **a checkpoint that may ship nothing** | does it leave the building? |
 | **migration** · **adoption** | a migration moves what a project **already has** onto a newer shape; an adoption is taking up something it **never used**, which a release can make load-bearing. The first is applied on approval, the second is **offered with its price and may be declined for good** | is there something to convert, or something to start? |
-| **takeover audit** · **migration audit** | the first reads **a repository you have not operated** and produces a **debt list** — blocking or deferrable, against the invariants (`entering.md`); the second reads **a project you already operate** and produces a **delta against a version** — needs no answer · needs an answer · needs nothing (`upgrading.md`) | is the yardstick **the invariants** or **a version**? |
+| **takeover audit** · **migration audit** | the first reads **a repository you have not operated** and produces a **debt list** — blocking or deferrable, against the invariants ([`entering.md`](entering.md)); the second reads **a project you already operate** and produces a **delta against a version** — needs no answer · needs an answer · needs nothing ([`upgrading.md`](upgrading.md)) | is the yardstick **the invariants** or **a version**? |
 | **record** · **work** | the record documents **how the work was produced**; the work is **what it produced** | delete it — is the shipped thing now wrong or incomplete? |
 | **guest** · **successor** | a guest does **one bounded piece and leaves nothing of ours behind**; a successor **becomes the project's operator** | are their conventions *binding* or *weighable*? |
 | **import** · **checkout** · **publish** | import is **one-time, we become canonical, the cord is cut**; checkout is **ongoing, they stay canonical, only the working set**; publish is **ongoing, we stay canonical, nothing comes back** | which side is canonical, and does anything return? |
@@ -39,7 +39,7 @@ is that file's business; a term used in two is canon, and canon lives here.
 | **complete** · **canonical** | the local copy is **always complete** so the graph resolves; **canonical** is declared per destination and does not move | can I read it here, or does it decide? |
 | **skill** · **resource** · **source** | a skill is **a procedure the agent follows**; a resource is **a place it goes to look**; a source is **the evidence behind a claim it makes** | follow it · consult it · cite it |
 | **module** · **chapter** | a module is an **optional product capability** (design system, brand, theatre); a chapter is a **loadable part of this skill** | is it *the project's* or *ours*? |
-| **our register** · **the project's register** | *"what patterns / decisions / sources do we have"* is ambiguous: `PATTERNS.md` and `sources/` are **this skill's**, while the project keeps its own decisions, tooling and resources | answer the one they meant, and say which you read |
+| **our register** · **the project's register** | *"what patterns / decisions / sources do we have"* is ambiguous: [`PATTERNS.md`](PATTERNS.md) and `sources/` are **this skill's**, while the project keeps its own decisions, tooling and resources | answer the one they meant, and say which you read |
 | **threshold** · **cap** | a threshold **asks before an action**; a cap **stops when a total is reached** | before each, or at the sum? |
 | **update** · **upgrade** | update = **new bytes arrive**; upgrade = **the project moves onto them** | did anything change *here*? |
 | **addressing** · **assignment** | addressing is **the ask, and it may go to a group**; assignment is **accountability, and it is always exactly one** | can the target be a group? |
@@ -57,111 +57,111 @@ is that file's business; a term used in two is canon, and canon lives here.
 ### Work
 
 **task** — a unit of work: it has an id, an assignee, a thread, runs and a cost. A checklist
-line has none of those. Subtasks are tasks. → `writing-work.md`
+line has none of those. Subtasks are tasks. → [`writing-work.md`](writing-work.md)
 
 **id** — six characters from a 32-symbol alphabet (the digits and every letter but `I`/`L`/`O`/`U`),
 immutable, generated once, **never reused**. Links point at the id, never at the name, which is
-what makes renaming safe. → `writing-work.md`
+what makes renaming safe. → [`writing-work.md`](writing-work.md)
 
 **status category** — one of six the system understands: `backlog` · `planned` · `started` ·
 `completed` · `canceled` · `triage`. The project names its own stages inside them.
-**`blocked` is not a status** — a blocked task is `started` with a blocker. → `pipelines.md`
+**`blocked` is not a status** — a blocked task is `started` with a blocker. → [`pipelines.md`](pipelines.md)
 
 **triage** — the category raw intake lands in, excluded from boards and planning by default.
-Four dispositions: accept · decline (with a reason) · duplicate · snooze. → `writing-work.md`
+Four dispositions: accept · decline (with a reason) · duplicate · snooze. → [`writing-work.md`](writing-work.md)
 
 **stage** — a named step of this task's pipeline (`draft`, `fact-check`, `in dev`). The only
-state field. → `pipelines.md`
+state field. → [`pipelines.md`](pipelines.md)
 
 **wave** — an integer barrier grouping a parent's children. Everything genuinely independent
 shares a wave and runs concurrently; **the numbers order dependencies, not tasks**. Two children
-in the same wave never own the same file. → `decomposing.md`
+in the same wave never own the same file. → [`decomposing.md`](decomposing.md)
 
 **relation** — a typed pair, **one side stored**, the other generated: `blocked_by`↔`blocking` ·
-`duplicate_of`↔`duplicated_by` · `related` (its own inverse). → `writing-work.md`
+`duplicate_of`↔`duplicated_by` · `related` (its own inverse). → [`writing-work.md`](writing-work.md)
 
 **waiting_on** — a wait that is **not a task**: a person doing a physical thing, hardware, a
-delivery, an access grant. Ages like a request. → `writing-work.md`
+delivery, an access grant. Ages like a request. → [`writing-work.md`](writing-work.md)
 
 **priority** — a named scale, `none` (default) · `low` · `medium` · `high` · `urgent`. Opt-in.
-**Dates beat priority; priority is not the order.** → `writing-work.md`
+**Dates beat priority; priority is not the order.** → [`writing-work.md`](writing-work.md)
 
 **stream** — `product` (default) or `system`. `system` is work on the project's own machinery
-and always carries full history regardless of size. → `self-maintenance.md`
+and always carries full history regardless of size. → [`self-maintenance.md`](self-maintenance.md)
 
 **area** — a declared `select` field naming a part of a monorepo (`app`, `site`, `brand`). Not
-an entity. → `writing-work.md`
+an entity. → [`writing-work.md`](writing-work.md)
 
 **history** — one append-only table per task recording runs, transitions, assignments and
 relation changes. The current value lives in the field; how it got there lives here.
-→ `writing-work.md`
+→ [`writing-work.md`](writing-work.md)
 
 ### People
 
 **role** — one entity with a `type`, four handles (**name · position · grade · description**)
-so the owner can find someone by any of them. → `hiring.md`
+so the owner can find someone by any of them. → [`hiring.md`](hiring.md)
 
 **advisor** — **the figure this skill's core defines: the session the owner is talking to.**
 It introduces itself by the skill's frontmatter `display_name`. Exactly one per
 project. Runs the turn loop, dispatches, **is never assigned a
 task**, and is the only role that may write other roles' `model`/`effort` and the project
-defaults — always as a recorded decision. → `hiring.md`
+defaults — always as a recorded decision. → [`hiring.md`](hiring.md)
 
-**worker** — assignable, accountable, counted in capacity. → `hiring.md`
+**worker** — assignable, accountable, counted in capacity. → [`hiring.md`](hiring.md)
 
 **expert** — consulted, **never assigned**, not in capacity. A synthetic expert cites sources;
-a live expert **is** the source. → `audience.md`
+a live expert **is** the source. → [`audience.md`](audience.md)
 
 **persona** — never assignable, never a team member, output always marked, verdicts
-**direction only, never magnitudes**. Effort defaults to `low`. → `audience.md`
+**direction only, never magnitudes**. Effort defaults to `low`. → [`audience.md`](audience.md)
 
 **human** — a real person consulted as a source: a live expert, an interview participant.
 Never dispatched. Their contribution is the top evidence rung; paying them is spend.
-→ `audience.md`
+→ [`audience.md`](audience.md)
 
 **grade** — junior · mid · senior · principal. **A routing fact, never a character**: it decides
 who gets the work and at which tier, and never enters an agent's instructions as an identity.
-→ `hiring.md`
+→ [`hiring.md`](hiring.md)
 
 **team** — members + a **routing rule** (by-craft · round-robin · first-free) + an
 **aggregation rule**. **No leader** — routing and aggregation are what the leader used to be.
-A role may not be in two teams. → `addressing.md`
+A role may not be in two teams. → [`addressing.md`](addressing.md)
 
 **panel** *(a "cohort" before 0.2.0)* — **who answers when you ask the audience**: a named
 composition of experts, personas and humans for one run, with a required **`made_of`**
 (`synthetic` · `live` · `mixed`) that decides what the system may claim about the result.
 **Not an analytics cohort** — retention groups by signup week live in the product's metrics,
-not in this directory. → `audience.md`
+not in this directory. → [`audience.md`](audience.md)
 
 ### Governance
 
 **gate** — something that must be true before a transition. Carries an honest
 **`enforced_by`**: `request` · `validator` · **`git-host`** · **`harness`** · `prose-only`.
-→ `permissions.md`
+→ [`permissions.md`](permissions.md)
 
 **git-host** — where the repository lives: GitHub, GitLab, Gitea, or none. Enforces branch
 protection and reviews. An adapter that cannot enforce something **says it cannot**, rather
-than pretending. → `permissions.md`
+than pretending. → [`permissions.md`](permissions.md)
 
 **harness** — the agent runtime this skill runs inside: Claude Code, or another. Enforces tool
 allowlists, turn caps and isolation, because those live in the subagent definition. **Not the
-same as the git-host** — the two were one word until they collided. → `dispatching.md`
+same as the git-host** — the two were one word until they collided. → [`dispatching.md`](dispatching.md)
 
 **the four owner-gated kinds** — spend · outward · destructive · shape-of-team. `destructive`
 is always ask and cannot be preset away. **A gate is a property of the action, not of who
-performs it** — the advisor is not exempt. → `permissions.md`
+performs it** — the advisor is not exempt. → [`permissions.md`](permissions.md)
 
 **grant** — a delegated right with an expiry: `{right, grantee, scope, duration}`. The **only**
 way a gate is loosened, because a setting rots quietly and a grant announces its own death.
-Expiry is evaluated **at the gate check**, not by a timer. → `permissions.md`
+Expiry is evaluated **at the gate check**, not by a timer. → [`permissions.md`](permissions.md)
 
 **request** — one entity with a `kind`: `approval` · `review` · `question` · `decision` · `relay`. A
 review routed to a non-author **is** the review gate. The author never answers their own.
-Every escalation is a request. → `requests.md`
+Every escalation is a request. → [`requests.md`](requests.md)
 
 **attention view** — a computed state in two parts: **needs you** (requests — state, stays until
 answered) and **happened** (notifications — events, ages out). Nothing to mark read.
-→ `requests.md`
+→ [`requests.md`](requests.md)
 
 ### Evidence
 
@@ -171,7 +171,7 @@ authority, and **the rung travels with the claim** across a handoff. → `SKILL.
 
 **second pyramid** (audience rung) — for signal about people: **live › twin › validated
 persona › proto**. Never pooled with the first. Three live interviews and twenty synthetic runs
-are never "23 responses". → `audience.md`
+are never "23 responses". → [`audience.md`](audience.md)
 
 **source** — evidence behind a claim, registered in `sources/` when it is **slow-rotting canon**.
 Fast-rotting facts (a price, a current limit) are **fetched at the moment of use**, never cached
@@ -183,57 +183,57 @@ here to rot. → `SKILL.md`
 `from → to · date · outcome · who`, outcome one of `applied` · `nothing-required` · `declined` ·
 `deferred` · `failed`. **It is history, not state** — `schema_version` beside it is the state —
 and it is the only thing that distinguishes *the files were swapped* from *the project was
-migrated*. A guest repository has none. → `upgrading.md`
+migrated*. A guest repository has none. → [`upgrading.md`](upgrading.md)
 
 **spec mode** — where the authoritative description of the work lives: **a ladder, and the
 value names the cut** — `outcome` · `spec` · `example`, cumulative, with a format the project
 already runs entering as a **binding**, not a rung. The mechanics — the two exemplar kinds,
-the per-type default, what closing does — live in one home → `writing-work.md`. Absent reads
+the per-type default, what closing does — live in one home → [`writing-work.md`](writing-work.md). Absent reads
 as `outcome`. Not the awareness ladder marketing uses — that one is a craft frame in the
 catalogue.
 
 **run strategy** — how a dispatch is run, as distinct from *what model* (tier) and *how hard*
 (effort): `standard` · `self-refine` · `self-consistent` · `cot`, files of data in
 `strategies/`. Resolves by the one cascade with **a selector at the bottom rung**, lands on
-the run with its source, never applies to the advisor's own session. → `strategies/selector.md`
+the run with its source, never applies to the advisor's own session. → [`strategies/selector.md`](strategies/selector.md)
 
 **pipeline** — a linear stage ladder with gates on its transitions, and `starts:`
 (`manual` · `on-completion` · `schedule:<cron>`) saying what begins the next unit of work.
-→ `pipelines.md`
+→ [`pipelines.md`](pipelines.md)
 
 **automation** — recurring or triggered work: `trigger` · `template` · `dry_run_first` ·
 `stop_conditions[]` · `owner_of_failures` · `leaves_trace`. **Creates work; never moves anyone
-else's.** Failures are visible. → `automations.md`
+else's.** Failures are visible. → [`automations.md`](automations.md)
 
 **run** — one dispatch, appended to the task's history: started/ended · role · model · effort ·
 fast · trigger · **outcome · verdict** · attempt · reason · commits · checkpoint · four token
 numbers · tool uses · duration · `skills_available[]` · `skills_used[]`. The resolved cascade values are recorded here so
-"why did it cost that" is answerable afterwards. → `dispatching.md`
+"why did it cost that" is answerable afterwards. → [`dispatching.md`](dispatching.md)
 
 **cascade** — the one resolution shape: **project → team → role → task**, most specific wins,
 **each setting declares which rungs it has**, and the resolved value is recorded on the run.
-→ `PATTERNS.md`
+→ [`PATTERNS.md`](PATTERNS.md)
 
 **layer** — one of the six kinds of thing a project accumulates, ordered by what they mean to
 someone with no agents at all: **documentation · work · conversation · team · telemetry ·
-results**. → `storing.md`
+results**. → [`storing.md`](storing.md)
 
 **cut** — where that ladder is divided: above it goes to the repository, below it stays with you.
 **One position, not six switches**, asked as a filled-in form before the first lasting write.
-→ `storing.md`
+→ [`storing.md`](storing.md)
 
 **manifest** — one line per layer in `_ops/config.md` naming where that layer lives. Stays in the
 repository even when the layers do not, because **a clone giving contents without a map is worse
-than one giving a map without contents** — the first looks complete. → `storing.md`
+than one giving a map without contents** — the first looks complete. → [`storing.md`](storing.md)
 
 **store** — `~/.opsinist/projects/<slug>/`, a directory of **ordinary git repositories, not a
 database**: no index, the list is built by scanning. Holds a complete copy so the graph resolves;
 identity is a generated id plus an **append-only list of keys**, so the directory name is only a
-convenience. → `storing.md`
+convenience. → [`storing.md`](storing.md)
 
 **skill pool** — every skill the project has. **Attachment is a different question from
 existence**: unattached is a normal state. Attachment lives on the role, never on the skill.
-→ `skills.md`
+→ [`skills.md`](skills.md)
 
 **chapter** *(called a "companion" before 0.2.0 — same thing, clearer name)* — a loadable
 part of this skill, **named for its trigger** ("when X happens, read Y"), never for its topic.
@@ -245,23 +245,23 @@ the other file points. → `SKILL.md`
 most often collapsed into one word. DoR: workable from the task alone, outcome writable, the
 type's *ready when* met — held at the door into `started` by whoever picks the task up. DoD: the
 type's craft gates, made concrete by the task's own acceptance criteria and deliverables.
-Collapse them and work starts unstartable and finishes undone. → `writing-work.md`
+Collapse them and work starts unstartable and finishes undone. → [`writing-work.md`](writing-work.md)
 
 **architecture map · product map** — two maps, two questions. `_ops/ARCHITECTURE.md`: where the
 implementation lives, a worker's map of the tree. `_ops/MAP.md`: how the product is walked — the
 moves and the things. Reasoning about a flow from the architecture map lands a change in the
-right file and the wrong journey. → `mapping.md`
+right file and the wrong journey. → [`mapping.md`](mapping.md)
 
 **generated surface** — markdown between markers, rewritten only by its generator: the board,
 the roster, progress, children lists, changelog. **A view, never a source** — no rule lives only
-here. → `PATTERNS.md`
+here. → [`PATTERNS.md`](PATTERNS.md)
 
 **field notes** — friction recorded **the moment it happens**, append-only, one line
 (`date · flow · symptom · evidence · fix-candidate`); a correction is a new entry, never an edit.
-Swept into the backlog at natural checkpoints. → `self-maintenance.md`
+Swept into the backlog at natural checkpoints. → [`self-maintenance.md`](self-maintenance.md)
 
-| **verdict** (a run record's field) · **verdict** (the thing `PATTERNS.md` §15 forbids) | the **field** is one of `pass · fail · mixed · none` and answers *what did this run conclude*, beside `outcome`, which answers *how did it stop*. §15's *evidence, not verdicts* is about a **tool** — a scanner's clean report is not approval, and who decides what a finding means is named separately. A run recording what it concluded is evidence about that run; a tool declaring the matter settled is the thing §15 refuses. The two do not conflict, and they are one word apart, so **say which one** → `dispatching.md` · `PATTERNS.md` §15 | is this a cell in a record, or a tool deciding? |
+| **verdict** (a run record's field) · **verdict** (the thing [`PATTERNS.md`](PATTERNS.md) §15 forbids) | the **field** is one of `pass · fail · mixed · none` and answers *what did this run conclude*, beside `outcome`, which answers *how did it stop*. §15's *evidence, not verdicts* is about a **tool** — a scanner's clean report is not approval, and who decides what a finding means is named separately. A run recording what it concluded is evidence about that run; a tool declaring the matter settled is the thing §15 refuses. The two do not conflict, and they are one word apart, so **say which one** → [`dispatching.md`](dispatching.md) · [`PATTERNS.md`](PATTERNS.md) §15 | is this a cell in a record, or a tool deciding? |
 
 **the four lenses** — deletion · adversarial · contradiction · cold-read, run in that order by
 someone who is not the author. The compensating control for every `prose-only` gate. An empty
-lens is stated explicitly. → `lenses.md`
+lens is stated explicitly. → [`lenses.md`](lenses.md)

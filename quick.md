@@ -26,7 +26,7 @@ what distinguishes "done" from "produced". It goes to someone who did not write 
 
 **One thing it does get, first, so the list below cannot swallow it: the run is recorded.** Not
 a task, not an id — the plain fact of what ran, what it produced and what it cost, written
-wherever the record lands (`storing.md`). It is the one piece here that pays off *inside* the
+wherever the record lands ([`storing.md`](storing.md)). It is the one piece here that pays off *inside* the
 hour: a job that dies has something to resume from, and *"what did that cost"* has an answer.
 
 - **an id** — no task file, no history, no relations
@@ -78,7 +78,7 @@ behind**.
 | one craft | needs a second craft's judgement |
 | no lasting decision | changes how something is done afterwards |
 | nothing outward | publishes, deploys, spends |
-| product work | **touches the project's own machinery** — always full history, however small → `self-maintenance.md` |
+| product work | **touches the project's own machinery** — always full history, however small → [`self-maintenance.md`](self-maintenance.md) |
 
 **The gates still apply.** A quick job that publishes, spends or destroys hits the same four
 owner-gated kinds as anything else. Small is not a permission level, and **the request itself is
@@ -95,11 +95,11 @@ is growing **silently**, so that an hour's job quietly acquires a roadmap.
 > gets an id and the pieces already done come with it. Or keep going as is?"*
 
 The offer names the act and what carries over; a bare *"want me to step back?"* hands the shape
-back to the owner to design, which is the measured failure → `checking.md`.
+back to the owner to design, which is the measured failure → [`checking.md`](checking.md).
 
 **If they say yes, the next step has an address:** a task takes its shape from
-`templates/TASK-template.md` and its rules from `writing-work.md`; a whole project starts at
-`starting.md`. **What was already done comes with it** rather than being redone — the growth is a
+[`templates/TASK-template.md`](templates/TASK-template.md) and its rules from [`writing-work.md`](writing-work.md); a whole project starts at
+[`starting.md`](starting.md). **What was already done comes with it** rather than being redone — the growth is a
 promotion, not a restart.
 
 **Whatever it outgrows is added later**, and nothing is lost by having started small: a quick job
@@ -119,4 +119,4 @@ roster and writing a decisions log has failed — even if the buttons get rename
 outward, so it is asked about; asking is not the same as building apparatus.
 
 The eval for this is deliberately the first and most trivial one, because **a suite made only of
-hard cases hides the failure that matters most in practice** → `evals/new-scenarios.md`.
+hard cases hides the failure that matters most in practice** → [`evals/new-scenarios.md`](evals/new-scenarios.md).

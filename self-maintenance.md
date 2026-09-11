@@ -37,7 +37,7 @@ nobody here reads is a dependency wearing a filename. **Standard library first**
 dependency walks through the import gate like any other arrival. **Size is a signal**: a helper
 pushing past ~150 lines, or wanting dependencies of its own, is §23 speaking — promote it to
 its own repository and re-import it as an external tool, **exactly the law skills already
-follow** (`skills.md`), so the repo never grows a monster it cannot shed. **And a guard gets a
+follow** ([`skills.md`](skills.md)), so the repo never grows a monster it cannot shed. **And a guard gets a
 test or it is a hope** — a script that decides something is exercised by a script beside it,
 the same habit this corpus keeps for its own validators.
 
@@ -75,7 +75,7 @@ Without the task these all exist and none of them is findable from the others.
 ## Effect at the next boundary
 
 **A change to the machinery takes effect at the next boundary, never mid-flight.** Work in progress
-finishes on the version it started with → `upgrading.md`.
+finishes on the version it started with → [`upgrading.md`](upgrading.md).
 
 This is one rule covering three things that used to be three: a settings change, an edit to the
 guide, and a new version of a skill. **One version per unit of work**, and the advisor **reports
@@ -105,7 +105,7 @@ four disconnected places.
 **Field note or blocking task? One question: does this stop me now?**
 
 - **No** → a field note, and carry on. **It becomes a task if it recurs — twice** — written from
-  `templates/TASK-template.md` under the rules in `writing-work.md`, in the system stream, with
+  [`templates/TASK-template.md`](templates/TASK-template.md) under the rules in [`writing-work.md`](writing-work.md), in the system stream, with
   **both occasions named in it**. A second occurrence recorded nowhere is a first occurrence again.
 - **Yes** → say so where you are, agree what is needed, and the original takes a `blocked_by` on a
   `tooling` task.
@@ -156,7 +156,7 @@ anywhere else. **The path is stated in the reply** rather than left to be discov
 **The dividing line, because the two logs look alike:** friction **in this project** is a field
 note and lives in its repository (`_ops/FIELD-NOTES.md`); friction **in the system operating it**
 is this package and lives outside. *Whose defect is it* decides where it is written — and it is
-the same rule that keeps a guest's record out of a maintainer's tree (`entering.md`).
+the same rule that keeps a guest's record out of a maintainer's tree ([`entering.md`](entering.md)).
 
 **Then the ways to send it are offered, because "there is no channel" is the sentence that ends
 in silence.** Name them and let the owner pick:
@@ -200,12 +200,12 @@ the clauses are** (`LATER.md` holds the reconciliation):
 3. **The claim dated, with the measurement behind it** — enforcement is a form × path ×
    version matrix, and a probe's evidence is a stamp, never the model's account of itself.
 4. **The showcase trio** — a diagram, a situation, a fact — or the mechanic is invisible to
-   everyone who did not write it. **The diagram lives beside the rule it draws; `diagrams.md`
+   everyone who did not write it. **The diagram lives beside the rule it draws; [`diagrams.md`](diagrams.md)
    holds only the ones that cross several rules** — a gallery holding every diagram collides with
    the chapter budget at each new mechanic, and a chapter of the crossing ones does not. Promoted
    2026-09-07 on two occasions a fortnight apart, both recorded in the deferred list: the
-   contradiction stop's diagram went to `escalating.md` and the cost one to `cost.md`, and the
-   question of what `diagrams.md` is for was answered by that use rather than by argument.
+   contradiction stop's diagram went to [`escalating.md`](escalating.md) and the cost one to [`cost.md`](cost.md), and the
+   question of what [`diagrams.md`](diagrams.md) is for was answered by that use rather than by argument.
    **Whether the trio exists at all is still judgement, and so is whether a change is a repair
    that owes only the fact** — the deferred list carries the candidate test and the price it has
    not yet paid. Do not read the exemption as settled: it was claimed twice in one session before
@@ -261,7 +261,7 @@ is placed.
 **So the ladder, when a rule keeps failing:** first ask whether it names a **file to open**; then
 whether it demands a **field a liar cannot fill cheaply**; then whether it belongs in a
 **template**, so omitting it leaves a visible hole rather than a silent one; then whether a
-**script** can decide it, which moves it off `prose-only` for good (`permissions.md`); and only
+**script** can decide it, which moves it off `prose-only` for good ([`permissions.md`](permissions.md)); and only
 then, whether it is a **writer restriction** — *who may write this fact* — because some failures
 are not about knowing the rule but about being the wrong party to assert it.
 
@@ -299,7 +299,7 @@ once, on one machine, about one version. **Weight is earned by surviving, not by
 | **3 · durable** | a rule where it belongs, or a form | **a week between the first line and the promotion**, and it still reproduces |
 | **4 · load-bearing** | the always-loaded core | it changed a measured outcome, and the measurement is cited |
 
-**Rungs 1 and 2 already existed** — the field-note line and the *bar is twice* → `checking.md`.
+**Rungs 1 and 2 already existed** — the field-note line and the *bar is twice* → [`checking.md`](checking.md).
 **Rung 3 is the new one, and its price is time**: a week between the first dated line and the
 promotion, spent doing other work. Not a waiting ritual — a filter. What is still reproducible a
 week later, with the panic gone, is about the system; what evaporates was about that afternoon.
@@ -328,7 +328,7 @@ the change stops a thing happening (repair, immediate) or teaches a party to beh
 (lesson, ladder).
 
 **And promotion is not a copy — it is a move with a pointer.** The rule lands in one home, and
-the field note gains the version that closed it → `checking.md`. Two homes for one rule is the
+the field note gains the version that closed it → [`checking.md`](checking.md). Two homes for one rule is the
 drift this corpus spends most of its checks preventing.
 
 *Prose, and named as prose:* the dated line and the citation are the parts a form can read; the

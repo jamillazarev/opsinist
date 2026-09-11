@@ -14,7 +14,7 @@ wonder why nothing changed.
 | Layer | What moves |
 |---|---|
 | **this system's bytes** | the skill files on the machine — **by a route that differs per install**, below — **and its copies inside the project**: `_ops/scripts/` holds the guard and its doors, which move only when re-copied, so a release adding a check leaves them green while running fewer gates. The guard stamps its own version and warns when the guide disagrees (2026-08-22) |
-| **the project's format** | `schema_version`, the codemods — **the tasks carrying state twice named, not rewritten** · **the doors re-copied by `scripts/migrate-layout.py` — which finds its own source, so no one has to know where this runtime cached the skill — the guide regenerated from the new template** (`project-layout.md`): copies do not move by themselves, and a regenerated guide is how an existing project receives what the template learned |
+| **the project's format** | `schema_version`, the codemods — **the tasks carrying state twice named, not rewritten** · **the doors re-copied by `scripts/migrate-layout.py` — which finds its own source, so no one has to know where this runtime cached the skill — the guide regenerated from the new template** ([`project-layout.md`](project-layout.md)): copies do not move by themselves, and a regenerated guide is how an existing project receives what the template learned |
 | **attached skills** | third-party skills, re-screened |
 | **tooling versions** | the things in the register, checked against their release feeds |
 
@@ -26,7 +26,7 @@ into a directory that had never existed — wired into nine harnesses, loading i
 everywhere" is a claim about a generated list, never about memory**, and the list is re-run
 afterwards so every row is seen to have moved.
 
-**The routes that move the bytes live in `INSTALL.md`**, one per harness with its trap — the file
+**The routes that move the bytes live in [`INSTALL.md`](INSTALL.md)**, one per harness with its trap — the file
 that decided how it was installed decides how it updates. **Verify by reading the installed copy,
 never the command's output**: every one of those routes has reported success at least once for a
 version it had not moved to.
@@ -41,7 +41,7 @@ against the release you last read about and fails silently, leaving a shape noth
 
 **Then it is an audit and a delta, never a rebuild — and the delta reads both ways.** Re-running
 the interview overwrites conventions the owner chose on purpose; the takeover discipline holds
-(`entering.md`): read first, then **one list** — what this release adds that the project lacks,
+([`entering.md`](entering.md)): read first, then **one list** — what this release adds that the project lacks,
 **and the project rules the new corpus now contradicts** — each a finding with two named sides:
 **the owner decides which wins, recorded so the next upgrade does not re-ask.**
 
@@ -49,12 +49,12 @@ the interview overwrites conventions the owner chose on purpose; the takeover di
 **takeover audit** measures a repository you have not operated **against the invariants**; a
 **migration audit** measures one you already operate **against a version**. **The yardstick is
 the difference**, and handing an owner who asked to upgrade a list of everything wrong with their
-project is how an upgrade becomes an argument. `GLOSSARY.md` carries the pair.
+project is how an upgrade becomes an argument. [`GLOSSARY.md`](GLOSSARY.md) carries the pair.
 
 **And the owner is not held while it runs** — the same three-part shape as reading a repository
-(`entering.md`): **the arrival is inline**, seconds, naming both versions and where each was read
+([`entering.md`](entering.md)): **the arrival is inline**, seconds, naming both versions and where each was read
 from; **the audit is background work**, a tier down, being extraction rather than reasoning the
-advisor could not do itself → `dispatching.md`; **only the questions block**, once, in one batch.
+advisor could not do itself → [`dispatching.md`](dispatching.md); **only the questions block**, once, in one batch.
 
 **Say all three out loud at the start**: what arrived, that the audit is running and roughly how
 long, and that the session stays usable. **An owner made to sit through a scrolling audit pays
@@ -71,12 +71,12 @@ for a wait that had no reason to hold the session**; one given no notice reads s
 Then the list, in the three piles, **and the questions in one batch with the recommendation
 already filled in** — where the runtime offers a native way to ask a small set of named options,
 it is used, recommended first, each carrying its trade-off, with a free answer beating the
-buckets (`arriving.md`, `PATTERNS.md` §26). **Nothing in that message is a status report about
+buckets ([`arriving.md`](arriving.md), [`PATTERNS.md`](PATTERNS.md) §26). **Nothing in that message is a status report about
 the tool**: every line says what it means for their project.
 
 **And the end is said as plainly as the start** — applied, declined, waiting on a moment, and
 where all three are written. **Where the runtime has no delegation, say that instead of
-pretending** (`runtimes.md`): the audit runs inline, kept short, and the owner is told it will
+pretending** ([`runtimes.md`](runtimes.md)): the audit runs inline, kept short, and the owner is told it will
 take a moment. **A promise of a non-blocking upgrade that blocks is worse than an honest wait.**
 
 **The list splits on one question — does this need you? — and that is the whole point of it.**
@@ -102,12 +102,12 @@ upgrade is the other place this goes wrong, and for the same reason: the release
 the migration creates it, and the owner gains an empty `TEAM.md` from a version they installed
 rather than from a team they hired. **The delta names it as available, not as missing** — and it
 is written at the first decision, the first deferral, the first role, whichever the file is for
-(`starting.md`). **A migration that leaves a project with more empty documents than it had is a
+([`starting.md`](starting.md)). **A migration that leaves a project with more empty documents than it had is a
 migration that made the project worse**, however faithfully it followed the changelog.
 
 **Only the advisor runs a migration; a worker that notices one escalates.** It edits many
 artefacts at once — the owner's call by definition — and a worker holding one task has neither
-the view nor the standing. **It says so and stops**: a request with an age (`requests.md`), its
+the view nor the standing. **It says so and stops**: a request with an age ([`requests.md`](requests.md)), its
 own task continuing if the pending step does not touch it. **A migration run by whoever noticed
 it first is how a project gets migrated twice.**
 
@@ -154,7 +154,7 @@ is, which version put it there, and what reads it now — *nothing* being the an
 an orphan is **reported, never removed** — and *"leave it"* is a legitimate, complete answer that
 gets recorded as one rather than re-raised next release. **An upgrade that tidies is an upgrade
 that deletes something load-bearing**, eventually, and the owner will not know which release did
-it. When removal is agreed, it enumerates its destinations first (`storing.md`).
+it. When removal is agreed, it enumerates its destinations first ([`storing.md`](storing.md)).
 
 **Tasks are not one pile, and the state a task is in decides what may be done to it.** Treating
 them alike is how a migration either disrupts live work or falsifies finished work.
@@ -281,9 +281,9 @@ the log existed is a fact about this system, not a fault of theirs. The resoluti
 identical either way: **run the audit**; against a conformant project it finds nothing and says so.
 
 **A guest repository has none of this and gets none of it.** No log, no check, no line written —
-a contributor passing through owes the maintainers no record of our versions, and `entering.md`
+a contributor passing through owes the maintainers no record of our versions, and [`entering.md`](entering.md)
 is absolute about nothing of ours landing in their tree. **The record for guest work is kept with
-you, elsewhere** (`storing.md`), and that is where its version belongs. The same silence covers a
+you, elsewhere** ([`storing.md`](storing.md)), and that is where its version belongs. The same silence covers a
 quick job and a question with nothing to build: **no project, no log, nothing to check.**
 
 **Each line records who ran the step**, because a project has more than one pair of hands and
@@ -341,7 +341,7 @@ to justify having been asked, or answering from the version string and calling i
 about a number in a file, **not a claim that the project matches that version**: an upgrade
 interrupted halfway, a hand edit, a setting nobody ever answered — each leaves a project whose
 version line is current and whose tree is not. **A version comparison that short-circuits the
-audit is a check that cannot fail**, and this file has paid for that lesson (`self-maintenance.md`).
+audit is a check that cannot fail**, and this file has paid for that lesson ([`self-maintenance.md`](self-maintenance.md)).
 
 **So the audit still runs — and it is cheap**, because there is no changelog span to walk: read
 what the current version expects and check the tree carries it. Two endings, and both are short:
@@ -386,7 +386,7 @@ must not have to infer.
 
 **Past some distance this stops being an upgrade.** A project many versions behind, whose
 conventions the corpus has since reorganised, is closer to a repository being met for the first
-time — **read it as one** (`entering.md`), produce the debt list, and let the owner choose the
+time — **read it as one** ([`entering.md`](entering.md)), produce the debt list, and let the owner choose the
 order. The threshold is judgement, not a number, and **the honest move is to say which of the two
 you are doing and why** rather than performing a migration whose steps no longer describe the
 tree in front of you.
@@ -421,7 +421,7 @@ only for the sad one.
 
 **Finish by explaining it in plain language** — what changed, why it helps, what to do differently
 now. That is onboarding a **person** into a release, and it is a different thing from onboarding
-them into the system or into a project → `arriving.md`, `entering.md`.
+them into the system or into a project → [`arriving.md`](arriving.md), [`entering.md`](entering.md).
 
 ---
 
@@ -437,7 +437,7 @@ knows which steps stand between that and now, and applies them in order.
 
 **Moving a rule between files is a format change** for anyone who linked to it. That is not a
 technicality: with the corpus split into chapters, a reference that pointed at a section is a
-reference that can break, and **only a link check across sections catches it** → `checking.md`.
+reference that can break, and **only a link check across sections catches it** → [`checking.md`](checking.md).
 
 **Anchors must be headings.** A reference to a bold line or a table row is invisible to tooling and
 **dies silently the first time the table is reorganised**. If something is worth pointing at, it
@@ -452,7 +452,7 @@ is a scenario worth testing rather than assuming.
 
 **The version you vetted is not the version you are about to install.** Diff against the screened
 one, scan it again, and **read the prose diff — a new paragraph is as much of a change as a new
-script** → `security.md`.
+script** → [`security.md`](security.md).
 
 Then record the newly-screened version, so the next upgrade has a baseline.
 
@@ -464,7 +464,7 @@ Then record the newly-screened version, so the next upgrade has a baseline.
 
 For each entry in the register, check its release feed for a newer version **and for breaking
 changes** — and for what `mise.toml` and the lockfiles declare, `scripts/deps-report.py` asks the
-tools that already know and sorts the answer by what it asks of the owner (`tooling.md` → *When
+tools that already know and sorts the answer by what it asks of the owner ([`tooling.md`](tooling.md) → *When
 something it needs has a newer version*). **A tool that changed its interface breaks agents
 silently**, with the symptom of a stale pin: work that used to succeed fails in a way that looks
 like the agent's fault.
@@ -492,7 +492,7 @@ same failure as changing a setting mid-flight, with more moving parts.
 
 ## After a bad one
 
-**Name what regressed** the way a recovery does → `recovering.md`.
+**Name what regressed** the way a recovery does → [`recovering.md`](recovering.md).
 
 **Restore the previous commit**, verify the regression is actually gone, and **write down what
 broke, next to the entry**. The next attempt starts informed rather than repeating it.

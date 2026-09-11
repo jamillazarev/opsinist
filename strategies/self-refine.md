@@ -13,7 +13,7 @@ prompt_prefix: |
 ```
 
 **Raises the floor before review; never replaces it.** The author's context is invisible to
-the author (`lenses.md`) — a second pass by the same mind catches slips, not assumptions, so
+the author ([`lenses.md`](../lenses.md)) — a second pass by the same mind catches slips, not assumptions, so
 **a self-refined deliverable still goes to a non-author for review**, and a run that cites
 this strategy as its review has faked the review. Best on writing and analysis; pointless on
 mechanical edits, where the critique has nothing to hold against.

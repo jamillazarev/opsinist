@@ -13,8 +13,8 @@ turns a gate into a sentence.
 ## Detect first, and record what was found
 
 The environment fingerprint already hashes **harness version** as one of its classes
-(`drift.md`). Reading *which* runtime this is belongs in the same step, at the same moment: the
-six-check ladder on arrival → `arriving.md`.
+([`drift.md`](drift.md)). Reading *which* runtime this is belongs in the same step, at the same moment: the
+six-check ladder on arrival → [`arriving.md`](arriving.md).
 
 **Read it, never assume it.** A profile carried in from another machine is a claim about somewhere
 else. And **record the profile on the run alongside the resolved cascade** — otherwise *"why did
@@ -30,15 +30,15 @@ Each row is a question to answer about the runtime in front of you, not a featur
 | Capability | What depends on it | Without it |
 |---|---|---|
 | **delegation** — spawning a worker that runs on its own | every dispatch | **the advisor advises and does not dispatch.** Roles, tasks and the record still work; nothing runs unattended |
-| **tool restriction the runtime enforces** | `enforced_by: harness` | that gate **downgrades to `prose-only`** and joins the named list (`permissions.md`). **And where it is supported it can still be absent for one session**: a registry collected at session start does not contain a role written after it, so a role created and dispatched in the same sitting runs unrestricted → `hiring.md` |
+| **tool restriction the runtime enforces** | `enforced_by: harness` | that gate **downgrades to `prose-only`** and joins the named list ([`permissions.md`](permissions.md)). **And where it is supported it can still be absent for one session**: a registry collected at session start does not contain a role written after it, so a role created and dispatched in the same sitting runs unrestricted → [`hiring.md`](hiring.md) |
 | **per-worker model and effort** | the cascade's whole point | the cascade resolves to **one setting for everything**; say so rather than writing per-role values nothing reads |
 | **isolated worktrees** | a wave running in parallel | **waves serialise.** The rule that two children in one wave never own the same file stops being enough, because they now share one tree |
-| **lifecycle hooks** | automations that fire on an event, **and the audit gate that holds a takeover to its order** (`entering.md`) | triggers become **manual or scheduled**; an automation with `trigger: on-completion` silently never fires, and the audit gate **downgrades to prose** — the rule stands, nothing performs it. **And the downgrade moves with the CLI version, so the claim carries its date and its form.** Measured 2026-08-07 on the then-CLI: plugin `PreToolUse` did not fire under `claude -p` at all. **Re-measured mechanically 2026-08-08 on 2.1.220** (stamp files, not narration — a narrated probe fabricated a success the same day): plugin hooks now fire under `-p`, and **the exit-2 form enforces** — the command is blocked — while the `permissionDecision` JSON form is **executed and ignored on the plugin path** (honored from `settings.json`). A gate that denies by exit code holds headless on the current CLI; a gate speaking only the JSON form holds from settings and not from the plugin. State the form with the gate, and date the claim |
-| **a native question form** — a prompt the owner answers by choosing, not by typing | **every question put to the owner**, and the migration and debt batches especially (`writing-for-humans.md`) | **the batch is prose**, and it degrades the way prose does: one question at a time, no recommendation marked, no free answer offered. Measured on a live project 2026-08-15 — some questions arrived as the native form and some as plain text in the same project, because the rule lived in a chapter that is not loaded when a question happens to arise. **Resolve it at session start with the rest of this table and say which form is in use**, rather than deciding per question |
+| **lifecycle hooks** | automations that fire on an event, **and the audit gate that holds a takeover to its order** ([`entering.md`](entering.md)) | triggers become **manual or scheduled**; an automation with `trigger: on-completion` silently never fires, and the audit gate **downgrades to prose** — the rule stands, nothing performs it. **And the downgrade moves with the CLI version, so the claim carries its date and its form.** Measured 2026-08-07 on the then-CLI: plugin `PreToolUse` did not fire under `claude -p` at all. **Re-measured mechanically 2026-08-08 on 2.1.220** (stamp files, not narration — a narrated probe fabricated a success the same day): plugin hooks now fire under `-p`, and **the exit-2 form enforces** — the command is blocked — while the `permissionDecision` JSON form is **executed and ignored on the plugin path** (honored from `settings.json`). A gate that denies by exit code holds headless on the current CLI; a gate speaking only the JSON form holds from settings and not from the plugin. State the form with the gate, and date the claim |
+| **a native question form** — a prompt the owner answers by choosing, not by typing | **every question put to the owner**, and the migration and debt batches especially ([`writing-for-humans.md`](writing-for-humans.md)) | **the batch is prose**, and it degrades the way prose does: one question at a time, no recommendation marked, no free answer offered. Measured on a live project 2026-08-15 — some questions arrived as the native form and some as plain text in the same project, because the rule lived in a chapter that is not loaded when a question happens to arise. **Resolve it at session start with the rest of this table and say which form is in use**, rather than deciding per question |
 | **background or scheduled runs** | anything unattended | **nothing happens while nobody is watching** — which is already true of every runtime when the machine is off |
 | **MCP servers** | tools an agent drives directly | external tools reachable **by CLI only**, which is usually fine and occasionally not |
 | **deferred tool schemas** | every session's opening cost, and the register's answer to *how many servers can we afford* | **every schema is loaded before the first word**, so the tools are paid for on a session that uses none of them — forty of them is tens of thousands of tokens. The remedy is the register's, not a wrapper's: wire fewer servers, and let the ones that stay earn their weight. Observed on Claude Code 2.1.220, 2026-08-27, where tools arrive as names and a schema is fetched when one is wanted — **the row above dates its own claim for the same reason: this is moving, and a runtime capability quoted without its version is a claim about a machine nobody can find** |
-| **output modality** — can this model *make* an image, a voice, a video | any task whose deliverable is not text: a post's picture, a deck's cover, a narration | **the worker keeps the task and raises a `relay`** for the one operation it cannot perform → `escalating.md`. **Unlike every row above, this one is met mid-run, not read at session start** — the others are properties of the harness and are announced at dispatch; this is met at the step, by a worker already holding the context. **Production and perception fail separately**, which is what makes the return leg possible: a model that cannot draw an image reads one fine |
+| **output modality** — can this model *make* an image, a voice, a video | any task whose deliverable is not text: a post's picture, a deck's cover, a narration | **the worker keeps the task and raises a `relay`** for the one operation it cannot perform → [`escalating.md`](escalating.md). **Unlike every row above, this one is met mid-run, not read at session start** — the others are properties of the harness and are announced at dispatch; this is met at the step, by a worker already holding the context. **Production and perception fail separately**, which is what makes the return leg possible: a model that cannot draw an image reads one fine |
 
 **A missing capability is a stated limitation, never a silent one.** The failure this file exists
 to prevent is a project configured with per-role models, tool allowlists and parallel waves, in a
@@ -53,11 +53,11 @@ belongs on the run. Everything else on that scale is portable: `request` needs a
 needs a script, `git-host` needs a remote, `prose-only` needs nothing. **Only `harness` moves when
 the runtime does** — which is the axis this file is about. A row also changes when the *project*
 changes: an owner who declines a gate turns a `request` into `prose-only`, and the manifest says so
-(`requests.md`). Same scale, different reason, and only one of the two is portable.
+([`requests.md`](requests.md)). Same scale, different reason, and only one of the two is portable.
 
 **When it resolves to nothing, say it at dispatch.** *"This role's tool allowlist is not enforced
 here — it is a rule, not a gate."* Announced before the work, in one line, once. **A gate believed
-in but not enforced is worse than a stated rule** (`permissions.md`), and porting a role to a
+in but not enforced is worse than a stated rule** ([`permissions.md`](permissions.md)), and porting a role to a
 weaker runtime is the quietest way to produce one.
 
 ---
@@ -66,7 +66,7 @@ weaker runtime is the quietest way to produce one.
 
 **The indivisible unit is the run**, and the repository is what passes between them. A task
 interrupted in one runtime resumes in another, because recovery reads committed state rather than
-a session that no longer exists → `recovering.md`. Children of one wave may run in different
+a session that no longer exists → [`recovering.md`](recovering.md). Children of one wave may run in different
 runtimes; a subtask is a task, so nothing about it is special.
 
 **A worker can be sent into a different runtime than the one you are sitting in.** Not as a
@@ -113,13 +113,13 @@ this system deliberately does not own.
 owns execution — the Dify / Flowise / Langflow class: a backend, a database, an admin UI —
 cannot host this system, because the premise here is the inverse of theirs: the project is a
 function of the repository, sessions own nothing, and a handoff is a commit. Their mechanics
-are translated into files where they earn it (`catalogue.md`); the platforms themselves never
+are translated into files where they earn it ([`catalogue.md`](catalogue.md)); the platforms themselves never
 join this table.
 
 ## Moving a project from one runtime to another
 
 **There is nothing to freeze, and that is the point.** Ending a session properly is the whole
-procedure: the tail written to its thread, applied work committed, control returned → `entering.md`.
+procedure: the tail written to its thread, applied work committed, control returned → [`entering.md`](entering.md).
 A session that ends without that is an interrupted run and the next start says so — in **any**
 runtime, because the marker is in the repository rather than in the session that set it.
 
@@ -129,7 +129,7 @@ threads and the history are already there.
 
 **The fingerprint will differ, and that is explained rather than alarming.** The harness class is
 one of the hashes, so arriving in a different runtime looks exactly like drift until someone
-attributes it. **Attribute it once and record the why** (`drift.md`) — otherwise every future
+attributes it. **Attribute it once and record the why** ([`drift.md`](drift.md)) — otherwise every future
 session re-asks a question that was answered the first time.
 
 **Say what changed capability, at the switch rather than at the failure.** This is the moment the
@@ -156,11 +156,11 @@ and the fastest way to get this wrong is to write down a capability because it w
 
 | Runtime | Profile | Rung |
 |---|---|---|
-| **Claude Code** | every capability above; the runtime this was written in and run against. **Two collisions to know about:** it ships its own `TaskCreate` / `TaskGet` / `TaskList` for the assistant's **session to-do list** — in memory, gone at session end, no relation to this system's tasks (a task here is a **file**, `T-18` is `_ops/tasks/T-18.md`, and there is no task service to query) — **and a persistent agent memory**, the assistant's private cross-session notes outside any project: a spoken rule routed there is invisible to every worker, which is the chat's memory wearing a filesystem | **measured** — the behavioural suite runs here (`evals/`), including the collision: told *"it's in `T-18` and `T-21`"*, **2 of 5 runs called `TaskGet(taskId: "T-18")`**, got the empty session list back, and reported finding nothing; the memory collision the same way — **2 of 2 smoke runs (2026-08-07)** wrote the owner's spoken rule into agent memory and named no home back (`evals/RUNS.md`) |
+| **Claude Code** | every capability above; the runtime this was written in and run against. **Two collisions to know about:** it ships its own `TaskCreate` / `TaskGet` / `TaskList` for the assistant's **session to-do list** — in memory, gone at session end, no relation to this system's tasks (a task here is a **file**, `T-18` is `_ops/tasks/T-18.md`, and there is no task service to query) — **and a persistent agent memory**, the assistant's private cross-session notes outside any project: a spoken rule routed there is invisible to every worker, which is the chat's memory wearing a filesystem | **measured** — the behavioural suite runs here (`evals/`), including the collision: told *"it's in `T-18` and `T-21`"*, **2 of 5 runs called `TaskGet(taskId: "T-18")`**, got the empty session list back, and reported finding nothing; the memory collision the same way — **2 of 2 smoke runs (2026-08-07)** wrote the owner's spoken rule into agent memory and named no home back ([`evals/RUNS.md`](evals/RUNS.md)) |
 | **Gemini CLI** | agent skills · MCP · hooks · extensions · git worktrees · sandbox · headless · session resume · per-invocation model · a policy engine (the tool-restriction candidate). **Delegation not confirmed.** | **measured** for installation and the surface, `2026-07-28`; **unknown** for behaviour — authentication failed before a run |
 | **Codex CLI** | reads the same skill format; subagents reported | **cited**, not measured — it was not on the machine |
-| **hermes-agent** | a resident harness, not a per-session console: one gateway process behind messaging channels, built-in cron and webhooks, any model provider. Reads this skill unchanged via `skills.external_dirs`; **the router survives its loader** — a forced load and a persona-driven load both walked `SKILL.md` into chapters. **Unforced discovery missed once on a light tier**, so the always-on persona is load-bearing there, not decoration | **measured** for loading, resident mode and consult, `2026-07-30` — four smoke runs, N=1 each (`evals/RUNS.md`); the suite has not run here |
-| **OpenClaw** | a resident gateway: 25+ channels, per-channel isolated agents, eight automation mechanisms with heartbeat on by default. Reads this skill unchanged via a symlink into its skills directory; the agent saw it among fifty-eight. **The load-bearing anchor is an operational trigger rule in the workspace `AGENTS.md`** — a persona section in `SOUL.md` reached the context and was ignored, while the trigger rule fired the front door and both hard gates. A pure question first fell outside the rule's named class, then *"just your take"* was read as licence to skip the manual — both repaired by the trigger's wording, which is therefore part of the machinery | **measured** for loading, anchored mode and consult, `2026-07-30` — four smoke runs, N=1 each, player one tier down (`evals/RUNS.md`); the suite has not run here |
+| **hermes-agent** | a resident harness, not a per-session console: one gateway process behind messaging channels, built-in cron and webhooks, any model provider. Reads this skill unchanged via `skills.external_dirs`; **the router survives its loader** — a forced load and a persona-driven load both walked `SKILL.md` into chapters. **Unforced discovery missed once on a light tier**, so the always-on persona is load-bearing there, not decoration | **measured** for loading, resident mode and consult, `2026-07-30` — four smoke runs, N=1 each ([`evals/RUNS.md`](evals/RUNS.md)); the suite has not run here |
+| **OpenClaw** | a resident gateway: 25+ channels, per-channel isolated agents, eight automation mechanisms with heartbeat on by default. Reads this skill unchanged via a symlink into its skills directory; the agent saw it among fifty-eight. **The load-bearing anchor is an operational trigger rule in the workspace `AGENTS.md`** — a persona section in `SOUL.md` reached the context and was ignored, while the trigger rule fired the front door and both hard gates. A pure question first fell outside the rule's named class, then *"just your take"* was read as licence to skip the manual — both repaired by the trigger's wording, which is therefore part of the machinery | **measured** for loading, anchored mode and consult, `2026-07-30` — four smoke runs, N=1 each, player one tier down ([`evals/RUNS.md`](evals/RUNS.md)); the suite has not run here |
 | **CrewAI** | a Python framework, not a console — but its skills are `SKILL.md` with `name`/`description` frontmatter and progressive disclosure (names at setup, body on demand), **the same file shape this repository ships**; agents and crews take skill search directories. Everything else runs opposite to this corpus: memory in a vector store, training as prompt injections from a pickle, state checkpoints instead of a repository | **cited** from docs.crewai.com, `2026-07-30` — whether the router and chapters survive its loader is **unknown**, and the advisor-session premise has no equivalent there |
 
 **Re-verify before relying on a row.** These age like every other recorded fact, and a runtime

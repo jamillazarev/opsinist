@@ -99,6 +99,23 @@ editor. With the repository open in one, the generated board **is** a live board
 caveats worth stating: do not keep a generated file open in edit mode during a regeneration, and
 query plugins refresh on their own cadence.
 
+**An edge is a link, or the graph cannot see it.** A vault draws its graph from links alone, so an
+id or a file named in passing — *blocked by T-…*, *see `_ops/DECISIONS.md`* — is an edge only a
+reader infers. The templates write ids as links, `[T-XXXXXX](T-XXXXXX-slug.md)`; what was written
+before is what the skill's `scripts/link-ids.py` reports, and its `--write` converts — the owner's
+word, offered at an upgrade. **Declarations stay as written**: a task's heading and a run's
+`**Task**` row are where an id is declared, and readers parse them; a History section and the run
+records are kept as they were logged. Measured 2026-09-11 on a live project: 298 links in `_ops/`,
+and 273 mentions in 171 files that could have been.
+
+```mermaid
+flowchart LR
+  M["T-… or a file,<br/>named in passing"] -->|"link-ids.py —<br/>report, then --write"| L["[T-…](T-…-slug.md)"]
+  L --> G["an edge: the vault's graph,<br/>the host, the link checker"]
+  D["a declaration — a task's heading,<br/>a run's Task row"] -.->|"never rewritten"| D
+  M -.->|"left as a name"| X(("an edge only<br/>a reader infers"))
+```
+
 **Generated files carry markers and a header**, and only the generator writes between them —
 board, roster, progress, children lists, changelog, analytics. **A view, never a source.**
 
@@ -131,12 +148,12 @@ else's preferences are missing.
 live in the environment or a keychain.
 
 **No stored rollups.** Progress, burn and totals are computed from the atoms every time
-(`PATTERNS.md` §4).
+([`PATTERNS.md`](PATTERNS.md) §4).
 
 **Not every layer, necessarily.** Where a layer lives is a project decision, and `_ops/config.md`
 carries **the manifest — one line per layer, naming its destination**. It stays in the repository
 even when most layers do not, because a clone that gives contents without a map is worse than one
-that gives a map without contents: the first looks complete → `storing.md`.
+that gives a map without contents: the first looks complete → [`storing.md`](storing.md).
 
 **The local store is not the source of truth.** `~/.opsinist/projects/<slug>/` holds a complete
 copy so the graph resolves and a move needs no interrogation, but **which side is canonical is
@@ -161,7 +178,7 @@ diagram nobody can change** — export one only when something must render where
 **What cannot be embedded gets a pointer and a still.** A design file, a video, a 4 GB render: the
 thing lives where it is made, and the document carries **a link, a distillate, and an exported
 frame or screenshot** so a reader on a plane still knows what is being discussed →
-`resources.md`. The still is dated like any other snapshot.
+[`resources.md`](resources.md). The still is dated like any other snapshot.
 
 **Paths are relative and inside the repository.** An absolute path is one machine's truth, and a
 hotlinked remote image is a page that goes blank when somebody else's account lapses.
@@ -169,7 +186,7 @@ hotlinked remote image is a page that goes blank when somebody else's account la
 **No plugin is required to read a project, and that is a constraint rather than an accident.** If
 something genuinely needs one — a diagram format nothing else draws, a preview only one tool
 renders — that is a tooling decision with a register entry and a `why`, not a quiet dependency
-every future reader inherits → `tooling.md`.
+every future reader inherits → [`tooling.md`](tooling.md).
 
 ---
 
@@ -181,39 +198,39 @@ shape each time produces a document only its author can read.
 
 | Artifact | Template |
 |---|---|
-| the project guide | `templates/GUIDE-template.md` |
-| `_ops/config.md` | `templates/CONFIG-template.md` |
-| `_ops/FIELD-NOTES.md` | `templates/FIELD-NOTES-template.md` |
-| `_ops/MARKET.md` | `templates/MARKET-template.md` |
-| `_ops/research/<question>.md` | `templates/FINDING-template.md` |
-| `_ops/ARCHITECTURE.md` | `templates/ARCHITECTURE-template.md` |
-| `_ops/MAP.md` | `templates/MAP-template.md` |
-| `_ops/process/types/<type>.md` | `templates/TYPE-template.md` |
-| `_ops/DECISIONS.md` | `templates/DECISIONS-template.md` |
-| `_ops/ROADMAP.md` | `templates/ROADMAP-template.md` |
-| **a task** → `writing-work.md` | **`templates/TASK-template.md`** |
-| **a role** → `hiring.md` | **`templates/ROLE-template.md`** |
-| **a run record** → `dispatching.md`, `cost.md` | **`templates/RUN-template.md`** |
-| **a correspondence thread** — anyone outside the team | **`templates/THREAD-template.md`** |
-| `_ops/TEAM.md` | `templates/TEAM-template.md` |
-| `_ops/TOOLING.md` | `templates/TOOLING-template.md` |
-| `_ops/BUDGET.md` | `templates/BUDGET-template.md` |
-| a brand definition | `templates/BRAND-template.md` |
-| a design-system component | `templates/COMPONENT-template.md` |
-| a persona role → `audience.md` | `templates/PERSONA-template.md` |
-| a discovery pass → `process-discovery.md` | `templates/discovery-template.md` |
-| a new skill → `skills.md` | `templates/SKILL-SCAFFOLD.md` |
-| a change to this system → `self-maintenance.md` | `templates/SELF-MAINTENANCE-brief.md` |
-| the project's own release gate → `shipping.md` | `templates/company-preflight.sh` |
+| the project guide | [`templates/GUIDE-template.md`](templates/GUIDE-template.md) |
+| `_ops/config.md` | [`templates/CONFIG-template.md`](templates/CONFIG-template.md) |
+| `_ops/FIELD-NOTES.md` | [`templates/FIELD-NOTES-template.md`](templates/FIELD-NOTES-template.md) |
+| `_ops/MARKET.md` | [`templates/MARKET-template.md`](templates/MARKET-template.md) |
+| `_ops/research/<question>.md` | [`templates/FINDING-template.md`](templates/FINDING-template.md) |
+| `_ops/ARCHITECTURE.md` | [`templates/ARCHITECTURE-template.md`](templates/ARCHITECTURE-template.md) |
+| `_ops/MAP.md` | [`templates/MAP-template.md`](templates/MAP-template.md) |
+| `_ops/process/types/<type>.md` | [`templates/TYPE-template.md`](templates/TYPE-template.md) |
+| `_ops/DECISIONS.md` | [`templates/DECISIONS-template.md`](templates/DECISIONS-template.md) |
+| `_ops/ROADMAP.md` | [`templates/ROADMAP-template.md`](templates/ROADMAP-template.md) |
+| **a task** → [`writing-work.md`](writing-work.md) | **[`templates/TASK-template.md`](templates/TASK-template.md)** |
+| **a role** → [`hiring.md`](hiring.md) | **[`templates/ROLE-template.md`](templates/ROLE-template.md)** |
+| **a run record** → [`dispatching.md`](dispatching.md), [`cost.md`](cost.md) | **[`templates/RUN-template.md`](templates/RUN-template.md)** |
+| **a correspondence thread** — anyone outside the team | **[`templates/THREAD-template.md`](templates/THREAD-template.md)** |
+| `_ops/TEAM.md` | [`templates/TEAM-template.md`](templates/TEAM-template.md) |
+| `_ops/TOOLING.md` | [`templates/TOOLING-template.md`](templates/TOOLING-template.md) |
+| `_ops/BUDGET.md` | [`templates/BUDGET-template.md`](templates/BUDGET-template.md) |
+| a brand definition | [`templates/BRAND-template.md`](templates/BRAND-template.md) |
+| a design-system component | [`templates/COMPONENT-template.md`](templates/COMPONENT-template.md) |
+| a persona role → [`audience.md`](audience.md) | [`templates/PERSONA-template.md`](templates/PERSONA-template.md) |
+| a discovery pass → [`process-discovery.md`](process-discovery.md) | [`templates/discovery-template.md`](templates/discovery-template.md) |
+| a new skill → [`skills.md`](skills.md) | [`templates/SKILL-SCAFFOLD.md`](templates/SKILL-SCAFFOLD.md) |
+| a change to this system → [`self-maintenance.md`](self-maintenance.md) | [`templates/SELF-MAINTENANCE-brief.md`](templates/SELF-MAINTENANCE-brief.md) |
+| the project's own release gate → [`shipping.md`](shipping.md) | `templates/company-preflight.sh` |
 
 **Where a template does not exist, the artifact does not get invented on the spot** — it gets one,
-as a task, once the second project needs the same shape (`PATTERNS.md` §22).
+as a task, once the second project needs the same shape ([`PATTERNS.md`](PATTERNS.md) §22).
 
 **The first three rows are new on `2026-07-31`, and their absence was the loudest silence in this
 file.** Eleven artifacts a project writes occasionally each had a template; **the three it writes
 constantly — a task, a role, a run — had none**, and their shape lived as field-definition tables
 inside the chapters. A definition table says what a field *means*; **a template is a file you
-copy, where the field you skipped leaves a hole somebody sees.** `cost.md` had already named the
+copy, where the field you skipped leaves a hole somebody sees.** [`cost.md`](cost.md) had already named the
 consequence without being able to prevent it: *a run recorded by the worker itself carries a
 sentence where four numbers belong, which is how a ledger quietly becomes prose.*
 
@@ -225,11 +242,11 @@ a dead end, measured on a live project. **All three are re-copied at every migra
 `templates/company-preflight.sh`, the doors from the skill's `scripts/transition.py` and
 `scripts/new-id.py`; the skill repo's own `scripts/preflight.sh` is the **corpus** guard and must
 never land in a project — because a project running new rules with old gates is the same dead end
-one release later (`upgrading.md`). It
+one release later ([`upgrading.md`](upgrading.md)). It
 is what makes several of this system's rules real in this project — among them: a task cannot reach a terminal
 status in the same commit that edits its own bar, an entitlement cannot be claimed with nothing
 behind it, and the decisions log cannot be rewritten. **Un-wired, all three are `prose-only`
-here** whatever `permissions.md` says in general — a gate that lives in an uninstalled file is a
+here** whatever [`permissions.md`](permissions.md) says in general — a gate that lives in an uninstalled file is a
 gate nobody has. So it is wired when the project is stood up, and **whether it is wired is worth
 one line in the guide**, because the next agent has no way to tell by looking.
 

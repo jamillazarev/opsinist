@@ -16,5 +16,5 @@ protocol: |
 **For decisions with real consequences — and priced before it runs.** At ~N× a single pass
 this is the one strategy the selector may not switch on silently outside the classes the
 project agreed to in config (`decide` with consequences is the stock one): anywhere else it is
-offered in one line with its cost, and the owner's nod is the switch (`PATTERNS.md` §24, §21).
+offered in one line with its cost, and the owner's nod is the switch ([`PATTERNS.md`](../PATTERNS.md) §24, §21).
 The reduction is performed by the dispatcher, not by a fourth run asked to summarise three.

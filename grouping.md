@@ -27,8 +27,8 @@ Neither contains the other, because containment would create **two paths from a 
 releases its tasks landed in. That gives *"Alpha closed across v0.1–v0.3"* with no second
 membership path.
 
-**A milestone that outgrew itself is promoted, not nested** (`PATTERNS.md` §23) — it becomes a
-release, and the tasks under it keep their ids → `shipping.md`. Spanning many
+**A milestone that outgrew itself is promoted, not nested** ([`PATTERNS.md`](PATTERNS.md) §23) — it becomes a
+release, and the tasks under it keep their ids → [`shipping.md`](shipping.md). Spanning many
 releases and months usually means it has become an initiative in everything but name — and
 promoting it costs one field, while nesting it costs a level in every rollup forever.
 
@@ -52,7 +52,7 @@ is merely slow.
 question than *"56%"*.
 
 **The parent never closes itself** — unless it carries no definition of done of its own, in which
-case it is a folder → `decomposing.md`.
+case it is a folder → [`decomposing.md`](decomposing.md).
 
 **Scope movement is recorded, because otherwise progress appears to go backwards.** Add four
 tasks to a milestone and *"5 of 9"* becomes *"5 of 13"*: honest, and unreadable as anything but a
@@ -115,7 +115,7 @@ arrived**. Without that, scoring never improves — it just accumulates.
 
 ## Releases
 
-**Group tasks into a shipment**, cut it, measure it. The ritual is in `shipping.md`; what belongs
+**Group tasks into a shipment**, cut it, measure it. The ritual is in [`shipping.md`](shipping.md); what belongs
 here is the surgery:
 
 **Cutting a release** sends its unfinished items back to the backlog rather than deleting them.
@@ -123,7 +123,7 @@ here is the surgery:
 set. All three are ordinary decisions with reasons, and **a slip is a recorded decision, never a
 silent edit to a date**.
 
-**Batch, don't drip** → `shipping.md`. Pool
+**Batch, don't drip** → [`shipping.md`](shipping.md). Pool
 small changes; ship an urgent one alone.
 
 **Version with meaning:** a patch fixes without changing instructions, a minor adds a capability,

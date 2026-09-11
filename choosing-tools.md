@@ -38,7 +38,7 @@ sprinkle words. A version bump is not a new dependency and is not asked.
 **And this is the decision loop's own last step, made unskippable at one moment.** The loop already
 says *frame → search, don't recall → compare, each claim sourced → choose and say why → record in
 `_ops/DECISIONS.md` → act* (`SKILL.md`), and every claim inside it carries its rung — **measured ›
-cited › recalled › judgement** (`audience.md`). The rung above choosing adds no new obligation; it
+cited › recalled › judgement** ([`audience.md`](audience.md)). The rung above choosing adds no new obligation; it
 picks the **moment** where the existing one is cheapest to meet and hardest to skip. A new standing
 commitment is the sharpest instance of *choose and say why*, because it is the decision whose cost
 outlives everyone who remembers making it.
@@ -73,7 +73,7 @@ no package manifest is not exempt. A bakery's dependency is a supplier and its m
 `_ops/TOOLING.md`.
 
 **Native-first is the same rung, said earlier** — ask whether the runtime already does it before
-designing anything, and record the answer with its date → `tooling.md`.
+designing anything, and record the answer with its date → [`tooling.md`](tooling.md).
 
 ---
 
@@ -86,7 +86,7 @@ requests, seats, rows, builds, minutes, projects — whichever one this project 
 automatically**? Those are three completely different risks, and only the third can surprise a
 budget.
 
-**Record the ceiling with a check-date** → `tooling.md`. Free tiers move.
+**Record the ceiling with a check-date** → [`tooling.md`](tooling.md). Free tiers move.
 
 ---
 
@@ -143,7 +143,7 @@ Where each kind of check sits is more useful than which tool performs it:
 | **build** | unit and component checks — part of the definition of done |
 | **review** | the end-to-end suite, accessibility and performance budgets, visual regression against the design system |
 | **ship** | a smoke pass against the real thing, plus the launch checklist |
-| **measure** | synthetic checks and error reporting, feeding the outcome → `shipping.md` |
+| **measure** | synthetic checks and error reporting, feeding the outcome → [`shipping.md`](shipping.md) |
 
 **A tool list per platform ages; this mapping does not.** Pick the tools by the same ladder, and
 record them with their check-dates.
@@ -153,7 +153,7 @@ record them with their check-dates.
 ## Security defaults
 
 **Standards, not vibes** — and the classic misses in agent-written code are worth checking every
-time because they recur → `security.md`.
+time because they recur → [`security.md`](security.md).
 
 **Depth is chosen by risk, not by default.** A landing page gets dependency scanning; anything
 holding user data or money earns a real penetration test before it ships.

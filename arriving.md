@@ -16,13 +16,13 @@ Ambiguity is normal here; a wrong guess is cheap to correct at this point and ex
 
 | They have | They want | **Who decides what is next** | Entrance |
 |---|---|---|---|
-| an empty folder | something built | you and them together | `starting.md` |
-| work in a folder with no git | it continued | as it already is | `entering.md` — it is a takeover nobody committed |
-| an existing repo | it continued | as it already is | `entering.md` |
-| a backlog elsewhere | it moved here | mostly them | `importing.md` |
-| a list of jobs, no tracker | them done, order theirs | **them** | `starting.md`, planning off |
-| one job, no team | it done | them | `quick.md` |
-| a question, nothing to build | an answer | — | `consulting.md` |
+| an empty folder | something built | you and them together | [`starting.md`](starting.md) |
+| work in a folder with no git | it continued | as it already is | [`entering.md`](entering.md) — it is a takeover nobody committed |
+| an existing repo | it continued | as it already is | [`entering.md`](entering.md) |
+| a backlog elsewhere | it moved here | mostly them | [`importing.md`](importing.md) |
+| a list of jobs, no tracker | them done, order theirs | **them** | [`starting.md`](starting.md), planning off |
+| one job, no team | it done | them | [`quick.md`](quick.md) |
+| a question, nothing to build | an answer | — | [`consulting.md`](consulting.md) |
 
 **The third column is the useful one.** "How much machinery" is a bad axis because it makes small
 and simple look like the same thing; **"who decides what is next"** separates the developer who
@@ -44,7 +44,7 @@ Any one of these is enough: the ask is **a question, not an imperative** · a **
 A build verb or a named artifact — *"build…"*, *"design the screens"* — is **not** this. That is a
 quick job or a feature.
 
-**Route by shape without being told.** `consulting.md` is where the machinery is never the
+**Route by shape without being told.** [`consulting.md`](consulting.md) is where the machinery is never the
 reflex.
 
 ---
@@ -60,9 +60,9 @@ sequential yes/no questions is exactly the experience this exists to avoid.
 | **a repository here** | **say what it costs, not just that it is missing.** *"This directory is not a repo. Two routes and it is yours to pick: `git init` here — one local command, nothing leaves the machine, undone by deleting the `.git` directory it makes — or tell me where the repository that already holds this work is, and I will open it there."* **Where the folder already has files, add the sentence that actually unblocks people: `git init` moves and changes nothing**, everything stays where it is until someone commits it. *"Start one, or point me at yours?"* is a question only somebody who already knows git can answer |
 | **a host CLI, if a remote is wanted** | name it and the login step; **a local repo with no remote is a legitimate end state** |
 | **harness version** | report what is newer and hand over the line; never run it unasked |
-| **environment fingerprint** | what loads from outside this repo — skills, plugins, hooks, settings, MCP servers → `drift.md` |
+| **environment fingerprint** | what loads from outside this repo — skills, plugins, hooks, settings, MCP servers → [`drift.md`](drift.md) |
 | **write access here** | fail early rather than halfway through |
-| **was this project migrated to the version now running it** — a comparison against the migration log, not an audit; **skipped entirely for a guest, a quick job or a question** | say that the log does not name this version, run the check in the background, and let only what the pending step would reshape wait → `upgrading.md` |
+| **was this project migrated to the version now running it** — a comparison against the migration log, not an audit; **skipped entirely for a guest, a quick job or a question** | say that the log does not name this version, run the check in the background, and let only what the pending step would reshape wait → [`upgrading.md`](upgrading.md) |
 
 **State the whole ladder at once, say what each fix costs, and let them say "do it all."** The one
 exception is the first rung: with no git there is nothing to run any of this with, so the honest
@@ -80,7 +80,7 @@ speaks in every folder somebody opens is one they learn to ignore.
 **Both arrivals hit this, and the empty one is the easier half.** An empty folder is obvious.
 **A folder full of work with no repo in it is the one that stalls**, because the owner's fear is
 that `git init` will disturb what is already there — so that is the sentence the rung has to
-carry, and it is why *"start one?"* alone was not enough → `entering.md`.
+carry, and it is why *"start one?"* alone was not enough → [`entering.md`](entering.md).
 
 ---
 

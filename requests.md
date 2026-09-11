@@ -16,7 +16,7 @@ takes it **by hand**"* is one of the three doors in the always-loaded core, and 
 the move this kind refuses — the whole job leaving. Sixteen files write *by hand*, and the core
 spends it on that door. The
 newcomer yields to the incumbent, the same way `flow` (dial) keeps the word and `flow`
-(procedure) gave it up (`GLOSSARY.md` → *Confusable pairs*).
+(procedure) gave it up ([`GLOSSARY.md`](GLOSSARY.md) → *Confusable pairs*).
 
 | `kind` | Example |
 |---|---|
@@ -31,7 +31,7 @@ cannot generate an image is not missing information — `question` is the wrong 
 asking for a judgement. It is missing **an actuator**. The instinct is to file the owner a task
 instead; that is the failure, and this file's neighbour says why: a task assigned to the owner has
 no runs and no capacity, so **its progress is invisible until they say otherwise**
-(`writing-work.md`). Filing it hands over the work. A `relay` hands over one step.
+([`writing-work.md`](writing-work.md)). Filing it hands over the work. A `relay` hands over one step.
 
 **The smallest operation only they can perform goes up. Everything before and after it stays.**
 The worker still gathers the references, writes the brief, produces the prompt, names where the
@@ -40,7 +40,7 @@ the whole job leaving**, and it is refused as one.
 
 **The shape is a file, and it lives at `_ops/requests/RQ-<id>.md`** — the commit gate reads
 that directory and no other, so a well-formed relay filed anywhere else is one nobody checks.
-**→ `templates/REQUEST-template.md`**, which
+**→ [`templates/REQUEST-template.md`](templates/REQUEST-template.md)**, which
 carries one worked `relay` end to end — a launch post whose image the model cannot draw.
 
 **So a `relay` carries four things. Three of them a commit cannot skip** —
@@ -55,7 +55,7 @@ interlock — and this file does not claim four refusals when three exist:
 | **the payload** | ready to run, verbatim — the prompt, the command, the exact ask. Not a description of it |
 | **the predicate** | what makes the returned thing acceptable — **written before the payload**, because a check written afterwards is written to fit what arrived |
 | **the destination** | where the result lands: the path, the register row, the slide |
-| **what to return with it** | the facts the worker will need and cannot see — for a generated asset, the model and the seed, or the recipe gate refuses the commit later (`visual.md`) |
+| **what to return with it** | the facts the worker will need and cannot see — for a generated asset, the model and the seed, or the recipe gate refuses the commit later ([`visual.md`](visual.md)) |
 
 **The return leg is a review running backwards, and it inherits that gate's own warning.** The
 worker wrote the payload and is now judging what came out of it — the same generosity a model
@@ -71,20 +71,20 @@ do.
 
 **The loop is bounded by the rule that already exists**: three attempts per task, counted, not
 argued — and *a third round on one point is a spec problem, not a quality problem*
-(`escalating.md`). A third prompt that still comes back wrong is not a prompt problem: **nobody
+([`escalating.md`](escalating.md)). A third prompt that still comes back wrong is not a prompt problem: **nobody
 settled what the image has to show.**
 
 **A review routed to a non-author *is* the review gate.** There is no separate gate machinery:
 the request is the gate. **The author never answers their own**, and preferably the reviewer is
 not even running on the same provider — models judge their own output generously.
 
-**A review is addressed to the group, and the group picks the tier** → `addressing.md`. Two
+**A review is addressed to the group, and the group picks the tier** → [`addressing.md`](addressing.md). Two
 different things wear the word *check*, and staffing them the same way is how a gate becomes a
 formality:
 
 | | What it is | Tier |
 |---|---|---|
-| **verification** | a fact the filesystem can settle — a file exists, the tree is clean, the build ran | **a tier down or further.** A check does not need to be more capable than the thing it checks → `dispatching.md` |
+| **verification** | a fact the filesystem can settle — a file exists, the tree is clean, the build ran | **a tier down or further.** A check does not need to be more capable than the thing it checks → [`dispatching.md`](dispatching.md) |
 | **review** | a judgement — is this right, is it good, does it meet the bar | **decided in the thread, and named.** Not below the author by default, because a reviewer that cannot follow the work rubber-stamps it |
 
 **The tier is a decision, not a constant.** A tier down is a legitimate answer — a small diff, a
@@ -104,14 +104,14 @@ running only the same-craft one is the common way a handoff quietly loses fideli
 | **same craft** | is this good work of its kind — sound, maintainable, correct | the author's own group, never the author |
 | **another craft** | is this faithful to what we handed you, and does it work for what comes next | the group whose work this came from, or goes to |
 
-**Both are mentions from the thread, and the group decides who goes** → `addressing.md`. Name the
+**Both are mentions from the thread, and the group decides who goes** → [`addressing.md`](addressing.md). Name the
 group and what you need, not a person you guessed; the group's routing rule picks the reviewer,
 and **whoever agrees creates the subtask** — which is how a review gets an owner without anyone
 assigning it from outside.
 
 **They run in parallel, not in a chain.** The design look and the code look do not depend on each
 other, so asking for them one after the other makes the work wait twice for nothing. That is what
-*parallel gates inside review* means (`pipelines.md`) — one stage, several gates, all open at once,
+*parallel gates inside review* means ([`pipelines.md`](pipelines.md)) — one stage, several gates, all open at once,
 and the stage clears when they all come back.
 
 **Mention only the groups whose answer changes something at this stage.** Four mentions are four
@@ -154,13 +154,13 @@ roughly a day of idle designer per week"*. A cost turns a nag into a decision in
 
 **Silence past the threshold does only what a grant allows.** By default a pending request
 keeps waiting — surfaced, aged, chased, **never answered for the owner**. Where the owner wants
-otherwise, they say so in advance, as a grant (`PATTERNS.md` §2): `on_timeout: {after: 3d, do:
+otherwise, they say so in advance, as a grant ([`PATTERNS.md`](PATTERNS.md) §2): `on_timeout: {after: 3d, do:
 proceed-with-default | cancel}` — scoped, visible while it lives, expiring by itself, and the
 run that uses it records that it did. **A timeout that acts was authorised before the silence,
 never inferred from it** — silence is not consent; the grant is, written while the owner was
 still in the room.
 
-**Every escalation is a request** → `escalating.md`. So is every proposal that needs an owner's
+**Every escalation is a request** → [`escalating.md`](escalating.md). So is every proposal that needs an owner's
 answer: an audit finding, a link that cannot be repaired unambiguously, a deadline at risk, a
 skill worth replacing. **The failure mode all of those share is arriving as a report** — and a
 report lives until the end of the scroll.
@@ -183,7 +183,7 @@ and it is why this is a view rather than a mailbox.
 **A failed run is an ordinary resident of this view.** The predecessor's worst property was that
 an automated run could fail and notify nobody; here failure is as visible as anything else.
 
-**Grants show their remaining life here** while they live → `permissions.md`.
+**Grants show their remaining life here** while they live → [`permissions.md`](permissions.md).
 
 **Waits age here too** — a `waiting_on` past its threshold surfaces, because a wait nobody chased
 and a wait everybody forgot look identical from outside.
@@ -199,8 +199,8 @@ three different answers that must not be blended:
 |---|---|
 | what needs me | the open requests — **state** |
 | what happened | the notification feed — **events** |
-| what changed that we did not change | the environment fingerprint → `drift.md` |
-| what outgrew its container | the seams, **each ending in a named offer** → `checking.md` |
+| what changed that we did not change | the environment fingerprint → [`drift.md`](drift.md) |
+| what outgrew its container | the seams, **each ending in a named offer** → [`checking.md`](checking.md) |
 
 The first two are this file. The last two are different questions and reporting them in the same
 list would hide them.
@@ -218,7 +218,7 @@ one is not a reason to skip it.
 
 **The summary is computed from the task histories**, not stored: closed since your last session,
 requests open and their ages, spend since then, anything that regressed. Same rule as everything
-else — the atoms are recorded, the summary is derived (`PATTERNS.md` §4).
+else — the atoms are recorded, the summary is derived ([`PATTERNS.md`](PATTERNS.md) §4).
 
 ---
 
@@ -229,7 +229,7 @@ proposal — lands in the `triage` category, **excluded from boards and planning
 raw intake never pollutes what is committed.
 
 **The advisor sorts and proposes; the owner decides.** Four dispositions, and the details are in
-`writing-work.md`: accept · decline **with a reason** · duplicate **as a relation** · snooze until
+[`writing-work.md`](writing-work.md): accept · decline **with a reason** · duplicate **as a relation** · snooze until
 a date **or until new activity**.
 
 **Two habits that keep triage from becoming a second backlog.** Sort it at natural checkpoints

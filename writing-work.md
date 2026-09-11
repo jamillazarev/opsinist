@@ -5,7 +5,7 @@ deciding what "done" will mean.
 
 **An id resolves to a path, and to nothing else.** `T-18` is `_ops/tasks/T-18.md` — open the file.
 **There is no task service to ask**, and where the runtime happens to ship one, it belongs to that
-session and not to this project → `runtimes.md`. **Measured `2026-07-31`:** told a routine was
+session and not to this project → [`runtimes.md`](runtimes.md). **Measured `2026-07-31`:** told a routine was
 recorded in `T-18` and `T-21`, two runs in five called the harness's own `TaskGet` with those ids,
 received an empty session list, and answered that they could not find them — a false *"it does not
 exist"* about two files sitting in the tree. **This rule is `prose-only` and is on that list**: it
@@ -23,7 +23,7 @@ One task, one file, in a **flat directory**: `_ops/tasks/T-8F3KQ2-billing-page.m
 a field, not a folder, so **re-parenting is a one-line edit** rather than a file move that
 breaks every link.
 
-**The shape is a file, not a description of one → `templates/TASK-template.md`.** This table says what each field *means*; the template is what you copy, and a field skipped in a copied file leaves a hole somebody sees.
+**The shape is a file, not a description of one → [`templates/TASK-template.md`](templates/TASK-template.md).** This table says what each field *means*; the template is what you copy, and a field skipped in a copied file leaves a hole somebody sees.
 
 | Field | Value | Why it exists |
 |---|---|---|
@@ -32,12 +32,12 @@ breaks every link.
 
 | `type` | a file in `_ops/process/types/` — feature · bug · content · chore · migration · tooling | selects the **definition of done** and the default pipeline. A bug and an article do not run the same gates. Not a closed list: types are editable from day one |
 | `stage` | a named step of this task's pipeline | **the only state field.** The pipeline declares which *category* each stage belongs to |
-| `stream` | `product` (default) · `system` | `system` is work on the project's own machinery, and it carries full history regardless of size → `self-maintenance.md` |
+| `stream` | `product` (default) · `system` | `system` is work on the project's own machinery, and it carries full history regardless of size → [`self-maintenance.md`](self-maintenance.md) |
 | `assignee` | a role, a human, or a group | **a group means "not yet decided who"** — legitimate on a parent, a finding on a leaf |
-| `parent` · `wave` | id + integer | decomposition and the barrier → `decomposing.md`. **The parent's wave plan may declare a per-wave `on_child_failure`** — the policy lives on the parent, beside the plan |
+| `parent` · `wave` | id + integer | decomposition and the barrier → [`decomposing.md`](decomposing.md). **The parent's wave plan may declare a per-wave `on_child_failure`** — the policy lives on the parent, beside the plan |
 | `priority` | `none` (default) · `low` · `medium` · `high` · `urgent` | opt-in, see below |
 | `start` · `due` | dates | **a start date gates the whole task, preparation included** |
-| `release` · `milestone` | ids | grouping → `grouping.md` |
+| `release` · `milestone` | ids | grouping → [`grouping.md`](grouping.md) |
 | `labels` | list | filtering; the taxonomy lives in `_ops/process/labels.md`. **Never label the stage** — it is a field |
 | `area` | declared `select` | which part of a monorepo this touches |
 | `created` · `updated` | dates | audit and staleness |
@@ -45,7 +45,7 @@ breaks every link.
 | `source` | `linear:ENG-88` + `version_seen` | only when checked out from an external tracker |
 | relations | see below | |
 | `waiting_on` | free text | a wait that is not a task |
-| `exclusive` | bool | needs the live checkout instead of a worktree → `dispatching.md` |
+| `exclusive` | bool | needs the live checkout instead of a worktree → [`dispatching.md`](dispatching.md) |
 | `x.*` | anything | custom fields, see below |
 
 **The body** carries the outcome, the acceptance criteria, the thread, and the generated blocks.
@@ -79,7 +79,7 @@ quietly wrong (§11, §17). The link-check walks anchors and hashes where it is 
 moment a run dies with its context. The harness enforces this for you: a spawned worker does
 not inherit the conversation that spawned it.
 
-**Where the description lives is a ladder, not a menu** (`PATTERNS.md` §1, §25) — **the axis is
+**Where the description lives is a ladder, not a menu** ([`PATTERNS.md`](PATTERNS.md) §1, §25) — **the axis is
 unchanged: where the authoritative description of the work lives.** What changed is the shape of
 the choice, and the reason is a defect the old menu built in: it made `spec` and `example`
 exclusive, and real work refuses that — **a spec document *and* a failing test is the ordinary
@@ -127,12 +127,12 @@ one-pager per feature in Notion, an RFC directory, a recipe card — binds that 
 how a task references one, and what closing does to it — updates it or archives it, whichever
 that format does. The third used to say "updates them" and was wrong for the option this file
 recommends most: a change-as-a-folder is *archived* when done. **Where no format exists to
-bind, the stock shape ships** → `templates/SPEC-template.md` — the fields good specs share,
+bind, the stock shape ships** → [`templates/SPEC-template.md`](templates/SPEC-template.md) — the fields good specs share,
 whatever the craft calls the cover.
 
 **Depth resolves by the cascade, and the type holds the default** — project (**optionally per
 type**, the same declaration pipelines make) → team → task, most specific wins, recorded on the
-run (§1). **The type's depth is born at the type's own wave** (`pipelines.md`), proposed from
+run (§1). **The type's depth is born at the type's own wave** ([`pipelines.md`](pipelines.md)), proposed from
 the craft's standards with provenance and confirmed in the owner's words: a bug arrives wanting
 `example` because its *ready when* already demands a reproduction; a newsletter issue arrives
 wanting the model issue; a chore arrives wanting the floor. **A mixed project needs no ceremony
@@ -144,7 +144,7 @@ documentation. Fine for most projects, wrong for a system that outlives its auth
 
 **The interview asks where to cut, and only when the answer changes something** — a deliverable
 that is code or a long-lived system; for a one-off job, a piece of writing or a design pass,
-the floor stands and the question is not asked (`starting.md`). It is asked rather than
+the floor stands and the question is not asked ([`starting.md`](starting.md)). It is asked rather than
 inherited **because it decides what a task looks like**: most cascading settings change what
 work *costs* — this one changes what work *is*. **A project that answers this on day ninety
 rewrites every task it has written.** Asked in outcome terms, with its consequence, never as a
@@ -152,7 +152,7 @@ menu of names.
 
 **When the owner binds a format, name real options rather than asking them to invent one.**
 Two are stocked **for software projects**, both MIT, both driving many agents by slash command
-→ `catalogue.md`: **OpenSpec** — a change is a folder of plain markdown, archived when done,
+→ [`catalogue.md`](catalogue.md): **OpenSpec** — a change is a folder of plain markdown, archived when done,
 which is this system's own premise already — and **Spec Kit**, phase-gated and heavier, for a
 project that wants those gates. **Elsewhere the format already has a craft name** — a creative
 brief, an editorial policy, a recipe card, a PRD — and **a project that already has its own
@@ -176,13 +176,13 @@ one-pager per feature in Notion and the task links to it"* has given a complete 
 answer, and turning that into a working configuration is the advisor's work, not theirs. **Take
 the description, read it back in their words, and land the cut and the three binding things**
 — where these live, how a task references one, what closing updates — **as a proposal to
-confirm, not as a form to fill.** A free answer beats the buckets (`PATTERNS.md` §26), and
+confirm, not as a form to fill.** A free answer beats the buckets ([`PATTERNS.md`](PATTERNS.md) §26), and
 *"none of those, we do it like this"* is the answer most likely to be right, because it comes
 from a practice that already exists.
 
 **Choosing one is an import, not a preference.** Anything arriving from outside goes through the
 import gate and lands in the tooling register with what it is, why, and its check-date
-(`tooling.md`, `resources.md`) — **a tool agreed in conversation and installed by nobody is the
+([`tooling.md`](tooling.md), [`resources.md`](resources.md)) — **a tool agreed in conversation and installed by nobody is the
 commonest way a cut becomes a lie**, because the tasks start referencing a format the
 repository has no machinery for. **The setting and the tool land together, or neither does.**
 
@@ -207,14 +207,14 @@ reason, the status is the state. **Adding `blocked_by` to something in progress 
 not a silent status change.**
 
 **A task says what it touches, on both maps.** The product side — the map nodes it changes or
-creates (`mapping.md`) — and the implementation side: the areas and paths the work will move
-through, derived before they are declared (`entering.md` — maps, then the tree's own evidence,
+creates ([`mapping.md`](mapping.md)) — and the implementation side: the areas and paths the work will move
+through, derived before they are declared ([`entering.md`](entering.md) — maps, then the tree's own evidence,
 then the owner for the remainder). **Impact nobody derived is a guess wearing a field**, and where
-the touched ground is unmapped, the task says that instead (`mapping.md`).
+the touched ground is unmapped, the task says that instead ([`mapping.md`](mapping.md)).
 
 **Ready is a bar too, and it has a name: the definition of ready.** A task may start when it is
 workable from itself and its linked docs, its outcome can be written, and its type's own *ready
-when* holds — a reproduction for a bug, the agreed colour for a commission (`pipelines.md` for
+when* holds — a reproduction for a bug, the agreed colour for a commission ([`pipelines.md`](pipelines.md) for
 where that bar lives). The gate sits on the transition into `started` and is **held by whoever
 picks the task up**: not ready comes back as a question, never as a guess.
 
@@ -230,14 +230,14 @@ A command that must exit clean: the tests, a schema validation, the acceptance s
 not to the reviewer — a human reading a diff that a script would have bounced is the most
 expensive linter there is. The retry is bounded by the law that already exists: **three attempts
 at the same failure is a signal**, and exhaustion escalates rather than quietly proceeding. The
-split between what a check settles and what a review judges is `requests.md`'s table — a `check`
+split between what a check settles and what a review judges is [`requests.md`](requests.md)'s table — a `check`
 never substitutes for the review, it clears the ground so the review is about judgement.
 
 **A task names what must exist afterwards, and where each thing lands.** The outcome says when it
 is done; the deliverables say **what the world contains once it is** — files at paths the manifest
 allows, a node on `_ops/MAP.md`, a doc updated, evidence in the thread. **Done is checked against
 that list, never against the feeling of doneness**: each named thing exists at its named place,
-the evidence is embedded where the discussion happened (`writing-for-humans.md`), the review came
+the evidence is embedded where the discussion happened ([`writing-for-humans.md`](writing-for-humans.md)), the review came
 back from a non-author, and only then does acceptance move the status. **A task that names no
 deliverables can be declared done by anyone, about anything** — which is the polite form of never.
 
@@ -291,7 +291,7 @@ A person doing a physical thing, hardware, a delivery, a client's answer, an acc
 points at no task, which is exactly why it needs its own field: without it such waits get
 miscoded as dependencies or vanish into a comment.
 
-**A wait ages like a request** (`PATTERNS.md` §8). Past N days it surfaces, because **a wait
+**A wait ages like a request** ([`PATTERNS.md`](PATTERNS.md) §8). Past N days it surfaces, because **a wait
 nobody chased and a wait everybody forgot look identical from outside**.
 
 A task assigned to the owner behaves the same way: it has no runs and no capacity, so its
@@ -311,7 +311,7 @@ whole task, **preparation included**: work that genuinely must run sooner is spl
 only prep". Publishing early is as wrong as late.
 
 **Priority is not the order.** The real order between items is one hand-kept list. Two sources
-of order drift within a week, and then nobody knows which is true. → `grouping.md`
+of order drift within a week, and then nobody knows which is true. → [`grouping.md`](grouping.md)
 
 **Anti-inflation is checked, not banned.** When the share of `urgent` crosses a threshold, ask:
 real crisis, or drifted labelling? Forbidding "too much urgent" is useless — sometimes it is
@@ -338,7 +338,7 @@ helpers is not one agent's answer, and a record that hides that cannot be priced
 reading pass on medium"*. **The parent's model is not the answer's model** when most of the work
 happened underneath it.
 
-**Every recorded act carries what produced it** (`PATTERNS.md` §27)**.** A run line already does; so does a thread entry,
+**Every recorded act carries what produced it** ([`PATTERNS.md`](PATTERNS.md) §27)**.** A run line already does; so does a thread entry,
 a review verdict, a decision and a persona's reaction — **role, model, effort and strategy, on
 the thing itself**. It costs one field and it answers the question that otherwise has no answer a month
 later: *was this written by the top tier or by the cheap one, and was that the right call?* In a
@@ -346,7 +346,7 @@ project where different tasks run on different models, and some on different run
 unattributed line is a claim from nobody.
 
 **The run record already holds the machine half** — tool uses, skills declared against skills
-used, the resolved settings → `dispatching.md`. What belongs in the report is the part a person
+used, the resolved settings → [`dispatching.md`](dispatching.md). What belongs in the report is the part a person
 reads: **the one tool that mattered and why it was reached for**, especially when it was paid,
 external, or the second thing tried after the first failed.
 
@@ -360,7 +360,7 @@ is archaeology rather than reading.
 
 | Kind | Recorded |
 |---|---|
-| `run` | one dispatch → `dispatching.md` |
+| `run` | one dispatch → [`dispatching.md`](dispatching.md) |
 | `transition` | from → to, when, by whom |
 | `assignment` | who now, who before |
 | `relation` | added or removed |
@@ -384,11 +384,11 @@ link-check set**.
 unwritten is filled inconsistently within a month, and then it is worse than no field.
 
 **A type proposes its fields at its own birth** — the wave that brings the bars brings these
-too → `pipelines.md`, `templates/TYPE-template.md`.
+too → [`pipelines.md`](pipelines.md), [`templates/TYPE-template.md`](templates/TYPE-template.md).
 
 ---
 
 ## What a small job does not get
 
 An id, a stage ladder, a run record, a role, a docs skeleton. Written down rather than left to
-judgement, because the temptation is always to add "just one small thing". → `quick.md`
+judgement, because the temptation is always to add "just one small thing". → [`quick.md`](quick.md)

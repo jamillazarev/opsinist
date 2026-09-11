@@ -15,12 +15,12 @@ consultations are the ones that crossed the bridge.
 ## How deep, and who agreed to it
 
 **Depth is chosen before the fetching starts, and it is a price the owner agrees to — stated, not enforced.** Nothing measures whether stating it changes a run, so it is guidance carrying its own admission rather than a gate — the three
-rungs and what each buys are priced in `templates/ANSWER-template.md` → *Depth*, and **the answer
+rungs and what each buys are priced in [`templates/ANSWER-template.md`](templates/ANSWER-template.md) → *Depth*, and **the answer
 that is worth keeping becomes a finding** (`_ops/research/<question>.md`) which carries the rung as
 an optional line — nothing gates it, and the demotion is recorded in `LATER.md`. **The top rung
 names an artifact the project may not keep**: `standing` means every entry of a **source register**
-(this skill's `resources.md` defines one) was read against the others, so where no register exists the rung has nothing to be
-true of and the honest answer is the rung below. `templates/ANSWER-template.md` prices what each buys
+(this skill's [`resources.md`](resources.md) defines one) was read against the others, so where no register exists the rung has nothing to be
+true of and the honest answer is the rung below. [`templates/ANSWER-template.md`](templates/ANSWER-template.md) prices what each buys
 and puts the register under `deciding` too, so a project that keeps none is being honest at
 `orienting` — **which is a claim about that project's evidence, not a fault in the ladder.** A
 consultation that leaves no file is fine and common; one worth quoting later is a finding, and the difference is whether anything downstream will rest on it. **An answer that does not say how hard anyone looked reads as if someone
@@ -62,7 +62,7 @@ working directory. No scratch files spun up along the way.
 **The footprint is zero in their project, not zero on the machine.** What it cost is still
 counted, and the consultation stays findable to them later — locally, said in one line rather
 than discovered. Claiming nothing at all is written would be the easier sentence and the false
-one → `storing.md`.
+one → [`storing.md`](storing.md).
 
 **No knowledge graph per conversation.** The artifact of a consultation is **the answer**.
 Indexing across a vault is a different job with a different trigger, and doing it per chat is how
@@ -85,7 +85,7 @@ to the owner before it runs. Neither is a second addressee.
 
 **"Registered nowhere" has one exception, and it is not optional:** a persona grounded in a real
 living person still appends its own usage line, because that is its consent contract, not our
-bookkeeping → `audience.md`.
+bookkeeping → [`audience.md`](audience.md).
 
 ---
 
@@ -98,11 +98,11 @@ out why they were asked something stops answering carefully.
 
 **Answer with the reason, never the recitation.** One sentence for why the rule exists, then the
 file if they want more: *"a hundred synthetic respondents are one bias repeated a hundred times,
-so that number would not mean what it looks like — `audience.md` has the rest."* **Pasting the
+so that number would not mean what it looks like — [`audience.md`](audience.md) has the rest."* **Pasting the
 corpus is not explaining it**, and it spends the context the actual question needed.
 
 **Say whose thing was asked about.** *Our* patterns, lenses and chapters, or *the project's*
-decisions, tooling and resources — the same test as `module · chapter` (`GLOSSARY.md`). Asked
+decisions, tooling and resources — the same test as `module · chapter` ([`GLOSSARY.md`](GLOSSARY.md)). Asked
 about "our patterns", answering from the wrong register is a confident answer to a question
 nobody asked.
 
@@ -129,7 +129,7 @@ cheap check into an expensive exploration.
 session.** *"Find a primary source for this claim"* is a step with its own tooling question, and
 a search tool that happens to be loaded and returns something plausible is not an answer to it.
 **Being inside a consultation does not exempt the step**: the craft branch of the router applies
-here exactly as it does in a build → `choosing-tools.md` (+ `catalogue.md`), whose *Academic &
+here exactly as it does in a build → [`choosing-tools.md`](choosing-tools.md) (+ [`catalogue.md`](catalogue.md)), whose *Academic &
 research sources* row exists for this one step. The failure it prevents is not choosing wrong — it is **never making
 the choice**, because the first tool already returned links.
 
@@ -162,20 +162,20 @@ offers a **council** rather than one answer: several workers, each briefed to on
 **independently**; their answers **cross-reviewed anonymized**, so nobody defends a name; then a
 synthesis that names **where they agree, where they clash, and the strongest dissent** — the
 dissent is the product, and a council that converges instantly was theater. Adapted from
-Karpathy's LLM Council method (the shelf carries the pointers → `catalogue.md`), implemented in
+Karpathy's LLM Council method (the shelf carries the pointers → [`catalogue.md`](catalogue.md)), implemented in
 house form because both upstreams state no licence.
 
 **The synthesis declares what it was made of, in one line, or it is not a council:**
-`angles: 4 · voices: 4 · provider: one` — the same move `audience.md` makes a panel perform, and
+`angles: 4 · voices: 4 · provider: one` — the same move [`audience.md`](audience.md) makes a panel perform, and
 for the same reason: a warning that N angles of one model are one bias N ways is a warning,
 while `provider: one` printed above the verdict is the reader seeing it. An owner who reads
 `provider: one` under a pivot-or-hold answer knows exactly how much independence they bought.
 
 **Two honesty laws bind it — the third thing in this section is its price, not a law.** N
 angles of one model are **one bias N ways**, whatever N is — the same law that makes a hundred
-synthetic respondents one bias repeated (`audience.md`); real independence of failure needs **another
-provider**, which is cross-runtime dispatch first and the gateway row second (`runtimes.md`,
-`catalogue.md`). **Consensus is not a rung**: the council's verdict stays a judgement call
+synthetic respondents one bias repeated ([`audience.md`](audience.md)); real independence of failure needs **another
+provider**, which is cross-runtime dispatch first and the gateway row second ([`runtimes.md`](runtimes.md),
+[`catalogue.md`](catalogue.md)). **Consensus is not a rung**: the council's verdict stays a judgement call
 unless it cites, and five agreeing judgements are still one. And it is the most expensive shape
 in this file: **four angles is the default — four independent answers, four cross-reviews, one
 synthesis, so nine runs where a consultation is one.** That number is what gets said out loud
@@ -192,7 +192,7 @@ underspecified almost every time — *"find me photos"* carries a dozen free var
 two that actually move the result**: what it is for, and what the owner has already committed to.
 Those are asked. The rest take a default that is **stated as an assumption**, so a wrong one is
 visible and cheap to correct instead of buried in the output. **Both failures are real**: an
-interrogation for a small ask is over-serving (`quick.md`), and asking nothing produces a generic
+interrogation for a small ask is over-serving ([`quick.md`](quick.md)), and asking nothing produces a generic
 list that fits nobody.
 
 **A refinement is a constraint, not a mood.** *"Not like that — warmer, and no people"* narrows
@@ -202,7 +202,7 @@ same class with different links. Where a refinement collides with something alre
 brand, a licence rule, a decision — the collision is **named**, not silently resolved in favour of
 whichever was said most recently.
 
-**Open `templates/ANSWER-template.md` before answering.** It holds the three shapes a question
+**Open [`templates/ANSWER-template.md`](templates/ANSWER-template.md) before answering.** It holds the three shapes a question
 without a thing to build actually arrives in — **choose between named options · find me something
 · how long, how much** — and a slot left empty there is a visible hole rather than a silent one.
 **Measured 2026-07-31:** six scenarios failed 5 of 5 by ending in a list of options with the
@@ -255,13 +255,13 @@ world. Asked *"why did we do that"*, the answer is **what was decided, when, and
 on, at the tier that basis actually had**. **This is the corpus's most-failed law:** five runs
 across three repairs, ending with the basis as its own labelled field, and each one still returned
 *"research shows"* for an industry newsletter's account of a study → the limit is recorded in
-`evals/new-scenarios.md`, not repaired a sixth time.
+[`evals/new-scenarios.md`](evals/new-scenarios.md), not repaired a sixth time.
 
 **Zero footprint is not zero provenance.** With no register to write into, a citation still
 carries **the link and the date it was checked**, and a load-bearing claim also carries an
 **archive link**, because the page can change between the answer and the owner acting on it. The
 full register form — distillate, licence tier, who cites it — belongs to a project and is not
-owed by a conversation → `resources.md`. **Offer the stricter form rather than assume it**: a
+owed by a conversation → [`resources.md`](resources.md). **Offer the stricter form rather than assume it**: a
 throwaway question does not want a bibliography, and a claim someone will spend money on does.
 
 **Validation on request runs and vanishes.** *"Have a look and validate it quickly"* may spin
@@ -275,7 +275,7 @@ in a roster or a register.
 
 Cost climbs with context, so run lean turns — **the point in the chat, the detail in a file** —
 and nudge a fresh conversation on a topic switch. **Without making the owner mind the cache.**
-→ `cost.md`
+→ [`cost.md`](cost.md)
 
 ---
 
@@ -287,8 +287,8 @@ for a project**. If — and only if — the answer itself leads to building some
 
 **And "great, let's build it" is a first-class, expected transition, not an edge case.** At that
 sentence **the zero-footprint rule ends — it is the go**. Propose the right shape with a one-line
-why: a quick job (`quick.md`), a project (`starting.md`), or straight into a repository that
-already exists (`entering.md`) — **and the destination is named, not gestured at.** A transition
+why: a quick job ([`quick.md`](quick.md)), a project ([`starting.md`](starting.md)), or straight into a repository that
+already exists ([`entering.md`](entering.md)) — **and the destination is named, not gestured at.** A transition
 described without the file it lands in is the same defect as a rule that names no artifact: it
 reads as complete and routes nowhere.
 

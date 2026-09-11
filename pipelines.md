@@ -5,7 +5,7 @@ true before something advances.
 
 **A pipeline is the stage sequence a task travels.** An **automation** is recurring or triggered
 work that starts something. These were briefly the same word, which would have been expensive:
-one describes a path, the other fires → `automations.md`.
+one describes a path, the other fires → [`automations.md`](automations.md).
 
 ---
 
@@ -30,7 +30,7 @@ resources and declared fields. *"For visual work without code: landing pages, sc
 Not for research, which has its own."*
 
 **Stages are linear.** No branches, no conditional paths, no parallel lanes. **Parallelism is
-children sharing a wave** → `decomposing.md`. A branching pipeline is two pipelines that have not
+children sharing a wave** → [`decomposing.md`](decomposing.md). A branching pipeline is two pipelines that have not
 admitted it yet.
 
 **Gates sit on transitions, not on stages.** *"Cannot enter `done` without a review"* is a
@@ -51,7 +51,7 @@ step stays a person's or the dispatcher's act.
 **The picture of the ladder is drawn from the same block, never beside it.** Where a pipeline
 wants showing — the docs, an owner's *"show me how work moves here"* — the mermaid view is
 generated from this yaml, stages as nodes and gates as edge labels, between markers, a view and
-never a source (`PATTERNS.md` §6, `diagrams.md`). Hand-drawing a second copy of the ladder is
+never a source ([`PATTERNS.md`](PATTERNS.md) §6, [`diagrams.md`](diagrams.md)). Hand-drawing a second copy of the ladder is
 how the picture and the door drift apart.
 
 **A hook that acts obeys the automation rule: it may create work, never move anyone else's.**
@@ -66,7 +66,7 @@ This split matters, because collapsing it is what makes team-level overrides imp
 
 | | Owns |
 |---|---|
-| **type** (`_ops/process/types/*.md`) | the **definition of done**, the **default pipeline**, the **default cut on the description ladder** (`writing-work.md`), and the **declared fields** |
+| **type** (`_ops/process/types/*.md`) | the **definition of done**, the **default pipeline**, the **default cut on the description ladder** ([`writing-work.md`](writing-work.md)), and the **declared fields** |
 | **pipeline** (`_ops/pipelines/*.md`) | the **stages** and the **gates** |
 
 A bug and an article genuinely have different definitions of done, so the DoD belongs to the
@@ -83,7 +83,7 @@ if the ladder lives somewhere the team can override.
 | **task** | overrides both, explicitly |
 
 **There is no role rung** — a pipeline belongs to the work, not to the worker. That is a
-declaration of rungs, not an exception (`PATTERNS.md` §1). When the pick is not obvious, say which
+declaration of rungs, not an exception ([`PATTERNS.md`](PATTERNS.md) §1). When the pick is not obvious, say which
 one was taken and why, in one line.
 
 ---
@@ -102,12 +102,12 @@ questionnaire at setup, the same law as no roster before a task needs a craft.
 **Research comes before the ask, so the defaults offered are real.** For an unfamiliar craft the
 recommended bars arrive **sourced from the craft's own standards**: empty options hand the
 research to the owner, and researched silence guesses their taste — the wave does neither. The
-answers — the bars, **the type's cut on the description ladder** (`writing-work.md`), and **the
+answers — the bars, **the type's cut on the description ladder** ([`writing-work.md`](writing-work.md)), and **the
 type's fields** — the `x.*` attributes the craft's own standard names
-(`templates/TYPE-template.md`) — land
-in `_ops/process/types/<type>.md` (`templates/TYPE-template.md`) with their provenance,
+([`templates/TYPE-template.md`](templates/TYPE-template.md)) — land
+in `_ops/process/types/<type>.md` ([`templates/TYPE-template.md`](templates/TYPE-template.md)) with their provenance,
 and hold **until the owner asks — or the bar itself accumulates the evidence and proposes its own
-change** (`checking.md`), never silently: the bar is a locked surface.
+change** ([`checking.md`](checking.md)), never silently: the bar is a locked surface.
 
 ```mermaid
 flowchart LR
@@ -119,7 +119,7 @@ flowchart LR
 ```
 
 **The fields are the part everyone forgets to propose**: declared at birth they are board
-columns from day one; discovered per task, twelve spellings of one attribute → `templates/TYPE-template.md`.
+columns from day one; discovered per task, twelve spellings of one attribute → [`templates/TYPE-template.md`](templates/TYPE-template.md).
 
 The default shape is `build → review → accept`, with a design stage in front where design
 precedes build, and **parallel gates inside review**.
@@ -132,7 +132,7 @@ whole safety of editing a live ladder.
 ## Six categories carry the meaning
 
 The system understands six **status categories**; each pipeline names its own stages inside them
-→ `writing-work.md`. That is what lets one board show work from different pipelines without
+→ [`writing-work.md`](writing-work.md). That is what lets one board show work from different pipelines without
 either pretending they are the same or splitting into separate boards.
 
 ---
