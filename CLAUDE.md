@@ -128,6 +128,13 @@ nothing accumulates outside versions.
   else here. *It landed after the 0.2.18 tag, which is the case `AGENTS.md`'s pre-tag question was
   written for; it rides the next range.*
 
+- **zsh reads `=word` as a command lookup, and the failure ends the whole line** (measured
+  2026-09-11). With the `EQUALS` option on, which is zsh's default, `=cmd` expands to the path of
+  `cmd` — so `echo =====` asked for a command named `====`, printed *"===== not found"*, and **the
+  rest of that command line never ran**: twice in one session a separator between two checks
+  silently cancelled the second check. Quote it (`echo '====='`) or use `---`. Same shell as the
+  two notes above, and the same lesson again: what bash prints, zsh tries to execute.
+
 - **A tool can report a failure without exiting on one, and then its exit code proves nothing**
   (measured 2026-09-10). `scripts/check-structure.py` prints `FAIL:`/`WARN:` lines for preflight to
   render and **exits 0 on every path**; a mutation suite written against `[ "$(run)" = "1" ]` was
