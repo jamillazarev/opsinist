@@ -68,9 +68,9 @@ file, not the line in the entry.
 checked?` as a plain step — a question a project keeping no source register cannot answer either way,
 which is the hole that withdrew `Depth`'s gate before the last tag (`LATER.md` → *Depth was demoted
 before its tag*). Three changes: that case is now named rather than assumed away; **the `deciding` rung
-now checks for a source register too** — `templates/ANSWER-template.md` already required one for
-`deciding`, but the diagram drew that rung going straight to the answer; `standing`'s check stays
-the stricter one, since it also asks whether every entry was read; and the not-yet-checked branch, which ended nowhere, now reaches the answer
+now checks for a source register, as `standing`'s gate does** — `templates/ANSWER-template.md`
+required one for `deciding`, but the diagram drew that rung going straight to the answer (`standing`'s
+check stays the stricter, since it also asks whether every entry was read); and the not-yet-checked branch, which ended nowhere, now reaches the answer
 at the rung its evidence supports.
 
 **The release ritual asks one more question, at the moment the date is set: what did this session
