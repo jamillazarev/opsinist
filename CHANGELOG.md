@@ -28,7 +28,8 @@ until trusted. What the project uses and never declared is declared, pinned at t
 machine already runs. Parsed by hand — a key read as a path, so `[tools]` then `python`, a bare
 `tools.python` and `[tools.python]` are one declaration — since the `python3` of a Mac without
 Homebrew is 3.9 and has no `tomllib`: `scripts/test-native-register.sh` runs twice, the second time
-on that interpreter, **36/36**.
+on that interpreter, **37/37** — and a check that stops before its end refuses the commit instead
+of passing the part it never read.
 
 **An available update now says what it asks of you.** `scripts/deps-report.py`, run from a
 project's root, asks `mise outdated`, `npm outdated` and `osv-scanner`, and sorts every answer:
@@ -51,9 +52,9 @@ machine that ran it.
 **`Recheck when` now fires by itself on the one event the tree records.** A commit that adds a name
 to a register entry's `Reads against` — a source arriving that pulls against another — must carry
 every finding whose `Sources` cite either end re-read: `Answered` re-stamped, or `Status: stale`.
-§22 refuses it otherwise, naming the finding (`resources.md`). Touching the file does not count, the
+§22 refuses it otherwise, naming the finding (`resources.md`). Touching or renaming the file does not count, the
 register is found by its shape wherever the project keeps it, and every other event a
-`Recheck when` names is still a person's to notice. `scripts/test-recheck-trigger.sh` **11/11** —
+`Recheck when` names is still a person's to notice. `scripts/test-recheck-trigger.sh` **17/17** —
 and on its first run one assertion passed against a fixture its own mutant had changed: the mutant's
 commit swept in the previous case's leftovers. The fixture now fails loudly when it cannot apply.
 
