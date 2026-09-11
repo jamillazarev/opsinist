@@ -83,8 +83,8 @@ suite() {   # $1 = label; runs against whatever guard is in _ops/scripts/preflig
   reset; tension; run
   [ "$RC" = 1 ] && said '_ops/research/one.md rests on `x-2024`' && ok \
     || bad "$L a new tension against a source a finding rests on passed with the finding untouched"
-  said 'research/two.md' && bad "$L \`x-2024\` dragged in the finding citing \`x-2024-b\`" || ok
-  said 'research/three.md' && bad "$L a finding on an uncontested source was named" || ok
+  said 'research/two.md rests on' && bad "$L \`x-2024\` dragged in the finding citing \`x-2024-b\`" || ok
+  said 'research/three.md rests on' && bad "$L a finding on an uncontested source was named" || ok
 
   # touching it is not re-reading it
   reset; tension; printf '\nA note added later.\n' >> _ops/research/one.md; run
@@ -132,7 +132,7 @@ PY
 }
 mutant "the whole-id match loosened to a substring" \
   're.search(r"(?<![A-Za-z0-9-])%s(?![A-Za-z0-9-])" % re.escape(i), m.group(1))' 're.search(re.escape(i), m.group(1))' \
-  && { reset; tension && { run; said 'research/two.md' && ok || bad "the suite did not catch the mutant: a substring match"; }; }
+  && { reset; tension && { run; said 'research/two.md rests on' && ok || bad "the suite did not catch the mutant: a substring match"; }; }
 mutant "any edit counted as a re-read" \
   'if field(text, "Status") == "stale" or field(text, "Answered") != field(head, "Answered"):' 'if True:' \
   && { reset; tension && { printf '\nA note added later.\n' >> _ops/research/one.md; run

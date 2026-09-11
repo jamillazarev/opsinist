@@ -48,6 +48,7 @@ EOF
   printf 'Read `b.md`.\n' >> templates/T.md
   printf 'Measured against `b.md`.\n' >> evals/RUNS.md
   printf 'Up to `b.md` and across to `sub/deep.md`.\n' >> sub/deep.md
+  mkdir -p skills/advisor && printf 'Read `b.md`.\n' > skills/advisor/SKILL.md   # the always-loaded core
 }
 
 suite() {   # $1 label · $2 the script
@@ -73,6 +74,7 @@ suite() {   # $1 label · $2 the script
   has CHANGELOG.md '- `b.md` changed' && ok || bad "$L CHANGELOG.md was rewritten — its released entries are published notes"
   has templates/T.md 'Read `b.md`.' && ok || bad "$L a template was rewritten — it is copied into projects, where the path does not exist"
   has evals/RUNS.md 'Measured against `b.md`.' && ok || bad "$L evidence under evals/ was rewritten"
+  has skills/advisor/SKILL.md 'Read `b.md`.' && ok || bad "$L the always-loaded core was rewritten — every link in it is paid on every run"
   python3 "$S" . > "$T/report2" 2>&1; RC=$?
   [ "$RC" = 0 ] && ok || bad "$L after --write the report still found names: $(head -2 "$T/report2")"
   python3 "$S" . --write > "$T/wrote2" 2>&1
@@ -101,6 +103,8 @@ PY
 }
 mutant "the fence ignored" 'if fenced or s.startswith("#"):' 'if s.startswith("#"):' a.md '[`b.md`](b.md) inside a fence'
 mutant "the double-life list emptied" '("/" not in path and path in DOUBLE_LIVES)' 'False' a.md '[`CLAUDE.md`](CLAUDE.md)'
+mutant "the core rewritten" 'if p not in ("CHANGELOG.md", CORE)' 'if p not in ("CHANGELOG.md",)' \
+  skills/advisor/SKILL.md 'Read [`b.md`](../../b.md).'
 mutant "existing links left unmasked" 'masked = LINK.sub(lambda m: "\0" * len(m.group(0)), line)' 'masked = line' \
   a.md '[see [`b.md`](b.md)](b.md)'
 

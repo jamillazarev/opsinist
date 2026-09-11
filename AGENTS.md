@@ -29,7 +29,8 @@ neither will you.
 graph and the link checker can all see; a name is an edge only a reader infers, and a rename
 leaves it pointing at nothing. `scripts/link-names.py --write` makes the links and preflight §7b
 refuses the drift. The names a project also carries — `CLAUDE.md`, `LATER.md` and the rest — stay
-names, because in prose they usually mean the project's own file.
+names, because in prose they usually mean the project's own file — and so does the always-loaded
+core, where every link is paid by every session.
 
 ---
 

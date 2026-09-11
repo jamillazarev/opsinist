@@ -47,9 +47,15 @@ def tree(root):
     return sorted(out)
 
 
+# The always-loaded core is not rewritten: every link in it is paid by every session. Measured
+# 2026-09-11 on opsinist's core, 81 links added 1,785 bytes — about 7% of the file, on every run —
+# for edges its routing table's own check already reads. The doors, loaded only when called, are.
+CORE = "skills/advisor/SKILL.md"
+
+
 def sources(paths):
-    """The files rewritten: outside the skipped directories, CHANGELOG.md aside."""
-    return [p for p in paths if p != "CHANGELOG.md" and not set(p.split("/")[:-1]) & SKIP_DIRS
+    """The files rewritten: outside the skipped directories, CHANGELOG.md and the core aside."""
+    return [p for p in paths if p not in ("CHANGELOG.md", CORE) and not set(p.split("/")[:-1]) & SKIP_DIRS
             and not p.split("/")[0].startswith(".")]
 
 
