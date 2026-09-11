@@ -24,6 +24,10 @@ down.
 {{A named event, not "further research". *"When a replacement for `park-self-reports` ships"* is a
 trigger; *"periodically"* is an abandonment wearing better clothes.}}
 
+One event is caught without anyone remembering: a source recorded as reading against one under
+*Sources* — the commit that records it re-stamps `Answered` here or marks this `stale`, or it does
+not land (`resources.md`).
+
 ## Under it
 
 **Sources**: {{where the project keeps a source register, by **id** — links rot and ids grep. Where

@@ -22,7 +22,7 @@ therefore discovered at the worst possible time.
 | **the environment fingerprint** | the same repo behaving differently on two machines → `drift.md` |
 | **branch protection**, where a remote exists | a review gate that is a sentence rather than a gate |
 | **the tooling register against reality** | a tool nobody checks, whose token nobody rotates |
-| **versions and breaking changes** | **a tool that changed its interface breaks agents silently** |
+| **versions and breaking changes** — the skill's `scripts/deps-report.py`, each update sorted by what it asks (`tooling.md`) | **a tool that changed its interface breaks agents silently**, and a published vulnerability rides unread |
 | **free-tier headroom**, in the unit that actually bites | discovering the ceiling by hitting it |
 | **credentials: expiry and last use** | an expired key found mid-run; a key nobody has used in a year |
 | **link health** | a reference that quietly stopped existing → `resources.md` |

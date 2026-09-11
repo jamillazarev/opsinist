@@ -206,9 +206,16 @@ classification is just criticism.
 - **credentials in the repository** → rotate first, discuss after
 - **the guide promises documents that do not exist** → agents told to read a missing file
   improvise, and improvisation is how conventions drift
+- **this machine lacks what the project declares** — an entry of `mise.toml` or `.mcp.json` that is
+  not here → every run is a run on a different project. The line carries what `mise install
+  --dry-run` and `mise bootstrap packages apply --dry-run` would change, and **installing — `mise
+  trust` first — is the owner's word** (`tooling.md` → *What the project needs from the machine*)
 
 **Deferrable** — real, and survivable for now. Goes to the deferred list **with a revisit trigger
 that is a moment, not a date**: *"before anything public ships"*, *"at the first paying customer"*.
+**What the project needs and never declared** is usually this kind — survivable on the laptop it
+grew up on — with the trigger *"before it is handed to anyone"*: a binary its scripts call, a
+runtime version its code assumes, and no entry for either.
 
 **Present the whole list at once**, with what each fix costs, and let them say *"do it all"* or
 pick. **Not one finding per message** — the same rule as the environment ladder, and for the same

@@ -22,6 +22,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/check-shell-exec.py` — Refuse a shell script that would execute text as a command
 - `scripts/check-structure.py` — Structural integrity of the docs. Every check here exists because the defect it
 - `scripts/coverage-map.py` — Regenerate the coverage map: what holds each rule, and what exercises each holder
+- `scripts/deps-report.py` — What the project depends on, why, and how much each available update matters
 - `scripts/fetch-source.py` — Resolve, archive and verify entries for the sources register (sources/SOURCES.md)
 - `scripts/inventory.py` — A deterministic inventory of a tree — the map of the territory, never the territory
 - `scripts/map-blocks.py` — Regenerate the map's `touched by:` blocks from the tasks' own declarations
@@ -44,12 +45,14 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-check-structure.sh` — The corpus-count claims shown firing where a claim is made and silent where a record is kept
 - `scripts/test-company-preflight.sh` — The bypass net (§14) exercised end to end: a hand-flipped stage in a staged commit is
 - `scripts/test-corpus-preflight.sh` — The doors-regression check (preflight §1a) exercised on the mutant and the twin. The check
+- `scripts/test-deps-report.sh` — deps-report.py — the updates sorted by what they ask of the owner, and the why of each thing the
 - `scripts/test-eval-requeue.sh` — The void sweep in eval-requeue.sh, exercised against the shapes that produced it
 - `scripts/test-find-installs.sh` — `find-installs.sh` exercised on its mutants and its honest twins
 - `scripts/test-inventory.sh` — The inventory's three promises, exercised: identical twice, guest-safe, honest off git
 - `scripts/test-map-blocks.sh` — The touched-by executor exercised: blocks generated, only markers rewritten, and two live
 - `scripts/test-migrate-layout.sh` — The 0.2.0 layout migrator exercised on a flat 0.1.x fixture: history-preserving
 - `scripts/test-native-register.sh` — §20 and §21 of the project guard — the native files and the register held to each other —
+- `scripts/test-recheck-trigger.sh` — §22 of the project guard — a new tension in the source register reaches the findings resting on
 - `scripts/test-transition.sh` — The transition door, exercised end to end on a throwaway fixture — same habit as
 - `scripts/test-verify-reads.sh` — `--verify-reads` shown refusing each mutant and passing its honest twin
 

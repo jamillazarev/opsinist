@@ -1972,6 +1972,87 @@ NATIVE
   rm -f "$_nat"
 fi
 
+# 22 · `Recheck when` fires on the one event a commit can see: a source arriving that pulls against
+#      one a finding rests on. A finding is read INSTEAD of its sources (§19), so the commit that
+#      records a new tension — a name added to an entry's `Reads against` — is the only moment the
+#      disagreement can reach the findings built on either end of it. That commit carries each of
+#      them re-read: `Answered` re-stamped, or `Status: stale`. Touching the file is not re-reading
+#      it, so any other edit leaves the refusal standing; a finding written in the same commit was
+#      written with the tension in view. Every other event a `Recheck when` names is still a
+#      person's to notice — this is the one the tree records.
+#      The register is found by its SHAPE, not its path — `### id · …` entries with a
+#      `- **Reads against:**` line, the skeleton `fetch-source.py --resolve` prints — because a
+#      project keeps it wherever it keeps it. Findings cite entries by id, backticks optional,
+#      matched as a whole id: `x-2024` is not `x-2024-b`.
+if [ "$(changed --diff-filter=AM -- '*.md' | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
+  _rck=$(mktemp "${TMPDIR:-/tmp}/opsinist-recheck.XXXXXX")
+  python3 - > "$_rck" <<'RECHECK'
+import re, subprocess
+
+def git(*args):
+    r = subprocess.run(["git", "-c", "core.quotePath=false"] + list(args), capture_output=True, text=True)
+    return r.stdout if r.returncode == 0 else None
+
+def tensions(text):
+    """entry id → the ids its `Reads against` names; `none found` and `not checked` name nothing."""
+    out = {}
+    for block in re.split(r"^### ", text or "", flags=re.M)[1:]:
+        eid = block.split(" ·")[0].split("\n")[0].strip()
+        m = re.search(r"^- \*\*Reads against:\*\*(.*)$", block, re.M)
+        if m:
+            out[eid] = set(re.findall(r"`([a-z0-9][a-z0-9-]*)`", m.group(1))) - {"none", "not"}
+    return out
+
+def field(text, name):
+    m = re.search(r"(?:\*\*)?%s(?:\*\*)?\s*:\s*(?:\*\*)?\s*([^\s·*]+)" % name, text or "", re.I)
+    return m.group(1).lower() if m else None
+
+staged_now = [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=AM", "-z") or "").split("\0") if p]
+pairs = []
+for p in staged_now:
+    if not p.endswith(".md"):
+        continue
+    now = git("show", ":" + p) or ""
+    if "**Reads against:**" not in now:
+        continue
+    before = tensions(git("show", "HEAD:" + p))
+    for eid, named in sorted(tensions(now).items()):
+        for other in sorted(named - before.get(eid, set())):
+            pairs.append((eid, other))
+if pairs:
+    contested = {}
+    for eid, other in pairs:
+        contested.setdefault(eid, (eid, other))
+        contested.setdefault(other, (eid, other))
+    for f in (git("ls-files", "-z", "--", "_ops/research") or "").split("\0"):
+        if not f.endswith(".md") or "/raw/" in f:
+            continue
+        text = git("show", ":" + f) or ""
+        m = re.search(r"(?:\*\*)?Sources(?:\*\*)?\s*:(.*?)(?=\n\s*\n|\n(?:\*\*)?[A-Z][^:\n]{0,40}(?:\*\*)?\s*:|\Z)", text, re.S)
+        if not m:
+            continue
+        hit = sorted(i for i in contested
+                     if re.search(r"(?<![A-Za-z0-9-])%s(?![A-Za-z0-9-])" % re.escape(i), m.group(1)))
+        if not hit:
+            continue
+        if f in staged_now:
+            head = git("show", "HEAD:" + f)
+            if head is None:
+                continue          # written in this commit, with the tension in view
+            if field(text, "Status") == "stale" or field(text, "Answered") != field(head, "Answered"):
+                continue          # re-read and re-stamped, or marked stale
+        eid, other = contested[hit[0]]
+        print("FAIL:%s rests on `%s`, and this commit records that `%s` now reads against `%s` — "
+              "re-read it and re-stamp `Answered`, or mark it `Status: stale`, in this same commit: "
+              "a finding is read instead of its sources, so this is the only place the new "
+              "disagreement reaches it (templates/FINDING-template.md)" % (f, hit[0], eid, other))
+RECHECK
+  while IFS= read -r _rl; do
+    case "$_rl" in FAIL:*) say_fail "${_rl#FAIL:}" ;; WARN:*) say_warn "${_rl#WARN:}" ;; esac
+  done < "$_rck"
+  rm -f "$_rck"
+fi
+
 # 5 · a cheap last line on credentials. NOT a secret scanner — gitleaks/trufflehog are,
 #     and they belong in CI. This catches the obvious paste before it reaches history,
 #     where removing it means rewriting history and rotating the key anyway.

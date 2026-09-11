@@ -263,6 +263,27 @@ flowchart LR
   O ==>|"one-way, or a<br/>dangling id"| V["--verify-reads<br/>refuses"]
 ```
 
+**And a new tension reaches the findings resting on it, in the commit that records it.** A
+finding's `Recheck when` names an event in words, and a reader's memory was all that caught one.
+One of those events the tree itself records: **a source arriving that pulls against a source a
+finding rests on** — a name added to an entry's `Reads against`. The project guard (§22) reads that
+addition, finds every finding in `_ops/research/` whose `Sources` cite either end by id, and
+refuses the commit unless each is re-read in it: `Answered` re-stamped, or `Status: stale`.
+**Touching the file is not re-reading it**, and a finding written in the same commit was written
+with the tension in view. The register is found by its shape — the `### id · …` entries
+`fetch-source.py --resolve` prints — wherever a project keeps it. **Every other event a `Recheck
+when` names is still a person's to notice**; this is the one that no longer waits on anyone's
+memory.
+
+```mermaid
+flowchart LR
+  N["a new entry that<br/>reads against x"] --> G{"the guard: findings<br/>whose Sources cite x"}
+  G -->|"none"| OK(["lands"])
+  G -->|"F rests on x"| Q{"F in the same commit —<br/>re-stamped, or stale?"}
+  Q -->|"yes"| OK
+  Q -->|"untouched, or<br/>only touched"| X(("refused — naming F<br/>and the tension"))
+```
+
 ---
 
 ## The record is a pointer; the thing it points at outranks it

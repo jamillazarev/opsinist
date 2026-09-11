@@ -27,7 +27,8 @@ SKIP_DIRS = {".git", "node_modules", "dist", "build", "vendor", "__pycache__",
 MANIFESTS = ["README.md", "README.rst", "LICENSE", "LICENSE.md", "CLAUDE.md", "AGENTS.md",
              "GEMINI.md", "config.md", "package.json", "pyproject.toml", "requirements.txt",
              "Cargo.toml", "go.mod", "Gemfile", "composer.json", "Makefile", "Dockerfile",
-             "docker-compose.yml", "docker-compose.yaml", ".pre-commit-config.yaml"]
+             "docker-compose.yml", "docker-compose.yaml", ".pre-commit-config.yaml",
+             "mise.toml", ".mise.toml", ".tool-versions", ".mcp.json"]
 LAYERS = ["tasks", "roles", "docs", "process", "pipelines", "runs", "skills", "sources",
           "templates"]
 

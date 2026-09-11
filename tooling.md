@@ -108,18 +108,84 @@ exists through another route, because that copy is what the isolation is.
 
 **Nothing is installed without the owner's word — mise included.** Taking a project over
 (`entering.md`) already refuses to fix anything before the owner has seen the list, and what this
-machine is missing is one more line on it: what `status --missing` reports, what `--dry-run` would
-change, and the owner's yes before anything runs. **A project that changes versions on a machine
-by itself breaks the other projects that machine carries**, and nobody would think to look here.
+machine is missing is one more line on it: what `mise ls --missing` and `mise bootstrap packages
+status --missing` report, what `mise install --dry-run` and `mise bootstrap packages apply
+--dry-run` would change, and the owner's yes before anything runs. **A `mise.toml` carrying
+`[bootstrap.packages]` is not read at all until it is trusted on that machine** — one with `[tools]`
+alone is (measured on mise 2026.9.5, 2026-09-11) — so `mise trust` heads that line, and it is the
+owner's to say, since a trusted file can install system packages. **A project that changes
+versions on a machine by itself breaks the other projects that machine carries**, and nobody would
+think to look here.
+
+**Found undeclared, it is declared.** A binary the scripts call or a runtime version the code
+assumes, with no entry anywhere, is the next laptop's failure waiting: the fix changes the project
+and not the machine — an entry pinned at the version this machine already runs, since that is the
+one the code was last seen working on, and its row.
 
 ```mermaid
 flowchart LR
   N[".mcp.json · mise.toml<br/>— what, and which version"] <-->|"the guard: every entry<br/>has a row, every row<br/>an entry"| R["_ops/TOOLING.md<br/>— why, and what it replaces"]
   N --> J{"handed over:<br/>what is missing here?"}
   J -->|"nothing"| OK([works])
-  J -->|"something"| L["one line on the takeover list:<br/>missing · --dry-run"]
+  J -->|"something"| L["one line on the takeover list:<br/>trust · missing · --dry-run"]
   L -->|"owner: yes"| I["installed — beside, not over"]
   L -.->|"installed silently"| X(("another project<br/>on this machine breaks"))
+```
+
+---
+
+## When something it needs has a newer version
+
+**An update is a fact the tools already know and a decision only the owner can make**, and the two
+fail in opposite directions: an agent that upgrades by itself changes the machine under every
+other project on it, and one that never looks lets a published vulnerability ride. The skill's
+`scripts/deps-report.py`, run from the project's root, asks the tools that know — `mise outdated`
+for what `mise.toml` pins, `npm outdated` where `package-lock.json` is the lockfile, `osv-scanner`
+over every lockfile — and sorts each answer by what it asks of the owner:
+
+| What it found | What it asks | Where it goes |
+|---|---|---|
+| **security** — a published vulnerability in something the project ships | act first | a request, carrying the advisory ids |
+| **outside the pin** — newer than the version the project pinned | a decision, with the release notes as its map | a request: upgrade · pin · ignore with a reason |
+| **inside the pin** — a newer build of what was already chosen | routine | triage, one line for the batch |
+| **missing** — declared, not installed on this machine | the owner's word | the takeover list, as in *What the project needs from the machine* |
+| **not checked** — the tool that would know is absent, offline, or answered in a shape it does not read | nothing, but it is said | the report itself: silence would read as *current* |
+
+**The line between routine and decision is the project's own pin, not the version's numbering.**
+Python 3.12 → 3.13 is a minor number, and 3.13 removed nineteen standard-library modules outright
+(PEP 594, *What's New in Python 3.13*, read 2026-09-11); what the project wrote in `mise.toml` or
+`package.json` is its only statement of what it agreed to. npm draws the same line in its own
+output — `wanted` inside the range, *update now*; `latest` beyond it, *proceed with caution* (npm's
+`outdated` documentation, read 2026-09-11).
+
+**A decision carries its migration map.** For an update outside the pin, read the release notes
+between the two versions — the report prints the link where the tool publishes one — and list what
+they touch here, the same delta a moved resource opens (*Dependencies — other repositories*): each
+mismatch a task, or an explicit *"still true, checked"*.
+
+**The report reads and never writes** — no install, no upgrade, not even `mise trust` — and exits 0
+whatever it found, because the gate on what is declared is the guard. It needs the network, so it
+runs with the health checks (`checking.md` → *Health*: on arriving, before a release, when something
+feels wrong) rather than riding `status` the way a resource's tag comparison does. An accepted
+update lands at the next boundary, never under work in progress (`upgrading.md` → *When it
+applies*).
+
+**`--why` answers the other question — what is this for?** — from the project's own files, offline:
+every entry in `mise.toml`, `.mcp.json` and the package manifests, beside its register row, or the
+`_ops/DECISIONS.md` line that names it (the line the guard's §4e asks for when a dependency is
+added), or *no why recorded*. A view, never a second list: nothing in it is kept by hand, so
+nothing in it can drift.
+
+```mermaid
+flowchart LR
+  F["mise.toml · package.json ·<br/>lockfiles"] --> A["deps-report asks<br/>mise · npm · osv-scanner"]
+  A --> S["security"] --> Q1["request —<br/>act first"]
+  A --> O["outside the pin"] --> M["release notes read<br/>as a migration map"] --> Q2["request: upgrade ·<br/>pin · ignore with a reason"]
+  A --> I["inside the pin"] --> T["triage —<br/>one line for the batch"]
+  A --> N["not checked"] --> L["said in the report —<br/>never read as current"]
+  Q1 -->|"owner: yes"| B(["at the next boundary"])
+  Q2 -->|"owner: yes"| B
+  T -->|"owner: yes"| B
 ```
 
 ---
