@@ -215,7 +215,8 @@ classification is just criticism.
 that is a moment, not a date**: *"before anything public ships"*, *"at the first paying customer"*.
 **What the project needs and never declared** is usually this kind — survivable on the laptop it
 grew up on — with the trigger *"before it is handed to anyone"*: a binary its scripts call, a
-runtime version its code assumes, and no entry for either.
+runtime version its code assumes, and no entry for either. The fix is in [`tooling.md`](tooling.md) →
+*What the project needs from the machine*.
 
 **Present the whole list at once**, with what each fix costs, and let them say *"do it all"* or
 pick. **Not one finding per message** — the same rule as the environment ladder, and for the same

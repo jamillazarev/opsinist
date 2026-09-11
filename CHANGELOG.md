@@ -4,9 +4,9 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.19 — 2026-09-11
 
-**Migration — nothing breaks, and three things are offered, none applied without your word.**
-Re-copy `_ops/scripts/preflight.sh` from `templates/company-preflight.sh` to get §20–§22 below.
-**If the project already has a `.mcp.json` or a `mise.toml`, the first commit that stages either
+**Migration — one copy, then three things that wait for your word.** First re-copy
+`_ops/scripts/preflight.sh` from `templates/company-preflight.sh`, which brings §20–§22 below. Then:
+**if the project already has a `.mcp.json` or a `mise.toml`, the first commit that stages either
 file or `_ops/TOOLING.md` asks for a register row per entry** — the refusal names each one, and the
 row says why it is there. If `mise.toml` carries `[bootstrap.packages]`, mise will not read it on a
 machine until someone runs `mise trust` there — yours to say. And the skill's `scripts/link-ids.py`,
@@ -18,15 +18,17 @@ server lives in `.mcp.json` at the root, committed; a runtime, a CLI tool or a s
 in `mise.toml`. The native file is the truth for *what and which version*, a row in
 `_ops/TOOLING.md` the truth for *why* — and §20 and §21 refuse an entry without a row and a row
 without an entry (`tooling.md` → *What the project needs from the machine*). **A secret-shaped key
-in `.mcp.json` must read `${NAME}`**: measured on Claude Code 2.1.226, a missing variable is a
-warning and the server starts with the literal text, so a placeholder like `YOUR_API_KEY` is refused
-as firmly as a leaked token. **Nothing is installed without your word, mise included** — taking a
-project over now puts what this machine lacks on the debt list, with the dry runs and `mise trust`
-first, because on mise 2026.9.5 a `mise.toml` carrying `[bootstrap.packages]` is not read at all
+in `.mcp.json` must name its secret and hold none** — `${NAME}`, or `Bearer ${NAME}` in a header,
+never with a `:-default`: measured on Claude Code 2.1.226, a missing variable is a warning and the
+server starts with the literal text, so a placeholder like `YOUR_API_KEY` is refused as firmly as a
+leaked token. **Nothing is installed without your word, mise included** — taking a
+project over now puts what this machine lacks on the debt list as a blocking line, with the dry
+runs and `mise trust` first, because on mise 2026.9.5 a `mise.toml` carrying `[bootstrap.packages]` is not read at all
 until trusted. What the project uses and never declared is declared, pinned at the version the
-machine already runs. Parsed by hand, since the `python3` of a Mac without Homebrew is 3.9 and has
-no `tomllib`: `scripts/test-native-register.sh` runs twice, the second time on that interpreter,
-**26/26**.
+machine already runs. Parsed by hand — a key read as a path, so `[tools]` then `python`, a bare
+`tools.python` and `[tools.python]` are one declaration — since the `python3` of a Mac without
+Homebrew is 3.9 and has no `tomllib`: `scripts/test-native-register.sh` runs twice, the second time
+on that interpreter, **36/36**.
 
 **An available update now says what it asks of you.** `scripts/deps-report.py`, run from a
 project's root, asks `mise outdated`, `npm outdated` and `osv-scanner`, and sorts every answer:
@@ -41,9 +43,10 @@ run and a current one look identical until the warning is read. **It reads and n
 runs with the health checks (`checking.md` → *Health*). `--why` answers the other question,
 offline: every entry of `mise.toml`, `.mcp.json` and the package manifests beside its register row,
 or the `_ops/DECISIONS.md` line naming it, or *no why recorded* — a view, never a second list.
-`scripts/test-deps-report.sh` **83/83**, on both interpreters, with three code mutants. Run on this
-machine's docs site the same day, it found mermaid 11.16.0 with 11.17.2 inside its range and 12.0.0
-beyond it, and said security was *not checked*: osv-scanner is not installed here.
+`scripts/test-deps-report.sh` **87/87**, on both interpreters, with three code mutants. Run the same
+day on the site that publishes these docs, it found mermaid 11.16.0 with 11.17.2 inside its range
+and 12.0.0 beyond it, and said security was *not checked*: osv-scanner is not installed on the
+machine that ran it.
 
 **`Recheck when` now fires by itself on the one event the tree records.** A commit that adds a name
 to a register entry's `Reads against` — a source arriving that pulls against another — must carry
@@ -51,8 +54,8 @@ every finding whose `Sources` cite either end re-read: `Answered` re-stamped, or
 §22 refuses it otherwise, naming the finding (`resources.md`). Touching the file does not count, the
 register is found by its shape wherever the project keeps it, and every other event a
 `Recheck when` names is still a person's to notice. `scripts/test-recheck-trigger.sh` **11/11** —
-and on its first run one assertion passed on nothing, which only a fixture that fails loudly when it
-cannot apply turned into a failure.
+and on its first run one assertion passed against a fixture its own mutant had changed: the mutant's
+commit swept in the previous case's leftovers. The fixture now fails loudly when it cannot apply.
 
 **Names became links, so the graph sees the edges the text states.** This corpus cited its own
 files 88 times by link and 1,340 times by a backticked name, so Obsidian's graph and the link
@@ -63,12 +66,13 @@ the paths do not exist), evidence, the names a project also carries (`CLAUDE.md`
 **and the always-loaded core**, where its 81 names as links would have added 1,785 bytes, about 7%
 of a file every session pays for. **In a project, `scripts/link-ids.py`** does the same for ids and
 `_ops/` paths named in passing and never touches a declaration: fed a linked `**Task**` cell, the
-guard's `record_task` returned the slug as the id. A live project had 298 links in `_ops/` and 273
-mentions that could have been. `test-link-names.sh` **26/26** · `test-link-ids.sh` **21/21**, the
+guard's `record_task` returned the slug as the id. A separate, live project — not this corpus — had
+298 links in `_ops/` and 273 mentions that could have been. `test-link-names.sh` **26/26** · `test-link-ids.sh` **21/21**, the
 second running the project's own guard over the rewritten tree.
 
-**ck, when grep keeps missing because the words differ** — opt-in, declared like any tool, and never
-run in a repository that is not yours, since its first index writes into the tree (`resources.md`).
+**ck, a local search that ranks keywords and meaning together, for when grep keeps missing because
+the words differ** — opt-in, declared like any tool, and never run in a repository that is not yours,
+since its first index writes into the tree (`resources.md`).
 The shelf gained sandboxing (bubblewrap, firejail, gVisor, Firecracker), pinned runtimes (mise,
 asdf, devbox), search by meaning (ck, qmd), Podman and Open Notebook; the search row's line about a
 stale index was wrong for ck, which refreshes its index before every search, and now names the real
@@ -83,7 +87,9 @@ run *offers* the machine line at a takeover, runs the report during a health che
 finding without being refused is behaviour, and no scenario covers it yet.
 
 **Trio:** four diagrams — `tooling.md` two, `resources.md` one, `project-layout.md` one — six
-situations in `use-cases.md`, and `facts.md` **262–265**.
+situations in `use-cases.md`, and `facts.md` **262–265**. The ck situation is the one with no
+diagram or fact of its own, and owes none: ck adds no mechanism, it is declared like any tool and
+rides §21's.
 
 ## 0.2.18 — 2026-09-11
 

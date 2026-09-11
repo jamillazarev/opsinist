@@ -1892,8 +1892,21 @@ for line in reg.splitlines():
         rows["mise.toml"].add(tool)
 
 # §20 · .mcp.json
-SECRET = re.compile(r"(key|token|secret|password|passwd|credential|auth)", re.I)
-VAR = re.compile(r"^\$\{[A-Za-z_][A-Za-z0-9_]*\}$")
+# A secret-shaped NAME, as a word: `AUTHOR_NAME` holds no secret, `X-Api-Key` and `APIKEY` do.
+SECRET = re.compile(r"api[-_]?key|access[-_]?key|(?<![a-z])(keys?|tokens?|secrets?|passwords?|passwd|"
+                    r"credentials?|auth|authorization)(?![a-z])", re.I)
+REF = re.compile(r"\$\{[A-Za-z_][A-Za-z0-9_]*(?::-([^}]*))?\}")
+
+def names_its_secret(v):
+    """The value names its secret and holds none: at least one `${NAME}`, no non-empty `:-default`
+    (a default IS a value, written in the file), and nothing else but a scheme word. `Bearer ${KEY}`
+    is the documentation's own header example — the runtime expands `${…}` inside a string — so a
+    rule that wanted the whole value to be `${NAME}` refused the one form everyone copies (a review
+    lens, 2026-09-11)."""
+    refs = list(REF.finditer(v))
+    if not refs or any(m.group(1) for m in refs):
+        return False
+    return REF.sub("", v).strip().lower() in ("", "bearer", "basic", "token", "bot")
 raw = staged(".mcp.json")
 servers = set()
 if raw is not None:
@@ -1911,12 +1924,13 @@ if raw is not None:
         for field in ("env", "headers"):
             block = cfg.get(field)
             for k, v in (block.items() if isinstance(block, dict) else []):
-                if SECRET.search(k) and isinstance(v, str) and not VAR.match(v.strip()):
+                if SECRET.search(k) and isinstance(v, str) and not names_its_secret(v):
                     shown = v if len(v) <= 12 else v[:4] + "…"
                     print("FAIL:.mcp.json server `%s` puts a literal in %s `%s` (%s) — write "
-                          "`${%s}` and keep the value in the environment. A missing variable "
-                          "is only a warning at launch, so a literal here is either a leaked "
-                          "secret or a placeholder that fails quietly." % (name, field, k, shown, k.upper()))
+                          "`${NAME}`, or `Bearer ${NAME}` in a header, with no `:-default`, and keep "
+                          "the value in the environment. A missing variable is only a warning at "
+                          "launch, so a literal here is either a leaked secret or a placeholder "
+                          "that fails quietly." % (name, field, k, shown))
     for s in sorted(servers - rows[".mcp.json"]):
         print("FAIL:.mcp.json declares server `%s` and _ops/TOOLING.md has no row for it whose "
               "*Wired how* names .mcp.json — say why it is here and what it replaces." % s)
@@ -1929,25 +1943,77 @@ for t in sorted(rows[".mcp.json"] - servers):
 text, fname = staged("mise.toml"), "mise.toml"
 if text is None:
     text, fname = staged(".mise.toml"), ".mise.toml"
+# **A key is a path, not a word**: `[tools]` then `python = …`, a top-level `tools.python = …` and
+# `[tools.python]` then `version = …` are one declaration in three spellings, and a reader that knew
+# only the first let the other two in without a row (a review lens, 2026-09-11). And a `#` is a
+# comment only outside a string.
+def strip_comment(line):
+    q, i = None, 0
+    while i < len(line):
+        c = line[i]
+        if q:
+            if c == "\\" and q == '"':
+                i += 2
+                continue
+            if c == q:
+                q = None
+        elif c in "\"'":
+            q = c
+        elif c == "#":
+            return line[:i]
+        i += 1
+    return line
+
+def split_assignment(line):
+    q = None
+    for i, c in enumerate(line):
+        if q:
+            if c == q:
+                q = None
+        elif c in "\"'":
+            q = c
+        elif c == "=":
+            return line[:i].strip() or None
+    return None
+
+def key_path(text):
+    segs, cur, q = [], "", None
+    for c in text.strip():
+        if q:
+            if c == q:
+                q = None
+            else:
+                cur += c
+        elif c in "\"'":
+            q = c
+        elif c == ".":
+            segs.append(cur.strip())
+            cur = ""
+        else:
+            cur += c
+    segs.append(cur.strip())
+    return [x for x in segs if x]
+
 entries = []                                        # (section, key)
 if text is not None:
-    section = None
+    table = []
     for rawl in text.splitlines():
-        line = rawl.split("#", 1)[0].strip()
+        line = strip_comment(rawl).strip()
         if not line:
             continue
-        m = re.match(r"^\[\s*([^\]]+?)\s*\]$", line)
-        if m:
-            section = m.group(1).replace('"', "").replace("'", "")
-            sub = re.match(r"^(tools|bootstrap\.packages)\.(.+)$", section)
-            if sub:                                  # [tools.python] — the table IS the entry
-                entries.append((sub.group(1), sub.group(2)))
-                section = "__subtable__"
-            continue
-        if section in ("tools", "bootstrap.packages"):
-            k = re.match(r"""^(?:"([^"]+)"|'([^']+)'|([A-Za-z0-9_.@/:+-]+))\s*=""", line)
-            if k:
-                entries.append((section, k.group(1) or k.group(2) or k.group(3)))
+        m = re.match(r"^\[\[?\s*(.+?)\s*\]\]?$", line)
+        if m and split_assignment(m.group(1)) is None:
+            full = table = key_path(m.group(1))       # [tools.python] — the table IS the entry
+        else:
+            k = split_assignment(line)
+            if k is None:
+                continue
+            full = table + key_path(k)
+        if len(full) >= 2 and full[0] == "tools":
+            entries.append(("tools", full[1]))
+        elif len(full) >= 3 and full[:2] == ["bootstrap", "packages"]:
+            entries.append(("bootstrap.packages", full[2]))
+    entries = list(dict.fromkeys(entries))
 
 def names(key):
     bare = key.split(":", 1)[1] if ":" in key else key

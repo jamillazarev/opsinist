@@ -96,7 +96,9 @@ The row's *Wired how* cell names the file: `.mcp.json`, `mise.toml`.
 its `env` expands from that machine's environment, and **a variable that is missing is a warning,
 not a refusal — the server is started with the literal text `${VAR}`**. So a secret-shaped key
 holding a literal is refused whatever the literal is: a leaked token and a placeholder like
-`YOUR_API_KEY` fail the same way, and only the second one is harmless.
+`YOUR_API_KEY` fail the same way, and only the second one is harmless. What passes names the
+secret and holds none — `${NAME}`, or `Bearer ${NAME}` in a header, the form the runtime's own
+documentation writes — and never with a `:-default`, which is a value written into the file.
 
 **mise isolates by project and leaves the machine alone** (read in mise's documentation,
 2026-09-11). `[tools]` installs each version beside the others and puts it on `PATH` only inside
@@ -107,7 +109,7 @@ honest cost is on the first half: a pinned runtime is mise's own copy even when 
 exists through another route, because that copy is what the isolation is.
 
 **Nothing is installed without the owner's word — mise included.** Taking a project over
-([`entering.md`](entering.md)) already refuses to fix anything before the owner has seen the list, and what this
+([`entering.md`](entering.md)) already refuses to fix anything before the owner has seen the debt list, and what this
 machine is missing is one more line on it: what `mise ls --missing` and `mise bootstrap packages
 status --missing` report, what `mise install --dry-run` and `mise bootstrap packages apply
 --dry-run` would change, and the owner's yes before anything runs. **A `mise.toml` carrying

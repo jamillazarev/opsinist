@@ -61,6 +61,17 @@ suite() {
     "headers": { "Authorization": "Bearer abc123" } } } }\n' > .mcp.json
   run; [ "$RC" = 1 ] && said 'Authorization' && ok || bad "[$1] a literal Authorization header passed"
 
+  # the documentation's own header form — a scheme word and a reference — is what everyone copies
+  printf '{ "mcpServers": { "sentry": { "type": "http", "url": "https://x.example/mcp",
+    "headers": { "Authorization": "Bearer ${SENTRY_TOKEN}" } } } }\n' > .mcp.json
+  run; [ "$RC" = 0 ] && ok || bad "[$1] the documented header form, Bearer and a reference, was refused: $OUT"
+  # a default IS a value, written in the file
+  printf '{ "mcpServers": { "sentry": { "command": "npx", "env": { "SENTRY_TOKEN": "${SENTRY_TOKEN:-sntrys_abcdefgh}" } } } }\n' > .mcp.json
+  run; [ "$RC" = 1 ] && said 'SENTRY_TOKEN' && ok || bad "[$1] a secret written as a :-default passed"
+  # an empty default holds nothing, and a name that merely contains `auth` names no secret
+  printf '{ "mcpServers": { "sentry": { "command": "npx", "env": { "SENTRY_TOKEN": "${SENTRY_TOKEN:-}", "AUTHOR_NAME": "Jamil" } } } }\n' > .mcp.json
+  run; [ "$RC" = 0 ] && ok || bad "[$1] an empty default, or a key merely containing auth, was refused: $OUT"
+
   # a server with no row, and a row with no server — both directions
   printf '{ "mcpServers": { "sentry": { "command": "npx" }, "linear": { "command": "npx" } } }\n' > .mcp.json
   run; [ "$RC" = 1 ] && said 'server `linear`' && ok || bad "[$1] a server with no register row passed"
@@ -100,6 +111,14 @@ suite() {
 
   # a `#` comment and a subtable are not entries — the twin must still be clean after the edits
   run; [ "$RC" = 0 ] && ok || bad "[$1] the restored mise twin was refused: $OUT"
+
+  # a key is a path: the same entries in dotted keys, and a quoted word in a comment is not an entry
+  reg "$(row python '`mise.toml`')" "$(row ck '`mise.toml`')" "$(row ffmpeg '`mise.toml`')"
+  printf 'tools.python = "3.12"\ntools."github:BeaconBay/ck" = "latest"   # "quoted" words in a comment\n' > mise.toml
+  printf 'bootstrap.packages."brew:ffmpeg" = "latest"\n' >> mise.toml
+  run; [ "$RC" = 0 ] && ok || bad "[$1] a mise.toml in dotted keys, each entry with its row, was refused: $OUT"
+  printf 'tools.jq = "1.7"\n' >> mise.toml
+  run; [ "$RC" = 1 ] && said '`jq`' && ok || bad "[$1] a tool declared as a dotted key, with no row, passed"
   git rm -q --cached mise.toml; rm -f mise.toml; reg; git add -A; git commit -qm clean-mise >/dev/null 2>&1 || true
 }
 

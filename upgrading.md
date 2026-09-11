@@ -463,8 +463,8 @@ Then record the newly-screened version, so the next upgrade has a baseline.
 ## Tooling versions
 
 For each entry in the register, check its release feed for a newer version **and for breaking
-changes** — and for what `mise.toml` and the lockfiles declare, `scripts/deps-report.py` asks the
-tools that already know and sorts the answer by what it asks of the owner ([`tooling.md`](tooling.md) → *When
+changes**. What `mise.toml` and the lockfiles declare has a report of its own: `scripts/deps-report.py`
+asks the tools that know and sorts each answer by what it asks of the owner ([`tooling.md`](tooling.md) → *When
 something it needs has a newer version*). **A tool that changed its interface breaks agents
 silently**, with the symptom of a stale pin: work that used to succeed fails in a way that looks
 like the agent's fault.
