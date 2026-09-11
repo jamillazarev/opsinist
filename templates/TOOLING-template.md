@@ -13,9 +13,18 @@ answer, only its absence.
 One row per tool. **Operating detail does not live here** — it lives in
 `_ops/runbooks/<tool>.md`, so this stays scannable and the runbook stays deep.
 
+**Where a native file declares the tool, *Wired how* names that file and the row does not repeat
+its version** — `.mcp.json` for an MCP server, `mise.toml` for a runtime, a CLI tool or a system
+package. The file is the truth for *what and which version*; this row is the truth for *why*. The
+guard holds them to each other in both directions: an entry in the file with no row here, and a row
+here naming a file that does not declare it, are both refused (`tooling.md` → *What the project
+needs from the machine*). **The *Tool* cell is the entry's own name in that file** — the server's
+key in `.mcp.json`, the tool's key in `mise.toml` — because that is how the guard finds it.
+
 | Tool | What it's for | **Replaces** | Licence / plan · **evidence** | Access & where the secret lives | Wired how | Checked |
 |---|---|---|---|---|---|---|
-| {{Sentry}} | {{error tracking for the web app}} | {{the log-grepping we did by hand}} | {{free tier · evidence: sentry.io/pricing, read 2026-07-23}} | {{the web group · token in the environment}} | {{MCP server}} | {{2026-07-23}} |
+| {{sentry}} | {{error tracking for the web app}} | {{the log-grepping we did by hand}} | {{free tier · evidence: sentry.io/pricing, read 2026-07-23}} | {{the web group · `${SENTRY_TOKEN}` from the environment}} | {{`.mcp.json`}} | {{2026-07-23}} |
+| {{ffmpeg}} | {{cutting the demo videos}} | {{we had none — clips went out uncut}} | {{LGPL · evidence: ffmpeg.org/legal.html, read 2026-07-23}} | {{none}} | {{`mise.toml`}} | {{2026-07-23}} |
 | {{Vercel}} | {{hosting + preview deploys}} | {{we had none — nothing was deployed}} | {{hobby, non-commercial · evidence: vercel.com/pricing, read 2026-07-23}} | {{owner only — deploys are outward}} | {{CLI on the daemon machine}} | {{2026-07-23}} |
 | {{plotwright}} | {{charts}} | {{screenshots pasted by hand}} | {{BUSL-1.1, production needs a commercial licence · evidence: `vendor/plotwright-LICENSE` · **commercial licence: none held**}} | {{bundled}} | {{npm}} | {{2026-07-23}} |
 

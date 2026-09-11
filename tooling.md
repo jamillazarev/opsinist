@@ -73,6 +73,57 @@ stale pin does.
 
 ---
 
+## What the project needs from the machine
+
+**A project that runs on one laptop and not the next is a project whose needs were never written
+down**, and it is discovered on the worst day: the day it is handed to someone else. Three kinds of
+need live outside the code, and **each has a native file that is the truth** — the register row
+says *why*, the native file says *what and which version*, and the guard holds the two to each
+other:
+
+| The need | The native file — the truth | The register row says |
+|---|---|---|
+| an MCP server | `.mcp.json` at the root, committed | why · what it replaces · the **name** of any secret it reads |
+| a runtime or CLI tool — python, node, a converter | `mise.toml`, `[tools]` | why · what it replaces |
+| a system package — a library, an OS tool | `mise.toml`, `[bootstrap.packages]`, a line per OS | why · what it replaces |
+
+**Never a second list.** The version lives in the native file and nowhere else — a register that
+repeats it is two numbers that will disagree, and the older one will be the one somebody reads.
+The row's *Wired how* cell names the file: `.mcp.json`, `mise.toml`.
+
+**`.mcp.json` carries secret names, never values.** Measured on Claude Code 2.1.226: a server from
+`.mcp.json` stays *pending approval* on each machine until someone approves it there, `${VAR}` in
+its `env` expands from that machine's environment, and **a variable that is missing is a warning,
+not a refusal — the server is started with the literal text `${VAR}`**. So a secret-shaped key
+holding a literal is refused whatever the literal is: a leaked token and a placeholder like
+`YOUR_API_KEY` fail the same way, and only the second one is harmless.
+
+**mise isolates by project and leaves the machine alone** (read in mise's documentation,
+2026-09-11). `[tools]` installs each version beside the others and puts it on `PATH` only inside
+this project's directory, so the machine's own python stays what it was and a second project on a
+second version is untouched. `[bootstrap.packages]` goes through the OS's own manager — `brew`,
+`apt`, `winget` — and **accepts a version already installed**, so nothing is installed twice. The
+honest cost is on the first half: a pinned runtime is mise's own copy even when the same version
+exists through another route, because that copy is what the isolation is.
+
+**Nothing is installed without the owner's word — mise included.** Taking a project over
+(`entering.md`) already refuses to fix anything before the owner has seen the list, and what this
+machine is missing is one more line on it: what `status --missing` reports, what `--dry-run` would
+change, and the owner's yes before anything runs. **A project that changes versions on a machine
+by itself breaks the other projects that machine carries**, and nobody would think to look here.
+
+```mermaid
+flowchart LR
+  N[".mcp.json · mise.toml<br/>— what, and which version"] <-->|"the guard: every entry<br/>has a row, every row<br/>an entry"| R["_ops/TOOLING.md<br/>— why, and what it replaces"]
+  N --> J{"handed over:<br/>what is missing here?"}
+  J -->|"nothing"| OK([works])
+  J -->|"something"| L["one line on the takeover list:<br/>missing · --dry-run"]
+  L -->|"owner: yes"| I["installed — beside, not over"]
+  L -.->|"installed silently"| X(("another project<br/>on this machine breaks"))
+```
+
+---
+
 ## Dependencies — other repositories
 
 A repository this project depends on is **a resource of kind `repo`**, not a project. It carries

@@ -1838,6 +1838,140 @@ believe\` — a title is not a conclusion, and this section is the one read inst
   fi
 done < <(changed -- '_ops/research/*.md' '_ops/research/**/*.md')
 
+# 20 · an MCP server the project needs lives in `.mcp.json`, committed — and a secret-shaped key
+#      there holds `${VAR}`, never a value. Measured on Claude Code 2.1.226: a MISSING variable is
+#      a warning and the server is started with the literal `${VAR}`, so a literal in that file is
+#      either a leaked token or a placeholder like `YOUR_API_KEY` that silently authenticates as
+#      nothing. Both are refused; only `${NAME}` passes.
+# 21 · a runtime, a CLI tool or a system package lives in `mise.toml` — `[tools]` and
+#      `[bootstrap.packages]` — and nowhere else holds its version.
+#      Both: every entry in the native file has a row in `_ops/TOOLING.md` whose *Wired how* names
+#      that file, and every such row names an entry the file declares. The file is the truth for
+#      what and which version; the row is the truth for why; a need with only one of the two is a
+#      need somebody will meet on the day the project is handed over (tooling.md).
+#      Read from the INDEX, like everything here, and parsed without `tomllib`: that module is
+#      Python 3.11+, and the `python3` of a machine with no Homebrew is 3.9 (measured 2026-09-11),
+#      so a guard importing it would pass on the author's machine and crash on the next one.
+#      And the Python is written to a file and read back, never run inside `<( … )`: bash 3.2 — the
+#      `/bin/bash` of every Mac — mis-reads a backtick inside a heredoc inside a substitution, even a
+#      quoted one, and the whole guard stops parsing. Measured 2026-09-11, by this section's own
+#      suite, before it shipped: every project's preflight would have failed on line 1963.
+if [ "$(changed -- .mcp.json mise.toml .mise.toml _ops/TOOLING.md | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
+  _nat=$(mktemp "${TMPDIR:-/tmp}/opsinist-native.XXXXXX")
+  python3 - > "$_nat" <<'NATIVE'
+import json, re, subprocess
+
+def staged(path):
+    r = subprocess.run(["git", "show", ":" + path], capture_output=True, text=True)
+    return r.stdout if r.returncode == 0 else None
+
+def norm(s):
+    return re.sub(r"[`*\s]", "", s or "").lower()
+
+# the register: rows whose *Wired how* names a native file, keyed by that file
+reg = staged("_ops/TOOLING.md") or ""
+rows = {".mcp.json": set(), "mise.toml": set()}
+col = None
+for line in reg.splitlines():
+    if not line.lstrip().startswith("|"):
+        col = None
+        continue
+    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+    if col is None:
+        heads = [norm(c) for c in cells]
+        col = heads.index("wiredhow") if "wiredhow" in heads else -1
+        continue
+    if col < 0 or col >= len(cells) or set(line.replace("|", "").strip()) <= set("-: "):
+        continue
+    if "{{" in line:
+        continue                                   # the template's own example rows
+    tool, wired = norm(cells[0]), cells[col].lower()
+    if ".mcp.json" in wired:
+        rows[".mcp.json"].add(tool)
+    if "mise.toml" in wired:
+        rows["mise.toml"].add(tool)
+
+# §20 · .mcp.json
+SECRET = re.compile(r"(key|token|secret|password|passwd|credential|auth)", re.I)
+VAR = re.compile(r"^\$\{[A-Za-z_][A-Za-z0-9_]*\}$")
+raw = staged(".mcp.json")
+servers = set()
+if raw is not None:
+    try:
+        doc = json.loads(raw)
+        servers_d = doc.get("mcpServers") if isinstance(doc, dict) else None
+        servers_d = servers_d if isinstance(servers_d, dict) else {}
+    except ValueError as e:
+        print("FAIL:.mcp.json does not parse as JSON (%s) — the runtime will not read it either." % e)
+        servers_d = {}
+    for name, cfg in servers_d.items():
+        servers.add(norm(name))
+        if not isinstance(cfg, dict):
+            continue
+        for field in ("env", "headers"):
+            block = cfg.get(field)
+            for k, v in (block.items() if isinstance(block, dict) else []):
+                if SECRET.search(k) and isinstance(v, str) and not VAR.match(v.strip()):
+                    shown = v if len(v) <= 12 else v[:4] + "…"
+                    print("FAIL:.mcp.json server `%s` puts a literal in %s `%s` (%s) — write "
+                          "`${%s}` and keep the value in the environment. A missing variable "
+                          "is only a warning at launch, so a literal here is either a leaked "
+                          "secret or a placeholder that fails quietly." % (name, field, k, shown, k.upper()))
+    for s in sorted(servers - rows[".mcp.json"]):
+        print("FAIL:.mcp.json declares server `%s` and _ops/TOOLING.md has no row for it whose "
+              "*Wired how* names .mcp.json — say why it is here and what it replaces." % s)
+for t in sorted(rows[".mcp.json"] - servers):
+    where = "there is no .mcp.json" if raw is None else ".mcp.json declares no server of that name"
+    print("FAIL:_ops/TOOLING.md row `%s` says it is wired by .mcp.json, and %s — the row "
+          "describes a need nothing provides." % (t, where))
+
+# §21 · mise.toml — [tools] and [bootstrap.packages], read line by line
+text, fname = staged("mise.toml"), "mise.toml"
+if text is None:
+    text, fname = staged(".mise.toml"), ".mise.toml"
+entries = []                                        # (section, key)
+if text is not None:
+    section = None
+    for rawl in text.splitlines():
+        line = rawl.split("#", 1)[0].strip()
+        if not line:
+            continue
+        m = re.match(r"^\[\s*([^\]]+?)\s*\]$", line)
+        if m:
+            section = m.group(1).replace('"', "").replace("'", "")
+            sub = re.match(r"^(tools|bootstrap\.packages)\.(.+)$", section)
+            if sub:                                  # [tools.python] — the table IS the entry
+                entries.append((sub.group(1), sub.group(2)))
+                section = "__subtable__"
+            continue
+        if section in ("tools", "bootstrap.packages"):
+            k = re.match(r"""^(?:"([^"]+)"|'([^']+)'|([A-Za-z0-9_.@/:+-]+))\s*=""", line)
+            if k:
+                entries.append((section, k.group(1) or k.group(2) or k.group(3)))
+
+def names(key):
+    bare = key.split(":", 1)[1] if ":" in key else key
+    parts = {bare.lower()}
+    parts.update(p.lower() for p in re.split(r"[/.]", bare) if p)
+    return parts
+
+declared = [(s, k, names(k)) for s, k in entries]
+for s, k, n in declared:
+    if not (n & rows["mise.toml"]):
+        print("FAIL:%s declares `%s` under [%s] and _ops/TOOLING.md has no row for it whose "
+              "*Wired how* names mise.toml — say why the project needs it." % (fname, k, s))
+for t in sorted(rows["mise.toml"]):
+    if not any(t in n for _, _, n in declared):
+        where = "there is no mise.toml" if text is None else "%s declares nothing of that name" % fname
+        print("FAIL:_ops/TOOLING.md row `%s` says it is wired by mise.toml, and %s — the row "
+              "describes a need nothing installs." % (t, where))
+NATIVE
+  while IFS= read -r _nl; do
+    case "$_nl" in FAIL:*) say_fail "${_nl#FAIL:}" ;; WARN:*) say_warn "${_nl#WARN:}" ;; esac
+  done < "$_nat"
+  rm -f "$_nat"
+fi
+
 # 5 · a cheap last line on credentials. NOT a secret scanner — gitleaks/trufflehog are,
 #     and they belong in CI. This catches the obvious paste before it reaches history,
 #     where removing it means rewriting history and rotating the key anyway.

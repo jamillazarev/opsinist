@@ -15,6 +15,10 @@ your-project/
   <your own files>      # code, content, whatever the craft makes — untouched
   CLAUDE.md             # the generated guide — the one file runtimes need at the root
   .claude/              # generated runtime wiring (agents) — fixed location
+  .mcp.json             # the project's MCP servers, committed — secret NAMES, never values
+  mise.toml             # the runtimes, tools and system packages it needs, pinned —
+                        #   both native files, read by their own runtimes; each entry has
+                        #   a row in _ops/TOOLING.md saying why (tooling.md)
 
   _ops/                 # everything the machinery owns, one door, first in any listing
     config.md           # adapter · conventions · spec_mode · the migration ledger
