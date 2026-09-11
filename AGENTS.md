@@ -194,7 +194,8 @@ that landed in the corpus asks three questions nothing automates: does **a diagr
 beside the rule it draws — `diagrams.md` holds only what crosses several rules · does **a
 situation** say what an owner would say to reach it (`use-cases.md`) · does **a fact** state it
 in one true sentence (`facts.md`)? **A showcase total is guarded wherever one is written** —
-`check-structure` fails a count that drifts — **but the trio's own counts are deltas, and are not**:
+`check-structure` flags a count that drifts, and never fatally — **but the trio's own counts are
+deltas, and are not**:
 an entry's `**Trio:**` line says what that release added, which no corpus total can confirm, so the
 check exempts it rather than misread a delta as drift. And **whether the trio exists at all is
 judgement, so it is a named step, not a hope**. Wording-only changes owe nothing; say so. **A

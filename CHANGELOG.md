@@ -13,8 +13,9 @@ finds exactly those rows and no others — a whole `Attempt` row ends in `|`, a 
 
     grep -rnF '| **Attempt**' _ops/ | grep -v '|[[:space:]]*$'
 
-Join each line it prints to the one below it. **`-F` is not optional**: without it BSD grep reads
-`**` as a repetition operator and exits 2 having searched nothing. Separately, the one file you hold
+Join each line it prints to the one below it. **Keep the `-F`**: without it `**` is a regex operator
+and the result depends on which grep your shell has — BSD grep exits 2, but ugrep prints nothing and
+exits as if no row were broken, which is the dangerous case because it looks like a clean result. Separately, the one file you hold
 a copy of, `_ops/scripts/preflight.sh`, differs from 0.2.17 by its version stamp alone — **re-copy it
 only to silence the guard's own stamp warning**, which otherwise reports a version gap with nothing
 behind it.
@@ -63,10 +64,13 @@ nothing to warn about return the identical silence (`facts.md` 254). Two asserti
 radius: the changelog's other checks still fire, and the reported line number is the line in the
 file, not the line in the entry.
 
-**One repair to `consulting.md`'s depth diagram.** It drew `any entry still not checked?` as a plain
-step — a question a project keeping no source register cannot answer either way, which is the hole
-that withdrew `Depth`'s gate before the last tag (`LATER.md` → *Depth was demoted before its tag*).
-The diamond now names that third outcome instead of assuming it away.
+**`consulting.md`'s depth diagram now matches its own prose.** It drew `any entry still not
+checked?` as a plain step — a question a project keeping no source register cannot answer either way,
+which is the hole that withdrew `Depth`'s gate before the last tag (`LATER.md` → *Depth was demoted
+before its tag*). Three changes: that case is now named rather than assumed away; **`deciding` passes
+the register check too**, as `templates/ANSWER-template.md` already priced it, where it had gone
+straight to the answer; and the not-yet-checked branch, which ended nowhere, now reaches the answer
+at the rung its evidence supports.
 
 **The release ritual asks one more question, at the moment the date is set: what did this session
 learn about the machine?** A note about how the tools behave here is evidence, so it moves without a

@@ -451,34 +451,35 @@ agent?*). Their counts are the borrowable half; their tool is theirs.
 
 ---
 
-## A lens reporting an absence never says how it looked — and twice in one day it had grepped
+## A lens's verdict never says how it looked — and three times it looked at a proxy
 
-**Two false findings on 2026-09-10, both from the same round, both the same shape**: the lens
-searched for a term, found nothing, and reported the mechanic missing.
+**Three false verdicts, two shapes, one cause.** Two absences on 2026-09-10: *"the 500-line budget
+has no form"* — the lens grepped `500`, while `preflight.sh` reads `chapter_budget` — and *"`use-cases.md`
+has no situation for the contradiction stop"*, where it grepped `contradict` in a file whose rows are
+the owner's words by construction. And one confirmation on 2026-09-11: **three of four lenses agreed**
+that `check-structure` *fails* a drifted count, each having read the script's `fail()` call, while
+`preflight.sh` §10 renders every `FAIL:` it prints as a warning, **never fatal**. No lens caught it.
 
-- **"The 500-line chapter budget has no form."** `scripts/preflight.sh` reads `chapter_budget`
-  from `SKILL.md` and had failed on it three times that day. The lens grepped the literal `500`.
-- **"`use-cases.md` has no situation for the contradiction stop."** The row *"It passed, then it
-  failed, then it passed"* carries the whole mechanic — the stop at the **second** disagreement,
-  the count as flips, the escalation as *the question is unstable*. The lens grepped `contradict`,
-  a word that file is built to avoid: **its rows are the owner's words by construction**, so the
-  mechanic's own vocabulary is the one thing guaranteed not to be there.
+**Each read a proxy for the thing** — a name for a mechanic, a producer for its consumer — and
+**independent readers do not help when they share a method**: three lenses, one path, one wrong
+answer, in a round that looked clean. The form this wants is the cut `Reads against` makes between
+`none found` and `not checked`: **a verdict states what was checked and where**, so *"it calls
+`fail()`"* reads as the half-check it is. Home: `lenses.md`, *What the lenses do not cover*.
 
-**The shape is narrower than "a lens can be wrong": a search for a mechanic by its name fails
-wherever the convention requires it to appear under another one** — a value against its variable, an
-internal term against an owner's sentence. Both looked exactly like a true finding, because **an
-absence is the one claim that needs no evidence to state.** The form it wants exists next door:
-`Reads against` makes the writer choose between `none found` — a claim — and `not checked` — honest
-ignorance, and an absence wants the same cut, **what was searched and where**, so a reader can see
-that one grep of one word is not a search. `lenses.md`, *What the lenses do not cover*, is its home.
+**Rung 2, not a rule** — three occasions in two days, and rung 3 costs a week (`self-maintenance.md`,
+*the ladder*). **Revisit when** a fourth proxy verdict is caught, or the week has passed and these
+still reproduce. The cost is real: every finding would carry the line.
 
-**Not promoted today, deliberately** — both occasions are one session, and rung 3 costs a week
-(`self-maintenance.md`, *the ladder*). This is rung 2, and writing the rule now is the dotted branch
-that ladder draws.
+## A lens round costs more than a session holds, and re-reading the whole range is why
 
-**Revisit when** a third false absence is reported, or the week has passed and these two still
-reproduce. **The cost to weigh then is real**: every finding would carry the line, and most findings
-are not absences.
+**Nine round attempts across two releases, five lost whole to the session limit** — 0.2.17 three of
+four, 0.2.18 two of five, each lens dying a line in. `lenses.md` says of the re-round's cost that
+*nothing here has measured that*; this is the measurement. **Every re-round re-read the full range**,
+yet in 0.2.18 the sharpest finding of each re-round sat in the latest repair commit — and the one
+re-round that read only that commit, 231 lines against 688, completed first time. **Rung 2,
+proposed, not adopted**: a re-round reads the latest repair and opens the range for context only.
+**Revisit when** the next release re-rounds; the risk to weigh is a defect a repair caused outside
+the lines it touched.
 
 ---
 
