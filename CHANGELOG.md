@@ -2,7 +2,7 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.18 — unreleased
+## 0.2.18 — 2026-09-11
 
 **Migration — one thing to look for in `_ops/`, and one optional re-copy.**
 `templates/RUN-template.md` is copied into each run record as that record is written, and never
