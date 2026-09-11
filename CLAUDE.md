@@ -119,6 +119,15 @@ nothing accumulates outside versions.
   the wrong answer is a plausible one rather than an error: `grep`, `awk`, `timeout` and `claude`
   fail loudly, and this one succeeds at something else.
 
+- **zsh does not split an unquoted `$var` on spaces; bash does** (measured 2026-09-11). With
+  `pair="opsinist https://…"`, `set -- $pair` gives zsh **one** argument holding the whole string and
+  bash two — so a loop written the bash way passed `"opsinist https://github.com/…"` to
+  `gemini extensions uninstall` as a single extension name, and gave `install` no source at all. Both
+  refused, so nothing moved. **Split explicitly — `${=pair}` in zsh — or write each call out.** Same
+  shell as the `:t` note above and the same lesson: a line that is idiomatic bash means something
+  else here. *It landed after the 0.2.18 tag, which is the case `AGENTS.md`'s pre-tag question was
+  written for; it rides the next range.*
+
 - **A tool can report a failure without exiting on one, and then its exit code proves nothing**
   (measured 2026-09-10). `scripts/check-structure.py` prints `FAIL:`/`WARN:` lines for preflight to
   render and **exits 0 on every path**; a mutation suite written against `[ "$(run)" = "1" ]` was
