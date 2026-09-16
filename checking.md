@@ -27,10 +27,15 @@ therefore discovered at the worst possible time.
 | **credentials: expiry and last use** | an expired key found mid-run; a key nobody has used in a year |
 | **link health** | a reference that quietly stopped existing → [`resources.md`](resources.md) |
 | **generated surfaces against their hashes** | a hand edit **reported before** it is overwritten |
-| **the guards themselves** | *a guard that no longer matches reality passes silently* |
+| **the board against the tasks** — the skill's `scripts/board.py --check` | a derived page that has drifted into a second list, read as current → [`grouping.md`](grouping.md) |
+| **the guards themselves** — and whether the hook is wired at all: the skill's `scripts/guard-status.py` | *a guard that no longer matches reality passes silently* — and one copied but never wired never ran at all, while its presence read as protection |
 
 That last row is the one people forget. **A check that has stopped checking anything is worse than
-no check**, because its green is read as evidence.
+no check**, because its green is read as evidence. **And the file is not the guard — the hook is.**
+Measured on a live project, 2026-09-16: the guard sat in `_ops/scripts/`, one version behind, and
+`.git/hooks/` held nothing but git's samples, so every gate in this methodology was a description
+there. `guard-status.py` reads the hooks directory git actually uses — `core.hooksPath` and
+worktrees move it — and says which of the four states the project is in.
 
 **An audit over a whole repository is dispatched, not performed in the turn.** It is minutes of
 work, and a conversation that blocks for it has taken the owner hostage to a sweep they asked for

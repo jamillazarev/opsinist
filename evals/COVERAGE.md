@@ -16,20 +16,24 @@ The register of gates and the prose-only list: `permissions.md`.
 
 ## Validators that ship
 
+- `scripts/board.py` — The board — every task, where it stands, who has it, which release it is for
 - `scripts/changelog.py` — The changelog skeleton — collation the author writes over, never the entry itself
 - `scripts/check-freshness.py` — Check-date validator: a date, not a tick
 - `scripts/check-links.py` — Cross-reference validator: does the file exist, and does the section inside it?
 - `scripts/check-shell-exec.py` — Refuse a shell script that would execute text as a command
 - `scripts/check-structure.py` — Structural integrity of the docs. Every check here exists because the defect it
+- `scripts/cost-report.py` — What the work cost, rolled up from the run records — per task, per release, per model
 - `scripts/coverage-map.py` — Regenerate the coverage map: what holds each rule, and what exercises each holder
 - `scripts/deps-report.py` — What the project depends on, why, and how much each available update matters
 - `scripts/fetch-source.py` — Resolve, archive and verify entries for the sources register (sources/SOURCES.md)
+- `scripts/guard-status.py` — Is the project's guard installed, current, and actually wired to fire?
 - `scripts/inventory.py` — A deterministic inventory of a tree — the map of the territory, never the territory
 - `scripts/link-ids.py` — In a project, an id or a path named in passing becomes a link — so Obsidian's graph, GitHub and
 - `scripts/link-names.py` — A backticked name of a file in this tree becomes a link, so GitHub, Obsidian's graph and
 - `scripts/map-blocks.py` — Regenerate the map's `touched by:` blocks from the tasks' own declarations
 - `scripts/migrate-layout.py` — Move a pre-0.2.0 flat project into the `_ops/` layout — as history, not as loss
 - `scripts/new-id.py` — Mint an entity id that is not already taken
+- `scripts/new-task.py` — Write a task file from the template, so its shape is not a thing anyone has to remember
 - `scripts/transition.py` — The one door a stage change goes through (pipelines.md)
 
 ## Hooks that ship
@@ -41,15 +45,19 @@ The register of gates and the prose-only list: `permissions.md`.
 
 ## Tests that exercise the holders (run by `scripts/preflight.sh`)
 
+- `scripts/test-assignee-exists.sh` — §25 of the project guard — a task is assigned to somebody this project has — on a throwaway
 - `scripts/test-audit-gate.sh` — Mutation tests for hooks/audit-gate.py — the same discipline as preflight §13: every rule
+- `scripts/test-board.sh` — `board.py` — the derived board — on a throwaway project holding the two dialects a live one was
 - `scripts/test-check-releases.sh` — `check-releases.sh` exercised on its mutants and its honest twins
 - `scripts/test-check-shell-exec.sh` — The shell-exec checker, exercised on its mutants and its twins — the form the capability bar
 - `scripts/test-check-structure.sh` — The corpus-count claims shown firing where a claim is made and silent where a record is kept
 - `scripts/test-company-preflight.sh` — The bypass net (§14) exercised end to end: a hand-flipped stage in a staged commit is
 - `scripts/test-corpus-preflight.sh` — The doors-regression check (preflight §1a) exercised on the mutant and the twin. The check
+- `scripts/test-cost-report.sh` — `cost-report.py` — the rollup — on a throwaway project holding the cases the page exists for:
 - `scripts/test-deps-report.sh` — deps-report.py — the updates sorted by what they ask of the owner, and the why of each thing the
 - `scripts/test-eval-requeue.sh` — The void sweep in eval-requeue.sh, exercised against the shapes that produced it
 - `scripts/test-find-installs.sh` — `find-installs.sh` exercised on its mutants and its honest twins
+- `scripts/test-guard-status.sh` — guard-status.py — is the project's guard installed, current, and wired — shown on throwaway
 - `scripts/test-inventory.sh` — The inventory's three promises, exercised: identical twice, guest-safe, honest off git
 - `scripts/test-link-ids.sh` — link-ids.py — an id or a path named in passing becomes a link — shown on a throwaway project that
 - `scripts/test-link-names.sh` — link-names.py — a backticked name of a file in this tree becomes a link — shown on a throwaway
@@ -57,6 +65,8 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-migrate-layout.sh` — The 0.2.0 layout migrator exercised on a flat 0.1.x fixture: history-preserving
 - `scripts/test-native-register.sh` — §20 and §21 of the project guard — the native files and the register held to each other —
 - `scripts/test-recheck-trigger.sh` — §22 of the project guard — a new tension in the source register reaches the findings resting on
+- `scripts/test-record-moves.sh` — §24 of the project guard — the product moved and the record did not — shown warning on the first
+- `scripts/test-task-shape.sh` — §23 of the project guard — a task the commit CREATES has the shape the template gives it — and
 - `scripts/test-transition.sh` — The transition door, exercised end to end on a throwaway fixture — same habit as
 - `scripts/test-verify-reads.sh` — `--verify-reads` shown refusing each mutant and passing its honest twin
 

@@ -62,6 +62,39 @@ it was set**. Closing work and adding work then look like the different things t
 
 ---
 
+## The board is a view, and the status never goes in the filename
+
+**One page that answers *what is in flight, who has it, which release it is for*** —
+`_ops/BOARD.md`, written by the skill's `scripts/board.py` and read out of the task files every
+time it runs. Every id on it is a link; the task file is the truth and the page is a view of it.
+`--check` exits non-zero when the page has drifted from what the tasks now say, which is what keeps
+a generated file in a repository from becoming a second list that lies → [`checking.md`](checking.md).
+
+**Measured 2026-09-16** on a live project of nine tasks with no board: answering *what is in
+flight* meant opening nine files, and the page generated from them showed in one screen what the
+files had hidden — **a status on no rung of that task's own ladder**, and **six tasks whose
+assignment was written in a field the template never declares**. The board marks both rather than
+quietly rendering them: a name read from `Role:` carries a `*`, a status the ladder does not
+contain carries a `⚠`. **A view that silently normalises what it reads is how a dialect becomes
+permanent.**
+
+**And the status does not go in the filename.** `TODO-`, `WIP-`, `DONE-` is the first thing
+everyone proposes, and it costs a rename on every move: the id is immutable precisely because
+links point at the file, so a status in the name turns each transition into a broken link in every
+task, run record and thread that cited it — and a second home for the state the door already owns
+([`writing-work.md`](writing-work.md) → *Status lives here and nowhere else*). The board is the same wish, answered for free.
+
+```mermaid
+flowchart LR
+  T[_ops/tasks/*.md<br/>the truth, one file per task] --> B[board.py]
+  L[the type's ladder<br/>stage order] --> B
+  B --> P[_ops/BOARD.md<br/>a view: links · status · who · release]
+  B -. --check .-> D{has the page drifted<br/>from the files?}
+  D -- yes --> R[rerun with --write]
+```
+
+---
+
 ## Order is one hand-kept list
 
 **Priority is not the order** — it is a property of one item; order is a relation between items.

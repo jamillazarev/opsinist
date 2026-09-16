@@ -206,6 +206,10 @@ classification is just criticism.
 - **credentials in the repository** → rotate first, discuss after
 - **the guide promises documents that do not exist** → agents told to read a missing file
   improvise, and improvisation is how conventions drift
+- **the guard is not wired** — the file is copied into `_ops/scripts/` and no `pre-commit` hook
+  runs it → every gate this methodology describes is prose in that repository, and its presence
+  reads as protection. The skill's `scripts/guard-status.py` says which state it is in; `--install`
+  is the fix, and it is one line
 - **this machine lacks what the project declares** — an entry of `mise.toml` or `.mcp.json` that is
   not here → every run is a run on a different project. The line carries what `mise install
   --dry-run` and `mise bootstrap packages apply --dry-run` would change, and **installing — `mise

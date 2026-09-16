@@ -63,7 +63,7 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "hand-flipped stage passed
 git checkout -q _ops/tasks/T-1.md && git reset -q
 
 # the same move through the door → transition line lands, the net passes it
-mkdir -p _ops/process/types && printf 'started -> review -> done\n' > _ops/process/types/default.md
+mkdir -p _ops/process/types && printf 'stages: [started, review, done]\nterminal: [done]\ngates:\n  review -> done:\n    review_by: non-author\n' > _ops/process/types/default.md
 python3 "$HERE/transition.py" _ops/tasks/T-1.md review --by worker-a >/dev/null
 python3 "$HERE/transition.py" _ops/tasks/T-1.md done --by owner >/dev/null 2>&1 || {
   printf -- '- reviewed by bob: checked\n' >> _ops/tasks/T-1.md
@@ -225,7 +225,7 @@ git checkout -q HEAD -- _ops/DECISIONS.md; git reset -q; git checkout -q _ops/DE
 # (pass eleven). A check whose fixture does not walk the code is coverage on paper.
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 mkdir -p _ops/process/types runs
-printf 'started -> done\n' > _ops/process/types/stderr-close.md
+printf 'stages: [started, done]\nterminal: [done]\ngates:\n  started -> done:\n    review_by: non-author\n' > _ops/process/types/stderr-close.md
 printf '#!/bin/sh\necho EXECUTED >&2\n' > runs/R-probe.md; chmod +x runs/R-probe.md
 printf '# T-STDERR — thing\n\n**Status**: started\n**Assignee**: ui\n**Type**: stderr-close\n\n## Done when\n\n- [ ] a thing\n\n## History\n' > _ops/tasks/T-STDERR.md
 git add -A && git commit -qm "stderr close fixture" >/dev/null 2>&1
@@ -298,7 +298,7 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a new task creating two s
 rm -f _ops/tasks/T-new.md; git add -A
 
 # an example is not a field: a fenced or quoted `stage:` must not count toward the two
-printf '# T-ex\n\n**Status**: done\n\n```yaml\nstage: draft\n```\n\n> stage: quoted\n' > _ops/tasks/T-ex.md
+printf '# T-ex — an example\n\n**Type**: build · **Status**: started\n**Assignee**: owner\n\n## Ready when\n\nx\n\n```yaml\nstage: draft\n```\n\n> stage: quoted\n\n## Done when\n\n- [ ] x\n\n## History\n' > _ops/tasks/T-ex.md
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a fenced or quoted example counted as a second state home"
 rm -f _ops/tasks/T-ex.md; git rm -qf _ops/tasks/T-legacy.md >/dev/null 2>&1; git add -A
@@ -314,8 +314,8 @@ cp "$HERE/../templates/company-preflight.sh" "$D/_ops/scripts/preflight.sh"
 cp "$HERE/transition.py" "$HERE/new-id.py" "$D/_ops/scripts/"
 printf '# Guide\n\n**Operated by:** Opsinist\n' > "$D/CLAUDE.md"
 printf '# Config\n\nschema_version: 1\n\n- — → 0.2.7 · 2026-08-14 · applied · owner\n' > "$D/_ops/config.md"
-printf 'started -> review -> done\n' > "$D/_ops/process/types/default.md"
-printf '# T-1 — the first task\n\n**Status**: started\n**Assignee**: owner\n\n## History\n' > "$D/_ops/tasks/T-1.md"
+printf 'stages: [started, review, done]\nterminal: [done]\ngates:\n  review -> done:\n    review_by: non-author\n' > "$D/_ops/process/types/default.md"
+printf '# T-1 — the first task\n\n**Type**: build · **Status**: started\n**Assignee**: owner\n\n## Ready when\n\nThe first thing, workable from this file.\n\n## Done when\n\n- [ ] the thing → `somewhere`\n\n## History\n' > "$D/_ops/tasks/T-1.md"
 git -C "$D" init -q . && git -C "$D" config user.email t@f.t && git -C "$D" config user.name T
 git -C "$D" add -A
 # ONE run, one capture: the earlier form ran the guard twice and the second run reported the
@@ -386,8 +386,10 @@ git checkout -q HEAD -- _ops/DECISIONS.md; git reset -q; git checkout -q _ops/DE
 # when`, so rewriting it changes lines containing none of the words the regex looked for.
 # Measured through the door — a task reaching `done` with its acceptance criterion relaxed in
 # the same commit passed. It compares the section against HEAD now.
-mkdir -p _ops/process/types && printf 'started -> done\n' > _ops/process/types/default.md
-printf '# T-8 — a thing\n\n**Status**: started\n**Assignee**: bob\n\n## Done when\n\n- the strict bar\n\n## History\n' > _ops/tasks/T-8.md
+mkdir -p _ops/process/types && printf 'stages: [started, done]\nterminal: [done]\ngates:\n  started -> done:\n    review_by: non-author\n' > _ops/process/types/default.md
+# The review line is the terminal edge's own gate, which every ladder written from 0.2.19 carries —
+# without it the door refuses the move and this fixture stops testing what it is about.
+printf '# T-8 — a thing\n\n**Status**: started\n**Assignee**: bob\n\n## Done when\n\n- the strict bar\n\n## History\n\n- reviewed by qa\n' > _ops/tasks/T-8.md
 git add -A && git commit -qm "T-8 exists"
 
 python3 "$HERE/transition.py" _ops/tasks/T-8.md done --by alice >/dev/null 2>&1
@@ -443,7 +445,7 @@ git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a malformed ladder was committed — acceptance is disarmed and nothing said so" || ok
 ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "malformed ladder" \
   && ok || bad "the ladder refusal does not name the file"
-printf '# bent\n\n```yaml\nname: bent\nstages: [draft, review, handoff]\nterminal: [handoff]\n```\n' > _ops/pipelines/bent.md
+printf '# bent\n\n```yaml\nname: bent\nstages: [draft, review, handoff]\nterminal: [handoff]\ngates:\n  review -> handoff:\n    review_by: non-author\n```\n' > _ops/pipelines/bent.md
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a sound ladder was refused"
 git rm -qf _ops/pipelines/bent.md >/dev/null 2>&1; git commit -qm "ladder out"
@@ -935,12 +937,12 @@ git commit -qm "verdict fixtures out" >/dev/null 2>&1
 # A child link that resolves to nothing is worse than a bare id — it reads as navigable. The
 # template writes children as checkbox links precisely so the board can be walked; measured on a
 # live project, twelve tasks with plainly dependent work and not one link between them.
-printf '# T-6\n\n**Status**: started\n\n## Children\n\n- [ ] [T-99](T-99-ghost.md) — never written\n' > _ops/tasks/T-6.md
+printf '# T-6 — a parent\n\n**Type**: build · **Status**: started\n**Assignee**: owner\n\n## Ready when\n\nx\n\n## Children\n\n- [ ] [T-99](T-99-ghost.md) — never written\n\n## Done when\n\n- [ ] x\n\n## History\n' > _ops/tasks/T-6.md
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && bad "a child link to a file that does not exist passed" || ok
 ( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -q "which is not" \
   && ok || bad "the link refusal does not name the target"
-printf '# T-6\n\n**Status**: started\n\n## Children\n\n- [ ] [T-1](T-1.md) — the real one\n' > _ops/tasks/T-6.md
+printf '# T-6 — a parent\n\n**Type**: build · **Status**: started\n**Assignee**: owner\n\n## Ready when\n\nx\n\n## Children\n\n- [ ] [T-1](T-1.md) — the real one\n\n## Done when\n\n- [ ] x\n\n## History\n' > _ops/tasks/T-6.md
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "a child link that resolves was refused"
 git rm -qf _ops/tasks/T-6.md >/dev/null 2>&1; git commit -qm "T-6 out" >/dev/null 2>&1
@@ -949,7 +951,7 @@ git rm -qf _ops/tasks/T-6.md >/dev/null 2>&1; git commit -qm "T-6 out" >/dev/nul
 # release strands its own projects over history they cannot change. And a tick is evidence, not
 # an edit: the shipped template puts deliverables in `- [ ]` boxes and tells the owner to tick
 # them, so without normalising the mark the documented way to close a task was refused.
-mkdir -p _ops/runs _ops/process/types && printf 'started -> review -> done\n' > _ops/process/types/default.md
+mkdir -p _ops/runs _ops/process/types && printf 'stages: [started, review, done]\nterminal: [done]\ngates:\n  review -> done:\n    review_by: non-author\n' > _ops/process/types/default.md
 cp "$HERE/../templates/TASK-template.md" _ops/tasks/T-tpl.md
 printf '# R-old\n\n| **Outcome** | completed |\n' > _ops/runs/R-old.md
 git add -A && git commit -qm "the template as a task, and a legacy record"
@@ -992,7 +994,7 @@ git commit -qm "fixtures out" >/dev/null 2>&1
 # by a person legitimately has no run — so the pair is: warned without a record, silent with one.
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 mkdir -p _ops/process/types _ops/runs
-printf 'started -> review -> done\n' > _ops/process/types/default.md
+printf 'stages: [started, review, done]\nterminal: [done]\ngates:\n  review -> done:\n    review_by: non-author\n' > _ops/process/types/default.md
 printf '# T-COST — a real job\n\n**Status**: started\n**Assignee**: ui\n\n## Done when\n\n- [ ] the thing exists\n\n## History\n' > _ops/tasks/T-COST.md
 git add -A && git commit -qm "cost fixture" >/dev/null 2>&1
 close_it(){
@@ -1554,7 +1556,7 @@ git commit -qm "decisions fixture out" >/dev/null 2>&1
 # all was skipped in silence rather than read from the title. Measured 2026-08-21 (pass twelve).
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 mkdir -p _ops/process/types _ops/runs
-printf 'started -> review -> done\n' > _ops/process/types/default.md
+printf 'stages: [started, review, done]\nterminal: [done]\ngates:\n  review -> done:\n    review_by: non-author\n' > _ops/process/types/default.md
 _slugtask(){ printf '# %s — add a logout\n\n**Status**: started\n**Assignee**: ui\n\n## Done when\n\n- [ ] the thing exists\n\n## History\n' "$1" > "_ops/tasks/$2"; }
 _close(){ python3 "$HERE/transition.py" "_ops/tasks/$1" review --by ui >/dev/null 2>&1
   printf -- '- reviewed by qa\n' >> "_ops/tasks/$1"
@@ -1872,7 +1874,7 @@ git rm -qf _ops/tasks/T-H3.md >/dev/null 2>&1; git commit -qm "h3 out" >/dev/nul
 
 # ── a link inside a fenced example is an example ───────────────────────────────────────────
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
-printf '# T-FL — fenced link\n\n**Status**: started\n**Assignee**: worker-a\n\n## Notes\n\n```\n- [ ] [T-4F2K9Q](T-4F2K9Q-nowhere.md)\n```\n\n## History\n' > _ops/tasks/T-FL.md
+printf '# T-FL — fenced link\n\n**Type**: build · **Status**: started\n**Assignee**: worker-a\n\n## Ready when\n\nx\n\n## Notes\n\n```\n- [ ] [T-4F2K9Q](T-4F2K9Q-nowhere.md)\n```\n\n## Done when\n\n- [ ] x\n\n## History\n' > _ops/tasks/T-FL.md
 git add -A
 bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
   && ok || bad "a link inside a fenced example was refused as a rotted link"

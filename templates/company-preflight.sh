@@ -389,14 +389,25 @@ fi
 #      rule is only consulted on a terminal move — and nothing said a word until a worker
 #      closed their own task. The door refuses a malformed ladder; this catches it at the commit
 #      that writes it, which is where the person who can fix it is standing.
+#      **And a ladder this commit ADDS is held to one more thing — a review gate on the way into
+#      every terminal stage** (`--strict`). The stock ladder's `review → accept` carried no gate at
+#      all until 2026-09-17, so a project that wrote no pipeline file had acceptance in name only:
+#      measured the day before, four accepted tasks and two with no review evidence of any kind. A
+#      ladder the commit merely EDITS gets the same sentence as a warning — freezing work written
+#      before the rule existed is how a rule gets deleted by `--no-verify`.
+_added_ladders=$(changed --diff-filter=A -- '_ops/pipelines/*.md' '_ops/process/types/*.md' | tr '\0' '\n')
 while IFS= read -r -d '' pf; do
   # The INDEX, not the worktree: staging a broken ladder and fixing it in the editor was
   # measured passing. The staged bytes go to a temp file because the door takes a path.
   tmp_l=$(mktemp) || continue
   staged "$pf" > "$tmp_l" 2>/dev/null || { rm -f "$tmp_l"; continue; }
   [ -s "$tmp_l" ] || { rm -f "$tmp_l"; continue; }
-  out=$(python3 "_ops/scripts/transition.py" --check-ladder "$tmp_l" 2>&1) || \
-    say_fail "$pf is a malformed ladder: $(printf '%s' "$out" | tr '\n' ' ' | cut -c1-220)"
+  _strict=""
+  printf '%s\n' "$_added_ladders" | grep -qxF -- "$pf" && _strict="--strict"
+  out=$(python3 "_ops/scripts/transition.py" --check-ladder $_strict "$tmp_l" 2>&1) || \
+    say_fail "$pf is a malformed ladder: $(printf '%s' "$out" | tr '\n' ' ' | cut -c1-360)"
+  _note=$(printf '%s' "$out" | grep -F '! nothing on the way into' | head -1)
+  [ -n "$_note" ] && say_warn "$pf: ${_note#! }"
   rm -f "$tmp_l"
 done < <(changed -- '_ops/pipelines/*.md' '_ops/process/types/*.md')
 
@@ -2132,6 +2143,249 @@ end (python3 exited $_rrc; its error is above) — refused, because a check that
     case "$_rl" in FAIL:*) say_fail "${_rl#FAIL:}" ;; WARN:*) say_warn "${_rl#WARN:}" ;; esac
   done < "$_rck"
   rm -f "$_rck"
+fi
+
+# 23 · a task this commit CREATES has the shape the template gives it. Measured on a live project
+#      2026-09-16: nine tasks in two incompatible dialects — `# T-…: title` against the template's
+#      em dash, fields as a bullet list, `Role:` where the template says `Assignee`, an extra
+#      `Owner:`, one file with two logs, and a status on no ladder the project declared. The writer
+#      named the cause exactly: there was no template it was obliged to open, and nothing refused
+#      what it wrote — `transition.py` and the checks here read both shapes on purpose, so the
+#      corpus asked for one form and every reader accepted two.
+#      **The shape is read, not hard-coded**: `_ops/templates/TASK.md` when the project keeps one —
+#      that is how a project translates the headings into the language it works in — otherwise the
+#      three fields and three sections below, which are the skill's template minus what it marks
+#      `<!-- optional -->`. **Enforced on what the commit ADDS**, like §4e: existing tasks are the
+#      project's history and are not retro-fixed, and a rename is not a rewrite.
+#      The skill's `scripts/new-task.py` writes a file that passes this, id already minted.
+if [ "$(changed --diff-filter=A -- '_ops/tasks/*.md' '_ops/tasks/**/*.md' | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
+  _tsk=$(mktemp "${TMPDIR:-/tmp}/opsinist-taskshape.XXXXXX")
+  python3 - > "$_tsk" <<'SHAPE'
+import os, re, subprocess
+
+def git(*args):
+    r = subprocess.run(["git", "-c", "core.quotePath=false"] + list(args), capture_output=True,
+                       text=True, errors="replace")
+    return r.stdout if r.returncode == 0 else None
+
+FIELDS = ("Type", "Status", "Assignee")
+SECTIONS = ["Ready when", "Done when", "History"]
+whence = "the skill's task template"
+tpl = git("show", ":_ops/templates/TASK.md")
+if tpl is None and os.path.isfile("_ops/templates/TASK.md"):
+    tpl = open("_ops/templates/TASK.md", encoding="utf-8", errors="replace").read()
+if tpl:
+    heads = [h.strip() for h in re.findall(r"^##\s+(.+?)\s*$", tpl, re.M)]
+    kept = [re.sub(r"<!--.*?-->", "", h).strip() for h in heads if "<!-- optional -->" not in h]
+    if kept:
+        SECTIONS = kept
+        whence = "_ops/templates/TASK.md, this project's own"
+
+for path in [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=A", "-z") or "").split("\0")
+             if p.startswith("_ops/tasks/") and p.endswith(".md")]:
+    text = git("show", ":" + path) or ""
+    said = []
+    ident = re.match(r"^([A-Z]{1,2}-[0-9A-Z]{6})", os.path.basename(path))
+    head = re.match(r"^#\s+(.*)$", text, re.M)
+    line = head.group(1).strip() if head else ""
+    if not head or (ident and not line.startswith(ident.group(1))) or " — " not in line \
+            or not line.split(" — ", 1)[-1].strip() or "{{" in line:
+        said.append("its first line reads `# %s — <title>`, with the id the filename carries"
+                    % (ident.group(1) if ident else "T-XXXXXX"))
+    for f in FIELDS:
+        m = re.search(r"(?:\*\*)?%s(?:\*\*)?\s*:\s*(.*)$" % f, text, re.M | re.I)
+        val = (m.group(1).strip() if m else "")
+        if not m or not val or val.startswith("{{"):
+            said.append("`**%s**:` carries a value" % f)
+    body = re.findall(r"^##\s+(.+?)\s*$", text, re.M)
+    for s in SECTIONS:
+        if not any(re.sub(r"<!--.*?-->", "", b).strip().lower() == s.lower() for b in body):
+            said.append("it has a `## %s` section" % s)
+    if said:
+        print("FAIL:%s is a new task that does not have the shape %s gives it — %s. Write it with "
+              "the skill's `scripts/new-task.py`, which mints the id and fills the shape, or bring "
+              "this file to it; the fields and headings are read, so a translated template is "
+              "obeyed as written." % (path, whence, "; ".join(said)))
+SHAPE
+  _trc=$?
+  [ "$_trc" -eq 0 ] || say_fail "the check of the tasks this commit adds stopped before its end \
+(python3 exited $_trc; its error is above) — refused, because a check that did not finish has not passed."
+  while IFS= read -r _tl; do
+    case "$_tl" in FAIL:*) say_fail "${_tl#FAIL:}" ;; WARN:*) say_warn "${_tl#WARN:}" ;; esac
+  done < "$_tsk"
+  rm -f "$_tsk"
+fi
+
+# 25 · the assignee names somebody this project actually has. Measured on the same live project
+#      2026-09-16: two tasks assigned to **Frontend Engineer**, a role in neither `_ops/roles/`
+#      (architect · backend_engineer · web_engineer) nor `_ops/TEAM.md` — invented, it looks like,
+#      out of the *Team* column next to Web Engineer. Nothing bounced, so both tasks sat addressed
+#      to nobody, one of them `review` with an `Owner: unassigned`. **This is what an uncovered
+#      craft looks like from the inside**: the work needs a craft the team does not have, and the
+#      dispatcher writes down the nearest-sounding name instead of saying so. The honest move is a
+#      hire (`hiring.md` — *an uncovered craft is a hire, not a stretch*), and a name that resolves
+#      to nothing is the only mechanical trace that it was skipped.
+#      **Judged where the commit WRITES the assignment** — an added task, or a staged diff that adds
+#      the field — so a project's history is not retro-fixed and a rename is not a rewrite. A role
+#      hired in the same commit counts: the roster is read from the index, which is where the team
+#      file and the new role file both are by then.
+if [ "$(changed --diff-filter=AM -- '_ops/tasks/*.md' '_ops/tasks/**/*.md' | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
+  _who=$(mktemp "${TMPDIR:-/tmp}/opsinist-assignee.XXXXXX")
+  python3 - > "$_who" <<'WHO'
+import os, re, subprocess
+
+def git(*args):
+    r = subprocess.run(["git", "-c", "core.quotePath=false"] + list(args), capture_output=True,
+                       text=True, errors="replace")
+    return r.stdout if r.returncode == 0 else None
+
+def norm(s):
+    """`Web Engineer` · `web_engineer` · `**web-engineer**` are one name. Letters and digits are
+    kept in every alphabet — a project whose roster is written in its own language is the case
+    this whole release is about, and `[a-z]` would have failed all of it."""
+    s = re.sub(r"<!--.*?-->", " ", s)
+    s = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", s)          # a link is its text here
+    return " ".join("".join(c if c.isalnum() else " " for c in s.lower()).split())
+
+# nobody-yet, said out loud. The template's own device for it is a GROUP — "not yet decided who" —
+# and these are the words people write instead; an unknown NAME is the defect this section is for.
+OPEN = {"none", "unassigned", "nobody", "tbd", "unknown", "", "-"}
+
+# normalised -> what to print back. **The team file is read first on purpose**: `web_engineer.md`
+# and `| Web Engineer |` are one name, and the one worth printing back at somebody is the one a
+# person wrote in a sentence, not the filename it was slugged into.
+known = {}
+team = git("show", ":_ops/TEAM.md")
+if team is None and os.path.isfile("_ops/TEAM.md"):
+    team = open("_ops/TEAM.md", encoding="utf-8", errors="replace").read()
+WANTED = {"person", "agent", "name", "role", "craft", "team", "group", "panel"}
+header, prev = None, None
+for line in (team or "").splitlines():
+    row = line.strip()
+    if not row.startswith("|"):
+        header, prev = None, None
+        continue
+    cells = [c.strip() for c in row.strip("|").split("|")]
+    if cells and all(re.fullmatch(r":?-{2,}:?", c) for c in cells if c):
+        header = [norm(c) for c in (prev or [])]        # the row above a rule is its header
+    elif header:
+        for i, c in enumerate(cells):
+            if i < len(header) and header[i] in WANTED and "{{" not in c and norm(c):
+                known.setdefault(norm(c), re.sub(r"[*`]", "", c).strip())
+    prev = cells
+for rel in (git("ls-files", "-z", "_ops/roles", "_ops/teams", "_ops/panels") or "").split("\0"):
+    if rel.endswith(".md"):
+        name = os.path.basename(rel)[:-3]
+        known.setdefault(norm(name), name)
+
+# **An empty roster is not a wrong answer, it is no answer.** A project on its first day writes a
+# task before it has hired anyone — `starting.md` prescribes exactly that order — and a check that
+# compares against nothing would refuse every task until a team file exists, which is the check
+# measuring the absence of its own input. The defect this section is for had a roster of three and
+# a name outside it.
+paths = [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=AM", "-z") or "").split("\0")
+         if p.startswith("_ops/tasks/") and p.endswith(".md")] if known else []
+for path in paths:
+    diff = git("diff", "--cached", "-U0", "--", path) or ""
+    if not re.search(r"^\+.*(?:\*\*)?Assignee(?:\*\*)?\s*:", diff, re.M | re.I):
+        continue                                        # this commit did not write the assignment
+    text = git("show", ":" + path) or ""
+    m = re.search(r"(?:\*\*)?Assignee(?:\*\*)?\s*:\s*(.*)$", text, re.M | re.I)
+    val = (m.group(1) if m else "").split("·")[0]
+    val = re.sub(r"\{\{.*", "", val)
+    if norm(val) in OPEN or not norm(val):
+        continue                                        # §23 is the section that asks for a value
+    if norm(val) in known:
+        continue
+    have = sorted(set(known.values()))
+    print("FAIL:%s is assigned to `%s`, and this project has no such role, person or team — it has "
+          "%s. A name that resolves to nothing is not a routing decision: if the craft this task "
+          "needs is covered, use that role's own name; if it is not, **hire it** — an uncovered "
+          "craft is a hire, not the nearest-sounding name — and the new role's file may land in "
+          "this very commit. %s"
+          % (path, re.sub(r"[*`]", "", val).strip(),
+             ", ".join("`%s`" % h for h in have[:8]) + (", …" if len(have) > 8 else "")
+             if have else "no roster at all: `_ops/TEAM.md` names nobody and `_ops/roles/` is empty",
+             "Where nobody is decided yet, the template's own device is a group, or one of: %s."
+             % ", ".join("`%s`" % w for w in sorted(OPEN - {"", "-"}))))
+WHO
+  _wrc=$?
+  [ "$_wrc" -eq 0 ] || say_fail "the check of who this commit assigns work to stopped before its end \
+(python3 exited $_wrc; its error is above) — refused, because a check that did not finish has not passed."
+  while IFS= read -r _wl; do
+    case "$_wl" in FAIL:*) say_fail "${_wl#FAIL:}" ;; WARN:*) say_warn "${_wl#WARN:}" ;; esac
+  done < "$_who"
+  rm -f "$_who"
+fi
+
+# 24 · the product moved and the record did not — once is a small fix, twice in a row is the
+#      advisor coding instead of dispatching. Measured on a live project 2026-09-16: **4 of its 15
+#      commits changed files outside `_ops/` while touching neither a task nor a run record**, one
+#      of them thirteen files of feature work, and two of its accepted tasks claimed committed code
+#      that is in no commit at all. The rule this answers is `permissions.md`'s — *a gate is a
+#      property of the action, not of who performs it; the advisor is not exempt, or it bypasses
+#      every gate by doing the work itself* — which was prose in every file and held by nothing.
+#      **Warn on the first, refuse on the second in a row**: a one-line fix that never became a task
+#      is legitimate and common, and a check that refuses it is one people pass with `--no-verify`.
+#      The quick path is not caught either way — it records the run, which is what this reads.
+if [ -d _ops/tasks ] && [ "$(changed --diff-filter=ACMRT | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
+  _rec=$(mktemp "${TMPDIR:-/tmp}/opsinist-record.XXXXXX")
+  python3 - > "$_rec" <<'RECORD'
+import os, re, subprocess
+
+def git(*args):
+    r = subprocess.run(["git", "-c", "core.quotePath=false"] + list(args), capture_output=True,
+                       text=True, errors="replace")
+    return r.stdout if r.returncode == 0 else None
+
+def operated():
+    for name in ("CLAUDE.md", "AGENTS.md", "GEMINI.md", "README.md"):
+        text = git("show", ":" + name) or (open(name, encoding="utf-8", errors="replace").read()
+                                           if os.path.isfile(name) else "")
+        if re.search(r"operated by", text, re.I):
+            return True
+    return False
+
+def shape(paths):
+    """(moved the product, moved the record) — `_ops/` is the record, everything else the product.
+
+    **The whole `_ops/` tree counts, not only tasks and runs.** Narrower is what this was first
+    written as, and the same measured history said why not: of that project's four product-moving
+    commits with no task and no run, one is `chore: opsinist init` — the commit that WIRES the
+    project, which moves four `_ops/` files and can have no task, because the machinery to open one
+    arrives in it. Under the narrow reading the guard's first act on a fresh project is to refuse
+    the commit after its own installation. The other three touch nothing under `_ops/` at all, so
+    the widening costs none of them."""
+    paths = [p for p in paths if p]
+    product = [p for p in paths if not p.startswith("_ops/")]
+    record = [p for p in paths if p.startswith("_ops/")]
+    return bool(product), bool(record)
+
+if operated():
+    staged = (git("diff", "--cached", "--name-only", "-z") or "").split("\0")
+    product_now, record_now = shape(staged)
+    if product_now and not record_now:
+        before = (git("show", "--pretty=format:", "--name-only", "-z", "HEAD") or "").split("\0")
+        product_before, record_before = shape(before)
+        head = (git("log", "-1", "--format=%h %s") or "").strip()
+        if product_before and not record_before:
+            print("FAIL:this commit moves the product and not the record, and so did the one before "
+                  "it (%s). Two in a row is the shape of work being done instead of dispatched: open "
+                  "a task — the skill's `scripts/new-task.py` — or, for a job small enough to need "
+                  "none, write the run record the quick path asks for. Staging either satisfies this."
+                  % head)
+        else:
+            print("WARN:this commit moves the product and not the record — nothing under `_ops/` is "
+                  "in it. Once is a small fix; a second in a row is refused, because that is what "
+                  "the advisor doing the work itself looks like from the outside.")
+RECORD
+  _rrc2=$?
+  [ "$_rrc2" -eq 0 ] || say_fail "the check of what this commit moves stopped before its end \
+(python3 exited $_rrc2; its error is above) — refused, because a check that did not finish has not passed."
+  while IFS= read -r _rl2; do
+    case "$_rl2" in FAIL:*) say_fail "${_rl2#FAIL:}" ;; WARN:*) say_warn "${_rl2#WARN:}" ;; esac
+  done < "$_rec"
+  rm -f "$_rec"
 fi
 
 # 5 · a cheap last line on credentials. NOT a secret scanner — gitleaks/trufflehog are,

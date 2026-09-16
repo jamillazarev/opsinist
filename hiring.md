@@ -151,7 +151,32 @@ Before starting, a role asks: *is this my craft, and my grade?*
 - **Below my grade** → hand down. **Burning a top model on trivia is a real cost, not
   diligence.**
 
----
+**The fourth exit is the one nobody takes: nobody has this craft.** The dispatcher is holding a
+task, the roster has no one for it, and hiring feels like a detour — so the work goes to the
+nearest-sounding name, and design lands on a web engineer because both words are about screens.
+**Measured on a live project 2026-09-16**: two tasks addressed to `Frontend Engineer`, a role in
+neither `_ops/roles/` (architect · backend_engineer · web_engineer) nor `_ops/TEAM.md` — apparently
+read off the *Team* column beside Web Engineer — one of them at `review` with nobody on it. Design
+work existed and no design craft was ever hired; the owner's own roster row lists design as *their*
+expertise, which is the shape of a craft the team does not cover.
+
+**So the assignee is checked against the roster** ([`writing-work.md`](writing-work.md) → the guard's §25):
+a task whose commit writes an `**Assignee**` naming no role, person, team or panel this project has
+**is refused**, and the refusal lists what it does have. **A name that resolves to nothing is not a
+routing decision** — it is this exit, taken silently. The fix is one of two lines: the craft is
+covered and the role's own name goes in, or it is not, and the hire lands in the same commit as the
+task ([`decomposing.md`](decomposing.md) routes; this file staffs).
+
+```mermaid
+flowchart TD
+  T[a task needs doing] --> Q{which craft<br/>does it need?}
+  Q --> C{does a role<br/>cover that craft?}
+  C -- yes --> A[assign it by that role's own name]
+  C -- no --> H[hire · the role file lands<br/>in the same commit as the task]
+  C -. the silent exit .-> N[the nearest-sounding name]
+  N --> R[REFUSED · §25 · no such role,<br/>person, team or panel]
+  H --> A
+```
 
 ## Load budget — a generalist is a cost, and usually a missing hire
 

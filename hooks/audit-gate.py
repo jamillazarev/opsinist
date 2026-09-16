@@ -291,6 +291,40 @@ def main():
         ours = bool(g)
         if not ours:
             out()  # no operator line naming us — not ours to nag, whatever files exist
+        # **Is the guard wired?** — the one fact a session cannot get any other way, delivered
+        # here for the same reason the migration state is: measured 2026-08-14 (N89, 0 of 3) that
+        # every graded day-one run stood a project up ad hoc, and measured again 2026-09-16 on a
+        # live project where `_ops/scripts/` held the guard, one version behind, and `.git/hooks/`
+        # held only git's samples — so every gate this methodology describes was a description
+        # there, and nothing said so because a file's presence reads as protection. Twice is the
+        # threshold this corpus uses everywhere, and `LATER.md` had named this form and its
+        # trigger. **One implementation**: the same `scripts/guard-status.py` a person runs, so a
+        # session and a health sweep cannot disagree about what wired means. It states what it
+        # found and never gives an order; a hook that cannot run it says nothing at all.
+        # **Only where there is machinery to wire.** An operated guide over a tree with no `_ops/`
+        # is a project mid-setup or mid-takeover, and the arriving flow's debt list owns that
+        # moment; saying it here too would make the first session of every new project carry two
+        # notices, which is how a channel stops being read.
+        if os.path.isdir(os.path.join(root, "_ops")):
+            try:
+                gs = subprocess.run(
+                    [sys.executable, os.path.join(os.path.dirname(os.path.dirname(
+                        os.path.abspath(__file__))), "scripts", "guard-status.py"), root],
+                    capture_output=True, text=True, timeout=20)
+                # **Only where a guard exists and does nothing.** No guard at all is the
+                # arriving flow's debt-list item, and it is visible: an empty `_ops/scripts/` is
+                # something a person can see. The measured failure is the opposite — the file is
+                # there, 128 KB of it, and its presence reads as protection while `.git/hooks/`
+                # holds only git's samples.
+                if (gs.returncode == 1 and gs.stdout.strip()
+                        and "no guard in this project" not in gs.stdout):
+                    body = "\n".join("  " + l.strip() for l in gs.stdout.strip().split("\n")[1:])
+                    sys.stdout.write(
+                        "Opsinist: this project's guard is not wired and current, so the gates "
+                        "below it do not fire — a guard in the repository refuses nothing until a "
+                        "hook runs it.\n" + body + "\n")
+            except Exception:
+                pass
         v = skill_version()
         if not v:
             out()

@@ -27,6 +27,28 @@ around someone else's intent**, which is why it is named here rather than left t
 otherwise it bypasses every gate by doing the work itself instead of dispatching it, and it is
 the one role no tool allowlist constrains.
 
+**And that sentence held nothing until it had a form.** Measured on a live project 2026-09-16:
+**four of its fifteen commits moved files outside `_ops/` while nothing under `_ops/` moved with
+them** — one of them thirteen files of feature work — and two accepted tasks claimed committed code
+that is in no commit at all. Nobody disobeyed a rule; the rule stated a virtue, so there was no
+moment at which it could refuse. The guard's §24 is the moment: a commit that moves the product and
+not the record **warns**, and a second such commit in a row **is refused**, naming the one before
+it. Twice is the threshold because the one-line fix that never became a task is legitimate and
+common, and a check that refuses that is a check people pass with `--no-verify`. The commit that
+wires a project is not a precedent — the whole `_ops/` tree counts as the record, so installation
+cannot make the guard's first act a false refusal.
+
+```mermaid
+flowchart TD
+  C[a commit is staged] --> P{does it move files<br/>outside _ops/ ?}
+  P -- no --> OK[silent]
+  P -- yes --> R{does anything<br/>under _ops/ move with it?}
+  R -- yes --> OK
+  R -- no --> B{did the commit<br/>before it look the same?}
+  B -- no --> W[WARN · once is a small fix]
+  B -- yes --> F[REFUSED · naming that commit<br/>open a task, or write the run record]
+```
+
 **A blanket "yes" covers only the ungated.** When the owner approves a batch in one word, that
 approval reaches the ordinary work in it and stops at the four kinds.
 

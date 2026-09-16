@@ -26,6 +26,8 @@ your-project/
     DECISIONS.md        # append-only decision record
     LATER.md            # deferred, each with a revisit moment
     BACKLOG.md          # the one hand-kept ordering surface
+    BOARD.md            # generated: every task, its status, who has it, which release —
+                        #   `scripts/board.py --write`, and `--check` says if it has drifted
     ROADMAP.md          # the sequence of intents, each with its why
     MAP.md              # the product as moves and things — each move naming its job
     MARKET.md           # how big the opportunity is: TAM · SAM · SOM, each figure
@@ -33,6 +35,8 @@ your-project/
     ARCHITECTURE.md     # where the implementation lives
     BUDGET.md           # the envelope, stated as shares
     ECONOMICS.md        # what the product earns and costs
+    COST.md             # generated: what the work has spent, rolled up from the run
+                        #   records — `scripts/cost-report.py --write` (cost.md)
     TOOLING.md          # the register: every wired tool, its ceiling
     TEAM.md             # the roster — generated, never hand-kept
     FIELD-NOTES.md      # friction, recorded where it happens
@@ -54,6 +58,9 @@ your-project/
     automations/        # trigger · template · contract
     resources/          # places to look, each with its why
     skills/             # the pool; attachment lives on the role
+    templates/          # optional: a translated copy of a template. `TASK.md` here is read by
+                        #   `new-task.py` and by the guard's §23 in place of the skill's, so a
+                        #   project works in its own language without inventing its own shape
     scripts/            # installed: preflight.sh (from templates/company-preflight.sh) ·
                         #   transition.py · new-id.py (from the skill's scripts/) —
                         #   plus the project's own helpers, grown as you go

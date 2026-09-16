@@ -183,7 +183,7 @@ something is wrong; a re-proposal says what to do.
 | File | What | Committed |
 |---|---|---|
 | the task's history | the measured atoms, **written by whoever dispatched the run** | **yes** — project history, and what makes a rerun resumable |
-| the period report | the generated rollup a human reads | yes, **marked generated** |
+| the period report | the generated rollup a human reads — `scripts/cost-report.py --write` writes `_ops/COST.md`: per release, per task, per model or per month, the four numbers kept apart, `unknown` counted as `unknown` and the totals called a floor when any run carries it | yes, **marked generated** |
 | the index | the derived cache the rollups compute from — generated, never maintained ([`PATTERNS.md`](PATTERNS.md) §7) | **no** — rebuildable |
 
 **The cache is not a record**, which is why it may live outside markdown and outside git: nothing

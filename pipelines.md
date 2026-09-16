@@ -124,6 +124,23 @@ columns from day one; discovered per task, twelve spellings of one attribute →
 The default shape is `build → review → accept`, with a design stage in front where design
 precedes build, and **parallel gates inside review**.
 
+**And the edge into `accept` carries `review_by: non-author` — it carried nothing until
+2026-09-17.** A rung named `review` is not a review: the gate on the edge *out* of it is, and the
+stock ladder had `gates: {}`, so on every project that never wrote a pipeline file the worker moved
+its own task to `accept` and the door consulted nobody. Measured on a live project 2026-09-16, which
+had written no pipeline file and therefore ran on exactly this: **four accepted tasks, two of them
+with no review evidence of any kind**. §11 of the guard catches an author signing their own
+sign-off; nothing asked for a sign-off at all.
+
+**A ladder the project writes itself is held to the same thing, at the commit that writes it**: an
+added `_ops/pipelines/*.md` or `_ops/process/types/*.md` whose terminal stage can be reached with no
+`review_by` on any edge into it **is refused**, with the line to add. **An existing ladder is
+warned about, not frozen** — by the guard on the commit that edits it, and by
+`_ops/scripts/transition.py` on every move it makes. An upgrade that stopped all work on ladders
+written before the rule existed would be uninstalled the same afternoon, and a project that
+deliberately wants an ungated terminal — a solo owner accepting their own work — says so by keeping
+the ladder it has.
+
 **Removing a stage asks what happens to the tasks currently in it, first.** That question is the
 whole safety of editing a live ladder.
 

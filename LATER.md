@@ -105,7 +105,7 @@ did not run is worse than one that says it was late*.
 **Revisit when** the first automation actually needs an external event — and the first step
 then is verifying OpenClaw's trigger surface (its cron/gateway API), not building one.
 
-## A tripwire for work bypassing the machinery wholesale
+## A tripwire for work bypassing the machinery wholesale — **still open; a neighbour of it shipped**
 
 **The evidence:** a live project split into two eras at one commit — before it, six honest run
 records and twelve tasks with done-definitions; after it, **0 of 33 commits touched `_ops`** while
@@ -116,6 +116,14 @@ preflight warns — never fails — when the last N commits carry zero `_ops/` p
 guide declares an operator. **Warn, not fail, and once**: site work is legitimate; the record
 going dark is the smell. **Revisit when:** the next takeover audit or field report shows a second
 project with a dark era — twice is the threshold everywhere here.
+
+**Read again 2026-09-16 against a second live project, and its trigger did NOT fire**: 12 of that
+project's 15 commits touch `_ops/`, so there is no dark era there and this entry stays open on its
+own terms. What that audit found instead was a different shape with its own measurement — **4 of 15
+commits moved files outside `_ops/` with nothing under `_ops/` in them** — and the guard's §24 holds
+that one: warn on the first, refuse on the second in a row. The two are neighbours and not the same
+rule: §24 reads one commit and its parent, this entry reads a run of N commits, and **a form built
+for a trigger that has not fired is a rule built on one project's habits.**
 
 ## A channel that reaches the owner who is away
 
@@ -136,7 +144,7 @@ distillate sections citing register rows · the delta is the positioning brief, 
 `BRAND-template.md` §Positioning. **Revisit when:** the next real market-recon study is
 commissioned — a template written before its second use is a guess.
 
-## The advisor-side half of the doors: nothing forces wiring at stand-up
+## ~~The advisor-side half of the doors: nothing forces wiring at stand-up~~ — built 2026-09-17
 
 **Measured 2026-08-14, N89 at 0/3** (2 of its 5 runs voided): every graded day-one run stood the project up ad hoc — no
 guard wired, no doors, no type file — so the guard's new doors check (the wired-project form,
@@ -145,10 +153,18 @@ contact, which is this corpus's oldest measurement. The candidate form: the plug
 SessionStart hook already delivers the migration fact in operated projects — the same mechanism
 can say, once, *"this operated project has no wired guard and no doors"*.
 
-**Revisit when:** a round re-measures N89 with the wired-project form in the field — if ad-hoc
-stand-ups persist, the hook line is built, and a second round with no passes is the threshold. (This said
-*"the next full round after 0.2.7"*; eight releases later N89 has been measured once, so the
-version was never the condition — the second measurement is.)
+**The second measurement arrived from the field rather than from a round, and it is the same
+finding.** On 2026-09-16 a live project — stood up by this skill, operated by it, fifteen commits
+deep — held the guard in `_ops/scripts/` one version behind, with `.git/hooks/` holding nothing but
+git's own samples. Every gate this methodology describes was a description in that repository, and
+**the tree underneath showed exactly what that costs**: nine tasks in two incompatible shapes, two
+accepted with no review evidence, an assignee in no file at all.
+
+**Built**: the SessionStart hook now runs the same `scripts/guard-status.py` a person runs and
+states what it found, once, as a fact and never as an order. **Two silences are load-bearing and
+tested**: a project with *no* guard at all gets nothing — that is the arriving flow's debt-list
+item and it is visible without a hook — and a project already wired and current gets nothing, which
+is the assertion its mutant fails. `scripts/test-audit-gate.sh` **128/128**.
 
 ## The council has a field but no gate, and a document has no seam to hold one
 

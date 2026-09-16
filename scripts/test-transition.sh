@@ -204,5 +204,46 @@ grep -q '^\*\*Stage\*\*: review' _ops/tasks/T-QUO.md \
 grep -q '^> \*\*Stage\*\*: archived' _ops/tasks/T-QUO.md \
   && ok || bad "the door rewrote a blockquoted field — an example everywhere else"
 
+# ── the stock ladder's terminal edge asks for a review, and said nothing until 2026-09-17 ──────
+# A project that never writes a pipeline file runs on STOCK, and STOCK shipped `gates: {}`: the
+# stage was called `review` and the edge out of it held nothing, so acceptance was a name typed
+# into `--by`. Measured on a live project 2026-09-16 — four accepted tasks, two with no review
+# evidence of any kind, on a project that had written no pipeline file. The fixture removes the
+# type file this suite writes at the top, so resolution falls through to STOCK.
+mkdir -p "$T/stock" && cd "$T/stock"
+git init -q . && git config user.email t@fixture.test && git config user.name T
+mkdir -p _ops/tasks
+printf '# T-ST — a thing\n\n**Status**: review\n**Assignee**: web-engineer\n\n## History\n' > _ops/tasks/T-ST.md
+[ "$(run _ops/tasks/T-ST.md accept --by owner)" = 1 ] && grep -q 'not the worker' "$T/out" \
+  && ok || bad "the stock ladder accepted a task no one had reviewed"
+printf -- '- 2026-09-17 — reviewed by qa: read it end to end\n' >> _ops/tasks/T-ST.md
+[ "$(run _ops/tasks/T-ST.md accept --by owner)" = 0 ] \
+  && ok || bad "the stock ladder refused a task a non-author had reviewed"
+
+# its mutant: the gate taken back off STOCK, which is the state every release before this shipped
+python3 - "$HERE/transition.py" > "$T/stock-mut.py" <<'PY'
+import sys
+s = open(sys.argv[1]).read()
+a = '"terminal": ["accept"], "gates": {"review->accept": {"review_by": "non-author"}},'
+assert s.count(a) == 1, "MUTATION ANCHOR: found %d times" % s.count(a)
+sys.stdout.write(s.replace(a, '"terminal": ["accept"], "gates": {},'))
+PY
+printf '# T-SM — a thing\n\n**Status**: review\n**Assignee**: web-engineer\n\n## History\n' > _ops/tasks/T-SM.md
+python3 "$T/stock-mut.py" _ops/tasks/T-SM.md accept --by owner >/dev/null 2>&1 \
+  && ok || bad "the suite did not catch the mutant: the stock terminal edge ungated again"
+
+# an ungated terminal edge is SAID on every move, and refuses nothing — an upgrade must not
+# freeze work on a ladder written before the rule existed
+printf '# loose\n\n```yaml\nname: loose\nstages: [draft, review, handoff]\nterminal: [handoff]\n```\n' > _ops/pipelines-loose.md
+mkdir -p _ops/pipelines && cp _ops/pipelines-loose.md _ops/pipelines/loose.md && rm _ops/pipelines-loose.md
+printf '# T-LO — a thing\n\n**Status**: draft\n**Assignee**: worker-bob\n**Pipeline**: loose\n\n## History\n' > _ops/tasks/T-LO.md
+[ "$(run _ops/tasks/T-LO.md review --by owner)" = 0 ] && grep -q 'asks for a review' "$T/out" \
+  && ok || bad "an ungated terminal edge either blocked the move or went unmentioned"
+[ "$(run --check-ladder _ops/pipelines/loose.md)" = 0 ] && grep -q 'asks for a review' "$T/out" \
+  && ok || bad "--check-ladder refused a ladder it should only have noted"
+[ "$(run --check-ladder --strict _ops/pipelines/loose.md)" = 1 ] && grep -q 'review_by: non-author' "$T/out" \
+  && ok || bad "--check-ladder --strict passed an ungated terminal edge"
+cd "$T"
+
 echo "transition: $pass passed, $fail failed"
 exit "$fail"

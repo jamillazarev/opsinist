@@ -25,6 +25,25 @@ breaks every link.
 
 **The shape is a file, not a description of one → [`templates/TASK-template.md`](templates/TASK-template.md).** This table says what each field *means*; the template is what you copy, and a field skipped in a copied file leaves a hole somebody sees.
 
+**And copying it is a door, not a discipline.** `scripts/new-task.py` writes the file — id minted,
+title in place, the type's first stage as the status — so nobody reconstructs the shape from
+memory, and **the guard's §23 refuses a task the commit ADDS that departs from it**: the first line
+with its id, `Type` · `Status` · `Assignee` carrying values rather than braces, and every section
+the template does not mark `<!-- optional -->`. Existing tasks are the project's history and are
+not retro-fitted. **A project that works in another language keeps its own translated copy at
+`_ops/templates/TASK.md`, and both the door and the guard read that instead** — the shape is one
+thing, the words in it are the project's. Measured on a live project 2026-09-16: nine tasks in two
+incompatible dialects, and the agent that wrote six of them named the cause exactly — nothing on
+disk it was obliged to open, and nothing that refused what it invented.
+
+**The assignment is checked the same way, and against the roster: §25.** Where a commit *writes* an
+`**Assignee**` — a new task, or a reassignment — the name must resolve to a role file, a team, a
+panel, or a row of `_ops/TEAM.md`; otherwise the commit is refused with the list of who exists. In
+the same measured project two tasks were addressed to a `Frontend Engineer` that is in no file at
+all, which is what an uncovered craft looks like from the inside → [`hiring.md`](hiring.md). Where
+nobody is decided yet, say so (`unassigned`) or name the group — both pass, because the defect is a
+name that resolves to nothing, not an honest blank.
+
 | Field | Value | Why it exists |
 |---|---|---|
 | `id` | `T-` + six from **32 symbols: the digits and every letter but `I`/`L`/`O`/`U`** (the four that misread as 1, 1, 0 and V) | **immutable, never reused** — links point here, so renaming is safe. **Minted by `scripts/new-id.py`, never invented**: it draws on the system's random source and skips what the tree already uses, and `scripts/check-structure.py` refuses a duplicate. **A model asked for a random id is not a random source** — two unrelated projects once produced the same five |

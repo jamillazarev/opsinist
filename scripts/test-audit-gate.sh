@@ -546,5 +546,46 @@ rm -f /tmp/opsinist-spiral-* 2>/dev/null
 if [ "$_dbl" -eq 0 ]; then pass=$((pass+1)); else
   fail=$((fail+1)); echo "FAIL: the note arrived more than once in $_dbl of 4 parallel trials, while saying it arrives once"; fi
 
+# ── SessionStart · the guard that is there and does nothing ────────────────────────────────
+# Measured twice, which is this corpus's threshold: N89 at 0 of 3 stood every graded day-one run
+# up ad hoc, and on 2026-09-16 a live project held the guard in `_ops/scripts/`, one version
+# behind, with `.git/hooks/` holding only git's samples — so every gate this methodology
+# describes was a description there and nothing said so. `LATER.md` had named this form and its
+# trigger. **The silence is half the rule**: a project with no guard at all is the arriving
+# flow's debt-list item and is visible without a hook, and a project already wired owes no line.
+W="$T/wired"; mkdir -p "$W/_ops/scripts"
+git -C "$W" init -q
+printf '**Operated by:** Opsinist %s\n' "$V" > "$W/CLAUDE.md"
+printf '# Project configuration\n\n## Migrations\n\n- 0.1.4 → %s · 2026-09-16 · applied · t@t\n' "$V" \
+  > "$W/_ops/config.md"
+gss() { printf '{"hook_event_name":"SessionStart","source":"startup","cwd":"%s","transcript_path":"%s"}' "$W" "$TE" \
+        | python3 "$GATE" 2>/dev/null; }
+
+case "$(gss)" in *"guard is not wired"*) fail=$((fail+1)); echo "FAIL: spoke where there is no guard at all — the debt list owns that";; *) pass=$((pass+1));; esac
+
+cp templates/company-preflight.sh "$W/_ops/scripts/preflight.sh"
+cp scripts/transition.py scripts/new-id.py "$W/_ops/scripts/"
+case "$(gss)" in *"guard is not wired"*) pass=$((pass+1));; *) fail=$((fail+1)); echo "FAIL: a guard sitting in the repository with nothing wired went unsaid";; esac
+case "$(gss)" in *"nothing is wired"*) pass=$((pass+1));; *) fail=$((fail+1)); echo "FAIL: the line does not say what was found";; esac
+
+( cd "$W" && bash _ops/scripts/preflight.sh --install >/dev/null 2>&1 )
+case "$(gss)" in *"guard is not wired"*) fail=$((fail+1)); echo "FAIL: nagged a project that is wired and current";; *) pass=$((pass+1));; esac
+
+# Its mutant: the notice printed whatever the check found — which is the nag that gets a hook
+# switched off, and the wired twin above is the assertion it fails.
+# **The mutant lives inside the plugin tree, not in $T.** The hook finds its own scripts by
+# walking up from `__file__`, so a copy in a temp directory cannot find `guard-status.py` at all
+# and prints nothing — which looks exactly like a caught mutant and is a suite testing nothing.
+MG="hooks/gate-mut-$$.py"
+python3 -c 'import sys
+s = open(sys.argv[1]).read()
+a = "if (gs.returncode == 1 and gs.stdout.strip()"
+assert s.count(a) == 1, "MUTATION ANCHOR: found %d" % s.count(a)
+sys.stdout.write(s.replace(a, "if (gs.stdout.strip()"))' "$GATE" > "$MG"
+[ -s "$MG" ] || { fail=$((fail+1)); echo "FAIL: MUTATION DID NOT APPLY: the notice printed whatever the check found"; }
+_m=$(printf '{"hook_event_name":"SessionStart","source":"startup","cwd":"%s","transcript_path":"%s"}' "$W" "$TE" | python3 "$MG" 2>/dev/null)
+rm -f "$MG"
+case "$_m" in *"guard is not wired"*) pass=$((pass+1));; *) fail=$((fail+1)); echo "FAIL: the suite did not catch the mutant: a wired project nagged anyway";; esac
+
 echo "pass $pass · fail $fail"
 [ "$fail" = 0 ]

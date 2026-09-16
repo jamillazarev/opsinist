@@ -13,6 +13,67 @@ machine until someone runs `mise trust` there — yours to say. And the skill's 
 run bare, lists the ids and `_ops/` paths your notes name in passing; `--write` turns them into
 links, only if you want it.
 
+**Also re-copy `_ops/scripts/transition.py`** — the stock ladder's `review → accept` now carries
+`review_by: non-author`, and the door reports a ladder whose terminal stage has no such gate on
+every move it makes. **Nothing you have written is frozen by that**: a ladder already in the project
+is reported and still obeyed; only a ladder a commit ADDS must carry the gate. **Check yours** —
+`python3 _ops/scripts/transition.py --check-ladder --strict _ops/process/types/<type>.md` prints
+the two lines to add, and a type file whose Pipeline section is the one-line `build → review →
+accept` the old template asked for has no gate at all, because an inline ladder cannot express one.
+**And `scripts/guard-status.py <project>`, from the skill, answers the question this release exists
+because nobody asked**: whether the guard in `_ops/scripts/` is actually installed as a hook. A file
+in the repository refuses nothing.
+
+**A live project was read end to end, and five things this methodology describes turned out to be
+descriptions.** Everything in this block is a form built against a measurement taken on 2026-09-16,
+not a tightening of prose. The guard was in the repository and wired to nothing, so **every gate
+below it had never run once**; `scripts/guard-status.py` now answers *present · current · wired* in
+one line, `entering.md` puts an unwired guard on the debt list as a blocking item, and **the
+SessionStart hook says it by itself** — running that same script, once, as a fact and never as an
+order. It stays silent in the two cases that matter: a project with no guard at all (visible
+without a hook, and the debt list's) and a project already wired (the nag that gets a hook switched
+off). That form and its trigger had stood in `LATER.md` since 2026-08-14 waiting for a second
+measurement; this was it. **Nine tasks
+stood in two incompatible shapes** — `# T-…: title` against the template's em dash, fields as a
+bullet list, `Role:` where the template says `Assignee` — because nothing on disk had to be opened
+and nothing refused what was written: `scripts/new-task.py` now writes the file (id minted, the
+type's first stage as its status) and **§23 refuses a task a commit ADDS that departs from the
+shape**, reading `_ops/templates/TASK.md` where a project keeps a translated one. **Two tasks were
+assigned to a `Frontend Engineer` that exists in no file at all** — the shape of an uncovered craft
+routed to the nearest-sounding name — so **§25 refuses an assignment naming no role, person, team or
+panel this project has**, listing who it does have; an honest `unassigned` passes, day one with no
+roster at all is silent, and a hire landing in the same commit counts. **Four of its fifteen commits
+moved files outside `_ops/` with nothing under `_ops/` in them**, one of them thirteen files of
+feature work: **§24 warns on the first such commit and refuses the second in a row**, naming the one
+before it — the advisor doing the work itself is the one bypass no tool allowlist sees, and
+`permissions.md` had only a sentence against it. **And four of its tasks were accepted with two
+carrying no review evidence of any kind**, because the stock ladder's `review → accept` shipped with
+no gate and a type file written from the old template overrode even that with an ungated one-liner:
+the stock ladder and `templates/TYPE-template.md` now carry `review_by: non-author` on the terminal
+edge, **a ladder a commit adds without one is refused** with the lines to add, and one already
+written is reported on every move rather than frozen. Suites: `test-guard-status.sh` **14/14** ·
+`test-task-shape.sh` **11/11** · `test-assignee-exists.sh` **15/15** · `test-record-moves.sh`
+**11/11** · `test-transition.sh` **31/31**, each with code mutants — including the one that matters
+most here, the record narrowed back to tasks and runs, which would make the guard's first act on a
+fresh project a refusal of the commit after its own installation.
+
+**Two pages a project could not answer from before: the board, and the bill.**
+`scripts/board.py --write` generates `_ops/BOARD.md` — every task, its status, who has it, which
+release, the last day it moved, every id a link — read out of the task files each time it runs, with
+`--check` exiting non-zero once the page has drifted from what they say. It marks rather than
+smooths: a `⚠` on a status that is on no rung of that task's own ladder, a `*` on a name read from a
+field the template never declares — generated over the measured project, it showed both in one
+screen that nine files had hidden. **And no, the status does not go in the filename**: the id is
+immutable because links point at the file, so `TODO-`/`WIP-`/`DONE-` turns every transition into a
+broken link in every task, run record and thread that cited it. `scripts/cost-report.py --write`
+does the same for spend — `_ops/COST.md`, per release · task · model · month, **the four token
+numbers kept apart** because cache reads are most of the volume and a fraction of the price. It
+**counts `unknown` as `unknown`**, names how many runs carry it and calls its own totals a floor;
+it sums third-party money, which lives on another key and in no token count; and it reports what
+went on runs that produced nothing, which is the slice the ledger exists for. On a project with no
+run records it says *nothing has been measured*, never *this was free*. `test-board.sh` **12/12** ·
+`test-cost-report.sh` **15/15**, with three code mutants each.
+
 **What a project needs from the machine now has a place, and the guard holds it there.** An MCP
 server lives in `.mcp.json` at the root, committed; a runtime, a CLI tool or a system package lives
 in `mise.toml`. The native file is the truth for *what and which version*, a row in
@@ -87,10 +148,10 @@ Eval state: **not run.** The guard sections and the scripts are measured by thei
 run *offers* the machine line at a takeover, runs the report during a health check, or re-stamps a
 finding without being refused is behaviour, and no scenario covers it yet.
 
-**Trio:** four diagrams — `tooling.md` two, `resources.md` one, `project-layout.md` one — six
-situations in `use-cases.md`, and `facts.md` **262–265**. The ck situation is the one with no
-diagram or fact of its own, and owes none: ck adds no mechanism, it is declared like any tool and
-rides §21's.
+**Trio:** seven diagrams — `tooling.md` two, `resources.md` one, `project-layout.md` one,
+`permissions.md` one, `hiring.md` one, `grouping.md` one — eleven situations in `use-cases.md`, and
+`facts.md` **262–271**. The ck situation is the one with no diagram or fact of its own, and owes none: ck adds
+no mechanism, it is declared like any tool and rides §21's.
 
 ## 0.2.18 — 2026-09-11
 

@@ -49,8 +49,19 @@ whose meaning is unwritten is worse than no field → `writing-work.md`.}}
 
 ## Pipeline
 
-{{the stage ladder — default: build → review → accept; a design stage in front where design
-precedes build}}
+```yaml
+stages: [build, review, accept]
+terminal: [accept]
+gates:
+  review -> accept:
+    review_by: non-author      # a review line in History from someone who is not the worker
+```
+
+{{rename the stages in this project's own words, and put a design stage in front where design
+precedes build. **The gate on the edge into the terminal stage is not decoration**: a rung named
+`review` is not a review, and the door only asks for one where an edge says so — a ladder that
+reaches its terminal stage with no `review_by` on any edge into it is refused at the commit that
+adds it, and warned about on every move for one already written → `pipelines.md`.}}
 
 ## Provenance
 

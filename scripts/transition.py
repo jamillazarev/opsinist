@@ -21,8 +21,16 @@ import sys
 from datetime import date
 from pathlib import Path
 
+# **The stock ladder's terminal edge carries the review gate**, and carried nothing until
+# 2026-09-17. `review → accept` with `gates: {}` means the door consulted no reviewer: the worker
+# moved its own task to `accept` and the only thing in the way was §10 asking for *evidence*, which
+# a sentence satisfies. Measured on a live project the day before: four accepted tasks, **two with
+# no review evidence of any kind**, on a project that had written no pipeline file and therefore ran
+# on exactly this. The stage was named `review` the whole time — a rung called review is not a
+# review, the gate on the edge out of it is.
 STOCK = {"name": "default", "stages": ["build", "review", "accept"],
-         "terminal": ["accept"], "gates": {}, "prose_gates": {}}
+         "terminal": ["accept"], "gates": {"review->accept": {"review_by": "non-author"}},
+         "prose_gates": {}}
 
 
 def root_of(p: Path) -> Path:
@@ -188,6 +196,43 @@ def pipeline_faults(p: dict):
     return faults
 
 
+def ungated_terminals(p: dict):
+    """The terminal stages nothing asks for a review to reach, as `(stage, [edges into it])`.
+
+    **A rung called `review` is not a review.** The stock ladder shipped `review → accept` with no
+    gate at all for as long as it has existed, so on every project that never wrote a pipeline file
+    the worker moved its own task to `accept` and the door consulted nobody — measured 2026-09-16,
+    four accepted tasks and two with no review evidence at all.
+
+    This is deliberately **not** a fault: faults refuse the move, and a project whose ladder was
+    written before this existed would find every task frozen by an upgrade rather than warned by
+    one. The door prints it, and the guard refuses it in a ladder a commit ADDS — the same division
+    the task shape uses: history is not retro-fixed, new work carries the rule.
+    """
+    stages = p.get("stages") or []
+    gates = p.get("gates") or {}
+    out = []
+    for term in p.get("terminal") or []:
+        if term not in stages:
+            continue                      # a separate fault says this, and says it louder
+        into = [e for e in gates if e.endswith("->" + term)]
+        if not any(gates[e].get("review_by") for e in into):
+            i = stages.index(term)
+            named = into or ([f"{stages[i-1]}->{term}"] if i > 0 else [])
+            out.append((term, named))
+    return out
+
+
+def ungated_note(term: str, edges) -> str:
+    """One sentence, one home — the door says it on every move and the guard quotes it back at the
+    commit, and a suite that greps for it finds the same words in both places. Two drafts of it
+    diverged by a single clause and the suite's assertion matched neither."""
+    edge = (edges[0] if edges else "<stage>->" + term).replace("->", " -> ")
+    return (f"nothing on the way into `{term}` asks for a review from someone who did not do the "
+            f"work — under `gates:` add `{edge}:` with `review_by: non-author` beneath it. A rung "
+            f"named `review` is not a review; the gate on the edge out of it is.")
+
+
 def _mdir(root: Path, *parts: str) -> Path:
     """The machinery lives under `_ops/` since 0.2.0; a flat root is read as the transitional
     fallback so a not-yet-migrated project fails toward the migration notice, not a stack."""
@@ -334,7 +379,14 @@ def main(argv):
         faults = pipeline_faults(pipe)
         for f in faults:
             print(f"✗ {f}")
-        return 1 if faults else 0
+        # An ungated terminal edge is a note here and a refusal under `--strict`, which the guard
+        # passes for a ladder the commit ADDS. Softness by default is the point: an upgrade must
+        # not freeze work on a ladder written before the rule existed.
+        strict = "--strict" in flags
+        notes = ungated_terminals(pipe)
+        for term, edges in notes:
+            print(("✗ " if strict else "! ") + ungated_note(term, edges))
+        return 1 if faults or (strict and notes) else 0
     text = task.read_text(encoding="utf-8")
     root = root_of(task.resolve())
     stage, mstage = field(text, "stage", "status")
@@ -353,6 +405,9 @@ def main(argv):
             print(f"  ✗ {f}")
         print("  fix the ladder file; nothing moves on a ladder that cannot be trusted")
         return 2
+    for term, edges in ungated_terminals(pipe):
+        print(f"! the ladder this task runs on ({via}): " + ungated_note(term, edges)
+              + " This refuses nothing today.")
     if "--brief" in flags:
         return brief(task, text, pipe, via, stage or "(unset)", worker)
 
