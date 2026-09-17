@@ -151,10 +151,8 @@ def missing_edges(root, notes, files):
     paths = sorted(files)
     ents, people = door.entity_files(paths), door.people_files(paths)
     mds = set(p for p in paths if p.endswith(".md"))
-    # **A file this cannot read is reported, not dropped.** The first version of the fold swallowed
-    # every exception here, so an undecodable file took its mentions with it and the report printed
-    # a plausible number that was simply wrong — three counted as two, silently, which is worse
-    # than the crash it replaced. Found by an adversarial lens, 2026-09-18.
+    # **A file this cannot read is reported, not dropped** — a count quietly missing its hardest
+    # files is worse than the crash it replaced (`CHANGELOG.md` 0.2.19).
     found = {"id": 0, "person": 0, "path": 0, "unread": 0}
     for rel in notes:
         try:

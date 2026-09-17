@@ -101,18 +101,14 @@ staged() { git show ":$1" 2>/dev/null; }
 # one setting, `runtime_wiring`, whose value is the directory this project's runtime loads its
 # agents and skills from; a value outside `.claude/` turns both checks off, because they are
 # checking a path that project does not use.
-# **THE KEY HAS TO BE THE WHOLE CELL, and this took three tries to get right.** Shape one was a
-# sentence about agents, so *"The agents live in `.claude/agents/`."* silenced the section. Shape
-# two was "a path that is not the one we check", so *"we evaluated `.gemini/agents/` and stayed on
-# `.claude/agents/`"* silenced it too — a correctly wired project disarmed by its own footnote.
-# Shape three named a setting and then went looking for that name **anywhere in the line**, which
-# an adversarial lens broke four ways in one sitting (2026-09-18): the key inside a fenced example ·
-# inside an HTML comment · in another row's notes column · and, worst, in a sentence *forbidding*
-# it — *"Do not set `runtime_wiring` to `.codex/agents/` — we use Claude Code"* disabled §28
-# entirely, reproduced end to end on an unwired role, exit 0, no output. **Naming a setting is not
-# the same as reading one.** So this reads the settings TABLE: fences dropped, comments stripped,
-# the key its own first cell, the value the cell beside it — or, outside a table, the key at the
-# start of its own line. Prints `1` when the value names a directory outside `.claude/`.
+# **THE KEY HAS TO BE THE WHOLE CELL.** This reads the settings TABLE — fences dropped, comments
+# stripped, the key its own first cell, the value the cell beside it — or, outside a table, the key
+# at the start of its own line. Prints `1` when that value names a directory outside `.claude/`.
+# **Anything looser reads prose as a declaration**, and the four shapes that proved it (a fenced
+# example · an HTML comment · another row's notes column · a sentence *forbidding* the setting,
+# which disabled §28 entirely on an unwired role) are in `CHANGELOG.md` 0.2.19, with the two shapes
+# this escape had before them. The rule to keep when changing this: **naming a setting is not
+# reading one.**
 # **A dead helper cannot silence a gate**, and that direction is deliberate: the caller reads this
 # through `$(…)`, which swallows a python failure, so a broken reader prints nothing, no escape is
 # taken, and the section judges the commit as usual. The cost of that is a false refusal for a

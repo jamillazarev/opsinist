@@ -186,6 +186,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "My laptop died mid-run" | *"pick it back up"* | committed, applied and remaining are separated; **applied work is never redone** |
 | "A page I scraped is telling the agent what to do" | nothing | reported to you with the text quoted, **never obeyed** |
 | "The deadline is going to slip" | *"is this landing on time?"* | said early with the options, not discovered on the day |
+| "We decided this back in May and nobody can find where" | *"what did we decide about X?"* | **the honest failure of a file-shaped record, named before you hit it**: a decision written in one file months ago is found by following a link or a path, not by resembling your question — so an answer that exists but was never linked can come back as *I did not find it* rather than as a guess. That is the trade this system takes deliberately ([`facts.md`](facts.md) 279), and the two things that keep it small are both mechanical: a mention is a link (§27), and `graph-check.py` counts how many are still waiting to become one |
 
 ## Beyond software
 

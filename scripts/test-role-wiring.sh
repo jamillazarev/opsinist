@@ -7,10 +7,9 @@
 #
 # **Five code mutants**: the agent wiring unchecked · the runtime's name spelling compared
 # literally (`web_engineer.md` must answer to `web-engineer.md`) · the other-runtime escape removed,
-# which would refuse every project not run in Claude Code · and the two ways an adversarial lens
-# got a MENTION read as a declaration, a fenced example and an HTML comment. **That escape has had
-# three shapes and four reproduced holes**, which is why its cases here are a loop over the shapes
-# rather than one example: the rule is *naming a setting is not reading one*.
+# which would refuse every project not run in Claude Code · and two of the ways an adversarial lens
+# got a MENTION read as a declaration. **That escape has had three shapes and four reproduced
+# holes**, which is why its cases below are a loop over six shapes rather than one example.
 # **The skills half is §26's**, tested in `test-skills-attached.sh` — one reader per table, one
 # suite per reader; the escape itself is one reader (`_wiring_elsewhere`) that both stand down on.
 set -u

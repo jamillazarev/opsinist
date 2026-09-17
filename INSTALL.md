@@ -10,7 +10,7 @@ freshness law — past its recheck a row is a claim to re-verify, not a fact.
 | Runtime | Manifest it reads | Verified |
 |---|---|---|
 | Claude Code | `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` | **2026-07-31 · measured end to end** — installed and enabled at 0.1.0, then **upgraded in place to 0.1.1** with `marketplace update` followed by `plugin update`, on 2.1.220 |
-| Google Antigravity | `plugin.json` (repo root) + `rules/` | **2026-07-31 · partly measured**: the by-hand route ran here — a `v0.1.1` snapshot placed at `~/.gemini/config/plugins/opsinist/`, root `plugin.json`, `rules/` and the corpus verified on disk afterwards. **Discovery by the IDE itself is not yet observed live**; the paths remain cited from antigravity.google/docs/plugins |
+| Google Antigravity | `plugin.json` (repo root) + `rules/` | **2026-07-31 · partly measured**: the by-hand route ran here — a `v0.1.1` snapshot placed at `~/.gemini/config/plugins/opsinist/` (**that directory is Google's, not the retired CLI's** — Antigravity keeps its own config under `~/.gemini/` and `agy` reads it there, which is confusing and is not a leftover; the leftovers are in `~/.gemini/extensions/`), root `plugin.json`, `rules/` and the corpus verified on disk afterwards. **Discovery by the IDE itself is not yet observed live**; the paths remain cited from antigravity.google/docs/plugins |
 | Codex / ChatGPT | `.codex-plugin/plugin.json` | **2026-07-31 · measured end to end** — `codex plugin marketplace upgrade` then `codex plugin add opsinist@opsinist`; installed and enabled at 0.1.1, the config recording the source revision |
 | Kimi Code CLI | `.kimi-plugin/plugin.json` — **which manifest path Kimi reads is unverified** | **2026-07-31 · partly measured**: the command is `kimi plugin install`, and `kimi plugin` is **absent from 0.14.2** here; syntax cited from moonshotai.github.io/kimi-cli |
 | Antigravity CLI (`agy`) | `plugin.json` (repo root) + `skills/` + `rules/` | **2026-09-18 · measured** on `agy` 1.2.5: `agy plugin validate .` returns **ok, 21 skills processed**, with `agents`, `commands`, `mcpServers` and **`hooks` all reported *skipped (not found)*** — so the skills load and **the audit gate does not reach this runtime**. Behaviour not run. The two files Gemini CLI needed (`gemini-extension.json`, `GEMINI.md`) were deleted this release and validation is unchanged, which is how we know they were its and not Antigravity's |
@@ -147,17 +147,25 @@ carries it over**, and `bash scripts/find-installs.sh` prints the leftover direc
 it* beside it, because `~/.gemini/extensions/` does not clean itself up (two were still sitting on
 the author's machine on 2026-09-18).
 
-**What it reads, measured rather than cited** (`agy` 1.2.5, 2026-09-18): the **root
-`plugin.json`**, the `skills/` directory — *"skills: 21 processed"* — and `rules/`, whose
-`opsinist.md` is the anchor that keeps the hard gates loaded when a light model skips the router.
-Its own help names the rule paths as `GEMINI.md`, `AGENTS.md` and `.agents/rules/*.md`, and
-recommends a consolidated `rules/AGENTS.md` over separate files.
+**What it reads** is in the table at the top of this file, which is where a dated per-runtime
+measurement lives. The part that is not a measurement: [`rules/opsinist.md`](rules/opsinist.md) is the anchor that keeps
+the hard gates loaded when a light model skips the router, and `agy`'s own help names the rule
+paths it will look at — `GEMINI.md`, `AGENTS.md`, `.agents/rules/*.md` — recommending a
+consolidated `rules/AGENTS.md` over separate files.
 
-**And what it does not read: our hooks.** The same validation reports `hooks: skipped (not found)`,
-so the audit gate that enforces the evidence rules under Claude Code **is not enforcing anything
-here** — the skills are the whole delivery. That is the surface-versus-behaviour split
-[`runtimes.md`](runtimes.md) keeps a column for, and it is written here rather than left for
-someone to discover.
+**And what it does not read: our hooks** — the row says so; this is what it costs.
+
+**Three refusals stop happening.** Under Claude Code the gate refuses to let a run
+**touch somebody else's repository before the debt list exists** (measured on a takeover: a run
+edited source, deleted files and committed before writing any list, 0 of 2 and then 0 of 5 times);
+it refuses to let a session **end with the machinery it edited still uncommitted**; and it refuses
+a **`spec_mode` left unanswered** on a project it stood up. Here none of those refuse: the rules
+are still written, still read by the skills, and **held by prose alone** — which is exactly the
+state [`checking.md`](checking.md) calls a description rather than a gate. Two answers, both
+honest: wire this project's own guard as a git hook (`_ops/scripts/preflight.sh`, which is git's
+and not the runtime's, so it works under any of them), or run the work that matters under a
+runtime whose hooks load. This is the surface-versus-behaviour split
+[`runtimes.md`](runtimes.md) keeps a column for.
 
 ## OpenCode
 

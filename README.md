@@ -148,7 +148,7 @@ runtime lets an agent do differs**, and the row that matters most is delegation:
 | | Installs | Delegation | Enforced tool allowlist | Worktrees | How we know |
 |---|---|---|---|---|---|
 | **Claude Code** | yes | yes | yes | yes | **measured** — the behavioural suite runs here |
-| **Antigravity CLI** (`agy`) | yes | subagents, reported | not checked | yes | surface **measured** 2026-09-18 — `agy plugin validate` loads all 21 skills and **skips our hooks**, so the audit gate does not reach it; behaviour not run |
+| **Antigravity CLI** (`agy`) | yes | subagents, reported | unknown | yes | surface **measured** 2026-09-18 — `agy plugin validate` loads all 21 skills and **skips our hooks**, so the audit gate does not reach it; behaviour not run |
 | **Codex CLI** | yes | reported | not checked | not checked | **cited** from its docs, not from a run |
 | the rest | expect yes | ask | ask | ask | **unknown** |
 

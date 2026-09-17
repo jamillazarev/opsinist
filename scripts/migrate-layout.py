@@ -216,8 +216,8 @@ def main():
     # Antigravity CLI reads that filename still — its own embedded help names *"`GEMINI.md`,
     # `AGENTS.md`, `.agents/rules/*.md`"* as the rule paths, measured from the `agy` 1.2.5 binary
     # 2026-09-18 — so a project's guide may honestly be called that, and a reader that dropped the
-    # name would go blind to a live file. **This is the only place the reason is written**; every
-    # other list of the three guide names cites it rather than repeating it.
+    # name would go blind to a live file. **This is where that reason is written for the readers**;
+    # `facts.md` 278 carries it as a fact, and no other guide-name list repeats it.
     for guide in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
         gp = root / guide
         if gp.is_file():

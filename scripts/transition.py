@@ -214,8 +214,7 @@ def parse_pipeline(text: str):
             p["stages"] = [x.strip() for x in re.split(r"->", m.group(1))]
     if p["stages"] and not p["terminal"]:
         p["terminal"] = [p["stages"][-1]]  # the last stage, unless the file says otherwise
-    # **An attribute name that is also a stage name is the legacy stage-keyed gate**, resolved here
-    # rather than in the walk because the ladder may be declared after the gates block.
+    # the deferred half of the note at `orphan_attrs.append` above
     orphans = []
     for key, value in p["orphan_attrs"]:
         if key in p["stages"]:

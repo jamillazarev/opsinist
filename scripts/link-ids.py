@@ -44,17 +44,14 @@ DECLARATION = re.compile(r"\*\*task\*\*|^\s*task\s*:", re.I)
 # comparing the two copies after an adversarial lens pointed at the divergence, 2026-09-18.
 # **The guard cannot import this file** — it is a python heredoc inside a shell script copied into
 # projects, and only `transition.py` and `new-id.py` travel with it — so these two lists are a
-# deliberate pair rather than an oversight, and this comment is where that is written down. The
-# other difference between them is `MASK`: the guard also masks a backticked script path, which
-# here would be a no-op, because the only path this file matches is one ending `.md`.
+# deliberate pair rather than an oversight, and this comment is where that is written down.
 SKIP = ("_ops/runs/", "_ops/research/raw/", "_ops/scripts/", "_ops/templates/")
 
 
 class Unreadable(Exception):
-    """A file this door cannot decode. **Raised rather than swallowed**: read with
-    `errors="replace"` the door would write back U+FFFD over somebody's bytes, and skipped
-    silently the report that counts these mentions would print a plausible number that is simply
-    wrong — measured 2026-09-18, three mentions reported as two, with nothing said."""
+    """A file this door cannot decode. **Raised rather than swallowed**: with `errors="replace"`
+    the door would write U+FFFD back over somebody's bytes, and skipped silently it leaves every
+    counter of these mentions short by whatever that file held (`CHANGELOG.md` 0.2.19)."""
 
 
 def tree(root):
