@@ -200,7 +200,9 @@ from the vault root · every phantom target, unencoded space and path climbing o
 repository · and **how many mentions are edges waiting to happen, split by what the guard does
 with each kind** — an id or a name written as plain text is refused by §27, a backticked path only
 warned about, and summing the two put this corpus's own citations into a headline about missing
-edges (227 path mentions here and not one id or name, measured 2026-09-18). That number is the
+edges (227 path mentions here and not one id or name, measured 2026-09-18; on the live project
+the split is **7 ids or names against 5 paths**, which is two findings the old single number
+reported as twelve of one). That number is the
 door's own answer now rather than a second derivation of it: `link-ids.py` says which mentions it
 would rewrite, `graph-check.py` counts them, and when the door cannot be loaded the report says
 **NOT MEASURED** instead of printing a zero it never earned. Three facts from Obsidian's own
