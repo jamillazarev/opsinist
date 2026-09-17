@@ -66,6 +66,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-native-register.sh` — §20 and §21 of the project guard — the native files and the register held to each other —
 - `scripts/test-recheck-trigger.sh` — §22 of the project guard — a new tension in the source register reaches the findings resting on
 - `scripts/test-record-moves.sh` — §24 of the project guard — the product moved and the record did not — shown warning on the first
+- `scripts/test-skills-attached.sh` — §26 of the project guard — a skill attached to a role resolves to something — on a throwaway
 - `scripts/test-task-shape.sh` — §23 of the project guard — a task the commit CREATES has the shape the template gives it — and
 - `scripts/test-transition.sh` — The transition door, exercised end to end on a throwaway fixture — same habit as
 - `scripts/test-verify-reads.sh` — `--verify-reads` shown refusing each mutant and passing its honest twin

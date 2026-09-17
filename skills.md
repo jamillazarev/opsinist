@@ -135,7 +135,7 @@ three roles named five skills between them — `frontend-design`, `modern-web-gu
 empty. Every one of them was installed in the *owner's* runtime, so the work ran fine on that
 machine and the repository recorded nothing about it. **A skill that is absent does not fail — it
 loads nothing**, silently, so the same clone elsewhere produces worse work with no error anywhere.
-That is the same failure `tooling.md` names for an MCP server or a system package, and it takes the
+That is the same failure [`tooling.md`](tooling.md) names for an MCP server or a system package, and it takes the
 same answer: **what the project needs from the machine is declared.** The guard's §26 refuses a role
 whose commit attaches a name that resolves to neither the pool nor a register row.
 

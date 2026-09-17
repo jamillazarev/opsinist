@@ -145,6 +145,32 @@ asdf, devbox), search by meaning (ck, qmd), Podman and Open Notebook; the search
 stale index was wrong for ck, which refreshes its index before every search, and now names the real
 cost.
 
+**A reading list of 76 links, triaged — and the declines are written down.** Seven new rows in
+`catalogue.md` where something carried a decision worth not rediscovering: engineering skills as a
+pool (**addyosmani/agent-skills**, whose `references/` checklists are the part worth the visit —
+a written *definition of done* per craft is what a type's bar is meant to be seeded from) ·
+offensive-security skills, with the authorisation gate in the row itself · a security audit whose
+findings are independently verified · a self-hosted machine pass over a pull request · office
+documents into the repository in bulk · worktrees for parallel work · memory and handoff between
+agent CLIs, read as a comparison and not a component. Four new gallery rows: landing pages, dark
+mode as a token decision rather than a filter, top-grossing mobile screens with their revenue
+context, and a React component source filed under *not the same thing as inspiration*. **And a
+`Read and declined` section**, dated, so the same links are not re-evaluated next quarter: the
+platform class that cannot host a system whose premise is the inverse, two overlapping
+methodologies that do not compose with this one, the wrong layer, craft tools for crafts no row
+covers, a free-endpoint aggregator that reads every prompt, and — the one worth stating plainly —
+**a page whose title tag was empty, declined because it could not be described without reading it,
+and a row describing something nobody read is what this file must never contain.**
+
+**Connecting a service takes what the service ships, and leaving removes only what is ours.**
+`tooling.md` now says the first half out loud — an MCP server, a CLI, an agent skill and an SDK are
+each a dependency the moment they are used, so they are installed *and declared where their kind is
+declared*, with nothing installed on the machine without the owner's word. The second half carries
+the asymmetry: **what is project-local goes automatically** — the `.mcp.json` entry, the pool copy,
+the register rows, the diagrams — **and anything installed on the machine is asked about, one line
+per item**, because another project may be using it. No new gate: §20, §21 and §26 already hold all
+four kinds in both directions, which is the point of naming the rule beside them.
+
 **Two machine notes** (`CLAUDE.md`): zsh does not split an unquoted `$var` — it landed after the
 0.2.18 tag, and bit this range once more — and zsh reads `=word` as a command lookup, so a line of
 `echo =====` fails with *not found* and the rest of the command line never runs.
@@ -152,6 +178,22 @@ cost.
 Eval state: **not run.** The guard sections and the scripts are measured by their suites; whether a
 run *offers* the machine line at a takeover, runs the report during a health check, or re-stamps a
 finding without being refused is behaviour, and no scenario covers it yet.
+
+**What each runtime was found to provide is a table now, with `not measured` where nobody looked.**
+`runtimes.md` gains a per-runtime grid — native question form · dispatchable headless · hooks
+enforce — carrying the dates and nothing inferred from a vendor page, and the run record carries the
+runtime it ran in beside the model. **Antigravity's questions are recorded as owner-reported prose**
+(2026-09-16), which matches the 2026-08-15 measurement of the same failure. The asymmetry is the
+reason the row exists: a question asked as prose still gets an answer, it is just a worse one, and
+nobody notices that anything degraded.
+
+**And design work arrives with candidate references instead of asking for them.** `visual.md` now
+says an advisor proposes three or four named examples out of the catalogue with a line each on what
+carries the feeling — *"send me some references"* hands the research back to the person who asked
+for design — and **the bar that holds it is a gate, not a paragraph**: a `fields: [references,
+anti-references]` gate on the way out of a design stage, which `transition.py` refuses while either
+is empty, naming it (verified 2026-09-17). `anti-references: none stated` passes, because that is a
+conversation that happened; a blank is one that did not.
 
 **Trio:** seven diagrams — `tooling.md` two, `resources.md` one, `project-layout.md` one,
 `permissions.md` one, `hiring.md` one, `grouping.md` one — eleven situations in `use-cases.md`, and

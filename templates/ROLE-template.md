@@ -32,9 +32,7 @@
 
 | Skill | Why this role needs it |
 |---|---|
-| {{`[name](../skills/name/SKILL.md)` — a LINK when the skill is in the pool, so the graph carries
-the edge and the link checker validates it; a bare name when the runtime provides it, and then it
-owes a row in `_ops/TOOLING.md` naming which runtime and why}} | {{the step it covers}} |
+| {{`[name](../skills/name/SKILL.md)` — a LINK when the skill is in the pool, so the graph carries the edge and the link checker validates it; a bare name when the runtime provides it, which then owes a row in `_ops/TOOLING.md` naming the runtime and why}} | {{the step it covers}} |
 
 > [!WARNING]
 > **Every one loads on every run this role makes**, needed or not — the load budget is a share of

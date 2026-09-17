@@ -12,17 +12,12 @@ work now, which is a task with a blocker instead.
 
 ## ~~`diagrams.md` is at its budget~~ — answered 2026-09-06: beside the rule, not in a gallery
 
-**Measured 2026-08-15**: the file stood at **499 of a 500-line chapter budget** while
-[`self-maintenance.md`](self-maintenance.md) §What-a-capability-owes requires a diagram for every new mechanic — two rules
-meeting at the next one. The question was never where a diagram goes but **whether [`diagrams.md`](diagrams.md) is
-a chapter or an index.**
-
-**Answered 2026-09-06, by use rather than argument.** Two releases running put their diagrams beside
-the rules they draw — the contradiction stop's in [`escalating.md`](escalating.md), the cost one in [`cost.md`](cost.md) — and
-twice in one session a repair owed none and said so instead of manufacturing one. **The gallery
-reading was the collision course, not the budget**: a file holding every diagram meets 500 at each
-new mechanic; one holding only what crosses several rules does not. [`self-maintenance.md`](self-maintenance.md) §4 now
-says so, and the file sits at 500 of 500 and stays there.
+**Measured 2026-08-15**: 499 of a 500-line chapter budget, while [`self-maintenance.md`](self-maintenance.md)
+§What-a-capability-owes requires a diagram per new mechanic. The question was never where a diagram
+goes but **whether [`diagrams.md`](diagrams.md) is a chapter or an index** — answered 2026-09-06 by use: two releases
+running put their diagrams beside the rules they draw, and twice in one session a repair owed none
+and said so. **The gallery reading was the collision course, not the budget**: a file holding every
+diagram meets 500 at each new mechanic; one holding only what crosses several rules does not.
 
 ## ~~Measure what the day-one cut actually bought~~ — run 2026-08-01, partly falsified
 
@@ -41,10 +36,8 @@ attempted**, because the criterion comes first — **and that half is open work 
 heading**, which the 2026-09-06 audit read past. Its form question is the *Nothing here measures
 whether a DOCUMENT works* entry, which asks the same thing.
 
-**The criteria that made the verdict possible** — written before the run, kept whole because
-criteria written after a result are not criteria — are in [`evals/RUNS.md`](evals/RUNS.md) under *the day-one cut*.
-They were held here until 2026-09-07; they are evidence, and the entry itself said *"It is not open
-work."*
+**The criteria that made the verdict possible** — written before the run, because criteria written
+after a result are not criteria — are in [`evals/RUNS.md`](evals/RUNS.md) under *the day-one cut*.
 
 ---
 
@@ -117,13 +110,12 @@ guide declares an operator. **Warn, not fail, and once**: site work is legitimat
 going dark is the smell. **Revisit when:** the next takeover audit or field report shows a second
 project with a dark era — twice is the threshold everywhere here.
 
-**Read again 2026-09-16 against a second live project, and its trigger did NOT fire**: 12 of that
-project's 15 commits touch `_ops/`, so there is no dark era there and this entry stays open on its
-own terms. What that audit found instead was a different shape with its own measurement — **4 of 15
-commits moved files outside `_ops/` with nothing under `_ops/` in them** — and the guard's §24 holds
-that one: warn on the first, refuse on the second in a row. The two are neighbours and not the same
-rule: §24 reads one commit and its parent, this entry reads a run of N commits, and **a form built
-for a trigger that has not fired is a rule built on one project's habits.**
+**Read again 2026-09-16 against a second live project: the trigger did NOT fire** — 12 of its 15
+commits touch `_ops/`. What that audit found was a neighbouring shape with its own measurement, **4
+of 15 commits moving files outside `_ops/` with nothing under `_ops/` in them**, and the guard's §24
+holds that one. The two are not the same rule — §24 reads one commit and its parent, this entry
+reads a run of N — and **a form built for a trigger that has not fired is a rule built on one
+project's habits.**
 
 ## A channel that reaches the owner who is away
 
@@ -146,25 +138,17 @@ commissioned — a template written before its second use is a guess.
 
 ## ~~The advisor-side half of the doors: nothing forces wiring at stand-up~~ — built 2026-09-17
 
-**Measured 2026-08-14, N89 at 0/3** (2 of its 5 runs voided): every graded day-one run stood the project up ad hoc — no
-guard wired, no doors, no type file — so the guard's new doors check (the wired-project form,
-landed the same day) never gets its chance. The prose instruction alone does not survive
-contact, which is this corpus's oldest measurement. The candidate form: the plugin's own
-SessionStart hook already delivers the migration fact in operated projects — the same mechanism
-can say, once, *"this operated project has no wired guard and no doors"*.
+**Measured twice, which is the threshold.** N89 at 0 of 3 (2026-08-14): every graded day-one run
+stood the project up ad hoc, so the guard's doors check never got its chance. **The second
+measurement came from the field** (2026-09-16): a live project, stood up and operated by this skill,
+held the guard in `_ops/scripts/` one version behind with `.git/hooks/` holding only git's samples —
+every gate a description, and underneath it nine tasks in two shapes, two accepted without review,
+an assignee in no file.
 
-**The second measurement arrived from the field rather than from a round, and it is the same
-finding.** On 2026-09-16 a live project — stood up by this skill, operated by it, fifteen commits
-deep — held the guard in `_ops/scripts/` one version behind, with `.git/hooks/` holding nothing but
-git's own samples. Every gate this methodology describes was a description in that repository, and
-**the tree underneath showed exactly what that costs**: nine tasks in two incompatible shapes, two
-accepted with no review evidence, an assignee in no file at all.
-
-**Built**: the SessionStart hook now runs the same `scripts/guard-status.py` a person runs and
-states what it found, once, as a fact and never as an order. **Two silences are load-bearing and
-tested**: a project with *no* guard at all gets nothing — that is the arriving flow's debt-list
-item and it is visible without a hook — and a project already wired and current gets nothing, which
-is the assertion its mutant fails. `scripts/test-audit-gate.sh` **128/128**.
+**Built**: the SessionStart hook runs the same [`scripts/guard-status.py`](scripts/guard-status.py) a person runs and states
+what it found, once, as a fact and never as an order. **Two silences are load-bearing and tested** —
+no guard at all is the arriving flow's debt-list item and is visible without a hook; a project
+already wired owes no line, and that is the assertion its mutant fails. `test-audit-gate.sh` 128/128.
 
 ## The council has a field but no gate, and a document has no seam to hold one
 
