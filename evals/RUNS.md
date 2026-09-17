@@ -267,6 +267,14 @@ volunteer.
 
 ### What this costs the rest of the file
 
+**A rate is also a claim about the reader and the judge, not only about the player.** Borrowed,
+dated 2026-09-18: an agent-memory study re-ran **byte-identical retrieval** through a different
+reader-and-judge stack and the score moved **6.9 points** — larger than the gap between the two
+architectures it was comparing on that benchmark ([`catalogue.md`](../catalogue.md) → the memory-shapes
+row). So a rate written here names its player *and* whatever graded it; two rows graded differently
+are not comparable, however identical the scenario, and a change in the grader is a change in the
+measurement even when nothing else moved.
+
 **Every zero recorded here is now a claim about a tier, not about a capability** — and a share of
 them, unknown until measured, are this same artefact. The honest position is narrow: **it is
 demonstrated for two scenarios and assumed for none.** `capability-audit.md` carries the caveat

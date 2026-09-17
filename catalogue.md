@@ -55,6 +55,7 @@ being a method and becomes one author's project → [`choosing-tools.md`](choosi
 - [Default libraries — AI-fluent stacks](#default-libraries-ai-fluent-stacks)
 - [Testing — every stage of the loop, per platform](#testing-every-stage-of-the-loop-per-platform)
 - [Research & reference galleries (design · brand · visual)](#research-reference-galleries-design-brand-visual)
+- [Studies read, and what was taken from them](#studies-read-and-what-was-taken-from-them)
 - [Read, shelved and declined — 2026-09-17](#read-shelved-and-declined-2026-09-17)
 
 ## Services by need
@@ -349,6 +350,18 @@ rest.
 **Visual styles — method, not a baked-in taxonomy:** name the style in the owner's own words,
 gather references, extract the carriers, encode as tokens in `_ops/design-system/`. What is
 "clean" to one owner is "sterile" to another; the words are theirs, the extraction is yours.
+
+---
+
+## Studies read, and what was taken from them
+
+**A study is not a tool, and the row says what changed here because of it.** A reference nobody
+acted on is a bookmark; this section exists so the acting is visible and the declining has a
+reason.
+
+| Read | What it measured | What it changed here |
+|---|---|---|
+| **[The shapes of agent memory](https://pinglin.tw/blog/the-shapes-of-agent-memory/)** — a taxonomy of three memory architectures with benchmark runs behind each (read 2026-09-18) | **File-based memory** (a model curating markdown, recalled by grep — *this system's shape*) against a **structured store** (atomic facts embedded, ranked by hybrid search) on LongMemEval-S: **44.9% against 73.6%**, at **287k model tokens per question against 19k**. Files won exactly one thing: **abstention — 88.9% against 77.8%**, because *"retrieval almost always surfaces something plausible enough to tempt an answer, while a curation-limited store often has nothing to offer and the model correctly says so."* Curation is a reasoning act and priced like one: ~**246k tokens and 35 minutes** per history against ~5 minutes to embed. Also: swapping the **reader-and-judge stack alone** moved a score **6.9 points on byte-identical retrieval**; memory helped a weak actor and **hurt a trained one handed raw replayed episodes — 76.4% with no memory against 70.1%** | **Three rules, each in one home.** A second attempt gets a *reconstruction*, never the first one's transcript ([`recovering.md`](recovering.md) → *Fresh or resumed*) — the raw-replay measurement is the number behind a sentence this corpus already had. A rate names its **reader and judge**, not only its player ([`evals/RUNS.md`](evals/RUNS.md)). And the abstention result is the outside measurement for the honest-empty-state rule this system is built on ([`PATTERNS.md`](PATTERNS.md) §16-bis, [`facts.md`](facts.md) 279). **Declined: the store itself.** Its currency is 108k embedder tokens per question and a vector index — *a cache this project would have to own*, against the premise that deleting every cache rebuilds the system. **And the gap is not dismissed**: for recalling facts scattered across a long history, this shape is measurably worse, its author's guess is that *"the gap widens rather than narrows"* past ~47 sessions, and **the run that would settle it is outstanding.** What answers it here is that the record is read by path and link rather than by similarity — which is why [`graph-check.py`](scripts/graph-check.py) counts edges at all |
 
 ---
 

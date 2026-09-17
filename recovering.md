@@ -184,6 +184,17 @@ the state is sound.
 **Starting fresh** rebuilds from the repository. **Safer after corrupt state** — a confused run
 that wrote nonsense into its own context will keep being confused if you resume it.
 
+**A second attempt gets a reconstruction, never the first one's transcript.** What the next run
+needs is *what was tried, what happened, and what is different now* — three sentences the run
+record already holds — and not the previous session replayed into its context. The sentence above
+says a *confused* run stays confused when resumed; **the borrowed measurement is that a sound one
+can hurt too.** An agent-memory study that trained a policy to use its own past episodes measured
+**76.4% with no memory against 70.1% when handed raw replayed episodes** — worse than remembering
+nothing — and recovered the loss only by reconstructing each episode for the state now in front of
+it ([`catalogue.md`](catalogue.md) → the memory-shapes row, read 2026-09-18). A transcript answers
+*what happened to somebody else*; a reconstruction answers *what to do here*, and the run record's
+job is to make the second cheap to write.
+
 **A manual rerun resets the attempt counter and has no ceiling; automatic retry does not.** So
 rerunning by hand three times is three attempts the automatic bound never sees. Say which one is
 happening.

@@ -4,6 +4,23 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.19 — 2026-09-11
 
+**A study of agent memory, read properly — and it measures this system's own shape as the loser
+on recall.** A taxonomy of three memory architectures with benchmark runs behind each
+([`catalogue.md`](catalogue.md) → *Studies read*): a model curating markdown and recalling it by
+grep — **what this is** — scored **44.9%** where an embedded store scored **73.6%**, at **287k
+model tokens per question against 19k**. The one thing files won is **abstention**, 88.9% against
+77.8%, for the reason this corpus exists: *"retrieval almost always surfaces something plausible
+enough to tempt an answer, while a curation-limited store often has nothing to offer and the model
+correctly says so."* **Three rules came out of it**, each in one home: a second attempt gets a
+*reconstruction*, never the first one's transcript ([`recovering.md`](recovering.md) — raw replayed
+episodes measured **worse than no memory at all**, 70.1% against 76.4%); a rate names its **reader
+and judge** and not only its player ([`evals/RUNS.md`](evals/RUNS.md) — a different grading stack
+moved a score **6.9 points on byte-identical retrieval**); and `facts.md` 279 carries the trade
+itself. **The store was declined with its reason**: its currency is an embedding index this project
+would have to own, against the premise that deleting every cache rebuilds the system — **and the
+gap is written down rather than argued away**, including the author's own untested guess that it
+widens past ~47 sessions.
+
 **A runtime this skill shipped for no longer exists, and it is gone from the product.** Gemini
 CLI was **retired 2026-06-18** and replaced by **Antigravity CLI** — a different binary, `agy`,
 closed-source Go, sharing its agent harness with the Antigravity IDE. `gemini-extension.json` and
