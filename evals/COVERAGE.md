@@ -61,6 +61,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-inventory.sh` — The inventory's three promises, exercised: identical twice, guest-safe, honest off git
 - `scripts/test-link-ids.sh` — link-ids.py — an id or a path named in passing becomes a link — shown on a throwaway project that
 - `scripts/test-link-names.sh` — link-names.py — a backticked name of a file in this tree becomes a link — shown on a throwaway
+- `scripts/test-links-hard.sh` — §27 of the project guard — **a mention of something inside this project is a link** — and every
 - `scripts/test-map-blocks.sh` — The touched-by executor exercised: blocks generated, only markers rewritten, and two live
 - `scripts/test-migrate-layout.sh` — The 0.2.0 layout migrator exercised on a flat 0.1.x fixture: history-preserving
 - `scripts/test-native-register.sh` — §20 and §21 of the project guard — the native files and the register held to each other —

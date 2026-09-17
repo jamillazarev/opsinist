@@ -189,6 +189,22 @@ the cut is supposed to survive ([`cost.md`](cost.md) draws this same line for ro
 
 ---
 
+## The one test for anything kept outside the repository
+
+**Delete it, rebuild from the committed files, and ask whether anything factual disappeared.** If
+the answer is no, it was a cache and may live anywhere — an index, an embedding store, a rendered
+page, a machine's own record of what its owner has approved. If the answer is yes, **it is a second
+source of truth wearing a cache's name**, and the failure it produces is the worst kind: the
+repository looks complete, clones cleanly, and is missing the decisions.
+
+**Three real examples, read on 2026-09-17.** A harness keeping its briefs, backlog and decisions in
+a gitignored directory — no history, no diff, no review, and a clone that carries none of it. A
+control room keeping its events and commands in SQLite beside the work. A memory server whose
+derived index is honestly declared rebuildable, and whose *raw* transcript directory nothing can
+reconstruct. **The first two fail the test; the third passes on one half and fails on the other**,
+which is the usual shape — a store is rarely all cache or all record, and the sentence that saves it
+is the one naming which parts are which.
+
 ## The manifest
 
 **One line per layer, in `_ops/config.md`, saying where that layer lives.** Without it, "docs in the

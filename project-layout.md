@@ -190,6 +190,25 @@ frame or screenshot** so a reader on a plane still knows what is being discussed
 **Paths are relative and inside the repository.** An absolute path is one machine's truth, and a
 hotlinked remote image is a page that goes blank when somebody else's account lapses.
 
+**What the graph needs, stated once, because the graph is the payoff for all of the above.** A vault
+draws an edge when a *note* links a *note* by a path it can resolve from the file it is written in.
+So four things, and the guard's §27 refuses the first three:
+
+- **a relative path** — an absolute one resolves on one machine and nowhere else;
+- **a target that exists** — a dead link draws an edge into empty space, which is worse than a bare
+  name because it reads as navigable;
+- **no unencoded space** in a target (`%20`, or rename the file — our slugs are ASCII for this
+  reason among others);
+- **the vault opened at the project root, not at `_ops/`.** Both work for reading; only the first
+  resolves a link from a task to `CLAUDE.md` or to a source file, because a link that climbs above
+  the vault root is outside the graph. A project whose vault is `_ops/` gets a graph of the
+  machinery with the product missing from it.
+
+**A link to a script or a data file is an attachment, not a note** — `transition.py`, a PNG, a JSON
+fixture — so those edges only appear with attachments switched on, and they are not what the graph
+is for. **The edges worth having are between notes**: a task and its parent, a task and the role
+holding it, a finding and the register entry it reads against, a run and the task it served.
+
 **No plugin is required to read a project, and that is a constraint rather than an accident.** If
 something genuinely needs one — a diagram format nothing else draws, a preview only one tool
 renders — that is a tooling decision with a register entry and a `why`, not a quiet dependency

@@ -30,6 +30,17 @@ therefore discovered at the worst possible time.
 | **the board against the tasks** — the skill's `scripts/board.py --check` | a derived page that has drifted into a second list, read as current → [`grouping.md`](grouping.md) |
 | **the guards themselves** — and whether the hook is wired at all: the skill's `scripts/guard-status.py` | *a guard that no longer matches reality passes silently* — and one copied but never wired never ran at all, while its presence read as protection |
 
+**A threshold with no named command that produces its verdict is an aspiration, not a
+constraint.** *"Coverage above 80%"*, *"the page loads fast"*, *"the copy is on brand"* — each is a
+number or a claim somebody will argue about, and the argument is the tell: a bar is only a bar when
+the sentence beside it says what to run and what exit code means no. **And the two directions are
+not symmetric**: tightening a bar may happen quietly, because nothing downstream breaks when the
+work has to be better — **loosening one is loud**, announced with what it was, what it is now and
+the evidence that the old number was wrong. That asymmetry is what keeps a bar from drifting to
+whatever the last failing run happened to produce ([`self-maintenance.md`](self-maintenance.md) — the bar is a locked
+surface). Read as a rule off `addyosmani/agent-skills` on 2026-09-17, whose checklists print the
+command beside every number.
+
 **A check that records may not fail the thing it is recording.** Bookkeeping — writing the
 evidence line, stamping the run, updating the ledger — sits *around* a real check, and when the
 wrapper breaks it must warn and never turn a green test red. **This corpus's oldest family of bugs

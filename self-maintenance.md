@@ -10,6 +10,17 @@ small*, which is about product work someone asked for casually.
 
 ---
 
+**A rule earned in one project stays scoped to that project until the same rule is measured in a
+second.** Promotion needs a **count, not conviction** — and this corpus already lives by it under
+another name: *twice is the threshold*, the sentence that decides whether a measurement becomes a
+form. The value of saying it as a scope rather than a threshold is what it forbids: a note learned
+on one repository's habits does not become a law for everybody else's, however true it felt at the
+time. **Where the second measurement has not happened, the note says which project taught it** —
+that is an honest fact with a known reach, and it is the shape every entry in `LATER.md` waiting on
+a trigger already has. (Read as an explicit promotion rule — same id in two projects, before it is
+allowed to go global — off `affaan-m/ECC`'s instinct files, 2026-09-17; the confidence arithmetic
+beside it is unsourced and was not taken.)
+
 ## The system stream
 
 One field, one generated view. No new entity.

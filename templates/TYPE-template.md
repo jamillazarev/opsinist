@@ -59,8 +59,9 @@ gates:
 
 {{rename the stages in this project's own words, and put a design stage in front where design
 precedes build — a design stage usually earns a `fields: [references, anti-references]` gate on
-the way out of it, which is how *ask before drawing* becomes a refusal rather than a hope
-(`visual.md`). **The gate on the edge into the terminal stage is not decoration**: a rung named
+the way out of it, which is how *ask before drawing* becomes a refusal rather than a hope, and one
+of those references is the **precedent** for the surface's genre rather than a picture of something
+pretty (`visual.md`). **The gate on the edge into the terminal stage is not decoration**: a rung named
 `review` is not a review, and the door only asks for one where an edge says so — a ladder that
 reaches its terminal stage with no `review_by` on any edge into it is refused at the commit that
 adds it, and warned about on every move for one already written → `pipelines.md`.}}

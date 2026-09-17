@@ -30,6 +30,17 @@ direction · references the owner likes · anti-references, which are hard nos**
 only *"what stack?"* and starts drawing has skipped the questions that decide whether the output is
 theirs or generic.
 
+**One of the references is a precedent, not a picture.** A surface with a known genre — a table, a
+filter, a dashboard, an onboarding, an empty state, a pricing page, a settings screen — has decades
+of argument behind it, and **a plausible version of it can always be generated, which is exactly why
+it gets generated**. So before drawing one, the worker reads how it is usually built
+([`catalogue.md`](catalogue.md) → *The pattern for one surface* · *UX guidance & rationale* · *Design systems*), and the
+reference list says which item is the precedent. **The point of knowing the pattern is to be able to
+say which part of it you are breaking on purpose** — a design that departs from the genre without
+knowing it is not bold, it is uninformed, and the cost is paid by every person who uses it
+afterwards. Where a project does this often, it belongs on the type as a gate: `fields:
+[references, anti-references]` with the precedent named inside the first.
+
 **And arrive with candidates rather than with a blank question.** *"Send me some references"* hands
 the research back to the owner, who asked for design precisely because they did not want to do it;
 **an advisor proposes**, out of [`catalogue.md`](catalogue.md) → *Research & reference galleries*, three or four named
@@ -126,7 +137,14 @@ into tokens in `_ops/design-system/`. **The name is never the deliverable.**
    not findings — they are the words people reach for instead of one. A read is accepted when it
    cites the carriers it measured, the plausible alternative it turned down, and **one restraint
    finding**: something comparable work does that this deliberately does not.
-4. **Breadth is not fidelity.** A published vocabulary was measured carrying a `glassmorphism` row
+4. **A style rule ships as a count with a threshold and one named override, or it is not a rule.**
+   *One accent hue · zero radii off the scale · zero emoji in chrome · zero gradients without a
+   stated purpose · no duplicate labels* — **a failed count is a fix, not a judgement call**, which
+   is what makes it survivable for a worker who has no taste to appeal to. And each carries its one
+   legitimate override: the brand explicitly asks for it *and* the reason can be said in a sentence.
+   Without the override clause the rule gets broken silently the first time it is wrong; with it,
+   breaking it is a visible claim.
+5. **Breadth is not fidelity.** A published vocabulary was measured carrying a `glassmorphism` row
    whose only value was a primary colour — no blur, no translucency, the two carriers that define
    it. **A row that names a look and misses its carrier is worse than no row**, because it reads as
    an answer.

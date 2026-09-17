@@ -2053,6 +2053,12 @@ rm -rf _ops/skills/assemble
 # ── §17 · a finding carries what orders it and what expires it ─────────────────────────────
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 mkdir -p _ops/research/raw
+# **The task the finding links must exist**, or §27 refuses the commit for a dead link and every
+# assertion below measures that instead of §17 — a fixture whose links point nowhere is a fixture
+# in a state no project should be in.
+printf '# T-AB12CD — panels\n\n**Type**: feature · **Status**: started\n**Assignee**: owner\n\n## Ready when\n\nx\n\n## Done when\n\n- [ ] x\n\n## History\n\n- 2026-09-10 — started\n' \
+  > _ops/tasks/T-AB12CD-panels.md
+git add -A >/dev/null 2>&1 && git commit -qm "the task a finding decides" >/dev/null 2>&1
 
 honest() { cat > _ops/research/panels.md <<'FD'
 # Should we pay for synthetic panels

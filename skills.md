@@ -112,6 +112,16 @@ with the ones that apply**, and the rule an agent actually needed is the one tha
 
 **Attach with provenance** — source, version or commit, date screened, who approved.
 
+**A skill's own description says when to reach for it AND when not to.** *Use when… · Do not use
+for…* — both halves, in the description a runtime reads to decide whether to load it, because the
+half everybody writes is the first and the half that prevents a wrong load is the second. A skill
+that only says what it is for gets pulled into every adjacent question and then argues badly from
+the wrong file. **And every reference file a skill ships is linked from its own body**: an unlinked
+`references/` folder is weight the skill carries and nothing reaches. (Both are admission rules in
+`tech-leads-club/agent-skills`'s validator, read 2026-09-17 — which also refuses a `README.md`
+inside a skill, on the grounds that skills are for agents and a human-facing file in there is a
+second description that will disagree with the first.)
+
 **A skill whose profile still carries an unfilled placeholder stops, rather than producing
 something generic.** An imported skill usually expects a project profile — the house style, the
 jurisdiction, the brand, the stack — and the failure is silent: with `{{…}}` still in it, the skill

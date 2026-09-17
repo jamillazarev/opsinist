@@ -59,13 +59,13 @@ fixture() {   # no argument: a staffed project · `bare`: day one, before anyone
 
 # ── a role file answers to the name the roster writes, however it is spelled ───────────────────
 fixture
-task T-AAAAAA "Web Engineer"          # the file is `web_engineer.md`
+task T-AAAAAA "[Web Engineer](../roles/web_engineer.md)"   # the file is `web_engineer.md`
 run; [ "$RC" = 0 ] && ok || bad "a task assigned to an existing role was refused: $OUT"
 
-task T-AAAAAB "architect"             # a role file the team file never mentions
+task T-AAAAAB "[architect](../roles/architect.md)"          # a role file TEAM.md never mentions
 run; [ "$RC" = 0 ] && ok || bad "a task assigned to a role file absent from TEAM.md was refused: $OUT"
 
-task T-AAAAAC "Владелец"              # a person, in the project's own alphabet
+task T-AAAAAC "Владелец"              # a person on the roster with no file of their own
 run; [ "$RC" = 0 ] && ok || bad "a task assigned to a person on the roster was refused: $OUT"
 
 task T-AAAAAD "unassigned"            # nobody yet, said out loud — §23 is what asks for a value
@@ -80,7 +80,7 @@ run
 rm -f _ops/tasks/T-AAAAAE-thing.md
 
 # ── hiring in the same commit is how it is meant to be fixed ───────────────────────────────────
-task T-AAAAAF "Designer"
+task T-AAAAAF "[Designer](../roles/designer.md)"
 printf '# Designer\n\n**Type**: worker · **Grade**: mid\n' > _ops/roles/designer.md
 run; [ "$RC" = 0 ] && ok || bad "a task assigned to a role hired in the same commit was refused: $OUT"
 commit "hire a designer"
@@ -130,7 +130,7 @@ mutant "the roster reduced to the team file" \
        [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: _ops/roles/ unread"; }
 
 mutant "the name compared literally" 'if norm(val) in known:' 'if val.strip() in known:' \
-  && { fixture; task T-AAAAAA "Web Engineer"; run
+  && { fixture; task T-AAAAAA "[Web Engineer](../roles/web_engineer.md)"; run
        [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: no normalisation"; }
 
 mutant "every staged task judged, not the assignment this commit writes" \

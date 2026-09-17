@@ -122,6 +122,28 @@ accidental and is revivable.
 
 ---
 
+## A move that destroys its own evidence writes itself down first
+
+**The dangerous transition is the one that removes what proves it happened.** Archiving a task,
+tearing down a worktree, closing a run whose record is derived from a directory about to be
+deleted — in each, the act and the proof of the act are the same object, and a crash between them
+leaves a repository that cannot tell which side of the line it is on. **So the door writes the
+intention, performs the move, then removes the note** — and the next session's first act is to
+replay whatever note is still lying there. One process owns both halves; **a printed reminder is
+never load-bearing**, because the session that would have read it is the session that died.
+
+**And a record the door cannot parse is set aside, never retried and never deleted.** Renamed with
+a marked name, in place, so it stays readable by a person — one malformed file must not stall the
+queue behind it, and silently dropping it turns a defect into a disappearance. (Both rules read off
+working harnesses on 2026-09-17: one keeps a write-ahead close note precisely for its teardown
+crash window, the other renames an unparseable message aside and logs it.)
+
+**A handoff is a typed record with exactly one owner, claimed once.** Unclaimed, it is an open
+obligation somebody can see; claimed, it cannot be claimed again — which is what stops two sessions
+picking up the same interrupted work and each believing itself the only one. In this system the
+claim is a commit, and that is the whole reason it holds: two claims collide in git rather than in
+an agreement nobody can check.
+
 ## Limits
 
 A limit is not a failure of the work. It is the window closing.

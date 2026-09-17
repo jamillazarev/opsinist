@@ -145,6 +145,26 @@ asdf, devbox), search by meaning (ck, qmd), Podman and Open Notebook; the search
 stale index was wrong for ck, which refreshes its index before every search, and now names the real
 cost.
 
+**A mention is a link, or the commit does not land — §27.** The door existed for a release and the
+measured project had still never run it: **one link in the whole of `_ops/` against twenty-two bare
+ids.** So on the lines a commit ADDS under `_ops/`, an id whose file exists and a person-field naming
+a role, team or panel **must be written as links**, and the refusal names the command that rewrites
+them. **A backticked path is a warning instead**, and the asymmetry is measured: a shipped
+template's prose names project files on purpose and cannot carry a project-relative link without
+breaking the skill's own checker — refusing it would make the documented stand-up act refuse itself,
+which this repository did once in 2026-08 and keeps a standing assertion against. **What stays as
+written**: a `## History` line, a heading, a fence, `_ops/runs/`, `_ops/research/raw/`, and the
+declarations the guard's own readers parse (`**Task**`, `task:`) — linked, those hand a slug back
+where an id was expected. **And the same section keeps the graph honest**: a link whose target is
+absent, an absolute path, or an unencoded space is refused, three shapes Obsidian, GitHub and the
+link checker all fail on identically. `test-links-hard.sh` **15/15**, four mutants.
+
+**What a vault needs is written down once** ([`project-layout.md`](project-layout.md)): a relative path · a target that
+exists · no unencoded space · **and the vault opened at the project root rather than at `_ops/`**,
+because a link that climbs above the vault root is outside the graph — a project whose vault is
+`_ops/` gets a graph of the machinery with the product missing from it. A link to a script or a
+fixture is an attachment, not a note; the edges worth having are between notes.
+
 **A person named in a task is now a link, which is the edge a project misses most.**
 `scripts/link-ids.py` linked ids and paths; it now also links the field that names somebody —
 `**Assignee**: Web Engineer` becomes a link into `_ops/roles/` — so the roster and the work are one
@@ -189,6 +209,29 @@ style, and two or three named candidates arrive with one line each on what separ
 ([`choosing-tools.md`](choosing-tools.md)). And **a product is not a reference**: reading a company's site to decide how
 yours should look selects on survivors and shows what somebody paid for — bring it as a direction to
 argue with, with the interest named in the same sentence.
+
+**Eleven more repositories were read properly — files, not descriptions — and what came back is
+eleven rules.** On verification: **a finding cites a verbatim excerpt and its line is derived from
+that**, so a quote matching nowhere or twice leaves it *unlocated* rather than placed (which is what
+makes a mislocated finding impossible instead of rare) · **a verdict is a shape, and demoting one
+takes its fields away** rather than softening their wording · **verification is structural**: a
+fresh reader, given the claim and its evidence but not the author's reasoning or another reviewer's
+conclusion, asked to refute rather than assess, answering with one of a fixed set of verdicts — a
+promotion goes to a third reader, and where independence cannot be had the record is withdrawn and
+the round says `not completed` · **a review names the pattern and quotes the line, and never
+returns a score** or a guess about who wrote the text. On bars: **a threshold with no named command
+that produces its verdict is an aspiration**, and **tightening a bar is silent while loosening one
+is loud** · **somebody else's checklist may become a type's bar under three conditions**, and
+passing it is `cited`, never `measured`. On records: **a move that destroys its own evidence writes
+itself down first** and the next session replays the note · **a record the door cannot parse is set
+aside with a marked name, never retried and never deleted** · **a handoff is a typed record with
+exactly one owner, claimed once** · **a rule earned in one project stays scoped to it until the same
+rule is measured in a second** · and **one test for anything kept outside the repository**: delete
+it, rebuild from the committed files, and ask whether anything factual disappeared. Two more, on
+shape: **a skill's description says when to reach for it and when not to**, and **every shaping rule
+names the case where it must lose** — with a gate no candidate can pass recorded as a defect in the
+gate. **One published claim was corrected**: worktrunk is dual MIT/Apache-2.0, and the API's
+`NOASSERTION` is what a dual licence looks like through that field rather than a missing one.
 
 **Five working skills and six products were read, and what came back are rules rather than rows.**
 From design skills built by other people: **a look ships its own falsifier** (*Swiss breaks if warm

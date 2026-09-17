@@ -78,6 +78,35 @@ would resolve it. A finding without a location is an opinion. **And an objection
 is about** — the text as written, not a paraphrase of it. A paraphrase is where a lens's own reading
 hides: the author answers the paraphrase, both walk away satisfied, and the line is untouched.
 
+**A finding cites a verbatim excerpt, and its line is derived from that.** Not *"line 214"* — the
+text as it stands, quoted, and the location computed by finding that text. **A quote that matches
+nowhere is a finding about a file that has moved on, and a quote that matches twice is a finding
+that has not said which one** — both leave it *unlocated* rather than placed, which is the honest
+outcome and the one a line number silently fakes. This is what makes a mislocated finding
+impossible instead of merely rare: every line number in a review is a claim about a file as it was
+at some moment, and the moment is never stated. (Read off `alibaba/open-code-review`, 2026-09-17,
+where the model is not permitted to emit a line number at all and the address is resolved
+deterministically from the excerpt — zero hits and multiple hits both decline.)
+
+**A verdict is a shape, not an adjective, and demoting one takes its fields away.** A confirmed
+finding owes the things only a confirmed finding can have — what was observed, what would fix it,
+how to reproduce it. **When the same claim is demoted, those fields are removed rather than
+softened**, because a rejected finding still carrying a severity and a remediation reads, three
+weeks later, exactly like a real one somebody forgot to act on. Softening the wording is how a
+hedge survives; deleting the field is how it cannot ([`PATTERNS.md`](PATTERNS.md) §15 — evidence, not verdicts).
+
+**Verification is structural, not attitudinal.** The cheapest honest version has four properties
+and drops none of them: **one fresh reader who did not write the claim** · given the claim **and its
+cited evidence**, not the author's reasoning and not another reviewer's conclusion · asked **to
+refute it**, not to assess it · returning **one of a fixed set of verdicts**. Two more where the
+stakes justify them: **a promotion goes to a third reader** who did neither earlier pass — the
+direction that adds authority is the one that needs the independent look — and **where independence
+cannot be had, the record is withdrawn and the round says `not completed`**, which is the same rule
+this file already applies to a lens that ran out of budget. **Agreement from a model that was shown
+the argument is not verification; it is a restatement.** (The four-and-two shape read off
+`cloudflare/security-audit-skill`, 2026-09-17, whose verifier prompt opens *"You did not write this
+candidate"* and whose third pass is triggered by any promotion.)
+
 **The reader gets the artefact, not the author's case for it.** No plan, no reasoning, no summary of
 what the change was trying to achieve — those are exactly the things that make a reader agree.
 **Self-review confirms assumptions; it does not test them**, and a reader handed the author's
@@ -87,6 +116,13 @@ the text — which is the same rule from the other side. *(Named by Boris Cherny
 most often get wrong about verification, 2026-08; it agrees with this corpus's own measurement that
 a model reads its own output generously, and sharpens it: the danger is not only the author
 reviewing, it is the author's framing travelling with the work.)*
+
+**A review names the pattern and quotes the line; it never returns a score.** *"This reads 7/10
+machine-written"* is a guess dressed as a measurement, and a guess about **who or what wrote a
+text** is not a finding at all — it is unfalsifiable and it insults the author when it is wrong.
+**Name the pattern, quote the instance, and the reader can check both.** (Read off
+`petergyang/no-ai-slop`, 2026-09-17, whose detect mode refuses to grade on exactly this ground:
+detectors guess, named patterns are evidence somebody can check.)
 
 **Findings are not votes.** The lenses report; the owner of the change decides, and a rejected
 finding is answered, not ignored — one line saying why.

@@ -254,6 +254,30 @@ and a graveyard of opinions.*
 
 ---
 
+## Every shaping rule names the case where it must lose
+
+**A rule about how an answer looks can eat the answer.** *Cap the list at five* · *lead with the
+next action* · *no preamble* · *one closing line* — each is right most of the time and wrong
+somewhere specific, and the failure is quiet: the shape is obeyed and the content is gone. **So each
+rule ships with the condition under which it loses**, named rather than left to judgement: a list
+capped at five **shapes presentation only and must not limit analysis, search results, candidates
+considered or anything retained**; *no preamble* loses when the reader is about to act on something
+irreversible; *lead with the action* loses when the state has changed underneath them and the action
+depends on it.
+
+**The test for a shaped answer is the two-line test**: read only the first line and the last, and
+ask whether the reader knows **what to do next** and **what just happened**. If either is missing,
+the shaping removed something load-bearing.
+
+(Read off `ayghri/i-have-adhd`, 2026-09-17 — ten shaping rules, six named override conditions, a
+pre-send delete list, and that exit test. Its own eval publishes **`Release gate: FAILED`** where
+the candidate beat the baseline on every dimension and still failed an absolute no-blockers rule,
+which the authors then wrote up as a defect in the gate rather than in the work. **A gate no
+candidate can pass is a defect in the gate**, and finding that out before a release rather than
+during one is the whole value of having written the gate down → [`self-maintenance.md`](self-maintenance.md).)
+
+---
+
 ## The AI smell — a ban list, not an aspiration
 
 **Slop is a vocabulary and a rhythm, and both are enumerable** — which is what makes this a form

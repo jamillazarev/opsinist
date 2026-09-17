@@ -99,6 +99,18 @@ has no bugs — the first question is **what the kinds of work are called here**
 back may be two types, not six. **One wave per type, when a task first needs it** — never a
 questionnaire at setup, the same law as no roster before a task needs a craft.
 
+**Somebody else's checklist may become this type's bar, under three conditions.** Written
+definitions of done exist for most crafts and are better than what a project derives from memory —
+security, accessibility, performance, testing, editorial. **Adopt one when all three hold**: every
+item names the command or the observation that produces its verdict · the bar is for a kind of work
+this project actually ships · and the copy is **dated and attributed at its licence**, so a later
+reader can tell an inherited claim from a measured one. **Three things it must not become.** It is
+not the project's evidence: passing a borrowed list is `cited`, never `measured`. It is not the sole
+gate for work whose failure mode its author never met. And it is not edited down to pass — a bar
+loosened to fit the work is the work grading itself ([`checking.md`](checking.md) — loosening is loud). **An
+imported number without its rationale is judgement wearing a table's clothes**, which is the most
+common thing wrong with a checklist that looks authoritative.
+
 **Research comes before the ask, so the defaults offered are real.** For an unfamiliar craft the
 recommended bars arrive **sourced from the craft's own standards**: empty options hand the
 research to the owner, and researched silence guesses their taste — the wave does neither. The
