@@ -153,8 +153,16 @@ def parse_pipeline(text: str):
                     v = v.strip("\"'")
                 p["gates"][edge][k] = v
     # an inline ladder — `build -> review -> accept` — is a pipeline too (type files hold these)
+    # **And it is normally written with the corpus's own glyph, which this did not read.** The
+    # per-line loop above normalises `→` into a local variable; `body` itself never was, so
+    # `build → review → accept` — the exact line `templates/TYPE-template.md` asked projects to
+    # write for as long as it existed — matched nothing and the whole file parsed to None. Measured
+    # 2026-09-17 on a live project: both of its type files, both invisible, both silently falling
+    # back to the stock ladder. Same defect as the gates one documented ten lines above, in the one
+    # place the repair did not reach — and it fails by finding nothing, which reads like a project
+    # that simply has no ladder.
     if not p["stages"]:
-        m = re.search(r"^([\w-]+(?:\s*->\s*[\w-]+)+)\s*$", body, re.M)
+        m = re.search(r"^([\w-]+(?:\s*->\s*[\w-]+)+)\s*$", body.replace("→", "->"), re.M)
         if m:
             p["stages"] = [x.strip() for x in re.split(r"->", m.group(1))]
     if p["stages"] and not p["terminal"]:

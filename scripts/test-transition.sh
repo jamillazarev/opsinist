@@ -245,5 +245,21 @@ printf '# T-LO — a thing\n\n**Status**: draft\n**Assignee**: worker-bob\n**Pip
   && ok || bad "--check-ladder --strict passed an ungated terminal edge"
 cd "$T"
 
+# ── the inline ladder, written the way the corpus writes it ────────────────────────────────────
+# `templates/TYPE-template.md` asked for `build → review → accept` on its own line, and the parser
+# normalised the glyph in a local variable the inline-ladder regex never saw — so every type file
+# written as instructed parsed to None and fell back to stock, silently. Measured 2026-09-17 on a
+# live project: both of its type files, both invisible. Same defect as the gates one repaired
+# earlier, in the one place that repair did not reach.
+mkdir -p "$T/glyph/_ops/process/types" "$T/glyph/_ops/tasks" && cd "$T/glyph"
+git init -q . && git config user.email t@fixture.test && git config user.name T
+printf '# feature\n\n## Pipeline\n\nbuild → review → accept\n' > _ops/process/types/feature.md
+printf '# T-GL — a thing\n\n**Type**: feature · **Status**: build\n**Assignee**: ui\n\n## History\n' > _ops/tasks/T-GL.md
+[ "$(run _ops/tasks/T-GL.md review --by ui)" = 0 ] && grep -q 'type feature' "$T/out" \
+  && ok || bad "a ladder written with the corpus's own glyph was not read as this task's ladder"
+[ "$(run --check-ladder _ops/process/types/feature.md)" = 0 ] && ! grep -q 'no ladder found' "$T/out" \
+  && ok || bad "--check-ladder reported no ladder in a file that plainly declares one"
+cd "$T"
+
 echo "transition: $pass passed, $fail failed"
 exit "$fail"

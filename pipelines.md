@@ -132,6 +132,12 @@ had written no pipeline file and therefore ran on exactly this: **four accepted 
 with no review evidence of any kind**. §11 of the guard catches an author signing their own
 sign-off; nothing asked for a sign-off at all.
 
+**And until 2026-09-17 a type file written the way the template asked was not read at all**: the
+inline ladder was matched against text whose `→` had never been normalised, so the file parsed to
+nothing and the task fell back to stock without a word — measured on a live project, both of its
+type files invisible ([`facts.md`](facts.md) 273). Fixed; the consequence for a project upgrading is that its own
+ladder starts being obeyed, which is why the gate below is checked when the file is written.
+
 **A ladder the project writes itself is held to the same thing, at the commit that writes it**: an
 added `_ops/pipelines/*.md` or `_ops/process/types/*.md` whose terminal stage can be reached with no
 `review_by` on any edge into it **is refused**, with the line to add. **An existing ladder is

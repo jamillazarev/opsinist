@@ -58,7 +58,7 @@ neither `_ops/skills/` nor a register row**, and the row is written as a link wh
 to link to, which is what puts the edge in the graph. Suites: `test-guard-status.sh` **14/14** ·
 `test-skills-attached.sh` **11/11** ·
 `test-task-shape.sh` **11/11** · `test-assignee-exists.sh` **15/15** · `test-record-moves.sh`
-**11/11** · `test-transition.sh` **31/31**, each with code mutants — including the one that matters
+**11/11** · `test-transition.sh` **33/33**, each with code mutants — including the one that matters
 most here, the record narrowed back to tasks and runs, which would make the guard's first act on a
 fresh project a refusal of the commit after its own installation.
 
@@ -186,6 +186,17 @@ runtime it ran in beside the model. **Antigravity's questions are recorded as ow
 (2026-09-16), which matches the 2026-08-15 measurement of the same failure. The asymmetry is the
 reason the row exists: a question asked as prose still gets an answer, it is just a worse one, and
 nobody notices that anything degraded.
+
+**A type file written the way the template asked was not being read at all.** `parse_pipeline`
+normalised the corpus's own arrow into a local variable and the inline-ladder search kept reading
+the original, so `build → review → accept` — the exact line `templates/TYPE-template.md` asked every
+project to write — matched nothing, the file parsed to `None`, and the task fell back to the stock
+ladder in silence. Measured 2026-09-17 on a live project: **both of its type files invisible**, with
+`--check-ladder` reporting *no ladder found* about files that plainly declare one. The same defect
+had been found and repaired for gates ten lines above in the same function; this is the place that
+repair did not reach, and **it fails by finding nothing**, which reads exactly like a project that
+never wrote a ladder. Fixed, with both cases in the suite. For a project upgrading, the visible
+consequence is that its own ladder starts being obeyed.
 
 **And design work arrives with candidate references instead of asking for them.** `visual.md` now
 says an advisor proposes three or four named examples out of the catalogue with a line each on what
