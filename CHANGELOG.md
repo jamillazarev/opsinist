@@ -453,9 +453,28 @@ Formbricks licence finding twice in ten lines — plus a justification repeated 
 itself. The decline is written into `facts.md`'s own header: eight new entries repeat their
 chapter's measurement **by design**, because a line that pointed at a chapter would be unquotable,
 which is this file's only job. A chapter holds the rule; this file holds the sentence. **A round
-carrying a `not completed` has not reported clean, which is the condition the tag waits on** — and
-what is owed now is named exactly: **the deletion and cold-read halves of the third round**, which
-have not run, and then a round over whatever these five repairs caused.
+carrying a `not completed` has not reported clean, which is the condition the tag waits on.**
+
+**Then both halves ran, and between them they found twelve more.** The **cold reader** — given only
+what a new user reads, and not allowed to know anything else — caught the release stating its own
+worst news abstractly: *"the audit gate does not reach it"* appeared in three files and **never
+once as a consequence**, so `INSTALL.md` now names the three refusals that stop happening under a
+runtime whose hooks do not load. It also caught `~/.gemini/config/plugins/` sitting two rows above
+*"Gemini CLI no longer exists"* with nothing saying that directory is Google's and not the dead
+CLI's; a README table using a word its own legend does not define; and — the sharpest — **the
+answer to the memory study reading as special pleading**: a measured 28.7-point recall gap was met
+with a restatement of the very design choice the study had measured as worse. The gap is left
+standing now, and `facts.md` 279 no longer claims the study's file arm *was* this system. It is a
+relative: that arm recalled by grep. **And the failure it names got a situation of its own**, which
+this repository requires of every mechanic and had not given the one about its own memory.
+
+The **deletion lens** counted the same `agy plugin validate` output quoted in **seven** places and
+the study's figures in three. Each has one home now and the rest cite it; four code comments that
+retold the changelog's story at changelog length became pointers; `transition.py` explained one fix
+at both ends of one function; and `migrate-layout.py` claimed to be *"the only place the reason is
+written"* while two other files carried it — a claim made false by the cluster it sat in.
+
+**Rounds one, two and three reported; the fourth is what these twelve repairs now owe.**
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
