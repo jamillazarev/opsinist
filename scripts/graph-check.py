@@ -26,7 +26,7 @@ Exit 0 when nothing is broken — no phantom targets, nothing escaping the repos
 space. Exit 1 otherwise, so a health sweep can read the code and a person can read the lines. It
 writes nothing, anywhere.
 """
-import argparse, json, os, re, subprocess, sys
+import argparse, importlib, json, os, re, subprocess, sys
 from urllib.parse import unquote
 
 # **The destination may contain a space, and a pattern that stops at whitespace can never see
@@ -123,62 +123,42 @@ def classify(root, rel, target, files):
     return "phantom", as_rel
 
 
-ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
-ID = r"[A-Z]{1,2}-[%s]{6}" % ALPHABET
-MASK = re.compile(r"!?\[(?:[^\[\]]|\[[^\]]*\])*\]\([^)]*\)|<https?://[^>]+>|<!--.*?-->")
-PERSON = re.compile(r"^(?![ ]{4}|\t)\s*[-*]?\s*[*`_]*(?:Assignee|Role|Owner|Reviewer|Worker)"
-                    r"[*`_]*\s*:\s*([^·|\n]+?)\s*$", re.I)
-# every reader consults this AFTER `norm`, which turns "-" and "—" into "" — already a member.
-# A deletion lens found the two sets disagreeing about which of the dead entries to carry,
-# which is proof nobody could tell: 2026-09-18.
-OPEN = {"none", "unassigned", "nobody", "tbd", "unknown", ""}
-
-
-def norm(name):
-    name = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", name)
-    return " ".join("".join(c if c.isalnum() else " " for c in name.lower()).split())
-
-
 def missing_edges(root, notes, files):
     """Mentions that would be edges — **the number that turns "0 edges" from a shrug into a
     finding.** A graph with no lines is not a clean graph; it is the state a live project was
-    measured in, and a report that called that *whole* would be the checker lying politely."""
-    ents, people = {}, {}
-    for p in files:
-        m = re.match(r"^(%s)(?:-[^/]*)?\.md$" % ID, os.path.basename(p))
-        if m:
-            ents.setdefault(m.group(1), []).append(p)
-        if os.path.dirname(p) in ("_ops/roles", "_ops/teams", "_ops/panels") and p.endswith(".md"):
-            people.setdefault(norm(os.path.basename(p)[:-3]), []).append(p)
-    ents = {k: v[0] for k, v in ents.items() if len(v) == 1}
-    people = {k: v[0] for k, v in people.items() if len(v) == 1}
-    found = 0
+    measured in, and a report that called that *whole* would be the checker lying politely.
+
+    **The count is the door's own answer, not a second derivation of it.** This was a copy of
+    `link-ids.py`'s readers — its id pattern, its mask, its person field, its fence and History
+    skipping, its one-file-per-name rule — and two implementations of *what counts as a mention*
+    drift by construction: the report would then name a number the door disagrees with, and the
+    remedy it prints (`link-ids.py --write`) would not move it. So the door is asked. Its `process`
+    with `write=False` returns exactly the mentions it would rewrite, which is the definition of
+    this number. Fourth reader folded into one in this release, after two ladder readers, two
+    copies of one escape, and the task door's own copy of this same resolver (2026-09-18).
+
+    **`None` when the door cannot be loaded**, and the report says *not measured* rather than
+    printing a zero it did not earn ([`PATTERNS.md`](../PATTERNS.md) §16-bis — an honest empty
+    state is a real answer)."""
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        door = importlib.import_module("link-ids")      # the filename is not an identifier
+    except Exception:
+        return None
+    finally:
+        if sys.path and sys.path[0] == os.path.dirname(os.path.abspath(__file__)):
+            sys.path.pop(0)
+    paths = sorted(files)
+    ents, people = door.entity_files(paths), door.people_files(paths)
+    mds = set(p for p in paths if p.endswith(".md"))
+    found = {"id": 0, "person": 0, "path": 0}
     for rel in notes:
-        own = re.match(r"^(%s)" % ID, os.path.basename(rel))
-        own = own.group(1) if own else None
-        fenced = history = False
         try:
-            body = open(os.path.join(root, rel), encoding="utf-8", errors="replace").read()
-        except OSError:
+            hits = door.process(root, rel, ents, mds, people, False)
+        except Exception:                               # unreadable or undecodable: not a mention
             continue
-        for line in body.split("\n"):
-            st = line.strip()
-            if FENCE.match(line):
-                fenced = not fenced
-                continue
-            if st.startswith("#"):
-                history = re.match(r"^##\s+History\s*$", st, re.I) is not None
-                continue
-            if fenced or history or re.search(r"\*\*task\*\*|^\s*task\s*:", line, re.I):
-                continue
-            masked = MASK.sub(lambda m: "\0" * len(m.group(0)), line)
-            for m in re.finditer(r"`(%s)`|(?<![A-Za-z0-9/\[_-])(%s)(?![A-Za-z0-9_-])" % (ID, ID), masked):
-                i = m.group(1) or m.group(2)
-                if i != own and i in ents:
-                    found += 1
-            pm = PERSON.match(masked)
-            if pm and norm(pm.group(1)) not in OPEN and norm(pm.group(1)) in people:
-                found += 1
+        for kind, _p, _l, _w in hits:
+            found[kind] = found.get(kind, 0) + 1
     return found
 
 
@@ -215,10 +195,18 @@ def main(argv):
 
     linked = {n for e in edges for n in e}
     orphans = [n for n in notes if n not in linked]
-    could = missing_edges(root, notes, files)
+    kinds = missing_edges(root, notes, files)
+    # **The two halves of this number are not the same finding**, because §27 is not one rule: a
+    # name or an id written as plain text is REFUSED, and a backticked path is only warned about,
+    # since a shipped template's prose names project files on purpose. Summing them would put a
+    # chapter's own citations into a headline about missing edges — measured on this corpus,
+    # 2026-09-18: 227 path mentions and not one id or name.
+    named = None if kinds is None else kinds.get("id", 0) + kinds.get("person", 0)
+    could = None if kinds is None else kinds.get("path", 0)
     if a.json:
         print(json.dumps({"notes": len(notes), "edges": len(edges), "orphans": len(orphans),
-                          "mentions_that_could_be_edges": could,
+                          "mentions_that_could_be_edges": named,
+                          "path_mentions_that_could_be_links": could,
                           "attachments": attachments, "counts": counts,
                           "broken": [{"file": f, "line": l, "target": t, "kind": k}
                                      for f, l, t, k, _ in broken]}, indent=2))
@@ -252,25 +240,33 @@ def main(argv):
         print("  … and %d more" % (len(broken) - 20))
     if orphans and len(orphans) <= 12:
         print("  · orphans: %s" % ", ".join(orphans))
+    if kinds is None:
+        print("  · mentions that would be edges: NOT MEASURED — `scripts/link-ids.py` did not load "
+              "beside this script, and the honest answer to a question nobody asked is not zero")
+    if named:
+        print("  ✗ %d id%s or name%s already name%s something here and draw%s no edge — the door "
+              "rewrites them: the skill's `scripts/link-ids.py --write`, and the guard's §27 "
+              "refuses new ones"
+              % (named, "" if named == 1 else "s", "" if named == 1 else "s",
+                 "s" if named == 1 else "", "s" if named == 1 else ""))
     if could:
-        print("  ✗ %d mention%s would be %s edge%s — the door rewrites them: the skill's "
-              "`scripts/link-ids.py --write`, and the guard's §27 refuses new ones"
-              % (could, "" if could == 1 else "s", "another" if edges else "the first",
-                 "" if could == 1 else "s"))
+        print("  ! %d backticked path%s would be %s — the same door writes them, and §27 only "
+              "warns here: prose naming a project file on purpose is legitimate"
+              % (could, "" if could == 1 else "s", "a link" if could == 1 else "links"))
     # **No lines is not a clean graph.** Reported as whole, this script's first run on a live
     # project of nineteen notes and zero edges said *the graph is whole* — true about links and
     # false about everything the picture is for. Measured 2026-09-18, in its own first output.
     scattered = len(notes) > 1 and not edges
-    verdict = ("the graph is whole" if not (broken or could or scattered) else
+    verdict = ("the graph is whole" if not (broken or named or scattered) else
                "; ".join(filter(None, [
                    "%d link%s would draw a phantom or point outside the vault"
                    % (len(broken), "" if len(broken) == 1 else "s") if broken else "",
                    "**no edges at all: %d notes and not one line between them**" % len(notes)
                    if scattered else "",
                    "%d edge%s missing where a mention already names the thing"
-                   % (could, "" if could == 1 else "s") if could else ""])))
+                   % (named, "" if named == 1 else "s") if named else ""])))
     print("  %s" % verdict)
-    return 1 if (broken or could or scattered) else 0
+    return 1 if (broken or named or scattered) else 0
 
 
 if __name__ == "__main__":

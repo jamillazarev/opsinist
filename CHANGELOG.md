@@ -197,17 +197,24 @@ link checker all fail on identically. `test-links-hard.sh` **18/18**, four mutan
 `scripts/graph-check.py` reads a project and answers: notes · note-to-note edges · orphans ·
 attachment links · how many links resolve **both** ways, only relative to their own file, or only
 from the vault root · every phantom target, unencoded space and path climbing out of the
-repository · and **how many mentions are edges waiting to happen**. Three facts from Obsidian's own
+repository · and **how many mentions are edges waiting to happen, split by what the guard does
+with each kind** — an id or a name written as plain text is refused by §27, a backticked path only
+warned about, and summing the two put this corpus's own citations into a headline about missing
+edges (227 path mentions here and not one id or name, measured 2026-09-18). That number is the
+door's own answer now rather than a second derivation of it: `link-ids.py` says which mentions it
+would rewrite, `graph-check.py` counts them, and when the door cannot be loaded the report says
+**NOT MEASURED** instead of printing a zero it never earned. Three facts from Obsidian's own
 help decide those tests (read 2026-09-18): Markdown links are resolved, a destination **must be
 URL-encoded**, and **a link to a file that does not exist still becomes a node** — its graph filter
 *Existing files only* exists for exactly that reason, which is why a rotted link is worse than a
 bare name. **What the help does not document is how a relative destination resolves**, so the script
 does not assume: it tries both readings and says which links survive each. Run on this corpus:
-**118 notes, 553 edges, 6 orphans, the relative form throughout and nothing vault-absolute-only.**
+**118 notes, 559 edges, 6 orphans, the relative form throughout and nothing vault-absolute-only** (`--all`, which reads every markdown file; the default reads `_ops/` and the root and answers 53 notes, 511 edges, no orphans).
 Run on the measured project: **19 notes, 0 edges, 19 orphans.** Its own first version called that
 *"the graph is whole"* — true about links and false about everything a graph is for — so **no edges
 is now the finding**, and the mutant that says it again is in the suite. `test-graph-check.sh`
-**19/19**.
+**20/20**, its History mutant now landing in `link-ids.py`, because a mutant belongs where the rule
+lives and that rule moved.
 
 **A role the runtime cannot see is a document, not a worker — §28.** Measured 2026-09-18 on the same
 project: three roles in `_ops/roles/` and **no `.claude/` directory at all**, so every bar, skill and
@@ -372,6 +379,15 @@ figure of twenty-eight started printing as a warning on every preflight. It coun
 check found was the real error the blind one had covered: `PATTERNS.md`'s own opening line still
 said *twenty-seven*. **A check that cries wolf is a check nobody reads** — this corpus wrote that
 line about `check-releases.sh` and then shipped a release ignoring one of its own warnings.
+
+**And the round over *that* repair is `not completed` too — four lenses, four deaths, same
+limit.** Adversarial, contradiction, deletion and cold-read were launched over the repair commit
+on the smaller model that had just worked, and all four died mid-read: the ninth to twelfth lens
+lost this way. Two got far enough to print a line of progress — one had run the structure suite,
+one had read a refusal message — and **a partial reading is not a report**, so nothing from them
+is counted here. What is written down instead is the pattern, because it is now measured five
+times across four releases: **a lens round is the most expensive thing this repository does, and
+budget is the thing it runs out of, not attention.** The round is owed, and the tag waits on it.
 
 **The deletion lens on the prose landed six cuts and one decline.** Five were rules restated
 instead of cited — `choosing-tools.md` re-deriving PATTERNS §20, `cost.md` §4, `grouping.md` §6,

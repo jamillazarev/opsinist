@@ -128,12 +128,22 @@ def rewrite_line(line, here, ents, mds, own):
         rel = os.path.relpath(target, os.path.dirname(here) or ".").replace(os.sep, "/")
         out += [line[last:m.start()], "[%s](%s)" % (text, rel)]
         last = m.end()
-        found.append(ident or path)
+        # **The kind travels with the hit**, because the report that counts these has to say which
+        # ones the guard REFUSES and which it only warns about — §27's own asymmetry. It used to
+        # re-derive them from a copy of this function, and two readers of *what counts as a
+        # mention* drift by construction (2026-09-18).
+        found.append(("id", ident) if ident else ("path", path))
     out.append(line[last:])
     return "".join(out), found
 
 
 def process(root, path, ents, mds, people, write):
+    """One file's mentions that would become links, as `(kind, path, line, what)` — `kind` is
+    `person`, `id` or `path`, which is the distinction **§27 makes and this is the only place that
+    knows**: an id or a name is refused, a backticked path is warned about, because a shipped
+    template's prose names project files on purpose. With `write=False` this writes nothing and the
+    list IS the answer to *how many mentions would be edges* — `graph-check.py` asks it rather than
+    deriving it a second time."""
     lines = open(os.path.join(root, path), encoding="utf-8").read().split("\n")
     own = re.match(r"^(%s)" % ID, os.path.basename(path))
     own = own.group(1) if own else None
@@ -160,11 +170,11 @@ def process(root, path, ents, mds, people, write):
             continue
         line, who = rewrite_person(line, path, people)
         if who:
-            hits.append("%s:%d: %s" % (path, i + 1, who))
+            hits.append(("person", path, i + 1, who))
             lines[i] = line
         new, found = rewrite_line(line, path, ents, mds, own)
         if found:
-            hits += ["%s:%d: %s" % (path, i + 1, f) for f in found]
+            hits += [(kind, path, i + 1, what) for kind, what in found]
             lines[i] = new
     if write and hits:
         open(os.path.join(root, path), "w", encoding="utf-8").write("\n".join(lines))
@@ -183,13 +193,13 @@ def main(argv):
     for p in paths:
         if p.endswith(".md") and p.startswith("_ops/") and not p.startswith(SKIP):
             hits += process(root, p, ents, mds, people, write)
-    files = len({h.split(":")[0] for h in hits})
+    files = len({h[1] for h in hits})
     if write:
         print("linked %d mention%s in %d file%s" % (len(hits), "" if len(hits) == 1 else "s",
                                                     files, "" if files == 1 else "s"))
         return 0
-    for h in hits:
-        print(h)
+    for _kind, _path, _line, _what in hits:
+        print("%s:%d: %s" % (_path, _line, _what))
     print("%d mention%s in %d file%s could be links%s" % (
         len(hits), "" if len(hits) == 1 else "s", files, "" if files == 1 else "s",
         " — the skill's `scripts/link-ids.py --write`, with the owner's word" if hits else ""))

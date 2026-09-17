@@ -91,7 +91,15 @@ def role_link(root, where, name):
     try:
         sys.path.insert(0, HERE)
         mod = importlib.import_module("link-ids")       # the filename is not an identifier
-    except Exception:
+    except Exception as exc:
+        # **Said out loud, because the silent version writes a file the guard then refuses.**
+        # A plain name resolving to exactly one role is precisely what §27 refuses, so a resolver
+        # that stopped loading — for any reason, this being the only place that would notice —
+        # would hand the writer a refusal with no way to see where it came from.
+        print("could not load the resolver beside %s (%s) — the assignee is written as plain text, "
+              "and the guard's §27 will refuse it if it names a role this project has. Run the "
+              "skill's `scripts/link-ids.py <project> --write` on the file afterwards."
+              % (HERE, exc), file=sys.stderr)
         return name
     finally:
         if sys.path and sys.path[0] == HERE:
