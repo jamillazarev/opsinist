@@ -41,6 +41,12 @@ sits with the gates.
 **A role may not be in two groups of the same kind.** Ambiguous inheritance is worse than
 duplication: two parents mean two guides, two skill sets and two background colours.
 
+**The file has a shape → [`templates/GROUP-template.md`](templates/GROUP-template.md)** — kind, routing, aggregation, the
+members as **links** so the graph carries the edge between a group and the roles in it, and what
+the group overrides. It had none until 2026-09-17, which is the same hole tasks were in before
+their template was enforced: a directory named in the layout and no form to copy means every
+project invents one, and the two inventions disagree about the field that matters.
+
 **These are not the harness's teams.** Ours are durable groups in files, invisible to the
 runtime; the harness's are the live subagent sessions one session spawns, deleted when it ends. Our routing
 is read by the advisor, which then spawns a worker — so **our team structure costs nothing at

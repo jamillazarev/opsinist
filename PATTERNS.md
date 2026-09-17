@@ -117,6 +117,18 @@ named separately.
 *Why:* a gate believed in but not enforced is worse than a stated rule, because it buys false
 confidence. The four lenses are the compensating control for everything `prose-only`.
 
+**16-bis · A ranked answer declares its floor, and its empty state is a real answer.** Anything
+that selects — the top findings, the candidates, the panel's themes, the board's *what is stuck* —
+names an **absolute** bar, not a relative one, and says **nothing cleared it** when nothing did,
+together with the closest thing that missed and by how much. **A relative bar degrades with the
+pool**, which is precisely the failure it is meant to prevent: asked for the best of five bad
+options, a system with no floor returns the least bad one and the reader cannot tell the difference.
+*Applies to:* research findings · candidate tools · audience themes · audit findings · a status
+answer · anything a model ranks.
+*Why:* the honest empty state is the whole value, and it is the first thing dropped — measured in
+the wild on a research engine that makes *"nothing solid"* a first-class result with a named
+sub-floor runner-up (2026-09-17).
+
 **17 · Three-way compare on drift.** Theirs changed · ours changed · both — **surfaced with
 options**, never silently merged.
 *Applies to:* external resources · tracker checkout · generated-block hashes · migration · a

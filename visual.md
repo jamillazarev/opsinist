@@ -107,10 +107,45 @@ flowchart LR
   N -. never .-> T
 ```
 
-**How this is meant to be used, in order**: the owner names a style, or points at something · the
+**How this is meant to be used, in order**: the owner names a style, **or sends a picture** · the
 name becomes search terms in the galleries ([`catalogue.md`](catalogue.md)) · **three or four references come back with
 one line each on what carries the feeling**, plus the anti-references · the carriers are extracted
-into tokens in `_ops/design-system/`. **The name is never the deliverable.** Two projects saying
+into tokens in `_ops/design-system/`. **The name is never the deliverable.**
+
+**Four rules make this a mechanic instead of a mood**, each read off somebody else's working skill
+(2026-09-17, sources in [`catalogue.md`](catalogue.md)):
+
+1. **A look ships its own falsifier.** Beside what it is, write what its presence forbids — *Swiss
+   breaks if warm paper, a serif display face, grain or centred typography appears.* A style
+   description with no `Breaks if` line cannot be wrong, and a description that cannot be wrong
+   cannot be checked against the tokens a project already has.
+2. **The name resolves to tokens, and the tokens still face the same gates as everything else.**
+   Contrast, focus order, target size: **taste never overrides accessibility**, and the three
+   depth-and-material looks are where that bill arrives.
+3. **A style read names what it rejected.** *"Clean"*, *"modern"*, *"minimalist"*, *"elegant"* are
+   not findings — they are the words people reach for instead of one. A read is accepted when it
+   cites the carriers it measured, the plausible alternative it turned down, and **one restraint
+   finding**: something comparable work does that this deliberately does not.
+4. **Breadth is not fidelity.** A published vocabulary was measured carrying a `glassmorphism` row
+   whose only value was a primary colour — no blur, no translucency, the two carriers that define
+   it. **A row that names a look and misses its carrier is worse than no row**, because it reads as
+   an answer.
+
+**A picture is evidence; the name is a citation.** When the owner sends a screenshot rather than a
+word, the order does not change and the first step is not naming: measure the carriers — palette by
+role, type classification, radius, shadow construction, spacing base, motion — write them as tokens,
+and *then* reach for a name, with a confidence marker and the carriers that did not match. Eyes win
+over the DOM where the two disagree.
+
+**One file is the source, every machine format is generated from it.** The carriers live once, in
+`_ops/design-system/`, in the **[DTCG](https://www.designtokens.org/tr/drafts/format/) token
+shape** (`$value` + `$type`, aliases, composite shadow and typography) — and CSS variables, a
+Tailwind config, a deck theme and a social template are **emitters**, never second copies. The
+format's own `$extensions` clause is what makes this survive: a tool must preserve extension data it
+does not understand, so a project's style provenance — which reference, which carriers matched, what
+was rejected — rides inside the tokens rather than in a parallel document. **And sync is a check,
+not a promise**: a component citing `var(--…)` that the token file does not carry is a defect a
+script can find, which is the only version of *"keep the brand consistent"* that ever holds. Two projects saying
 `Minimalism` mean different things, and the tokens are where the difference stops being an
 argument — which is the same rule the catalogue's own *method, not a baked-in taxonomy* line has
 always stated, with a vocabulary attached so nobody has to bluff.

@@ -49,6 +49,24 @@ flowchart TD
   B -- yes --> F[REFUSED · naming that commit<br/>open a task, or write the run record]
 ```
 
+**What went out is a record, not a memory.** A gate that asks and is answered leaves nothing
+behind unless somebody writes it, and *"did we send them the November version or the one with the
+pricing fixed?"* is a question the tree should answer. **So an approved outward act commits a line
+naming the recipient, the date and the commit the sent thing was built from** — in the task's
+History for a one-off, in `_ops/threads/<counterpart>.md` for anyone we correspond with more than
+once. **The share is a first-class object**, which is what document-sharing products get right and
+attachments get wrong: a file leaves once and is read for months, and without the record the only
+proof of which version they hold is somebody's memory of a conversation.
+
+**Where the runtime can hold it, a dispatching role gets no write and no outward tool at all.**
+The advisor is the session and no allowlist reaches it — that is why §24 exists — but **a role
+with `May dispatch: yes` is ordinary**, and the honest configuration for one is: it plans, it
+routes, it reads; **the writes and the sends live on the leaves it dispatches**. That is the same
+sentence as *a gate is a property of the action* expressed as tool scope instead of as conscience,
+and it is checkable: a lint over the role files that asserts no dispatcher carries a write tool.
+(Read off `anthropics/claude-for-legal` 2026-09-17, whose `lint-tool-scope.py` asserts exactly
+this of its orchestrator — writes and external channels only on leaf agents.)
+
 **A blanket "yes" covers only the ungated.** When the owner approves a batch in one word, that
 approval reaches the ordinary work in it and stops at the four kinds.
 

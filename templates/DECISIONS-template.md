@@ -9,6 +9,14 @@ passed over, a design taken and later reversed, an experiment that failed. **Wha
 current state (that's the spec, roadmap and guide) or a deferral with a revisit trigger
 (that's `LATER.md`).
 
+**Three clauses, and an entry needs all three** — hard to reverse · baffling to a newcomer without
+the context · **genuinely a trade-off**, with something real given up. Two out of three is a note in
+the task, not a line here. The bar exists because the opposite failure is the common one: a
+decisions file that records every choice becomes a log nobody reads, and then the one entry that
+mattered is buried among forty that did not. **The entry is written when the decision crystallises,
+as a by-product of the argument** — never as a form somebody fills in afterwards, which is how the
+*Because* line ends up saying "it felt cleaner".
+
 ---
 
 ## {{YYYY-MM-DD}} — {{the decision, in one line}}

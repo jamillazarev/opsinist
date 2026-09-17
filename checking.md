@@ -30,6 +30,15 @@ therefore discovered at the worst possible time.
 | **the board against the tasks** — the skill's `scripts/board.py --check` | a derived page that has drifted into a second list, read as current → [`grouping.md`](grouping.md) |
 | **the guards themselves** — and whether the hook is wired at all: the skill's `scripts/guard-status.py` | *a guard that no longer matches reality passes silently* — and one copied but never wired never ran at all, while its presence read as protection |
 
+**A check that records may not fail the thing it is recording.** Bookkeeping — writing the
+evidence line, stamping the run, updating the ledger — sits *around* a real check, and when the
+wrapper breaks it must warn and never turn a green test red. **This corpus's oldest family of bugs
+is the exit code lost in transit** ([`CLAUDE.md`](CLAUDE.md) machine notes: a pipe eating it, `pipefail` resurrecting
+it, a tool that reports failures and exits 0 anyway); the same family from the other side is a
+wrapper that *invents* a failure the work did not have, and it is worse, because the response to it
+is to switch the wrapper off. Stated as a law by `gstack`'s evidence tooling, 2026-09-17: an
+evidence wrapper never turns a green test red.
+
 That last row is the one people forget. **A check that has stopped checking anything is worse than
 no check**, because its green is read as evidence. **And the file is not the guard — the hook is.**
 Measured on a live project, 2026-09-16: the guard sat in `_ops/scripts/`, one version behind, and

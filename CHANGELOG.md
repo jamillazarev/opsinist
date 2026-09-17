@@ -134,7 +134,7 @@ the paths do not exist), evidence, the names a project also carries (`CLAUDE.md`
 of a file every session pays for. **In a project, `scripts/link-ids.py`** does the same for ids and
 `_ops/` paths named in passing and never touches a declaration: fed a linked `**Task**` cell, the
 guard's `record_task` returned the slug as the id. A separate, live project — not this corpus — had
-298 links in `_ops/` and 273 mentions that could have been. `test-link-names.sh` **26/26** · `test-link-ids.sh` **21/21**, the
+298 links in `_ops/` and 273 mentions that could have been. `test-link-names.sh` **26/26** · `test-link-ids.sh` **26/26**, the
 second running the project's own guard over the rewritten tree.
 
 **ck, a local search that ranks keywords and meaning together, for when grep keeps missing because
@@ -144,6 +144,20 @@ The shelf gained sandboxing (bubblewrap, firejail, gVisor, Firecracker), pinned 
 asdf, devbox), search by meaning (ck, qmd), Podman and Open Notebook; the search row's line about a
 stale index was wrong for ck, which refreshes its index before every search, and now names the real
 cost.
+
+**A person named in a task is now a link, which is the edge a project misses most.**
+`scripts/link-ids.py` linked ids and paths; it now also links the field that names somebody —
+`**Assignee**: Web Engineer` becomes a link into `_ops/roles/` — so the roster and the work are one
+neighbourhood in the graph instead of two, and *who is this and where do I read about them* stops
+being a search. **The trap that came with it is the one this corpus already paid for once**: a
+declaration that becomes a link stops being parseable, so the door, the board and the guard's
+self-review check all **un-link before they read** — without that, `**Assignee**: [Web Engineer](…)`
+made the rule *a worker may not accept their own work* compare two things that can never be equal.
+Both halves are in the suite, with the mutant that reads the field raw.
+
+**Teams and panels have a shape now** — `templates/GROUP-template.md`: kind, routing rule,
+aggregation, members as links, and what the group overrides. `_ops/teams/` had been named in the
+layout since 0.2.0 with no form to copy, which is the hole tasks were in before §23.
 
 **A product with no map was never told it had none.** `mapping.md` has always said the map is
 *seeded, never commissioned*, and the guard only ever checked a map that already existed — so the
@@ -166,6 +180,32 @@ the references and the tokens are still what gets agreed.** The catalogue gains
 All-Access, **no licence text on its pricing page** — read it inside the purchase) and
 **Scrapegraph-ai** for turning a site into structured data, with scraping named as the outward act
 it is.
+
+**Five working skills and six products were read, and what came back are rules rather than rows.**
+From design skills built by other people: **a look ships its own falsifier** (*Swiss breaks if warm
+paper, a serif display, grain or centred type appears*) · **the name resolves to tokens and the
+tokens still face the contrast gate** — taste never overrides accessibility · **a style read names
+what it rejected**, with *clean · modern · minimalist · elegant* refused as findings · and
+**breadth is not fidelity**, measured on a published vocabulary whose `glassmorphism` row carries a
+primary colour and neither blur nor translucency. A picture is now a legitimate way to ask: measure
+the carriers, write the tokens, then reach for a name with a confidence marker. **The tokens are
+written in the DTCG shape**, whose `$extensions` clause is what lets a project's style provenance
+ride inside them instead of in a parallel document, with Style Dictionary named as the export
+target and not as a dependency. From the products: **a total is computed by replay, never
+incremented in place** (metering's own idempotency rule, now in `cost.md` — a retried run must not
+bill twice) · **an approved outward act commits a share record** — recipient, date, and the commit
+the sent version was built from · **a register row declares what happens when the thing is absent**
+· **a skill hard-stops while its profile still holds a placeholder** rather than producing the
+average of its training · and **a dispatching role gets no write and no outward tool**, which is
+*the advisor is not exempt* expressed as tool scope. **An embeddable client also needs its own
+licence field**: one repository was measured carrying three licences, with the SDK you ship under a
+different one from the server you run and every governance feature in a proprietary directory.
+
+**The re-round reads the repair, not the range again.** Nine round attempts across two releases,
+five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
+repair commit, while the one re-round that read only that commit finished first time. So the
+re-round's input is the repair's diff with the range reachable for context, and the risk it trades
+away is written beside it. That closes a `LATER.md` entry at the release it named.
 
 **Verification, sharpened by someone else's measurement.** Boris Cherny's *"verification is
 probably the single most important thing people do not get right"* (2026-08) agrees with this

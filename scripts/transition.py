@@ -94,10 +94,22 @@ def field(text: str, *names):
         if not m:
             m = re.search(r"^(?![ ]{4}|\t)[ ]*" + n + r"\s*:\s*(.+)$", masked, re.I | re.M)
         if m:
-            v = m.group(1).strip()
+            v = unlink(m.group(1).strip())
             if v and "{{" not in v:
                 return v, m
     return None, None
+
+
+def unlink(v: str) -> str:
+    """`[Web Engineer](../roles/web_engineer.md)` is the same value as `Web Engineer`.
+
+    **A declaration that becomes a link stops being readable to whatever parses it** — measured
+    already on a run's `**Task**` cell, where a linked id returned the slug (`facts.md` 265), and
+    the same trap waits on `**Assignee**`: linked, the worker's name comes back as `[Web` and the
+    rule that a worker may not accept their own work compares two things that can never be equal.
+    So every reader of a person-field un-links first, and `link-ids.py` is free to make the edge
+    the graph needs."""
+    return re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", v).strip()
 
 
 def parse_pipeline(text: str):

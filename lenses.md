@@ -91,6 +91,17 @@ reviewing, it is the author's framing travelling with the work.)*
 **Findings are not votes.** The lenses report; the owner of the change decides, and a rejected
 finding is answered, not ignored — one line saying why.
 
+**The re-round reads the repair; the range is context, not the reading.** A round finds something,
+the repair lands, and the rule is that the round runs again over it — which has been read as *read
+the whole range again*, and that is what killed it. **Measured across 0.2.17 and 0.2.18: nine round
+attempts, five lost whole to the session limit** — and in 0.2.18 the sharpest finding of each
+re-round sat **in the latest repair commit**, while the one re-round that read only that commit (231
+lines against 688) completed on the first try. So the re-round's input is the repair's own diff,
+with the range available to open when a finding needs it. **The risk is named rather than
+hand-waved**: a defect a repair causes *outside* the lines it touched is what this trades away, and
+it is the reason the range stays reachable and the round still ends on a clean report over the
+repair rather than over a sample of it.
+
 **They run on this skill and on the user's project alike.** The corpus is not more fragile than
 the work; the same four questions catch the same four failures in a spec, a role's instructions
 or a pipeline change.

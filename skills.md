@@ -112,6 +112,15 @@ with the ones that apply**, and the rule an agent actually needed is the one tha
 
 **Attach with provenance** — source, version or commit, date screened, who approved.
 
+**A skill whose profile still carries an unfilled placeholder stops, rather than producing
+something generic.** An imported skill usually expects a project profile — the house style, the
+jurisdiction, the brand, the stack — and the failure is silent: with `{{…}}` still in it, the skill
+does not error, it produces the average of its training and everyone reads the output as *ours*.
+**Refusing is the cheaper failure**, and it is the same law a task file lives under: an unfilled
+field is a hole somebody can see, and the guard's §23 refuses one rather than guessing. (Measured in
+`anthropics/claude-for-legal` 2026-09-17, where every practice skill hard-stops while its profile
+contains `[PLACEHOLDER]`.)
+
 **Check the pool first.** Before searching outside, look at what the project already has: a pool
 skill is **already screened, already carries provenance, and is already paid for**. An outside one
 costs the full gate again. The order is about gates, not convenience.

@@ -470,16 +470,17 @@ answer, in a round that looked clean. The form this wants is the cut `Reads agai
 *the ladder*). **Revisit when** a fourth proxy verdict is caught, or the week has passed and these
 still reproduce. The cost is real: every finding would carry the line.
 
-## A lens round costs more than a session holds, and re-reading the whole range is why
+## ~~A lens round costs more than a session holds~~ — adopted 2026-09-17
 
-**Nine round attempts across two releases, five lost whole to the session limit** — 0.2.17 three of
-four, 0.2.18 two of five, each lens dying a line in. [`lenses.md`](lenses.md) says of the re-round's cost that
-*nothing here has measured that*; this is the measurement. **Every re-round re-read the full range**,
-yet in 0.2.18 the sharpest finding of each re-round sat in the latest repair commit — and the one
-re-round that read only that commit, 231 lines against 688, completed first time. **Rung 2,
-proposed, not adopted**: a re-round reads the latest repair and opens the range for context only.
-**Revisit when** the next release re-rounds; the risk to weigh is a defect a repair caused outside
-the lines it touched.
+**Nine round attempts across two releases, five lost whole to the session limit** — each lens dying
+a line in. Every re-round re-read the full range, yet in 0.2.18 the sharpest finding of each sat in
+the latest repair commit, and the one re-round that read only that commit — 231 lines against 688 —
+completed first time.
+**Adopted 2026-09-17**, at the release this entry named: [`lenses.md`](lenses.md) → *Running them* now says the
+re-round reads the repair's own diff with the range reachable for context, and the risk it trades
+away is written beside it. **Still open: the cost number** — no lens pass in either repository has
+been measured in tokens, so *one round per release* is a rule with an undeclared price, and the
+entry above holds that question.
 
 ---
 

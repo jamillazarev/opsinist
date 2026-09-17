@@ -73,6 +73,16 @@ the runbook links to it → [`skills.md`](skills.md).
 
 ## The register
 
+
+**Every row declares what happens when the thing is absent.** A register that says *what we use*
+and not *what we do without it* is a list of single points of failure written in a confident voice:
+the run that meets a dead API, an expired key or a machine that never had the CLI has to invent a
+fallback at the worst moment, and inventing one is how a task quietly produces something nobody
+asked for. **One clause per row** — *falls back to X · the task stops and asks · the step is
+skipped and said out loud* — and `not checked` is an honest value where nobody has tried.
+(Read off `anthropics/claude-for-legal`'s integrations table, 2026-09-17, which carries a fallback
+per row and is the first place this corpus has seen that done as a rule rather than a habit.)
+
 **It is the probe list for the health check, not documentation.** A tool missing from here is **a
 tool nobody checks, whose token nobody rotates, and whose breaking change surprises the team**.
 

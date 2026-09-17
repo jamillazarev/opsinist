@@ -1638,7 +1638,13 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
     # shape this project tells people to use.** Measured 2026-09-05 — 0 on the template's form,
     # 1 on `assigned: ui`. Third instance of the same class in one sweep, after §7 and §8, and
     # the reason the sweep was worth running: `facts.md` 254.
-    author=$(grep -ioE '^[[:space:]]*[*`_]*(assignee|assigned|author|worker)[*`_]*[[:space:]]*[: ][[:space:]]*[*`_]*@?[A-Za-z0-9._-]+' "$t" 2>/dev/null \
+    # **A linked name is the same name.** `link-ids.py` turns `**Assignee**: Web Engineer` into
+    # `[Web Engineer](../roles/web_engineer.md)` so the graph carries the edge — and this pattern,
+    # whose character class has no `[`, then extracted nothing and the whole comparison went blind.
+    # Same trap as a linked `**Task**` cell (`facts.md` 265): the declaration a reader parses must
+    # be un-linked before it is read, never left to the pattern to survive.
+    author=$(sed -E 's/\[([^]]*)\]\([^)]*\)/\1/g' "$t" 2>/dev/null \
+             | grep -ioE '^[[:space:]]*[*`_]*(assignee|assigned|author|worker)[*`_]*[[:space:]]*[: ][[:space:]]*[*`_]*@?[A-Za-z0-9._-]+' \
              | sed -E 's/.*[: ][[:space:]]*[*`_]*@?//' | head -1)
     # both greps are `-i`; comparing the results case-sensitively let `UI` review `ui`.
     [ -n "$who" ] && [ -n "$author" ] \

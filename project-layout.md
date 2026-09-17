@@ -47,8 +47,8 @@ your-project/
     tasks/              # flat; hierarchy is a field, not a folder
     specs/              # the spec rung's documents, unless a binding says otherwise
     roles/              # one file per role → .claude/agents/
-    teams/              # members · routing rule · aggregation
-    panels/             # who answers when you ask the audience
+    teams/              # members · routing rule · aggregation — from templates/GROUP-template.md
+    panels/             # who answers when you ask the audience — the same template, kind: panel
     pipelines/          # stages · gates on transitions · starts
     requests/           # open asks, each with its age
     threads/            # correspondence with anyone outside the team — one file per

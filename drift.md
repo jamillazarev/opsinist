@@ -66,6 +66,25 @@ normal. Wanting to track upstream is a **different, explicit choice**: an extern
 
 ---
 
+**A date is the cheap version of freshness, and a fingerprint is the honest one.** Everything in
+this system that can rot carries **the day it was checked**, and a date has one weakness that is
+structural rather than careless: **it does not know that the thing changed.** A measurement taken
+on Tuesday reads as good on Friday whether or not the code under it moved three times.
+
+**So where the thing measured is in the tree, the claim can carry the tree's own fingerprint
+instead** — a hash of the content it was measured against — and then it **degrades by itself**: the
+same content still committed keeps the claim fresh, and a file that changed, or a new untracked
+source appearing beside it, invalidates it without anyone deciding to be honest that morning. Read
+off `gstack`'s evidence ledger, 2026-09-17, which keys freshness to a working-tree content
+fingerprint rather than to a timestamp.
+
+**This is a direction, not a claim that we do it.** Today's dates are hand-written and the checks
+that read them compare days ([`resources.md`](resources.md) → *A claim past its check-date*). The cases where a
+fingerprint would earn its cost are the ones where a claim is *about the repository itself* — a
+measured count, a suite's pass, a guard's behaviour — and those are exactly the claims this corpus
+has caught going stale between writing and shipping. **Where a claim is about the outside world, a
+date is the only thing available**, and no fingerprint helps.
+
 ## The environment fingerprint
 
 *Three-way compare when both sides can change — [`PATTERNS.md`](PATTERNS.md) §17.*

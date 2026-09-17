@@ -43,7 +43,8 @@ def field(text, *names):
         m = re.search(r"^(?![ ]{4}|\t)[^\n]*?[*`_]*%s[*`_]*[ \t]*:[ \t]*[*`_]*([^·|\n]+)"
                       % re.escape(n), text, re.I | re.M)
         if m:
-            v = m.group(1).strip().strip("*`_").strip()
+            # a linked name is the same name: `[Web Engineer](../roles/web_engineer.md)`
+            v = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", m.group(1)).strip().strip("*`_").strip()
             if v and "{{" not in v:
                 return v
     return ""
