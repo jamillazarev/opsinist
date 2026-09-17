@@ -102,7 +102,7 @@ questionnaire at setup, the same law as no roster before a task needs a craft.
 **Somebody else's checklist may become this type's bar, under three conditions.** Written
 definitions of done exist for most crafts and are better than what a project derives from memory —
 security, accessibility, performance, testing, editorial. **Adopt one when all three hold**: every
-item names the command or the observation that produces its verdict · the bar is for a kind of work
+item clears [`checking.md`](checking.md)'s named-command rule · the bar is for a kind of work
 this project actually ships · and the copy is **dated and attributed at its licence**, so a later
 reader can tell an inherited claim from a measured one. **Three things it must not become.** It is
 not the project's evidence: passing a borrowed list is `cited`, never `measured`. It is not the sole

@@ -155,6 +155,21 @@ nothing accumulates outside versions.
   behaviour by running it the way the script will** (`bash -c` / a temp script), and prefer
   forms that cannot differ: `grep -o … | grep -c .` counts occurrences everywhere.
 
+- **`GIT_REFLOG_ACTION` is empty in a pre-commit hook, for an amend exactly as for a commit**
+  (measured 2026-09-18, both cases, on this machine's git). So **a hook cannot tell `git commit
+  --amend` from a second commit**, and any rule that counts consecutive commits has to survive the
+  amend reading as one more: §24's threshold went from two to three for exactly this, after an
+  adversarial lens refused an ordinary amend. The general form: **a hook sees the tree and the
+  index, not the intent** — if a gate's correctness depends on *which git command is running*,
+  measure whether the hook can actually see that before shipping the gate.
+
+- **Subagents inherit the parent's model, and three concurrent Opus lenses exhausted the account's
+  session limit** (measured 2026-09-18: three re-round lenses died a line or two in, the sixth to
+  eighth lost that way across three releases). Relaunched on Sonnet — `model: "sonnet"` on the
+  dispatch — all three finished and returned findings the Opus attempts never reached. **Dispatch
+  lenses on a smaller model than the one that wrote the corpus**, which [`lenses.md`](lenses.md) already prefers
+  for independence and which the deaths had quietly stopped anyone doing.
+
 - **`timeout` is Homebrew's, not macOS's** (measured 2026-08-20): a suite that wrapped calls in
   `timeout 90` was green on this machine and failed every assertion with **127** on a macos-latest
   runner. Third instance of the grep/awk class — the tool the author has is not the tool the

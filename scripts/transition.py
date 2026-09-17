@@ -112,6 +112,20 @@ def unlink(v: str) -> str:
     return re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", v).strip()
 
 
+ATTRS = ("check", "review_by", "fields")        # what an edge can carry, and the only keys it can
+
+
+def _attr(gate: dict, key: str, value: str):
+    """One reader for an edge's attributes, at whatever indent they arrived.
+
+    Two copies of this read the same three keys until 2026-09-18, one per indent branch, which is
+    how the branch below came to swallow a `review_by:` instead of storing it."""
+    if key == "fields":
+        gate[key] = [x.strip() for x in value.strip("[]").split(",") if x.strip()]
+    else:
+        gate[key] = value.strip("\"'")
+
+
 def parse_pipeline(text: str):
     """The yaml block of a pipeline file — parsed by hand because the format is ours and
     small, and a dependency for it would be the heavier thing to carry."""
@@ -119,7 +133,8 @@ def parse_pipeline(text: str):
     fence = re.search(r"```ya?ml\n(.*?)```", text, re.S)
     if fence:
         body = fence.group(1)
-    p = {"name": None, "stages": [], "terminal": [], "gates": {}, "prose_gates": {}}
+    p = {"name": None, "stages": [], "terminal": [], "gates": {}, "prose_gates": {},
+         "orphan_attrs": []}
     in_gates, edge, edge_indent = False, None, 2
     for raw in body.split("\n"):
         # The corpus writes edges with its own glyph — `draft → review` — and the door
@@ -157,19 +172,26 @@ def parse_pipeline(text: str):
                     p["prose_gates"][edge] = rest.strip("\"'")
                 continue
             m = re.match(r"([\w-]+)\s*:\s*(.+)$", s)
-            if m:  # legacy `review: "prose"` — a stage-keyed prose gate, honestly prose-only
+            # **An attribute is never a prose gate, whatever indent it arrived at.** Widening the
+            # block above to "any indent ≥ 2" put `check:`/`review_by:`/`fields:` written at their
+            # own edge's indent — the easy slip, now that the edge's indent is free — into this
+            # legacy branch, where `review_by: non-author` was stored as `prose_gates["review_by"]`
+            # and the gate itself left empty: **the requirement gone, and nothing said**. Reproduced
+            # by an adversarial lens on the repair, 2026-09-18. An attribute under an open edge
+            # belongs to that edge and nothing else; one under no edge is a fault, said out loud.
+            if m and m.group(1) in ATTRS:
+                if edge:
+                    _attr(p["gates"][edge], m.group(1), m.group(2).strip())
+                else:
+                    p["orphan_attrs"].append(m.group(1))
+            elif m:  # legacy `review: "prose"` — a stage-keyed prose gate, honestly prose-only
                 p["prose_gates"][m.group(1)] = m.group(2).strip().strip("\"'")
                 edge = None
             continue
         if in_gates and edge and indent > edge_indent:
             m = re.match(r"(check|review_by|fields)\s*:\s*(.+)$", s)
             if m:
-                k, v = m.group(1), m.group(2).strip()
-                if k == "fields":
-                    v = [x.strip() for x in v.strip("[]").split(",") if x.strip()]
-                else:
-                    v = v.strip("\"'")
-                p["gates"][edge][k] = v
+                _attr(p["gates"][edge], m.group(1), m.group(2).strip())
     # an inline ladder — `build -> review -> accept` — is a pipeline too (type files hold these)
     # **And it is normally written with the corpus's own glyph, which this did not read.** The
     # per-line loop above normalises `→` into a local variable; `body` itself never was, so
@@ -219,6 +241,10 @@ def pipeline_faults(p: dict):
             for half in edge.split("->"):
                 if half and half not in stages:
                     faults.append(f"gate `{edge}` names `{half}`, which is not a stage")
+    for k in p.get("orphan_attrs") or []:
+        faults.append(f"`{k}:` sits in the gates block under no edge — an attribute belongs to one "
+                      f"edge (`draft → review`), and one attached to nothing is a requirement "
+                      f"nothing can enforce")
     return faults
 
 

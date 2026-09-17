@@ -5,10 +5,12 @@
 # read by nobody and the advisor did the work instead. That failure does not error; it just looks
 # like a project where one agent does everything.
 #
-# **Three code mutants**: the agent wiring unchecked · the runtime's name spelling compared
+# **Four code mutants**: the agent wiring unchecked · the runtime's name spelling compared
 # literally (`web_engineer.md` must answer to `web-engineer.md`) · the other-runtime escape removed,
-# which would refuse every project not run in Claude Code. **The skills half is §26's**, tested in
-# `test-skills-attached.sh` — one reader per table, one suite per reader.
+# which would refuse every project not run in Claude Code · and the escape taken from a MENTION
+# rather than a declaration, which is the hole an adversarial lens found in its second shape.
+# **The skills half is §26's**, tested in `test-skills-attached.sh` — one reader per table, one
+# suite per reader; the escape itself is one reader (`_wiring_elsewhere`) that both stand down on.
 set -u
 HERE=$(cd "$(dirname "$0")" && pwd)
 T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
@@ -61,12 +63,34 @@ commit "a wired role"
 # A deletion lens found §26 and §28 reading one table in one file, and §26 already had the row
 # open — so the pool-skill-not-wired case lives in `test-skills-attached.sh` now.
 
-# ── a project run in another runtime says so, once, and this stands down ───────────────────────
+# ── a project run in another runtime DECLARES it, once, and this stands down ───────────────────
 fixture
-printf '# Project configuration\n\nschema_version: 1\n\nAgent wiring lives in `.codex/agents/` here.\n' \
+printf '# Project configuration\n\n| Setting | Value | Notes |\n|---|---|---|\n| `runtime_wiring` | `.codex/agents/` | Codex here |\n' \
   > _ops/config.md
 role web_engineer
-run; [ "$RC" = 0 ] && ok || bad "a project naming another runtime's wiring path was still refused: $OUT"
+run; [ "$RC" = 0 ] && ok || bad "a project declaring another runtime's wiring path was still refused: $OUT"
+
+# ── and a MENTION is not a declaration ─────────────────────────────────────────────────────────
+# An adversarial lens found the escape firing on any prose naming a non-`.claude` agents path — so
+# a sentence about a *rejected* alternative silenced both wiring checks on a correctly wired
+# project (2026-09-18). An escape any footnote can trip is not an escape, and this is the second
+# time this one was widened too far: the answer was to make it a declared setting.
+fixture
+printf '# Project configuration\n\nschema_version: 1\n\nWe evaluated `.gemini/agents/` and stayed on `.claude/agents/`.\n' \
+  > _ops/config.md
+role web_engineer
+run; [ "$RC" = 1 ] && said 'the runtime cannot see' && ok \
+  || bad "prose mentioning another runtime's path silenced the check: $OUT"
+
+# ── an unfilled placeholder is not a declaration either ────────────────────────────────────────
+# `CONFIG-template.md` ships the row with `{{absent}}` in its value cell, and a project that has
+# not filled it in must be judged, not excused. The notes column names `.claude/` on purpose.
+fixture
+printf '# Project configuration\n\n| Setting | Value | Notes |\n|---|---|---|\n| `runtime_wiring` | {{absent}} | absent means `.claude/`, e.g. `_ops/agents/` would not |\n' \
+  > _ops/config.md
+role web_engineer
+run; [ "$RC" = 1 ] && said 'the runtime cannot see' && ok \
+  || bad "an unfilled runtime_wiring row stood the check down: $OUT"
 
 # ── wiring that is present but ignored by git ──────────────────────────────────────────────────
 # An adversarial lens found `--exclude-standard` dropping an ignored `.claude/`, so a correctly
@@ -121,16 +145,26 @@ mutant "the runtime name compared literally" \
   && { fixture; role web_engineer; agent web-engineer; run
        [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: the slug compared literally"; }
 
-# the anchor carries §28's own comment line: the same escape now sits in §26 too, and a mutation
-# that lands in the wrong section is a test of something else
-# §28's copy of the escape carries its own name, so this anchor cannot land in §26's
+# The escape is one reader now — `_wiring_elsewhere` — so both mutants land in it, and both
+# sections stand or fall with it. That is the point of the shared helper: the alternative was two
+# copies of a regex, which is how this escape came to have two different holes in two days.
 mutant "the other-runtime escape removed" \
-  '        wiring_elsewhere = True' '        pass' \
+  '        print("1")' '        pass' \
   && { fixture
-       printf '# Project configuration\n\nschema_version: 1\n\nAgent wiring lives in `.codex/agents/` here.\n' \
+       printf '# Project configuration\n\n| Setting | Value | Notes |\n|---|---|---|\n| `runtime_wiring` | `.codex/agents/` | Codex here |\n' \
          > _ops/config.md
        role web_engineer; run
        [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: the escape removed"; }
+
+# the hole the lens found, as a mutant: stop requiring the declared key and any line's first path
+# becomes the answer — which is what a prose mention silencing the check IS
+mutant "the escape taken from a mention rather than a declaration" \
+  '    k = line.find(KEY)' '    k = 0' \
+  && { fixture
+       printf '# Project configuration\n\nschema_version: 1\n\nWe evaluated `.gemini/agents/` and stayed on `.claude/agents/`.\n' \
+         > _ops/config.md
+       role web_engineer; run
+       [ "$RC" = 0 ] && ok || bad "the suite did not catch the mutant: a mention read as a declaration"; }
 MUT=""
 
 echo "role-wiring: $pass passed, $fail failed"

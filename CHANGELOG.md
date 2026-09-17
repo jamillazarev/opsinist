@@ -31,10 +31,12 @@ required:
    a graph: notes, edges, orphans, phantom targets, and how many mentions are still edges waiting
    to happen. Read on a live project it answered *19 notes, 0 edges, 19 orphans*.
 3. **Wire your existing roles.** Every `_ops/roles/<role>.md` owes a `.claude/agents/<role>.md` —
-   markdown with `name` and `description`, no build step — or one line in `_ops/config.md` naming
-   where your runtime's agent wiring lives. §28 refuses the *next* role you write without it; the
-   ones already there are yours to catch up on, and the reason to bother is that an unwired role is
-   read by nobody and the advisor quietly does its work.
+   markdown with `name` and `description`, no build step — or, if your runtime is not Claude Code,
+   one row in `_ops/config.md`'s settings table: `| `runtime_wiring` | <your directory> |`, which
+   stands §28 and §26's runtime half down together. **It is a declared setting, not a sentence** —
+   prose about where agents live does not turn a check off, by design. §28 refuses the *next* role
+   you write without it; the ones already there are yours to catch up on, and the reason to bother
+   is that an unwired role is read by nobody and the advisor quietly does its work.
 
 **And one discipline, for anything you add from now on:** a project's MCP server is added with
 **`claude mcp add --scope project`**, which writes `.mcp.json` in the repository. The default is
@@ -88,9 +90,9 @@ installed in the owner's own runtime, so the work ran fine there and a clone els
 them to nothing without an error: **§26 refuses a role whose commit attaches a name resolving to
 neither `_ops/skills/` nor a register row**, and the row is written as a link when there is a file
 to link to, which is what puts the edge in the graph. Suites: `test-guard-status.sh` **14/14** ·
-`test-skills-attached.sh` **13/13** ·
+`test-skills-attached.sh` **16/16** ·
 `test-task-shape.sh` **11/11** · `test-assignee-exists.sh` **15/15** · `test-record-moves.sh`
-**12/12** · `test-transition.sh` **35/35**, each with code mutants — including the one that matters
+**12/12** · `test-transition.sh` **38/38**, each with code mutants — including the one that matters
 most here, the record narrowed back to tasks and runs, which would make the guard's first act on a
 fresh project a refusal of the commit after its own installation.
 
@@ -213,8 +215,10 @@ instruction those files carried was read by nobody and the advisor did the work 
 does not error; it looks like a project where one agent does everything. Hiring writes **two** files
 now — the role, and `.claude/agents/<role>.md`, which needs only `name` and `description` in its
 frontmatter and no build step — and a role attaching a pool skill the runtime directory does not
-carry is refused for the same reason. A project operated in another runtime names where its wiring
-lives in `_ops/config.md`, once, and the section stands down. `test-role-wiring.sh` **9/9**.
+carry is refused for the same reason. A project operated in another runtime **declares** it —
+one row in `_ops/config.md`'s settings table, `runtime_wiring` — and both halves stand down; a
+mention in prose does not, which took this escape three shapes to get right.
+`test-role-wiring.sh` **12/12**.
 
 **What a vault needs is written down once** ([`project-layout.md`](project-layout.md)): a relative path · a target that
 exists · no unencoded space · **and the vault opened at the project root rather than at `_ops/`**,
@@ -328,6 +332,56 @@ own gate demands** — `new-task.py` links the assignee, because §23's refusal 
 output §27 then refused. Eight repeated epilogues in the guard became one helper, three readers of
 one ladder became one, and five claims that read as implemented now say plainly that nothing holds
 them yet.
+
+**The first attempt at the re-round is `not completed`, recorded rather than quietly retried.**
+Three lenses — adversarial and contradiction over the repair, deletion over the prose — were
+launched with the repair's own diff as their input and **all three died on the account's session
+limit**, a line or two in. That is the sixth, seventh and eighth lens lost this way across three
+releases, and the rule this corpus wrote for exactly this moment is that a lens which ran out of
+budget is recorded as `not completed`, never as empty: *"those two are identical in the report and
+opposite in fact."* One adjustment landed with the recording: the re-round's lenses are dispatched
+on a *different model* from the one that wrote the corpus, which is what `lenses.md` already
+prefers and what the earlier deaths had quietly stopped anyone doing.
+
+**Relaunched there, the re-round found three more, and the two that matter are the repair's own
+overreach.** *An attribute written at its edge's own indent silently stopped being a gate*: freeing
+the `gates:` indent — itself a repair from the round before — let the branch that reads an edge
+swallow `review_by: non-author` as a prose gate keyed to nothing, **leaving the edge empty and
+saying not one word**, which is the exact class this corpus refuses. An attribute now belongs to
+the open edge whatever indent it arrived at, one reader for all three keys instead of two copies,
+and an attribute under *no* edge is a fault said out loud. *And the other-runtime escape, widened
+once already, was still a hole*: "a path that is not `.claude/`" is tripped by a sentence naming a
+**rejected** alternative, so *"we evaluated `.gemini/agents/` and stayed on `.claude/agents/`"*
+silenced both wiring checks on a correctly wired project. **An escape is a declaration, not a
+mention**: one setting, `runtime_wiring` in `_ops/config.md`, read by one helper both sections
+stand down on — the third shape of this escape in two days, and the first that prose cannot reach.
+The third finding was the door's own copy of a resolver: `new-task.py` resolved an assignee by
+walking the working tree while every gate that judges the result reads git, so it could mint a link
+to a file §25 and §27 cannot see — *the door blessing what the gate then refuses*, arriving from
+the other side of the defect it was written to fix. It calls `link-ids.py`'s resolver now.
+**One reading of the sections against their suites found a fourth**: §26's runtime half — a skill
+in the pool that `.claude/skills/` does not carry — **shipped with no assertion at all**, because
+the case did not move with the code when a deletion lens folded two readers of one table into one.
+Three cases and a mutant cover it now.
+
+**A checker that had been crying wolf for a release, and the drift it was hiding.** The
+corpus-count guard matched `**N ·` only, so the day `16-bis` was added — a shape that arrives
+beside the one it belongs with rather than renumbering every citation — the README's **honest**
+figure of twenty-eight started printing as a warning on every preflight. It counts `-bis` now,
+`test-check-structure.sh` **20/20** with a mutant on the alternative, and the first thing the fixed
+check found was the real error the blind one had covered: `PATTERNS.md`'s own opening line still
+said *twenty-seven*. **A check that cries wolf is a check nobody reads** — this corpus wrote that
+line about `check-releases.sh` and then shipped a release ignoring one of its own warnings.
+
+**The deletion lens on the prose landed six cuts and one decline.** Five were rules restated
+instead of cited — `choosing-tools.md` re-deriving PATTERNS §20, `cost.md` §4, `grouping.md` §6,
+`pipelines.md` restating `checking.md`'s named-command rule, and `catalogue.md` writing out the
+Formbricks licence finding twice in ten lines — plus a justification repeated two paragraphs after
+itself. The decline is written into `facts.md`'s own header: eight new entries repeat their
+chapter's measurement **by design**, because a line that pointed at a chapter would be unquotable,
+which is this file's only job. A chapter holds the rule; this file holds the sentence. **A round
+carrying a `not completed` has not reported clean, which is the condition the tag waits on** — so
+the round over *this* repair is what the tag now waits for.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest

@@ -215,6 +215,26 @@ printf '# T-4S — thing\n\n**Status**: review\n**Assignee**: worker-a\n**Pipeli
 [ "$(run _ops/tasks/T-4S.md handoff --by owner)" = 1 ] && grep -q 'not the worker' "$T/out" \
   && ok || bad "a four-space review gate did not hold at the door"
 
+# ── an attribute at its edge's OWN indent still belongs to that edge ───────────────────────────
+# The repair above freed the edge's indent, and the branch that reads it then swallowed
+# `review_by:` written at that same indent as a stage-keyed prose gate: the requirement stored
+# under a key nothing reads, the gate itself left empty, **and nothing said**. Reproduced by an
+# adversarial lens on the repair, 2026-09-18 — the class this corpus refuses, a rule that
+# disappears quietly rather than failing loudly.
+printf '# flat\n\n```yaml\nname: flat\nstages: [draft, review, handoff]\nterminal: [handoff]\ngates:\n  review -> handoff:\n  review_by: non-author\n```\n' > _ops/pipelines/flat.md
+[ "$(run --check-ladder --strict _ops/pipelines/flat.md)" = 0 ] \
+  && ok || bad "a gate whose attribute sits at the edge's own indent read as ungated: $(head -2 "$T/out" | tr '\n' ' ')"
+printf '# T-FL — thing\n\n**Status**: review\n**Assignee**: worker-a\n**Pipeline**: flat\n\n## History\n' > _ops/tasks/T-FL.md
+[ "$(run _ops/tasks/T-FL.md handoff --by owner)" = 1 ] && grep -q 'not the worker' "$T/out" \
+  && ok || bad "a review gate written at the edge's own indent did not hold at the door"
+
+# ── and an attribute under NO edge is a fault, not a prose gate ────────────────────────────────
+# The other half of the same repair: an attribute that belongs to nothing is a requirement nothing
+# can enforce, so it is said out loud rather than filed under a key no reader consults.
+printf '# orph\n\n```yaml\nname: orph\nstages: [draft, review, handoff]\nterminal: [handoff]\ngates:\n  review_by: non-author\n```\n' > _ops/pipelines/orph.md
+[ "$(run --check-ladder _ops/pipelines/orph.md)" = 1 ] && grep -q 'under no edge' "$T/out" \
+  && ok || bad "an attribute under no edge was swallowed silently: $(head -3 "$T/out" | tr '\n' ' ')"
+
 # ── the stock ladder's terminal edge asks for a review, and said nothing until 2026-09-17 ──────
 # A project that never writes a pipeline file runs on STOCK, and STOCK shipped `gates: {}`: the
 # stage was called `review` and the edge out of it held nothing, so acceptance was a name typed

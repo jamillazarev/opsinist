@@ -186,11 +186,11 @@ something is wrong; a re-proposal says what to do.
 | the period report | the generated rollup a human reads — `scripts/cost-report.py --write` writes `_ops/COST.md`: per release, per task, per model or per month, the four numbers kept apart, `unknown` counted as `unknown` and the totals called a floor when any run carries it | yes, **marked generated** |
 | the index | the derived cache the rollups compute from — generated, never maintained ([`PATTERNS.md`](PATTERNS.md) §7) | **no** — rebuildable |
 
-**A total is computed by replay, never incremented in place.** Every run record is one immutable
-event; the rollup reads them all and adds up. Nothing anywhere keeps a running number that a second
-write could double — and the reason is a failure mode a metering system has already paid for:
-**a retry that increments a stored counter charges twice, and the evidence that it did is gone by
-the time anyone looks.** So a run carries its own stable id (`R-…`), a re-run writes a *new* record
+**A total is computed by replay, never incremented in place** — [`PATTERNS.md`](PATTERNS.md) §4,
+which already names cost as one of its cases. What that pattern does not carry is the failure mode
+a metering system has already paid for: **a retry that increments a stored counter charges twice,
+and the evidence that it did is gone by the time anyone looks.** So a run carries its own stable id
+(`R-…`), a re-run writes a *new* record
 naming the attempt, and `scripts/cost-report.py` derives every figure from the set. (Read off
 Lago's billing model, 2026-09-17: events are immutable, carry an idempotency key, and usage is
 derived by replaying them through a metric — which is why their prices can change without a

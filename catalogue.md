@@ -32,10 +32,9 @@ price. **The ceiling is verified when you wire the thing**, in the unit that wil
 and recorded in the project's tooling register with its date ([`choosing-tools.md`](choosing-tools.md)).
 
 **An embeddable client needs its own licence field, because it is not the one that governs the
-server.** Measured 2026-09-17 on Formbricks: the repository is AGPLv3, the browser and mobile SDKs
-are **MIT**, and a third licence — proprietary, per-seat — covers the `ee/` directory that happens
-to hold SSO, roles, audit logs and quotas. **Three licences, one repository, and the one that
-reaches your artifacts is the SDK's.** So a row for anything with a client says which licence
+server.** **Three licences in one repository, and the one that reaches your artifacts is the
+SDK's** — the Formbricks row below carries the measurement, taken 2026-09-17, and it is the worked
+example for this whole paragraph. So a row for anything with a client says which licence
 governs the code you ship, which governs the daemon you run, and **whether the features a team
 needs at scale are in the open part at all** — an open-core repository whose `ee/` holds every
 governance feature is an open-source tool you will eventually pay for, and knowing that on the day

@@ -21,7 +21,7 @@ The id is minted, never invented (`new-id.py`'s alphabet and its scan of what is
 Placeholders it is not given stay as `{{…}}`: a hole the writer must fill is honest, and the guard
 refuses the ones that matter empty.
 """
-import argparse, os, re, subprocess, sys, unicodedata
+import argparse, importlib, os, re, subprocess, sys, unicodedata
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
@@ -70,7 +70,7 @@ def slug(title):
     return "-".join(text.split()[:6]) or "task"
 
 
-def role_link(root, name):
+def role_link(root, where, name):
     """`web-engineer` → `[web-engineer](../roles/web_engineer.md)` when exactly one file is that
     role, team or panel — **because the guard's §27 refuses a person named as plain text, and a
     door that writes what its own gate refuses is the failure this repository already paid for
@@ -78,20 +78,29 @@ def role_link(root, name):
     contradiction lens on this release, 2026-09-18, before it shipped.
 
     No match, or two, leaves the name as written: guessing which colleague was meant is worse than
-    a plain name, and §25 will say so in its own words."""
+    a plain name, and §25 will say so in its own words.
+
+    **The resolver is `link-ids.py`'s, not a copy of it** — one normaliser, one roster reader, one
+    idea of what counts as a match. The first draft here was a copy that walked the working tree
+    with `os.listdir`, so it could mint a link to an untracked or ignored file that §25 and §27
+    (both reading git) cannot see: *the door blessing what the gate then refuses*, which is the
+    same defect it was written to fix, arriving from the other side. Caught by a contradiction lens
+    on the repair, 2026-09-18."""
     if not name:
         return name
-    want = " ".join("".join(c if c.isalnum() else " " for c in name.lower()).split())
-    hits = []
-    for d in ("roles", "teams", "panels"):
-        base = os.path.join(root, "_ops", d)
-        for f in sorted(os.listdir(base)) if os.path.isdir(base) else []:
-            if not f.endswith(".md") or f.lower() == "readme.md":
-                continue
-            stem = f[:-3]
-            if " ".join("".join(c if c.isalnum() else " " for c in stem.lower()).split()) == want:
-                hits.append("../%s/%s" % (d, f))
-    return "[%s](%s)" % (name, hits[0]) if len(hits) == 1 else name
+    try:
+        sys.path.insert(0, HERE)
+        mod = importlib.import_module("link-ids")       # the filename is not an identifier
+    except Exception:
+        return name
+    finally:
+        if sys.path and sys.path[0] == HERE:
+            sys.path.pop(0)
+    target = mod.people_files(mod.tree(root)).get(mod.norm(name))
+    if not target:
+        return name
+    rel = os.path.relpath(os.path.join(root, target), where).replace(os.sep, "/")
+    return "[%s](%s)" % (name, rel)
 
 
 def fill(text, values):
@@ -132,7 +141,7 @@ def main(argv):
     ident = mint(root)
     values = {"__id__": ident, "__title__": a.title, "Type": a.type,
               "Status": a.status or first_stage(root, a.type) or "backlog",
-              "Assignee": role_link(root, a.assignee), "Parent": a.parent, "Wave": a.wave,
+              "Assignee": role_link(root, tasks, a.assignee), "Parent": a.parent, "Wave": a.wave,
               "Blocked by": a.blocked}
     body = fill(text, values)
     path = os.path.join(tasks, "%s-%s.md" % (ident, slug(a.title)))

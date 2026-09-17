@@ -194,7 +194,7 @@ hotlinked remote image is a page that goes blank when somebody else's account la
 draws an edge when a *note* links a *note* by a path it can resolve from the file it is written in.
 So four things, and the guard's §27 refuses the first three:
 
-- **a relative path** — an absolute one resolves on one machine and nowhere else;
+- **a relative path**, for the reason stated two paragraphs up;
 - **a target that exists** — a dead link draws an edge into empty space, which is worse than a bare
   name because it reads as navigable;
 - **no unencoded space** in a target (`%20`, or rename the file — our slugs are ASCII for this

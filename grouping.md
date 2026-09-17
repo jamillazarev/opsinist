@@ -66,9 +66,9 @@ it was set**. Closing work and adding work then look like the different things t
 
 **One page that answers *what is in flight, who has it, which release it is for*** —
 `_ops/BOARD.md`, written by the skill's `scripts/board.py` and read out of the task files every
-time it runs. Every id on it is a link; the task file is the truth and the page is a view of it.
-`--check` exits non-zero when the page has drifted from what the tasks now say, which is what keeps
-a generated file in a repository from becoming a second list that lies → [`checking.md`](checking.md).
+time it runs. Every id on it is a link, and it is a generated surface under
+[`PATTERNS.md`](PATTERNS.md) §6, which already names the board as one of its cases: `--check` exits
+non-zero when the page has drifted from what the tasks now say → [`checking.md`](checking.md).
 
 **Measured 2026-09-16** on a live project of nine tasks with no board: answering *what is in
 flight* meant opening nine files, and the page generated from them showed in one screen what the

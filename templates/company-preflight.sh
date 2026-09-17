@@ -96,6 +96,40 @@ hits() { [ "$( grep -c "$@" 2>/dev/null | head -1 || true )" -gt 0 ] 2>/dev/null
 # passes by fixing it in the editor after staging the broken one. Defined here with the
 # other helpers — it used to sit two hundred lines below its first use.
 staged() { git show ":$1" 2>/dev/null; }
+# **An escape is a declaration, not a mention** — and one reader for it, because two sections
+# (§26's skills half, §28's roles half) stand down on the same answer. `_ops/config.md` may carry
+# one setting, `runtime_wiring`, whose value is the directory this project's runtime loads its
+# agents and skills from; a value outside `.claude/` turns both checks off, because they are
+# checking a path that project does not use.
+# **Prose cannot reach it, and that is the whole point.** The first shape was a sentence about
+# agents — so *"The agents live in `.claude/agents/`."* silenced the section. The second was "a
+# path that is not the one we check" — so *"we evaluated `.gemini/agents/` and stayed on
+# `.claude/agents/`"* silenced it too, a correctly wired project disarmed by its own footnote
+# (reproduced by an adversarial lens on that repair, 2026-09-18). A mention is not a declaration;
+# a row is. Prints `1` when the setting names a directory elsewhere, nothing otherwise.
+_wiring_elsewhere() {
+  python3 - <<'DECL'
+import os, re, subprocess
+KEY = "runtime_wiring"
+cfg = ""
+for f in ("_ops/config.md", "config.md"):
+    r = subprocess.run(["git", "show", ":" + f], capture_output=True, text=True, errors="replace")
+    cfg += r.stdout if r.returncode == 0 else (
+        open(f, encoding="utf-8", errors="replace").read() if os.path.isfile(f) else "")
+for line in cfg.split("\n"):
+    k = line.find(KEY)
+    if k < 0:
+        continue
+    tail = line[k + len(KEY):]
+    cells = tail.split("|")            # in a table row the value is the cell after the key's, and
+    probe = " ".join(cells[:2]) if len(cells) > 1 else tail    # the notes column is not consulted
+    # a path, which needs a separator: `{{absent}}` and every other word are not declarations
+    m = re.search(r"([\w.-]+(?:/[\w.-]*)+)", probe)
+    if m and not re.sub(r"^\./", "", m.group(1)).startswith(".claude/"):
+        print("1")
+        break
+DECL
+}
 # NUL-separated, because a path holding a space word-splits out of an unquoted `for` loop and
 # every gate downstream of it goes silent — not one refusal, no diagnostic, exit 0. Measured
 # 2026-08-15: byte-identical hand-edits to `_ops/tasks/T-CTL002-control.md` and to
@@ -2266,11 +2300,11 @@ fi
 #      **The skills half of this rule lives in §26**, which already has the role's table open: one
 #      reader per table, or the two eventually disagree about what a row is — measured on this very
 #      pair by a deletion lens, 2026-09-18.
-#      **Judged where the commit WRITES a role**, and a project operated in another runtime says so
-#      in `_ops/config.md` — a line naming where its agent wiring lives turns this off.
+#      **Judged where the commit WRITES a role**, and a project operated in another runtime declares
+#      it in `_ops/config.md` — the `runtime_wiring` setting turns this off (`_wiring_elsewhere`).
 if [ "$(changed --diff-filter=AM -- '_ops/roles/*.md' | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
   _wir=$(mktemp "${TMPDIR:-/tmp}/opsinist-wiring.XXXXXX")
-  python3 - > "$_wir" <<'WIRING'
+  OPS_WIRING_ELSEWHERE="$(_wiring_elsewhere)" python3 - > "$_wir" <<'WIRING'
 import os, re, subprocess
 
 def git(*args):
@@ -2281,20 +2315,12 @@ def git(*args):
 def norm(name):
     return "".join(c if c.isalnum() else "-" for c in name.lower()).strip("-")
 
-cfg = ""
-for f in ("_ops/config.md", "config.md"):
-    cfg += git("show", ":" + f) or (open(f, encoding="utf-8", errors="replace").read()
-                                    if os.path.isfile(f) else "")
-# a project wired to another runtime says where — one line, and this section stands down
-# **The escape must name a path, and a path that is not the one we already check.** A lens found
-# that the sentence *"The agents live in `.claude/agents/`."* silenced this section entirely,
-# 2026-09-18 — an escape that any prose about agents can trip is not an escape, it is a hole.
-wiring_elsewhere = False
-for _m in re.finditer(r"`?((?:\.[\w.-]+|[\w.-]+)/(?:[\w.-]+/)*agents?)/?`?", cfg):
-    if not _m.group(1).startswith(".claude/"):
-        wiring_elsewhere = True
+# a project wired to another runtime declares where — the `runtime_wiring` setting, read once by
+# `_wiring_elsewhere` above, which is also the reason this reads an environment variable instead of
+# `_ops/config.md`: two sections stand down on this and two readers of one setting would diverge.
+wiring_elsewhere = bool(os.environ.get("OPS_WIRING_ELSEWHERE"))
 
-tracked = [p for p in (git("ls-files", "-z", "--cached", "--others", "--exclude-standard") or "").split("\0") if p]
+tracked =[p for p in (git("ls-files", "-z", "--cached", "--others", "--exclude-standard") or "").split("\0") if p]
 agents = {os.path.basename(p)[:-3].lower() for p in tracked
           if p.startswith(".claude/agents/") and p.endswith(".md")}
 
@@ -2323,8 +2349,9 @@ for path in staged:
         # The honest line is the one about the clone, and it is a warning, because the role does
         # load here.
         print("WARN:%s has its wiring at `.claude/agents/` on disk and NOT in git — an ignored or "
-              "untracked `.claude/` loads for you and arrives with no clone. Commit it, or say in "
-              "`_ops/config.md` where this project's agent wiring lives." % path)
+              "untracked `.claude/` loads for you and arrives with no clone. Commit it, or declare "
+              "another directory: one row in `_ops/config.md`'s settings table, "
+              "`| `runtime_wiring` | <dir> |`." % path)
     elif not wiring_elsewhere and norm(role) not in {norm(a) for a in agents}:
         print("FAIL:%s is a role the runtime cannot see — there is no `.claude/agents/%s.md`, and "
               "that directory is where the thing that dispatches work looks for its agents. A role "
@@ -2332,7 +2359,8 @@ for path in staged:
               "why this goes unnoticed for a whole project. **One file fixes it**: markdown with "
               "`name` and `description` in its frontmatter, plus the tools and model this role is "
               "allowed — no build step and no registration. A project operated in another runtime "
-              "names where its wiring lives in `_ops/config.md`, and this stands down."
+              "declares it — one row in `_ops/config.md`'s settings table, "
+              "`| `runtime_wiring` | <dir> |` — and this section and §26 both stand down."
               % (path, norm(role)))
 WIRING
   _wrc2=$?
@@ -2507,10 +2535,11 @@ fi
 #      not a skill that fails. **This is `tooling.md`'s rule in another costume** — what the project
 #      needs from the machine is declared — and the same two honest routes answer it: put the skill
 #      in the project's own pool, or declare it in the register as something the machine provides.
-#      **Judged where the commit WRITES the row**, like §23 and §25.
+#      **Judged where the commit WRITES the row**, like §23 and §25, and the runtime half of it
+#      stands down on the same `runtime_wiring` setting §28 reads (`_wiring_elsewhere`).
 if [ "$(changed --diff-filter=AM -- '_ops/roles/*.md' | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
   _skl=$(mktemp "${TMPDIR:-/tmp}/opsinist-skills.XXXXXX")
-  python3 - > "$_skl" <<'SKILLS'
+  OPS_WIRING_ELSEWHERE="$(_wiring_elsewhere)" python3 - > "$_skl" <<'SKILLS'
 import os, re, subprocess
 
 def git(*args):
@@ -2548,17 +2577,9 @@ wired = {os.path.basename(os.path.dirname(p)).lower() for p in
 pool = {os.path.basename(os.path.dirname(p)).lower() for p in
         (git("ls-files", "-z", "_ops/skills") or "").split("\0")
         if os.path.basename(p or "") == "SKILL.md"}
-cfg = ""
-for f in ("_ops/config.md", "config.md"):
-    cfg += git("show", ":" + f) or (open(f, encoding="utf-8", errors="replace").read()
-                                    if os.path.isfile(f) else "")
-# **The escape must name a path, and a path that is not the one we already check.** A lens found
-# that the sentence *"The agents live in `.claude/agents/`."* silenced this section entirely,
-# 2026-09-18 — an escape that any prose about agents can trip is not an escape, it is a hole.
-elsewhere = False
-for _m in re.finditer(r"`?((?:\.[\w.-]+|[\w.-]+)/(?:[\w.-]+/)*agents?)/?`?", cfg):
-    if not _m.group(1).startswith(".claude/"):
-        elsewhere = True
+# the same declared setting §28 stands down on, read once by `_wiring_elsewhere` above: a project
+# whose runtime is not Claude Code does not load its skills from `.claude/skills/` either
+elsewhere = bool(os.environ.get("OPS_WIRING_ELSEWHERE"))
 
 # **A typo fix in an existing role is not a new attachment.** This read the whole staged text of
 # every touched role, so editing one line refused the commit for rows written months earlier —
@@ -2600,7 +2621,9 @@ for path in [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=A
               "not — there is no `.claude/skills/<name>/SKILL.md` for it. **The pool is the source "
               "and the runtime directory is the copy that gets read**, and both are committed so a "
               "clone gets the skill and the wiring together. A role told it has a skill nothing "
-              "loads does the work without it, silently and slightly worse."
+              "loads does the work without it, silently and slightly worse. A project whose runtime "
+              "is not Claude Code declares that once — `| `runtime_wiring` | <dir> |` in "
+              "`_ops/config.md` — and this stands down with §28."
               % (path, ", ".join("`%s`" % u for u in sorted(set(unwired))[:6])))
     if missing:
         print("FAIL:%s attaches %s, and %s in this project — not in `_ops/skills/`, not in "

@@ -157,5 +157,31 @@ run
 saw 'two rules but 3 follow' && ok \
   || bad "a nested list under its own intro was not counted — the indent rule removed the teeth"
 
+# ── a `-bis` pattern is a pattern, and the counter reads both forms ───────────────────────────
+# The counter matched `^**N · ` only, so the release that added `16-bis` turned the README's
+# HONEST figure into a warning — which then sat in every preflight for a release before anyone
+# traced it, and the real drift it was hiding was `PATTERNS.md`'s own opening line. A check that
+# cries wolf is a check nobody reads (2026-09-18).
+patterns() {
+  printf '# Patterns\n\nThree recurring forms.\n\n**1 · One.** x\n\n**2 · Two.** y\n\n**2-bis · Two again.** z\n' \
+    > "$T/PATTERNS.md"
+}
+twin; patterns; run
+saw 'recurring forms' && bad "a \`-bis\` pattern went uncounted: $(cat "$T/out.txt")" || ok
+
+#    …and the alternative in the pattern is what does it, not the fixture being unreadable
+twin; patterns
+python3 - "$T/scripts/check-structure.py" <<'PY'
+import sys
+p = sys.argv[1]; s = open(p).read()
+assert s.count("(?:-bis)?") == 1, "found %d" % s.count("(?:-bis)?")
+open(p, "w").write(s.replace("(?:-bis)?", ""))
+PY
+[ "$(grep -c '(?:-bis)?' "$T/scripts/check-structure.py")" -eq 0 ] \
+  || bad "MUTATION DID NOT APPLY (the -bis alternative) — the assertion below proves nothing"
+run
+saw 'recurring forms' && ok \
+  || bad "with the \`-bis\` alternative gone the claim still passed — it is not what counts them"
+
 echo "check-structure: $pass passed, $fail failed"
 [ "$fail" -eq 0 ]

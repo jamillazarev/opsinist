@@ -16,11 +16,11 @@ instrument fits the question. **So the advisor proposes it, at the moment the de
 two or three named candidates and one line each on what makes them different.** Not a list: a
 recommendation with its reason, and the alternatives visible so the owner can disagree cheaply.
 
-**Waiting is the failure, and it is silent.** Nobody says *"I wish you had mentioned there was a
-gallery for this"* — they ship the generated version and it is fine, and the whole value of a shelf
-somebody spent a year filling goes unread. **The trigger is a decision, not a question**: work about
-to start on a landing page, a survey, a billing model, a notification, a style; that is when the row
-gets said out loud, once, in a sentence.
+This is [`PATTERNS.md`](PATTERNS.md) **§20 · Push, don't wait** applied to the shelf, which that
+pattern already names as one of its cases. What it adds here is **the trigger and the moment**: a
+decision, not a question — work about to start on a landing page, a survey, a billing model, a
+notification, a style. That is when the row gets said out loud, once, in a sentence. **And nobody
+reports the miss**: they ship the generated version, it is fine, and the shelf goes unread.
 
 **And a product is not a reference.** Reading a company's site to decide how yours should look is
 a legitimate thing an advisor does and a poor thing to quote: it selects on survivors and shows

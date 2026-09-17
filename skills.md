@@ -161,9 +161,11 @@ whose commit attaches a name that resolves to neither the pool nor a register ro
 **The pool is the source; the runtime directory is the copy that gets read.** `_ops/skills/<name>/`
 is where a skill lives as this project's own — screened, trimmed, provenance attached — and
 `.claude/skills/<name>/SKILL.md` is where the runtime looks for it. **Both are committed**, so a
-clone gets the skill and the wiring together, and the guard's §28 refuses a role that attaches a
+clone gets the skill and the wiring together, and the guard's §26 refuses a role that attaches a
 pool skill the runtime directory does not carry: a role told it has a skill nothing loads is a role
-doing the work without it, silently and slightly worse.
+doing the work without it, silently and slightly worse. A project whose runtime is not Claude Code
+declares its own directory once — the `runtime_wiring` setting in `_ops/config.md` — and this and
+the roles half of the rule ([`hiring.md`](hiring.md)) stand down together.
 
 **Linking is what puts the edge in the graph.** A role's `Skills attached` row naming
 `` `house-style` `` in backticks is an edge only a reader infers; written as

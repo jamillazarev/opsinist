@@ -154,8 +154,10 @@ alone is enough, which is why forgetting it is so easy and so quiet.
 directory at all.** Nothing errored. The advisor did all of the work itself, which is what an
 unwired roster looks like from the outside — and every bar, skill and instruction those three files
 carried was read by nobody for the project's whole life. §28 refuses the commit that writes a role
-with no wiring beside it, and a project operated in another runtime names where its wiring lives in
-`_ops/config.md` once.
+with no wiring beside it, and a project operated in another runtime **declares** that once — the
+`runtime_wiring` setting in `_ops/config.md`, which stands the check down. A declared setting and
+not a sentence: an escape that prose can trip is not an escape, which this one took three shapes
+to learn (2026-09-18).
 
 ---
 

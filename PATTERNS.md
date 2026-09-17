@@ -1,6 +1,8 @@
 # Patterns — the shapes this system reuses
 
-Twenty-seven recurring forms, each named once. A rule that instantiates a pattern **cites it and
+Twenty-eight recurring forms, each named once — the numbers run to 27 and `16-bis` is the
+twenty-eighth, which is how a shape arrives beside the one it belongs with instead of renumbering
+every citation in the corpus. A rule that instantiates a pattern **cites it and
 stops**; it does not restate the reasoning. That is the whole point: a pattern named once and
 cited nine times is a form, and nine paraphrases are prose.
 

@@ -4,10 +4,11 @@
 # `_ops/skills/` absent, `.claude/` empty, and every one of those skills installed in the owner's
 # own runtime where the work happened to run fine.
 #
-# **Four code mutants**: the pool and the runtime directory both unread (a skill the project holds refused), the register unread
+# **Five code mutants**: the pool and the runtime directory both unread (a skill the project holds refused), the register unread
 # (a declared runtime skill refused), the header row judged as a skill (`| Skill |` refused in
-# every role), and the check widened past the rows this commit writes (a project's history refused
-# for roles nobody touched).
+# every role), the check widened past the rows this commit writes (a project's history refused
+# for roles nobody touched), and the runtime half of the row unchecked — a skill in the pool that
+# `.claude/skills/` does not carry, which is the branch that shipped here with no case at all.
 set -u
 HERE=$(cd "$(dirname "$0")" && pwd)
 T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
@@ -105,6 +106,24 @@ printf -- '| another-nowhere-skill | because |\n' >> _ops/roles/legacy_role.md
 run; [ "$RC" = 1 ] && said 'another-nowhere-skill' && ok \
   || bad "a row added to an existing role went unjudged: $OUT"
 
+# ── a skill the project holds and the runtime cannot load ──────────────────────────────────────
+# **This branch shipped with no assertion at all.** It moved here from §28 when a deletion lens
+# folded the two readers of one table into one, and the case did not move with it — found by
+# reading the section against its suite, 2026-09-18. The pool is the source and `.claude/skills/`
+# is the copy that gets read: a role told it has a skill nothing loads does the work without it.
+fixture
+mkdir -p _ops/skills/house-style && printf '# house-style\n' > _ops/skills/house-style/SKILL.md
+role writer house-style
+run; [ "$RC" = 1 ] && said 'the runtime does not' && said 'runtime_wiring' && ok \
+  || bad "a pool skill with no runtime copy passed, or said nothing useful: $OUT"
+
+# ── and a project whose runtime is not Claude Code declares that, once ─────────────────────────
+# The same declared setting §28 stands down on — one reader for both, because two copies of this
+# escape grew two different holes in two days.
+printf '# Project configuration\n\n| Setting | Value | Notes |\n|---|---|---|\n| `runtime_wiring` | `.codex/skills/` | Codex here |\n' \
+  > _ops/config.md
+run; [ "$RC" = 0 ] && ok || bad "a project declaring another runtime's wiring was still refused: $OUT"
+
 # ── the mutants ────────────────────────────────────────────────────────────────────────────────
 mutant() {   # $1 what it breaks · $2 from · $3 to
   cp "$HERE/../templates/company-preflight.sh" "$T/mut.sh"
@@ -154,6 +173,13 @@ mutant "a touched role judged whole, not on the rows it adds" \
 mkdir -p .claude/skills/house-style && printf -- '---\nname: house-style\ndescription: the voice\n---\n' > .claude/skills/house-style/SKILL.md
        role new_role house-style; run
        [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: history retro-judged"; }
+mutant "the runtime half of the row unchecked" \
+  '        elif cell.lower() in pool and cell.lower() not in wired and not elsewhere:' \
+  '        elif False:' \
+  && { fixture; mkdir -p _ops/skills/house-style
+       printf '# house-style\n' > _ops/skills/house-style/SKILL.md
+       role writer house-style; run
+       [ "$RC" = 0 ] && ok || bad "the suite did not catch the mutant: the runtime half unchecked"; }
 MUT=""
 
 echo "skills-attached: $pass passed, $fail failed"

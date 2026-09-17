@@ -247,7 +247,12 @@ def _count(path, pattern):
 REPO_FURNITURE = {"README.md", "CHANGELOG.md", "AGENTS.md", "TRADEMARKS.md",
                   "INSTALL.md", "GEMINI.md", "LATER.md", "CLAUDE.md"}
 
-_pat = _count("PATTERNS.md", r"^\*\*\d+ · ")
+# **A `-bis` pattern is a pattern.** `16-bis` is how this file adds a shape that belongs beside an
+# existing one without renumbering every citation in the corpus — and the counter read only
+# `^**N · `, so the day one was added the README's honest figure started reading as an error. It
+# warned for a whole release before anyone traced it (2026-09-18), which is the cost of a check
+# that cries wolf: the line is read, dismissed, and then so is the next one.
+_pat = _count("PATTERNS.md", r"^\*\*\d+(?:-bis)? · ")
 CLAIMS = [
     (r"\b(%s|\d+)\s+chapters\b", len([f for f in glob.glob("*.md")
         if os.path.basename(f) not in REPO_FURNITURE | {"GLOSSARY.md","PATTERNS.md","SKILL.md"}])),
