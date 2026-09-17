@@ -181,6 +181,15 @@ All-Access, **no licence text on its pricing page** — read it inside the purch
 **Scrapegraph-ai** for turning a site into structured data, with scraping named as the outward act
 it is.
 
+**The shelf is now brought to the owner instead of waited for.** An owner cannot ask for a row
+they do not know exists, and nobody ever says *"I wish you had mentioned there was a gallery for
+this"* — they ship the generated version and it is fine. So the trigger is **a decision appearing**,
+not a question being asked: work about to start on a landing page, a survey, a billing model, a
+style, and two or three named candidates arrive with one line each on what separates them
+([`choosing-tools.md`](choosing-tools.md)). And **a product is not a reference**: reading a company's site to decide how
+yours should look selects on survivors and shows what somebody paid for — bring it as a direction to
+argue with, with the interest named in the same sentence.
+
 **Five working skills and six products were read, and what came back are rules rather than rows.**
 From design skills built by other people: **a look ships its own falsifier** (*Swiss breaks if warm
 paper, a serif display, grain or centred type appears*) · **the name resolves to tokens and the
@@ -277,7 +286,7 @@ is empty, naming it (verified 2026-09-17). `anti-references: none stated` passes
 conversation that happened; a blank is one that did not.
 
 **Trio:** eight diagrams — `tooling.md` two, `resources.md` one, `project-layout.md` one,
-`permissions.md` one, `hiring.md` one, `grouping.md` one, `visual.md` one — fifteen situations in `use-cases.md`, and
+`permissions.md` one, `hiring.md` one, `grouping.md` one, `visual.md` one — seventeen situations in `use-cases.md`, and
 `facts.md` **262–274**. The ck situation is the one with no diagram or fact of its own, and owes none: ck adds
 no mechanism, it is declared like any tool and rides §21's.
 

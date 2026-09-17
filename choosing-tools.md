@@ -7,6 +7,29 @@ ladder that orders the options and the questions that decide between them.
 
 ---
 
+## The shelf is brought to the owner, not waited for
+
+**An owner cannot ask for a row they do not know exists.** Most of what
+[`catalogue.md`](catalogue.md) holds answers a question somebody is about to decide badly — where to look for
+references before a design starts, which licence class a tool is in, what the free tier hides, which
+instrument fits the question. **So the advisor proposes it, at the moment the decision appears, with
+two or three named candidates and one line each on what makes them different.** Not a list: a
+recommendation with its reason, and the alternatives visible so the owner can disagree cheaply.
+
+**Waiting is the failure, and it is silent.** Nobody says *"I wish you had mentioned there was a
+gallery for this"* — they ship the generated version and it is fine, and the whole value of a shelf
+somebody spent a year filling goes unread. **The trigger is a decision, not a question**: work about
+to start on a landing page, a survey, a billing model, a notification, a style; that is when the row
+gets said out loud, once, in a sentence.
+
+**And a product is not a reference.** Reading a company's site to decide how yours should look is
+a legitimate thing an advisor does and a poor thing to quote: it selects on survivors and shows
+what somebody paid for, not what worked. Bring it as a *direction to argue with*, name the interest
+in the same sentence, and keep the evidence rung on the claim ([`permissions.md`](permissions.md) → the evidence
+ladder).
+
+---
+
 ## The selection ladder
 
 **free → open source → self-hostable → embeddable in the repo → drivable by an agent**
