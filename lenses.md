@@ -74,7 +74,19 @@ limits**, with nowhere to record it but prose. **A round carrying a `not complet
 clean**, which is the condition the tag waits on.
 
 **A finding names its place and its fix:** path, line, the defect in one sentence, and what
-would resolve it. A finding without a location is an opinion.
+would resolve it. A finding without a location is an opinion. **And an objection quotes the line it
+is about** — the text as written, not a paraphrase of it. A paraphrase is where a lens's own reading
+hides: the author answers the paraphrase, both walk away satisfied, and the line is untouched.
+
+**The reader gets the artefact, not the author's case for it.** No plan, no reasoning, no summary of
+what the change was trying to achieve — those are exactly the things that make a reader agree.
+**Self-review confirms assumptions; it does not test them**, and a reader handed the author's
+assumptions is doing self-review with an extra step. So the input is the diff and the files it
+touches ([`dispatching.md`](dispatching.md) for what a subagent gets), and the round is run by someone who did not write
+the text — which is the same rule from the other side. *(Named by Boris Cherny as the thing people
+most often get wrong about verification, 2026-08; it agrees with this corpus's own measurement that
+a model reads its own output generously, and sharpens it: the danger is not only the author
+reviewing, it is the author's framing travelling with the work.)*
 
 **Findings are not votes.** The lenses report; the owner of the change decides, and a rejected
 finding is answered, not ignored — one line saying why.

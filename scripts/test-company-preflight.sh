@@ -2125,5 +2125,34 @@ bash _ops/scripts/preflight.sh >/dev/null 2>&1 && ok || bad "an OPEN finding wit
 git checkout -q HEAD -- . 2>/dev/null; git reset -q
 rm -rf _ops/research
 
+# ── §4a-bis · a shipping project with no product map at all ────────────────────────────────
+# Measured 2026-09-16: fifteen commits, a shipped web client and an edge function, and no
+# `_ops/MAP.md` — so *what does this product do, in what order* had no answer in the repository
+# and every task re-derived it. The guard had only ever checked a map that already existed.
+# **The silence is half the rule**: one honest line in ARCHITECTURE turns it off, because some
+# products have no flow worth drawing and a warning nobody can answer is one people stop reading.
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+rm -f _ops/MAP.md; rm -rf _ops/map
+mkdir -p src && for i in 1 2 3 4 5 6; do printf 'x\n' > "src/mapf$i.js"; done
+printf '# Architecture\n\nsrc/ holds the product.\n' > _ops/ARCHITECTURE.md
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -qF 'no `_ops/MAP.md`' \
+  && ok || bad "a shipping project with no product map was not warned about"
+bash _ops/scripts/preflight.sh >/dev/null 2>&1 \
+  && ok || bad "the missing-map notice refused the commit instead of warning"
+
+printf '# Architecture\n\nsrc/ holds the product. No map: this is one command with no flow.\n' > _ops/ARCHITECTURE.md
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -qF 'no `_ops/MAP.md`' \
+  && bad "saying why there is no map did not silence the notice" || ok
+
+printf '# Architecture\n\nsrc/ holds the product.\n' > _ops/ARCHITECTURE.md
+printf '# Map\n\n## sign in\n\nThe move.\n' > _ops/MAP.md
+git add -A
+( bash _ops/scripts/preflight.sh 2>&1 || true ) | grep -qF 'no `_ops/MAP.md`' \
+  && bad "a project that has a map was told it has none" || ok
+git checkout -q HEAD -- . 2>/dev/null; git reset -q
+rm -f _ops/MAP.md; rm -f src/mapf*.js
+
 echo "company-preflight: $pass passed, $fail failed"
 exit "$fail"

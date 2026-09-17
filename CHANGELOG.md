@@ -145,6 +145,36 @@ asdf, devbox), search by meaning (ck, qmd), Podman and Open Notebook; the search
 stale index was wrong for ck, which refreshes its index before every search, and now names the real
 cost.
 
+**A product with no map was never told it had none.** `mapping.md` has always said the map is
+*seeded, never commissioned*, and the guard only ever checked a map that already existed — so the
+measured project shipped a web client and an edge function across fifteen commits with no
+`_ops/MAP.md` at all, and every task re-derived the shape from the code. **A warning now, with its
+escape**: one line in `_ops/ARCHITECTURE.md` saying this product has no flow worth drawing turns it
+off, the same way §4 lets a directory be excused. Refusing here would be a warning nobody can
+answer, which is how a checker stops being read.
+
+**And the interface that looks generated has a cause with an address.** `visual.md` now says where
+the ready-made things are declared — the kit in `_ops/design-system/`, a row per source in
+`_ops/TOOLING.md` with its licence and ceiling, the references in `_ops/brand/` — so a worker that
+finds those filled does not invent a hero section, and one that finds them empty asks instead of
+generating. **Named styles get a vocabulary, not a taxonomy**: Glassmorphism, Neo-Brutalism, Bento
+Grid, Wabi-Sabi and the rest, grouped by *what actually carries them* — depth and material, loud and
+deliberate, quiet and structural, hand and texture, atmosphere — with the accessibility cost noted
+where it lives. The rule is unchanged and now has words attached: **a style name buys search terms;
+the references and the tokens are still what gets agreed.** The catalogue gains
+**[Aceternity UI](https://ui.aceternity.com)** for landing blocks (free components, paid
+All-Access, **no licence text on its pricing page** — read it inside the purchase) and
+**Scrapegraph-ai** for turning a site into structured data, with scraping named as the outward act
+it is.
+
+**Verification, sharpened by someone else's measurement.** Boris Cherny's *"verification is
+probably the single most important thing people do not get right"* (2026-08) agrees with this
+corpus's own line that a model reads its own output generously, and sharpens it in two ways now
+written into `lenses.md`: **the reader gets the artefact, not the author's case for it** — no plan,
+no reasoning, no summary of intent, because those are exactly what make a reader agree — and
+**every objection quotes the line it is about**, as written, never paraphrased, since a paraphrase
+is where a lens's own reading hides and the author answers the paraphrase instead of the line.
+
 **A reading list of 76 links, triaged — and the declines are written down.** Seven new rows in
 `catalogue.md` where something carried a decision worth not rediscovering: engineering skills as a
 pool (**addyosmani/agent-skills**, whose `references/` checklists are the part worth the visit —
@@ -206,9 +236,9 @@ anti-references]` gate on the way out of a design stage, which `transition.py` r
 is empty, naming it (verified 2026-09-17). `anti-references: none stated` passes, because that is a
 conversation that happened; a blank is one that did not.
 
-**Trio:** seven diagrams — `tooling.md` two, `resources.md` one, `project-layout.md` one,
-`permissions.md` one, `hiring.md` one, `grouping.md` one — eleven situations in `use-cases.md`, and
-`facts.md` **262–271**. The ck situation is the one with no diagram or fact of its own, and owes none: ck adds
+**Trio:** eight diagrams — `tooling.md` two, `resources.md` one, `project-layout.md` one,
+`permissions.md` one, `hiring.md` one, `grouping.md` one, `visual.md` one — fifteen situations in `use-cases.md`, and
+`facts.md` **262–274**. The ck situation is the one with no diagram or fact of its own, and owes none: ck adds
 no mechanism, it is declared like any tool and rides §21's.
 
 ## 0.2.18 — 2026-09-11

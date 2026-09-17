@@ -61,6 +61,60 @@ about a conversation that happened; a blank is a conversation that did not.
 one-off markup. Hand-written screens are **both slower and worse**: a library makes a screen a
 composition rather than a generation.
 
+**So the project declares where the ready-made things are, once, and nobody searches again.** The
+failure this prevents has a name now — a generated interface that looks like every other generated
+interface, because the worker reached for markup instead of for the kit. Three declarations, and
+they are the same three every other dependency gets ([`tooling.md`](tooling.md) → *What the project needs from the
+machine*):
+
+| Declared in | What it says |
+|---|---|
+| `_ops/design-system/` | **the kit this product is built from** — the component library, its version, and the components already fitted to this brand |
+| `_ops/TOOLING.md` | a row per source with **its licence and its ceiling** — a paid block library and a free component set are different rows and different risks |
+| `_ops/brand/` | the references and anti-references style discovery produced, so a new screen argues against something |
+
+**A worker that finds those three filled does not invent a hero section.** A worker that finds them
+empty says so and asks, rather than generating — and the advisor proposes candidates out of
+[`catalogue.md`](catalogue.md) → *Component libraries* and *Websites, interfaces and the small surfaces*, which is what
+that shelf is for.
+
+---
+
+## Named styles — a pointer to references, never a substitute for them
+
+**An owner says `Neo-Brutalism` and means something real.** The words below are the vocabulary the
+current market actually uses, and an agent that cannot place them wastes a round asking what the
+owner meant. **They are not a taxonomy this system owns** — each one names a *look people point at*,
+and what makes it work is always the carriers: type, spacing, colour, depth, motion. So the rule is
+unchanged and the shortcut is allowed: **a style name buys you the search terms; the references and
+the tokens are still what gets agreed.**
+
+| Family | Names in use | What actually carries it |
+|---|---|---|
+| **depth and material** | Glassmorphism · Neumorphism · Claymorphism | blur, translucency and layered shadow — **the accessibility cost lives here**: all three fight contrast, and the check is the contrast ratio, not the mood |
+| **loud and deliberate** | Neo-Brutalism · Maximalism · Y2K Aesthetic · Cybercore · Cyberpunk · Synthwave | hard borders, unblended colour, visible grid or its deliberate violation, type used as a graphic object; the risk is a look that dates in a season |
+| **quiet and structural** | Swiss Design · Minimalism · Editorial Design · Bento Grid | the grid and the type scale carry everything, so the spacing system *is* the design; these age best and punish sloppy hierarchy hardest |
+| **hand and texture** | Scrapbook · Conceptual Sketch · Wabi-Sabi · Bohemian · Victorian | irregularity that has to be authored — a grid with jitter reads as broken, not as hand-made, so this family is the most expensive to generate and the most obvious when faked |
+| **atmosphere** | Ethereal · Surrealism · Pixel Art · Luxury Typography | one carrier dominates and the rest get out of its way: light, or impossible composition, or a pixel unit, or the face itself |
+
+```mermaid
+flowchart LR
+  N[a style NAME<br/>Neo-Brutalism · Glassmorphism …] --> S[search terms<br/>into the galleries]
+  P[the owner points at<br/>something they like] --> R
+  S --> R[3–4 references + the anti-references<br/>one line each on what carries it]
+  R --> C[the carriers: type · spacing<br/>colour · depth · motion]
+  C --> T[tokens in _ops/design-system/]
+  N -. never .-> T
+```
+
+**How this is meant to be used, in order**: the owner names a style, or points at something · the
+name becomes search terms in the galleries ([`catalogue.md`](catalogue.md)) · **three or four references come back with
+one line each on what carries the feeling**, plus the anti-references · the carriers are extracted
+into tokens in `_ops/design-system/`. **The name is never the deliverable.** Two projects saying
+`Minimalism` mean different things, and the tokens are where the difference stops being an
+argument — which is the same rule the catalogue's own *method, not a baked-in taxonomy* line has
+always stated, with a vocabulary attached so nobody has to bluff.
+
 **The gate rejects; it does not rubber-stamp.** A review that passes bad design is not a review. It
 checks the work against **the approved structure, the intake, and the design system** — a mismatch
 fails it. **The advisor never signs off design itself; the owner does**, at the checkpoint their

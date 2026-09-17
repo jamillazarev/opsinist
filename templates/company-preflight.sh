@@ -907,6 +907,26 @@ if [ -f _ops/ARCHITECTURE.md ]; then
   done < <(git ls-files -z)
 fi
 
+# 4a-bis · **the product map, where one does not exist at all.** `mapping.md` says the map is
+#      *seeded, never commissioned* — the first discovery pass or the corridor read draws it, and a
+#      feature's flow lands in it in the same task that changed the behaviour. Measured on a live
+#      project 2026-09-16: **fifteen commits, nine tasks, a shipped web client and an edge function,
+#      and no `_ops/MAP.md` at all** — so *what does this product actually do, in what order* had no
+#      answer in the repository, and every task re-derived it. Nothing had ever asked for the file,
+#      because the rule was a chapter and the guard only ever checked a map that already existed.
+#      **A warning, and one line silences it honestly**: some projects genuinely have no flow worth
+#      drawing, and saying so in `_ops/ARCHITECTURE.md` is the same escape §4 gives a directory.
+if [ -d _ops/tasks ] && [ ! -f _ops/MAP.md ] && [ ! -d _ops/map ]; then
+  _prod=$(git ls-files -z 2>/dev/null | tr '\0' '\n' | grep -vc '^_ops/' || true)
+  if [ "${_prod:-0}" -ge 5 ] && ! grep -qi 'no map\|MAP\.md' _ops/ARCHITECTURE.md 2>/dev/null; then
+    say_warn "this project has $_prod files outside \`_ops/\` and no \`_ops/MAP.md\` — the product \
+map is what says which moves exist and what each one is for, and it is seeded rather than \
+commissioned: the shape you already carry in your head, written once. A feature's flow then lands in \
+it in the same task that changes the behaviour. If this product genuinely has no flow worth drawing, \
+say that in \`_ops/ARCHITECTURE.md\` and this goes quiet"
+  fi
+fi
+
 # 4b · the product map, where one exists, must parse and stay reachable. An unclosed mermaid
 #      fence renders as a bomb on every surface that draws it, and a split-out move file nothing
 #      points at is a flow the index quietly forgot.
