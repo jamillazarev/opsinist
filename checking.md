@@ -28,6 +28,8 @@ therefore discovered at the worst possible time.
 | **link health** | a reference that quietly stopped existing → [`resources.md`](resources.md) |
 | **generated surfaces against their hashes** | a hand edit **reported before** it is overwritten |
 | **the board against the tasks** — the skill's `scripts/board.py --check` | a derived page that has drifted into a second list, read as current → [`grouping.md`](grouping.md) |
+| **the graph** — the skill's `scripts/graph-check.py` | **a repository that reads as a project and draws as a scatter**: phantom targets a vault turns into nodes, links no vault can follow, and mentions that are edges waiting to happen. Measured on a live project: 19 notes, **0 edges** → [`project-layout.md`](project-layout.md) |
+| **the roster against the runtime** — `.claude/agents/` beside `_ops/roles/` | **a role nobody loads**, whose bars and skills are read by no one while the advisor does its work — it does not error, it looks like a one-agent project → [`hiring.md`](hiring.md) |
 | **the guards themselves** — and whether the hook is wired at all: the skill's `scripts/guard-status.py` | *a guard that no longer matches reality passes silently* — and one copied but never wired never ran at all, while its presence read as protection |
 
 **A threshold with no named command that produces its verdict is an aspiration, not a

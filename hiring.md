@@ -142,6 +142,23 @@ Published cost-routing work supports this, with one caveat that is a strength he
 risk: cheap-first-then-escalate beats any single model **only when the verifier is good** — and
 the review gate is that verifier (`sources/`).
 
+## A role the runtime cannot see is a document
+
+**Hiring writes two files, not one.** `_ops/roles/<role>.md` is the role — its bars, its skills, its
+grade, its trust — and `.claude/agents/<role>.md` is the wiring the thing that dispatches work
+actually reads: markdown with `name` and `description` in its frontmatter, plus the tools and model
+this role may use. **No build step, no registration** (Claude Code docs, read 2026-09-18); the file
+alone is enough, which is why forgetting it is so easy and so quiet.
+
+**Measured 2026-09-18 on a live project**: three roles in `_ops/roles/` and **no `.claude/`
+directory at all.** Nothing errored. The advisor did all of the work itself, which is what an
+unwired roster looks like from the outside — and every bar, skill and instruction those three files
+carried was read by nobody for the project's whole life. §28 refuses the commit that writes a role
+with no wiring beside it, and a project operated in another runtime names where its wiring lives in
+`_ops/config.md` once.
+
+---
+
 ## Fit-check — three exits, all normal
 
 Before starting, a role asks: *is this my craft, and my grade?*

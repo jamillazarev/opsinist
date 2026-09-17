@@ -13,6 +13,36 @@ machine until someone runs `mise trust` there — yours to say. And the skill's 
 run bare, lists the ids and `_ops/` paths your notes name in passing; `--write` turns them into
 links, only if you want it.
 
+**The re-copied guard brings six new sections, and five of them only judge what a commit WRITES**
+— §23 the shape of a task it adds · §25 an assignment it writes · §26 a skill it attaches · §27 a
+mention it adds · §28 a role it writes. **Nothing in your history is retro-judged**, so the upgrade
+does not turn yesterday's files into today's refusals; the first commit that touches one of those
+things is where you meet the rule. **§24 is the one that reads the commit before yours** — a
+product-only commit warns, a second in a row is refused — and the escape is the same one everybody
+already uses: a task, or the run record the quick path asks for.
+
+**Three things worth doing once, in this order.** They are each one command and none of them is
+required:
+
+1. **`python3 <skill>/scripts/link-ids.py <project> --write`** — turns the ids, paths and assignee
+   names your notes already carry into links. Do this *before* your next commit under `_ops/`, or
+   §27 will refuse that commit for the mentions it adds.
+2. **`python3 <skill>/scripts/graph-check.py <project>`** — says whether the repository is actually
+   a graph: notes, edges, orphans, phantom targets, and how many mentions are still edges waiting
+   to happen. Read on a live project it answered *19 notes, 0 edges, 19 orphans*.
+3. **Wire your existing roles.** Every `_ops/roles/<role>.md` owes a `.claude/agents/<role>.md` —
+   markdown with `name` and `description`, no build step — or one line in `_ops/config.md` naming
+   where your runtime's agent wiring lives. §28 refuses the *next* role you write without it; the
+   ones already there are yours to catch up on, and the reason to bother is that an unwired role is
+   read by nobody and the advisor quietly does its work.
+
+**And one discipline, for anything you add from now on:** a project's MCP server is added with
+**`claude mcp add --scope project`**, which writes `.mcp.json` in the repository. The default is
+`local`, and local means `~/.claude.json` keyed by this project's path — **which stays there after
+the directory is deleted.** Project scope leaves nothing behind but an approval record, clearable
+with `claude mcp reset-project-choices`. The same shape for skills and agents: committed under
+`.claude/`, they arrive with a clone and leave with the repository.
+
 **Also re-copy `_ops/scripts/transition.py`** — the stock ladder's `review → accept` now carries
 `review_by: non-author`, and the door reports a ladder whose terminal stage has no such gate on
 every move it makes. **Nothing you have written is frozen by that**: a ladder already in the project
@@ -158,6 +188,31 @@ declarations the guard's own readers parse (`**Task**`, `task:`) — linked, tho
 where an id was expected. **And the same section keeps the graph honest**: a link whose target is
 absent, an absolute path, or an unencoded space is refused, three shapes Obsidian, GitHub and the
 link checker all fail on identically. `test-links-hard.sh` **15/15**, four mutants.
+
+**And whether the graph works is now a measurement rather than a promise.**
+`scripts/graph-check.py` reads a project and answers: notes · note-to-note edges · orphans ·
+attachment links · how many links resolve **both** ways, only relative to their own file, or only
+from the vault root · every phantom target, unencoded space and path climbing out of the
+repository · and **how many mentions are edges waiting to happen**. Three facts from Obsidian's own
+help decide those tests (read 2026-09-18): Markdown links are resolved, a destination **must be
+URL-encoded**, and **a link to a file that does not exist still becomes a node** — its graph filter
+*Existing files only* exists for exactly that reason, which is why a rotted link is worse than a
+bare name. **What the help does not document is how a relative destination resolves**, so the script
+does not assume: it tries both readings and says which links survive each. Run on this corpus:
+**118 notes, 553 edges, 6 orphans, the relative form throughout and nothing vault-absolute-only.**
+Run on the measured project: **19 notes, 0 edges, 19 orphans.** Its own first version called that
+*"the graph is whole"* — true about links and false about everything a graph is for — so **no edges
+is now the finding**, and the mutant that says it again is in the suite. `test-graph-check.sh`
+**18/18**.
+
+**A role the runtime cannot see is a document, not a worker — §28.** Measured 2026-09-18 on the same
+project: three roles in `_ops/roles/` and **no `.claude/` directory at all**, so every bar, skill and
+instruction those files carried was read by nobody and the advisor did the work itself. That failure
+does not error; it looks like a project where one agent does everything. Hiring writes **two** files
+now — the role, and `.claude/agents/<role>.md`, which needs only `name` and `description` in its
+frontmatter and no build step — and a role attaching a pool skill the runtime directory does not
+carry is refused for the same reason. A project operated in another runtime names where its wiring
+lives in `_ops/config.md`, once, and the section stands down. `test-role-wiring.sh` **12/12**.
 
 **What a vault needs is written down once** ([`project-layout.md`](project-layout.md)): a relative path · a target that
 exists · no unencoded space · **and the vault opened at the project root rather than at `_ops/`**,
@@ -329,8 +384,8 @@ is empty, naming it (verified 2026-09-17). `anti-references: none stated` passes
 conversation that happened; a blank is one that did not.
 
 **Trio:** eight diagrams — `tooling.md` two, `resources.md` one, `project-layout.md` one,
-`permissions.md` one, `hiring.md` one, `grouping.md` one, `visual.md` one — seventeen situations in `use-cases.md`, and
-`facts.md` **262–274**. The ck situation is the one with no diagram or fact of its own, and owes none: ck adds
+`permissions.md` one, `hiring.md` one, `grouping.md` one, `visual.md` one — twenty-one situations in `use-cases.md`, and
+`facts.md` **262–277**. The ck situation is the one with no diagram or fact of its own, and owes none: ck adds
 no mechanism, it is declared like any tool and rides §21's.
 
 ## 0.2.18 — 2026-09-11

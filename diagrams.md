@@ -357,7 +357,7 @@ is guest → [`entering.md`](entering.md).
 flowchart TD
   W[work looks finished] --> G{gates green?}
   G -- no --> STOP[not a release]
-  G -- yes --> CH[health · links · check-dates · evals]
+  G -- yes --> CH[health · links · check-dates · evals<br/>· the guard wired · the board current<br/>· the graph whole]
   CH --> EX{does done name<br/>something outside git?}
   EX -- yes --> VER[confirm the referent still exists]
   EX -- no --> LEN

@@ -515,11 +515,13 @@ _assignvar=$(awk '/^[[:space:]]*if \[ -z "\$\{[_a-z]*:-\}" \]; then/{f=1}
 # counted. **This pair had already been repaired once** — the directory was fixed in August while
 # the format mismatch survived — which is why the assertions below are a must-fire/must-not-fire
 # pair on BOTH forms rather than one happy path.
-_role_tpl(){ { printf '# %s — the craft\n\n**Type**: %s · **Grade**: senior\n\n' "$1" "$2"
+_wire(){ mkdir -p .claude/agents
+  printf -- '---\nname: %s\ndescription: does the thing\n---\n' "$1" > ".claude/agents/$1.md"; }
+_role_tpl(){ _wire "$1"; { printf '# %s — the craft\n\n**Type**: %s · **Grade**: senior\n\n' "$1" "$2"
   printf '## Skills attached\n\n| Skill | Why this role needs it |\n|---|---|\n'
   i=1; while [ "$i" -le "${3:-0}" ]; do printf '| skill-%s | because |\n' "$i"; i=$((i+1)); done
   printf '\n## Trust\n'; } > "_ops/roles/$1.md"; }
-_role_yml(){ { printf -- '---\ntype: %s\nskills:\n' "$2"
+_role_yml(){ _wire "$1"; { printf -- '---\ntype: %s\nskills:\n' "$2"
   i=1; while [ "$i" -le "${3:-0}" ]; do printf -- '  - skill-%s\n' "$i"; i=$((i+1)); done
   printf -- '---\n\n# %s\n' "$1"; } > "_ops/roles/$1.md"; }
 _roleout(){ ( bash _ops/scripts/preflight.sh 2>&1 || true ); }
@@ -603,7 +605,9 @@ git rm -qf _ops/tasks/T-SIGN02.md >/dev/null 2>&1; git commit -qm "sign02 out" >
 # the template's prose form made a recursive search hit things that are not roles; teaching §8 to
 # read a table made it miscount two ordinary tables; and §11's author half was taught bold and
 # backticks while its reviewer half — the other side of the same comparison — was not.
-_role_at(){ mkdir -p "$(dirname "_ops/roles/$1")"; printf '# %s\n\n**Type**: %s\n' "$(basename "$1" .md)" "$2" > "_ops/roles/$1"; }
+_role_at(){ mkdir -p "$(dirname "_ops/roles/$1")"
+  case "$1" in */*) ;; *) _wire "$(basename "$1" .md)";; esac
+  printf '# %s\n\n**Type**: %s\n' "$(basename "$1" .md)" "$2" > "_ops/roles/$1"; }
 
 # §7 · a README documenting the form, and an archive holding a retired role, are not advisors
 _role_tpl OneAdv advisor 0

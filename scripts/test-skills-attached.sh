@@ -4,7 +4,7 @@
 # `_ops/skills/` absent, `.claude/` empty, and every one of those skills installed in the owner's
 # own runtime where the work happened to run fine.
 #
-# **Four code mutants**: the pool unread (a skill the project holds refused), the register unread
+# **Four code mutants**: the pool and the runtime directory both unread (a skill the project holds refused), the register unread
 # (a declared runtime skill refused), the header row judged as a skill (`| Skill |` refused in
 # every role), and the check widened past the rows this commit writes (a project's history refused
 # for roles nobody touched).
@@ -19,6 +19,10 @@ run() { git add -A; OUT=$(bash _ops/scripts/preflight.sh 2>&1); RC=$?; }
 commit() { git add -A; git commit -qm "$1" --no-verify; }
 
 role() {   # $1 file stem · $2.. skill rows
+  # §28 asks a role for its runtime wiring, so every fixture role here carries one — this suite
+  # measures §26 and must not trip its neighbour instead.
+  mkdir -p .claude/agents
+  printf -- '---\nname: %s\ndescription: does the thing\n---\n' "$1" > ".claude/agents/$1.md"
   local f="_ops/roles/$1.md"; shift
   { printf '# A role\n\n**Type**: worker · **Grade**: mid\n\n## Skills attached\n\n'
     printf '| Skill | Why this role needs it |\n|---|---|\n'
@@ -46,7 +50,9 @@ run
   || bad "a skill attached from nowhere passed, or said nothing useful: $OUT"
 
 # ── the project's own pool answers it ──────────────────────────────────────────────────────────
-mkdir -p _ops/skills/frontend-design && printf '# frontend-design\n' > _ops/skills/frontend-design/SKILL.md
+mkdir -p _ops/skills/frontend-design .claude/skills/frontend-design
+printf '# frontend-design\n' > _ops/skills/frontend-design/SKILL.md
+printf -- '---\nname: frontend-design\ndescription: x\n---\n' > .claude/skills/frontend-design/SKILL.md
 run; [ "$RC" = 0 ] && ok || bad "a skill sitting in the project's own pool was refused: $OUT"
 
 # ── so does a register row saying the runtime provides it ──────────────────────────────────────
@@ -69,6 +75,7 @@ run; [ "$RC" = 0 ] && ok || bad "an unfilled template placeholder was read as a 
 # ── a linked name is the same name ─────────────────────────────────────────────────────────────
 fixture
 mkdir -p _ops/skills/house-style && printf '# house-style\n' > _ops/skills/house-style/SKILL.md
+mkdir -p .claude/skills/house-style && printf -- '---\nname: house-style\ndescription: the voice\n---\n' > .claude/skills/house-style/SKILL.md
 role writer '[house-style](../skills/house-style/SKILL.md)'
 run; [ "$RC" = 0 ] && ok || bad "a skill named as a link was not resolved: $OUT"
 
@@ -79,6 +86,7 @@ fixture
 role old_role legacy-skill
 commit "legacy"                      # written before the guard was wired
 mkdir -p _ops/skills/house-style && printf '# house-style\n' > _ops/skills/house-style/SKILL.md
+mkdir -p .claude/skills/house-style && printf -- '---\nname: house-style\ndescription: the voice\n---\n' > .claude/skills/house-style/SKILL.md
 role new_role house-style
 run; [ "$RC" = 0 ] && ok || bad "a role this commit did not touch was judged beside one it did: $OUT"
 
@@ -93,11 +101,16 @@ open(p, "w").write(s.replace(a, b))
 PY
   MUT="$T/mut.sh"
 }
-mutant "the project's own pool unread" \
-  '    for p in ("_ops/skills/%s" % name, "_ops/skills/%s.md" % name, "_ops/skills/%s/SKILL.md" % name,' \
-  '    for p in (' \
-  && { fixture; mkdir -p _ops/skills/frontend-design
+# **The anchor takes the whole path list, runtime directory included.** Cutting only the
+# `_ops/skills/` entries left `.claude/skills/` still read, so the skill resolved anyway and the
+# mutant passed — a mutation that changes nothing looks exactly like a toothless test.
+mutant "the pool and the runtime directory both unread" \
+  '    for p in ("_ops/skills/%s" % name, "_ops/skills/%s.md" % name, "_ops/skills/%s/SKILL.md" % name,
+              ".claude/skills/%s" % name, ".claude/skills/%s/SKILL.md" % name):' \
+  '    for p in ():' \
+  && { fixture; mkdir -p _ops/skills/frontend-design .claude/skills/frontend-design
        printf '# frontend-design\n' > _ops/skills/frontend-design/SKILL.md
+       printf -- '---\nname: frontend-design\ndescription: x\n---\n' > .claude/skills/frontend-design/SKILL.md
        role web_engineer frontend-design; run
        [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: the pool unread"; }
 
@@ -123,6 +136,7 @@ mutant "every role judged, not the ones this commit writes" \
              if p.startswith("_ops/roles/")' \
   && { fixture; role old_role legacy-skill; commit legacy
        mkdir -p _ops/skills/house-style && printf '# house-style\n' > _ops/skills/house-style/SKILL.md
+mkdir -p .claude/skills/house-style && printf -- '---\nname: house-style\ndescription: the voice\n---\n' > .claude/skills/house-style/SKILL.md
        role new_role house-style; run
        [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: history retro-judged"; }
 MUT=""

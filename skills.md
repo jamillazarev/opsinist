@@ -158,6 +158,13 @@ That is the same failure [`tooling.md`](tooling.md) names for an MCP server or a
 same answer: **what the project needs from the machine is declared.** The guard's §26 refuses a role
 whose commit attaches a name that resolves to neither the pool nor a register row.
 
+**The pool is the source; the runtime directory is the copy that gets read.** `_ops/skills/<name>/`
+is where a skill lives as this project's own — screened, trimmed, provenance attached — and
+`.claude/skills/<name>/SKILL.md` is where the runtime looks for it. **Both are committed**, so a
+clone gets the skill and the wiring together, and the guard's §28 refuses a role that attaches a
+pool skill the runtime directory does not carry: a role told it has a skill nothing loads is a role
+doing the work without it, silently and slightly worse.
+
 **Linking is what puts the edge in the graph.** A role's `Skills attached` row naming
 `` `house-style` `` in backticks is an edge only a reader infers; written as
 `[house-style](../skills/house-style/SKILL.md)` it is an edge Obsidian draws, the link checker

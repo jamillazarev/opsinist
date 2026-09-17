@@ -2242,6 +2242,96 @@ SHAPE
   rm -f "$_tsk"
 fi
 
+# 28 · **a role the runtime cannot see is a document, not a worker.** Measured on a live project
+#      2026-09-18: three role files in `_ops/roles/` and **no `.claude/` directory at all** — so
+#      every instruction those roles carry, every skill attached to them and every bar they state
+#      was read by nobody, because the thing that dispatches work loads its agents from
+#      `.claude/agents/` and there was nothing there. The project ran anyway, on the advisor alone,
+#      which is exactly why nobody noticed: **the failure mode of an unwired role is not an error,
+#      it is the work quietly being done by somebody else.**
+#      `project-layout.md` has always said `roles/` → `.claude/agents/`; nothing asked whether the
+#      second half happened. Claude Code needs a markdown file with `name` and `description` in its
+#      frontmatter and nothing more — no build step, no registration (docs read 2026-09-18) — so the
+#      cost of the wiring is one file per role, and the cost of skipping it is the whole roster.
+#      **Judged where the commit WRITES a role**, and a project operated in another runtime says so
+#      in `_ops/config.md` — a line naming where its agent wiring lives turns this off.
+if [ "$(changed --diff-filter=AM -- '_ops/roles/*.md' | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
+  _wir=$(mktemp "${TMPDIR:-/tmp}/opsinist-wiring.XXXXXX")
+  python3 - > "$_wir" <<'WIRING'
+import os, re, subprocess
+
+def git(*args):
+    r = subprocess.run(["git", "-c", "core.quotePath=false"] + list(args), capture_output=True,
+                       text=True, errors="replace")
+    return r.stdout if r.returncode == 0 else None
+
+def norm(name):
+    return "".join(c if c.isalnum() else "-" for c in name.lower()).strip("-")
+
+cfg = ""
+for f in ("_ops/config.md", "config.md"):
+    cfg += git("show", ":" + f) or (open(f, encoding="utf-8", errors="replace").read()
+                                    if os.path.isfile(f) else "")
+# a project wired to another runtime says where — one line, and this section stands down
+elsewhere = re.search(r"agent[s]?\s+(?:wiring|live|directory|path)|\.codex/|\.gemini/|agents_dir",
+                      cfg, re.I) is not None
+
+tracked = [p for p in (git("ls-files", "-z", "--cached", "--others", "--exclude-standard") or "").split("\0") if p]
+agents = {os.path.basename(p)[:-3].lower() for p in tracked
+          if p.startswith(".claude/agents/") and p.endswith(".md")}
+pool = {os.path.basename(os.path.dirname(p)).lower() for p in tracked
+        if p.startswith("_ops/skills/") and os.path.basename(p) == "SKILL.md"}
+wired_skills = {os.path.basename(os.path.dirname(p)).lower() for p in tracked
+                if p.startswith(".claude/skills/") and os.path.basename(p) == "SKILL.md"}
+
+# **A README documenting the form, and an archive holding a retired role, are not workers** —
+# the same two false positives §7 was taught in 2026-08 by an adversarial lens, and this section
+# inherited them the moment it read the same directory. Top level only, and never the README: a
+# parked role lives under `_ops/roles/archive/` and owes the runtime nothing, because nothing
+# should be able to dispatch it.
+staged = [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=AM", "-z") or "").split("\0")
+          if re.match(r"^_ops/roles/[^/]+\.md$", p or "")
+          and os.path.basename(p).lower() != "readme.md"]
+for path in staged:
+    role = os.path.basename(path)[:-3]
+    text = git("show", ":" + path) or ""
+    if not elsewhere and norm(role) not in {norm(a) for a in agents}:
+        print("FAIL:%s is a role the runtime cannot see — there is no `.claude/agents/%s.md`, and "
+              "that directory is where the thing that dispatches work looks for its agents. A role "
+              "nobody loads does not error: the work gets done by the advisor instead, which is "
+              "why this goes unnoticed for a whole project. **One file fixes it**: markdown with "
+              "`name` and `description` in its frontmatter, plus the tools and model this role is "
+              "allowed — no build step and no registration. A project operated in another runtime "
+              "names where its wiring lives in `_ops/config.md`, and this stands down."
+              % (path, norm(role)))
+    m = re.search(r"^#+\s*Skills attached\s*$(.*?)(?=^#+\s|\Z)", text, re.M | re.S | re.I)
+    for row in (m.group(1).split("\n") if m else []):
+        row = row.strip()
+        if not row.startswith("|") or set(row) <= set("|-: "):
+            continue
+        cell = row.strip("|").split("|")[0].strip()
+        cell = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", cell).strip().strip("`*_")
+        # **§26 reads this same table**, for whether the skill resolves at all; this reads it for
+        # whether the runtime can load it. Each section's heredoc stands alone, so the two readers
+        # are separate on purpose — and a change to either belongs in both.
+        if not cell or "{{" in cell or cell.lower() in ("skill", "name"):
+            continue
+        low = cell.lower()
+        if low in pool and low not in wired_skills and not elsewhere:
+            print("FAIL:%s attaches `%s`, which sits in the project's pool and is not in "
+                  "`.claude/skills/%s/` — so the role is told it has a skill the runtime never "
+                  "loads. The pool is the source and the runtime directory is the copy that gets "
+                  "read; a clone gets both because both are committed." % (path, cell, cell))
+WIRING
+  _wrc2=$?
+  [ "$_wrc2" -eq 0 ] || say_fail "the check of this project's runtime wiring stopped before its end \
+(python3 exited $_wrc2; its error is above) — refused, because a check that did not finish has not passed."
+  while IFS= read -r _wl2; do
+    case "$_wl2" in FAIL:*) say_fail "${_wl2#FAIL:}" ;; WARN:*) say_warn "${_wl2#WARN:}" ;; esac
+  done < "$_wir"
+  rm -f "$_wir"
+fi
+
 # 27 · **a mention of something inside this project is a link, or the commit is refused** — and
 #      every link resolves to a file that is there. Measured on a live project 2026-09-16: **one
 #      link in the whole of `_ops/` against twenty-two bare ids**, nine tasks naming an assignee

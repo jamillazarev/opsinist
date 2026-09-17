@@ -26,6 +26,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/coverage-map.py` — Regenerate the coverage map: what holds each rule, and what exercises each holder
 - `scripts/deps-report.py` — What the project depends on, why, and how much each available update matters
 - `scripts/fetch-source.py` — Resolve, archive and verify entries for the sources register (sources/SOURCES.md)
+- `scripts/graph-check.py` — Does this project's graph actually work? — every internal link resolved, both ways
 - `scripts/guard-status.py` — Is the project's guard installed, current, and actually wired to fire?
 - `scripts/inventory.py` — A deterministic inventory of a tree — the map of the territory, never the territory
 - `scripts/link-ids.py` — In a project, an id or a path named in passing becomes a link — so Obsidian's graph, GitHub and
@@ -57,6 +58,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-deps-report.sh` — deps-report.py — the updates sorted by what they ask of the owner, and the why of each thing the
 - `scripts/test-eval-requeue.sh` — The void sweep in eval-requeue.sh, exercised against the shapes that produced it
 - `scripts/test-find-installs.sh` — `find-installs.sh` exercised on its mutants and its honest twins
+- `scripts/test-graph-check.sh` — `graph-check.py` — does this project's graph actually work — on throwaway vaults holding every
 - `scripts/test-guard-status.sh` — guard-status.py — is the project's guard installed, current, and wired — shown on throwaway
 - `scripts/test-inventory.sh` — The inventory's three promises, exercised: identical twice, guest-safe, honest off git
 - `scripts/test-link-ids.sh` — link-ids.py — an id or a path named in passing becomes a link — shown on a throwaway project that
@@ -67,6 +69,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-native-register.sh` — §20 and §21 of the project guard — the native files and the register held to each other —
 - `scripts/test-recheck-trigger.sh` — §22 of the project guard — a new tension in the source register reaches the findings resting on
 - `scripts/test-record-moves.sh` — §24 of the project guard — the product moved and the record did not — shown warning on the first
+- `scripts/test-role-wiring.sh` — §28 of the project guard — **a role the runtime cannot see is a document, not a worker** — on a
 - `scripts/test-skills-attached.sh` — §26 of the project guard — a skill attached to a role resolves to something — on a throwaway
 - `scripts/test-task-shape.sh` — §23 of the project guard — a task the commit CREATES has the shape the template gives it — and
 - `scripts/test-transition.sh` — The transition door, exercised end to end on a throwaway fixture — same habit as

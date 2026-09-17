@@ -82,6 +82,9 @@ rm -f _ops/tasks/T-AAAAAE-thing.md
 # ── hiring in the same commit is how it is meant to be fixed ───────────────────────────────────
 task T-AAAAAF "[Designer](../roles/designer.md)"
 printf '# Designer\n\n**Type**: worker · **Grade**: mid\n' > _ops/roles/designer.md
+# hiring writes two files: the role, and the wiring the runtime reads (§28)
+mkdir -p .claude/agents
+printf -- '---\nname: designer\ndescription: draws the screens\n---\n' > .claude/agents/designer.md
 run; [ "$RC" = 0 ] && ok || bad "a task assigned to a role hired in the same commit was refused: $OUT"
 commit "hire a designer"
 

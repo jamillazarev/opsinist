@@ -181,11 +181,13 @@ dangling symlink or a stale copy.
 |---|---|
 | **[SKILL.md](skills/advisor/SKILL.md)** | the core: the laws, the front door, and what to load when |
 | **[GLOSSARY.md](GLOSSARY.md)** | one word, one meaning — and the pairs that look alike and are not |
-| **[PATTERNS.md](PATTERNS.md)** | the twenty-seven shapes this system reuses, named once |
+| **[PATTERNS.md](PATTERNS.md)** | the twenty-eight shapes this system reuses, named once |
 | **[lenses.md](lenses.md)** | four readings before anything of consequence ships |
 | **forty-three chapters** — the methodology, one trigger each | loaded when their subject comes up, never all at once. **Not templates** — those are their own set in `templates/`, copied into a project when an entity is born |
 | **[storing.md](storing.md)** | which of the six layers land in the repository, and which stay with you |
 | **[runtimes.md](runtimes.md)** | which gates are real in the runtime you are actually in |
+| **[scripts/](scripts/)** | the doors and the reports a project runs: `new-task.py` writes a task · `transition.py` is the only way a stage moves · `board.py` → `_ops/BOARD.md` · `cost-report.py` → `_ops/COST.md` · `guard-status.py` says whether the guard is wired at all · `graph-check.py` says whether the repository is really a graph · `link-ids.py --write` turns mentions into edges |
+| **[templates/](templates/)** | one per entity, copied in when it is born — including **`company-preflight.sh`**, the pre-commit guard whose sections are what turn these rules into refusals |
 | **[evals/](evals/)** | scenarios scored by pass-rate, including nine that press on the rules |
 | **[sources/](sources/)** | the evidence behind every slow-rotting claim, with archive links and dates |
 

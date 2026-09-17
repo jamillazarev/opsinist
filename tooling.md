@@ -25,6 +25,30 @@ owner's word** — the dry run first, the versions named, then the install. A co
 only because the person who made it already had the CLI is a connection the next clone does not
 have, and it fails by doing less rather than by failing.
 
+**A project's dependency goes in the project, and nothing of a project's lands in the machine.**
+This is a one-flag discipline and the flag is not the default, which is the whole problem. Read in
+Claude Code's own documentation, 2026-09-18:
+
+| What | Where a project's copy lives | What reaches the user's machine |
+|---|---|---|
+| **an MCP server** | `.mcp.json` at the root, committed — `claude mcp add --scope project …` | **an approval record only**: whether this project's servers were trusted, plus a per-project `disabledMcpServers` toggle, both in `~/.claude.json`. `claude mcp reset-project-choices` clears it |
+| **a skill** | `.claude/skills/<name>/SKILL.md`, committed — the pool in `_ops/skills/` is the source, this is the copy the runtime reads | nothing documented |
+| **an agent** | `.claude/agents/<name>.md`, committed — markdown with `name` and `description`, no build step | nothing documented |
+
+**`claude mcp add` defaults to `local`, and local means `~/.claude.json` keyed by the project's
+path — which stays there after the directory is deleted.** That is the clutter to avoid, and
+avoiding it costs six characters: `--scope project`. **So the rule is: a project's server is added
+with `--scope project` or not at all**, and a server genuinely wanted in every project of yours is a
+*user*-scope decision the owner makes once, for themselves, and it does not belong in any
+repository's register.
+
+**What leaves with the product leaves because it was never anywhere else.** Delete the repository
+and a project-scoped server, its skills and its agents are gone — the approval record is the only
+residue, and it is machine consent rather than work, which is the test [`storing.md`](storing.md) states for
+anything kept outside. **A user-scope skill or server is the opposite**: it survives the clone,
+which means a project that depended on one silently does less on anybody else's machine — the
+failure §26 refuses, and the reason a runtime-provided skill owes a register row.
+
 **Migrating away removes what it installed, and asks about the rest.** The same two-act shape,
 reversed and with the asymmetry that matters: **what is project-local goes automatically** — the
 `.mcp.json` entry, the pool copy of the skill, the register rows, the runbook — because it is this
