@@ -245,7 +245,7 @@ def _count(path, pattern):
 # it stands up gets. It is furniture, not corpus — no run loads it, and counting it would make
 # the chapter figures drift every time something is deferred.
 REPO_FURNITURE = {"README.md", "CHANGELOG.md", "AGENTS.md", "TRADEMARKS.md",
-                  "INSTALL.md", "GEMINI.md", "LATER.md", "CLAUDE.md"}
+                  "INSTALL.md", "LATER.md", "CLAUDE.md"}
 
 # **A `-bis` pattern is a pattern.** `16-bis` is how this file adds a shape that belongs beside an
 # existing one without renumbering every citation in the corpus — and the counter read only

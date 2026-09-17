@@ -25,7 +25,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "I'm promoting my open-source library" | *"the product lives in its own repo — this is the campaign"* | the library becomes a **watched resource** (`version_seen`, releases land in triage as content candidates); its tree is mapped read-only; the competitors get a register with dated cells → [`tooling.md`](tooling.md), [`templates/COMPETITORS-template.md`](templates/COMPETITORS-template.md) |
 | "I'm an engineer inside a company repo" | *"fix the flaky test in this repo"* | **guest mode** — their conventions bind, nothing of ours lands in their tree |
 | "I run a workshop, not a product" | *"we glaze tiles to order"* | the process is discovered first, then a tool per step |
-| "I already have Claude Code / Codex / Gemini CLI" | — | it installs into all of them; **what it can run depends on the runtime**, and it says so |
+| "I already have Claude Code / Codex / Antigravity" | — | it installs into all of them; **what it can run depends on the runtime**, and it says so |
 
 ## Someone else's repository
 
@@ -84,7 +84,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "Did it work?" | *"did the new onboarding move the metric?"* |
 | "I'll do this part myself" | *"I'll design it, pick it up after"* — **and you'll be asked what you did, what proves it, and what's next** |
 | "I'm done for today" | *"wrapping up"* — the tail written, applied work landed, decisions recorded |
-| "I want to continue in another tool" | *"I'll carry on in Gemini"* — same wrap-up, then open the project there |
+| "I want to continue in another tool" | *"I'll carry on in Antigravity"* — same wrap-up, then open the project there |
 | "Can I just close the terminal?" | *"done?"* — yes, once the wrap-up ran; nothing lives in the session |
 | "I closed it without saying anything" | nothing lost but talk: recovery reads the tree, and **where the runtime resumes, the old session gives up its wrap-up once** |
 | "This is taking ages — did it die?" | *"still going?"* — you are told before you ask, and an overrun says so |

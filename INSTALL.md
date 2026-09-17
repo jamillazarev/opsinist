@@ -13,7 +13,7 @@ freshness law — past its recheck a row is a claim to re-verify, not a fact.
 | Google Antigravity | `plugin.json` (repo root) + `rules/` | **2026-07-31 · partly measured**: the by-hand route ran here — a `v0.1.1` snapshot placed at `~/.gemini/config/plugins/opsinist/`, root `plugin.json`, `rules/` and the corpus verified on disk afterwards. **Discovery by the IDE itself is not yet observed live**; the paths remain cited from antigravity.google/docs/plugins |
 | Codex / ChatGPT | `.codex-plugin/plugin.json` | **2026-07-31 · measured end to end** — `codex plugin marketplace upgrade` then `codex plugin add opsinist@opsinist`; installed and enabled at 0.1.1, the config recording the source revision |
 | Kimi Code CLI | `.kimi-plugin/plugin.json` — **which manifest path Kimi reads is unverified** | **2026-07-31 · partly measured**: the command is `kimi plugin install`, and `kimi plugin` is **absent from 0.14.2** here; syntax cited from moonshotai.github.io/kimi-cli |
-| Gemini CLI | `gemini-extension.json` + `GEMINI.md` | **2026-07-31 · measured end to end** — at 0.1.1, resolved **from the GitHub release** (`v0.1.1`). **`extensions update` reported "already up to date" while sitting at 0.1.0**: this route follows *releases*, and a pushed tag is not one. Publishing the release, then uninstall and reinstall, moved it — the install prompt is interactive and needs `--consent` in a non-interactive shell |
+| Antigravity CLI (`agy`) | `plugin.json` (repo root) + `skills/` + `rules/` | **2026-09-18 · measured** on `agy` 1.2.5: `agy plugin validate .` returns **ok, 21 skills processed**, with `agents`, `commands`, `mcpServers` and **`hooks` all reported *skipped (not found)*** — so the skills load and **the audit gate does not reach this runtime**. Behaviour not run. The two files Gemini CLI needed (`gemini-extension.json`, `GEMINI.md`) were deleted this release and validation is unchanged, which is how we know they were its and not Antigravity's |
 | OpenCode | `package.json` + `.opencode/plugins/` — or the shared skills path | 2026-07-30 · cited from opencode.ai/docs/skills |
 | OpenClaw | a symlink or copy in `~/.openclaw/skills/` (targeting `skills/advisor` works — chapter resolution canonicalises the link) | **2026-08-06 · measured live** — `skills list` carries the description, and an embedded agent turn opened [`entering.md`](entering.md) through the symlinked install and quoted its heading verbatim. The richest host profile seen so far: **cron, agent hooks and a resident gateway**, which makes it the first candidate to actually *hold* schedule and webhook triggers |
 | Hermes Agent | `skills.external_dirs` in `~/.hermes/config.yaml` pointing at the package's `skills/` directory | **2026-08-06 · measured live** — a headless `-z` turn opened [`entering.md`](entering.md) through the mounted path and quoted its heading verbatim; the mount does not fence `../../` — which is precisely what lets the mounted `skills/` reach the chapters at the package root, so it is the feature this install relies on, not a hole to close. Ships **cron, webhook, hooks and secret sources (Bitwarden · 1Password)** — the second resident host, and the one whose secrets machinery matches [`security.md`](security.md)'s landing-place protocol |
@@ -134,36 +134,30 @@ install does not surface the skills, the bare-skill route below is the one that 
 Kimi also supports `sessionStart.skill` for an always-on advisor; it is deliberately not preset
 here — turn it on per workspace once you want the resident mode.
 
-## Gemini CLI
+## Antigravity CLI (`agy`)
 
 ```sh
-gemini extensions install https://github.com/jamillazarev/opsinist
+agy plugin install https://github.com/jamillazarev/opsinist
 ```
 
-**It asks before it installs**, twice: an untrusted workspace is refused outright (run it from a
-directory you have trusted), and third-party extensions carry a confirmation naming what a skill
-can do to your session — answer it yourself rather than piping a `Y`.
+**This replaced Gemini CLI, which no longer exists** — retired 2026-06-18, and `agy` is a
+different binary (Go, closed source, `agy` rather than `gemini`) sharing its agent harness with
+the Antigravity IDE. **If you have an install from the old route, `agy plugin import gemini`
+carries it over**, and `bash scripts/find-installs.sh` prints the leftover directory with *remove
+it* beside it, because `~/.gemini/extensions/` does not clean itself up (two were still sitting on
+the author's machine on 2026-09-18).
 
-**Upgrade by uninstalling and installing again**, rather than with `extensions update`:
+**What it reads, measured rather than cited** (`agy` 1.2.5, 2026-09-18): the **root
+`plugin.json`**, the `skills/` directory — *"skills: 21 processed"* — and `rules/`, whose
+`opsinist.md` is the anchor that keeps the hard gates loaded when a light model skips the router.
+Its own help names the rule paths as `GEMINI.md`, `AGENTS.md` and `.agents/rules/*.md`, and
+recommends a consolidated `rules/AGENTS.md` over separate files.
 
-```sh
-gemini extensions uninstall opsinist
-gemini extensions install https://github.com/jamillazarev/opsinist
-```
-
-**Why, and the honest boundary of what was tested.** `extensions update` has failed here twice,
-differently. Once it reported *"already up to date"* while sitting on the old version — this
-route follows **releases**, and a pushed tag is not one; that failure hits everybody. Once it
-produced **no output for minutes**, which was the third-party consent prompt waiting on a stdin
-nobody was holding — **that one was in a non-interactive shell, and in a real terminal you would
-simply see the prompt and answer it.** Both look like a slow download and neither is. The two
-commands above took seconds and moved `0.1.1 → 0.1.2` (measured `2026-07-31`); add `--consent`
-to the second one only when scripting it, where there is no one to answer.
-
-The extension manifest points Gemini CLI at this repository, and
-`GEMINI.md` rides along as always-on context — the anchor that keeps the hard gates loaded
-even when a light model skips the router. Gemini-derived CLIs (Qwen Code, iFlow) share this
-extension format; verify per tool before relying on it.
+**And what it does not read: our hooks.** The same validation reports `hooks: skipped (not found)`,
+so the audit gate that enforces the evidence rules under Claude Code **is not enforcing anything
+here** — the skills are the whole delivery. That is the surface-versus-behaviour split
+[`runtimes.md`](runtimes.md) keeps a column for, and it is written here rather than left for
+someone to discover.
 
 ## OpenCode
 
@@ -289,7 +283,7 @@ bytes; upgrading moves the project.**
 |---|---|---|
 | **a plugin, Claude Code** | `claude plugin marketplace update <name>` **then** `claude plugin update <plugin>@<marketplace>` | **the first step is the one people skip** — without it the second honestly reports nothing to update. Restart to apply |
 | **a plugin, Codex** | `codex plugin marketplace upgrade` then `codex plugin add <plugin>@<marketplace>` | `add` without `@marketplace` refuses when two marketplaces are configured |
-| **an extension, Gemini CLI** | **uninstall, then `gemini extensions install <url>`** — after the GitHub release is published; add `--consent` only when scripting | **`extensions update` is not the route.** Twice, differently: it answered *"already up to date"* on an old version — this route follows *releases*, and **a pushed tag is not one**, which hits every user — and it produced **no output for minutes** in a non-interactive shell, where the consent prompt had no one to answer it. Both look like a slow network and neither is. Uninstall-then-install took seconds and moved 0.1.1 → 0.1.2 |
+| **a plugin, Antigravity** | `agy plugin install <url>`, or rsync the source over a copy — and **check what the directory IS first**: `find-installs.sh` prints the route per install, because rsync onto a clone breaks `git pull` for every release after | **a leftover from the retired Gemini CLI looks like an install and is not one.** `~/.gemini/extensions/<name>` survives the runtime's death; the row for it says *remove it*, and `agy plugin import gemini` is there for one worth keeping. The old route's own trap is kept in the 0.1.2 entry where it was measured: `extensions update` followed *releases*, not tags, and answered *"already up to date"* on an old version |
 | **a copied skills directory** | re-copy the source | the drift announces itself nowhere, so the announcement is a command: `scripts/find-installs.sh` after every update, and the copy's row shows the new version or the copy did not move |
 
 An earlier version of that row said only *"nothing announces that the copy drifted"* — a property,

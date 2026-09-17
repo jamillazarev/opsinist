@@ -71,8 +71,9 @@ this file exists to stop anyone re-deriving per session.
    any remembered count** — machines differ, installs come and go, and a runtime the script
    does not know yet is added to it when met (assume incompleteness). This machine's current
    routes, as examples only: Claude marketplace update + plugin update · Codex marketplace
-   upgrade + plugin add · Gemini: publish the Release, then uninstall +
-   `install <repo-url> --consent` (its update follows releases, not tags) · copies: rsync.
+   upgrade + plugin add · **Antigravity: `agy plugin install <repo-url>`, or rsync onto a copy
+   — and the Gemini CLI route is gone with its runtime (retired 2026-06-18), its leftover install
+   printed as *remove it*** · copies: rsync.
 8. **Memory**: update the project memory file with what shipped and what is owed.
 
 ## Versioning

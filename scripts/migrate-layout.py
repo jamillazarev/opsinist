@@ -212,6 +212,12 @@ def main():
     # `_ops/` is a shared door: the sibling methodology names most of the same files.
     # A tree whose guide says another system operates it is that system's workspace —
     # refused whole, moved never.
+    # **`GEMINI.md` stays in this list although Gemini CLI does not exist** (retired 2026-06-18).
+    # Antigravity CLI reads that filename still — its own embedded help names *"`GEMINI.md`,
+    # `AGENTS.md`, `.agents/rules/*.md`"* as the rule paths, measured from the `agy` 1.2.5 binary
+    # 2026-09-18 — so a project's guide may honestly be called that, and a reader that dropped the
+    # name would go blind to a live file. **This is the only place the reason is written**; every
+    # other list of the three guide names cites it rather than repeating it.
     for guide in ("CLAUDE.md", "AGENTS.md", "GEMINI.md"):
         gp = root / guide
         if gp.is_file():

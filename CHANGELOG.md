@@ -4,6 +4,25 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.19 — 2026-09-11
 
+**A runtime this skill shipped for no longer exists, and it is gone from the product.** Gemini
+CLI was **retired 2026-06-18** and replaced by **Antigravity CLI** — a different binary, `agy`,
+closed-source Go, sharing its agent harness with the Antigravity IDE. `gemini-extension.json` and
+`GEMINI.md` existed only for it and are **deleted**; the version sweep no longer looks for the
+first, and `agy plugin validate .` answers *ok, 21 skills processed* without either of them, which
+is how we know they were that runtime's and not Antigravity's (measured on `agy` 1.2.5,
+2026-09-18). **What it reads is the root `plugin.json`, `skills/` and `rules/`; what it does not
+read is our hooks** — the same validation says `hooks: skipped (not found)`, so under this runtime
+the skills are the whole delivery and the audit gate enforces nothing. That is written into
+`INSTALL.md`, `runtimes.md`'s two tables and the eval audit rather than left to be discovered.
+**The one thing that survives the product is the filename**: `agy`'s own help names `GEMINI.md`
+beside `AGENTS.md` as a rules path, so every reader in this repository that looks for a project's
+guide still looks for it, with the reason written where the list lives.
+**And a dead runtime's install does not clean itself up** — `find-installs.sh` found two of them
+in `~/.gemini/extensions/` on this machine, so that row now prints **remove it**, naming
+`agy plugin import gemini` for one worth keeping. A runtime that has died is exactly as worth
+reporting as one that is new, and nothing in the tree would have noticed: **the check that caught
+it is the one that reads the machine.**
+
 **Migration — one copy, then three things that wait for your word.** First re-copy
 `_ops/scripts/preflight.sh` from `templates/company-preflight.sh`, which brings §20–§22 below. Then:
 **if the project already has a `.mcp.json` or a `mise.toml`, the first commit that stages either

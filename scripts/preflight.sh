@@ -466,11 +466,16 @@ fi
 #      for, held here rather than remembered (found by the lenses: a bump hit four of seven,
 #      the four hid the three, and find-installs reads installs, not this tree).
 ref=$(sed -n 's/^version: //p' skills/advisor/SKILL.md | head -1)
-for mf in package.json gemini-extension.json .claude-plugin/plugin.json \
+# **`gemini-extension.json` left this list when Gemini CLI left the world** (retired 2026-06-18,
+# replaced by Antigravity CLI — `agy`). Antigravity reads the ROOT `plugin.json`, which carries no
+# version, so it is not swept here; `agy plugin validate .` is what says whether it still loads,
+# and that was run rather than assumed: **ok, 21 skills processed** on 1.2.5, with and without the
+# deleted files.
+for mf in package.json .claude-plugin/plugin.json \
           .codex-plugin/plugin.json .cursor-plugin/plugin.json .kimi-plugin/plugin.json; do
   [ -f "$mf" ] || continue
   v=$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$mf" | head -1)
-  [ "$v" = "$ref" ] || say_fail "$mf declares $v while SKILL.md declares $ref — one bump, seven manifests"
+  [ "$v" = "$ref" ] || say_fail "$mf declares $v while SKILL.md declares $ref — one bump, every manifest"
 done
 # **And the guard's own stamp, which is a version site nothing swept.** `templates/company-preflight.sh`
 # carries `# guard-version:` on line 2, and the guard compares it against the project's guide to

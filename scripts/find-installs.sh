@@ -202,11 +202,15 @@ if [ -f "$HOME_DIR/.codex/config.toml" ] && grep -q "\"$NAME@" "$HOME_DIR/.codex
   fi
 fi
 
-# Gemini CLI extension.
+# **A retired runtime's install is still an install, and this is how it gets noticed.** Gemini CLI
+# was retired 2026-06-18 and replaced by Antigravity CLI (`agy`); the extension directory it used
+# does not clean itself up, and this machine had two of them on 2026-09-18. So the row stays — as a
+# row saying REMOVE, because a stale copy of a shipped methodology is a thing that can still be
+# read by something, and a runtime that has died is exactly as worth reporting as one that is new.
 gdir="$HOME_DIR/.gemini/extensions/$NAME"
 if [ -e "$gdir" ]; then
   v=$(read_version "$gdir")
-  add "$gdir" "extension, Gemini CLI" "publish a GitHub release, then gemini extensions install <url> --consent (update follows releases, not tags)" "" "$v"
+  add "$gdir" "extension, Gemini CLI — RETIRED" "remove it: the runtime was retired 2026-06-18 and replaced by Antigravity CLI (agy). The live install is the Antigravity plugin row below; 'agy plugin import gemini' migrates one that still matters" "" "$v"
 fi
 
 # Antigravity, global location.

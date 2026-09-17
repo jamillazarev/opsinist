@@ -141,14 +141,14 @@ some thirty tools read it. As a bare skill:
 npx skills add jamillazarev/opsinist
 ```
 
-Antigravity, Codex / ChatGPT, Kimi, Gemini CLI, Cursor, OpenCode, Copilot CLI, Factory Droid
-and Pi each have their route → **[INSTALL.md](INSTALL.md)**. Installing is solved; **what each
+Antigravity (IDE and `agy` CLI), Codex / ChatGPT, Kimi, Cursor, OpenCode, Copilot CLI, Factory
+Droid and Pi each have their route → **[INSTALL.md](INSTALL.md)**. Installing is solved; **what each
 runtime lets an agent do differs**, and the row that matters most is delegation:
 
 | | Installs | Delegation | Enforced tool allowlist | Worktrees | How we know |
 |---|---|---|---|---|---|
 | **Claude Code** | yes | yes | yes | yes | **measured** — the behavioural suite runs here |
-| **Gemini CLI** | yes | not confirmed | a policy engine exists | yes | surface **measured**; behaviour not yet run |
+| **Antigravity CLI** (`agy`) | yes | subagents, reported | not checked | yes | surface **measured** 2026-09-18 — `agy plugin validate` loads all 21 skills and **skips our hooks**, so the audit gate does not reach it; behaviour not run |
 | **Codex CLI** | yes | reported | not checked | not checked | **cited** from its docs, not from a run |
 | the rest | expect yes | ask | ask | ask | **unknown** |
 
@@ -163,7 +163,7 @@ nothing load-bearing lives in a session.
 |---|---|
 | **Claude Code plugin** | `claude plugin marketplace update opsinist` **then** `claude plugin update opsinist@opsinist` — the first line is the one people skip |
 | **Codex plugin** | `codex plugin marketplace upgrade` then `codex plugin add opsinist@opsinist` |
-| **Gemini CLI extension** | `gemini extensions uninstall opsinist` then `gemini extensions install https://github.com/jamillazarev/opsinist` — **not `extensions update`** |
+| **Antigravity plugin** | `agy plugin install https://github.com/jamillazarev/opsinist`, or re-copy — and `agy plugin import gemini` carries over an install left by the retired Gemini CLI |
 | **a copied skills directory** | re-run the installer or re-copy — **nothing announces a drifted copy** |
 
 ```sh

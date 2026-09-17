@@ -19,14 +19,14 @@ nothing git ignores — the eval workspaces beside the corpus hold whole project
 
 **Which names**: a backticked span that is exactly the path of a markdown file in this tree. Never
 these bare names, which lead double lives — a project carries its own, and a prose mention usually
-means that one: CLAUDE.md, LATER.md, README.md, AGENTS.md, GEMINI.md, CHANGELOG.md, SKILL.md. The
+means that one: CLAUDE.md, LATER.md, README.md, AGENTS.md, CHANGELOG.md, SKILL.md. The
 site generator's NEVER_LINKIFY reached the same list the hard way. Never inside a fence, a heading,
 frontmatter, an HTML comment or an existing link — and the link text keeps the name as it was
 written, so a reader sees exactly what they saw before.
 """
 import os, re, subprocess, sys
 
-DOUBLE_LIVES = {"CLAUDE.md", "LATER.md", "README.md", "AGENTS.md", "GEMINI.md", "CHANGELOG.md",
+DOUBLE_LIVES = {"CLAUDE.md", "LATER.md", "README.md", "AGENTS.md", "CHANGELOG.md",
                 "SKILL.md"}
 SKIP_DIRS = {".git", "node_modules", "templates", "evals", "sources", "assets", ".claude", "hooks", "rules"}
 NAME = re.compile(r"`([A-Za-z0-9_][A-Za-z0-9_./-]*\.md)`")
