@@ -92,7 +92,7 @@ neither `_ops/skills/` nor a register row**, and the row is written as a link wh
 to link to, which is what puts the edge in the graph. Suites: `test-guard-status.sh` **14/14** ·
 `test-skills-attached.sh` **16/16** ·
 `test-task-shape.sh` **11/11** · `test-assignee-exists.sh` **15/15** · `test-record-moves.sh`
-**12/12** · `test-transition.sh` **38/38**, each with code mutants — including the one that matters
+**12/12** · `test-transition.sh` **41/41**, each with code mutants — including the one that matters
 most here, the record narrowed back to tasks and runs, which would make the guard's first act on a
 fresh project a refusal of the commit after its own installation.
 
@@ -168,7 +168,7 @@ the paths do not exist), evidence, the names a project also carries (`CLAUDE.md`
 of a file every session pays for. **In a project, `scripts/link-ids.py`** does the same for ids and
 `_ops/` paths named in passing and never touches a declaration: fed a linked `**Task**` cell, the
 guard's `record_task` returned the slug as the id. A separate, live project — not this corpus — had
-298 links in `_ops/` and 273 mentions that could have been. `test-link-names.sh` **26/26** · `test-link-ids.sh` **26/26**, the
+298 links in `_ops/` and 273 mentions that could have been. `test-link-names.sh` **26/26** · `test-link-ids.sh` **29/29**, the
 second running the project's own guard over the rewritten tree.
 
 **ck, a local search that ranks keywords and meaning together, for when grep keeps missing because
@@ -215,7 +215,7 @@ does not assume: it tries both readings and says which links survive each. Run o
 Run on the measured project: **19 notes, 0 edges, 19 orphans.** Its own first version called that
 *"the graph is whole"* — true about links and false about everything a graph is for — so **no edges
 is now the finding**, and the mutant that says it again is in the suite. `test-graph-check.sh`
-**20/20**, its History mutant now landing in `link-ids.py`, because a mutant belongs where the rule
+**21/21**, its History mutant now landing in `link-ids.py`, because a mutant belongs where the rule
 lives and that rule moved.
 
 **A role the runtime cannot see is a document, not a worker — §28.** Measured 2026-09-18 on the same
@@ -227,7 +227,7 @@ frontmatter and no build step — and a role attaching a pool skill the runtime 
 carry is refused for the same reason. A project operated in another runtime **declares** it —
 one row in `_ops/config.md`'s settings table, `runtime_wiring` — and both halves stand down; a
 mention in prose does not, which took this escape three shapes to get right.
-`test-role-wiring.sh` **12/12**.
+`test-role-wiring.sh` **21/21**.
 
 **What a vault needs is written down once** ([`project-layout.md`](project-layout.md)): a relative path · a target that
 exists · no unencoded space · **and the vault opened at the project root rather than at `_ops/`**,
@@ -387,9 +387,34 @@ limit.** Adversarial, contradiction, deletion and cold-read were launched over t
 on the smaller model that had just worked, and all four died mid-read: the ninth to twelfth lens
 lost this way. Two got far enough to print a line of progress — one had run the structure suite,
 one had read a refusal message — and **a partial reading is not a report**, so nothing from them
-is counted here. What is written down instead is the pattern, because it is now measured five
-times across four releases: **a lens round is the most expensive thing this repository does, and
-budget is the thing it runs out of, not attention.** The round is owed, and the tag waits on it.
+is counted here. What is written down instead is the tally, because it is now precise:
+**twelve lenses lost to the limit across three releases, seven of them in this one** — a lens
+round is the most expensive thing this repository does, and budget is the thing it runs out of,
+rather than attention. The round is owed, and the tag waits on it.
+
+**Relaunched a third time, two lenses finished and found five more — three of them in the
+repairs themselves.** *The escape a footnote could trip was still trippable*: shape three named a
+setting and then looked for that name **anywhere in a line**, which a lens broke four ways in one
+sitting — the key inside a fenced example · inside an HTML comment · in another row's notes column ·
+and worst, **in a sentence forbidding it**, where *"Do not set `runtime_wiring` to `.codex/agents/`
+— we use Claude Code"* disabled §28 entirely on an unwired role, reproduced end to end at exit 0
+with no output. **Naming a setting is not reading one.** It reads the settings table now: fences
+dropped, comments stripped, the key its own first cell, the value the cell beside it — and compared
+by first real segment, because a value written as a link carries a *file-relative* href and
+`../.claude/agents/` was read as somewhere else. Six shapes and two mutants hold it.
+*The gates repair had its own false refusal*: with `check` reserved as an attribute name, a ladder
+whose **stage** is called `check` parsed its legacy `check: "prose"` as an orphan and **every
+transition on it was refused** — exit 2, *"the ladder is malformed"*, on a ladder that worked the
+day before. An attribute name that is also a stage name is resolved after the walk now, so the
+order of the file cannot decide it.
+*And the fold that made one reader out of two lost a file quietly*: an undecodable file was dropped
+per-file with a bare `except`, so the report printed a plausible number missing its hardest files —
+three counted as two. The door raises `Unreadable`, the report says the count is a **FLOOR** and how
+many files it could not read, and it never writes U+FFFD back over somebody's bytes. Comparing the
+door against the guard's §27 — the copy that *cannot* be folded, being a heredoc inside a shell
+script a project copies — also found the door missing `_ops/templates/` from its skip list, so it
+would have baked one task's links into the template every later task is cut from. **Where two
+copies must exist, the reason is now written between them, and so is every difference.**
 
 **The deletion lens on the prose landed six cuts and one decline.** Five were rules restated
 instead of cited — `choosing-tools.md` re-deriving PATTERNS §20, `cost.md` §4, `grouping.md` §6,
@@ -398,8 +423,9 @@ Formbricks licence finding twice in ten lines — plus a justification repeated 
 itself. The decline is written into `facts.md`'s own header: eight new entries repeat their
 chapter's measurement **by design**, because a line that pointed at a chapter would be unquotable,
 which is this file's only job. A chapter holds the rule; this file holds the sentence. **A round
-carrying a `not completed` has not reported clean, which is the condition the tag waits on** — so
-the round over *this* repair is what the tag now waits for.
+carrying a `not completed` has not reported clean, which is the condition the tag waits on** — and
+what is owed now is named exactly: **the deletion and cold-read halves of the third round**, which
+have not run, and then a round over whatever these five repairs caused.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest

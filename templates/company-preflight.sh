@@ -101,12 +101,22 @@ staged() { git show ":$1" 2>/dev/null; }
 # one setting, `runtime_wiring`, whose value is the directory this project's runtime loads its
 # agents and skills from; a value outside `.claude/` turns both checks off, because they are
 # checking a path that project does not use.
-# **Prose cannot reach it, and that is the whole point.** The first shape was a sentence about
-# agents — so *"The agents live in `.claude/agents/`."* silenced the section. The second was "a
-# path that is not the one we check" — so *"we evaluated `.gemini/agents/` and stayed on
-# `.claude/agents/`"* silenced it too, a correctly wired project disarmed by its own footnote
-# (reproduced by an adversarial lens on that repair, 2026-09-18). A mention is not a declaration;
-# a row is. Prints `1` when the setting names a directory elsewhere, nothing otherwise.
+# **THE KEY HAS TO BE THE WHOLE CELL, and this took three tries to get right.** Shape one was a
+# sentence about agents, so *"The agents live in `.claude/agents/`."* silenced the section. Shape
+# two was "a path that is not the one we check", so *"we evaluated `.gemini/agents/` and stayed on
+# `.claude/agents/`"* silenced it too — a correctly wired project disarmed by its own footnote.
+# Shape three named a setting and then went looking for that name **anywhere in the line**, which
+# an adversarial lens broke four ways in one sitting (2026-09-18): the key inside a fenced example ·
+# inside an HTML comment · in another row's notes column · and, worst, in a sentence *forbidding*
+# it — *"Do not set `runtime_wiring` to `.codex/agents/` — we use Claude Code"* disabled §28
+# entirely, reproduced end to end on an unwired role, exit 0, no output. **Naming a setting is not
+# the same as reading one.** So this reads the settings TABLE: fences dropped, comments stripped,
+# the key its own first cell, the value the cell beside it — or, outside a table, the key at the
+# start of its own line. Prints `1` when the value names a directory outside `.claude/`.
+# **A dead helper cannot silence a gate**, and that direction is deliberate: the caller reads this
+# through `$(…)`, which swallows a python failure, so a broken reader prints nothing, no escape is
+# taken, and the section judges the commit as usual. The cost of that is a false refusal for a
+# project that did declare the setting — loud, answerable, and the right way round.
 _wiring_elsewhere() {
   python3 - <<'DECL'
 import os, re, subprocess
@@ -116,18 +126,46 @@ for f in ("_ops/config.md", "config.md"):
     r = subprocess.run(["git", "show", ":" + f], capture_output=True, text=True, errors="replace")
     cfg += r.stdout if r.returncode == 0 else (
         open(f, encoding="utf-8", errors="replace").read() if os.path.isfile(f) else "")
+cfg = re.sub(r"<!--.*?-->", " ", cfg, flags=re.S)          # a comment is not a declaration
+BARE = re.compile(r"^\s*[-*]?\s*[*`_]*%s[*`_]*\s*[:=]\s*(.+)$" % KEY, re.I)
+
+
+def plain(cell):
+    """A cell's text: link syntax to its destination (a path value's meaning is the href), then
+    the markup off. `[.claude/agents/ note](.codex/agents/)` declares the second, not the first."""
+    cell = re.sub(r"\[[^\]]*\]\(([^)]*)\)", r"\1", cell)
+    return cell.strip().strip("*`_ ").strip()
+
+
+fenced, value = False, None
 for line in cfg.split("\n"):
-    k = line.find(KEY)
-    if k < 0:
+    if re.match(r"^\s*(```|~~~)", line):
+        fenced = not fenced
         continue
-    tail = line[k + len(KEY):]
-    cells = tail.split("|")            # in a table row the value is the cell after the key's, and
-    probe = " ".join(cells[:2]) if len(cells) > 1 else tail    # the notes column is not consulted
-    # a path, which needs a separator: `{{absent}}` and every other word are not declarations
-    m = re.search(r"([\w.-]+(?:/[\w.-]*)+)", probe)
-    if m and not re.sub(r"^\./", "", m.group(1)).startswith(".claude/"):
-        print("1")
+    if fenced:                                             # an example is not a declaration
+        continue
+    s = line.strip()
+    if s.startswith("|"):
+        cells = [plain(c) for c in s.strip("|").split("|")]
+        if cells and cells[0].lower() == KEY and len(cells) > 1:
+            value = cells[1]                               # the cell beside it, never the notes
+            break
+        continue
+    m = BARE.match(line)
+    if m:
+        value = plain(m.group(1))
         break
+if value:
+    # a path needs a separator, so `{{absent}}` and every other bare word are not declarations
+    m = re.search(r"([\w.-]+(?:/[\w.-]*)+)", value)
+    # **Compared by its first real segment, not by its prefix.** A value written as a link carries
+    # a FILE-relative href — `[the dir](../.claude/agents/)` from `_ops/config.md` — and a prefix
+    # test read that as "not `.claude/`" and stood the check down on a project wired exactly right.
+    # Climb-ups and `./` are dropped before the comparison; found while writing this suite's own
+    # link case, 2026-09-18.
+    segs = [x for x in re.split(r"/+", m.group(1)) if x not in ("", ".", "..")] if m else []
+    if segs and segs[0] != ".claude":
+        print("1")
 DECL
 }
 # NUL-separated, because a path holding a space word-splits out of an unquoted `for` loop and

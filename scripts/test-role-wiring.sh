@@ -5,10 +5,12 @@
 # read by nobody and the advisor did the work instead. That failure does not error; it just looks
 # like a project where one agent does everything.
 #
-# **Four code mutants**: the agent wiring unchecked · the runtime's name spelling compared
+# **Five code mutants**: the agent wiring unchecked · the runtime's name spelling compared
 # literally (`web_engineer.md` must answer to `web-engineer.md`) · the other-runtime escape removed,
-# which would refuse every project not run in Claude Code · and the escape taken from a MENTION
-# rather than a declaration, which is the hole an adversarial lens found in its second shape.
+# which would refuse every project not run in Claude Code · and the two ways an adversarial lens
+# got a MENTION read as a declaration, a fenced example and an HTML comment. **That escape has had
+# three shapes and four reproduced holes**, which is why its cases here are a loop over the shapes
+# rather than one example: the rule is *naming a setting is not reading one*.
 # **The skills half is §26's**, tested in `test-skills-attached.sh` — one reader per table, one
 # suite per reader; the escape itself is one reader (`_wiring_elsewhere`) that both stand down on.
 set -u
@@ -81,6 +83,48 @@ printf '# Project configuration\n\nschema_version: 1\n\nWe evaluated `.gemini/ag
 role web_engineer
 run; [ "$RC" = 1 ] && said 'the runtime cannot see' && ok \
   || bad "prose mentioning another runtime's path silenced the check: $OUT"
+
+# ── naming the setting is not reading one: four shapes an adversarial lens broke ───────────────
+# The third shape of this escape looked for its own key ANYWHERE in a line, and a lens broke it
+# four ways in one sitting (2026-09-18): the key inside a fenced example · inside an HTML comment ·
+# in another row's notes column · and, worst, in a sentence FORBIDDING it, which disabled §28
+# entirely on an unwired role — exit 0, no output. The reader reads the settings table now.
+for shape in fence comment incell notes negation stray; do
+  fixture
+  case "$shape" in
+    fence)    printf '# Project configuration\n\nFor example:\n\n```\n| `runtime_wiring` | `.codex/agents/` |\n```\n' > _ops/config.md ;;
+    comment)  printf '# Project configuration\n\n<!-- old value was `runtime_wiring` = `.codex/agents/` -->\n' > _ops/config.md ;;
+    incell)   printf '# Project configuration\n\n| Setting | Value |\n|---|---|\n| `runtime_wiring` | <!-- `.codex/agents/` --> |\n' > _ops/config.md ;;
+    notes)    printf '# Project configuration\n\n| Setting | Value | Notes |\n|---|---|---|\n| `spec_mode` | outcome | see `runtime_wiring` and `.codex/agents/` |\n' > _ops/config.md ;;
+    negation) printf '# Project configuration\n\nDo not set `runtime_wiring` to `.codex/agents/` -- we use Claude Code here.\n' > _ops/config.md ;;
+    stray)    printf '# Project configuration\n\n| Setting | Value |\n|---|---|\n| `runtime_wiring` | `.claude/agents/` |\n\nNever write `runtime_wiring` as `.codex/agents/`.\n' > _ops/config.md ;;
+  esac
+  role web_engineer
+  run; [ "$RC" = 1 ] && said 'the runtime cannot see' && ok \
+    || bad "the escape was taken from a $shape rather than a declaration: $OUT"
+done
+
+# ── and a value written as a markdown link declares its destination ────────────────────────────
+# The same lens found the other side of it: a value cell holding a link read as no declaration at
+# all, so a project that HAD declared another directory was refused. The href is the path.
+fixture
+mkdir -p .codex/agents && printf -- '---\nname: web-engineer\n---\n' > .codex/agents/web-engineer.md
+printf '# Project configuration\n\n| Setting | Value |\n|---|---|\n| `runtime_wiring` | [the agents dir](../.codex/agents/) |\n' \
+  > _ops/config.md
+role web_engineer
+run; [ "$RC" = 0 ] && ok || bad "a declared value written as a link was not read: $OUT"
+
+# ── and a link-written `.claude/agents/` is still the directory we check ───────────────────────
+# A link's href is FILE-relative, so the value arrives as `../.claude/agents/` — which a prefix
+# test read as "somewhere else" and used to stand the check down on a correctly wired project.
+# Compared by first real segment now.
+fixture
+printf '# Project configuration\n\n| Setting | Value |\n|---|---|\n| `runtime_wiring` | [ours](../.claude/agents/) |\n' \
+  > _ops/config.md
+mkdir -p .claude/agents && printf -- '---\nname: other\n---\n' > .claude/agents/other.md
+role web_engineer
+run; [ "$RC" = 1 ] && said 'the runtime cannot see' && ok \
+  || bad "a link-written .claude/agents/ stood the check down: $OUT"
 
 # ── an unfilled placeholder is not a declaration either ────────────────────────────────────────
 # `CONFIG-template.md` ships the row with `{{absent}}` in its value cell, and a project that has
@@ -156,15 +200,25 @@ mutant "the other-runtime escape removed" \
        role web_engineer; run
        [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: the escape removed"; }
 
-# the hole the lens found, as a mutant: stop requiring the declared key and any line's first path
-# becomes the answer — which is what a prose mention silencing the check IS
-mutant "the escape taken from a mention rather than a declaration" \
-  '    k = line.find(KEY)' '    k = 0' \
+# the two holes the lens found, each as its own mutant: an example and a comment are not
+# declarations, and the lines that make them so are the ones to cut
+mutant "a fenced example read as a declaration" \
+  '    if fenced:                                             # an example is not a declaration' \
+  '    if False:' \
   && { fixture
-       printf '# Project configuration\n\nschema_version: 1\n\nWe evaluated `.gemini/agents/` and stayed on `.claude/agents/`.\n' \
+       printf '# Project configuration\n\nFor example:\n\n```\n| `runtime_wiring` | `.codex/agents/` |\n```\n' \
          > _ops/config.md
        role web_engineer; run
-       [ "$RC" = 0 ] && ok || bad "the suite did not catch the mutant: a mention read as a declaration"; }
+       [ "$RC" = 0 ] && ok || bad "the suite did not catch the mutant: a fenced example silenced the check"; }
+
+mutant "a commented-out value read as a declaration" \
+  'cfg = re.sub(r"<!--.*?-->", " ", cfg, flags=re.S)          # a comment is not a declaration' \
+  'pass' \
+  && { fixture
+       printf '# Project configuration\n\n| Setting | Value |\n|---|---|\n| `runtime_wiring` | <!-- `.codex/agents/` --> |\n' \
+         > _ops/config.md
+       role web_engineer; run
+       [ "$RC" = 0 ] && ok || bad "the suite did not catch the mutant: a commented-out value silenced the check"; }
 MUT=""
 
 echo "role-wiring: $pass passed, $fail failed"

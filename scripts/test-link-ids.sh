@@ -58,6 +58,14 @@ EOF
   printf '# Q-AAAAAA\n\n**blocks**: T-AAAAAA\n' > _ops/requests/Q-AAAAAA-ask.md
   printf '# Run\n\n| **Task** | T-AAAAAA · alpha |\n\nIt also touched T-BBBBBB.\n' > _ops/runs/2026-09-01-T-AAAAAA.md
   printf 'transcript naming T-AAAAAA\n' > _ops/research/raw/call.md
+  # **A project's own template is a shape, not a note.** The guard's §27 has always skipped
+  # `_ops/templates/` and this door did not, so it would bake one task's links into the file every
+  # later task is cut from — on a file the gate never even reads. Found by comparing the two copies
+  # after an adversarial lens pointed at the divergence, 2026-09-18.
+  mkdir -p _ops/templates
+  printf '# {{id}} — {{title}}\n\nRelated: T-AAAAAA\n' > _ops/templates/TASK.md
+  # a file that is not valid UTF-8: reported, never silently skipped, and never written back
+  python3 -c "open('_ops/tasks/T-DDDDDD-bytes.md','wb').write(b'# T-DDDDDD \xff\xfe\n\nSee T-AAAAAA.\n')"
   # a **Task** row outside the run records: the guard's record_task takes the LAST id in the cell,
   # and measured 2026-09-11 it reads `[T-ABC123](…/T-ABC123-alpha-slug.md)` as `T-ABC123-alpha-slug`
   mkdir -p _ops/threads; printf '# Thread\n\n| **Task** | T-AAAAAA · alpha |\n' > _ops/threads/one.md
@@ -90,6 +98,11 @@ suite() {   # $1 label · $2 the script
   has _ops/runs/2026-09-01-T-AAAAAA.md '| **Task** | T-AAAAAA · alpha |' && has _ops/runs/2026-09-01-T-AAAAAA.md 'It also touched T-BBBBBB.' \
     && ok || bad "$L a run record — evidence, with its declaration — was rewritten"
   has _ops/research/raw/call.md 'transcript naming T-AAAAAA' && ok || bad "$L raw research material was rewritten"
+  has _ops/templates/TASK.md 'Related: T-AAAAAA' && ok || bad "$L the project's own task template was rewritten"
+  [ "$(grep -cF 'not read' "$T/wrote")" -gt 0 ] && ok \
+    || bad "$L a file that is not valid UTF-8 was skipped without a word: $(head -3 "$T/wrote")"
+  python3 -c "import sys; d=open('$T/p/_ops/tasks/T-DDDDDD-bytes.md','rb').read(); sys.exit(0 if b'\xff\xfe' in d else 1)" \
+    && ok || bad "$L an undecodable file was written back, replacing its bytes"
   has _ops/ROADMAP.md 'First the alpha, [T-AAAAAA](tasks/T-AAAAAA-alpha.md).' && ok || bad "$L a roadmap mention was not linked"
   python3 "$S" . > "$T/report2" 2>&1; RC=$?
   [ "$RC" = 0 ] && ok || bad "$L after --write the report still found mentions: $(head -2 "$T/report2")"

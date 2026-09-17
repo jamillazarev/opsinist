@@ -125,6 +125,18 @@ d = json.load(sys.stdin)
 assert d['notes'] >= 1 and d['attachments'] == 1 and 'mentions_that_could_be_edges' in d, d
 " 2>/dev/null && ok || bad "--json did not carry the counts: $OUT"
 
+# ── a file that cannot be decoded makes the count a FLOOR, said out loud ──────────────────────
+# The fold's first version swallowed every exception per file, so an undecodable file took its
+# mentions with it and the report printed a plausible number that was simply wrong — three counted
+# as two, silently, which is worse than the crash it replaced. Found by an adversarial lens,
+# 2026-09-18.
+fixture
+task T-NNNNNN '**Assignee**: Web Engineer'
+python3 -c "open('_ops/tasks/T-OOOOOO-bad.md','wb').write(b'# T-OOOOOO \xff\xfe\n\n**Assignee**: Web Engineer\n')"
+git add -A >/dev/null 2>&1
+gc; said 'could not be read' && said 'FLOOR' && ok \
+  || bad "an undecodable file was dropped from the count with no word: $OUT"
+
 # ── a directory with no markdown is refused rather than answered ───────────────────────────────
 rm -rf "$T/p"; mkdir -p "$T/p"; ( cd "$T/p" && git init -q . )
 gc; [ "$RC" = 2 ] && ok || bad "a tree with no notes did not exit 2: $OUT"

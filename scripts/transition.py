@@ -183,7 +183,14 @@ def parse_pipeline(text: str):
                 if edge:
                     _attr(p["gates"][edge], m.group(1), m.group(2).strip())
                 else:
-                    p["orphan_attrs"].append(m.group(1))
+                    # **A stage may legitimately be CALLED `check`**, and then `check: "prose"` under
+                    # `gates:` is the legacy stage-keyed form, not an orphan. Resolved after the
+                    # walk, because `stages:` is not guaranteed to have been read yet — held as a
+                    # pair until the ladder is known. The first version of this fault refused every
+                    # transition on such a ladder (exit 2, *"the ladder is malformed"*), a ladder
+                    # that worked the day before: found by an adversarial lens on the repair,
+                    # 2026-09-18, which is the third false refusal this one section has produced.
+                    p["orphan_attrs"].append((m.group(1), m.group(2).strip()))
             elif m:  # legacy `review: "prose"` — a stage-keyed prose gate, honestly prose-only
                 p["prose_gates"][m.group(1)] = m.group(2).strip().strip("\"'")
                 edge = None
@@ -207,6 +214,15 @@ def parse_pipeline(text: str):
             p["stages"] = [x.strip() for x in re.split(r"->", m.group(1))]
     if p["stages"] and not p["terminal"]:
         p["terminal"] = [p["stages"][-1]]  # the last stage, unless the file says otherwise
+    # **An attribute name that is also a stage name is the legacy stage-keyed gate**, resolved here
+    # rather than in the walk because the ladder may be declared after the gates block.
+    orphans = []
+    for key, value in p["orphan_attrs"]:
+        if key in p["stages"]:
+            p["prose_gates"].setdefault(key, value.strip("\"'"))   # as the legacy branch stores it
+        else:
+            orphans.append(key)
+    p["orphan_attrs"] = orphans
     return p if p["stages"] else None
 
 

@@ -37,7 +37,24 @@ MENTION = re.compile(r"`(%s)`|(?<![A-Za-z0-9/\[_-])(%s)(?![A-Za-z0-9_-])|`([A-Za
                      % (ID, ID))
 MASK = re.compile(r"!?\[(?:[^\[\]]|\[[^\]]*\])*\]\([^)]*\)|<https?://[^>]+>|<!--.*?-->")
 DECLARATION = re.compile(r"\*\*task\*\*|^\s*task\s*:", re.I)
-SKIP = ("_ops/runs/", "_ops/research/raw/", "_ops/scripts/")
+# **`_ops/templates/` too, and the guard has always known it.** §27 of the project guard — the
+# gate that refuses an unlinked mention — carries this same list with `_ops/templates/` in it, and
+# this door did not: so the door would rewrite a project's own TASK template, baking one task's
+# links into the shape every later task is cut from, on a file the gate never even reads. Found by
+# comparing the two copies after an adversarial lens pointed at the divergence, 2026-09-18.
+# **The guard cannot import this file** — it is a python heredoc inside a shell script copied into
+# projects, and only `transition.py` and `new-id.py` travel with it — so these two lists are a
+# deliberate pair rather than an oversight, and this comment is where that is written down. The
+# other difference between them is `MASK`: the guard also masks a backticked script path, which
+# here would be a no-op, because the only path this file matches is one ending `.md`.
+SKIP = ("_ops/runs/", "_ops/research/raw/", "_ops/scripts/", "_ops/templates/")
+
+
+class Unreadable(Exception):
+    """A file this door cannot decode. **Raised rather than swallowed**: read with
+    `errors="replace"` the door would write back U+FFFD over somebody's bytes, and skipped
+    silently the report that counts these mentions would print a plausible number that is simply
+    wrong — measured 2026-09-18, three mentions reported as two, with nothing said."""
 
 
 def tree(root):
@@ -144,7 +161,10 @@ def process(root, path, ents, mds, people, write):
     template's prose names project files on purpose. With `write=False` this writes nothing and the
     list IS the answer to *how many mentions would be edges* — `graph-check.py` asks it rather than
     deriving it a second time."""
-    lines = open(os.path.join(root, path), encoding="utf-8").read().split("\n")
+    try:
+        lines = open(os.path.join(root, path), encoding="utf-8").read().split("\n")
+    except (UnicodeDecodeError, OSError) as exc:
+        raise Unreadable("%s: %s" % (path, exc))
     own = re.match(r"^(%s)" % ID, os.path.basename(path))
     own = own.group(1) if own else None
     fenced = comment = history = False
@@ -190,9 +210,15 @@ def main(argv):
     mds = set(p for p in paths if p.endswith(".md"))
     people = people_files(paths)
     hits = []
+    unread = []
     for p in paths:
         if p.endswith(".md") and p.startswith("_ops/") and not p.startswith(SKIP):
-            hits += process(root, p, ents, mds, people, write)
+            try:
+                hits += process(root, p, ents, mds, people, write)
+            except Unreadable as exc:
+                unread.append(str(exc))
+    for u in unread:
+        print("not read: %s" % u, file=sys.stderr)
     files = len({h[1] for h in hits})
     if write:
         print("linked %d mention%s in %d file%s" % (len(hits), "" if len(hits) == 1 else "s",

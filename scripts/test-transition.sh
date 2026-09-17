@@ -228,6 +228,22 @@ printf '# T-FL — thing\n\n**Status**: review\n**Assignee**: worker-a\n**Pipeli
 [ "$(run _ops/tasks/T-FL.md handoff --by owner)" = 1 ] && grep -q 'not the worker' "$T/out" \
   && ok || bad "a review gate written at the edge's own indent did not hold at the door"
 
+# ── a stage may be CALLED `check`, and then `check:` is the legacy gate, not an orphan ─────────
+# The fault below was the repair's own false refusal: with `check` a reserved attribute name, a
+# ladder whose STAGE is called `check` and which carries the legacy `check: "prose"` form parsed as
+# an orphan attribute, every transition on it refused with *"the ladder is malformed"* — exit 2 on
+# a ladder that worked the day before. Found by an adversarial lens on the repair, 2026-09-18, and
+# resolved after the walk because `stages:` need not have been read yet.
+printf '# named\n\n```yaml\nname: named\nstages: [draft, check, accept]\nterminal: [accept]\ngates:\n  check: "somebody verifies first"\n```\n' > _ops/pipelines/named.md
+[ "$(run --check-ladder _ops/pipelines/named.md)" = 0 ] \
+  && ok || bad "a ladder with a stage named check was called malformed: $(head -3 "$T/out" | tr '\n' ' ')"
+printf '# gates-first\n\n```yaml\nname: gatesfirst\ngates:\n  check: "somebody verifies first"\nstages: [draft, check, accept]\nterminal: [accept]\n```\n' > _ops/pipelines/gatesfirst.md
+[ "$(run --check-ladder _ops/pipelines/gatesfirst.md)" = 0 ] \
+  && ok || bad "the same ladder with its gates block first was called malformed: $(head -3 "$T/out" | tr '\n' ' ')"
+printf '# T-NM — thing\n\n**Status**: draft\n**Assignee**: worker-a\n**Pipeline**: named\n\n## History\n' > _ops/tasks/T-NM.md
+[ "$(run _ops/tasks/T-NM.md check --by worker-a)" = 0 ] \
+  && ok || bad "a transition on a ladder with a stage named check was refused: $(head -3 "$T/out" | tr '\n' ' ')"
+
 # ── and an attribute under NO edge is a fault, not a prose gate ────────────────────────────────
 # The other half of the same repair: an attribute that belongs to nothing is a requirement nothing
 # can enforce, so it is said out loud rather than filed under a key no reader consults.

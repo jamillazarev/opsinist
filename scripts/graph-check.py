@@ -151,11 +151,16 @@ def missing_edges(root, notes, files):
     paths = sorted(files)
     ents, people = door.entity_files(paths), door.people_files(paths)
     mds = set(p for p in paths if p.endswith(".md"))
-    found = {"id": 0, "person": 0, "path": 0}
+    # **A file this cannot read is reported, not dropped.** The first version of the fold swallowed
+    # every exception here, so an undecodable file took its mentions with it and the report printed
+    # a plausible number that was simply wrong — three counted as two, silently, which is worse
+    # than the crash it replaced. Found by an adversarial lens, 2026-09-18.
+    found = {"id": 0, "person": 0, "path": 0, "unread": 0}
     for rel in notes:
         try:
             hits = door.process(root, rel, ents, mds, people, False)
-        except Exception:                               # unreadable or undecodable: not a mention
+        except door.Unreadable:
+            found["unread"] += 1
             continue
         for kind, _p, _l, _w in hits:
             found[kind] = found.get(kind, 0) + 1
@@ -243,6 +248,10 @@ def main(argv):
     if kinds is None:
         print("  · mentions that would be edges: NOT MEASURED — `scripts/link-ids.py` did not load "
               "beside this script, and the honest answer to a question nobody asked is not zero")
+    elif kinds.get("unread"):
+        print("  ! %d file%s could not be read (not valid UTF-8), so the counts below are a FLOOR "
+              "— a number quietly missing its hardest files is worse than no number"
+              % (kinds["unread"], "" if kinds["unread"] == 1 else "s"))
     if named:
         print("  ✗ %d id%s or name%s already name%s something here and draw%s no edge — the door "
               "rewrites them: the skill's `scripts/link-ids.py --write`, and the guard's §27 "
