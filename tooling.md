@@ -14,6 +14,26 @@ land in**, and the visibility is stated as it is created.
 **Check registries before hand-wiring.** An existing, maintained integration beats one you build,
 and the maintained-and-popular signal is worth reading before choosing between three.
 
+**Take what the service itself ships, before writing a line against its API.** Most services worth
+connecting now publish some of: an **MCP server** (the project's `.mcp.json`), a **CLI** (`mise.toml`),
+an **agent skill** (the pool, or a register row when the runtime provides it), an SDK, and a
+documentation endpoint. Each one replaces code this project would otherwise own, and each one is a
+**dependency the moment it is used**, so connecting is two acts in one breath: install what the
+service ships, and declare it where its kind is declared → *What the project needs from the machine*
+below, and [`skills.md`](skills.md) → *Where a skill comes from*. **Nothing is installed on the machine without the
+owner's word** — the dry run first, the versions named, then the install. A connection that works
+only because the person who made it already had the CLI is a connection the next clone does not
+have, and it fails by doing less rather than by failing.
+
+**Migrating away removes what it installed, and asks about the rest.** The same two-act shape,
+reversed and with the asymmetry that matters: **what is project-local goes automatically** — the
+`.mcp.json` entry, the pool copy of the skill, the register rows, the runbook — because it is this
+repository's own state and the migration is the decision. **What is installed on the machine is
+asked about, one line per item, never swept**: another project on that machine may be using it, and
+uninstalling someone's CLI because one project stopped needing it is the same class of act as
+installing it unasked. The diagrams and the register are part of the removal, not a follow-up: a
+picture that still shows the old service is a second source of truth with a head start.
+
 **Study the tool as part of connecting it.** Its idioms, its failure modes, the thing it does that
 you would otherwise reimplement. That study is what seeds the runbook below — it is not extra
 work, it is the work.

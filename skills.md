@@ -118,6 +118,37 @@ costs the full gate again. The order is about gates, not convenience.
 
 ---
 
+## Where a skill comes from, and what the project records
+
+**Three origins, and the project records all three the same way — by resolving.** A skill named on
+a role and present in no file is not attached to anything.
+
+| Origin | Where it lives | What the role's row points at |
+|---|---|---|
+| **authored here** | `_ops/skills/<name>/SKILL.md` — the pool | a **link** to that file |
+| **imported** | the same pool, with the untouched source beside it and its provenance | a **link** to that file |
+| **provided by the runtime** — a marketplace or plugin skill installed on the machine | nothing in this repository | a row in `_ops/TOOLING.md`: which runtime provides it, and why this project needs it |
+
+**The third is the one that goes wrong, because it works.** Measured on a live project 2026-09-16:
+three roles named five skills between them — `frontend-design`, `modern-web-guidance`,
+`vercel-react-best-practices` and two more — while `_ops/skills/` did not exist and `.claude/` was
+empty. Every one of them was installed in the *owner's* runtime, so the work ran fine on that
+machine and the repository recorded nothing about it. **A skill that is absent does not fail — it
+loads nothing**, silently, so the same clone elsewhere produces worse work with no error anywhere.
+That is the same failure `tooling.md` names for an MCP server or a system package, and it takes the
+same answer: **what the project needs from the machine is declared.** The guard's §26 refuses a role
+whose commit attaches a name that resolves to neither the pool nor a register row.
+
+**Linking is what puts the edge in the graph.** A role's `Skills attached` row naming
+`` `house-style` `` in backticks is an edge only a reader infers; written as
+`[house-style](../skills/house-style/SKILL.md)` it is an edge Obsidian draws, the link checker
+validates, and `/team` can follow — so a role, its skills and the tasks citing them sit in one
+connected neighbourhood instead of three islands of identical strings → [`facts.md`](facts.md) 265. A runtime
+skill has no file to point at, so its row points at the register, which is a file: the edge still
+exists, and it lands where the *why* is written.
+
+---
+
 ## Optimize — selection, never rewriting
 
 **Fitting a skill to a role means dropping sections that do not apply. It never means rewording.**

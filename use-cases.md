@@ -61,6 +61,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "What's happening?" | *"status"* · *"what's stuck?"* |
 | "New idea for a feature" | *"add: remember volume per app"* |
 | "Every task comes out a different shape" | *"make a task for X"* — the door writes it from the template with the id minted, and **the guard refuses a new task that departs from it**; a project working in another language keeps its own translated `_ops/templates/TASK.md`, which both of them read |
+| "Where do a role's skills actually come from?" | *"attach the house style to the writer"* — the pool (`_ops/skills/`) or a register row naming the runtime that provides it, and the row is a **link** when there is a file: a skill that resolves to nothing loads nothing, silently |
 | "What has this release cost us?" | *"what did we spend on v0.2?"* — rolled up from the run records per release, task, model or month, with the four token numbers kept apart and every run that reported nothing counted as *not counted* rather than as zero |
 | "I want a board — and should the status go in the filename?" | *"show me the board"* — `_ops/BOARD.md` is generated from the tasks, every id a link, and **no**: a status in the filename renames the file on every move and breaks every link that cited it |
 | "Tasks reach *accepted* and nobody ever reviewed them" | *"who reviewed this?"* — and the ladder now asks instead: the edge into the terminal stage carries `review_by: non-author`, a new ladder without it is refused, an old one says so on every move |

@@ -40,6 +40,26 @@ Each row is a question to answer about the runtime in front of you, not a featur
 | **deferred tool schemas** | every session's opening cost, and the register's answer to *how many servers can we afford* | **every schema is loaded before the first word**, so the tools are paid for on a session that uses none of them — forty of them is tens of thousands of tokens. The remedy is the register's, not a wrapper's: wire fewer servers, and let the ones that stay earn their weight. Observed on Claude Code 2.1.220, 2026-08-27, where tools arrive as names and a schema is fetched when one is wanted — **the row above dates its own claim for the same reason: this is moving, and a runtime capability quoted without its version is a claim about a machine nobody can find** |
 | **output modality** — can this model *make* an image, a voice, a video | any task whose deliverable is not text: a post's picture, a deck's cover, a narration | **the worker keeps the task and raises a `relay`** for the one operation it cannot perform → [`escalating.md`](escalating.md). **Unlike every row above, this one is met mid-run, not read at session start** — the others are properties of the harness and are announced at dispatch; this is met at the step, by a worker already holding the context. **Production and perception fail separately**, which is what makes the return leg possible: a model that cannot draw an image reads one fine |
 
+### What each runtime was actually found to provide
+
+**Nothing in this table is inferred from a vendor's page.** A capability is `yes` here only where
+somebody watched it work, with the date; everything else says **not measured**, which is a
+different claim from `no` and is the honest state for most of this grid most of the time.
+
+| Runtime | Native question form | Dispatchable headless | Hooks enforce |
+|---|---|---|---|
+| **Claude Code** | **yes** — a prompt the owner answers by choosing; used in this session, 2026-09-17 | **yes** — 2026-07-31, a headless subprocess handed one sentence did the task and wrote its own record | **yes, by exit code** — 2.1.220, 2026-08-08; the `permissionDecision` JSON form is ignored on the plugin path |
+| **Google Antigravity** | **no — owner-reported 2026-09-16**: the questions arrived as ordinary prose, one at a time. Reported, not measured here, and it matches the 2026-08-15 measurement of the failure this row describes | **no** — 2026-08-01, `chat -m agent` opens an editor window and has no headless mode at all | not measured |
+| **Gemini CLI** | not measured | **could not be exercised** — 2026-07-31, `IneligibleTierError` for individual accounts | not measured |
+| **Codex / ChatGPT** | not measured | **could not be exercised** — 2026-07-31, `401` on every transport | not measured |
+| **Cursor · Kimi · OpenCode · Copilot CLI · Factory Droid** | not measured | not measured | not measured |
+
+**A row that says `not measured` is a row to resolve at session start, not a row to guess.** The
+cost of guessing is asymmetric and silent: a question asked as prose still gets an answer, it is
+just a worse one — the owner types where they could have chosen, the recommendation is not marked,
+and nobody notices that anything degraded. That asymmetry is why this is resolved and **said**, in
+one line, at the start.
+
 **A missing capability is a stated limitation, never a silent one.** The failure this file exists
 to prevent is a project configured with per-role models, tool allowlists and parallel waves, in a
 runtime that honours none of the three, where everything looks configured and nothing is enforced.

@@ -2216,6 +2216,77 @@ SHAPE
   rm -f "$_tsk"
 fi
 
+# 26 · a skill attached to a role resolves to something. Measured on a live project 2026-09-16:
+#      three roles named **five skills between them** — `web-design-guidelines`, `modern-web-guidance`,
+#      `vercel-react-best-practices`, `frontend-design` and one more — while `_ops/skills/` did not
+#      exist and `.claude/` was empty. Every one of them is a skill the OWNER has installed in their
+#      runtime, so the work went fine on that machine and the project records nothing about it: clone
+#      it elsewhere and those roles load nothing, with no error, because a skill that is absent is
+#      not a skill that fails. **This is `tooling.md`'s rule in another costume** — what the project
+#      needs from the machine is declared — and the same two honest routes answer it: put the skill
+#      in the project's own pool, or declare it in the register as something the machine provides.
+#      **Judged where the commit WRITES the row**, like §23 and §25.
+if [ "$(changed --diff-filter=AM -- '_ops/roles/*.md' | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
+  _skl=$(mktemp "${TMPDIR:-/tmp}/opsinist-skills.XXXXXX")
+  python3 - > "$_skl" <<'SKILLS'
+import os, re, subprocess
+
+def git(*args):
+    r = subprocess.run(["git", "-c", "core.quotePath=false"] + list(args), capture_output=True,
+                       text=True, errors="replace")
+    return r.stdout if r.returncode == 0 else None
+
+def have(name):
+    """Anywhere the project could honestly be said to hold it — the pool, the runtime folder a
+    project commits, or a row in the register saying the machine provides it."""
+    for p in ("_ops/skills/%s" % name, "_ops/skills/%s.md" % name, "_ops/skills/%s/SKILL.md" % name,
+              ".claude/skills/%s" % name, ".claude/skills/%s/SKILL.md" % name):
+        if os.path.exists(p) or (git("cat-file", "-e", ":" + p) is not None):
+            return True
+    for f in ("_ops/TOOLING.md", "_ops/config.md"):
+        text = git("show", ":" + f) or (open(f, encoding="utf-8", errors="replace").read()
+                                        if os.path.isfile(f) else "")
+        if re.search(r"(?<![\w-])%s(?![\w-])" % re.escape(name), text):
+            return True
+    return False
+
+for path in [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=AM", "-z") or "").split("\0")
+             if p.startswith("_ops/roles/") and p.endswith(".md")]:
+    text = git("show", ":" + path) or ""
+    m = re.search(r"^#+\s*Skills attached\s*$(.*?)(?=^#+\s|\Z)", text, re.M | re.S | re.I)
+    if not m:
+        continue
+    missing = []
+    for row in m.group(1).split("\n"):
+        row = row.strip()
+        if not row.startswith("|") or set(row) <= set("|-: "):
+            continue
+        cell = row.strip("|").split("|")[0].strip()
+        cell = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", cell).strip().strip("`*_")
+        if not cell or cell.lower() in ("skill", "name") or "{{" in cell:
+            continue
+        if not have(cell):
+            missing.append(cell)
+    if missing:
+        print("FAIL:%s attaches %s, and %s in this project — not in `_ops/skills/`, not in "
+              "`.claude/skills/`, and named in no register row. **A skill that is absent does not "
+              "fail, it loads nothing**, so this works on the machine that has it installed and "
+              "silently does less everywhere else. Two routes, both one line: put it in the "
+              "project's pool (`skills.md` → *Import*, which also diffs the source later), or give "
+              "it a row in `_ops/TOOLING.md` saying the runtime provides it and which one — the "
+              "same rule `tooling.md` applies to every other thing a project needs from the machine."
+              % (path, ", ".join("`%s`" % s for s in missing),
+                 "it is nowhere" if len(missing) == 1 else "none of them is anywhere"))
+SKILLS
+  _skrc=$?
+  [ "$_skrc" -eq 0 ] || say_fail "the check of the skills this commit attaches stopped before its end \
+(python3 exited $_skrc; its error is above) — refused, because a check that did not finish has not passed."
+  while IFS= read -r _sl; do
+    case "$_sl" in FAIL:*) say_fail "${_sl#FAIL:}" ;; WARN:*) say_warn "${_sl#WARN:}" ;; esac
+  done < "$_skl"
+  rm -f "$_skl"
+fi
+
 # 25 · the assignee names somebody this project actually has. Measured on the same live project
 #      2026-09-16: two tasks assigned to **Frontend Engineer**, a role in neither `_ops/roles/`
 #      (architect · backend_engineer · web_engineer) nor `_ops/TEAM.md` — invented, it looks like,

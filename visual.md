@@ -30,6 +30,33 @@ direction · references the owner likes · anti-references, which are hard nos**
 only *"what stack?"* and starts drawing has skipped the questions that decide whether the output is
 theirs or generic.
 
+**And arrive with candidates rather than with a blank question.** *"Send me some references"* hands
+the research back to the owner, who asked for design precisely because they did not want to do it;
+**an advisor proposes**, out of [`catalogue.md`](catalogue.md) → *Research & reference galleries*, three or four named
+examples with one line each on what carries the feeling — then asks which are right and, just as
+usefully, which are the hard nos. The owner's *no* is the cheapest signal in the whole exchange and
+the one a blank question never gets. Where the project already ran style discovery, the references
+are in `_ops/brand/` and `_ops/design-system/` and the proposal starts from those.
+
+**The bar that holds this is a field on the type, not a paragraph here.** Measured on a live project
+2026-09-16: design work proceeded with no references recorded anywhere and nothing asked for any —
+because a sentence in a chapter is read by whoever happens to load it. A project that does design
+declares it on the type and the door enforces it ([`pipelines.md`](pipelines.md)):
+
+```yaml
+stages: [design, build, review, accept]
+terminal: [accept]
+gates:
+  design -> build:
+    fields: [references, anti-references]
+  review -> accept:
+    review_by: non-author
+```
+
+`transition.py` refuses the move out of `design` while either field is empty, naming it. **Both
+fields are required, and the empty answer is a value**: `anti-references: none stated` is a fact
+about a conversation that happened; a blank is a conversation that did not.
+
 **Compose, don't hand-draw.** Screens are assembled from a component library, not written as
 one-off markup. Hand-written screens are **both slower and worse**: a library makes a screen a
 composition rather than a generation.

@@ -51,6 +51,7 @@ second answer to a question a sibling answered differently}}
 | **Strategy** | {{standard}} — {{explicit: task · cascade: role · auto: <selector rule>}} → `strategies/` |
 | **Estimate** | {{~N tokens · from M similar runs of this type}} — **judgement-rung, from the ledger's own history; recorded so actual-vs-estimate teaches the next estimate** → `cost.md` |
 | **Resolved from** | {{project → team → role → task}}, {{which rung won}} |
+| **Runtime · what it provides** | {{claude-code 2.1.226}} — {{delegation · tool restriction · native questions · hooks: which of them this runtime actually has, resolved at session start and not assumed}} → `runtimes.md` |
 
 **A gateway falls back, and the requested name would then be wrong in the ledger, in the
 explanation, and in the evidence a role's trust is earned from.** Where the response does not say,

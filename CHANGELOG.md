@@ -51,7 +51,12 @@ carrying no review evidence of any kind**, because the stock ladder's `review �
 no gate and a type file written from the old template overrode even that with an ungated one-liner:
 the stock ladder and `templates/TYPE-template.md` now carry `review_by: non-author` on the terminal
 edge, **a ladder a commit adds without one is refused** with the lines to add, and one already
-written is reported on every move rather than frozen. Suites: `test-guard-status.sh` **14/14** ·
+written is reported on every move rather than frozen. **And three roles attached five skills that exist in no file of that project** — all five
+installed in the owner's own runtime, so the work ran fine there and a clone elsewhere would attach
+them to nothing without an error: **§26 refuses a role whose commit attaches a name resolving to
+neither `_ops/skills/` nor a register row**, and the row is written as a link when there is a file
+to link to, which is what puts the edge in the graph. Suites: `test-guard-status.sh` **14/14** ·
+`test-skills-attached.sh` **11/11** ·
 `test-task-shape.sh` **11/11** · `test-assignee-exists.sh` **15/15** · `test-record-moves.sh`
 **11/11** · `test-transition.sh` **31/31**, each with code mutants — including the one that matters
 most here, the record narrowed back to tasks and runs, which would make the guard's first act on a
