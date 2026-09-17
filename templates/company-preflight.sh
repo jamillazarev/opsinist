@@ -72,6 +72,21 @@ _cpf_tmp=""
 trap 'rm -f $_cpf_tmp' EXIT HUP INT TERM
 say_fail() { echo "  ✗ $1"; fail=1; }
 say_warn() { echo "  ! $1"; warn=1; }
+
+# **One epilogue for every python section, because there were eight copies of it.** A section runs
+# python into a temp file, then has to do three things that are easy to get subtly wrong: refuse
+# when the interpreter did not finish (**a check that stopped is not a check that passed** — this
+# corpus's own measured trap, where a crashed heredoc passed a commit), render its FAIL/WARN lines,
+# and clean up. A deletion lens counted the copies, 2026-09-18.
+#   _drain <rc> <what it was checking> <tmpfile>
+_drain() {
+  [ "$1" -eq 0 ] || say_fail "the check of $2 stopped before its end (python3 exited $1; its error \
+is above) — refused, because a check that did not finish has not passed."
+  while IFS= read -r _dl; do
+    case "$_dl" in FAIL:*) say_fail "${_dl#FAIL:}" ;; WARN:*) say_warn "${_dl#WARN:}" ;; esac
+  done < "$3"
+  rm -f "$3"
+}
 # hits <grep-args…> — reads stdin, true when at least one line matches. See the note above:
 # this exists so no gate in this file can be silenced by the size of what it is reading.
 # Reads STDIN only — with file arguments `grep -c` prints `path:count` per file and the
@@ -2072,12 +2087,7 @@ NATIVE
   _nrc=$?
   # A crash here used to fail OPEN: the lines printed before it were read, the rest never existed,
   # and the commit passed on a check that had not finished (a review lens, 2026-09-11).
-  [ "$_nrc" -eq 0 ] || say_fail "the check of .mcp.json, mise.toml and _ops/TOOLING.md stopped before its end (python3 exited \
-$_nrc; its error is above) — refused, because a check that did not finish has not passed."
-  while IFS= read -r _nl; do
-    case "$_nl" in FAIL:*) say_fail "${_nl#FAIL:}" ;; WARN:*) say_warn "${_nl#WARN:}" ;; esac
-  done < "$_nat"
-  rm -f "$_nat"
+  _drain "$_nrc" ".mcp.json, mise.toml and _ops/TOOLING.md" "$_nat"
 fi
 
 # 22 · `Recheck when` fires on the one event a commit can see: a source arriving that pulls against
@@ -2163,12 +2173,7 @@ if pairs:
               "disagreement reaches it (templates/FINDING-template.md)" % (f, hit[0], eid, other))
 RECHECK
   _rrc=$?
-  [ "$_rrc" -eq 0 ] || say_fail "the recheck of findings against a new \`Reads against\` stopped before its \
-end (python3 exited $_rrc; its error is above) — refused, because a check that did not finish has not passed."
-  while IFS= read -r _rl; do
-    case "$_rl" in FAIL:*) say_fail "${_rl#FAIL:}" ;; WARN:*) say_warn "${_rl#WARN:}" ;; esac
-  done < "$_rck"
-  rm -f "$_rck"
+  _drain "$_rrc" "findings against a new \`Reads against\`" "$_rck"
 fi
 
 # 23 · a task this commit CREATES has the shape the template gives it. Measured on a live project
@@ -2183,7 +2188,11 @@ fi
 #      three fields and three sections below, which are the skill's template minus what it marks
 #      `<!-- optional -->`. **Enforced on what the commit ADDS**, like §4e: existing tasks are the
 #      project's history and are not retro-fixed, and a rename is not a rewrite.
-#      The skill's `scripts/new-task.py` writes a file that passes this, id already minted.
+#      The skill's `scripts/new-task.py --assignee <role>` writes a file that passes this, id
+#      already minted and the assignee linked. **Without `--assignee` it leaves the placeholder on
+#      purpose** — a hole the writer must fill is honest — and this section then refuses it, which
+#      is the door and the gate agreeing rather than disagreeing (an adversarial lens read the
+#      earlier comment as a promise the door did not keep, 2026-09-18).
 if [ "$(changed --diff-filter=A -- '_ops/tasks/*.md' '_ops/tasks/**/*.md' | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
   _tsk=$(mktemp "${TMPDIR:-/tmp}/opsinist-taskshape.XXXXXX")
   python3 - > "$_tsk" <<'SHAPE'
@@ -2207,8 +2216,11 @@ if tpl:
         SECTIONS = kept
         whence = "_ops/templates/TASK.md, this project's own"
 
+# **A README documenting the form is not a task** — the same exemption §7 was taught in 2026-08 and
+# §26 and §28 carry; an adversarial lens found this section without it, 2026-09-18.
 for path in [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=A", "-z") or "").split("\0")
-             if p.startswith("_ops/tasks/") and p.endswith(".md")]:
+             if p.startswith("_ops/tasks/") and p.endswith(".md")
+             and os.path.basename(p).lower() != "readme.md"]:
     text = git("show", ":" + path) or ""
     said = []
     ident = re.match(r"^([A-Z]{1,2}-[0-9A-Z]{6})", os.path.basename(path))
@@ -2229,17 +2241,15 @@ for path in [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=A
             said.append("it has a `## %s` section" % s)
     if said:
         print("FAIL:%s is a new task that does not have the shape %s gives it — %s. Write it with "
-              "the skill's `scripts/new-task.py`, which mints the id and fills the shape, or bring "
-              "this file to it; the fields and headings are read, so a translated template is "
-              "obeyed as written." % (path, whence, "; ".join(said)))
+              "the skill's `scripts/new-task.py --assignee <role>`, which mints the id and fills "
+              "the shape, or bring this file to it. **The SECTION HEADINGS are read from the "
+              "template, so a project that translates them is obeyed as written; the three FIELD "
+              "NAMES above are the contract and stay in English** — the door, the board and the "
+              "transition door all read those same three words, and a translated field name would "
+              "be invisible to every one of them." % (path, whence, "; ".join(said)))
 SHAPE
   _trc=$?
-  [ "$_trc" -eq 0 ] || say_fail "the check of the tasks this commit adds stopped before its end \
-(python3 exited $_trc; its error is above) — refused, because a check that did not finish has not passed."
-  while IFS= read -r _tl; do
-    case "$_tl" in FAIL:*) say_fail "${_tl#FAIL:}" ;; WARN:*) say_warn "${_tl#WARN:}" ;; esac
-  done < "$_tsk"
-  rm -f "$_tsk"
+  _drain "$_trc" "the tasks this commit adds" "$_tsk"
 fi
 
 # 28 · **a role the runtime cannot see is a document, not a worker.** Measured on a live project
@@ -2253,6 +2263,9 @@ fi
 #      second half happened. Claude Code needs a markdown file with `name` and `description` in its
 #      frontmatter and nothing more — no build step, no registration (docs read 2026-09-18) — so the
 #      cost of the wiring is one file per role, and the cost of skipping it is the whole roster.
+#      **The skills half of this rule lives in §26**, which already has the role's table open: one
+#      reader per table, or the two eventually disagree about what a row is — measured on this very
+#      pair by a deletion lens, 2026-09-18.
 #      **Judged where the commit WRITES a role**, and a project operated in another runtime says so
 #      in `_ops/config.md` — a line naming where its agent wiring lives turns this off.
 if [ "$(changed --diff-filter=AM -- '_ops/roles/*.md' | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
@@ -2273,29 +2286,46 @@ for f in ("_ops/config.md", "config.md"):
     cfg += git("show", ":" + f) or (open(f, encoding="utf-8", errors="replace").read()
                                     if os.path.isfile(f) else "")
 # a project wired to another runtime says where — one line, and this section stands down
-elsewhere = re.search(r"agent[s]?\s+(?:wiring|live|directory|path)|\.codex/|\.gemini/|agents_dir",
-                      cfg, re.I) is not None
+# **The escape must name a path, and a path that is not the one we already check.** A lens found
+# that the sentence *"The agents live in `.claude/agents/`."* silenced this section entirely,
+# 2026-09-18 — an escape that any prose about agents can trip is not an escape, it is a hole.
+wiring_elsewhere = False
+for _m in re.finditer(r"`?((?:\.[\w.-]+|[\w.-]+)/(?:[\w.-]+/)*agents?)/?`?", cfg):
+    if not _m.group(1).startswith(".claude/"):
+        wiring_elsewhere = True
 
 tracked = [p for p in (git("ls-files", "-z", "--cached", "--others", "--exclude-standard") or "").split("\0") if p]
 agents = {os.path.basename(p)[:-3].lower() for p in tracked
           if p.startswith(".claude/agents/") and p.endswith(".md")}
-pool = {os.path.basename(os.path.dirname(p)).lower() for p in tracked
-        if p.startswith("_ops/skills/") and os.path.basename(p) == "SKILL.md"}
-wired_skills = {os.path.basename(os.path.dirname(p)).lower() for p in tracked
-                if p.startswith(".claude/skills/") and os.path.basename(p) == "SKILL.md"}
 
 # **A README documenting the form, and an archive holding a retired role, are not workers** —
 # the same two false positives §7 was taught in 2026-08 by an adversarial lens, and this section
 # inherited them the moment it read the same directory. Top level only, and never the README: a
 # parked role lives under `_ops/roles/archive/` and owes the runtime nothing, because nothing
 # should be able to dispatch it.
-staged = [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=AM", "-z") or "").split("\0")
+# **`A`, not `AM`** — hiring writes the role and its wiring together, so this belongs on the commit
+# that ADDS the role; a later typo fix in one is not the moment to demand it. Found by a
+# contradiction lens against this section's own heading, 2026-09-18.
+staged = [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=A", "-z") or "").split("\0")
           if re.match(r"^_ops/roles/[^/]+\.md$", p or "")
           and os.path.basename(p).lower() != "readme.md"]
 for path in staged:
     role = os.path.basename(path)[:-3]
     text = git("show", ":" + path) or ""
-    if not elsewhere and norm(role) not in {norm(a) for a in agents}:
+    on_disk = {os.path.basename(f)[:-3] for f in
+               (os.listdir(".claude/agents") if os.path.isdir(".claude/agents") else [])
+               if f.endswith(".md")}
+    if not wiring_elsewhere and norm(role) not in {norm(a) for a in agents} \
+            and norm(role) in {norm(a) for a in on_disk}:
+        # **Present and not committed is a different finding.** `git ls-files --exclude-standard`
+        # drops an ignored `.claude/`, so a correctly wired role read as unwired and the refusal
+        # named a file that was sitting right there — found by an adversarial lens, 2026-09-18.
+        # The honest line is the one about the clone, and it is a warning, because the role does
+        # load here.
+        print("WARN:%s has its wiring at `.claude/agents/` on disk and NOT in git — an ignored or "
+              "untracked `.claude/` loads for you and arrives with no clone. Commit it, or say in "
+              "`_ops/config.md` where this project's agent wiring lives." % path)
+    elif not wiring_elsewhere and norm(role) not in {norm(a) for a in agents}:
         print("FAIL:%s is a role the runtime cannot see — there is no `.claude/agents/%s.md`, and "
               "that directory is where the thing that dispatches work looks for its agents. A role "
               "nobody loads does not error: the work gets done by the advisor instead, which is "
@@ -2304,32 +2334,9 @@ for path in staged:
               "allowed — no build step and no registration. A project operated in another runtime "
               "names where its wiring lives in `_ops/config.md`, and this stands down."
               % (path, norm(role)))
-    m = re.search(r"^#+\s*Skills attached\s*$(.*?)(?=^#+\s|\Z)", text, re.M | re.S | re.I)
-    for row in (m.group(1).split("\n") if m else []):
-        row = row.strip()
-        if not row.startswith("|") or set(row) <= set("|-: "):
-            continue
-        cell = row.strip("|").split("|")[0].strip()
-        cell = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", cell).strip().strip("`*_")
-        # **§26 reads this same table**, for whether the skill resolves at all; this reads it for
-        # whether the runtime can load it. Each section's heredoc stands alone, so the two readers
-        # are separate on purpose — and a change to either belongs in both.
-        if not cell or "{{" in cell or cell.lower() in ("skill", "name"):
-            continue
-        low = cell.lower()
-        if low in pool and low not in wired_skills and not elsewhere:
-            print("FAIL:%s attaches `%s`, which sits in the project's pool and is not in "
-                  "`.claude/skills/%s/` — so the role is told it has a skill the runtime never "
-                  "loads. The pool is the source and the runtime directory is the copy that gets "
-                  "read; a clone gets both because both are committed." % (path, cell, cell))
 WIRING
   _wrc2=$?
-  [ "$_wrc2" -eq 0 ] || say_fail "the check of this project's runtime wiring stopped before its end \
-(python3 exited $_wrc2; its error is above) — refused, because a check that did not finish has not passed."
-  while IFS= read -r _wl2; do
-    case "$_wl2" in FAIL:*) say_fail "${_wl2#FAIL:}" ;; WARN:*) say_warn "${_wl2#WARN:}" ;; esac
-  done < "$_wir"
-  rm -f "$_wir"
+  _drain "$_wrc2" "this project's runtime wiring" "$_wir"
 fi
 
 # 27 · **a mention of something inside this project is a link, or the commit is refused** — and
@@ -2350,6 +2357,7 @@ if [ "$(changed --diff-filter=AM -- '_ops/*.md' '_ops/**/*.md' | tr '\0' '\n' | 
   _lnk=$(mktemp "${TMPDIR:-/tmp}/opsinist-links.XXXXXX")
   python3 - > "$_lnk" <<'LINKS'
 import os, re, subprocess
+from urllib.parse import unquote
 
 def git(*args):
     r = subprocess.run(["git", "-c", "core.quotePath=false"] + list(args), capture_output=True,
@@ -2362,7 +2370,7 @@ MASK = re.compile(r"!?\[(?:[^\[\]]|\[[^\]]*\])*\]\([^)]*\)|<https?://[^>]+>|<!--
 DECLARATION = re.compile(r"\*\*task\*\*|^\s*task\s*:", re.I)
 PERSON = re.compile(r"^(?![ ]{4}|\t)\s*[-*]?\s*[*`_]*(?:Assignee|Role|Owner|Reviewer|Worker)"
                     r"[*`_]*\s*:\s*([^·|\n]+?)\s*$", re.I)
-OPEN = {"none", "unassigned", "nobody", "tbd", "unknown", "", "-", "—"}
+OPEN = {"none", "unassigned", "nobody", "tbd", "unknown", ""}
 SKIP = ("_ops/runs/", "_ops/research/raw/", "_ops/scripts/", "_ops/templates/")
 
 def norm(name):
@@ -2385,21 +2393,47 @@ staged = [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=AM",
 for path in staged:
     own = re.match(r"^(%s)" % ID, os.path.basename(path))
     own = own.group(1) if own else None
+    # **The fence state belongs to the FILE, not to the added lines.** Computed over the diff
+    # alone, one line added inside a pre-existing fence read as prose and was refused for the
+    # mention in it — and the door could not fix it, because `link-ids.py` tracks fences over the
+    # whole file and so saw nothing to rewrite. Found by an adversarial lens, 2026-09-18. So: read
+    # the staged file, mark which of its lines are fenced, and judge only the added ones.
+    whole = (git("show", ":" + path) or "").split("\n")
+    fenced_at, _f = [], False
+    for ln in whole:
+        if ln.strip().startswith(("```", "~~~")):
+            _f = not _f
+            fenced_at.append(True)          # the fence line itself is never judged
+            continue
+        fenced_at.append(_f)
     diff = git("diff", "--cached", "-U0", "--", path) or ""
-    added = [l[1:] for l in diff.split("\n")
-             if l.startswith("+") and not l.startswith("+++")]
+    added, lineno = [], 0
+    for l in diff.split("\n"):
+        m_h = re.match(r"^@@ -\d+(?:,\d+)? \+(\d+)", l)
+        if m_h:
+            lineno = int(m_h.group(1))
+            continue
+        if l.startswith("+") and not l.startswith("+++"):
+            added.append((lineno, l[1:]))
+            lineno += 1
+        elif not l.startswith("-") and not l.startswith("\\"):
+            lineno += 1
     unlinked, paths_named, dead, unwalkable = [], [], [], []
-    fenced = False
-    for line in added:
+    for n, line in added:
         st = line.strip()
+        fenced = fenced_at[n - 1] if 0 < n <= len(fenced_at) else False
         if st.startswith("```") or st.startswith("~~~"):
-            fenced = not fenced
             continue
         # **Every link on an added line is resolved, fenced or not** — a dead target inside an
         # example is still a dead target the moment someone copies the example out of it.
-        for target in re.findall(r"\]\(([^)]+)\)", line):
+        for raw_t in re.findall(r"\]\(([^)]+)\)", line):
+            # **a markdown destination may carry a title and may be percent-encoded**, and this
+            # read neither: `[x](../a.md "the ladder")` was refused for the space in the title, and
+            # the prescribed `%20` was then refused as a dead path. `graph-check.py` had both right
+            # and the gate disagreed with the reporter — found by an adversarial lens, 2026-09-18.
+            target = re.sub(r"\s+\"[^\"]*\"\s*$|\s+'[^']*'\s*$", "", raw_t).strip()
             if target.startswith(("http://", "https://", "mailto:", "#")) or "{{" in target \
-                    or "XXXXXX" in target:
+                    or "XXXXXX" in target or "…" in target:
                 continue
             if target.startswith("/") or target.startswith("file:"):
                 unwalkable.append(target + " — an absolute path; a vault resolves links relative to the file")
@@ -2407,11 +2441,14 @@ for path in staged:
             if " " in target.split("#")[0]:
                 unwalkable.append(target + " — an unencoded space; write `%20` or rename the file")
                 continue
-            if not os.path.exists(os.path.join(os.path.dirname(path), target.split("#")[0])):
+            _t = unquote(target.split("#")[0])
+            if not os.path.exists(os.path.join(os.path.dirname(path), _t)) \
+                    and not os.path.isdir(os.path.join(os.path.dirname(path), _t)):
                 # **§1g already owns the dead link inside a task**, in its own words. Two refusals
                 # for one defect is the failure `facts.md` 261 measured — a list known to contain
                 # duplicates stops being read — so this half covers everything §1g does not.
-                if not re.match(r"^_ops/tasks/[^/]+\.md$", path):
+                if not (re.match(r"^_ops/tasks/[^/]+\.md$", path)
+                        and target.split("#")[0].endswith(".md")):
                     dead.append(target)
         if fenced or st.startswith("#") or DECLARATION.search(line):
             continue
@@ -2458,12 +2495,7 @@ for path in staged:
               "fail the same way on these." % (path, "; ".join(sorted(set(unwalkable))[:4])))
 LINKS
   _lrc=$?
-  [ "$_lrc" -eq 0 ] || say_fail "the check of this commit's links stopped before its end \
-(python3 exited $_lrc; its error is above) — refused, because a check that did not finish has not passed."
-  while IFS= read -r _ll; do
-    case "$_ll" in FAIL:*) say_fail "${_ll#FAIL:}" ;; WARN:*) say_warn "${_ll#WARN:}" ;; esac
-  done < "$_lnk"
-  rm -f "$_lnk"
+  _drain "$_lrc" "this commit's links" "$_lnk"
 fi
 
 # 26 · a skill attached to a role resolves to something. Measured on a live project 2026-09-16:
@@ -2493,21 +2525,61 @@ def have(name):
               ".claude/skills/%s" % name, ".claude/skills/%s/SKILL.md" % name):
         if os.path.exists(p) or (git("cat-file", "-e", ":" + p) is not None):
             return True
+    # **A name anywhere in the register is not a declaration** — an adversarial lens found that a
+    # line saying we do NOT use a skill counted as having it, 2026-09-18. A register entry is a
+    # table row; prose about one is prose.
     for f in ("_ops/TOOLING.md", "_ops/config.md"):
         text = git("show", ":" + f) or (open(f, encoding="utf-8", errors="replace").read()
                                         if os.path.isfile(f) else "")
-        if re.search(r"(?<![\w-])%s(?![\w-])" % re.escape(name), text):
-            return True
+        for line in text.split("\n"):
+            if not line.lstrip().startswith("|"):
+                continue
+            if re.search(r"(?<![\w-])%s(?![\w-])" % re.escape(name), line):
+                return True
     return False
 
+# **A README documenting the form, and an archive holding a retired role, are not roles** — the two
+# false positives §7 was taught by an adversarial lens in 2026-08. A deletion lens found 2026-09-18
+# that this section had never inherited them while its neighbour §28 had, so the two disagreed about
+# what a role file is. Top level only, never the README.
+wired = {os.path.basename(os.path.dirname(p)).lower() for p in
+         (git("ls-files", "-z", ".claude/skills") or "").split("\0")
+         if os.path.basename(p or "") == "SKILL.md"}
+pool = {os.path.basename(os.path.dirname(p)).lower() for p in
+        (git("ls-files", "-z", "_ops/skills") or "").split("\0")
+        if os.path.basename(p or "") == "SKILL.md"}
+cfg = ""
+for f in ("_ops/config.md", "config.md"):
+    cfg += git("show", ":" + f) or (open(f, encoding="utf-8", errors="replace").read()
+                                    if os.path.isfile(f) else "")
+# **The escape must name a path, and a path that is not the one we already check.** A lens found
+# that the sentence *"The agents live in `.claude/agents/`."* silenced this section entirely,
+# 2026-09-18 — an escape that any prose about agents can trip is not an escape, it is a hole.
+elsewhere = False
+for _m in re.finditer(r"`?((?:\.[\w.-]+|[\w.-]+)/(?:[\w.-]+/)*agents?)/?`?", cfg):
+    if not _m.group(1).startswith(".claude/"):
+        elsewhere = True
+
+# **A typo fix in an existing role is not a new attachment.** This read the whole staged text of
+# every touched role, so editing one line refused the commit for rows written months earlier —
+# against this section's own heading and against the migration's promise. Found by a contradiction
+# lens, 2026-09-18. An ADDED role is judged whole; a MODIFIED one only on the rows its diff adds.
+added = set(p for p in (git("diff", "--cached", "--name-only", "--diff-filter=A", "-z") or "").split("\0") if p)
 for path in [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=AM", "-z") or "").split("\0")
-             if p.startswith("_ops/roles/") and p.endswith(".md")]:
+             if re.match(r"^_ops/roles/[^/]+\.md$", p or "")
+             and os.path.basename(p).lower() != "readme.md"]:
     text = git("show", ":" + path) or ""
     m = re.search(r"^#+\s*Skills attached\s*$(.*?)(?=^#+\s|\Z)", text, re.M | re.S | re.I)
     if not m:
         continue
-    missing = []
-    for row in m.group(1).split("\n"):
+    rows = m.group(1).split("\n")
+    if path not in added:
+        diff = git("diff", "--cached", "-U0", "--", path) or ""
+        fresh = {l[1:].strip() for l in diff.split("\n")
+                 if l.startswith("+") and not l.startswith("+++")}
+        rows = [r for r in rows if r.strip() in fresh]
+    missing, unwired = [], []
+    for row in rows:
         row = row.strip()
         if not row.startswith("|") or set(row) <= set("|-: "):
             continue
@@ -2517,6 +2589,19 @@ for path in [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=A
             continue
         if not have(cell):
             missing.append(cell)
+        # **The same row answers the other question**: a skill the project holds must also be where
+        # the runtime looks, or the role is told it has one nothing loads. Read here rather than in
+        # §28 because this is the section with the row already open — a deletion lens found the two
+        # reading one table in one file, 2026-09-18.
+        elif cell.lower() in pool and cell.lower() not in wired and not elsewhere:
+            unwired.append(cell)
+    if unwired:
+        print("FAIL:%s attaches %s, which the project holds in `_ops/skills/` and the runtime does "
+              "not — there is no `.claude/skills/<name>/SKILL.md` for it. **The pool is the source "
+              "and the runtime directory is the copy that gets read**, and both are committed so a "
+              "clone gets the skill and the wiring together. A role told it has a skill nothing "
+              "loads does the work without it, silently and slightly worse."
+              % (path, ", ".join("`%s`" % u for u in sorted(set(unwired))[:6])))
     if missing:
         print("FAIL:%s attaches %s, and %s in this project — not in `_ops/skills/`, not in "
               "`.claude/skills/`, and named in no register row. **A skill that is absent does not "
@@ -2529,12 +2614,7 @@ for path in [p for p in (git("diff", "--cached", "--name-only", "--diff-filter=A
                  "it is nowhere" if len(missing) == 1 else "none of them is anywhere"))
 SKILLS
   _skrc=$?
-  [ "$_skrc" -eq 0 ] || say_fail "the check of the skills this commit attaches stopped before its end \
-(python3 exited $_skrc; its error is above) — refused, because a check that did not finish has not passed."
-  while IFS= read -r _sl; do
-    case "$_sl" in FAIL:*) say_fail "${_sl#FAIL:}" ;; WARN:*) say_warn "${_sl#WARN:}" ;; esac
-  done < "$_skl"
-  rm -f "$_skl"
+  _drain "$_skrc" "the skills this commit attaches" "$_skl"
 fi
 
 # 25 · the assignee names somebody this project actually has. Measured on the same live project
@@ -2570,7 +2650,7 @@ def norm(s):
 
 # nobody-yet, said out loud. The template's own device for it is a GROUP — "not yet decided who" —
 # and these are the words people write instead; an unknown NAME is the defect this section is for.
-OPEN = {"none", "unassigned", "nobody", "tbd", "unknown", "", "-"}
+OPEN = {"none", "unassigned", "nobody", "tbd", "unknown", ""}
 
 # normalised -> what to print back. **The team file is read first on purpose**: `web_engineer.md`
 # and `| Web Engineer |` are one name, and the one worth printing back at somebody is the one a
@@ -2628,15 +2708,10 @@ for path in paths:
              ", ".join("`%s`" % h for h in have[:8]) + (", …" if len(have) > 8 else "")
              if have else "no roster at all: `_ops/TEAM.md` names nobody and `_ops/roles/` is empty",
              "Where nobody is decided yet, the template's own device is a group, or one of: %s."
-             % ", ".join("`%s`" % w for w in sorted(OPEN - {"", "-"}))))
+             % ", ".join("`%s`" % w for w in sorted(OPEN - {""}))))
 WHO
   _wrc=$?
-  [ "$_wrc" -eq 0 ] || say_fail "the check of who this commit assigns work to stopped before its end \
-(python3 exited $_wrc; its error is above) — refused, because a check that did not finish has not passed."
-  while IFS= read -r _wl; do
-    case "$_wl" in FAIL:*) say_fail "${_wl#FAIL:}" ;; WARN:*) say_warn "${_wl#WARN:}" ;; esac
-  done < "$_who"
-  rm -f "$_who"
+  _drain "$_wrc" "who this commit assigns work to" "$_who"
 fi
 
 # 24 · the product moved and the record did not — once is a small fix, twice in a row is the
@@ -2646,7 +2721,7 @@ fi
 #      that is in no commit at all. The rule this answers is `permissions.md`'s — *a gate is a
 #      property of the action, not of who performs it; the advisor is not exempt, or it bypasses
 #      every gate by doing the work itself* — which was prose in every file and held by nothing.
-#      **Warn on the first, refuse on the second in a row**: a one-line fix that never became a task
+#      **Warn on the first, refuse on the THIRD in a row**: a one-line fix that never became a task
 #      is legitimate and common, and a check that refuses it is one people pass with `--no-verify`.
 #      The quick path is not caught either way — it records the run, which is what this reads.
 if [ -d _ops/tasks ] && [ "$(changed --diff-filter=ACMRT | tr '\0' '\n' | grep -c .)" -gt 0 ]; then
@@ -2688,25 +2763,35 @@ if operated():
     if product_now and not record_now:
         before = (git("show", "--pretty=format:", "--name-only", "-z", "HEAD") or "").split("\0")
         product_before, record_before = shape(before)
+        # **The threshold is three, and an amend is why.** `git commit --amend` replaces HEAD, so
+        # during one the hook sees the staged product-only change beside a product-only HEAD — the
+        # exact shape of a second commit in a row — and **a pre-commit hook cannot tell the two
+        # apart**: measured 2026-09-18 on this machine, `GIT_REFLOG_ACTION` is empty in the hook for
+        # a plain commit and for an amend alike. Refusing at two would refuse an ordinary amend of
+        # one honest fix, and a check people pass with `--no-verify` is a check they have deleted.
+        # **Three consecutive cannot be one act**, which is what makes the third safe to refuse.
+        two_back = (git("show", "--pretty=format:", "--name-only", "-z", "HEAD~1") or "").split("\0")
+        product_2, record_2 = shape(two_back)
         head = (git("log", "-1", "--format=%h %s") or "").strip()
-        if product_before and not record_before:
-            print("FAIL:this commit moves the product and not the record, and so did the one before "
-                  "it (%s). Two in a row is the shape of work being done instead of dispatched: open "
-                  "a task — the skill's `scripts/new-task.py` — or, for a job small enough to need "
-                  "none, write the run record the quick path asks for. Staging either satisfies this."
-                  % head)
+        head2 = (git("log", "-1", "--format=%h %s", "HEAD~1") or "").strip()
+        if product_before and not record_before and product_2 and not record_2:
+            print("FAIL:this commit moves the product and not the record, and so did the two before "
+                  "it (%s; %s). Three in a row is the shape of work being done instead of "
+                  "dispatched — one of them could be an amend, three cannot: open a task — the "
+                  "skill's `scripts/new-task.py` — or, for a job small enough to need none, write "
+                  "the run record the quick path asks for. Staging either satisfies this."
+                  % (head, head2))
+        elif product_before and not record_before:
+            print("WARN:this commit moves the product and not the record, and so did the one before "
+                  "it (%s) — a third in a row is refused. If these are one fix being amended, that "
+                  "is exactly what this cannot see and exactly why the threshold is three." % head)
         else:
             print("WARN:this commit moves the product and not the record — nothing under `_ops/` is "
-                  "in it. Once is a small fix; a second in a row is refused, because that is what "
+                  "in it. Once is a small fix; a third in a row is refused, because that is what "
                   "the advisor doing the work itself looks like from the outside.")
 RECORD
   _rrc2=$?
-  [ "$_rrc2" -eq 0 ] || say_fail "the check of what this commit moves stopped before its end \
-(python3 exited $_rrc2; its error is above) — refused, because a check that did not finish has not passed."
-  while IFS= read -r _rl2; do
-    case "$_rl2" in FAIL:*) say_fail "${_rl2#FAIL:}" ;; WARN:*) say_warn "${_rl2#WARN:}" ;; esac
-  done < "$_rec"
-  rm -f "$_rec"
+  _drain "$_rrc2" "what this commit moves" "$_rec"
 fi
 
 # 5 · a cheap last line on credentials. NOT a secret scanner — gitleaks/trufflehog are,

@@ -119,6 +119,18 @@ a live expert **is** the source. → [`audience.md`](audience.md)
 Never dispatched. Their contribution is the top evidence rung; paying them is spend.
 → [`audience.md`](audience.md)
 
+**§N** — a numbered section of **`templates/company-preflight.sh`**, the pre-commit guard this
+skill copies into a project as `_ops/scripts/preflight.sh`. The numbers are the order sections were
+*added*, never their order in the file, so §24 sits beside §4a-bis and both read the same commit:
+each one is one refusal with one reason, and the number is how the corpus cites it. **A section
+exists only where the hook is wired** — the file in the tree refuses nothing
+([`checking.md`](checking.md) → the four states). → [`checking.md`](checking.md), [`writing-work.md`](writing-work.md)
+
+**door** — a script that is the only way a thing may be done, so the rule cannot be bypassed by
+doing it another way: `transition.py` for a stage change, `new-task.py` for a task's shape,
+`new-id.py` for an id. **A door is not a gate**: a gate refuses, a door *performs and records*, and
+several doors exist precisely so the guard has something honest to compare against. → [`PATTERNS.md`](PATTERNS.md)
+
 **grade** — junior · mid · senior · principal. **A routing fact, never a character**: it decides
 who gets the work and at which tier, and never enters an agent's instructions as an identity.
 → [`hiring.md`](hiring.md)

@@ -102,6 +102,12 @@ gc
 [ "$RC" = 0 ] && ! said 'resolves to no file' && ok \
   || bad "a link inside a fence was counted as a phantom: $OUT"
 
+# ── an elided path in prose is a placeholder, not a phantom ────────────────────────────────────
+fixture
+task T-PPPPPP '**Assignee**: [Web Engineer](../roles/web_engineer.md)' 'The shape is [the file](…).'
+gc; [ "$RC" = 0 ] && ! said 'resolves to no file' && ok \
+  || bad "an elided link target was reported as a phantom: $OUT"
+
 # ── a link to a script is an attachment, not a note-to-note edge ───────────────────────────────
 fixture
 task T-MMMMMM '**Assignee**: [Web Engineer](../roles/web_engineer.md)' \

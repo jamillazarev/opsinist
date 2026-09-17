@@ -57,7 +57,11 @@ no check**, because its green is read as evidence. **And the file is not the gua
 Measured on a live project, 2026-09-16: the guard sat in `_ops/scripts/`, one version behind, and
 `.git/hooks/` held nothing but git's samples, so every gate in this methodology was a description
 there. `guard-status.py` reads the hooks directory git actually uses — `core.hooksPath` and
-worktrees move it — and says which of the four states the project is in.
+worktrees move it — and names which of **four states** the project is in: **no guard** in the tree
+at all · **a guard, not wired** (the measured one: the file is there and `.git/hooks/` is empty) ·
+**wired to somebody else's hook**, which needs reading before it is touched · **wired and current**,
+which is the only state where the gates below it fire. A fifth line is printed rather than counted:
+a hook that exists and is not executable, which git skips in silence.
 
 **An audit over a whole repository is dispatched, not performed in the turn.** It is minutes of
 work, and a conversation that blocks for it has taken the owner hostage to a sweep they asked for

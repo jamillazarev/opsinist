@@ -90,6 +90,21 @@ mkdir -p .claude/skills/house-style && printf -- '---\nname: house-style\ndescri
 role new_role house-style
 run; [ "$RC" = 0 ] && ok || bad "a role this commit did not touch was judged beside one it did: $OUT"
 
+# ── a typo fix in an old role is not a new attachment ──────────────────────────────────────────
+# Found by a contradiction lens before this shipped: the section read the whole staged text of every
+# touched role, so editing one line refused the commit for rows written months earlier — against
+# its own heading and against the migration's promise.
+fixture
+role legacy_role nowhere-skill
+commit "legacy role with an unresolvable skill"
+printf -- '\nOne more line of prose.\n' >> _ops/roles/legacy_role.md
+run; [ "$RC" = 0 ] && ok || bad "editing an old role judged the rows it already had: $OUT"
+
+# and adding a row to that same old role IS judged
+printf -- '| another-nowhere-skill | because |\n' >> _ops/roles/legacy_role.md
+run; [ "$RC" = 1 ] && said 'another-nowhere-skill' && ok \
+  || bad "a row added to an existing role went unjudged: $OUT"
+
 # ── the mutants ────────────────────────────────────────────────────────────────────────────────
 mutant() {   # $1 what it breaks · $2 from · $3 to
   cp "$HERE/../templates/company-preflight.sh" "$T/mut.sh"
@@ -129,12 +144,12 @@ mutant "the header row judged as a skill" \
 
 # the anchor spans two physical lines on purpose: `--diff-filter=AM` alone appears in §25 too,
 # and a mutation that lands in the wrong section is a test of something else
-mutant "every role judged, not the ones this commit writes" \
-  'git("diff", "--cached", "--name-only", "--diff-filter=AM", "-z") or "").split("\0")
-             if p.startswith("_ops/roles/")' \
-  'git("ls-files", "-z", "_ops/roles") or "").split("\0")
-             if p.startswith("_ops/roles/")' \
+# the anchor moved with the repair a contradiction lens prompted: a MODIFIED role is now judged
+# only on the rows its diff adds, and that line is what this mutant removes
+mutant "a touched role judged whole, not on the rows it adds" \
+  '    if path not in added:' '    if False:' \
   && { fixture; role old_role legacy-skill; commit legacy
+       printf -- '\nOne more line.\n' >> _ops/roles/old_role.md
        mkdir -p _ops/skills/house-style && printf '# house-style\n' > _ops/skills/house-style/SKILL.md
 mkdir -p .claude/skills/house-style && printf -- '---\nname: house-style\ndescription: the voice\n---\n' > .claude/skills/house-style/SKILL.md
        role new_role house-style; run

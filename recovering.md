@@ -138,6 +138,15 @@ queue behind it, and silently dropping it turns a defect into a disappearance. (
 working harnesses on 2026-09-17: one keeps a write-ahead close note precisely for its teardown
 crash window, the other renames an unparseable message aside and logs it.)
 
+**Neither is implemented here yet, and saying so is the point** — a cold-read lens found this
+passage reading as a description of something that exists. Today's doors, `transition.py` and
+`new-task.py`, perform moves that do not destroy their own evidence, so there is nothing here for
+the first rule to hold; both are written down now because **the next door that archives, tears down
+or prunes will need them, and a rule found after the crash has already cost something.** The shape,
+when it is built: a note file beside the thing being moved, named for the move, removed on success,
+and read at the top of the next run — and an unparseable record renamed in place with a marked
+prefix rather than skipped.
+
 **A handoff is a typed record with exactly one owner, claimed once.** Unclaimed, it is an open
 obligation somebody can see; claimed, it cannot be claimed again — which is what stops two sessions
 picking up the same interrupted work and each believing itself the only one. In this system the

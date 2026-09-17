@@ -112,10 +112,12 @@ what the change was trying to achieve — those are exactly the things that make
 **Self-review confirms assumptions; it does not test them**, and a reader handed the author's
 assumptions is doing self-review with an extra step. So the input is the diff and the files it
 touches ([`dispatching.md`](dispatching.md) for what a subagent gets), and the round is run by someone who did not write
-the text — which is the same rule from the other side. *(Named by Boris Cherny as the thing people
-most often get wrong about verification, 2026-08; it agrees with this corpus's own measurement that
-a model reads its own output generously, and sharpens it: the danger is not only the author
-reviewing, it is the author's framing travelling with the work.)*
+the text — which is the same rule from the other side. *(**Rung: reported.** Boris Cherny named verification as
+the thing people most often get wrong, in a talk at Startup School in 2026-08 — the owner relayed
+it from a slide, and this corpus has no recording or transcript of its own to cite, which is why it
+sits a rung below the measurements around it. What makes it worth keeping anyway is that it agrees
+with this corpus's own measurement — a model reads its own output generously — and sharpens it: the
+danger is not only the author reviewing, it is the author's framing travelling with the work.)*
 
 **A review names the pattern and quotes the line; it never returns a score.** *"This reads 7/10
 machine-written"* is a guess dressed as a measurement, and a guess about **who or what wrote a

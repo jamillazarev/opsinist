@@ -34,15 +34,14 @@ def git(root, *args):
 
 
 def skill_version():
+    """The version this skill ships, from the guard template's own stamp."""
     here = os.path.dirname(os.path.abspath(__file__))
-    for path in (os.path.join(here, "..", "templates", "company-preflight.sh"),):
-        try:
-            m = STAMP.search(open(path, encoding="utf-8", errors="replace").read())
-        except OSError:
-            continue
-        if m:
-            return m.group(1)
-    return None
+    path = os.path.join(here, "..", "templates", "company-preflight.sh")
+    try:
+        m = STAMP.search(open(path, encoding="utf-8", errors="replace").read())
+    except OSError:
+        return None
+    return m.group(1) if m else None
 
 
 def find_guard(root):

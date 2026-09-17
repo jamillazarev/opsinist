@@ -17,8 +17,8 @@ links, only if you want it.
 — §23 the shape of a task it adds · §25 an assignment it writes · §26 a skill it attaches · §27 a
 mention it adds · §28 a role it writes. **Nothing in your history is retro-judged**, so the upgrade
 does not turn yesterday's files into today's refusals; the first commit that touches one of those
-things is where you meet the rule. **§24 is the one that reads the commit before yours** — a
-product-only commit warns, a second in a row is refused — and the escape is the same one everybody
+things is where you meet the rule. **§24 is the one that reads the commits before yours** — a
+product-only commit warns, a third in a row is refused — and the escape is the same one everybody
 already uses: a task, or the run record the quick path asks for.
 
 **Three things worth doing once, in this order.** They are each one command and none of them is
@@ -74,8 +74,10 @@ routed to the nearest-sounding name — so **§25 refuses an assignment naming n
 panel this project has**, listing who it does have; an honest `unassigned` passes, day one with no
 roster at all is silent, and a hire landing in the same commit counts. **Four of its fifteen commits
 moved files outside `_ops/` with nothing under `_ops/` in them**, one of them thirteen files of
-feature work: **§24 warns on the first such commit and refuses the second in a row**, naming the one
-before it — the advisor doing the work itself is the one bypass no tool allowlist sees, and
+feature work: **§24 warns on the first such commit and refuses the third in a row**, naming the two
+before it — three rather than two because a pre-commit hook cannot tell an amend from a second
+commit (`GIT_REFLOG_ACTION` is empty in both, measured 2026-09-18), and one of three can be an
+amend while three cannot — the advisor doing the work itself is the one bypass no tool allowlist sees, and
 `permissions.md` had only a sentence against it. **And four of its tasks were accepted with two
 carrying no review evidence of any kind**, because the stock ladder's `review → accept` shipped with
 no gate and a type file written from the old template overrode even that with an ungated one-liner:
@@ -86,9 +88,9 @@ installed in the owner's own runtime, so the work ran fine there and a clone els
 them to nothing without an error: **§26 refuses a role whose commit attaches a name resolving to
 neither `_ops/skills/` nor a register row**, and the row is written as a link when there is a file
 to link to, which is what puts the edge in the graph. Suites: `test-guard-status.sh` **14/14** ·
-`test-skills-attached.sh` **11/11** ·
+`test-skills-attached.sh` **13/13** ·
 `test-task-shape.sh` **11/11** · `test-assignee-exists.sh` **15/15** · `test-record-moves.sh`
-**11/11** · `test-transition.sh` **33/33**, each with code mutants — including the one that matters
+**12/12** · `test-transition.sh` **35/35**, each with code mutants — including the one that matters
 most here, the record narrowed back to tasks and runs, which would make the guard's first act on a
 fresh project a refusal of the commit after its own installation.
 
@@ -187,7 +189,7 @@ written**: a `## History` line, a heading, a fence, `_ops/runs/`, `_ops/research
 declarations the guard's own readers parse (`**Task**`, `task:`) — linked, those hand a slug back
 where an id was expected. **And the same section keeps the graph honest**: a link whose target is
 absent, an absolute path, or an unencoded space is refused, three shapes Obsidian, GitHub and the
-link checker all fail on identically. `test-links-hard.sh` **15/15**, four mutants.
+link checker all fail on identically. `test-links-hard.sh` **18/18**, four mutants.
 
 **And whether the graph works is now a measurement rather than a promise.**
 `scripts/graph-check.py` reads a project and answers: notes · note-to-note edges · orphans ·
@@ -203,7 +205,7 @@ does not assume: it tries both readings and says which links survive each. Run o
 Run on the measured project: **19 notes, 0 edges, 19 orphans.** Its own first version called that
 *"the graph is whole"* — true about links and false about everything a graph is for — so **no edges
 is now the finding**, and the mutant that says it again is in the suite. `test-graph-check.sh`
-**18/18**.
+**19/19**.
 
 **A role the runtime cannot see is a document, not a worker — §28.** Measured 2026-09-18 on the same
 project: three roles in `_ops/roles/` and **no `.claude/` directory at all**, so every bar, skill and
@@ -212,7 +214,7 @@ does not error; it looks like a project where one agent does everything. Hiring 
 now — the role, and `.claude/agents/<role>.md`, which needs only `name` and `description` in its
 frontmatter and no build step — and a role attaching a pool skill the runtime directory does not
 carry is refused for the same reason. A project operated in another runtime names where its wiring
-lives in `_ops/config.md`, once, and the section stands down. `test-role-wiring.sh` **12/12**.
+lives in `_ops/config.md`, once, and the section stands down. `test-role-wiring.sh` **9/9**.
 
 **What a vault needs is written down once** ([`project-layout.md`](project-layout.md)): a relative path · a target that
 exists · no unencoded space · **and the vault opened at the project root rather than at `_ops/`**,
@@ -308,6 +310,25 @@ average of its training · and **a dispatching role gets no write and no outward
 licence field**: one repository was measured carrying three licences, with the SDK you ship under a
 different one from the server you run and every governance feature in a proprietary directory.
 
+**The round found nine things in its own release, and every one is repaired.** A deletion lens,
+an adversarial lens, a contradiction lens and a cold-read ran over the new guard sections, the new
+scripts and the prose. The sharpest were **false refusals that would have met a reader on day one**:
+§27 refusing a markdown link carrying a title and then refusing the `%20` it prescribed · §27
+judging a line added inside a pre-existing fence, which the prescribed door could not fix · §26 and
+§28 reading the whole staged text of every *touched* role, so a typo fix refused the commit · §23
+refusing `_ops/tasks/README.md` · §28 refusing a correctly wired role whose `.claude/` is gitignored
+(now a warning that names the clone) · a `gates:` block indented four spaces parsing as no gates at
+all, so `--check-ladder --strict` refused a ladder while instructing the author to write what was
+already there · and **§24 refusing an ordinary `git commit --amend`**, which is why its threshold is
+now three: a pre-commit hook cannot tell an amend from a second commit, measured on this machine
+(`GIT_REFLOG_ACTION` is empty in both). Two evasions closed: a skill counted as declared because its
+name appeared anywhere in the register, including on a line saying we do not use it; and §28's
+other-runtime escape tripping on any prose that mentioned agents. **And the door now writes what its
+own gate demands** — `new-task.py` links the assignee, because §23's refusal pointed at a door whose
+output §27 then refused. Eight repeated epilogues in the guard became one helper, three readers of
+one ladder became one, and five claims that read as implemented now say plainly that nothing holds
+them yet.
+
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
 repair commit, while the one re-round that read only that commit finished first time. So the
@@ -352,9 +373,15 @@ four kinds in both directions, which is the point of naming the rule beside them
 0.2.18 tag, and bit this range once more — and zsh reads `=word` as a command lookup, so a line of
 `echo =====` fails with *not found* and the rest of the command line never runs.
 
-Eval state: **not run.** The guard sections and the scripts are measured by their suites; whether a
-run *offers* the machine line at a takeover, runs the report during a health check, or re-stamps a
-finding without being refused is behaviour, and no scenario covers it yet.
+Eval state: **not run.** The guard sections and the scripts are measured by their suites — 238
+company-preflight assertions, 128 audit-gate, and a suite per script with its own code mutants —
+but **a suite measures a form and an eval measures a run**, and the behaviours this release adds
+are exactly the kind only a run shows: whether a session *offers* the machine line at a takeover,
+whether it brings the shelf before a decision instead of waiting to be asked, whether it wires a
+role's agent file at hire time rather than after a refusal, whether it proposes references instead
+of asking for them, and whether it opens a task rather than editing the source itself. **Five
+behaviours, no scenario covering any of them**, said here rather than left for a reader to assume
+otherwise.
 
 **What each runtime was found to provide is a table now, with `not measured` where nobody looked.**
 `runtimes.md` gains a per-runtime grid — native question form · dispatchable headless · hooks

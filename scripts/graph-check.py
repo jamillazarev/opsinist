@@ -61,8 +61,15 @@ def links_of(root, rel):
     """Every markdown link in a file, outside fences. Fenced examples are not edges — and they are
     not defects either, which is why they are dropped here rather than counted as phantoms."""
     out, fenced = [], False
-    for n, line in enumerate(open(os.path.join(root, rel), encoding="utf-8",
-                                  errors="replace").read().split("\n"), 1):
+    # **A tracked file can be absent from the worktree** — staged for deletion, or mid-rebase — and
+    # this died on it with an uncaught `FileNotFoundError`, taking the whole report with it. Found
+    # by an adversarial lens, 2026-09-18. A file that is not there has no links; the report says
+    # what it read.
+    try:
+        text = open(os.path.join(root, rel), encoding="utf-8", errors="replace").read()
+    except OSError:
+        return []
+    for n, line in enumerate(text.split("\n"), 1):
         if FENCE.match(line):
             fenced = not fenced
             continue
@@ -84,7 +91,10 @@ def classify(root, rel, target, files):
         return "external", ""
     if target.startswith("#"):
         return "anchor", ""
-    if "{{" in target or "XXXXXX" in target:
+    # **An elided path is a placeholder, not a phantom.** `[the file](…)` appears in both this
+    # corpus and its sibling, in prose showing a shape rather than pointing at one — measured
+    # 2026-09-18, one occurrence each, and both would otherwise be reported as defects forever.
+    if "{{" in target or "XXXXXX" in target or "…" in target:
         return "placeholder", ""
     path = unquote(target.split("#")[0])
     if not path:
@@ -118,7 +128,10 @@ ID = r"[A-Z]{1,2}-[%s]{6}" % ALPHABET
 MASK = re.compile(r"!?\[(?:[^\[\]]|\[[^\]]*\])*\]\([^)]*\)|<https?://[^>]+>|<!--.*?-->")
 PERSON = re.compile(r"^(?![ ]{4}|\t)\s*[-*]?\s*[*`_]*(?:Assignee|Role|Owner|Reviewer|Worker)"
                     r"[*`_]*\s*:\s*([^·|\n]+?)\s*$", re.I)
-OPEN = {"none", "unassigned", "nobody", "tbd", "unknown", "", "-", "—"}
+# every reader consults this AFTER `norm`, which turns "-" and "—" into "" — already a member.
+# A deletion lens found the two sets disagreeing about which of the dead entries to carry,
+# which is proof nobody could tell: 2026-09-18.
+OPEN = {"none", "unassigned", "nobody", "tbd", "unknown", ""}
 
 
 def norm(name):
@@ -144,7 +157,11 @@ def missing_edges(root, notes, files):
         own = re.match(r"^(%s)" % ID, os.path.basename(rel))
         own = own.group(1) if own else None
         fenced = history = False
-        for line in open(os.path.join(root, rel), encoding="utf-8", errors="replace").read().split("\n"):
+        try:
+            body = open(os.path.join(root, rel), encoding="utf-8", errors="replace").read()
+        except OSError:
+            continue
+        for line in body.split("\n"):
             st = line.strip()
             if FENCE.match(line):
                 fenced = not fenced
@@ -221,7 +238,8 @@ def main(argv):
               "the git host — write it relative to the file it sits in")
     if counts["file-relative"] and not counts["vault-absolute"]:
         print("  ✓ the relative form throughout: correct on the git host, in an editor, and in a "
-              "vault opened at the project root (the arrangement project-layout.md prescribes)")
+              "vault opened at the project root — which is the arrangement to keep, because a link "
+              "that climbs above the vault root is outside the graph")
     for f, l, t, k, note in broken[:20]:
         print("  ✗ %s:%d → `%s` — %s%s" % (f, l, t, {
             "phantom": "resolves to no file. Obsidian draws it as a node anyway (its graph filter "

@@ -97,6 +97,37 @@ run; [ "$RC" = 1 ] && said 'unencoded space' && ok || bad "an unencoded space wa
 printf '# Map\n\nSee [the roadmap](ROADMAP.md) — and https://example.com/a%%20b.md is not ours.\n' > _ops/MAP.md
 run; [ "$RC" = 0 ] && ok || bad "a resolving link, or an outside URL, was refused: $OUT"
 
+# ── a titled link, a percent-encoded path, and a line added inside an existing fence ──────────
+# Three false refusals an adversarial lens reproduced before this shipped: a markdown title was
+# read as an unencoded space, the prescribed `%20` was then read as a dead path, and the fence
+# state was computed over the added lines alone, so one line added inside a pre-existing fence was
+# judged as prose — with the prescribed door unable to fix it, because the door tracks fences over
+# the whole file and saw nothing to rewrite.
+fixture
+printf '# Map\n\nSee [the roadmap](ROADMAP.md "the sequence of intents").\n' > _ops/MAP.md
+run; [ "$RC" = 0 ] && ok || bad "a link carrying a markdown title was refused: $OUT"
+
+printf '# Map\n\nSee [it](my%%20file.md).\n' > _ops/MAP.md
+touch "_ops/my file.md"
+run; [ "$RC" = 0 ] && ok || bad "a percent-encoded destination that exists was refused: $OUT"
+rm -f "_ops/my file.md"
+
+fixture
+{ printf '# Map\n\n```\n'; printf 'an example naming T-AAAAAA\n'; printf '```\n'; } > _ops/MAP.md
+task T-AAAAAA '[Web Engineer](../roles/web_engineer.md)'
+commit "a fence and a task"
+python3 - <<'PY2'
+p = "_ops/MAP.md"
+out = []
+for l in open(p, encoding="utf-8").read().split("\n"):
+    out.append(l)
+    if l.startswith("an example naming"):
+        out.append("and another line naming T-AAAAAA")
+open(p, "w", encoding="utf-8").write("\n".join(out))
+PY2
+run; [ "$RC" = 0 ] && ok \
+  || bad "a line added inside a pre-existing fence was judged as prose: $OUT"
+
 # ── history is not retro-linked ────────────────────────────────────────────────────────────────
 fixture
 printf '# Decisions\n\nOld prose naming `_ops/ROADMAP.md` from before the rule.\n' > _ops/DECISIONS.md

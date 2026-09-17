@@ -204,6 +204,17 @@ grep -q '^\*\*Stage\*\*: review' _ops/tasks/T-QUO.md \
 grep -q '^> \*\*Stage\*\*: archived' _ops/tasks/T-QUO.md \
   && ok || bad "the door rewrote a blockquoted field — an example everywhere else"
 
+# ── a gate indented four spaces is still a gate ────────────────────────────────────────────────
+# Yaml does not mandate two, and the parser demanded exactly two: a new pipeline with a four-space
+# `gates:` block parsed as no gates at all, so `--check-ladder --strict` refused it while telling
+# the author to write what was already there. Found by an adversarial lens, 2026-09-18.
+printf '# four\n\n```yaml\nname: four\nstages: [draft, review, handoff]\nterminal: [handoff]\ngates:\n    review -> handoff:\n        review_by: non-author\n```\n' > _ops/pipelines/four.md
+[ "$(run --check-ladder --strict _ops/pipelines/four.md)" = 0 ] \
+  && ok || bad "a four-space gate block read as no gates: $(head -2 "$T/out" | tr '\n' ' ')"
+printf '# T-4S — thing\n\n**Status**: review\n**Assignee**: worker-a\n**Pipeline**: four\n\n## History\n' > _ops/tasks/T-4S.md
+[ "$(run _ops/tasks/T-4S.md handoff --by owner)" = 1 ] && grep -q 'not the worker' "$T/out" \
+  && ok || bad "a four-space review gate did not hold at the door"
+
 # ── the stock ladder's terminal edge asks for a review, and said nothing until 2026-09-17 ──────
 # A project that never writes a pipeline file runs on STOCK, and STOCK shipped `gates: {}`: the
 # stage was called `review` and the edge out of it held nothing, so acceptance was a name typed

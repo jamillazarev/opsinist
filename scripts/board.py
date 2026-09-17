@@ -51,18 +51,24 @@ def field(text, *names):
 
 
 def stages_of(root, type_name):
-    """The ladder's stages, for ordering — the type's own file, else nothing."""
+    """The ladder's stages, for ordering — read by the door that owns ladders.
+
+    A deletion lens found three readers of one ladder in this release (2026-09-18), and the glyph
+    bug that shipped in the third is the argument: one reader, or they diverge silently."""
     for rel in ("_ops/process/types/%s.md" % type_name, "_ops/process/types/default.md"):
-        p = os.path.join(root, rel)
-        if not type_name or not os.path.isfile(p):
+        path = os.path.join(root, rel)
+        if not type_name or not os.path.isfile(path):
             continue
-        text = open(p, encoding="utf-8", errors="replace").read().replace("→", "->")
-        m = re.search(r"^\s*stages:\s*\[([^\]]+)\]", text, re.M)
-        if m:
-            return [x.strip().strip("'\"") for x in m.group(1).split(",") if x.strip()]
-        m = re.search(r"^([\w-]+(?:\s*->\s*[\w-]+)+)\s*$", text, re.M)
-        if m:
-            return [x.strip() for x in m.group(1).split("->")]
+        try:
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            from transition import parse_pipeline
+        except Exception:
+            return []
+        finally:
+            sys.path.pop(0)
+        pipe = parse_pipeline(open(path, encoding="utf-8", errors="replace").read())
+        if pipe and pipe.get("stages"):
+            return pipe["stages"]
     return []
 
 
@@ -73,8 +79,8 @@ def read_tasks(root):
         if not name.endswith(".md"):
             continue
         text = open(os.path.join(d, name), encoding="utf-8", errors="replace").read()
-        ident = (re.match(r"^([A-Z]{1,2}-[0-9A-Z]{6})", name) or [None, ""])[1] \
-            if re.match(r"^([A-Z]{1,2}-[0-9A-Z]{6})", name) else ""
+        _m = re.match(r"^([A-Z]{1,2}-[0-9A-Z]{6})", name)   # one match, read once
+        ident = _m.group(1) if _m else ""
         head = re.search(r"^#\s+(.*)$", text, re.M)
         title = head.group(1).strip() if head else name[:-3]
         title = re.sub(r"^[A-Z]{1,2}-[0-9A-Z]{6}\s*[—:-]\s*", "", title).strip()

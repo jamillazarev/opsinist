@@ -32,10 +32,14 @@ the one role no tool allowlist constrains.
 them** — one of them thirteen files of feature work — and two accepted tasks claimed committed code
 that is in no commit at all. Nobody disobeyed a rule; the rule stated a virtue, so there was no
 moment at which it could refuse. The guard's §24 is the moment: a commit that moves the product and
-not the record **warns**, and a second such commit in a row **is refused**, naming the one before
-it. Twice is the threshold because the one-line fix that never became a task is legitimate and
-common, and a check that refuses that is a check people pass with `--no-verify`. The commit that
-wires a project is not a precedent — the whole `_ops/` tree counts as the record, so installation
+not the record **warns**, and a **third such commit in a row is refused**, naming the two before
+it. The one-line fix that never became a task is legitimate and common, and a check that refuses
+that is a check people pass with `--no-verify`. **Three, rather than two, for a reason measured on
+this machine 2026-09-18**: during `git commit --amend` a pre-commit hook sees the staged change
+beside a HEAD that is the commit being replaced — the exact shape of a second commit in a row — and
+it cannot tell the two apart, because `GIT_REFLOG_ACTION` is empty in the hook for a plain commit
+and for an amend alike. One of three could be an amend; three cannot. The commit that wires a
+project is not a precedent either — the whole `_ops/` tree counts as the record, so installation
 cannot make the guard's first act a false refusal.
 
 ```mermaid
@@ -44,9 +48,9 @@ flowchart TD
   P -- no --> OK[silent]
   P -- yes --> R{does anything<br/>under _ops/ move with it?}
   R -- yes --> OK
-  R -- no --> B{did the commit<br/>before it look the same?}
-  B -- no --> W[WARN · once is a small fix]
-  B -- yes --> F[REFUSED · naming that commit<br/>open a task, or write the run record]
+  R -- no --> B{did the TWO commits<br/>before it look the same?}
+  B -- no --> W[WARN · one could be an amend,<br/>which a hook cannot see]
+  B -- yes --> F[REFUSED · naming both<br/>open a task, or write the run record]
 ```
 
 **What went out is a record, not a memory.** A gate that asks and is answered leaves nothing
@@ -62,8 +66,11 @@ proof of which version they hold is somebody's memory of a conversation.
 The advisor is the session and no allowlist reaches it — that is why §24 exists — but **a role
 with `May dispatch: yes` is ordinary**, and the honest configuration for one is: it plans, it
 routes, it reads; **the writes and the sends live on the leaves it dispatches**. That is the same
-sentence as *a gate is a property of the action* expressed as tool scope instead of as conscience,
-and it is checkable: a lint over the role files that asserts no dispatcher carries a write tool.
+sentence as *a gate is a property of the action* expressed as tool scope instead of as conscience.
+**Nothing here holds it today** — it is `prose-only`, and the form it is waiting for is a lint over
+the role files asserting that no role with `May dispatch: yes` carries a write or an outward tool.
+Said as a gap rather than left to read as a gate, because this file's own rule is that a gate
+believed in and not enforced is worse than a stated rule.
 (Read off `anthropics/claude-for-legal` 2026-09-17, whose `lint-tool-scope.py` asserts exactly
 this of its orchestrator — writes and external channels only on leaf agents.)
 

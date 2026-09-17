@@ -120,7 +120,7 @@ def parse_pipeline(text: str):
     if fence:
         body = fence.group(1)
     p = {"name": None, "stages": [], "terminal": [], "gates": {}, "prose_gates": {}}
-    in_gates, edge = False, None
+    in_gates, edge, edge_indent = False, None, 2
     for raw in body.split("\n"):
         # The corpus writes edges with its own glyph — `draft → review` — and the door
         # itself writes that glyph into History; a parser that only reads ASCII `->`
@@ -141,10 +141,16 @@ def parse_pipeline(text: str):
                 elif k == "name":
                     p["name"] = v
             continue
-        if in_gates and indent == 2:
+        # **Yaml does not mandate two spaces, and this demanded exactly two.** A new pipeline whose
+        # `gates:` block is indented four — perfectly valid yaml — parsed as no gates at all, so
+        # `--check-ladder --strict` refused it while instructing the author to write what was
+        # already there. Found by an adversarial lens, 2026-09-18. The edge's own indent is
+        # remembered, and its attributes are whatever sits deeper than it.
+        if in_gates and indent >= 2 and (edge is None or indent <= edge_indent):
             m = re.match(r"([\w-]+\s*->\s*[\w-]+)\s*:\s*(.*)$", s)
             if m:
                 edge = re.sub(r"\s*->\s*", "->", m.group(1))
+                edge_indent = indent
                 p["gates"][edge] = {}
                 rest = m.group(2).strip()
                 if rest:  # legacy one-liner prose gate on an edge
@@ -155,7 +161,7 @@ def parse_pipeline(text: str):
                 p["prose_gates"][m.group(1)] = m.group(2).strip().strip("\"'")
                 edge = None
             continue
-        if in_gates and indent >= 4 and edge:
+        if in_gates and edge and indent > edge_indent:
             m = re.match(r"(check|review_by|fields)\s*:\s*(.+)$", s)
             if m:
                 k, v = m.group(1), m.group(2).strip()

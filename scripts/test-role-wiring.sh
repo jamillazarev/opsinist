@@ -5,9 +5,10 @@
 # read by nobody and the advisor did the work instead. That failure does not error; it just looks
 # like a project where one agent does everything.
 #
-# **Four code mutants**: the agent wiring unchecked · the skills half unchecked · the runtime's
-# name spelling compared literally (`web_engineer.md` must answer to `web-engineer.md`) · the
-# other-runtime escape removed, which would refuse every project not run in Claude Code.
+# **Three code mutants**: the agent wiring unchecked · the runtime's name spelling compared
+# literally (`web_engineer.md` must answer to `web-engineer.md`) · the other-runtime escape removed,
+# which would refuse every project not run in Claude Code. **The skills half is §26's**, tested in
+# `test-skills-attached.sh` — one reader per table, one suite per reader.
 set -u
 HERE=$(cd "$(dirname "$0")" && pwd)
 T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
@@ -56,27 +57,9 @@ agent web-engineer
 run; [ "$RC" = 0 ] && ok || bad "a role wired as `web-engineer.md` was still refused: $OUT"
 commit "a wired role"
 
-# ── an attached pool skill the runtime never loads ─────────────────────────────────────────────
-fixture
-mkdir -p _ops/skills/house-style && printf '# house-style\n' > _ops/skills/house-style/SKILL.md
-agent writer
-role writer '[house-style](../skills/house-style/SKILL.md)'
-run
-[ "$RC" = 1 ] && said 'sits in the project' && said '.claude/skills/house-style/' && ok \
-  || bad "a pool skill missing from the runtime directory was accepted: $OUT"
-
-mkdir -p .claude/skills/house-style && printf -- '---\nname: house-style\ndescription: the voice\n---\n' \
-  > .claude/skills/house-style/SKILL.md
-run; [ "$RC" = 0 ] && ok || bad "the wired skill was still refused: $OUT"
-
-# ── a skill the runtime provides is not the pool's to wire ─────────────────────────────────────
-fixture
-agent web_eng
-printf '# Tooling\n\n| Tool | Why | Replaces |\n|---|---|---|\n| frontend-design | a runtime skill | we had none |\n' \
-  > _ops/TOOLING.md
-role web_eng frontend-design
-run; [ "$RC" = 0 ] && ok \
-  || bad "a register-declared runtime skill was treated as one the project must wire: $OUT"
+# ── the skills half moved to §26, which owns the table ────────────────────────────────────────
+# A deletion lens found §26 and §28 reading one table in one file, and §26 already had the row
+# open — so the pool-skill-not-wired case lives in `test-skills-attached.sh` now.
 
 # ── a project run in another runtime says so, once, and this stands down ───────────────────────
 fixture
@@ -84,6 +67,19 @@ printf '# Project configuration\n\nschema_version: 1\n\nAgent wiring lives in `.
   > _ops/config.md
 role web_engineer
 run; [ "$RC" = 0 ] && ok || bad "a project naming another runtime's wiring path was still refused: $OUT"
+
+# ── wiring that is present but ignored by git ──────────────────────────────────────────────────
+# An adversarial lens found `--exclude-standard` dropping an ignored `.claude/`, so a correctly
+# wired role read as unwired and the refusal named a file sitting right there. Present-and-ignored
+# is a different finding from absent, and it is a warning: the role loads here and arrives with no
+# clone.
+fixture
+printf '.claude/\n' > .gitignore
+agent web_engineer
+role web_engineer
+run
+[ "$RC" = 0 ] && said 'on disk and NOT in git' && ok \
+  || bad "an ignored-but-present wiring file was refused instead of warned about: $OUT"
 
 # ── a README and an archived role are not workers ──────────────────────────────────────────────
 # The same two false positives §7 was taught by an adversarial lens in 2026-08, inherited the
@@ -115,27 +111,21 @@ PY
   MUT="$T/mut.sh"
 }
 mutant "the agent wiring unchecked" \
-  '    if not elsewhere and norm(role) not in {norm(a) for a in agents}:' '    if False:' \
+  '    elif not wiring_elsewhere and norm(role) not in {norm(a) for a in agents}:' '    elif False:' \
   && { fixture; role web_engineer; run
        [ "$RC" = 0 ] && ok || bad "the suite did not catch the mutant: wiring unchecked"; }
 
-mutant "the skills half unchecked" \
-  '        if low in pool and low not in wired_skills and not elsewhere:' '        if False:' \
-  && { fixture; mkdir -p _ops/skills/house-style
-       printf '# house-style\n' > _ops/skills/house-style/SKILL.md
-       agent writer; role writer '[house-style](../skills/house-style/SKILL.md)'; run
-       [ "$RC" = 0 ] && ok || bad "the suite did not catch the mutant: the skills half unchecked"; }
-
 mutant "the runtime name compared literally" \
-  'if not elsewhere and norm(role) not in {norm(a) for a in agents}:' \
-  'if not elsewhere and role not in agents:' \
+  'elif not wiring_elsewhere and norm(role) not in {norm(a) for a in agents}:' \
+  'elif not wiring_elsewhere and role not in agents:' \
   && { fixture; role web_engineer; agent web-engineer; run
        [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: the slug compared literally"; }
 
+# the anchor carries §28's own comment line: the same escape now sits in §26 too, and a mutation
+# that lands in the wrong section is a test of something else
+# §28's copy of the escape carries its own name, so this anchor cannot land in §26's
 mutant "the other-runtime escape removed" \
-  'elsewhere = re.search(r"agent[s]?\s+(?:wiring|live|directory|path)|\.codex/|\.gemini/|agents_dir",
-                      cfg, re.I) is not None' \
-  'elsewhere = False' \
+  '        wiring_elsewhere = True' '        pass' \
   && { fixture
        printf '# Project configuration\n\nschema_version: 1\n\nAgent wiring lives in `.codex/agents/` here.\n' \
          > _ops/config.md

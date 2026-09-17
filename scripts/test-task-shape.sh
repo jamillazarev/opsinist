@@ -167,7 +167,12 @@ mutant "a placeholder accepted as a value" '        if not m or not val or val.s
   fixture; python3 "$HERE/new-task.py" --root . --title "third" --type feature >/dev/null
   run; [ "$RC" = 0 ] && ok || bad "the suite did not catch the mutant: a placeholder as a value"; }
 # the added file opens the section's own gate; what the mutant changes is which files it then judges
-mutant "every task judged, not only the added ones" '"--diff-filter=A", "-z") or "").split' '"--diff-filter=AM", "-z") or "").split' && {
+# the anchor carries §23's own path filter: `--diff-filter=A` alone now appears in three sections
+mutant "every task judged, not only the added ones" \
+  '"--diff-filter=A", "-z") or "").split("\0")
+             if p.startswith("_ops/tasks/") and p.endswith(".md")' \
+  '"--diff-filter=AM", "-z") or "").split("\0")
+             if p.startswith("_ops/tasks/") and p.endswith(".md")' && {
   fixture
   printf '# T-OLD111: legacy\n\n- **Type:** feature\n' > _ops/tasks/T-OLD111-legacy.md
   git add -A && git commit -qm legacy

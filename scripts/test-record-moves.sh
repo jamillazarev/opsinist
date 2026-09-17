@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # §24 of the project guard — the product moved and the record did not — shown warning on the first
-# such commit and refusing the second in a row, on a throwaway project.
+# such commit and refusing the THIRD in a row, on a throwaway project. **Three, not two**: a
+# pre-commit hook cannot tell `git commit --amend` from a second commit — `GIT_REFLOG_ACTION` is
+# empty in both, measured 2026-09-18 — and an adversarial lens caught that before it shipped.
 #
 # The measured shape it answers (a live project, 2026-09-16): 4 of 15 commits changed files outside
 # `_ops/` while touching neither a task nor a run record, one of them thirteen files of feature work.
@@ -8,8 +10,8 @@
 # is `chore: opsinist init`** — the commit that wires the project — which is why the record is the
 # whole `_ops/` tree and not only tasks and runs: see the case below, and `shape()`'s own note.
 #
-# **Four code mutants**: the refusal removed (a warning is what the rule already was), the previous
-# commit not read (every lone fix refused), the record narrowed to tasks alone (the quick path, whose
+# **Four code mutants**: the refusal removed (a warning is what the rule already was), the two
+# preceding commits not read (every lone fix refused), the record narrowed to tasks alone (the quick path, whose
 # whole shape is a run record and no task, caught), and narrowed to tasks-and-runs (the wiring commit
 # becomes a precedent, so the guard's first act on a fresh project is a false refusal).
 set -u
@@ -57,11 +59,17 @@ printf 'two\n' > src/app.js; run
 [ "$RC" = 0 ] && said 'moves the product and not the record' && ok \
   || bad "the first product-only commit after the wiring commit was refused instead of warned: $OUT"
 
-# ── the second in a row is refused, and names the commit before it ─────────────────────────────
+# ── the second in a row only warns: it could be an amend, which a hook cannot see ──────────────
 commit "first fix"
 printf 'three\n' > src/app.js; run
-[ "$RC" = 1 ] && said 'and so did the one before it' && said 'new-task.py' && ok \
-  || bad "two product-only commits in a row were not refused: $OUT"
+[ "$RC" = 0 ] && said 'a third in a row is refused' && ok \
+  || bad "the second product-only commit was refused, where an amend looks identical: $OUT"
+
+# ── the third is refused, and names the two before it ──────────────────────────────────────────
+commit "second fix"
+printf 'four\n' > src/app.js; run
+[ "$RC" = 1 ] && said 'and so did the two before it' && said 'new-task.py' && ok \
+  || bad "three product-only commits in a row were not refused: $OUT"
 
 # ── moving a task satisfies it, however far the product moved ──────────────────────────────────
 task T-AAAAAA
@@ -103,30 +111,34 @@ open(p, "w").write(s.replace(a, b))
 PY
   MUT="$T/mut.sh"
 }
-two_in_a_row() {
+three_in_a_row() {
   fixture operated
   printf 'two\n' > src/app.js; commit "first fix"
-  printf 'three\n' > src/app.js; run
+  printf 'three\n' > src/app.js; commit "second fix"
+  printf 'four\n' > src/app.js; run
 }
 mutant "the refusal removed — the rule back to the note it already was" \
   'print("FAIL:this commit moves the product' 'print("WARN:this commit moves the product' \
-  && { two_in_a_row; [ "$RC" = 0 ] && ok || bad "the suite did not catch the mutant: refusal removed"; }
+  && { three_in_a_row; [ "$RC" = 0 ] && ok || bad "the suite did not catch the mutant: refusal removed"; }
 
-mutant "the commit before it never read — every lone fix refused" \
-  'if product_before and not record_before:' 'if True:' \
+mutant "the commits before it never read — every lone fix refused" \
+  'if product_before and not record_before and product_2 and not record_2:' 'if True:' \
   && { fixture operated; printf 'two\n' > src/app.js; run
        [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: a lone fix refused"; }
 
 mutant "the record narrowed to tasks — the quick path caught" \
   "$RECORD_LINE" '    record = [p for p in paths if p.startswith("_ops/tasks/")]' \
   && { fixture operated; printf 'two\n' > src/app.js; commit "first fix"
-       printf 'three\n' > src/app.js; run_record R-AAAAAA; run
+       printf 'three\n' > src/app.js; commit "second fix"
+       printf 'four\n' > src/app.js; run_record R-AAAAAA; run
        [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: the quick path caught"; }
 
 mutant "the record narrowed to tasks and runs — the wiring commit becomes a precedent" \
   "$RECORD_LINE" '    record = [p for p in paths if p.startswith("_ops/tasks/") or p.startswith("_ops/runs/")]' \
-  && { fixture operated; printf 'two\n' > src/app.js; run
-       [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: a fresh project's first fix refused"; }
+  && { fixture operated; printf 'two\n' > src/app.js; commit "first fix"
+       printf 'three\n' > src/app.js; commit "second fix"
+       printf 'four\n' > src/app.js; run
+       [ "$RC" = 1 ] && ok || bad "the suite did not catch the mutant: a fresh project's fix refused"; }
 MUT=""
 
 echo "record-moves: $pass passed, $fail failed"

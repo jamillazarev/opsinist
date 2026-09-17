@@ -70,6 +70,30 @@ def slug(title):
     return "-".join(text.split()[:6]) or "task"
 
 
+def role_link(root, name):
+    """`web-engineer` → `[web-engineer](../roles/web_engineer.md)` when exactly one file is that
+    role, team or panel — **because the guard's §27 refuses a person named as plain text, and a
+    door that writes what its own gate refuses is the failure this repository already paid for
+    once** (§4d, 2026-08-23: the shipped templates refused by the shipped guard). Found by a
+    contradiction lens on this release, 2026-09-18, before it shipped.
+
+    No match, or two, leaves the name as written: guessing which colleague was meant is worse than
+    a plain name, and §25 will say so in its own words."""
+    if not name:
+        return name
+    want = " ".join("".join(c if c.isalnum() else " " for c in name.lower()).split())
+    hits = []
+    for d in ("roles", "teams", "panels"):
+        base = os.path.join(root, "_ops", d)
+        for f in sorted(os.listdir(base)) if os.path.isdir(base) else []:
+            if not f.endswith(".md") or f.lower() == "readme.md":
+                continue
+            stem = f[:-3]
+            if " ".join("".join(c if c.isalnum() else " " for c in stem.lower()).split()) == want:
+                hits.append("../%s/%s" % (d, f))
+    return "[%s](%s)" % (name, hits[0]) if len(hits) == 1 else name
+
+
 def fill(text, values):
     """Replace the template's placeholders with what was given; leave the rest as holes.
     **A placeholder spans lines** — the template wraps at a hundred columns, so `**Status**: {{…}}`
@@ -108,7 +132,8 @@ def main(argv):
     ident = mint(root)
     values = {"__id__": ident, "__title__": a.title, "Type": a.type,
               "Status": a.status or first_stage(root, a.type) or "backlog",
-              "Assignee": a.assignee, "Parent": a.parent, "Wave": a.wave, "Blocked by": a.blocked}
+              "Assignee": role_link(root, a.assignee), "Parent": a.parent, "Wave": a.wave,
+              "Blocked by": a.blocked}
     body = fill(text, values)
     path = os.path.join(tasks, "%s-%s.md" % (ident, slug(a.title)))
     if os.path.exists(path):
@@ -127,18 +152,30 @@ def main(argv):
 
 
 def first_stage(root, type_name):
-    """The ladder's first stage, where the type or a pipeline names one — else nothing."""
+    """The ladder's first stage, read by **the door that owns ladders** rather than re-derived.
+
+    A deletion lens found three readers of one ladder in this release (2026-09-18) — and the cost
+    of that was already paid: `transition.py` normalised the corpus's own `→` in a local variable
+    while its inline-ladder regex read the untouched body, so every type file written the way the
+    template asked parsed to nothing. This one also carried an `[a-z]` stage class, which would
+    have erased a ladder written in the project's own alphabet — the exact failure `norm()` in the
+    guard is documented against. Now: import `parse_pipeline`, or return nothing and let the
+    caller fall back to `backlog`."""
     for rel in ("_ops/process/types/%s.md" % type_name, "_ops/process/types/default.md"):
-        p = os.path.join(root, rel)
-        if not os.path.isfile(p):
+        path = os.path.join(root, rel)
+        if not os.path.isfile(path):
             continue
-        text = open(p, encoding="utf-8", errors="replace").read()
-        m = re.search(r"^\s*stages:\s*\[([^\]]+)\]", text, re.M)
-        if m:
-            return m.group(1).split(",")[0].strip().strip("'\"")
-        m = re.search(r"^\s*-\s*([a-z][a-z -]*?)\s*(?:→|->)\s*", text, re.M)
-        if m:
-            return m.group(1).strip()
+        try:
+            sys.path.insert(0, HERE)
+            from transition import parse_pipeline
+        except Exception:
+            return None
+        finally:
+            if sys.path and sys.path[0] == HERE:
+                sys.path.pop(0)
+        pipe = parse_pipeline(open(path, encoding="utf-8", errors="replace").read())
+        if pipe and pipe.get("stages"):
+            return pipe["stages"][0]
     return None
 
 
