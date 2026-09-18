@@ -170,6 +170,14 @@ nothing accumulates outside versions.
   **never disable the gate to get past your own fix**: it is the one measure whose bypass must not
   be available to the party it constrains.
 
+- **`open(p, "w").write(open(p).read()…)` truncates before it reads** (measured 2026-09-18, and it
+  emptied [`diagrams.md`](diagrams.md) — 500 lines to zero). Python evaluates the call's *object* first, so the
+  write-open truncates the file, and the read inside the argument then returns `""`. Nothing warns:
+  the statement succeeds, the file is empty, and preflight's own chapter-budget check passed it
+  because an empty file is under budget. **The site generator's H1 check is what caught it.**
+  Read into a variable, then write — and note the shape is invisible in review because the read
+  *looks* like it happens first, which is the only reason it survived being typed.
+
 - **A suite run while a lens works in the same tree goes red for no reason** (measured 2026-09-18).
   Two lenses were reading and building fixtures in this repository while `preflight.sh` ran;
   `test-check-shell-exec.sh` and `test-corpus-preflight.sh` reported **1 and 5 failures**, and both

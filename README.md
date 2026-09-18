@@ -72,6 +72,14 @@ this. Everything else has a default good enough to leave alone.
   refused, once, naming the files, in a project this system operates and a session that opened it.
   The checks in the guard are enforced *at the commit*, so work that stops short of one is held by
   prose alone; measured on the light tier, 2026-08-22: 0 commits in 10 runs, and 5 of 5 answering after.
+- **A dependency says what the service ships and when it should leave** — an MCP server, a CLI, an
+  SDK or an agent skill is work you do not have to write, and `checked <date> · none found` is an
+  answer where a blank is not; the removal condition is written the day it arrives, because a
+  dependency with no removal condition never leaves. A project that declares dependencies and keeps
+  no register is told so, once.
+- **A publish is stopped, and a sentence about publishing is not** — a command starts a command,
+  and a word after another word is prose. The refusal carries your own last instruction beside it:
+  **context, never consent.**
 - **A new standing commitment says what it replaces** — a library, a supplier, a subscription, a
   licence. Does it need to exist · is it already here · does the craft's own staple do it · is it
   native · one line — every rung but the last is a judgement no script can make, and whether the

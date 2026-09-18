@@ -140,6 +140,21 @@ hand-waved**: a defect a repair causes *outside* the lines it touched is what th
 it is the reason the range stays reachable and the round still ends on a clean report over the
 repair rather than over a sample of it.
 
+```mermaid
+flowchart LR
+  L["a round:<br/>four lenses"] --> F{"anything<br/>found?"}
+  F -- "yes" --> R["repair it"]
+  R -->|"the round again,<br/>over the REPAIR"| L
+  F -- "no" --> C(["clean — the tag may go"])
+  F -. "a lens ran out of budget" .-> NC["`not completed`<br/>— never `empty`"]
+  NC --> L
+```
+
+**Five rounds in 0.2.19, and every one found more in the previous round's repair than the round
+before it found in the original code** — eight false refusals, then three defects in their fix, then
+five in that one, then twelve, then eleven ways past a gate that had just been repaired twice.
+**A round that reports findings has produced the next round's input, not a verdict.**
+
 **They run on this skill and on the user's project alike.** The corpus is not more fragile than
 the work; the same four questions catch the same four failures in a spec, a role's instructions
 or a pipeline change.

@@ -79,7 +79,8 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "A user complained" | *"a customer says export is confusing"* |
 | "Every bug arrives shaped differently" | *"give this kind of work its fields"* — **often already done**: proposed when the type was born, from its craft's own standard |
 | "Ship it" | *"release this"* · *"publish the episode"* · *"send the batch"* |
-| "It pushed without asking me" | nothing — **the outward gate stops the push itself** and names the two doors: you run it, or you switch the gate off on purpose |
+| "It pushed without asking me" | nothing — **the outward gate stops the push itself** and names the three doors: you run it, you switch the gate off on purpose, or — if what it caught was a *sentence about* publishing rather than the act — it says so to you rather than rewording itself past the gate |
+| "It refused a command that wasn't publishing anything" | nothing — **a command starts a command; a word after another word is prose.** A file being written, a search for the phrase, a document quoting it: none of them are the act, and none of them are stopped. What is stopped, however it is spelled: a wrapper word in front of it, a line continuation, a redirect touching it, a shell-runner's quoted argument. If the refusal still looks wrong, the message carries **your own last instruction beside it** — context for you, never consent, and the verdict is the same either way |
 | "It said \"noted\" and my rule vanished" | *"remember this: …"* — **the memory-write is refused**; the rule lands in a file workers read, and the home is named back |
 | "Did it work?" | *"did the new onboarding move the metric?"* |
 | "I'll do this part myself" | *"I'll design it, pick it up after"* — **and you'll be asked what you did, what proves it, and what's next** |

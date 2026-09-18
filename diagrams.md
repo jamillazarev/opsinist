@@ -362,7 +362,7 @@ flowchart TD
   EX -- yes --> VER[confirm the referent still exists]
   EX -- no --> LEN
   VER --> LEN[four lenses, by someone who did not write it]
-  LEN --> DOOR{every capability has a door?}
+  LEN -->|"findings → repair →<br/>the round again ([`lenses.md`](lenses.md))"| DOOR{every capability has a door?}
   DOOR -- yes --> SHIP[cut it]
 ```
 
