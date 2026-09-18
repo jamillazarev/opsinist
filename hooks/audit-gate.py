@@ -273,13 +273,23 @@ def last_owner_instruction(transcript, limit=240):
         leaves the counter above zero and its tail is dropped, an **orphan closing tag** at depth
         zero removes only itself. Every one of these was a reproduced finding, not a hypothetical.
         """
-        out, depth, last = [], 0, 0
-        for m in re.finditer(r"</?(?:system-reminder|task-notification)>", t):
-            if depth == 0:
+        # **A stack of names, not a counter** — a counter let a `</task-notification>` close a
+        # `<system-reminder>`, which hands anything that can inject tag-shaped text exact control
+        # over what the refusal shows and hides (reproduced 2026-09-18). Display-only, and this is
+        # the display.
+        out, stack, last = [], [], 0
+        for m in re.finditer(r"</?(system-reminder|task-notification)>", t):
+            closing, name = m.group(0).startswith("</"), m.group(1)
+            if not stack:
                 out.append(t[last:m.start()])
-            depth = max(0, depth - 1) if m.group(0).startswith("</") else depth + 1
+            if closing:
+                if name in stack:
+                    while stack and stack.pop() != name:
+                        pass
+            else:
+                stack.append(name)
             last = m.end()
-        if depth == 0:
+        if not stack:
             out.append(t[last:])
         return " ".join(out)
 
@@ -297,7 +307,8 @@ def last_owner_instruction(transcript, limit=240):
                 if e.get("type") != "user":
                     continue
                 content = (e.get("message") or {}).get("content")
-                if isinstance(content, str):
+                bare = isinstance(content, str)
+                if bare:
                     chunks = [content]
                 elif isinstance(content, list):
                     chunks = [b.get("text", "") for b in content
@@ -308,9 +319,18 @@ def last_owner_instruction(transcript, limit=240):
                     continue
                 said = _strip("\n".join(c for c in chunks if c).strip())
                 said = " ".join(said.split())
-                if said.startswith(("This session is being continued", "Caveat: The messages below",
-                                    "[harness:")):
-                    continue                     # the harness summarising, not a turn
+                # **Two signals, because one was spoofable.** A real instruction that merely opens
+                # with the harness's own words was dropped whole, and the refusal then quoted a
+                # SUPERSEDED message as *what you last asked for* — worse than quoting nothing
+                # (reproduced 2026-09-18: *"do NOT push, hold everything"* shown as current). The
+                # harness's summaries arrive as a **bare string** and are long; a person's turn
+                # arrives as text blocks. Both must hold to skip it, and the failure mode is named:
+                # a bare-string turn of two thousand characters that opens with those exact words
+                # is still skipped, and nothing here can tell it from the machine's.
+                if (bare and len(said) > 2000
+                        and said.startswith(("This session is being continued",
+                                             "Caveat: The messages below", "[harness:"))):
+                    continue
                 if said:
                     text = said
     except Exception:
@@ -718,12 +738,30 @@ def main():
             # publish, and that stays named rather than chased: the interpreter it is fed to is not
             # something this pattern can read.
             _c = re.sub(r"\\\n", " ", cmd)                    # a continuation is one command
-            for _m in re.finditer(r"<<-?\s*['\"]?(\w+)['\"]?", _c):
+            # **Blank a heredoc body only when BOTH ends are visible.** The first version blanked to
+            # the end of the string whenever it could not find the terminator, and an adversarial
+            # lens turned that into three ways to publish unseen (2026-09-18, each reproduced
+            # end to end): `cat <<EOF; git push` — no terminator anywhere, so everything after it
+            # was erased, while bash runs the push once the heredoc hits end-of-input · a literal
+            # `a<<b` inside a quoted message, read as an opener with a terminator that never comes ·
+            # and `<<<`, a here-STRING, matched from its second `<`. **A blanker that cannot see the
+            # end of the body blanks nothing**, which fails towards the loud side; `(?<!<)<<(?!<)`
+            # keeps the here-string out, and a word boundary before it keeps `a<<b` out.
+            for _m in re.finditer(r"(?:^|[\s;&|(])(?<!<)<<-?(?!<)\s*['\"]?(\w+)['\"]?", _c):
                 _end = re.search(r"^\s*%s\s*$" % re.escape(_m.group(1)), _c[_m.end():], re.M)
-                _stop = _m.end() + (_end.start() if _end else len(_c))
+                if not _end:
+                    continue                          # no terminator in sight: blank nothing
+                _stop = _m.end() + _end.start()
                 _c = _c[:_m.end()] + re.sub(r"[^\n]", " ", _c[_m.end():_stop]) + _c[_stop:]
-            _WRAP = (r"(?:(?:env\s+\w+=\S*|sudo|nohup|time|command|exec|eval"
-                     r"|nice(?:\s+-n\s*-?\d+)?)\s+)*")
+            # **A wrapper word takes flags, and only `nice -n` was allowed for.** `env -i`,
+            # `sudo -u root`, `command -p`, `time -p`, `nice --adjustment=10` and `exec -a name`
+            # all walked the verb straight past the anchor — eight shapes, all reproduced
+            # 2026-09-18. Listing the option SHAPES was the first repair and it was not enough: a
+            # flag that takes its own argument (`sudo -u root`, `exec -a name`) leaves a bare word
+            # between the flag and the verb, which no option pattern matches. So the run between a
+            # wrapper and the verb is **any tokens at all**, bounded — widening towards loud. The
+            # verb still has to appear as its own two words, so a filename carrying it is untouched.
+            _WRAP = r"(?:(?:env|sudo|nohup|time|command|exec|eval|nice)\s+(?:\S+\s+){0,4})*"
             hit = re.search(
                 r"(?:(?:^|[\n;&|(){}`]|\$\()\s*"
                 r"|\b(?:bash|sh|zsh|dash|eval|xargs)\b[^\n]*?[\"']\s*)" + _WRAP +

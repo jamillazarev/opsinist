@@ -168,6 +168,30 @@ check "outward: SHOUTED is the same act"    2 "$(pl Bash "GIT PUSH origin main" 
 check "outward: --dry_run is a read too"    0 "$(pl Bash "git push --dry_run origin main" "$TE")"
 check "outward: --DRY-RUN, case-blind"      0 "$(pl Bash "git push --DRY-RUN origin main" "$TE")"
 check "outward: gh pr create"               2 "$(pl Bash "gh pr create --title x" "$TE")"
+# **The blanker hid three real publishes, and the wrapper list missed eight more** — every one
+# reproduced end to end by an adversarial lens, 2026-09-18, against this gate and its twin.
+# *The blanker*: it erased everything after an opener whose terminator it could not find, so a
+# command with no terminator, a literal `a<<b` inside a quoted message, and a `<<<` here-string
+# each carried a publish past it. **A blanker that cannot see both ends blanks nothing.**
+# *The wrappers*: only a bare word was allowed for, so any flag — and any flag with its own
+# argument — walked the verb straight through.
+check "outward: heredoc with no terminator"  2 "$(pl Bash "cat <<EOF; git push origin main" "$TE")"
+check "outward: << inside a message"         2 "$(pl Bash "git commit -m \"a<<b is not a heredoc\" && git push origin main" "$TE")"
+check "outward: a here-string is not one"    2 "$(pl Bash "cat <<< \"some text\" && git push origin main" "$TE")"
+check "outward: env with no assignment"      2 "$(pl Bash "env git push origin main" "$TE")"
+check "outward: env -i"                      2 "$(pl Bash "env -i git push origin main" "$TE")"
+check "outward: sudo -u root"                2 "$(pl Bash "sudo -u root git push origin main" "$TE")"
+check "outward: command -p"                  2 "$(pl Bash "command -p git push origin main" "$TE")"
+check "outward: time -p"                     2 "$(pl Bash "time -p git push origin main" "$TE")"
+check "outward: nice --adjustment=10"        2 "$(pl Bash "nice --adjustment=10 git push origin main" "$TE")"
+check "outward: exec -a name"                2 "$(pl Bash "exec -a myname git push origin main" "$TE")"
+# …and a real heredoc, whose terminator IS there, still blanks its body
+check "outward: a real heredoc body → allow" 0 "$(pl Bash "cat > docs/how.md <<'EOF'
+git push origin main
+EOF" "$TE")"
+check "outward: a tab-indented <<- → allow"  0 "$(pl Bash "cat > d.md <<-EOF
+	git push origin main
+	EOF" "$TE")"
 outward_off() { printf '%s' "$(pl Bash "git push origin main" "$TE")" | OPSINIST_OUTWARD_GATE=off python3 "$GATE" >/dev/null 2>&1; echo $?; }
 [ "$(outward_off)" = 0 ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: outward off-switch"; }
 MEM="$T/home/.claude/projects/x-proj/memory"; mkdir -p "$MEM"

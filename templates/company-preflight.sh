@@ -2069,7 +2069,14 @@ for line in reg.splitlines():
         # and `_ops/TOOLING.md` has no row for it"* on a row that was perfectly correct. A guard
         # broken by its own shipped template is a shape this repository has paid for before (§4d,
         # 2026-08-23); found by a contradiction lens, 2026-09-18, on the day the column shipped.
-        col = next((i for i, h in enumerate(heads) if h.startswith("wiredhow")), -1)
+        # **A prefix match ends at a separator, or `Wired how much budget` wins the column.**
+        # Reproduced by an adversarial lens, 2026-09-18: a decoy header placed first captured the
+        # index and the real column was never read, so a correctly registered row was reported
+        # missing. An exact match is preferred, then a prefix followed by a non-letter.
+        col = next((i for i, h in enumerate(heads) if h == "wiredhow"), -1)
+        if col < 0:
+            col = next((i for i, h in enumerate(heads)
+                        if h.startswith("wiredhow") and not h[8:9].isalpha()), -1)
         continue
     if col < 0 or col >= len(cells) or set(line.replace("|", "").strip()) <= set("-: "):
         continue

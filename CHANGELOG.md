@@ -634,18 +634,62 @@ entries and none of them is the owner: a **tool result**, a `<system-reminder>` 
 unterminated or nested* — a **`<task-notification>`**, which is a background agent's return value
 routed back as a turn, and the harness's **conversation-continuation summary**. The first version
 skipped only one of the four, and its own comment claimed otherwise; **a comment that overstates
-what the code does is the defect, not the rounding.** The blocks are stripped by depth now rather
-than by pairs, because a non-greedy match leaks what sits between a nested inner close and the
-outer one — and an entry carrying **both** text and a tool result keeps its text, where discarding
-it made the gate quote an *older* message as *"what you last asked for"*. A stale instruction reads
-exactly like a current one.
+what the code does is the defect, not the rounding.** The blocks stopped being stripped by pairs,
+because a non-greedy match leaks what sits between a nested inner close and the outer one — and an
+entry carrying **both** text and a tool result keeps its text, where discarding it made the gate
+quote an *older* message as *"what you last asked for"*. A stale instruction reads exactly like a
+current one.
 
-**Rounds one, two and three reported; the fourth reported; the fifth has now lost two lenses
+**The sixth round's adversarial lens went at the fifth round's repair and found five more — three
+of them holes the repair itself had opened.** Every one was reproduced end to end against the
+installed hook, never argued from the source.
+
+**The heredoc blanker hid three real publishes.** Blanking a body was the fifth round's answer to
+*a publish inside a document is not a publish*, and it blanked **to the end of the string whenever
+it could not find the terminator** — so `cat <<EOF; git push origin main`, with no terminator
+anywhere, had the push erased out from under the pattern while bash runs it the moment the heredoc
+reaches end of input. Two more of the same family: a literal `a<<b` inside a quoted commit message,
+read as an opener whose terminator never comes, and `<<<` — a here-**string**, matched from its
+second `<`. **A blanker that cannot see both ends of the body blanks nothing**, which is the loud
+direction, and the two lookarounds keep the other two shapes out.
+
+**And a wrapper word takes flags.** `env -i` · `sudo -u root` · `command -p` · `time -p` ·
+`nice --adjustment=10` · `exec -a name` — eight shapes, each carrying the verb straight past the
+anchor the fifth round had just installed. Listing the option *shapes* was the first repair and it
+was not enough: a flag that takes its own argument leaves a **bare word** between the flag and the
+verb, which no option pattern matches. The run between a wrapper and the verb is any tokens at all
+now, bounded, and the verb still has to appear as its own two words.
+
+**A decoy header won the column** — the same repair again, from the other side. *Wired how · what
+it ships* was matched by **prefix** so that the widened template would be found; a register whose
+first column reads `Wired how much budget` then captured the index and the real column was never
+read, reporting a correctly registered row as missing. Exact match first, then a prefix that ends
+at a non-letter.
+
+**And the refusal's quote had two ways to be steered.** The blocks it strips were counted by
+**depth**, so a `</task-notification>` closed a `<system-reminder>` — which hands anything that can
+put tag-shaped text into a transcript exact control over what the owner is shown. It is a stack of
+names now. And the harness's continuation summary was skipped **on its opening words alone**, so a
+real instruction that merely began with them was dropped whole and the refusal quoted a
+*superseded* message as what you last asked for — *"hold everything, do NOT publish"* shown as
+current, which is worse than quoting nothing. Two signals now, both required: those summaries
+arrive as a **bare string** and are long, where a person's turn arrives as text blocks.
+`test-audit-gate.sh` **170/170** and `test-outward-gate.sh` **72/72**, a case per reproduced shape
+on both sides.
+
+**Rounds one, two and three reported; the fourth reported; the fifth lost two lenses
 to the same limit** — the thirteenth and fourteenth across four releases, recorded rather than
 quietly retried. What that round is owed on has grown to the ten commits after it: the shelf rule,
 the named screen, the register's two columns and its guard clause, both copies of the outward gate,
 and the quoting. **A round carrying a `not completed` has not reported clean**, and the tag waits
 on it.
+
+**And the sixth round reported on one lens of four.** Its adversarial lens is the five findings
+above; its contradiction lens died on the weekly limit — **the fifteenth** — and its deletion and
+cold-read were never dispatched, because by then the budget the round needs was gone. Three
+`not completed` against one report: **the round has not reported clean, and it is owed over the
+repair those five findings caused**, which is where every re-round of this release has found its
+sharpest thing.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
@@ -692,7 +736,7 @@ four kinds in both directions, which is the point of naming the rule beside them
 `echo =====` fails with *not found* and the rest of the command line never runs.
 
 Eval state: **not run.** The guard sections and the scripts are measured by their suites — 238
-company-preflight assertions, 128 audit-gate, and a suite per script with its own code mutants —
+company-preflight assertions, 170 audit-gate, and a suite per script with its own code mutants —
 but **a suite measures a form and an eval measures a run**, and the behaviours this release adds
 are exactly the kind only a run shows: whether a session *offers* the machine line at a takeover,
 whether it brings the shelf before a decision instead of waiting to be asked, whether it wires a
