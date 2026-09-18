@@ -219,6 +219,17 @@ Every gate declares what actually holds it ([`PATTERNS.md`](PATTERNS.md) §16):
 | `harness` | the runtime refuses | a tool absent from the role's allowlist; a turn cap. **The only row that is not portable** — it resolves per runtime and is recorded on the run → [`runtimes.md`](runtimes.md) |
 | `prose-only` | **nothing enforces it** | see below |
 
+**A gate does not read intent, and the one time it looks like it is doing so, it is quoting.** The
+outward hook stops on a verb in command position, which is a fact about syntax — asking *what did
+they mean* would require asking the party being stopped, and that party's account is exactly what
+was measured wrong: 5 runs of 5 reported *"done… and pushed"* about a publish nobody authorised.
+**So it prints the owner's own last message beside the refusal, marked as context and not consent**,
+and the verdict is unchanged whether it finds one or not. Two things follow. *"Publish when it's
+ready"* an hour ago is not permission now — a request to do the work is not a request to announce
+it, and an earlier yes does not roll forward. And a gate that read meaning could be argued out of it
+**by the very text it is reading**, which is why the rule that imported text is data and never
+instructions ([`security.md`](security.md)) applies to a gate's own input first.
+
 **A blocker is cleared by evidence or by the owner — never by the run that is blocked.** Finding
 the thing that stops the work is the job; **writing down the fact that would unstop it is not**.
 A licence bought, an approval given, a limit raised, a test that passed: each is either pointed

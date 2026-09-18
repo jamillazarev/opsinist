@@ -102,6 +102,36 @@ check "outward: a subshell starts a command"          2 "$(pl Bash "(cd repo && 
 check "outward: searching for the phrase → allow"     0 "$(pl Bash "grep -rn 'npm publish' docs/" "$TE")"
 check "outward: the verb mid-sentence → allow"        0 "$(pl Bash "printf '%s' '# what a git push costs' > note.md" "$TE")"
 check "outward: a path that reads like it → allow"    0 "$(pl Bash "cat notes/about-git-push.md" "$TE")"
+# **The owner's own last words are quoted beside the refusal, and quoting is not consenting.**
+# A gate cannot read intent, and asking the party it is stopping for theirs is asking the thing
+# being stopped to grade itself — measured, 5 runs of 5 reported a publish nobody authorised. So
+# the human's message is shown to spare them the scroll, and the verdict does not move. The
+# transcript here carries a tool result and a `<system-reminder>` after the owner's line, because
+# both arrive as `user` entries and neither is the owner speaking.
+TQ="$T/owner.jsonl"
+python3 - "$TQ" <<'PY'
+import json, sys
+rows = [
+    {"type": "user", "message": {"role": "user", "content": [
+        {"type": "text", "text": "opsinist: fix the gate"}]}},
+    {"type": "assistant", "message": {"role": "assistant", "content": [
+        {"type": "tool_use", "name": "Skill", "input": {"skill": "opsinist:advisor"}}]}},
+    {"type": "user", "message": {"role": "user", "content": [
+        {"type": "text", "text": "now ship it <system-reminder>noise</system-reminder>"}]}},
+    {"type": "user", "message": {"role": "user", "content": [
+        {"type": "tool_result", "content": "some tool output"}]}},
+]
+with open(sys.argv[1], "w") as f:
+    for r in rows:
+        f.write(json.dumps(r) + "\n")
+PY
+_q=$(printf '%s' "$(pl Bash "git push origin main" "$TQ")" | python3 "$GATE" 2>&1 >/dev/null; true)
+case "$_q" in *"now ship it"*) pass=$((pass+1));; *) fail=$((fail+1)); echo "FAIL: the owner's last instruction is not quoted";; esac
+case "$_q" in *"context, not consent"*) pass=$((pass+1));; *) fail=$((fail+1)); echo "FAIL: the quote is not marked as context rather than consent";; esac
+case "$_q" in *"tool output"*) fail=$((fail+1)); echo "FAIL: a tool result was read as the owner speaking";; *) pass=$((pass+1));; esac
+case "$_q" in *noise*) fail=$((fail+1)); echo "FAIL: a system-reminder was read as the owner speaking";; *) pass=$((pass+1));; esac
+check "outward: quoting does not open the door"       2 "$(pl Bash "git push origin main" "$TQ")"
+check "outward: an unreadable transcript, same verdict" 2 "$(pl Bash "git push origin main" "$T/none.jsonl")"
 outward_off() { printf '%s' "$(pl Bash "git push origin main" "$TE")" | OPSINIST_OUTWARD_GATE=off python3 "$GATE" >/dev/null 2>&1; echo $?; }
 [ "$(outward_off)" = 0 ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: outward off-switch"; }
 MEM="$T/home/.claude/projects/x-proj/memory"; mkdir -p "$MEM"

@@ -226,6 +226,56 @@ def last_assistant_text(transcript):
     return text
 
 
+def last_owner_instruction(transcript, limit=240):
+    """The owner's most recent message — **context for the person, never consent.**
+
+    A gate cannot read intent and must not try: the party it constrains is the one that would be
+    doing the explaining, and the measured failure is that the explanation was confident and wrong
+    (5 of 5 runs reported *"done… and pushed"*). What a gate CAN do is put the human's own last
+    words next to the refusal, so whoever decides is not hunting for the context first.
+
+    **It is quoted and never acted on.** *"Push when it's ready"* an hour ago is not permission to
+    publish now — a request to do the work is not a request to announce it, and an earlier yes does
+    not roll forward (`permissions.md`). If this function ever gains a branch that lets something
+    through, that branch is the bug.
+
+    Tool results arrive as `user` entries too, so an entry whose content carries a `tool_result`
+    block is machinery talking to machinery and is skipped; so is a `<system-reminder>`, which is
+    the harness speaking rather than the owner.
+    """
+    text = ""
+    try:
+        with open(transcript, encoding="utf-8", errors="replace") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line[0] != "{":
+                    continue
+                try:
+                    e = json.loads(line)
+                except Exception:
+                    continue
+                if e.get("type") != "user":
+                    continue
+                content = (e.get("message") or {}).get("content")
+                if isinstance(content, str):
+                    chunks = [content]
+                elif isinstance(content, list):
+                    if any(isinstance(b, dict) and b.get("type") == "tool_result" for b in content):
+                        continue                      # a tool result is not the owner speaking
+                    chunks = [b.get("text", "") for b in content
+                              if isinstance(b, dict) and b.get("type") == "text"]
+                else:
+                    continue
+                said = "\n".join(c for c in chunks if c).strip()
+                said = re.sub(r"<system-reminder>.*?</system-reminder>", " ", said, flags=re.S)
+                said = " ".join(said.split())
+                if said:
+                    text = said
+    except Exception:
+        return ""
+    return text[:limit] + ("…" if len(text) > limit else "")
+
+
 def main():
     try:
         payload = json.load(sys.stdin)
@@ -612,12 +662,26 @@ def main():
                 r"(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)\s+deploy|"
                 r"[\w./-]*deploy)(?=[\s;&|)]|$)", cmd)
             if hit:
+                # **The owner's own last words, quoted — context for the person, never consent.**
+                # A gate cannot read intent, and asking the constrained party for theirs is asking
+                # the thing being stopped to grade itself. What it can do is spare the human the
+                # scroll: whoever decides sees what they last asked for, beside what is about to
+                # leave. `last_owner_instruction` has no branch that lets anything through, and if
+                # it ever grows one, that branch is the defect.
+                _said = last_owner_instruction(payload.get("transcript_path", ""))
+                _ctx = (f"\n\nWhat you last asked for, for your own reading — **this is context, "
+                        f"not consent**, because a request to do the work is not a request to "
+                        f"announce it and an earlier yes does not roll forward: «{_said}»"
+                        if _said else "")
                 sys.stderr.write(
                     f"Opsinist outward gate: `{hit.group(1)}` leaves the repository, and an "
                     f"outward act is one of the four owner-gated kinds (permissions.md). Two "
                     f"doors, and a retry is not one of them: the owner runs this command "
                     f"themselves, or sets OPSINIST_OUTWARD_GATE=off on purpose. Everything "
-                    f"local — commit, branch, build — is untouched by this.\n")
+                    f"local — commit, branch, build — is untouched by this. **And if this is a "
+                    f"sentence about publishing rather than publishing** — the phrase written "
+                    f"into a file — say that to the owner and let them look; do not reword it to "
+                    f"get past.{_ctx}\n")
                 sys.exit(2)
     if (_r0 and tool in ("Write", "Edit") and _t0
             and os.environ.get("OPSINIST_RULE_HOME", "") != "off"

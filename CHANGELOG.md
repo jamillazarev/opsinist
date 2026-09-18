@@ -15,11 +15,22 @@ after `;` `&&` `||` `|`, inside a subshell — **and a quote counts only after s
 shell**, because treating every quote as one refuses a search for the phrase, which is a read, and
 a read is never outward.
 
+**And the refusal now quotes what you last asked for.** Not to decide with — a gate cannot read
+intent, and asking the party it is stopping for theirs is asking the thing being stopped to grade
+itself, which is the measured failure this hook exists for (5 runs of 5 reported *"done… and
+pushed"* about a publish nobody had authorised). It is quoted to **spare the person the scroll**:
+whoever decides sees their own last message beside what is about to leave, **marked as context and
+not consent**, and the verdict does not move whether there is a quote or not. Tool results and the
+harness's own reminders arrive as `user` entries too and are skipped, because neither is the owner
+speaking. If that function ever grows a branch that lets something through, **that branch is the
+defect** — and both suites assert it: the door stays shut with a quote, without one, and with no
+transcript at all.
+
 **Comparing the two copies found a hole in each.** The sibling's had no anchor at all; ours had one
 and was blind to a newline, a pipe, a subshell and a wrapper's quoted argument — and its lookahead
 demanded whitespace after the verb, so **a subshell's closing paren made it silent**, which no case
 had ever exercised. Six new assertions here and seven in the sibling, each a shape one of the two
-got wrong: `test-audit-gate.sh` **134/134**, `test-outward-gate.sh` **36/36**. **The refusal also
+got wrong: `test-audit-gate.sh` **140/140**, `test-outward-gate.sh` **43/43**. **The refusal also
 gained a third door** — *if this is a sentence about the act and not the act, say so to the owner*
 — because a message offering only *the owner runs it* or *turn the gate off* has no answer for a
 false positive, and inviting a reword would be the failure itself.
