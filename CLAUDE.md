@@ -160,7 +160,7 @@ nothing accumulates outside versions.
 
 - **The hook that runs is the INSTALLED copy, not the one you just fixed** (measured 2026-09-18,
   twice in one session). A false positive in the sibling's outward gate was repaired in
-  `~/Dev/multica-ops/hooks/`, and the cached plugin copy under `~/.claude/plugins/cache/<plugin>/…/`
+  the sibling methodology's `hooks/`, and the cached plugin copy under `~/.claude/plugins/cache/…/`
   went on refusing — including refusing the command that would have written the fix. **A hook
   repair does not take effect until the machine re-sync step of a release**, which is step 7 and
   comes after the tag, so *the whole window between the repair and the tag runs on the old gate*.
