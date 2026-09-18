@@ -4,6 +4,36 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.19 — 2026-09-11
 
+**A dependency now says what the service ships and when it should leave — and a project with
+dependencies and no register is told so.** Three related repairs, from one observation on a live
+project: *the advisor chose a service and never checked whether it had an API, a CLI or an MCP.*
+**The cause was structural** — that project had **no `_ops/TOOLING.md` at all**, and the question
+has no home unless there is a row to answer it. So the register template gains two columns.
+**Wired how · what it ships** records what the service offers and which of it you took, where
+`checked <date> · none found` is a complete answer and **a blank is not**, because a blank cannot be
+told apart from nobody having looked. **Gone when** is the observable condition that retires the
+row — *when the platform ships it · when the free tier stops covering us · when the feature it
+serves is cut* — because **a dependency with no removal condition never leaves**. The *why* was
+never the missing half: the guard already refuses the commit that adds a dependency without a line
+in `_ops/DECISIONS.md` naming what it replaces and what was rejected. This is the other end of that
+sentence. And the guard's §1, which has always warned that a promised file is missing, now says
+something specific when the tree proves the file is owed: **a project that declares dependencies in
+a manifest and has no register** gets the row's own reasons and the one file to copy, with a
+`_ops/DECISIONS.md` line as the escape. **One message per absent file, never two**
+(`test-register-exists.sh` **7/7**, two mutants).
+
+**Nine scheduling links, and they are three different needs.** The new row splits them the way
+they actually divide: **did it run** (Healthchecks — a dead-man's switch, and **the only one that
+answers the failure that actually happens, a cron that silently stops**), **what runs it** (Cronicle
+· cronmaster · cronboard · cron-job.org, with the licence that decides each: one undeclared, one
+AGPL) and **inside the app** (gocron · node-cron · pg_cron · `schedule`, the Python name everybody
+reaches for, **last pushed 2024-05-25**). The rung above all of them is unchanged: **ask the host
+first** — a runtime with cron of its own needs none of this. **DataForSEO** was added as what it is:
+the per-call data layer under several SEO tools, which is why owning the key makes the tool in front
+of it replaceable. And **OpenGSC moved off the declines and onto the shelf** at the owner's request,
+with what depending on it actually means written beside it — 22★, five months old, and an install
+documented as `curl … | sudo bash`.
+
 **The shelf is the first stop, and that was nowhere written down.** An agent asked to connect,
 choose or recommend anything now reads [`catalogue.md`](catalogue.md) **before** it searches — the
 rule lives in [`tooling.md`](tooling.md) § *Connect-or-create*, the router's toolkit line points at it, and the
@@ -91,7 +121,7 @@ things is where you meet the rule. **§24 is the one that reads the commits befo
 product-only commit warns, a third in a row is refused — and the escape is the same one everybody
 already uses: a task, or the run record the quick path asks for.
 
-**Four things worth doing once, in this order.** They are each one command and none of them is
+**Five things worth doing once, in this order.** They are each one command and none of them is
 required:
 
 1. **`python3 <skill>/scripts/link-ids.py <project> --write`** — turns the ids, paths and assignee
@@ -105,7 +135,12 @@ required:
    decide; what it is for is the categories nothing else here covered — over-broad tool grants,
    MCP least privilege, injectable text — and the finding on your own file is a defect to fix
    rather than a supplier to refuse.
-4. **Wire your existing roles.** Every `_ops/roles/<role>.md` owes a `.claude/agents/<role>.md` —
+4. **If you have dependencies, create the register.** `cp <skill>/templates/TOOLING-template.md
+   _ops/TOOLING.md` — the guard warns once per commit until you do, and the two columns worth
+   filling first are **what each service ships** (an MCP server or a CLI is work you do not have to
+   write) and **gone when**. **An existing register does not have to be widened**: the columns are
+   in the template for new ones, and nothing refuses a table that predates them.
+5. **Wire your existing roles.** Every `_ops/roles/<role>.md` owes a `.claude/agents/<role>.md` —
    markdown with `name` and `description`, no build step — or, if your runtime is not Claude Code,
    one row in `_ops/config.md`'s settings table: `| `runtime_wiring` | <your directory> |`, which
    stands §28 and §26's runtime half down together. **It is a declared setting, not a sentence** —

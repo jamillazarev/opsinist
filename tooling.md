@@ -117,6 +117,35 @@ skipped and said out loud* — and `not checked` is an honest value where nobody
 (Read off `anthropics/claude-for-legal`'s integrations table, 2026-09-17, which carries a fallback
 per row and is the first place this corpus has seen that done as a rule rather than a habit.)
 
+**Every row also says WHAT THE SERVICE SHIPS, and when it stops being needed.** Two questions
+nobody asks unprompted, both cheap to answer once and expensive to skip:
+
+- **What it ships** — an MCP server, a CLI, an SDK, an agent skill, a documentation endpoint. Each
+  is work this project does not have to write, and each is a dependency the moment it is taken; the
+  row records both what exists and which of it you took. **`checked <date> · none found` is a
+  complete answer, and an empty cell is not** — an empty cell cannot be told apart from nobody
+  having looked, which is exactly what happened on the measured project: a service was chosen and
+  **nothing ever asked whether it had an API, a CLI or an MCP**, because there was no register to
+  ask in (2026-09-16).
+- **Gone when** — the observable condition that retires the row. *When the platform ships it · when
+  the free tier stops covering us · when the feature it serves is cut.* **A dependency with no
+  removal condition never leaves**, and the reason it arrived is not the reason it stays: *why it is
+  here* is already refused blank by the guard on the commit that adds it, and this is the other end
+  of the same sentence. Not *when we don't need it*, which is not a condition anybody can observe.
+
+```mermaid
+flowchart TD
+  N["a service is chosen"] --> W{"what does it<br/>SHIP?"}
+  W -->|"MCP · CLI · SDK · skill"| T["take it — work you<br/>do not have to write"]
+  W -->|"nothing found"| D["`checked &lt;date&gt; · none found`<br/>— an answer, not a blank"]
+  T --> R["a register row"]
+  D --> R
+  R --> G{"gone when?"}
+  G -->|"an observable condition"| K["the row can retire itself"]
+  G -.->|"blank"| F["it never leaves"]
+  R -.->|"no register at all"| Q["nobody ever asks<br/>what it ships — measured"]
+```
+
 **It is the probe list for the health check, not documentation.** A tool missing from here is **a
 tool nobody checks, whose token nobody rotates, and whose breaking change surprises the team**.
 

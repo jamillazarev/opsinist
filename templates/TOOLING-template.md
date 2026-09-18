@@ -21,12 +21,21 @@ here naming a file that does not declare it, are both refused (`tooling.md` → 
 needs from the machine*). **The *Tool* cell is the entry's own name in that file** — the server's
 key in `.mcp.json`, the tool's key in `mise.toml` — because that is how the guard finds it.
 
-| Tool | What it's for | **Replaces** | Licence / plan · **evidence** | Access & where the secret lives | Wired how | Checked |
-|---|---|---|---|---|---|---|
-| {{sentry}} | {{error tracking for the web app}} | {{the log-grepping we did by hand}} | {{free tier · evidence: sentry.io/pricing, read 2026-07-23}} | {{the web group · `${SENTRY_TOKEN}` from the environment}} | {{`.mcp.json`}} | {{2026-07-23}} |
-| {{ffmpeg}} | {{cutting the demo videos}} | {{we had none — clips went out uncut}} | {{LGPL · evidence: ffmpeg.org/legal.html, read 2026-07-23}} | {{none}} | {{`mise.toml`}} | {{2026-07-23}} |
-| {{Vercel}} | {{hosting + preview deploys}} | {{we had none — nothing was deployed}} | {{hobby, non-commercial · evidence: vercel.com/pricing, read 2026-07-23}} | {{owner only — deploys are outward}} | {{CLI on the daemon machine}} | {{2026-07-23}} |
-| {{plotwright}} | {{charts}} | {{screenshots pasted by hand}} | {{BUSL-1.1, production needs a commercial licence · evidence: `vendor/plotwright-LICENSE` · **commercial licence: none held**}} | {{bundled}} | {{npm}} | {{2026-07-23}} |
+**Two columns answer questions nobody asks unprompted.** *Wired how* names **what the service
+ships and which of it you took** — an MCP server, a CLI, an SDK, an agent skill, a documentation
+endpoint — because each one is work you do not have to write, and the question only gets asked where
+there is a cell to answer it. **`checked 2026-09-18 · none found` is a complete answer**; an empty
+cell is not, because it cannot be told apart from nobody having looked. And *Gone when* is the
+condition that retires the row: **a dependency with no removal condition never leaves.** Write the
+observable one — *when the platform ships it*, *when the free tier stops covering us*, *when the
+feature it serves is cut* — not *when we don't need it*.
+
+| Tool | What it's for | **Replaces** | Licence / plan · **evidence** | Access & where the secret lives | Wired how · **what it ships** | **Gone when** | Checked |
+|---|---|---|---|---|---|---|---|
+| {{sentry}} | {{error tracking for the web app}} | {{the log-grepping we did by hand}} | {{free tier · evidence: sentry.io/pricing, read 2026-07-23}} | {{the web group · `${SENTRY_TOKEN}` from the environment}} | {{`.mcp.json` · ships MCP (taken) · CLI · SDK — checked 2026-07-23}} | {{the runtime reports errors itself, or the app stops having users}} | {{2026-07-23}} |
+| {{ffmpeg}} | {{cutting the demo videos}} | {{we had none — clips went out uncut}} | {{LGPL · evidence: ffmpeg.org/legal.html, read 2026-07-23}} | {{none}} | {{`mise.toml` · CLI only — checked 2026-07-23 · no MCP, no SDK we need}} | {{we stop shipping video}} | {{2026-07-23}} |
+| {{the host}} | {{hosting + previews}} | {{we had none — nothing was published}} | {{hobby, non-commercial · evidence: its pricing page, read 2026-07-23}} | {{owner only — publishing is outward}} | {{CLI on the daemon machine · ships CLI (taken) · API · MCP — checked 2026-07-23}} | {{the non-commercial plan stops applying to us}} | {{2026-07-23}} |
+| {{plotwright}} | {{charts}} | {{screenshots pasted by hand}} | {{BUSL-1.1, production needs a commercial licence · evidence: `vendor/plotwright-LICENSE` · **commercial licence: none held**}} | {{bundled}} | {{npm · library only — checked 2026-07-23}} | {{**the day this ships to a paying user** — the licence decides it, not us}} | {{2026-07-23}} |
 
 **Rules that keep this honest:**
 

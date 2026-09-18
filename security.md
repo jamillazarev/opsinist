@@ -90,7 +90,19 @@ categories that do not care who wrote the file. So the same command runs over a 
 `_ops/skills/` and `.claude/skills/` before they are committed — **the difference is what a finding
 means**, which for your own file is a defect to fix rather than a supplier to refuse.
 **Measured here 2026-09-18: this repository had never scanned its own 21 skills**, and neither had
-its sibling — the rule said *imported* and everybody read it as *all*.
+its sibling — the rule said *imported* and everybody read it as *all*. **The first run found no
+HIGH-severity true positive and two findings that are the row's own prediction coming true**: the
+skill whose job is upgrading skills trips *self-modification*, and a skill pointing at a sibling
+file trips *referenced artifact not completely inspected* — **which is a fact about the scan's
+coverage, not about the file.** Both are disposed of in the open rather than suppressed, because a
+suppression nobody can read is the same shape as a check nobody runs.
+
+**And there is no catalogue to look it up in — the scan is the only answer.** NVIDIA's published
+catalogue is **its own product skills**, not a verdict index for everybody else's, and its
+documentation describes running the scanner rather than querying results (read 2026-09-18). Even
+where a verdict existed it would not transfer: **a verdict is about a version**, this file's own
+rule two paragraphs down, and least privilege is a question about *your* project that no upstream
+scan can answer.
 
 **A whole prebuilt agent never imports as a hire** → [`hiring.md`](hiring.md).
 

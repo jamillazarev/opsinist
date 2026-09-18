@@ -110,7 +110,17 @@ python3 scripts/check-links.py       # file → section, not just file exists
 python3 scripts/check-freshness.py   # check-dates, and rows that have none
 python3 scripts/check-structure.py   # shape and budget
 bash scripts/test-audit-gate.sh      # the shipped hooks, by mutation
+skillspector scan ./skills --recursive   # the 21 skills we ship, before a release
 ```
+
+**The scanner is a dependency of the release, not of preflight.** `skillspector` is a
+third-party install (`uv tool install 'skillspector[mcp] @ git+https://github.com/NVIDIA/skillspector.git'`,
+Apache-2.0, NVIDIA), and preflight runs offline on machines that will not have it — so it is named
+here and run before a tag, never wired into the gate that every commit passes. **We screen what we
+import and we ship 21 skills of our own**: the rule that says *imported* is the rule everybody
+reads as *all*, which is how a corpus goes two years without scanning itself ([`security.md`](security.md)).
+**`--no-llm` is a partial scan and reports itself as one** — `coverage_percent: 0.0` — so a clean
+static run is evidence about patterns, not about intent.
 
 **`hooks/` is machinery, not prose, and it is tested like machinery.** The plugin ships two
 gates that hold a takeover to its order — refusing a mutating call before the debt list exists,

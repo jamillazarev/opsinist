@@ -24,8 +24,10 @@ this file exists to stop anyone re-deriving per session.
 3. **The showcase trio** for every new mechanic: a diagram · a situation ([`use-cases.md`](use-cases.md)) ·
    a fact ([`facts.md`](facts.md)). Wording-only changes owe nothing — say so.
 4. **Checks**: `bash scripts/preflight.sh` (runs every shipped test suite itself) ·
-   `python3 scripts/check-links.py .` · `bash scripts/test-audit-gate.sh`. Green is evidence
-   about the corpus, not about behaviour — behaviour is the eval suite's job.
+   `python3 scripts/check-links.py .` · `bash scripts/test-audit-gate.sh` ·
+   **`skillspector scan ./skills --recursive`** before a tag, because we screen what we import and
+   ship twenty-one skills of our own (installed tool, not in preflight — preflight runs offline).
+   Green is evidence about the corpus, not about behaviour — behaviour is the eval suite's job.
 5. **Changelog entry** (capability first; it is the migration map; **it names its eval state — a run recorded, or `not run` said**) → **manifest sweep runs
    inside preflight** → **ask what this session learned about the machine and write it into the
    notes below first** (AGENTS.md → the release ritual — otherwise the note lands outside the release

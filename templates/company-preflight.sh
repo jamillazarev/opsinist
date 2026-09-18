@@ -271,10 +271,37 @@ echo "preflight — docs"
 #     so their absence is a warning here and not a refusal. A project that creates them empty
 #     on day one has four files its owner reads past forever, which is the worse trade.
 #     (Why it changed, with the measurement, is the skill's changelog for 0.2.7.)
+#     **And one of the four stops being deferrable the moment the tree proves otherwise.** A
+#     project that declares dependencies in a manifest *has* something to hold, so the register's
+#     absence is no longer a matter of taste: measured on a live project 2026-09-16 — an auth
+#     service, a database service, a model key and a hosting provider all in use, **and no
+#     `_ops/TOOLING.md`**, so nothing recorded what any of them replaced, which plan it was on,
+#     where its secret lived, or **what the service itself ships**. The owner found it from the
+#     other end: the advisor chose a service and never asked whether it had an API, a CLI or an
+#     MCP — **a question with no home until there is a row to answer it**. Still a warning, and
+#     still ONE message per missing file, because two findings for one absence is the trap
+#     `facts.md` 261 measures. The escape is a line in `_ops/DECISIONS.md`.
+_deps_declared() {
+  [ "$(git ls-files -z -- 'package.json' '*/package.json' 'pyproject.toml' 'requirements.txt' \
+                          'go.mod' 'Cargo.toml' 'Gemfile' 'composer.json' '.mcp.json' 'mise.toml' \
+       2>/dev/null | tr '\0' '\n' | grep -vc '^_ops/')" -ge 1 ]
+}
 for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
-  [ -f "$f" ] || say_warn "$f is missing — the guide points every agent at it. Deferred on \
+  [ -f "$f" ] && continue
+  if [ "$f" = _ops/TOOLING.md ] && _deps_declared \
+     && ! grep -qi 'no external\|TOOLING\.md' _ops/DECISIONS.md 2>/dev/null; then
+    say_warn "_ops/TOOLING.md is missing and this project declares dependencies — so nothing here \
+records what each one REPLACES, its licence or plan with the evidence, where its secret lives, or \
+**what the service itself ships**: an MCP server, a CLI, an SDK or an agent skill is work you do \
+not have to write, and that question only gets asked where there is a row to answer it. It is also \
+the probe list a health check reads, so an absent register is a set of tools nobody checks and \
+whose tokens nobody rotates. Copy \`templates/TOOLING-template.md\`; if this project genuinely \
+depends on nothing outside itself, say so in \`_ops/DECISIONS.md\`"
+  else
+    say_warn "$f is missing — the guide points every agent at it. Deferred on \
 purpose until it has something to hold (a roadmap · a role · a tool · the first decision); once \
 it does, create it, because an agent sent to a file that is not there improvises"
+  fi
 done
 #     Absent is deferred; DELETED is not. §2, §3 and §9 are each keyed on one of these files
 #     existing, so retiring a file retires its gate — which would let the constrained party
