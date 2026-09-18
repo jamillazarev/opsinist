@@ -24,6 +24,18 @@ ok()  { pass=$((pass+1)); }
 bad() { fail=$((fail+1)); echo "  ✗ $1"; }
 
 # The register: one table whose *Wired how* column is found by its header, as the guard finds it.
+# **And the header the template actually ships.** This release widened that column to
+# *Wired how · what it ships*, and the guard matched the header by equality — so every project
+# copying the new template was told its correctly-registered server had no row. A guard broken by
+# its own shipped template is a shape this repository has paid for before; the fixture below is the
+# template's own header, so the two cannot drift again. Found by a contradiction lens, 2026-09-18.
+reg_shipped() {
+  { printf '# Tooling\n\n%s\n' "| Tool | What for | Replaces | Licence | Access | Wired how · **what it ships** | **Gone when** | Checked |"
+    printf '|---|---|---|---|---|---|---|---|\n'
+    for row in "$@"; do printf '%s\n' "$row"; done
+  } > _ops/TOOLING.md
+}
+
 reg() {
   { printf '# Tooling\n\n| Tool | What it'"'"'s for | Replaces | Licence | Access | Wired how | Checked |\n'
     printf '|---|---|---|---|---|---|---|\n'
@@ -143,6 +155,20 @@ PY
 printf '[tools]\npython = "3.12"\n' > mise.toml; reg "$(row python '`mise.toml`')"
 run; [ "$RC" = 1 ] && said 'stopped before its end' && ok || bad "a check that crashed let the commit through — it failed open: $OUT"
 cp "$HERE/../templates/company-preflight.sh" _ops/scripts/preflight.sh
+
+# the shipped header finds the same column, and a correct row passes with it
+# (the previous case left a `mise.toml` behind, and a leftover entry with no row would fire the
+# same message for a different reason — a suite whose cases contaminate each other reports the
+# wrong finding, which is how this assertion first went red)
+rm -f mise.toml
+printf '{"mcpServers":{"sentry":{"command":"x"}}}\n' > .mcp.json
+reg_shipped "| sentry | errors | we had none | free | token | \`.mcp.json\` · ships MCP (taken) · CLI | the runtime reports them itself | 2026-09-18 |"
+git add -A >/dev/null 2>&1
+OUT=$(bash _ops/scripts/preflight.sh 2>&1); RC=$?
+case "$OUT" in
+  *"has no row for it"*) fail=$((fail+1)); echo "  ✗ the shipped header was not found — every project copying the template would be refused";;
+  *) ok;;
+esac
 
 echo "native-register: $pass passed, $fail failed"
 [ "$fail" -eq 0 ]

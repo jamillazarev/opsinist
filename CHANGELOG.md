@@ -30,7 +30,7 @@ transcript at all.
 and was blind to a newline, a pipe, a subshell and a wrapper's quoted argument — and its lookahead
 demanded whitespace after the verb, so **a subshell's closing paren made it silent**, which no case
 had ever exercised. Six new assertions here and seven in the sibling, each a shape one of the two
-got wrong: `test-audit-gate.sh` **140/140**, `test-outward-gate.sh` **43/43**. **The refusal also
+got wrong: `test-audit-gate.sh` **154/154**, `test-outward-gate.sh` **57/57**. **The refusal also
 gained a third door** — *if this is a sentence about the act and not the act, say so to the owner*
 — because a message offering only *the owner runs it* or *turn the gate off* has no answer for a
 false positive, and inviting a reword would be the failure itself.
@@ -51,7 +51,7 @@ sentence. And the guard's §1, which has always warned that a promised file is m
 something specific when the tree proves the file is owed: **a project that declares dependencies in
 a manifest and has no register** gets the row's own reasons and the one file to copy, with a
 `_ops/DECISIONS.md` line as the escape. **One message per absent file, never two**
-(`test-register-exists.sh` **7/7**, two mutants).
+(`test-register-exists.sh` **10/10**, two mutants).
 
 **Nine scheduling links, and they are three different needs.** The new row splits them the way
 they actually divide: **did it run** (Healthchecks — a dead-man's switch, and **the only one that
@@ -86,8 +86,7 @@ vulnerability and 5.2% showed likely malicious intent** (`facts.md` 280). **And 
 *imported*, which everybody read as *all***: a skill a project writes for its own agents cannot be
 malicious and can easily be over-granted, injectable or leaky, so the same command runs over
 `_ops/skills/` and `.claude/skills/` before they are committed — the difference being what a
-finding means. **Measured the same day: this repository had never scanned its own 21 skills, nor
-the sibling's 19.** Nothing gates it, because the scanner is a third-party install and **nothing is
+finding means. **Measured the same day: this repository had never scanned its own 21 skills, nor the sibling's 19.** Three findings between them, none a true positive for malice — and one of them earned its keep: a line reading *"never refuse a doable action over the wrong seat"* tripped **anti-refusal**, and it was about *which seat*, so it now says that, and says gates are untouched. **A scan that changes the corpus rather than only measuring it** is the argument for running it at all. Nothing gates it, because the scanner is a third-party install and **nothing is
 installed on your machine without your word** — so it is on the prose-only list by name.
 
 **Twenty-two links, checked rather than shelved.** The monitoring row gained the three things
@@ -585,7 +584,63 @@ retold the changelog's story at changelog length became pointers; `transition.py
 at both ends of one function; and `migrate-layout.py` claimed to be *"the only place the reason is
 written"* while two other files carried it — a claim made false by the cluster it sat in.
 
-**Rounds one, two and three reported; the fourth reported; and the fifth has now lost two lenses
+**The fifth round's adversarial lens found eleven ways past the gate it had just repaired, and
+one defect that is this release repeating itself.** Every one reproduced, none argued with.
+*Eleven misses, the costly direction*: a **wrapper word** before the verb — `env X=1`, `sudo`,
+`nohup`, `time`, `nice -n 10`, and a bare `eval` with no quote at all — is neither a delimiter nor
+a runner, so nothing anchored; **a line continuation** is one command to the shell and two lines to
+a regex; **a redirect needs no space**, and the lookahead did not count `>` as a terminator; **the
+runner's quote** may sit further than forty characters away. *One false positive*: a **heredoc
+body** is data being fed to another program, so writing a document that carries the verb at the
+start of a line was refused as a publish — the same *prose is not an act* defect arriving back
+through the very anchor that had repaired it. Fourteen cases here and fourteen in the sibling,
+`test-audit-gate.sh` **158/158** and `test-outward-gate.sh` **61/61**. One thing the lens called a
+false positive is **not** one and is kept as a case: backticks inside a double-quoted commit
+message are command substitution, and the shell really does run what is between them.
+
+**The lens also found this release making its own mistake twice.** The register's escape was a grep
+over `_ops/DECISIONS.md` for *"no external"* or *"TOOLING.md"* — and two ordinary sentences broke
+it: *"rejected the no external caching approach, added Redis instead"* silenced the warning on a
+commit that had just added a dependency, and *"TODO: still need to write `_ops/TOOLING.md` before
+launch"* silenced the very warning that TODO describes. **That is the defect this release spent
+three rounds removing from the wiring escape, put back by hand days later in the escape next
+door.** The answer is the one the first repair should have generalised: **one reader for any
+declared setting**, `_setting <key>`, with `runtime_wiring` and the new `external_services: none`
+both reading through it. Two more in the same clause: only `package.json` had a `*/` form, so a
+Python, Go, Rust, Ruby or PHP project with its manifest one directory down never reached the check
+at all; and `tr '\0' '\n'` turned a newline inside a filename into a second apparent record,
+escaping the `_ops/` exclusion — **this file's own machine note says to keep paths NUL-separated to
+the consumer, and the consumer is now python.** `test-register-exists.sh` **10/10**.
+
+**The contradiction lens ran the two gates side by side and found three silent divergences and
+one shipped-breaking defect.** The breaking one first, because it would have met every reader:
+**this release's own register template broke this release's own guard.** The widened column header
+*Wired how · what it ships* was matched by equality, so a project that copied the new template and
+registered a server correctly was told *"`.mcp.json` declares server X and `_ops/TOOLING.md` has no
+row for it"* — **a guard refusing what the shipped template produces**, which is the shape §4d was
+written about in 2026-08 and which the suite could not catch because its fixture still carried the
+old header. The header is matched by prefix now and the fixture is the template's own.
+The divergences: one copy was **case-blind and the other was not**, so `GIT PUSH` was an act on one
+side and prose on the other; one read **both spellings of `--dry-run`** and the other only the
+hyphen, so the same read was a publish here and a read there; and **the verb lists differed in both
+directions** — one missed `gh pr create`, the other missed `flyctl`, `kamal`, `cap`, `make deploy`
+and `npm run deploy`. All aligned, with cases, because **a divergence that is not deliberate and
+written down is just a divergence.** And this file's own docstring described the gate's holes
+wrongly in both directions at once — claiming one it had closed and understating another — which is
+the same defect as an overstated comment anywhere else.
+
+**And the quoted instruction was quoting the harness.** Four shapes reach a transcript as `user`
+entries and none of them is the owner: a **tool result**, a `<system-reminder>` — *which may be
+unterminated or nested* — a **`<task-notification>`**, which is a background agent's return value
+routed back as a turn, and the harness's **conversation-continuation summary**. The first version
+skipped only one of the four, and its own comment claimed otherwise; **a comment that overstates
+what the code does is the defect, not the rounding.** The blocks are stripped by depth now rather
+than by pairs, because a non-greedy match leaks what sits between a nested inner close and the
+outer one — and an entry carrying **both** text and a tool result keeps its text, where discarding
+it made the gate quote an *older* message as *"what you last asked for"*. A stale instruction reads
+exactly like a current one.
+
+**Rounds one, two and three reported; the fourth reported; the fifth has now lost two lenses
 to the same limit** — the thirteenth and fourteenth across four releases, recorded rather than
 quietly retried. What that round is owed on has grown to the ten commits after it: the shelf rule,
 the named screen, the register's two columns and its guard clause, both copies of the outward gate,

@@ -52,9 +52,35 @@ run; [ "$RC" = 0 ] && ! said 'what the service itself ships' && ok \
 # ── a project that genuinely depends on nothing outside itself says so, once ────────────────────
 fixture
 printf '{"dependencies":{}}\n' > package.json
-printf -- '- 2026-09-18 — no external services; nothing to register\n' >> _ops/DECISIONS.md
+printf '# Project configuration\n\n| Setting | Value |\n|---|---|\n| `external_services` | none |\n' \
+  > _ops/config.md
 run; [ "$RC" = 0 ] && ! said 'what the service itself ships' && ok \
-  || bad "a project that declared it depends on nothing was warned anyway: $OUT"
+  || bad "a project that DECLARED it depends on nothing was warned anyway: $OUT"
+
+# ── and a sentence is not that declaration ─────────────────────────────────────────────────────
+# The escape was a grep over `_ops/DECISIONS.md`, and an adversarial lens broke it with two
+# ordinary sentences: one REJECTING a "no external" approach while adding a dependency, and a TODO
+# saying the register still needs writing — each silenced the warning it describes. Same defect the
+# wiring escape took three rounds to lose, put back by hand days later in the escape next door.
+for prose in "rejected the no external caching approach, added Redis instead" \
+             "TODO: still need to write _ops/TOOLING.md for the payments API before launch"; do
+  fixture
+  printf '{"dependencies":{"@some/auth":"^1.0.0"}}\n' > package.json
+  printf -- '- 2026-09-18 — @some/auth for sign-in; replaces hand-rolled sessions; rejected: our own\n' >> _ops/DECISIONS.md
+  printf -- '- 2026-09-18 — %s\n' "$prose" >> _ops/DECISIONS.md
+  run; [ "$RC" = 0 ] && said 'what the service itself ships' && ok \
+    || bad "prose in DECISIONS.md silenced the register warning: $OUT"
+done
+
+# ── a manifest one directory down is still a dependency ────────────────────────────────────────
+# Only `package.json` had a `*/` form, so a Python, Go, Rust, Ruby or PHP project with its manifest
+# in a subdirectory never reached this check — found by the same lens, reproduced per language.
+fixture
+mkdir -p service
+printf '[project]\nname = "x"\n' > service/pyproject.toml
+printf -- '- 2026-09-18 — the service package; replaces a pile of scripts; rejected: a monolith\n' >> _ops/DECISIONS.md
+run; [ "$RC" = 0 ] && said 'what the service itself ships' && ok \
+  || bad "a manifest one directory down did not count as a dependency: $OUT"
 
 # ── no manifest at all is not a finding ────────────────────────────────────────────────────────
 # A project of prose — a book, a research repository — declares no dependencies and owes no
@@ -88,12 +114,13 @@ mutant "the manifest scan removed — every project warned" \
        said 'what the service itself ships' && ok \
          || bad "the suite did not catch the mutant: a project with no dependencies was warned"; }
 
-mutant "the DECISIONS escape removed" \
-  "&& ! grep -qi 'no external\\|TOOLING\\.md' _ops/DECISIONS.md 2>/dev/null; then" \
-  "; then" \
+mutant "the declared escape removed" \
+  '&& [ -z "$(_no_external_services)" ]; then' \
+  '; then' \
   && { fixture
        printf '{"dependencies":{}}\n' > package.json
-       printf -- '- 2026-09-18 — no external services; nothing to register\n' >> _ops/DECISIONS.md
+       printf '# Project configuration\n\n| Setting | Value |\n|---|---|\n| `external_services` | none |\n' \
+         > _ops/config.md
        run; said 'what the service itself ships' && ok \
          || bad "the suite did not catch the mutant: the escape removed"; }
 MUT=""

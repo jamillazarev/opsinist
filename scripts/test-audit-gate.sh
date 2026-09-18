@@ -132,6 +132,42 @@ case "$_q" in *"tool output"*) fail=$((fail+1)); echo "FAIL: a tool result was r
 case "$_q" in *noise*) fail=$((fail+1)); echo "FAIL: a system-reminder was read as the owner speaking";; *) pass=$((pass+1));; esac
 check "outward: quoting does not open the door"       2 "$(pl Bash "git push origin main" "$TQ")"
 check "outward: an unreadable transcript, same verdict" 2 "$(pl Bash "git push origin main" "$T/none.jsonl")"
+# **Eleven ways past this gate, every one reproduced by an adversarial lens and every one closed.**
+# A wrapper word is not a delimiter, so nothing anchored before the verb; a line continuation is one
+# command to bash and two lines to a regex; a redirect needs no space; the runner's quote can sit
+# further than forty characters away, or not exist at all. **This is the costly direction** — a miss
+# lets a publish through — so each shape is a case rather than a note.
+check "outward: env prefix"                 2 "$(pl Bash "env VAR=x git push origin main" "$TE")"
+check "outward: sudo prefix"                2 "$(pl Bash "sudo git push origin main" "$TE")"
+check "outward: nohup and background"       2 "$(pl Bash "nohup git push origin main &" "$TE")"
+check "outward: time prefix"                2 "$(pl Bash "time git push origin main" "$TE")"
+check "outward: nice -n prefix"             2 "$(pl Bash "nice -n 10 git push origin main" "$TE")"
+check "outward: env before a deploy"        2 "$(pl Bash "env CI=1 npm run deploy" "$TE")"
+check "outward: a line continuation"        2 "$(pl Bash "git \\
+push origin main" "$TE")"
+check "outward: a redirect right after"     2 "$(pl Bash "git push>/dev/null 2>&1" "$TE")"
+check "outward: xargs, quote far away"      2 "$(pl Bash "xargs -I{} --a-very-long-placeholder-flag 'git push origin main'" "$TE")"
+check "outward: eval with no quote at all"  2 "$(pl Bash "eval git push origin main" "$TE")"
+check "outward: a brace group"              2 "$(pl Bash "{ git push origin main; }" "$TE")"
+# **A heredoc body is data fed to another program.** Writing a document that happens to carry the
+# verb at the start of a line was refused as a publish — the same *prose is not an act* defect this
+# section was repaired for, arriving back through the newline anchor that repaired it.
+check "outward: a heredoc body → allow"     0 "$(pl Bash "cat > docs/how.md <<'EOF'
+git push origin main
+EOF" "$TE")"
+# …and a backticked command inside a double-quoted message is NOT prose — bash substitutes it, so
+# refusing is correct. Kept as a case so nobody ever "fixes" a true positive.
+check "outward: backticks in -m are a command" 2 "$(pl Bash "git commit -m \"how \`git push origin main\` works\"" "$TE")"
+check "outward: a plain -m mentioning it → allow" 0 "$(pl Bash "git commit -m \"describe how to git push later\"" "$TE")"
+# **Three ways the two copies of this gate silently disagreed**, found by running them side by
+# side: one was case-blind and the other was not · one read both spellings of `--dry-run` and the
+# other only the hyphen, so the same read was a publish here and a read there · and the verb lists
+# differed in both directions. **A divergence that is not deliberate and written down is just a
+# divergence**, and these are now cases so the next one is loud.
+check "outward: SHOUTED is the same act"    2 "$(pl Bash "GIT PUSH origin main" "$TE")"
+check "outward: --dry_run is a read too"    0 "$(pl Bash "git push --dry_run origin main" "$TE")"
+check "outward: --DRY-RUN, case-blind"      0 "$(pl Bash "git push --DRY-RUN origin main" "$TE")"
+check "outward: gh pr create"               2 "$(pl Bash "gh pr create --title x" "$TE")"
 outward_off() { printf '%s' "$(pl Bash "git push origin main" "$TE")" | OPSINIST_OUTWARD_GATE=off python3 "$GATE" >/dev/null 2>&1; echo $?; }
 [ "$(outward_off)" = 0 ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: outward off-switch"; }
 MEM="$T/home/.claude/projects/x-proj/memory"; mkdir -p "$MEM"

@@ -113,10 +113,10 @@ staged() { git show ":$1" 2>/dev/null; }
 # through `$(…)`, which swallows a python failure, so a broken reader prints nothing, no escape is
 # taken, and the section judges the commit as usual. The cost of that is a false refusal for a
 # project that did declare the setting — loud, answerable, and the right way round.
-_wiring_elsewhere() {
-  python3 - <<'DECL'
+_setting() {   # _setting <key> — the declared value of one setting in `_ops/config.md`, or nothing
+  SETTING_KEY="$1" python3 - <<'DECL'
 import os, re, subprocess
-KEY = "runtime_wiring"
+KEY = os.environ["SETTING_KEY"]
 cfg = ""
 for f in ("_ops/config.md", "config.md"):
     r = subprocess.run(["git", "show", ":" + f], capture_output=True, text=True, errors="replace")
@@ -152,17 +152,42 @@ for line in cfg.split("\n"):
         value = plain(m.group(1))
         break
 if value:
-    # a path needs a separator, so `{{absent}}` and every other bare word are not declarations
-    m = re.search(r"([\w.-]+(?:/[\w.-]*)+)", value)
-    # **Compared by its first real segment, not by its prefix.** A value written as a link carries
-    # a FILE-relative href — `[the dir](../.claude/agents/)` from `_ops/config.md` — and a prefix
-    # test read that as "not `.claude/`" and stood the check down on a project wired exactly right.
-    # Climb-ups and `./` are dropped before the comparison; found while writing this suite's own
-    # link case, 2026-09-18.
-    segs = [x for x in re.split(r"/+", m.group(1)) if x not in ("", ".", "..")] if m else []
-    if segs and segs[0] != ".claude":
-        print("1")
+    print(value)
 DECL
+}
+# **`runtime_wiring` names a directory outside `.claude/`** — the judgement on the value `_setting`
+# returns. Prints `1` when it does.
+_wiring_elsewhere() {
+  SETTING_VALUE="$(_setting runtime_wiring)" python3 - <<'JUDGE'
+import os, re
+value = os.environ.get("SETTING_VALUE", "")
+# a path needs a separator, so `{{absent}}` and every other bare word are not declarations
+m = re.search(r"([\w.-]+(?:/[\w.-]*)+)", value)
+# **Compared by its first real segment, not by its prefix.** A value written as a link carries a
+# FILE-relative href — `[the dir](../.claude/agents/)` from `_ops/config.md` — and a prefix test
+# read that as "not `.claude/`" and stood the check down on a project wired exactly right.
+# Climb-ups and `./` are dropped before the comparison; found while writing that suite's own link
+# case, 2026-09-18.
+segs = [x for x in re.split(r"/+", m.group(1)) if x not in ("", ".", "..")] if m else []
+if segs and segs[0] != ".claude":
+    print("1")
+JUDGE
+}
+# **`external_services: none` is the register's escape, and it is a DECLARATION.** It was a grep
+# over `_ops/DECISIONS.md` for `no external` or `TOOLING.md`, and an adversarial lens broke it in
+# one sitting with two ordinary sentences: *"rejected the no external caching approach, added Redis
+# instead"* silenced the warning on a commit that had just added a dependency, and *"TODO: still
+# need to write _ops/TOOLING.md before launch"* silenced the very warning that TODO describes.
+# **That is the same defect this release spent three rounds removing from the wiring escape**, put
+# back by hand days later in the escape next door — which is the argument for one reader rather
+# than one per key. Prints `1` when the setting declares there are none.
+_no_external_services() {
+  SETTING_VALUE="$(_setting external_services)" python3 - <<'JUDGE'
+import os, re
+value = os.environ.get("SETTING_VALUE", "").strip().strip("`*_ ").lower()
+if re.fullmatch(r"none|no|nothing|нет|0", value):
+    print("1")
+JUDGE
 }
 # NUL-separated, because a path holding a space word-splits out of an unquoted `for` loop and
 # every gate downstream of it goes silent — not one refusal, no diagnostic, exit 0. Measured
@@ -281,22 +306,34 @@ echo "preflight — docs"
 #     MCP — **a question with no home until there is a row to answer it**. Still a warning, and
 #     still ONE message per missing file, because two findings for one absence is the trap
 #     `facts.md` 261 measures. The escape is a line in `_ops/DECISIONS.md`.
+# **Every manifest gets its nested form, and the count is taken on NUL records.** Two findings from
+# one adversarial pass, 2026-09-18: only `package.json` had a `*/` variant, so a Python, Go, Rust,
+# Ruby or PHP project with its manifest one directory down never reached this check at all; and
+# `tr '\0' '\n'` turns a newline inside a filename into a second apparent record, so a manifest
+# committed as `_ops/weird<LF>name/package.json` escaped the `_ops/` exclusion — **the exact reason
+# this file's own note says to keep paths NUL-separated all the way to the consumer.** Python counts
+# the records, because it is the one tool here that can hold a newline inside a path.
 _deps_declared() {
-  [ "$(git ls-files -z -- 'package.json' '*/package.json' 'pyproject.toml' 'requirements.txt' \
-                          'go.mod' 'Cargo.toml' 'Gemfile' 'composer.json' '.mcp.json' 'mise.toml' \
-       2>/dev/null | tr '\0' '\n' | grep -vc '^_ops/')" -ge 1 ]
+  [ "$(git ls-files -z -- \
+         'package.json' '*/package.json' 'pyproject.toml' '*/pyproject.toml' \
+         'requirements.txt' '*/requirements.txt' 'go.mod' '*/go.mod' \
+         'Cargo.toml' '*/Cargo.toml' 'Gemfile' '*/Gemfile' \
+         'composer.json' '*/composer.json' '.mcp.json' '*/.mcp.json' \
+         'mise.toml' '*/mise.toml' 2>/dev/null \
+       | python3 -c 'import sys; print(sum(1 for p in sys.stdin.buffer.read().split(b"\0") if p and not p.startswith(b"_ops/")))')" -ge 1 ]
 }
 for f in _ops/ROADMAP.md _ops/TEAM.md _ops/TOOLING.md _ops/DECISIONS.md; do
   [ -f "$f" ] && continue
-  if [ "$f" = _ops/TOOLING.md ] && _deps_declared \
-     && ! grep -qi 'no external\|TOOLING\.md' _ops/DECISIONS.md 2>/dev/null; then
+  if [ "$f" = _ops/TOOLING.md ] && _deps_declared && [ -z "$(_no_external_services)" ]; then
     say_warn "_ops/TOOLING.md is missing and this project declares dependencies — so nothing here \
 records what each one REPLACES, its licence or plan with the evidence, where its secret lives, or \
 **what the service itself ships**: an MCP server, a CLI, an SDK or an agent skill is work you do \
 not have to write, and that question only gets asked where there is a row to answer it. It is also \
 the probe list a health check reads, so an absent register is a set of tools nobody checks and \
 whose tokens nobody rotates. Copy \`templates/TOOLING-template.md\`; if this project genuinely \
-depends on nothing outside itself, say so in \`_ops/DECISIONS.md\`"
+depends on nothing outside itself, declare that once — \`| \`external_services\` | none |\` in \
+the settings table of \`_ops/config.md\` — a declaration, not a sentence somebody has to phrase \
+carefully"
   else
     say_warn "$f is missing — the guide points every agent at it. Deferred on \
 purpose until it has something to hold (a roadmap · a role · a tool · the first decision); once \
@@ -2026,7 +2063,13 @@ for line in reg.splitlines():
     cells = [c.strip() for c in line.strip().strip("|").split("|")]
     if col is None:
         heads = [norm(c) for c in cells]
-        col = heads.index("wiredhow") if "wiredhow" in heads else -1
+        # **A header cell is matched by what it STARTS with, not by equality.** This release
+        # widened that column to *Wired how · what it ships*, and an exact match stopped finding
+        # it — so every project that copied the new template got *"`.mcp.json` declares server X
+        # and `_ops/TOOLING.md` has no row for it"* on a row that was perfectly correct. A guard
+        # broken by its own shipped template is a shape this repository has paid for before (§4d,
+        # 2026-08-23); found by a contradiction lens, 2026-09-18, on the day the column shipped.
+        col = next((i for i, h in enumerate(heads) if h.startswith("wiredhow")), -1)
         continue
     if col < 0 or col >= len(cells) or set(line.replace("|", "").strip()) <= set("-: "):
         continue

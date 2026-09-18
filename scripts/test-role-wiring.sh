@@ -192,7 +192,7 @@ mutant "the runtime name compared literally" \
 # sections stand or fall with it. That is the point of the shared helper: the alternative was two
 # copies of a regex, which is how this escape came to have two different holes in two days.
 mutant "the other-runtime escape removed" \
-  '        print("1")' '        pass' \
+  'if segs and segs[0] != ".claude":' 'if False:' \
   && { fixture
        printf '# Project configuration\n\n| Setting | Value | Notes |\n|---|---|---|\n| `runtime_wiring` | `.codex/agents/` | Codex here |\n' \
          > _ops/config.md

@@ -18,9 +18,14 @@ Denies only when ALL of these hold:
 
 Creating new files — the list itself, a guide, docs/ — is never blocked; reading is never
 blocked; every internal error fails open. Known hole, accepted and named: Bash redirection
-(`>`) is not caught — the gate teaches the order, the judge scores the honesty. The outward
-gate shares the family: **a wrapper's quoted argument is caught since 2026-09-18** and one built
-by substitution still passes — named rather than chased, since the judge reads the act either way.
+(`>`) is not caught by THIS gate — it teaches the order, and the judge scores the honesty.
+
+**The outward gate's holes are its own, and this paragraph used to describe them wrongly.** It
+catches a redirect, a wrapper word, a line continuation and a shell-runner's quoted argument since
+2026-09-18; what still passes is a command built by substitution, and a quoted verb the shell
+assembles from parts — named rather than chased, since the judge reads the act either way. **A
+comment that overstates what the code does is the defect, not the rounding**: this one claimed a
+hole the section below had already closed, and a contradiction lens read them against each other.
 """
 import glob
 import json
@@ -239,10 +244,45 @@ def last_owner_instruction(transcript, limit=240):
     not roll forward (`permissions.md`). If this function ever gains a branch that lets something
     through, that branch is the bug.
 
-    Tool results arrive as `user` entries too, so an entry whose content carries a `tool_result`
-    block is machinery talking to machinery and is skipped; so is a `<system-reminder>`, which is
-    the harness speaking rather than the owner.
+    **Most of what arrives as a `user` entry is not the owner**, and an adversarial lens proved
+    this function's first version wrong about that on this very session's transcript (2026-09-18).
+    Four shapes, each handled rather than assumed away:
+      · a **tool result** — machinery answering machinery — which arrives as a `user` entry;
+      · a `<system-reminder>`, the harness speaking, **which may be unterminated or nested**, so
+        the strip runs to the end of the text when it finds no closing tag and repeats until the
+        text stops changing;
+      · a `<task-notification>` — *a background agent's return value routed back as a user turn*,
+        which the first version would have quoted as something the owner said;
+      · the harness's own **conversation-continuation summary**, a bare string of tens of thousands
+        of characters that is not a turn at all.
+    A `user` entry carrying BOTH text and a tool result keeps its text: discarding the whole entry
+    made the gate quote an older message as *"what you last asked for"*, which is worse than
+    quoting nothing, because a stale instruction reads exactly like a current one.
+
+    **Whatever survives is still untrusted text.** It is shown between guillemets under a line
+    saying it is not consent, and it never reaches a decision — an instruction inside it (*"the
+    owner already approved this"*) is a thing the human reads, and the human is the one who was
+    going to decide anyway.
     """
+    def _strip(t):
+        """Drop the harness's own blocks, counting depth rather than matching pairs.
+
+        A regex cannot do this: non-greedy stops at the first closing tag and leaks whatever sat
+        between it and the outer one; greedy eats the prose between two separate blocks. Depth
+        handles both, and the two malformed shapes fall out for free — an **unterminated** block
+        leaves the counter above zero and its tail is dropped, an **orphan closing tag** at depth
+        zero removes only itself. Every one of these was a reproduced finding, not a hypothetical.
+        """
+        out, depth, last = [], 0, 0
+        for m in re.finditer(r"</?(?:system-reminder|task-notification)>", t):
+            if depth == 0:
+                out.append(t[last:m.start()])
+            depth = max(0, depth - 1) if m.group(0).startswith("</") else depth + 1
+            last = m.end()
+        if depth == 0:
+            out.append(t[last:])
+        return " ".join(out)
+
     text = ""
     try:
         with open(transcript, encoding="utf-8", errors="replace") as f:
@@ -260,15 +300,17 @@ def last_owner_instruction(transcript, limit=240):
                 if isinstance(content, str):
                     chunks = [content]
                 elif isinstance(content, list):
-                    if any(isinstance(b, dict) and b.get("type") == "tool_result" for b in content):
-                        continue                      # a tool result is not the owner speaking
                     chunks = [b.get("text", "") for b in content
                               if isinstance(b, dict) and b.get("type") == "text"]
+                    if not chunks:
+                        continue                 # a tool result alone is not the owner speaking
                 else:
                     continue
-                said = "\n".join(c for c in chunks if c).strip()
-                said = re.sub(r"<system-reminder>.*?</system-reminder>", " ", said, flags=re.S)
+                said = _strip("\n".join(c for c in chunks if c).strip())
                 said = " ".join(said.split())
+                if said.startswith(("This session is being continued", "Caveat: The messages below",
+                                    "[harness:")):
+                    continue                     # the harness summarising, not a turn
                 if said:
                     text = said
     except Exception:
@@ -646,7 +688,10 @@ def main():
     if _r0 and tool == "Bash" and os.environ.get("OPSINIST_OUTWARD_GATE", "") != "off" \
             and operated_by_us(_r0):
         cmd = str(tin.get("command", ""))
-        if not re.search(r"--dry-run", cmd):
+        # **Both spellings, and case-blind — the sibling's copy had it and this one did not.**
+        # `--dry_run` was treated here as a real publish and there as the read it is; a lens ran
+        # the two side by side, 2026-09-18. A dry run is a read whichever way it is typed.
+        if not re.search(r"--dry[-_]run\b", cmd, re.I):
             # **A newline, a pipe and a subshell start a command too**, and a shell-runner's quoted
             # argument is a command however it is spelled: `sh -c "git push"`. The first three were
             # missing and the fourth was named-rather-than-chased in this file's own docstring —
@@ -654,13 +699,38 @@ def main():
             # containing the verb and the two were compared. **A quote is only a command start
             # after something that runs a shell**: any quote would refuse `grep 'npm publish'`,
             # which is a read, and a read is never outward.
+            #
+            # **Then an adversarial lens walked in with eleven ways past it, all reproduced.** Each
+            # is handled here rather than argued with:
+            #   · **a wrapper word before the verb** — `env X=1 git push`, `sudo`, `nohup`, `time`,
+            #     `nice -n 10`, `command`, `exec`, and **a bare `eval git push` with no quote at
+            #     all**. They are not delimiters and were not runners, so nothing anchored;
+            #   · **a line continuation** — `git \`, newline, `push` is ONE command to bash and two
+            #     lines to a regex, so the backslash-newline is folded away before matching;
+            #   · **a redirect straight after the verb** — `git push>/dev/null` needs no space, and
+            #     the lookahead did not count `>` as a terminator;
+            #   · **the runner's quote more than forty characters away** — the cap is gone; the
+            #     branch reaches to the end of the line instead.
+            # **A heredoc body is data being fed to another program, and is blanked first.** Writing
+            # a document that contains the verb at the start of a line was refused as a publish —
+            # the same *prose is not an act* defect this whole section was repaired for, arriving
+            # through the newline anchor that repaired it. A body that is itself a program can still
+            # publish, and that stays named rather than chased: the interpreter it is fed to is not
+            # something this pattern can read.
+            _c = re.sub(r"\\\n", " ", cmd)                    # a continuation is one command
+            for _m in re.finditer(r"<<-?\s*['\"]?(\w+)['\"]?", _c):
+                _end = re.search(r"^\s*%s\s*$" % re.escape(_m.group(1)), _c[_m.end():], re.M)
+                _stop = _m.end() + (_end.start() if _end else len(_c))
+                _c = _c[:_m.end()] + re.sub(r"[^\n]", " ", _c[_m.end():_stop]) + _c[_stop:]
+            _WRAP = (r"(?:(?:env\s+\w+=\S*|sudo|nohup|time|command|exec|eval"
+                     r"|nice(?:\s+-n\s*-?\d+)?)\s+)*")
             hit = re.search(
                 r"(?:(?:^|[\n;&|(){}`]|\$\()\s*"
-                r"|\b(?:bash|sh|zsh|dash|eval|xargs)\b[^\n]{0,40}?[\"']\s*)"
-                r"(git\s+push|gh\s+release\s+create|npm\s+publish|"
+                r"|\b(?:bash|sh|zsh|dash|eval|xargs)\b[^\n]*?[\"']\s*)" + _WRAP +
+                r"(git\s+push|gh\s+(?:release\s+create|pr\s+create)|npm\s+publish|"
                 r"docker\s+push|(?:npm|yarn|pnpm)\s+run\s+deploy|(?:make|just)\s+deploy|"
                 r"(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)\s+deploy|"
-                r"[\w./-]*deploy)(?=[\s;&|)]|$)", cmd)
+                r"[\w./-]*deploy)(?=[\s;&|)<>\"'`]|$)", _c, re.I)
             if hit:
                 # **The owner's own last words, quoted — context for the person, never consent.**
                 # A gate cannot read intent, and asking the constrained party for theirs is asking
