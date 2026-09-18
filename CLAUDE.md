@@ -158,6 +158,26 @@ nothing accumulates outside versions.
   behaviour by running it the way the script will** (`bash -c` / a temp script), and prefer
   forms that cannot differ: `grep -o … | grep -c .` counts occurrences everywhere.
 
+- **The hook that runs is the INSTALLED copy, not the one you just fixed** (measured 2026-09-18,
+  twice in one session). A false positive in the sibling's outward gate was repaired in
+  `~/Dev/multica-ops/hooks/`, and the cached plugin copy under `~/.claude/plugins/cache/<plugin>/…/`
+  went on refusing — including refusing the command that would have written the fix. **A hook
+  repair does not take effect until the machine re-sync step of a release**, which is step 7 and
+  comes after the tag, so *the whole window between the repair and the tag runs on the old gate*.
+  Two consequences worth knowing in that window: **the gate only inspects `tool_name == "Bash"`**,
+  so `Write`/`Edit` change a file whose content a Bash gate would misread — that is using the right
+  tool, not evading the gate, and the distinction is that the act itself is not the gated one. And
+  **never disable the gate to get past your own fix**: it is the one measure whose bypass must not
+  be available to the party it constrains.
+
+- **`skillspector baseline` takes no `--recursive`, and `--no-llm` says so about itself** (measured
+  2026-09-18 on 2.11.2). A pool of skills cannot be baselined in one pass — `baseline ./skills`
+  reads the directory as a single skill and writes an empty file, while `scan ./skills --recursive`
+  reports per skill; suppression for a pool means per-skill baselines or `rules:` globs. And a
+  static-only run reports `coverage_percent: 0.0` with `status: partial` **in its own JSON**, which
+  is the tool being honest and the reason a clean static run is evidence about patterns rather than
+  about intent.
+
 - **`GIT_REFLOG_ACTION` is empty in a pre-commit hook, for an amend exactly as for a commit**
   (measured 2026-09-18, both cases, on this machine's git). So **a hook cannot tell `git commit
   --amend` from a second commit**, and any rule that counts consecutive commits has to survive the
