@@ -4,6 +4,26 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.19 — 2026-09-11
 
+**The outward gate refused a sentence about publishing, and both copies of it were wrong in
+different directions.** It matched its verbs **anywhere in the string**, so writing a comment into
+a file was stopped as if it were the act — measured twice in one session on 2026-09-18, the second
+time on the comment explaining the repair, which left the constrained party only one way past: to
+reword the prose. **That is the *satisfied-by-vocabulary* failure this corpus names, arriving at
+the one gate that must not be word-gameable.** A command starts a command; a word after another
+word is prose. Both gates now anchor the verb at a command position — the beginning, a newline,
+after `;` `&&` `||` `|`, inside a subshell — **and a quote counts only after something that runs a
+shell**, because treating every quote as one refuses a search for the phrase, which is a read, and
+a read is never outward.
+
+**Comparing the two copies found a hole in each.** The sibling's had no anchor at all; ours had one
+and was blind to a newline, a pipe, a subshell and a wrapper's quoted argument — and its lookahead
+demanded whitespace after the verb, so **a subshell's closing paren made it silent**, which no case
+had ever exercised. Six new assertions here and seven in the sibling, each a shape one of the two
+got wrong: `test-audit-gate.sh` **134/134**, `test-outward-gate.sh` **36/36**. **The refusal also
+gained a third door** — *if this is a sentence about the act and not the act, say so to the owner*
+— because a message offering only *the owner runs it* or *turn the gate off* has no answer for a
+false positive, and inviting a reword would be the failure itself.
+
 **A dependency now says what the service ships and when it should leave — and a project with
 dependencies and no register is told so.** Three related repairs, from one observation on a live
 project: *the advisor chose a service and never checked whether it had an API, a CLI or an MCP.*

@@ -19,8 +19,8 @@ Denies only when ALL of these hold:
 Creating new files — the list itself, a guide, docs/ — is never blocked; reading is never
 blocked; every internal error fails open. Known hole, accepted and named: Bash redirection
 (`>`) is not caught — the gate teaches the order, the judge scores the honesty. The outward
-gate shares the family: a push wrapped in `sh -c "…"` or built by substitution passes the
-pattern — named rather than chased, since the judge reads the act either way.
+gate shares the family: **a wrapper's quoted argument is caught since 2026-09-18** and one built
+by substitution still passes — named rather than chased, since the judge reads the act either way.
 """
 import glob
 import json
@@ -597,11 +597,20 @@ def main():
             and operated_by_us(_r0):
         cmd = str(tin.get("command", ""))
         if not re.search(r"--dry-run", cmd):
+            # **A newline, a pipe and a subshell start a command too**, and a shell-runner's quoted
+            # argument is a command however it is spelled: `sh -c "git push"`. The first three were
+            # missing and the fourth was named-rather-than-chased in this file's own docstring —
+            # both closed 2026-09-18, after the sibling's copy of this gate refused a *sentence*
+            # containing the verb and the two were compared. **A quote is only a command start
+            # after something that runs a shell**: any quote would refuse `grep 'npm publish'`,
+            # which is a read, and a read is never outward.
             hit = re.search(
-                r"(?:^|&&|\|\||;)\s*(git\s+push|gh\s+release\s+create|npm\s+publish|"
+                r"(?:(?:^|[\n;&|(){}`]|\$\()\s*"
+                r"|\b(?:bash|sh|zsh|dash|eval|xargs)\b[^\n]{0,40}?[\"']\s*)"
+                r"(git\s+push|gh\s+release\s+create|npm\s+publish|"
                 r"docker\s+push|(?:npm|yarn|pnpm)\s+run\s+deploy|(?:make|just)\s+deploy|"
                 r"(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)\s+deploy|"
-                r"[\w./-]*deploy)(?=\s|$)", cmd)
+                r"[\w./-]*deploy)(?=[\s;&|)]|$)", cmd)
             if hit:
                 sys.stderr.write(
                     f"Opsinist outward gate: `{hit.group(1)}` leaves the repository, and an "

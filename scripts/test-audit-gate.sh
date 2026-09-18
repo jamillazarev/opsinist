@@ -89,6 +89,19 @@ check "outward: gh release create → deny"             2 "$(pl Bash "gh release
 check "outward: deploy → deny"                        2 "$(pl Bash "npm run build && flyctl deploy" "$TE")"
 check "outward: --dry-run is a read → allow"          0 "$(pl Bash "git push --dry-run origin main" "$TE")"
 check "outward: local commit untouched → allow"       0 "$(pl Bash "git add -A && git commit -m x" "$TE")"
+# **A sentence about publishing is not publishing, and a search for it is a read.** The sibling's
+# copy of this gate matched the verb anywhere in the string and refused a comment being written
+# into a file — twice in one session, the second time the comment explaining the repair. Compared
+# against this one, both were widened where they were blind (a newline, a pipe, a subshell, a
+# shell-runner's quoted argument) and narrowed where they were loud (a bare quote, which made
+# every `grep 'npm publish'` an outward act).
+check "outward: a shell-runner's quote IS a command"  2 "$(pl Bash "bash -c \"git push origin main\"" "$TE")"
+check "outward: a newline starts a command"           2 "$(pl Bash "cd repo
+git push origin main" "$TE")"
+check "outward: a subshell starts a command"          2 "$(pl Bash "(cd repo && git push)" "$TE")"
+check "outward: searching for the phrase → allow"     0 "$(pl Bash "grep -rn 'npm publish' docs/" "$TE")"
+check "outward: the verb mid-sentence → allow"        0 "$(pl Bash "printf '%s' '# what a git push costs' > note.md" "$TE")"
+check "outward: a path that reads like it → allow"    0 "$(pl Bash "cat notes/about-git-push.md" "$TE")"
 outward_off() { printf '%s' "$(pl Bash "git push origin main" "$TE")" | OPSINIST_OUTWARD_GATE=off python3 "$GATE" >/dev/null 2>&1; echo $?; }
 [ "$(outward_off)" = 0 ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: outward off-switch"; }
 MEM="$T/home/.claude/projects/x-proj/memory"; mkdir -p "$MEM"
