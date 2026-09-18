@@ -170,6 +170,17 @@ nothing accumulates outside versions.
   **never disable the gate to get past your own fix**: it is the one measure whose bypass must not
   be available to the party it constrains.
 
+- **A suite run while a lens works in the same tree goes red for no reason** (measured 2026-09-18).
+  Two lenses were reading and building fixtures in this repository while `preflight.sh` ran;
+  `test-check-shell-exec.sh` and `test-corpus-preflight.sh` reported **1 and 5 failures**, and both
+  passed alone seconds later — they build fixtures *from the working tree*, so anything else
+  touching it mid-run changes their input under them. **A red from a contended run is not evidence
+  of anything**: run it again on a quiet tree before believing it, and never chase a failure whose
+  suite passes in isolation. (Lenses in worktree isolation avoid this — the note below about
+  `--disallowedTools` is the other half of why that isolation exists.) A lens can also leave a file
+  behind: one wrote a stray `json` at the repository root, which the tree-clean check before a tag
+  is there to catch.
+
 - **`skillspector baseline` takes no `--recursive`, and `--no-llm` says so about itself** (measured
   2026-09-18 on 2.11.2). A pool of skills cannot be baselined in one pass — `baseline ./skills`
   reads the directory as a single skill and writes an empty file, while `scan ./skills --recursive`

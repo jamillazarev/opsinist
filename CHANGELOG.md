@@ -585,7 +585,12 @@ retold the changelog's story at changelog length became pointers; `transition.py
 at both ends of one function; and `migrate-layout.py` claimed to be *"the only place the reason is
 written"* while two other files carried it — a claim made false by the cluster it sat in.
 
-**Rounds one, two and three reported; the fourth is what these twelve repairs now owe.**
+**Rounds one, two and three reported; the fourth reported; and the fifth has now lost two lenses
+to the same limit** — the thirteenth and fourteenth across four releases, recorded rather than
+quietly retried. What that round is owed on has grown to the ten commits after it: the shelf rule,
+the named screen, the register's two columns and its guard clause, both copies of the outward gate,
+and the quoting. **A round carrying a `not completed` has not reported clean**, and the tag waits
+on it.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
