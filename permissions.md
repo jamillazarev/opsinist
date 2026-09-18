@@ -239,6 +239,12 @@ confidence. So the `prose-only` list is written out by name rather than left imp
 - report the trend, not the level — **partly structural now**: the budget carries a *rate vs the
   previous read* column and a *runs out* column, so a level quoted alone leaves visible blanks
   ([`templates/BUDGET-template.md`](templates/BUDGET-template.md)). Prose wherever a number is reported outside that file
+- **the shelf before the search**, and **a skill screened before it is attached — including the
+  ones this project writes for itself** ([`tooling.md`](tooling.md), [`security.md`](security.md)). Both name a command; neither
+  has a gate, and the screen cannot have one here, because the scanner is a third-party install
+  and **nothing is installed on the owner's machine without their word**. Said out loud rather
+  than assumed: a project that never runs it is a project whose skills were never screened, and
+  no check in this repository will tell it so
 - small stays small
 - a type's fields are the few its craft's standard names — the landing is owner-gated, the fewness is not
 - an argument without a source is an opinion

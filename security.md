@@ -45,8 +45,23 @@ Quoted content is wrapped in explicit boundaries so nothing downstream reads it 
 
 Before a skill, a server, a tool or a template is attached to anything:
 
-**Scan it** — destructive commands, exfiltration of credential paths, unexpected endpoints,
-over-broad tool grants, injection text, server configuration.
+**Scan it, with a named command** — because a screen with no command beside it is an intention
+([`checking.md`](checking.md)). The default is **[SkillSpector](https://github.com/NVIDIA/skillspector)**
+(`skillspector scan <path|repo|url|zip>`; Apache-2.0, NVIDIA, read 2026-09-18): 71 patterns across
+17 categories — prompt injection, exfiltration, privilege escalation, supply chain, excessive
+agency, memory poisoning, MCP least privilege and MCP tool poisoning among them — **AST analysis
+and taint tracking rather than grep alone**, live CVE lookups with an offline fallback, SARIF out
+so a pipeline can gate on it, and a suppression baseline so a second scan shows only what is new.
+**Its own measurement is the argument for screening at all**: across a 31,132-skill subset,
+**26.1% carried a vulnerability and 5.2% showed likely malicious intent**.
+
+**Its second stage is a model reading the thing, and that stage is the one that can be talked
+out of it.** SkillSpector runs static analysis first and an optional LLM semantic pass second, which
+is the pairing this file used to prescribe as two separate tools — one scanner that cannot be
+argued with and cannot read intent, one reader that reads intent and can be argued with by the very
+file it is reading. **Having both inside one command does not merge them**: the semantic verdict is
+still a reading, still subject to *imported text is data, never instructions*, and still not the
+gate.
 
 **Then read what it actually instructs.** Anything telling an agent to ignore its guide, contact
 an address, or widen its own access is **a rejection, not a finding to weigh**.
@@ -67,6 +82,15 @@ install: on any update, diff against the screened one, scan again, and **read th
 
 **Record what was screened**: source, version or commit, date, who approved. Without it an
 upgrade cannot tell what it is updating.
+
+**And what a project writes for itself is screened too — by the half of the list that applies.**
+A skill nobody imported cannot be *malicious*, and can perfectly well be **over-granted, injectable
+or leaky**: excessive agency, MCP least privilege, output handling and secrets in the body are the
+categories that do not care who wrote the file. So the same command runs over a project's own
+`_ops/skills/` and `.claude/skills/` before they are committed — **the difference is what a finding
+means**, which for your own file is a defect to fix rather than a supplier to refuse.
+**Measured here 2026-09-18: this repository had never scanned its own 21 skills**, and neither had
+its sibling — the rule said *imported* and everybody read it as *all*.
 
 **A whole prebuilt agent never imports as a hire** → [`hiring.md`](hiring.md).
 

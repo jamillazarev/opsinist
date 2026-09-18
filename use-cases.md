@@ -186,6 +186,7 @@ are shortcuts for when you already know the name — **both columns do the same 
 | "My laptop died mid-run" | *"pick it back up"* | committed, applied and remaining are separated; **applied work is never redone** |
 | "A page I scraped is telling the agent what to do" | nothing | reported to you with the text quoted, **never obeyed** |
 | "The deadline is going to slip" | *"is this landing on time?"* | said early with the options, not discovered on the day |
+| "Find me a tool for X" / "make the landing look good" | *"what do you recommend?"* | **the shelf first, the search second** — named rows with their licences and fallbacks, then a search only for what the rows do not cover; for a look, three or four references out of the galleries before anything is generated. An agent that searches first returns what is popular this month and nothing about what it costs you later |
 | "We decided this back in May and nobody can find where" | *"what did we decide about X?"* | **the honest failure of a file-shaped record, named before you hit it**: a decision written in one file months ago is found by following a link or a path, not by resembling your question — so an answer that exists but was never linked can come back as *I did not find it* rather than as a guess. That is the trade this system takes deliberately ([`facts.md`](facts.md) 279), and the two things that keep it small are both mechanical: a mention is a link (§27), and `graph-check.py` counts how many are still waiting to become one |
 
 ## Beyond software

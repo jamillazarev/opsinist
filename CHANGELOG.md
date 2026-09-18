@@ -4,6 +4,46 @@ Newest first. Each entry leads with what you can now do, not with which files mo
 
 ## 0.2.19 — 2026-09-11
 
+**The shelf is the first stop, and that was nowhere written down.** An agent asked to connect,
+choose or recommend anything now reads [`catalogue.md`](catalogue.md) **before** it searches — the
+rule lives in [`tooling.md`](tooling.md) § *Connect-or-create*, the router's toolkit line points at it, and the
+reason is what a row carries that a search cannot: **a licensing or fallback decision somebody
+already paid for**, where a search returns what is popular this month. **`tooling.md` did not link
+the shelf at all** — the file that decides *connect or create* never named the place to look —
+which is the kind of gap that survives because every reader assumes somebody else's file covers it.
+The same order holds for references as for tools: a look, a brand or a landing page starts at the
+galleries, not at a blank prompt. **Prose-only, and listed as such** in `permissions.md`'s register.
+
+**Screening got a named command, and the rule got its missing half.**
+**[SkillSpector](https://github.com/NVIDIA/skillspector)** (Apache-2.0, NVIDIA) is the default in
+[`security.md`](security.md) and the catalogue: 71 patterns over 17 categories — **MCP least privilege and MCP
+tool poisoning among them, which nothing this file previously named covered** — AST analysis and
+taint tracking rather than pattern matching, an optional model pass, live CVE lookups, SARIF for a
+pipeline, and a suppression baseline that answers the false-positive complaint the old row carried.
+**Its dataset is the argument for screening at all**: of a 31,132-skill subset, **26.1% carried a
+vulnerability and 5.2% showed likely malicious intent** (`facts.md` 280). **And the rule said
+*imported*, which everybody read as *all***: a skill a project writes for its own agents cannot be
+malicious and can easily be over-granted, injectable or leaky, so the same command runs over
+`_ops/skills/` and `.claude/skills/` before they are committed — the difference being what a
+finding means. **Measured the same day: this repository had never scanned its own 21 skills, nor
+the sibling's 19.** Nothing gates it, because the scanner is a third-party install and **nothing is
+installed on your machine without your word** — so it is on the prose-only list by name.
+
+**Twenty-two links, checked rather than shelved.** The monitoring row gained the three things
+`changedetection.io` cannot do — `urlwatch` for a cron and a terminal, Firehose for pattern-matching
+**the whole web** rather than known URLs, Huginn for a watch that must *act* (**its "agents" are
+rules, not workers** — the naming collision is said out loud). The SEO row **closed its own open
+question**: the repository behind OpenSEO, *"not identifiable through the GitHub API on 2026-09-10"*,
+is `every-app/open-seo` — MIT, 19.1k★, self-hostable against your own DataForSEO key — and the row
+now names SEO Gets and kwrds.ai for what GSC cannot answer, both with agent surfaces. A new row
+covers **reaching a person you have not met**, and says the tool answers *who* while the owner
+answers *whether*. **Two licence claims this file made were wrong**: LiteLLM is MIT **except
+`enterprise/`**, and AFFiNE governs its backend packages separately from its editor — both found by
+re-reading the repositories rather than the marketing, both the open-core shape this file's own
+opening paragraph describes. Three declines with reasons: a watcher last pushed in **January 2025**,
+a 22-star dashboard, and a hosted "unrestricted model" supplier whose cost is that **a third party
+reads every prompt**.
+
 **A study of agent memory, read properly — and it measures a close relative of this system as the
 loser on recall.** Its figures and the whole reading live in one place,
 [`catalogue.md`](catalogue.md) → *Studies read*, which is the section for exactly that. **Three
@@ -51,7 +91,7 @@ things is where you meet the rule. **§24 is the one that reads the commits befo
 product-only commit warns, a third in a row is refused — and the escape is the same one everybody
 already uses: a task, or the run record the quick path asks for.
 
-**Three things worth doing once, in this order.** They are each one command and none of them is
+**Four things worth doing once, in this order.** They are each one command and none of them is
 required:
 
 1. **`python3 <skill>/scripts/link-ids.py <project> --write`** — turns the ids, paths and assignee
@@ -60,7 +100,12 @@ required:
 2. **`python3 <skill>/scripts/graph-check.py <project>`** — says whether the repository is actually
    a graph: notes, edges, orphans, phantom targets, and how many mentions are still edges waiting
    to happen. Read on a live project it answered *19 notes, 0 edges, 19 orphans*.
-3. **Wire your existing roles.** Every `_ops/roles/<role>.md` owes a `.claude/agents/<role>.md` —
+3. **Scan the skills you already have** — `skillspector scan _ops/skills` and
+   `skillspector scan .claude/skills`, once. It is a third-party install, so it is yours to
+   decide; what it is for is the categories nothing else here covered — over-broad tool grants,
+   MCP least privilege, injectable text — and the finding on your own file is a defect to fix
+   rather than a supplier to refuse.
+4. **Wire your existing roles.** Every `_ops/roles/<role>.md` owes a `.claude/agents/<role>.md` —
    markdown with `name` and `description`, no build step — or, if your runtime is not Claude Code,
    one row in `_ops/config.md`'s settings table: `| `runtime_wiring` | <your directory> |`, which
    stands §28 and §26's runtime half down together. **It is a declared setting, not a sentence** —

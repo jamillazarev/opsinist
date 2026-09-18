@@ -11,6 +11,16 @@ create it, then connect**. Creating an account or a repository on the owner's be
 outward action **on their account**, so it is confirmed out loud, **naming the account it would
 land in**, and the visibility is stated as it is created.
 
+**The shelf is the FIRST stop, and a web search is the second.** [`catalogue.md`](catalogue.md) is a shelf of
+named answers per need, each carrying **a licensing or fallback decision somebody already paid
+for** — which a search cannot return, because a search returns what is popular this month. So the
+order is: **read the row · then search for what the row does not cover · then hand-wire**, and an
+agent that starts at the search has already skipped the part that took a year to learn. The same
+order holds for *references* as for tools — a look, a brand, a landing page: the galleries section
+is where the moodboard comes from, and [`visual.md`](visual.md) is the craft that uses it. **Nothing in the
+shelf is binding**: it is the first place to look, not the answer, and a row that is wrong for this
+project is said so and passed.
+
 **Check registries before hand-wiring.** An existing, maintained integration beats one you build,
 and the maintained-and-popular signal is worth reading before choosing between three.
 
@@ -353,7 +363,7 @@ is a pattern that deserves its own.
 ## Before building anything, ask whether it already exists
 
 **The first question for any new capability is not *how do we build it* but *does the platform
-already have it*.** Check the documentation and the tool's own help **before** designing, and
+already have it — and is it on the shelf* ([`catalogue.md`](catalogue.md)).** Check the documentation and the tool's own help **before** designing, and
 **record the answer** — a minute spent asking costs nothing, and missing it costs a home-grown
 mechanism that drifts from the platform and confuses anyone reading both.
 
