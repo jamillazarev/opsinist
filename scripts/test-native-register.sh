@@ -170,5 +170,21 @@ case "$OUT" in
   *) ok;;
 esac
 
+# **A column a project adds before the real one must not win it** — `Wired how much budget` on
+# 2026-09-18, a project's own `Wired How-To` notes column on 2026-09-23, each reporting a correct
+# row as missing. The known headers are matched exactly now, so neither is a candidate.
+for decoy in "Wired how much budget" "Wired How-To"; do
+  { printf '# Tooling\n\n| Tool | %s | What for | Replaces | Licence | Access | Wired how · **what it ships** | **Gone when** | Checked |\n' "$decoy"
+    printf '|---|---|---|---|---|---|---|---|---|\n'
+    printf '| sentry | n/a | errors | we had none | free | token | `.mcp.json` · ships MCP (taken) | the runtime reports them itself | 2026-09-18 |\n'
+  } > _ops/TOOLING.md
+  git add -A >/dev/null 2>&1
+  OUT=$(bash _ops/scripts/preflight.sh 2>&1)
+  case "$OUT" in
+    *"has no row for it"*) fail=$((fail+1)); echo "  ✗ the decoy column \`$decoy\` won the lookup — a correct row was reported missing";;
+    *) ok;;
+  esac
+done
+
 echo "native-register: $pass passed, $fail failed"
 [ "$fail" -eq 0 ]

@@ -268,7 +268,7 @@ until trusted. What the project uses and never declared is declared, pinned at t
 machine already runs. Parsed by hand — a key read as a path, so `[tools]` then `python`, a bare
 `tools.python` and `[tools.python]` are one declaration — since the `python3` of a Mac without
 Homebrew is 3.9 and has no `tomllib`: `scripts/test-native-register.sh` runs twice, the second time
-on that interpreter, **37/37** — and a check that stops before its end refuses the commit instead
+on that interpreter, **40/40** — and a check that stops before its end refuses the commit instead
 of passing the part it never read.
 
 **An available update now says what it asks of you.** `scripts/deps-report.py`, run from a
@@ -653,8 +653,9 @@ read as an opener whose terminator never comes, and `<<<` — a here-**string**,
 second `<`. **A blanker that cannot see both ends of the body blanks nothing**, which is the loud
 direction, and the two lookarounds keep the other two shapes out.
 
-**And a wrapper word takes flags.** `env -i` · `sudo -u root` · `command -p` · `time -p` ·
-`nice --adjustment=10` · `exec -a name` — eight shapes, each carrying the verb straight past the
+**And a wrapper word takes flags.** `env` with no assignment · `env -i` · `env --` ·
+`sudo -u root` · `command -p` · `time -p` · `nice --adjustment=10` · `exec -a name` — eight
+shapes, each carrying the verb straight past the
 anchor the fifth round had just installed. Listing the option *shapes* was the first repair and it
 was not enough: a flag that takes its own argument leaves a **bare word** between the flag and the
 verb, which no option pattern matches. The run between a wrapper and the verb is any tokens at all
@@ -674,8 +675,8 @@ real instruction that merely began with them was dropped whole and the refusal q
 *superseded* message as what you last asked for — *"hold everything, do NOT publish"* shown as
 current, which is worse than quoting nothing. Two signals now, both required: those summaries
 arrive as a **bare string** and are long, where a person's turn arrives as text blocks.
-`test-audit-gate.sh` **169/169** and `test-outward-gate.sh` **72/72**, a case per reproduced shape
-on both sides.
+Eleven cases here and eleven in the sibling's `test-outward-gate.sh`, one per reproduced *command*
+shape — the two quote shapes and the decoy header went without one until the eighth round, below.
 
 **Rounds one, two and three reported; the fourth reported; the fifth lost two lenses
 to the same limit** — the thirteenth and fourteenth across four releases, recorded rather than
@@ -688,8 +689,7 @@ on it.
 above; its contradiction lens died on the weekly limit — **the fifteenth** — and its deletion and
 cold-read were never dispatched, because by then the budget the round needs was gone. Three
 `not completed` against one report: **the round has not reported clean, and it is owed over the
-repair those five findings caused**, which is where every re-round of this release has found its
-sharpest thing.
+repair those five findings caused.**
 
 **The seventh round went at that repair with all four lenses, and all four died on the monthly spend
 limit** — the sixteenth to nineteenth. Two had found something before they stopped, and both
@@ -700,6 +700,44 @@ which is the overstated-comment defect this release names above arriving through
 it counted twice for one shape. The docstring describes the stack now, and the duplicate became the
 `<<-` shape the sibling's suite had never had. **Neither makes the round clean**: four
 `not completed`, two partial reports recovered from the transcripts, and the round is owed again.
+
+**The eighth round finished whole — four lenses, four reports, the first since the fourth round —
+and its adversarial lens found four more ways the sixth round's repair failed.** The wrapper run
+had been capped at four tokens, and `env A=1 B=2 C=3 D=4 E=5 F=6 git push` walked past the cap:
+**a bound on the unsafe side of an anchor is a hole with a number on it.** Any run of tokens now,
+on the same line — and the cost is named: a wrapper followed later on its line by a quoted mention
+of the verb is refused, which is the loud side. A **crossed** close, `<a> <b> </a> … </b>`, popped
+through the inner block and put a hidden block's text on show as what you last asked for; a closing
+tag closes only the innermost block now, and only by its name. `cat<<EOF`, with no space, was not
+read as a heredoc, so writing a document was refused as a publish. And a project's own
+`Wired How-To` column, placed before the real one, won the register lookup — the second decoy past
+a prefix match — so the headers the template ships, old and new, are matched exactly, and a prefix
+is accepted only when a single header carries it.
+
+**Repairing the third turned up a worse hole that no lens had named.** The blanker started a
+heredoc's body right after the delimiter, and bash starts it on the *next line* — so
+`cat > f.md <<EOF && git add f.md && git push`, an ordinary way to write a file and publish it,
+had its publish erased before the pattern ever saw it. **A hole in the exact form an agent
+writes**, sitting under two rounds of repair to the same function. And any `<<X` counted as an
+opener — inside a commit message, in a comment, inside a body already blanked — so whatever sat
+between it and a lone `X` disappeared. The body starts on the next line now, and an opener has to be
+code, read by a small line-local scanner that names what it does not read — a quote opened on an
+earlier line, `$'…'`, an arithmetic `<<` — rather than claiming to parse bash.
+
+**The other three lenses found this entry's own record wrong.** *"Eight shapes"* stood beside a
+list of six, in four places; all eight are named now, and `env --`, the one never tested, has a
+case. *"A case per reproduced shape"* was false for the two quote shapes and the decoy header,
+which had none; each has one now. A comment above the register lookup still said *"not by
+equality"* over code that tries equality first, and a docstring's own boundary example — a turn of
+*"two thousand characters"* — was one the code does not skip. **One finding was declined**: a comment
+listing the wrapper shapes the fifth round reproduced is a record of that round, not a description
+of the matcher, which is stated in full beside it.
+
+Every case for this round's own shapes was run against the unrepaired code and fails there; the
+two quote cases each fail against a mutant that undoes the sixth round's two-signal skip.
+`test-audit-gate.sh` **181/181** and the sibling's `test-outward-gate.sh` **84/84**; the register
+suites gained both decoy headers. **A round that reports findings is not the clean one** — the
+ninth goes over this repair.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
@@ -746,7 +784,7 @@ four kinds in both directions, which is the point of naming the rule beside them
 `echo =====` fails with *not found* and the rest of the command line never runs.
 
 Eval state: **not run.** The guard sections and the scripts are measured by their suites — 238
-company-preflight assertions, 169 audit-gate, and a suite per script with its own code mutants —
+company-preflight assertions, 181 audit-gate, and a suite per script with its own code mutants —
 but **a suite measures a form and an eval measures a run**, and the behaviours this release adds
 are exactly the kind only a run shows: whether a session *offers* the machine line at a takeover,
 whether it brings the shelf before a decision instead of waiting to be asked, whether it wires a

@@ -2063,20 +2063,20 @@ for line in reg.splitlines():
     cells = [c.strip() for c in line.strip().strip("|").split("|")]
     if col is None:
         heads = [norm(c) for c in cells]
-        # **A header cell is matched by what it STARTS with, not by equality.** This release
-        # widened that column to *Wired how · what it ships*, and an exact match stopped finding
-        # it — so every project that copied the new template got *"`.mcp.json` declares server X
-        # and `_ops/TOOLING.md` has no row for it"* on a row that was perfectly correct. A guard
-        # broken by its own shipped template is a shape this repository has paid for before (§4d,
-        # 2026-08-23); found by a contradiction lens, 2026-09-18, on the day the column shipped.
-        # **A prefix match ends at a separator, or `Wired how much budget` wins the column.**
-        # Reproduced by an adversarial lens, 2026-09-18: a decoy header placed first captured the
-        # index and the real column was never read, so a correctly registered row was reported
-        # missing. An exact match is preferred, then a prefix followed by a non-letter.
-        col = next((i for i, h in enumerate(heads) if h == "wiredhow"), -1)
+        # **The column is the one the template ships, matched exactly — never guessed.** Equality
+        # on the bare *Wired how* stopped finding it the day the template widened it to *Wired how ·
+        # what it ships*, so every project that copied the new template was told a correct row was
+        # missing (a contradiction lens, 2026-09-18). A prefix match repaired that and then chose a
+        # decoy column placed first: `Wired how much budget` on 2026-09-18, and a project's own
+        # `Wired How-To` notes column on 2026-09-23 once the prefix was bounded at a letter — a
+        # guess about a column can always be out-guessed. So the known shipped headers, old and new,
+        # are matched exactly; a prefix is accepted only when exactly ONE header carries it, and two
+        # candidates with neither of them known reads as no column, which is the loud side.
+        col = next((i for i, h in enumerate(heads) if h in ("wiredhow", "wiredhow·whatitships")), -1)
         if col < 0:
-            col = next((i for i, h in enumerate(heads)
-                        if h.startswith("wiredhow") and not h[8:9].isalpha()), -1)
+            cand = [i for i, h in enumerate(heads)
+                    if h.startswith("wiredhow") and not h[8:9].isalpha()]
+            col = cand[0] if len(cand) == 1 else -1
         continue
     if col < 0 or col >= len(cells) or set(line.replace("|", "").strip()) <= set("-: "):
         continue

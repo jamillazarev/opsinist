@@ -231,6 +231,64 @@ def last_assistant_text(transcript):
     return text
 
 
+def _opener_is_code(c, at):
+    """Whether a `<<` at `at` sits outside quotes and comments on its own line.
+
+    A line-local scanner, not a parser: single quotes, double quotes with their backslash escape,
+    a backslash outside quotes, and a `#` that starts a word. **What it does not read is named,
+    not chased** — a quote opened on an EARLIER line, `$'…'`, an arithmetic `$((a<<b))`. Each takes
+    a command written to deceive the gate; this gate stops the ordinary spelling of an outward act
+    and every variation a working agent produces, and it does not claim to parse bash.
+    """
+    q, i = None, c.rfind("\n", 0, at) + 1
+    while i < at:
+        ch = c[i]
+        if q is None:
+            if ch == "\\":
+                i += 2
+                continue
+            if ch in "'\"":
+                q = ch
+            elif ch == "#" and (i == 0 or c[i - 1] in " \t\n;&|("):
+                return False                    # a comment runs to the end of the line
+        elif q == '"' and ch == "\\":
+            i += 2
+            continue
+        elif ch == q:
+            q = None
+        i += 1
+    return q is None
+
+
+def shell_only(cmd):
+    """The command as a shell would run it: continuations folded, heredoc BODIES blanked.
+
+    A heredoc body is data fed to another program, so a document carrying the verb at the start of
+    a line is not a publish. **The body starts on the line AFTER the opener** — the rest of the
+    opener's own line is still shell, and `cat > f <<EOF && git push` publishes. Blanking from just
+    after the delimiter hid exactly that (found 2026-09-23, reproduced end to end). **Both ends must
+    be visible or nothing is blanked**: a missing terminator blanked to the end of the string and
+    became three ways to publish unseen (2026-09-18). **An opener must be code** — not inside a
+    quote, not in a comment, not inside a body already blanked — or a `<<X` in a commit message,
+    with a lone `X` two lines down, hides whatever sits between. `(?<!<)<<(?!<)` keeps `<<<`, a
+    here-STRING, out; no separator is required before it, because `cat<<EOF` is a heredoc too.
+    Every failure of this function is meant to fall on the loud side: a body left visible.
+    """
+    c = re.sub(r"\\\n", " ", cmd)                    # a continuation is one command
+    for m in re.finditer(r"(?<!<)<<-?(?!<)[ \t]*\\?(['\"]?)(\w+)\1", c):
+        if c[m.start():m.end()] != m.group(0) or not _opener_is_code(c, m.start()):
+            continue                     # inside a body already blanked, a quote, or a comment
+        nl = c.find("\n", m.end())
+        if nl < 0:
+            continue                     # no body at all
+        end = re.search(r"^[ \t]*%s[ \t]*$" % re.escape(m.group(2)), c[nl + 1:], re.M)
+        if not end:
+            continue                     # no terminator in sight: blank nothing
+        stop = nl + 1 + end.start()
+        c = c[:nl + 1] + re.sub(r"[^\n]", " ", c[nl + 1:stop]) + c[stop:]
+    return c
+
+
 def last_owner_instruction(transcript, limit=240):
     """The owner's most recent message — **context for the person, never consent.**
 
@@ -272,9 +330,11 @@ def last_owner_instruction(transcript, limit=240):
         depth counter was the next attempt and it let a `</task-notification>` close a
         `<system-reminder>`, which hands anything that can inject tag-shaped text exact control over
         what the refusal shows and hides (reproduced 2026-09-18). So a closing tag closes only a
-        block of its own name, and the malformed shapes fall out of that — an **unterminated** block
-        leaves the stack non-empty and its tail is dropped, an **orphan closing tag** removes only
-        itself, and a **mismatched** one is ignored. Every one was a reproduced finding, not a
+        block of its own name, and only the innermost one — a **crossed** close
+        (`<a> <b> </a> … </b>`) popped through `<b>` and put what sat inside it on show, reproduced
+        2026-09-23 — and the malformed shapes fall out of that: an **unterminated** block leaves
+        the stack non-empty and its tail is dropped, and an **orphan**, **mismatched** or
+        **crossed** closing tag is ignored. Every one was a reproduced finding, not a
         hypothetical. Display-only, and this is the display.
         """
         out, stack, last = [], [], 0
@@ -283,9 +343,8 @@ def last_owner_instruction(transcript, limit=240):
             if not stack:
                 out.append(t[last:m.start()])
             if closing:
-                if name in stack:
-                    while stack and stack.pop() != name:
-                        pass
+                if stack and stack[-1] == name:
+                    stack.pop()                 # only the innermost block, and only by its name
             else:
                 stack.append(name)
             last = m.end()
@@ -325,7 +384,7 @@ def last_owner_instruction(transcript, limit=240):
                 # (reproduced 2026-09-18: *"do NOT push, hold everything"* shown as current). The
                 # harness's summaries arrive as a **bare string** and are long; a person's turn
                 # arrives as text blocks. Both must hold to skip it, and the failure mode is named:
-                # a bare-string turn of two thousand characters that opens with those exact words
+                # a bare-string turn of over two thousand characters that opens with those words
                 # is still skipped, and nothing here can tell it from the machine's.
                 if (bare and len(said) > 2000
                         and said.startswith(("This session is being continued",
@@ -737,31 +796,17 @@ def main():
             # through the newline anchor that repaired it. A body that is itself a program can still
             # publish, and that stays named rather than chased: the interpreter it is fed to is not
             # something this pattern can read.
-            _c = re.sub(r"\\\n", " ", cmd)                    # a continuation is one command
-            # **Blank a heredoc body only when BOTH ends are visible.** The first version blanked to
-            # the end of the string whenever it could not find the terminator, and an adversarial
-            # lens turned that into three ways to publish unseen (2026-09-18, each reproduced
-            # end to end): `cat <<EOF; git push` — no terminator anywhere, so everything after it
-            # was erased, while bash runs the push once the heredoc hits end-of-input · a literal
-            # `a<<b` inside a quoted message, read as an opener with a terminator that never comes ·
-            # and `<<<`, a here-STRING, matched from its second `<`. **A blanker that cannot see the
-            # end of the body blanks nothing**, which fails towards the loud side; `(?<!<)<<(?!<)`
-            # keeps the here-string out, and a word boundary before it keeps `a<<b` out.
-            for _m in re.finditer(r"(?:^|[\s;&|(])(?<!<)<<-?(?!<)\s*['\"]?(\w+)['\"]?", _c):
-                _end = re.search(r"^\s*%s\s*$" % re.escape(_m.group(1)), _c[_m.end():], re.M)
-                if not _end:
-                    continue                          # no terminator in sight: blank nothing
-                _stop = _m.end() + _end.start()
-                _c = _c[:_m.end()] + re.sub(r"[^\n]", " ", _c[_m.end():_stop]) + _c[_stop:]
-            # **A wrapper word takes flags, and only `nice -n` was allowed for.** `env -i`,
-            # `sudo -u root`, `command -p`, `time -p`, `nice --adjustment=10` and `exec -a name`
-            # all walked the verb straight past the anchor — eight shapes, all reproduced
-            # 2026-09-18. Listing the option SHAPES was the first repair and it was not enough: a
-            # flag that takes its own argument (`sudo -u root`, `exec -a name`) leaves a bare word
-            # between the flag and the verb, which no option pattern matches. So the run between a
-            # wrapper and the verb is **any tokens at all**, bounded — widening towards loud. The
-            # verb still has to appear as its own two words, so a filename carrying it is untouched.
-            _WRAP = r"(?:(?:env|sudo|nohup|time|command|exec|eval|nice)\s+(?:\S+\s+){0,4})*"
+            _c = shell_only(cmd)
+            # **A wrapper word takes flags, a flag takes its own argument, and there can be any number of
+            # them.** Eight shapes carried the verb past the anchor on 2026-09-18 — `env` with no assignment,
+            # `env -i`, `env --`, `sudo -u root`, `command -p`, `time -p`, `nice --adjustment=10`,
+            # `exec -a name` — and listing the option SHAPES was not enough, because a flag with its own
+            # argument leaves a bare word before the verb. The run that replaced it was capped at four tokens,
+            # and on 2026-09-23 `env A=1 B=2 C=3 D=4 E=5 F=6 git push` walked past the cap: a bound on the
+            # UNSAFE side of an anchor is a hole with a number on it. **Any run of tokens, on the same line.**
+            # The cost is named: a wrapper followed later on its line by a quoted mention of the verb is
+            # refused, which is the loud side, and the refusal's third door is there for exactly that.
+            _WRAP = r"(?:(?:env|sudo|nohup|time|command|exec|eval|nice)[ \t]+(?:\S+[ \t]+)*)?"
             hit = re.search(
                 r"(?:(?:^|[\n;&|(){}`]|\$\()\s*"
                 r"|\b(?:bash|sh|zsh|dash|eval|xargs)\b[^\n]*?[\"']\s*)" + _WRAP +
