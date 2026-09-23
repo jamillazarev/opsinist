@@ -2056,6 +2056,7 @@ def norm(s):
 reg = staged("_ops/TOOLING.md") or ""
 rows = {".mcp.json": set(), "mise.toml": set()}
 col = None
+known, near = False, []          # a shipped header seen · headers that only start the same
 for line in reg.splitlines():
     if not line.lstrip().startswith("|"):
         col = None
@@ -2069,14 +2070,17 @@ for line in reg.splitlines():
         # missing (a contradiction lens, 2026-09-18). A prefix match repaired that and then chose a
         # decoy column placed first: `Wired how much budget` on 2026-09-18, and a project's own
         # `Wired How-To` notes column on 2026-09-23 once the prefix was bounded at a letter — a
-        # guess about a column can always be out-guessed. So the known shipped headers, old and new,
-        # are matched exactly; a prefix is accepted only when exactly ONE header carries it, and two
-        # candidates with neither of them known reads as no column, which is the loud side.
+        # guess about a column can always be out-guessed — including the last guess, *accept a prefix
+        # only when one header carries it*, which on 2026-09-23 read a project's own `Wired How-To`
+        # notes column as the wiring whenever it stood alone, so a note that happened to mention
+        # `mise.toml` passed a row nobody had wired. **Only the headers the template ships are read**,
+        # old and new; a header that merely starts the same way is not a column this check reads,
+        # and the refusal says so by name rather than leaving the reader to guess why.
         col = next((i for i, h in enumerate(heads) if h in ("wiredhow", "wiredhow·whatitships")), -1)
         if col < 0:
-            cand = [i for i, h in enumerate(heads)
-                    if h.startswith("wiredhow") and not h[8:9].isalpha()]
-            col = cand[0] if len(cand) == 1 else -1
+            near += [c for c, h in zip(cells, heads) if h.startswith("wiredhow")]
+        else:
+            known = True
         continue
     if col < 0 or col >= len(cells) or set(line.replace("|", "").strip()) <= set("-: "):
         continue
@@ -2087,6 +2091,12 @@ for line in reg.splitlines():
         rows[".mcp.json"].add(tool)
     if "mise.toml" in wired:
         rows["mise.toml"].add(tool)
+
+# A near miss is said by name: a refusal whose column was never read looks exactly like a row
+# nobody wrote, and the reader would go looking for the wrong fault.
+HINT = ("" if known or not near else
+        " The column headed `%s` is not one this check reads — only *Wired how* and *Wired how · "
+        "what it ships* are — so rename the one the wiring is written in." % near[0])
 
 # §20 · .mcp.json
 # A secret-shaped NAME, as a word: `AUTHOR_NAME` holds no secret, `X-Api-Key` and `APIKEY` do.
@@ -2130,7 +2140,7 @@ if raw is not None:
                           "that fails quietly." % (name, field, k, shown))
     for s in sorted(servers - rows[".mcp.json"]):
         print("FAIL:.mcp.json declares server `%s` and _ops/TOOLING.md has no row for it whose "
-              "*Wired how* names .mcp.json — say why it is here and what it replaces." % s)
+              "*Wired how* names .mcp.json — say why it is here and what it replaces." % s + HINT)
 for t in sorted(rows[".mcp.json"] - servers):
     where = "there is no .mcp.json" if raw is None else ".mcp.json declares no server of that name"
     print("FAIL:_ops/TOOLING.md row `%s` says it is wired by .mcp.json, and %s — the row "
@@ -2222,7 +2232,7 @@ declared = [(s, k, names(k)) for s, k in entries]
 for s, k, n in declared:
     if not (n & rows["mise.toml"]):
         print("FAIL:%s declares `%s` under [%s] and _ops/TOOLING.md has no row for it whose "
-              "*Wired how* names mise.toml — say why the project needs it." % (fname, k, s))
+              "*Wired how* names mise.toml — say why the project needs it." % (fname, k, s) + HINT)
 for t in sorted(rows["mise.toml"]):
     if not any(t in n for _, _, n in declared):
         where = "there is no mise.toml" if text is None else "%s declares nothing of that name" % fname

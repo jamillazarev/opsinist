@@ -231,62 +231,102 @@ def last_assistant_text(transcript):
     return text
 
 
-def _opener_is_code(c, at):
-    """Whether a `<<` at `at` sits outside quotes and comments on its own line.
-
-    A line-local scanner, not a parser: single quotes, double quotes with their backslash escape,
-    a backslash outside quotes, and a `#` that starts a word. **What it does not read is named,
-    not chased** — a quote opened on an EARLIER line, `$'…'`, an arithmetic `$((a<<b))`. Each takes
-    a command written to deceive the gate; this gate stops the ordinary spelling of an outward act
-    and every variation a working agent produces, and it does not claim to parse bash.
-    """
-    q, i = None, c.rfind("\n", 0, at) + 1
-    while i < at:
-        ch = c[i]
-        if q is None:
-            if ch == "\\":
-                i += 2
-                continue
-            if ch in "'\"":
-                q = ch
-            elif ch == "#" and (i == 0 or c[i - 1] in " \t\n;&|("):
-                return False                    # a comment runs to the end of the line
-        elif q == '"' and ch == "\\":
-            i += 2
-            continue
-        elif ch == q:
-            q = None
-        i += 1
-    return q is None
+_SPECIAL = re.compile(r"[\n\\#$()'\"<]")
+_QUOTED = {"'": re.compile(r"'"), '"': re.compile(r'[\\"]'), "$'": re.compile(r"[\\']")}
+_OPENER = re.compile(r"<<(-?)[ \t]*\\?(['\"]?)(\w+)\2")
 
 
 def shell_only(cmd):
     """The command as a shell would run it: continuations folded, heredoc BODIES blanked.
 
     A heredoc body is data fed to another program, so a document carrying the verb at the start of
-    a line is not a publish. **The body starts on the line AFTER the opener** — the rest of the
-    opener's own line is still shell, and `cat > f <<EOF && git push` publishes. Blanking from just
-    after the delimiter hid exactly that (found 2026-09-23, reproduced end to end). **Both ends must
-    be visible or nothing is blanked**: a missing terminator blanked to the end of the string and
-    became three ways to publish unseen (2026-09-18). **An opener must be code** — not inside a
-    quote, not in a comment, not inside a body already blanked — or a `<<X` in a commit message,
-    with a lone `X` two lines down, hides whatever sits between. `(?<!<)<<(?!<)` keeps `<<<`, a
-    here-STRING, out; no separator is required before it, because `cat<<EOF` is a heredoc too.
-    Every failure of this function is meant to fall on the loud side: a body left visible.
+    a line is not a publish. **Every regex over the raw string was out-guessed within a round**: a
+    missing terminator blanked to the end of the string (2026-09-18); a body blanked from right
+    after the delimiter hid `cat > f <<EOF && git push`, because bash starts the body on the NEXT
+    line (2026-09-23); and a `<<X` inside `$'…'` or `$((…))` was taken for an opener and hid the push
+    on the line after it (2026-09-23). So this is one pass, left to right, **keeping the state bash
+    keeps** — outside quotes or inside `'…'`, `"…"`, `$'…'`; inside an arithmetic `((…))`; in a `#`
+    comment — and a `<<` opens a heredoc only where bash would read one. The bodies are read the way
+    bash reads them: after the newline that ends the command, every heredoc of that line in order,
+    each to a line that IS its word (after leading tabs, for `<<-`). **No terminator, and nothing
+    more is blanked**: bash would read the rest as body and run none of it, so leaving it visible
+    costs a false refusal at worst. An unclosed quote stops the pass the same way.
+
+    **What it does not track is named, and it can err either way**: a quote nested inside `$(…)` or
+    backticks within a double-quoted string puts it out of step with bash. One pass also keeps it
+    linear — a scan per opener took 13 s on a 358 KB command of unterminated openers (2026-09-23).
     """
     c = re.sub(r"\\\n", " ", cmd)                    # a continuation is one command
-    for m in re.finditer(r"(?<!<)<<-?(?!<)[ \t]*\\?(['\"]?)(\w+)\1", c):
-        if c[m.start():m.end()] != m.group(0) or not _opener_is_code(c, m.start()):
-            continue                     # inside a body already blanked, a quote, or a comment
-        nl = c.find("\n", m.end())
-        if nl < 0:
-            continue                     # no body at all
-        end = re.search(r"^[ \t]*%s[ \t]*$" % re.escape(m.group(2)), c[nl + 1:], re.M)
-        if not end:
-            continue                     # no terminator in sight: blank nothing
-        stop = nl + 1 + end.start()
-        c = c[:nl + 1] + re.sub(r"[^\n]", " ", c[nl + 1:stop]) + c[stop:]
-    return c
+    out, n, i, q, arith, pending = list(c), len(c), 0, None, 0, []
+    while i < n:
+        if q is not None:                            # inside a quote: its end, or an escape
+            s = _QUOTED[q].search(c, i)
+            if not s:
+                break                                # never closed: bash runs none of it
+            i = s.start()
+            if c[i] == "\\":
+                i += 2
+            else:
+                q, i = None, i + 1
+            continue
+        s = _SPECIAL.search(c, i)
+        if not s:
+            break
+        i, ch = s.start(), s.group()
+        if ch == "\n":
+            i += 1
+            for dash, word in pending:               # each body, in the order its opener came
+                j = i
+                while True:
+                    e = c.find("\n", j)
+                    line = c[j:] if e < 0 else c[j:e]
+                    if (line.lstrip("\t") if dash else line) == word:
+                        break
+                    if e < 0:
+                        return "".join(out)          # no terminator: the rest stays visible
+                    j = e + 1
+                for k in range(i, j):
+                    if out[k] != "\n":
+                        out[k] = " "
+                i = n if e < 0 else e + 1
+            pending = []
+        elif ch == "\\":
+            i += 2
+        elif ch == "#":
+            if i == 0 or c[i - 1] in " \t\n;&|(":
+                e = c.find("\n", i)                  # a comment runs to its newline
+                i = n if e < 0 else e
+            else:
+                i += 1
+        elif ch == "$":
+            if c.startswith("$'", i):
+                q, i = "$'", i + 2
+            elif c.startswith("$((", i):
+                arith, i = arith + 1, i + 3
+            else:
+                i += 1
+        elif ch == "(":
+            if c.startswith("((", i):
+                arith, i = arith + 1, i + 2
+            else:
+                i += 1
+        elif ch == ")":
+            if arith and c.startswith("))", i):
+                arith, i = arith - 1, i + 2
+            else:
+                i += 1
+        elif ch in "'\"":
+            q, i = ch, i + 1
+        elif c.startswith("<<<", i):                 # a here-STRING, not a heredoc
+            i += 3
+        else:
+            m = None if arith else _OPENER.match(c, i)
+            if m:
+                pending.append((m.group(1), m.group(3)))
+                i = m.end()
+            else:
+                i += 1
+    return "".join(out)
 
 
 def last_owner_instruction(transcript, limit=240):
@@ -805,7 +845,8 @@ def main():
             # and on 2026-09-23 `env A=1 B=2 C=3 D=4 E=5 F=6 git push` walked past the cap: a bound on the
             # UNSAFE side of an anchor is a hole with a number on it. **Any run of tokens, on the same line.**
             # The cost is named: a wrapper followed later on its line by a quoted mention of the verb is
-            # refused, which is the loud side, and the refusal's third door is there for exactly that.
+            # refused, which is the loud side, and the refusal's closing line — *if this is a sentence
+            # about the act, say so to the owner* — is there for exactly that.
             _WRAP = r"(?:(?:env|sudo|nohup|time|command|exec|eval|nice)[ \t]+(?:\S+[ \t]+)*)?"
             hit = re.search(
                 r"(?:(?:^|[\n;&|(){}`]|\$\()\s*"

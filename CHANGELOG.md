@@ -268,7 +268,7 @@ until trusted. What the project uses and never declared is declared, pinned at t
 machine already runs. Parsed by hand — a key read as a path, so `[tools]` then `python`, a bare
 `tools.python` and `[tools.python]` are one declaration — since the `python3` of a Mac without
 Homebrew is 3.9 and has no `tomllib`: `scripts/test-native-register.sh` runs twice, the second time
-on that interpreter, **40/40** — and a check that stops before its end refuses the commit instead
+on that interpreter, **41/41** — and a check that stops before its end refuses the commit instead
 of passing the part it never read.
 
 **An available update now says what it asks of you.** `scripts/deps-report.py`, run from a
@@ -676,7 +676,8 @@ real instruction that merely began with them was dropped whole and the refusal q
 current, which is worse than quoting nothing. Two signals now, both required: those summaries
 arrive as a **bare string** and are long, where a person's turn arrives as text blocks.
 Eleven cases here and eleven in the sibling's `test-outward-gate.sh`, one per reproduced *command*
-shape — the two quote shapes and the decoy header went without one until the eighth round, below.
+shape; the two quote shapes went without one until the eighth round, below, and so did the decoy
+header in the register suites.
 
 **Rounds one, two and three reported; the fourth reported; the fifth lost two lenses
 to the same limit** — the thirteenth and fourteenth across four releases, recorded rather than
@@ -714,7 +715,7 @@ read as a heredoc, so writing a document was refused as a publish. And a project
 a prefix match — so the headers the template ships, old and new, are matched exactly, and a prefix
 is accepted only when a single header carries it.
 
-**Repairing the third turned up a worse hole that no lens had named.** The blanker started a
+**Repairing the heredoc case turned up a worse hole that no lens had named.** The blanker started a
 heredoc's body right after the delimiter, and bash starts it on the *next line* — so
 `cat > f.md <<EOF && git add f.md && git push`, an ordinary way to write a file and publish it,
 had its publish erased before the pattern ever saw it. **A hole in the exact form an agent
@@ -733,11 +734,45 @@ equality"* over code that tries equality first, and a docstring's own boundary e
 listing the wrapper shapes the fifth round reproduced is a record of that round, not a description
 of the matcher, which is stated in full beside it.
 
-Every case for this round's own shapes was run against the unrepaired code and fails there; the
-two quote cases each fail against a mutant that undoes the sixth round's two-signal skip.
-`test-audit-gate.sh` **181/181** and the sibling's `test-outward-gate.sh` **84/84**; the register
-suites gained both decoy headers. **A round that reports findings is not the clean one** — the
-ninth goes over this repair.
+Every case for this round's own shapes was run against the unrepaired code and fails there, and
+the two quote cases fail against two different mutants of the sixth round's skip — one reverting
+it to a single signal, one removing it. The register suites gained both decoy headers. The ninth
+round went over this repair.
+
+**The ninth round finished whole too, and its adversarial lens broke the eighth round's scanner
+the way the eighth had broken the sixth round's blanker.** A `<<X` inside `$'…'` or an arithmetic
+`$((…))` was still taken for an opener and hid the push on the line after it — confirmed in real
+bash against a stub `git`. Both shapes were *named* in that scanner's own docstring as what it
+does not read, beside a sentence promising that every failure fell on the loud side, and these two
+fell on the quiet one: **a limit named beside a false guarantee is not a limit named.** And a scan
+per opener to the end of the string took 13 s on 358 KB of unterminated openers. So the blanker is
+one pass now, left to right, keeping the state bash keeps — outside quotes or inside `'…'`, `"…"`
+and `$'…'`, inside arithmetic, in a comment — and reading bodies the way bash does: after the
+newline that ends the command, every heredoc of that line in order, each to a line that *is* its
+word. That closes both, closes a quote opened on an earlier line and a terminator that is not the
+whole line with them, and takes the same 358 KB in 0.08 s. What it still does not track — a quote
+nested in `$(…)` or backticks inside a double-quoted string — is named with the direction it can
+fail in, which is either.
+
+**The register's last guess went too.** Accepting a prefix when a single header carried it read a
+project's own `Wired How-To` notes as the wiring whenever that column stood alone, so a note that
+happened to mention `mise.toml` passed a row nobody had wired. Only the headers the template ships
+are read now, and when a near miss is what stopped the read, the refusal names that column.
+
+**The other three lenses found one real divergence and the rest in the record.** The two gates had
+disagreed since before this release about a project's own deploy script: one copy stopped
+`./scripts/deploy`, the other never had, and nothing said why — it crossed the loud way, with a
+case. The claim that both quote cases failed against one mutant was true of one; **each of the
+skip's two signals has a case of its own now**, each failing against the mutant that drops it,
+where before dropping either half alone failed nothing. A comment called a line of the refusal its
+*third door* where the refusal counts two; a case repeated another's branch; a fixture carried an
+entry the quote reader skips unconditionally; three sentences were rewritten for a reader who was
+not here.
+
+Every case for a shape this round reproduced fails against the eighth round's code — the timing
+case at 13 s against a bound of 5 — and each signal's case against the mutant that drops it.
+`test-audit-gate.sh` **189/189** and the sibling's `test-outward-gate.sh` **93/93**. The tenth round
+goes over this repair.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
@@ -784,7 +819,7 @@ four kinds in both directions, which is the point of naming the rule beside them
 `echo =====` fails with *not found* and the rest of the command line never runs.
 
 Eval state: **not run.** The guard sections and the scripts are measured by their suites — 238
-company-preflight assertions, 181 audit-gate, and a suite per script with its own code mutants —
+company-preflight assertions, 189 audit-gate, and a suite per script with its own code mutants —
 but **a suite measures a form and an eval measures a run**, and the behaviours this release adds
 are exactly the kind only a run shows: whether a session *offers* the machine line at a takeover,
 whether it brings the shelf before a decision instead of waiting to be asked, whether it wires a

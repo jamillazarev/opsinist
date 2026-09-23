@@ -186,5 +186,21 @@ for decoy in "Wired how much budget" "Wired How-To"; do
   esac
 done
 
+# **A header that only starts like the column is not the column, even alone.** Accepting a prefix
+# when one header carried it read a project's own `Wired How-To` notes as the wiring, so a note that
+# happened to name the file passed a row nobody had wired (2026-09-23). Now it is refused, and the
+# refusal names the column it did not read.
+{ printf '# Tooling\n\n| Tool | What for | Replaces | Licence | Access | Wired How-To | Gone when | Checked |\n'
+  printf '|---|---|---|---|---|---|---|---|\n'
+  printf '| sentry | errors | we had none | free | token | see the wiki: .mcp.json setup | never | 2026-09-23 |\n'
+} > _ops/TOOLING.md
+git add -A >/dev/null 2>&1
+OUT=$(bash _ops/scripts/preflight.sh 2>&1)
+case "$OUT" in
+  *"has no row for it"*"Wired How-To"*) ok;;
+  *"has no row for it"*) fail=$((fail+1)); echo "  ✗ a near-miss column was refused without being named";;
+  *) fail=$((fail+1)); echo "  ✗ a lone near-miss column was read as the wiring";;
+esac
+
 echo "native-register: $pass passed, $fail failed"
 [ "$fail" -eq 0 ]
