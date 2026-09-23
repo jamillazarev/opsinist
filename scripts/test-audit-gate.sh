@@ -185,10 +185,8 @@ check "outward: command -p"                  2 "$(pl Bash "command -p git push o
 check "outward: time -p"                     2 "$(pl Bash "time -p git push origin main" "$TE")"
 check "outward: nice --adjustment=10"        2 "$(pl Bash "nice --adjustment=10 git push origin main" "$TE")"
 check "outward: exec -a name"                2 "$(pl Bash "exec -a myname git push origin main" "$TE")"
-# …and a real heredoc, whose terminator IS there, still blanks its body
-check "outward: a real heredoc body → allow" 0 "$(pl Bash "cat > docs/how.md <<'EOF'
-git push origin main
-EOF" "$TE")"
+# …and a `<<-` heredoc, whose terminator is tab-indented and still there, blanks its body too —
+# the plain terminated case is the one above, under *a heredoc body is data*
 check "outward: a tab-indented <<- → allow"  0 "$(pl Bash "cat > d.md <<-EOF
 	git push origin main
 	EOF" "$TE")"

@@ -674,7 +674,7 @@ real instruction that merely began with them was dropped whole and the refusal q
 *superseded* message as what you last asked for — *"hold everything, do NOT publish"* shown as
 current, which is worse than quoting nothing. Two signals now, both required: those summaries
 arrive as a **bare string** and are long, where a person's turn arrives as text blocks.
-`test-audit-gate.sh` **170/170** and `test-outward-gate.sh` **72/72**, a case per reproduced shape
+`test-audit-gate.sh` **169/169** and `test-outward-gate.sh` **72/72**, a case per reproduced shape
 on both sides.
 
 **Rounds one, two and three reported; the fourth reported; the fifth lost two lenses
@@ -690,6 +690,16 @@ cold-read were never dispatched, because by then the budget the round needs was 
 `not completed` against one report: **the round has not reported clean, and it is owed over the
 repair those five findings caused**, which is where every re-round of this release has found its
 sharpest thing.
+
+**The seventh round went at that repair with all four lenses, and all four died on the monthly spend
+limit** — the sixteenth to nineteenth. Two had found something before they stopped, and both
+findings were checked and are real: **the repair left a docstring describing the code it replaced**
+— *"counting depth rather than matching pairs"* above a stack of names, in both copies of the gate,
+which is the overstated-comment defect this release names above arriving through its own fix — and
+**a case the repair added was byte-identical to one the round before had added**, in both suites, so
+it counted twice for one shape. The docstring describes the stack now, and the duplicate became the
+`<<-` shape the sibling's suite had never had. **Neither makes the round clean**: four
+`not completed`, two partial reports recovered from the transcripts, and the round is owed again.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
@@ -736,7 +746,7 @@ four kinds in both directions, which is the point of naming the rule beside them
 `echo =====` fails with *not found* and the rest of the command line never runs.
 
 Eval state: **not run.** The guard sections and the scripts are measured by their suites — 238
-company-preflight assertions, 170 audit-gate, and a suite per script with its own code mutants —
+company-preflight assertions, 169 audit-gate, and a suite per script with its own code mutants —
 but **a suite measures a form and an eval measures a run**, and the behaviours this release adds
 are exactly the kind only a run shows: whether a session *offers* the machine line at a takeover,
 whether it brings the shelf before a decision instead of waiting to be asked, whether it wires a
