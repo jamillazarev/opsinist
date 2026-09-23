@@ -202,5 +202,18 @@ case "$OUT" in
   *) fail=$((fail+1)); echo "  ✗ a lone near-miss column was read as the wiring";;
 esac
 
+# the hint is per table: an unrelated table with an exact header above does not silence it (2026-09-24)
+{ printf '# Other\n\n| Tool | Wired how |\n|---|---|\n| unrelated | none |\n\n'
+  printf '# Tooling\n\n| Tool | What for | Replaces | Licence | Access | Wired How-To | Gone when | Checked |\n'
+  printf '|---|---|---|---|---|---|---|---|\n'
+  printf '| sentry | errors | we had none | free | token | see the wiki: .mcp.json setup | never | 2026-09-24 |\n'
+} > _ops/TOOLING.md
+git add -A >/dev/null 2>&1
+OUT=$(bash _ops/scripts/preflight.sh 2>&1)
+case "$OUT" in
+  *"has no row for it"*"Wired How-To"*) ok;;
+  *) fail=$((fail+1)); echo "  ✗ an unrelated table with an exact header silenced the near-miss hint";;
+esac
+
 echo "native-register: $pass passed, $fail failed"
 [ "$fail" -eq 0 ]

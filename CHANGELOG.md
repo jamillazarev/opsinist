@@ -31,7 +31,7 @@ and was blind to a newline, a pipe, a subshell and a wrapper's quoted argument �
 demanded whitespace after the verb, so **a subshell's closing paren made it silent**, which no case
 had ever exercised. Six new assertions here and seven in the sibling, each a shape one of the two
 got wrong: `test-audit-gate.sh` **154/154**, `test-outward-gate.sh` **57/57**. **The refusal also
-gained a third door** — *if this is a sentence about the act and not the act, say so to the owner*
+gained a closing line** — *if this is a sentence about the act and not the act, say so to the owner*
 — because a message offering only *the owner runs it* or *turn the gate off* has no answer for a
 false positive, and inviting a reword would be the failure itself.
 
@@ -268,7 +268,7 @@ until trusted. What the project uses and never declared is declared, pinned at t
 machine already runs. Parsed by hand — a key read as a path, so `[tools]` then `python`, a bare
 `tools.python` and `[tools.python]` are one declaration — since the `python3` of a Mac without
 Homebrew is 3.9 and has no `tomllib`: `scripts/test-native-register.sh` runs twice, the second time
-on that interpreter, **41/41** — and a check that stops before its end refuses the commit instead
+on that interpreter, **42/42** — and a check that stops before its end refuses the commit instead
 of passing the part it never read.
 
 **An available update now says what it asks of you.** `scripts/deps-report.py`, run from a
@@ -742,15 +742,17 @@ round went over this repair.
 **The ninth round finished whole too, and its adversarial lens broke the eighth round's scanner
 the way the eighth had broken the sixth round's blanker.** A `<<X` inside `$'…'` or an arithmetic
 `$((…))` was still taken for an opener and hid the push on the line after it — confirmed in real
-bash against a stub `git`. Both shapes were *named* in that scanner's own docstring as what it
-does not read, beside a sentence promising that every failure fell on the loud side, and these two
-fell on the quiet one: **a limit named beside a false guarantee is not a limit named.** And a scan
-per opener to the end of the string took 13 s on 358 KB of unterminated openers. So the blanker is
+bash against a stub `git` on 2026-09-23. Both shapes were *named* in that scanner's own docstring
+as what it does not read, beside a sentence promising that every failure fell on the loud side, and
+these two fell on the quiet one: **a limit named beside a false guarantee is not a limit named.**
+And a scan per opener to the end of the string took 13 s on 358 KB of unterminated openers,
+measured the same day. So the blanker is
 one pass now, left to right, keeping the state bash keeps — outside quotes or inside `'…'`, `"…"`
 and `$'…'`, inside arithmetic, in a comment — and reading bodies the way bash does: after the
 newline that ends the command, every heredoc of that line in order, each to a line that *is* its
-word. That closes both, closes a quote opened on an earlier line and a terminator that is not the
-whole line with them, and takes the same 358 KB in 0.08 s. What it still does not track — a quote
+word. That closes both shapes — and, along with them, a quote opened on an earlier line and a
+terminator that is not the whole line — and takes the same 358 KB in 0.08 s. What it still did not
+track — a quote
 nested in `$(…)` or backticks inside a double-quoted string — is named with the direction it can
 fail in, which is either.
 
@@ -765,14 +767,40 @@ disagreed since before this release about a project's own deploy script: one cop
 case. The claim that both quote cases failed against one mutant was true of one; **each of the
 skip's two signals has a case of its own now**, each failing against the mutant that drops it,
 where before dropping either half alone failed nothing. A comment called a line of the refusal its
-*third door* where the refusal counts two; a case repeated another's branch; a fixture carried an
-entry the quote reader skips unconditionally; three sentences were rewritten for a reader who was
-not here.
+*third door* where the refusal counts two; a case repeated another's branch; and a fixture carried
+an entry the quote reader skips unconditionally.
 
 Every case for a shape this round reproduced fails against the eighth round's code — the timing
-case at 13 s against a bound of 5 — and each signal's case against the mutant that drops it.
-`test-audit-gate.sh` **189/189** and the sibling's `test-outward-gate.sh` **93/93**. The tenth round
-goes over this repair.
+case at 13 s against a bound of 5 — and each signal's case against the mutant that drops it. The
+tenth round went over this repair.
+
+**The tenth round found a hole older than this release, and the ninth round's named limit proved
+dangerous.** `--dry-run` anywhere in a command exempted all of it: `echo testing --dry-run`, then a
+real `git push` on the next line, went through both gates, and so did a comment that merely named
+the flag — the shape an agent writes when it narrates a flag before using the real command. **A dry
+run now excuses only its own act**, up to the next `;` `&` `|` or newline, and every act on the
+line must be excused on its own. And the limit round nine named — a double quote inside `$(…)`
+within a double-quoted string — was shown to hide a real publish, not merely to differ from bash:
+the inner quote closed the outer string, and a `<<X` still inside it blanked the next line
+(confirmed in real bash against a stub `git`, 2026-09-24). Inside a double-quoted string, `$(…)`,
+a backtick pair and `${…}` each open a context of their own now, on a stack, with their own quoting
+— and bash 3.2, the one macOS ships, reads a `'` inside `"${…}"` as a quote, so the scanner does
+too. The deploy catch-all had been refusing `predeploy` and `./scripts/predeploy`, local checks that
+publish nothing; `deploy` must now be the whole name or follow a `/` `-` `_` `.`, and never `pre-`.
+And the register's near-miss hint was silenced by any other table in the file with an exact
+header, so it is judged per table.
+
+**A differential check came with it**: thirty commands, each run in real bash against stub `git`,
+`gh`, `npm`, `docker` and a stub deploy script, and each fed to both gates. **No command bash
+publishes with passes either gate**; the two commands both gates refuse without bash publishing are
+ones bash rejects as a syntax error, which is the loud side. It is a scratch measurement, not a suite —
+a suite whose oracle is real bash is owed, and [`LATER.md`](LATER.md) carries it with the moment that reopens
+it rather than leaving it implied closed. The other three lenses found only reading: two measurements with no date, a
+sentence whose *them* garden-pathed, a docstring that stopped naming `<<<`, a clause that said
+nothing, and this entry still calling the refusal's closing line a *third door* after the code's
+comment had stopped. Every case for a shape this round reproduced fails against the ninth round's
+code. `test-audit-gate.sh` **200/200** and the sibling's `test-outward-gate.sh` **103/103**; the
+eleventh round goes over this repair.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
@@ -819,7 +847,7 @@ four kinds in both directions, which is the point of naming the rule beside them
 `echo =====` fails with *not found* and the rest of the command line never runs.
 
 Eval state: **not run.** The guard sections and the scripts are measured by their suites — 238
-company-preflight assertions, 189 audit-gate, and a suite per script with its own code mutants —
+company-preflight assertions, 200 audit-gate, and a suite per script with its own code mutants —
 but **a suite measures a form and an eval measures a run**, and the behaviours this release adds
 are exactly the kind only a run shows: whether a session *offers* the machine line at a takeover,
 whether it brings the shelf before a decision instead of waiting to be asked, whether it wires a

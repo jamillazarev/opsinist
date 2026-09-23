@@ -470,17 +470,16 @@ answer, in a round that looked clean. The form this wants is the cut `Reads agai
 *the ladder*). **Revisit when** a fourth proxy verdict is caught, or the week has passed and these
 still reproduce. The cost is real: every finding would carry the line.
 
-## ~~A lens round costs more than a session holds~~ — adopted 2026-09-17
+## The publish gate is tested against what its author expects bash to do, not against bash
 
-**Nine round attempts across two releases, five lost whole to the session limit** — each lens dying
-a line in. Every re-round re-read the full range, yet in 0.2.18 the sharpest finding of each sat in
-the latest repair commit, and the one re-round that read only that commit — 231 lines against 688 —
-completed first time.
-**Adopted 2026-09-17**, at the release this entry named: [`lenses.md`](lenses.md) → *Running them* now says the
-re-round reads the repair's own diff with the range reachable for context, and the risk it trades
-away is written beside it. **Still open: the cost number** — no lens pass in either repository has
-been measured in tokens, so *one round per release* is a rule with an undeclared price, and the
-entry above holds that question.
+**Measured 2026-09-24**: in rounds six to ten of 0.2.19 the outward gate's heredoc blanker was
+out-guessed five times, each by a command where the gate's idea of bash and bash disagreed, and
+each found by a lens reading code — every case in [`scripts/test-audit-gate.sh`](scripts/test-audit-gate.sh) states the verdict its
+author *expected*; a scratch run of thirty commands in real bash against stubs found no
+disagreement after round ten. **The form**: a suite whose oracle is bash — stubs first on `PATH`,
+*published* read from their log, the gate's exit code compared with it. **The mutant blanks the
+opener's own line; the twin is today's.** Not built in 0.2.19, ten rounds deep: a new suite is new
+code the rounds must read. **Revisit when** `shell_only` changes in either gate, or next release.
 
 ---
 
@@ -493,6 +492,7 @@ entry above holds that question.
 | A nested layout — the machinery under one root directory | carried in 0.2.0, by the owner's call |
 | Project-local skills must survive an upgrade that ships a same-named stock skill | reopened 2026-08-05, taken into the release |
 | The contradiction stop has no form | shipped in 0.2.14 |
+| A lens round costs more than a session holds | adopted 2026-09-17: the re-round reads the repair's diff ([`lenses.md`](lenses.md) → *Running them*); its token cost stays open under *The lens round has no form* |
 
 **Bodies removed 2026-09-10.** Each of these ended in a decision that shipped and left no open
 question, so the reasoning lives in the release that carried it and the row here says which. **Two

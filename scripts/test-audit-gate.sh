@@ -302,6 +302,31 @@ _t0=$(date +%s)
 check "outward: 20000 unterminated openers → allow" 0 "$(pl Bash "$_big" "$TE")"
 _dt=$(( $(date +%s) - _t0 ))
 [ "$_dt" -le 5 ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: 20000 unterminated openers took ${_dt}s — the blanker went quadratic again"; }
+# **Round ten: a dry run covers its own act only, and a substitution inside "…" has its own
+# quoting.** `--dry-run` anywhere in the command exempted all of it — an echo of the flag, or a
+# comment naming it, let a real push through on the next line (2026-09-24). A double quote inside
+# `$(…)`, a backtick pair or `${…}` within a double-quoted string closed the outer string early, and
+# a `<<X` still inside it hid the next line (2026-09-24, real bash against a stub `git`). And the
+# deploy catch-all refused `predeploy`, a local check that publishes nothing.
+check "outward: --dry-run echoed, then a push"    2 "$(pl Bash "echo testing --dry-run
+git push origin main" "$TE")"
+check "outward: --dry-run in a comment"           2 "$(pl Bash "# preview with --dry-run first
+git push origin main" "$TE")"
+check "outward: one act dry, the next real"       2 "$(pl Bash "git push --dry-run origin main && npm publish" "$TE")"
+check "outward: npm publish --dry-run → allow"    0 "$(pl Bash "npm publish --dry-run" "$TE")"
+check "outward: a quote in \$(…) inside \"…\""      2 "$(pl Bash "echo \"text \$(echo \"inner<<EOF\") more\"
+git push origin main
+EOF" "$TE")"
+check "outward: a quote in backticks inside \"…\"" 2 "$(pl Bash "echo \"text \`echo \"inner<<EOF\"\` more\"
+git push origin main
+EOF" "$TE")"
+check "outward: a quote in \${…} inside \"…\""      2 "$(pl Bash "echo \"\${X:-\"a<<EOF\"}\"
+git push origin main
+EOF" "$TE")"
+check "outward: a deploy script"                  2 "$(pl Bash "./scripts/deploy --prod" "$TE")"
+check "outward: terraform-deploy"                 2 "$(pl Bash "terraform-deploy apply" "$TE")"
+check "outward: ./scripts/predeploy → allow"      0 "$(pl Bash "./scripts/predeploy" "$TE")"
+check "outward: predeploy → allow"                0 "$(pl Bash "predeploy" "$TE")"
 outward_off() { printf '%s' "$(pl Bash "git push origin main" "$TE")" | OPSINIST_OUTWARD_GATE=off python3 "$GATE" >/dev/null 2>&1; echo $?; }
 [ "$(outward_off)" = 0 ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: outward off-switch"; }
 MEM="$T/home/.claude/projects/x-proj/memory"; mkdir -p "$MEM"
