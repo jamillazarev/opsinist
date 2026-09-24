@@ -65,6 +65,11 @@ grep -q "as a comment" "$T/oy6" && ok || bad "a value that is only a comment was
   && bad "a plain value holding a tab passed" || ok
 grep -q "is not valid YAML" "$T/oy7" && ok || bad "a tab in a plain value was refused for some other reason"
 ( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
+  && perl -pi -e 's/^description: .*$/description: One loop # a\tb/' skills/decide/SKILL.md \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy9" 2>&1
+grep -q "as a comment" "$T/oy9" && ok || bad "a tab inside a comment was not read as part of the comment"
+grep -q "is not valid YAML" "$T/oy9" && bad "a tab inside a comment was refused as a tab in the value" || ok
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
   && perl -0pi -e 's/\A(---\n.*?\n---)\n.*\z/$1/s' skills/decide/SKILL.md \
   && [ "$(tail -c 4 skills/decide/SKILL.md)" = "$(printf '\n---')" ] ) \
   && ok || bad "the fixture ending at its closing --- was not built"
