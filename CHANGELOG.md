@@ -793,14 +793,39 @@ header, so it is judged per table.
 **A differential check came with it**: thirty commands, each run in real bash against stub `git`,
 `gh`, `npm`, `docker` and a stub deploy script, and each fed to both gates. **No command bash
 publishes with passes either gate**; the two commands both gates refuse without bash publishing are
-ones bash rejects as a syntax error, which is the loud side. It is a scratch measurement, not a suite —
-a suite whose oracle is real bash is owed, and [`LATER.md`](LATER.md) carries it with the moment that reopens
-it rather than leaving it implied closed. The other three lenses found only reading: two measurements with no date, a
-sentence whose *them* garden-pathed, a docstring that stopped naming `<<<`, a clause that said
-nothing, and this entry still calling the refusal's closing line a *third door* after the code's
-comment had stopped. Every case for a shape this round reproduced fails against the ninth round's
-code. `test-audit-gate.sh` **200/200** and the sibling's `test-outward-gate.sh` **103/103**; the
-eleventh round goes over this repair.
+ones bash rejects as a syntax error, which is the loud side. It was a scratch measurement, not a
+suite, and a suite whose oracle is real bash went into [`LATER.md`](LATER.md) as owed. The other three lenses found
+no defect in the code, only in how it read: two measurements with no date, a sentence whose *them*
+garden-pathed, a docstring that stopped naming `<<<`, the clause *"three sentences were rewritten
+for a reader who was not here"*, which named none of them, and this entry still calling the
+refusal's closing line a *third door* after the code's comment had stopped. Every case for a shape
+this round reproduced fails against the ninth round's code. The eleventh round went over this repair.
+
+**The eleventh round found the dry-run scope leaking two more ways, and the owed suite exists now.**
+A trailing comment — `git push origin main  # --dry-run tested this yesterday` — excused the real act
+it trailed, because the comment was still in the text the scope read; and
+`$(git push origin main) --dry-run` excused a push that runs inside the substitution before the
+flag is ever read.
+`npm publish --dry-run=false` was excused too, and it publishes. So `shell_only` blanks a comment
+the way it blanks a heredoc body, the scope also ends at a `)` or a backtick, and only the bare flag
+or `=true` · `=1` · `=yes` excuses anything. **The owed suite is
+[`scripts/test-gate-vs-bash.sh`](scripts/test-gate-vs-bash.sh)**, built the day its `LATER.md` trigger fired: each of 38 commands
+runs in real bash against stubs, *published* is read from what the stubs were asked to do, and the
+gate's verdict must agree — with two code mutants it must catch, a terminator matched anywhere in a
+line and a dry-run scope that runs past a `)`. Against the tenth round's gate it reports exactly this
+round's four holes and nothing else.
+
+**It is closed three ways because a lens proved it had to be.** On 2026-09-24 a lens checking a claim
+about bash wrote a script carrying `git push` for a stub `git`; the installed gate refused the
+command that would have made the stub, the lens did not notice, `PATH` fell through to the real
+binary, and the sibling repository's `main` took eighteen commits of its untagged release. So the
+suite puts only stubs and harmless tools on `PATH` under `env -i`, verifies every stub before each
+run, and runs bash under `sandbox-exec` with the network denied — and without `sandbox-exec` it runs
+no bash at all and says so as a failure. [`lenses.md`](lenses.md) now says a lens runs an outward verb no other
+way, and `CLAUDE.md` carries the machine note. The second `predeploy` case became
+`./scripts/pre-deploy`, the only one that reaches the `pre-` rule. `test-audit-gate.sh` **200/200**,
+`test-gate-vs-bash.sh` **40/40**, and the sibling's `test-outward-gate.sh` **103/103**; the twelfth
+round goes over this repair.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest

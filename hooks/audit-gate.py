@@ -256,8 +256,10 @@ def shell_only(cmd):
     after the newline that ends the command, every heredoc of that line in order, each to a line
     that IS its word (after leading tabs, for `<<-`). **No terminator, or an unclosed quote, and
     nothing more is blanked**: bash would run none of the rest, so leaving it visible costs a false
-    refusal at worst. One pass keeps it linear — a scan per opener took 13 s on a 358 KB command of
-    unterminated openers (2026-09-23), and this takes a tenth of a second.
+    refusal at worst. **A comment is blanked too**, since bash never reads it: a trailing
+    `# --dry-run tested this yesterday` was excusing the real act it trailed (2026-09-24). One pass
+    keeps it linear — a scan per opener took 13 s on a 358 KB command of unterminated openers, and
+    this takes 0.05–0.08 s as a whole hook call (both measured 2026-09-23).
 
     **What it does not track can hide a publish, and is named for that reason**: a `case` pattern's
     unmatched `)` inside a command substitution within a double-quoted string closes the
@@ -321,8 +323,11 @@ def shell_only(cmd):
         elif ch == "\\":
             i += 2
         elif ch == "#" and ctx == "code" and (i == 0 or c[i - 1] in " \t\n;&|("):
-            e = c.find("\n", i)                      # a comment runs to its newline
-            i = n if e < 0 else e
+            e = c.find("\n", i)                      # a comment runs to its newline, and is
+            e = n if e < 0 else e                    # blanked: bash never reads a word of it
+            for k in range(i, e):
+                out[k] = " "
+            i = e
         elif ch == "$" and c.startswith("$'", i):
             q, i = "$'", i + 2
         elif ch == "$" and c.startswith("$((", i):
@@ -835,7 +840,11 @@ def main():
         # case-blind. It used to exempt the whole command: `echo testing --dry-run`, then a real
         # `git push` on the next line, went through both gates — and so did a comment that merely
         # mentioned the flag (an adversarial lens, 2026-09-24). So every outward act is found, and each is
-        # excused only by a `--dry-run` in its own simple command, up to the next `;` `&` `|` or newline.
+        # excused only by a `--dry-run` in its own simple command — up to the next `;` `&` `|` newline, `)`
+        # or backtick, since `$(git push) --dry-run` runs the push inside the substitution before the flag
+        # is ever read. **And the flag has to mean dry**: `npm publish --dry-run=false` publishes, so only
+        # the bare flag or `=true` · `=1` · `=yes` excuses anything (both 2026-09-24). A comment is gone
+        # before this reads the line: `shell_only` blanks it.
         if cmd:
             # **A newline, a pipe and a subshell start a command too**, and a shell-runner's quoted
             # argument is a command however it is spelled: `sh -c "git push"`. The first three were
@@ -881,8 +890,9 @@ def main():
                 r"docker\s+push|(?:npm|yarn|pnpm)\s+run\s+deploy|(?:make|just)\s+deploy|"
                 r"(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)\s+deploy|"
                 r"(?:[\w./-]*[/_.-])?(?<!pre[-_])deploy)(?=[\s;&|)<>\"'`]|$)", re.I)
-            hit = next((m for m in _acts.finditer(_c) if not re.search(
-                r"--dry[-_]run\b", re.split(r"[\n;&|]", _c[m.end():], 1)[0], re.I)), None)
+            _dry = re.compile(r"--dry[-_]run(?:=(?:true|1|yes))?(?=[\s\"']|$)", re.I)
+            hit = next((m for m in _acts.finditer(_c)
+                        if not _dry.search(re.split(r"[\n;&|)`]", _c[m.end():], 1)[0])), None)
             if hit:
                 # **The owner's own last words, quoted — context for the person, never consent.**
                 # A gate cannot read intent, and asking the constrained party for theirs is asking

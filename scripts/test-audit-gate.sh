@@ -326,7 +326,7 @@ EOF" "$TE")"
 check "outward: a deploy script"                  2 "$(pl Bash "./scripts/deploy --prod" "$TE")"
 check "outward: terraform-deploy"                 2 "$(pl Bash "terraform-deploy apply" "$TE")"
 check "outward: ./scripts/predeploy → allow"      0 "$(pl Bash "./scripts/predeploy" "$TE")"
-check "outward: predeploy → allow"                0 "$(pl Bash "predeploy" "$TE")"
+check "outward: ./scripts/pre-deploy → allow"     0 "$(pl Bash "./scripts/pre-deploy" "$TE")"
 outward_off() { printf '%s' "$(pl Bash "git push origin main" "$TE")" | OPSINIST_OUTWARD_GATE=off python3 "$GATE" >/dev/null 2>&1; echo $?; }
 [ "$(outward_off)" = 0 ] && pass=$((pass+1)) || { fail=$((fail+1)); echo "FAIL: outward off-switch"; }
 MEM="$T/home/.claude/projects/x-proj/memory"; mkdir -p "$MEM"

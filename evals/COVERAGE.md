@@ -58,6 +58,7 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-deps-report.sh` — deps-report.py — the updates sorted by what they ask of the owner, and the why of each thing the
 - `scripts/test-eval-requeue.sh` — The void sweep in eval-requeue.sh, exercised against the shapes that produced it
 - `scripts/test-find-installs.sh` — `find-installs.sh` exercised on its mutants and its honest twins
+- `scripts/test-gate-vs-bash.sh` — The publish gate held against bash itself, not against what its author expects bash to do
 - `scripts/test-graph-check.sh` — `graph-check.py` — does this project's graph actually work — on throwaway vaults holding every
 - `scripts/test-guard-status.sh` — guard-status.py — is the project's guard installed, current, and wired — shown on throwaway
 - `scripts/test-inventory.sh` — The inventory's three promises, exercised: identical twice, guest-safe, honest off git

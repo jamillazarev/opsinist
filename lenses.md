@@ -167,6 +167,16 @@ of four lenses that day noticed the staleness themselves and diffed against the 
 which is the habit, not the exception: check `git rev-parse HEAD` first, and if a finding is an
 absence, confirm it where the work actually lives.
 
+**A lens never runs an outward act — not against a stub, not to prove a hole — except through
+[`scripts/test-gate-vs-bash.sh`](scripts/test-gate-vs-bash.sh)**, which puts only stubs and harmless tools on `PATH`, checks every
+stub before each run and denies bash the network. Measured 2026-09-24: a lens checking a claim
+about bash wrote a script carrying `git push`, meant for a stub `git`; the installed gate refused
+the command that would have made the stub, the lens did not notice, `PATH` fell through to the real
+binary, and the sibling repository's `main` took eighteen commits of an untagged release. **A gate
+reads commands, not the scripts they run**, and a lens's read-only mode stops file edits, not a
+shell — so a new shape to test is added to that suite's cases, where it runs closed, and a lens that
+needs one says so in its report rather than building its own harness.
+
 **The repair a lens causes is unread until the round runs again over it.** The first round reads
 text drafted *before* the findings existed; the repair is drafted *after* them, at speed, by the
 person those findings have just persuaded — the condition every lens exists for. **Re-run the round

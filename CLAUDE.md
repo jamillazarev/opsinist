@@ -170,6 +170,17 @@ nothing accumulates outside versions.
   **never disable the gate to get past your own fix**: it is the one measure whose bypass must not
   be available to the party it constrains.
 
+- **A stub directory with a system directory behind it is a fallback, not a sandbox** (measured
+  2026-09-24, and it published). A lens testing the gate put `git push` in a script meant for a stub
+  `git`; the installed gate refused the command that would have created the stub, so the next run
+  found none, `PATH=stubs:/usr/bin:/bin` resolved the real `/usr/bin/git`, and the sibling
+  repository's `main` took eighteen commits of an untagged release — left in place, since rewriting
+  a public branch is worse than what it carries. **Two misreadings compounded**: a refusal read as
+  *nothing happened* when it meant *the next step's precondition is missing*, and a gate that reads
+  commands trusted to see into a script. `scripts/test-gate-vs-bash.sh` is the closed way to run such
+  a check — stubs-only `PATH` under `env -i`, every stub verified first, `sandbox-exec` denying the
+  network — and [`lenses.md`](lenses.md) holds the rule that nothing runs an outward verb any other way.
+
 - **`open(p, "w").write(open(p).read()…)` truncates before it reads** (measured 2026-09-18, and it
   emptied [`diagrams.md`](diagrams.md) — 500 lines to zero). Python evaluates the call's *object* first, so the
   write-open truncates the file, and the read inside the argument then returns `""`. Nothing warns:
