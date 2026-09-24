@@ -25,8 +25,9 @@ this file exists to stop anyone re-deriving per session.
    a fact ([`facts.md`](facts.md)). Wording-only changes owe nothing — say so.
 4. **Checks**: `bash scripts/preflight.sh` (runs every shipped test suite itself) ·
    `python3 scripts/check-links.py .` · `bash scripts/test-audit-gate.sh` ·
-   **`skillspector scan ./skills --recursive`** before a tag, because we screen what we import and
-   ship twenty-one skills of our own (installed tool, not in preflight — preflight runs offline).
+   **`skillspector scan ./skills --recursive`** before a tag, read as JSON ([AGENTS.md](AGENTS.md) says
+   why), because we screen what we import and ship twenty-one skills of our own (installed tool, not
+   in preflight — preflight runs offline).
    Green is evidence about the corpus, not about behaviour — behaviour is the eval suite's job.
 5. **Changelog entry** (capability first; it is the migration map; **it names its eval state — a run recorded, or `not run` said**) → **manifest sweep runs
    inside preflight** → **ask what this session learned about the machine and write it into the
@@ -212,7 +213,10 @@ nothing accumulates outside versions.
   reports per skill; suppression for a pool means per-skill baselines or `rules:` globs. And a
   static-only run reports `coverage_percent: 0.0` with `status: partial` **in its own JSON**, which
   is the tool being honest and the reason a clean static run is evidence about patterns rather than
-  about intent.
+  about intent. **And a manifest a strict parser rejects appears only in that JSON** (measured
+  2026-09-24): the printed summary says *successful* with no findings, while `analysis_completeness`
+  carries a `manifest_parse_error` and the `ScannerError` — so a scan read from its summary never
+  shows the one thing preflight's frontmatter check leaves to it.
 
 - **`GIT_REFLOG_ACTION` is empty in a pre-commit hook, for an amend exactly as for a commit**
   (measured 2026-09-18, both cases, on this machine's git). So **a hook cannot tell `git commit

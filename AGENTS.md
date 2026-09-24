@@ -120,7 +120,11 @@ here and run before a tag, never wired into the gate that every commit passes. *
 import and we ship 21 skills of our own**: the rule that says *imported* is the rule everybody
 reads as *all*, which is how a corpus goes two years without scanning itself ([`security.md`](security.md)).
 **`--no-llm` is a partial scan and reports itself as one** — `coverage_percent: 0.0` — so a clean
-static run is evidence about patterns, not about intent.
+static run is evidence about patterns, not about intent. **Read it as JSON** (`--format json
+--output <file>`): a skill whose frontmatter a strict parser rejects shows only there, as a
+`manifest_parse_error` under `analysis_completeness`, while the printed summary says *successful*
+with no findings (measured 2026-09-24). Any such entry stops the tag — it is where the shapes
+preflight's frontmatter check names as its limits are caught.
 
 **`hooks/` is machinery, not prose, and it is tested like machinery.** The plugin ships two
 gates that hold a takeover to its order — refusing a mutating call before the debt list exists,

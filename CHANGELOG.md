@@ -1046,17 +1046,30 @@ the cold-read found *line comment* read as a YAML comment. The twenty-fourth rou
 repair.
 
 **The twenty-fourth round found three more tab shapes, and the chase stops there by the owner's
-decision.** A tab opening the line after a quoted value that closed on its own line, and a tab
-inside a flow value written on the key's line, both passed; a line inside a quoted value spanning
-lines that reads like a key and a tab was refused although PyYAML reads it. Six rounds running had
-each found one to three shapes like these, and a heuristic with no parser behind it will go on
-finding them, so the three are written into the docstring as known limits rather than chased: a
-strict parser catches them, and the scan before a tag is one. The deletion and contradiction
-lenses found nothing; the cold-read found words — a tab refusal whose *there* named no place, a
-docstring clause that bound to the last of three places, and *the same exception* with its
-exception paragraphs above. The twenty-fifth round goes over this repair, and by the stopping
-rule the owner approved on 2026-09-24 it reports clean if it finds only reading fixes, shapes that
-take deliberate disguise, or refusals of commands that would not run.
+decision.** Two of them passed files PyYAML rejects and one refused a file it reads. Six rounds
+running had each found one to three shapes like these, and a heuristic with no parser behind it will
+go on finding them, so the three are written into the docstring as known limits rather than chased:
+a strict parser rejects the two that pass, the scan before a tag runs one, and the third is loud.
+The deletion and contradiction lenses found nothing; the cold-read found words — a tab refusal whose
+*there* named no place, a docstring clause that bound to the last of three places, and *the same
+exception* with its exception paragraphs above. The twenty-fifth round went over this repair under
+the stopping rule the owner approved on 2026-09-24, the one 0.2.18 ran under: a round reports clean
+if all it finds is wording to fix, shapes only deliberate disguise produces, or the publish gate
+refusing a command that would not have run anyway.
+
+**The twenty-fifth round found one more tab shape, and that the net under the limits was only half
+visible.** A tab after spaces in the indent of a flow or nested value's line passes, while inside a
+block scalar the same tab is content and valid; it joins the docstring's known limits by the same
+decision as the three before it. **The contradiction lens then ran the scan before a tag on the
+limits themselves**, and its printed summary said *successful*, no findings, for frontmatter PyYAML
+rejects: SkillSpector records such a manifest only in its JSON report, as a `manifest_parse_error`
+under `analysis_completeness`. So the net was real and nobody reading the summary would have seen
+it. The scan before a tag is now read as JSON ([AGENTS.md](AGENTS.md) says what to look for),
+measured on both corpora — no parse error in either — and on the three passing shapes, each
+reported. The deletion lens found the paragraph above re-listing the limits beside the docstring
+that holds them; the cold-read found the tab refusal not naming indented lines, the stopping rule
+named without being stated, and *a quoted value that closed on its own line* readable two ways. All
+are repaired; by the stopping rule and the decision on the heuristic, the round is clean.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
