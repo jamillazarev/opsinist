@@ -481,7 +481,7 @@ still reproduce. The cost is real: every finding would carry the line.
 | A nested layout — the machinery under one root directory | carried in 0.2.0, by the owner's call |
 | Project-local skills must survive an upgrade that ships a same-named stock skill | reopened 2026-08-05, taken into the release |
 | The contradiction stop has no form | shipped in 0.2.14 |
-| The publish gate is tested against what its author expects bash to do | built 2026-09-24, the day its trigger fired: [`scripts/test-gate-vs-bash.sh`](scripts/test-gate-vs-bash.sh), bash as the oracle, closed three ways |
+| The publish gate is tested against what its author expects bash to do | built 2026-09-24, the day its trigger fired: [`scripts/test-gate-vs-bash.sh`](scripts/test-gate-vs-bash.sh), bash as the oracle, closed four ways |
 | A lens round costs more than a session holds | adopted 2026-09-17: the re-round reads the repair's diff ([`lenses.md`](lenses.md) → *Running them*); its token cost stays open under *The lens round has no form* |
 
 **Bodies removed 2026-09-10.** Each of these ended in a decision that shipped and left no open

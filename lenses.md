@@ -169,7 +169,8 @@ absence, confirm it where the work actually lives.
 
 **A lens never runs an outward act — not against a stub, not to prove a hole — except through
 [`scripts/test-gate-vs-bash.sh`](scripts/test-gate-vs-bash.sh)**, which puts only stubs and harmless tools on `PATH`, checks every
-stub before each run and denies bash the network. Measured 2026-09-24: a lens checking a claim
+stub before each run, denies bash the network, and refuses to execute a real outward tool by any
+path. Measured 2026-09-24: a lens checking a claim
 about bash wrote a script carrying `git push`, meant for a stub `git`; the installed gate refused
 the command that would have made the stub, the lens did not notice, `PATH` fell through to the real
 binary, and the sibling repository's `main` took eighteen commits of an untagged release. **A gate

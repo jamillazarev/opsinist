@@ -813,7 +813,8 @@ or `=true` · `=1` · `=yes` excuses anything. **The owed suite is
 runs in real bash against stubs, *published* is read from what the stubs were asked to do, and the
 gate's verdict must agree — with two code mutants it must catch, a terminator matched anywhere in a
 line and a dry-run scope that runs past a `)`. Against the tenth round's gate it reports exactly this
-round's four holes and nothing else.
+round's four holes and nothing else — the trailing comment, the flag outside `$(…)`, the same
+outside a backtick pair (`` `git push origin main` --dry-run ``), and `--dry-run=false`.
 
 **It is closed three ways because a lens proved it had to be.** On 2026-09-24 a lens checking a claim
 about bash wrote a script carrying `git push` for a stub `git`; the installed gate refused the
@@ -823,9 +824,32 @@ suite puts only stubs and harmless tools on `PATH` under `env -i`, verifies ever
 run, and runs bash under `sandbox-exec` with the network denied — and without `sandbox-exec` it runs
 no bash at all and says so as a failure. [`lenses.md`](lenses.md) now says a lens runs an outward verb no other
 way, and `CLAUDE.md` carries the machine note. The second `predeploy` case became
-`./scripts/pre-deploy`, the only one that reaches the `pre-` rule. `test-audit-gate.sh` **200/200**,
-`test-gate-vs-bash.sh` **40/40**, and the sibling's `test-outward-gate.sh` **103/103**; the twelfth
-round goes over this repair.
+`./scripts/pre-deploy`, the only one that reaches the `pre-` rule. The twelfth round went over
+this repair.
+
+**The twelfth round found the gate blind to a tool's own global options — since the day it was
+written.** `git -C . push`, `git -c k=v push`, `git --git-dir=.git push`, `gh -R o/r release
+create`, `npm --prefix x publish` and `docker --context x push` all passed both gates, because the
+pattern wanted the subcommand straight after the tool's name; so did `/usr/bin/git push`, a tool named
+by its path. An adversarial lens found the path; checking what else that shape covered found the
+options, and **`git -C <dir> push` is the form an agent working across repositories writes most**.
+Any run of option tokens between the tool and its subcommand is allowed now, each with at most one
+argument that is not itself a subcommand, and any path before the name. **And the dry-run flag had
+no left edge**: `git push origin mainX--dry-run` was excused, the flag found glued to another word,
+so the command is split the way a shell splits it and only a whole word counts — the act's own
+options included, since `npm --dry-run publish` is a dry run too.
+
+**The new suite had a blind spot of its own, and it was its safety.** A real tool named by its path
+cannot be stubbed, and the network it would have used was denied, so such a push read as *nothing
+published* — the layer that makes the suite safe was hiding exactly the hole. The sandbox now also
+refuses to execute any binary named like an outward tool outside the stub directory, by any path; a
+canary proves that before any case runs; and a refused execution counts as the act having been
+tried. **The oracle got its own model of each CLI** — which global options take an argument —
+written where a case using another one has to add it, and the stubs log each argument separately so
+quoting survives. Against the eleventh round's gate the suite reports nine holes, every one this
+round's. Reading: the four holes of the round before are named where they are counted, and the
+suite's header now says how to add a case and what a `SYNTAX:` reason means. `test-audit-gate.sh`
+**200/200**, `test-gate-vs-bash.sh` **52/52**; the thirteenth round goes over this repair.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest

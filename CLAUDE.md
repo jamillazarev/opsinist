@@ -178,8 +178,7 @@ nothing accumulates outside versions.
   a public branch is worse than what it carries. **Two misreadings compounded**: a refusal read as
   *nothing happened* when it meant *the next step's precondition is missing*, and a gate that reads
   commands trusted to see into a script. `scripts/test-gate-vs-bash.sh` is the closed way to run such
-  a check — stubs-only `PATH` under `env -i`, every stub verified first, `sandbox-exec` denying the
-  network — and [`lenses.md`](lenses.md) holds the rule that nothing runs an outward verb any other way.
+  a check, and [`lenses.md`](lenses.md) holds the rule that nothing runs an outward verb any other way.
 
 - **`open(p, "w").write(open(p).read()…)` truncates before it reads** (measured 2026-09-18, and it
   emptied [`diagrams.md`](diagrams.md) — 500 lines to zero). Python evaluates the call's *object* first, so the

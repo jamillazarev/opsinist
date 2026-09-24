@@ -31,6 +31,7 @@ import glob
 import json
 import os
 import re
+import shlex
 import subprocess
 import sys
 
@@ -883,16 +884,36 @@ def main():
             # refused, which is the loud side, and the refusal's closing line — *if this is a sentence
             # about the act, say so to the owner* — is there for exactly that.
             _WRAP = r"(?:(?:env|sudo|nohup|time|command|exec|eval|nice)[ \t]+(?:\S+[ \t]+)*)?"
+            # **A tool takes global options before its subcommand, and can be named by its path.**
+            # `git -C . push`, `git -c k=v push`, `gh -R o/r release create`, `npm --prefix x publish`,
+            # `docker --context x push` and `/usr/bin/git push` all went through both gates from the day
+            # they were written, because the pattern wanted the subcommand straight after the name — found on
+            # 2026-09-24, the absolute path by an adversarial lens and the options by checking what else that
+            # shape covered. Any run of option tokens is allowed between the two now, each with at most one
+            # argument that is not itself a subcommand, and any path before the name.
+            _O = r"(?:\s+-\S+(?:\s+(?!(?:push|publish|release|pr|run|deploy)\b)[^\s\-]\S*)?)*"
             _acts = re.compile(
                 r"(?:(?:^|[\n;&|(){}`]|\$\()\s*"
                 r"|\b(?:bash|sh|zsh|dash|eval|xargs)\b[^\n]*?[\"']\s*)" + _WRAP +
-                r"(git\s+push|gh\s+(?:release\s+create|pr\s+create)|npm\s+publish|"
-                r"docker\s+push|(?:npm|yarn|pnpm)\s+run\s+deploy|(?:make|just)\s+deploy|"
-                r"(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)\s+deploy|"
+                r"((?:[\w.~/-]*/)?(?:git" + _O + r"\s+push|gh" + _O +
+                r"\s+(?:release\s+create|pr\s+create)|npm" + _O + r"\s+publish|docker" + _O +
+                r"\s+push|(?:npm|yarn|pnpm)" + _O + r"\s+run\s+deploy|(?:make|just)" + _O +
+                r"\s+deploy|(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)" + _O + r"\s+deploy)|"
                 r"(?:[\w./-]*[/_.-])?(?<!pre[-_])deploy)(?=[\s;&|)<>\"'`]|$)", re.I)
-            _dry = re.compile(r"--dry[-_]run(?:=(?:true|1|yes))?(?=[\s\"']|$)", re.I)
+            # **And the flag has to be a word of that command.** `git push origin mainX--dry-run` was
+            # excused because the pattern found the flag glued to another word (2026-09-24), so the command is
+            # split the way a shell splits it and only a whole word counts — the act's own options included,
+            # since `npm --dry-run publish` is a dry run too. A command that will not split is not excused.
+            _dry = re.compile(r"--dry[-_]run(?:=(?:true|1|yes))?", re.I)
+
+            def _is_dry(words):
+                try:
+                    return any(_dry.fullmatch(w) for w in shlex.split(words))
+                except ValueError:
+                    return False                      # will not split: not excused
+
             hit = next((m for m in _acts.finditer(_c)
-                        if not _dry.search(re.split(r"[\n;&|)`]", _c[m.end():], 1)[0])), None)
+                        if not _is_dry(re.split(r"[\n;&|)`]", _c[m.start(1):], 1)[0])), None)
             if hit:
                 # **The owner's own last words, quoted — context for the person, never consent.**
                 # A gate cannot read intent, and asking the constrained party for theirs is asking
