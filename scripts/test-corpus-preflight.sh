@@ -63,23 +63,30 @@ grep -q "as a comment" "$T/oy6" && ok || bad "a value that is only a comment was
   && perl -pi -e 's/^description: .*$/description: One\tloop/' skills/decide/SKILL.md \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy7" 2>&1 \
   && bad "a plain value holding a tab passed" || ok
-grep -q "is not valid YAML" "$T/oy7" && ok || bad "a tab in a plain value was refused for some other reason"
+grep -q "holds a tab" "$T/oy7" && ok || bad "a tab in a plain value was refused for some other reason"
 ( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
   && perl -pi -e 's/^description: .*$/description: One loop # a\tb/' skills/decide/SKILL.md \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy9" 2>&1
 grep -q "as a comment" "$T/oy9" && ok || bad "a tab inside a comment was not read as part of the comment"
-grep -q "is not valid YAML" "$T/oy9" && bad "a tab inside a comment was refused as a tab in the value" || ok
-# …a tab after the key's `:` and a tab indenting a wrapped line are refused too — PyYAML rejects both
+grep -q "holds a tab" "$T/oy9" && bad "a tab inside a comment was refused as a tab in the value" || ok
+# …a tab after the key's `:`, indenting a wrapped line, or opening a line of a block value is
+# refused too — PyYAML rejects all three
+# (no exit status asserted here: §5's description check wants `description: ` with a space and
+# refuses this fixture on its own, so only the refusal's words say whether the tab rule fired)
 ( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
   && perl -pi -e 's/^description: /description:\t/' skills/decide/SKILL.md \
-  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy10" 2>&1 \
-  && bad "a tab after the key's colon passed" || ok
-grep -q "is not valid YAML" "$T/oy10" && ok || bad "a tab after the key's colon was refused for some other reason"
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy10" 2>&1
+grep -q "holds a tab" "$T/oy10" && ok || bad "a tab after the key's colon was not refused as a tab"
 ( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
   && perl -pi -e 's/^description: .*$/description: One loop\n\tand its steps/' skills/decide/SKILL.md \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy11" 2>&1 \
   && bad "a wrapped line indented with a tab passed" || ok
-grep -q "is not valid YAML" "$T/oy11" && ok || bad "a tab-indented wrapped line was refused for some other reason"
+grep -q "holds a tab" "$T/oy11" && ok || bad "a tab-indented wrapped line was refused for some other reason"
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
+  && perl -pi -e 's/^description: .*$/description: |\n\tOne loop/' skills/decide/SKILL.md \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy12" 2>&1 \
+  && bad "a block value indented with a tab passed" || ok
+grep -q "holds a tab" "$T/oy12" && ok || bad "a tab-indented block value was not refused as a tab"
 ( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
   && perl -0pi -e 's/\A(---\n.*?\n---)\n.*\z/$1/s' skills/decide/SKILL.md \
   && [ "$(tail -c 4 skills/decide/SKILL.md)" = "$(printf '\n---')" ] ) \
