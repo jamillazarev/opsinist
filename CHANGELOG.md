@@ -2,7 +2,7 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
-## 0.2.19 — 2026-09-11
+## 0.2.19 — 2026-09-25
 
 **The outward gate refused a sentence about publishing, and both copies of it were wrong in
 different directions.** It matched its verbs **anywhere in the string**, so writing a comment into
