@@ -1,5 +1,5 @@
 ---
-description: Run one decision loop: frame, search, compare, choose, check, record.
+description: "Run one decision loop: frame, search, compare, choose, check, record."
 ---
 
 Load the **opsinist** skill ([SKILL.md](../advisor/SKILL.md)) and run this flow — the procedure is in [`SKILL.md`](../advisor/SKILL.md).

@@ -1,5 +1,5 @@
 ---
-description: The product as a map: the moves through it, in its own words — not the file tree.
+description: "The product as a map: the moves through it, in its own words — not the file tree."
 ---
 
 Load the **opsinist** skill ([SKILL.md](../advisor/SKILL.md)) and run this flow — the procedure is in [`mapping.md`](../../mapping.md).

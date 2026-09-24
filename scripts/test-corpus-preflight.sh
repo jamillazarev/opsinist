@@ -21,6 +21,13 @@ ok(){ pass=$((pass+1)); }; bad(){ fail=$((fail+1)); echo "  ✗ $1"; }
 ( cd "$T/c" && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) >/dev/null 2>&1 \
   && ok || bad "the untouched twin failed preflight"
 
+# a skill's frontmatter a strict YAML parser rejects → refused, and the refusal says what to do
+( cd "$T/c" && perl -pi -e 's/^description: "(.*)"$/description: $1/' skills/decide/SKILL.md \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy" 2>&1 \
+  && bad "a skill description holding ': ' unquoted passed" || ok
+grep -q "is not valid YAML" "$T/oy" && ok || bad "the YAML refusal does not say what is wrong"
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md )
+
 # mutant 1: the guide template loses the transition door → refused, and the refusal names it
 perl -pi -e 's{_ops/scripts/transition\.py}{}g' "$T/c/templates/GUIDE-template.md"
 ( cd "$T/c" && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/o1" 2>&1 \

@@ -1,5 +1,5 @@
 ---
-description: A release: the batch, the guards, and the door it ships through.
+description: "A release: the batch, the guards, and the door it ships through."
 ---
 
 Load the **opsinist** skill ([SKILL.md](../advisor/SKILL.md)) and run this flow — the procedure is in [`shipping.md`](../../shipping.md).

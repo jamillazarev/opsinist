@@ -29,9 +29,10 @@ record of how it got here, round by round.
   command; a local script named `predeploy`.
 - **By design:** a verb assembled from parts (`pu'sh'`), a variable or an interpreter carrying it
   is not read; an option whose argument is one of the act's own words (`npm --workspace publish
-  install`) is read as the act and refused. When the gate mistakes a sentence for the act, the agent
-  it stopped is told, in the refusal's closing line, to say so to you — never to reword the command
-  to get past it.
+  install`) is read as the act and refused.
+- **If the gate stops a sentence about publishing** — text it took for the act — the agent it
+  stopped is told, in the refusal's closing line, to say so to you, never to reword the command to
+  get past it.
 
 **And the refusal now quotes what you last asked for.** Not to decide with — a gate cannot read
 intent, and asking the party it is stopping for theirs is asking the thing being stopped to grade
@@ -940,7 +941,23 @@ confirm, and ended by telling *you* to tell the owner; the window's docstring in
 outermost context" to explain "the start of the command"; the two *for a user* lines this round
 added below repeated the block; one gate said its alternatives mirror the other's and the other did
 not say so back; and a case's name did not say why it was kept. `test-audit-gate.sh` **200/200**,
-`test-gate-vs-bash.sh` **69/69**; the seventeenth round goes over this repair.
+`test-gate-vs-bash.sh` **69/69**; the seventeenth round went over this repair.
+
+**The seventeenth round found nothing in the code**: its adversarial, deletion and contradiction
+lenses reported empty — the adversarial one had tried subshells, `case` patterns, `((…))`, function
+definitions and unbalanced parentheses against the new pair, and the one shape that misled the
+window is a syntax error to bash itself. Its cold-read found two reading stumbles, both repaired: a
+sentence in the block above sat under an item it did not describe, and the window's docstring used
+*bare* for two different parentheses on the same date.
+
+**The pre-tag scan found what seventeen lens rounds had not: seven of this repository's skill
+descriptions were not valid YAML.** A plain value holding `: ` —
+`description: Run one decision loop: frame, search, …` — is a mapping inside a mapping to a strict
+parser, and SkillSpector's rejected the manifest outright and reported the skill as uninspected.
+Claude Code reads such a value leniently, which is no promise about the next runtime. The seven are
+quoted, all twenty-one parse strictly, `agy plugin validate` still reads all twenty-one, and
+preflight §5 now refuses a plain frontmatter value holding `: ` or ` #`, with its mutant in
+`test-corpus-preflight.sh`. The eighteenth round goes over this repair.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
