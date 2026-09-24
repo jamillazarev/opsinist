@@ -53,6 +53,24 @@ grep -q "no frontmatter this check can read" "$T/oy4" && ok \
   && bad "a plain value cut short by ' #' passed" || ok
 grep -q "as a comment" "$T/oy5" && ok || bad "the ' #' refusal does not say what YAML does with it"
 ( cd "$T/c" && git checkout -q skills/decide/SKILL.md )
+# …a value that is only a comment loses all of it, a tab is refused, and a closing `---` that ends
+# the file is read rather than refused
+( cd "$T/c" && perl -pi -e 's/^description: .*$/description: #TODO fill this in/' skills/decide/SKILL.md \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy6" 2>&1 \
+  && bad "a value that is only a comment passed" || ok
+grep -q "as a comment" "$T/oy6" && ok || bad "a value that is only a comment was refused for some other reason"
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
+  && perl -pi -e 's/^description: .*$/description: One\tloop/' skills/decide/SKILL.md \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy7" 2>&1 \
+  && bad "a plain value holding a tab passed" || ok
+grep -q "is not valid YAML" "$T/oy7" && ok || bad "a tab in a plain value was refused for some other reason"
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
+  && perl -0pi -e 's/\A(---\n.*?\n---)\n.*\z/$1/s' skills/decide/SKILL.md \
+  && [ "$(tail -c 4 skills/decide/SKILL.md)" = "$(printf '\n---')" ] ) \
+  && ok || bad "the fixture ending at its closing --- was not built"
+( cd "$T/c" && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy8" 2>&1
+grep -q "no frontmatter this check can read" "$T/oy8" && bad "a closing --- that ends the file was refused" || ok
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md )
 
 # mutant 1: the guide template loses the transition door → refused, and the refusal names it
 perl -pi -e 's{_ops/scripts/transition\.py}{}g' "$T/c/templates/GUIDE-template.md"
