@@ -69,6 +69,17 @@ grep -q "is not valid YAML" "$T/oy7" && ok || bad "a tab in a plain value was re
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy9" 2>&1
 grep -q "as a comment" "$T/oy9" && ok || bad "a tab inside a comment was not read as part of the comment"
 grep -q "is not valid YAML" "$T/oy9" && bad "a tab inside a comment was refused as a tab in the value" || ok
+# …a tab after the key's `:` and a tab indenting a wrapped line are refused too — PyYAML rejects both
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
+  && perl -pi -e 's/^description: /description:\t/' skills/decide/SKILL.md \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy10" 2>&1 \
+  && bad "a tab after the key's colon passed" || ok
+grep -q "is not valid YAML" "$T/oy10" && ok || bad "a tab after the key's colon was refused for some other reason"
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
+  && perl -pi -e 's/^description: .*$/description: One loop\n\tand its steps/' skills/decide/SKILL.md \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy11" 2>&1 \
+  && bad "a wrapped line indented with a tab passed" || ok
+grep -q "is not valid YAML" "$T/oy11" && ok || bad "a tab-indented wrapped line was refused for some other reason"
 ( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
   && perl -0pi -e 's/\A(---\n.*?\n---)\n.*\z/$1/s' skills/decide/SKILL.md \
   && [ "$(tail -c 4 skills/decide/SKILL.md)" = "$(printf '\n---')" ] ) \
