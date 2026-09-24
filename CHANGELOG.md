@@ -1058,18 +1058,26 @@ if all it finds is wording to fix, shapes only deliberate disguise produces, or 
 refusing a command that would not have run anyway.
 
 **The twenty-fifth round found one more tab shape, and that the net under the limits was only half
-visible.** A tab after spaces in the indent of a flow or nested value's line passes, while inside a
-block scalar the same tab is content and valid; it joins the docstring's known limits by the same
-decision as the three before it. **The contradiction lens then ran the scan before a tag on the
+visible.** A fourth tab shape that passes joins the docstring's known limits, by the same decision
+as the three before it. **The contradiction lens then ran the scan before a tag on the
 limits themselves**, and its printed summary said *successful*, no findings, for frontmatter PyYAML
 rejects: SkillSpector records such a manifest only in its JSON report, as a `manifest_parse_error`
-under `analysis_completeness`. So the net was real and nobody reading the summary would have seen
+in that skill's own `analysis_completeness`. So the net was real and nobody reading the summary would have seen
 it. The scan before a tag is now read as JSON ([AGENTS.md](AGENTS.md) says what to look for),
 measured on both corpora — no parse error in either — and on the three passing shapes, each
 reported. The deletion lens found the paragraph above re-listing the limits beside the docstring
 that holds them; the cold-read found the tab refusal not naming indented lines, the stopping rule
 named without being stated, and *a quoted value that closed on its own line* readable two ways. All
 are repaired; by the stopping rule and the decision on the heuristic, the round is clean.
+
+**The twenty-sixth round found only words, and by the stopping rule it is clean.** The new JSON rule
+said *under `analysis_completeness`*, and a `--recursive` report has two keys of that name: the
+report's own stays clean while the error sits in each skill's; the rule now names the path and gives
+a check to paste — `grep -c manifest_parse_error` must print `0`. Fact 280's *the scan then
+reported it clean* read as the whole corpus, when two of its three findings had been left standing;
+it now says the scan passed that one line. The machine note on the scan restated the rule it points
+at, and the paragraph above re-described the fourth limit beside the docstring that holds it; both
+are cut.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest

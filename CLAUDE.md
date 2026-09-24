@@ -213,10 +213,9 @@ nothing accumulates outside versions.
   reports per skill; suppression for a pool means per-skill baselines or `rules:` globs. And a
   static-only run reports `coverage_percent: 0.0` with `status: partial` **in its own JSON**, which
   is the tool being honest and the reason a clean static run is evidence about patterns rather than
-  about intent. **And a manifest a strict parser rejects appears only in that JSON** (measured
-  2026-09-24): the printed summary says *successful* with no findings, while `analysis_completeness`
-  carries a `manifest_parse_error` and the `ScannerError` — so a scan read from its summary never
-  shows the one thing preflight's frontmatter check leaves to it.
+  about intent. **And a manifest a strict parser rejects shows only in that JSON** — the
+  `ScannerError` behind the `manifest_parse_error` that [AGENTS.md](AGENTS.md) tells a release to
+  look for (measured 2026-09-24).
 
 - **`GIT_REFLOG_ACTION` is empty in a pre-commit hook, for an amend exactly as for a commit**
   (measured 2026-09-18, both cases, on this machine's git). So **a hook cannot tell `git commit

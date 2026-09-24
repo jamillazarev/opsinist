@@ -122,9 +122,12 @@ reads as *all*, which is how a corpus goes two years without scanning itself ([`
 **`--no-llm` is a partial scan and reports itself as one** — `coverage_percent: 0.0` — so a clean
 static run is evidence about patterns, not about intent. **Read it as JSON** (`--format json
 --output <file>`): a skill whose frontmatter a strict parser rejects shows only there, as a
-`manifest_parse_error` under `analysis_completeness`, while the printed summary says *successful*
-with no findings (measured 2026-09-24). Any such entry stops the tag — it is where the shapes
-preflight's frontmatter check names as its limits are caught.
+`manifest_parse_error` in that skill's own `analysis_completeness.ledger_exceptions` — in a
+`--recursive` report, `skills[].analysis_completeness`, while the report's top-level
+`analysis_completeness` stays clean — and the printed summary says *successful* with no findings
+(measured 2026-09-24). `grep -c manifest_parse_error <file>` must print `0`; anything else stops
+the tag, and the failing skill's `skill.source` names it. It is where the shapes preflight's
+frontmatter check names as its limits are caught.
 
 **`hooks/` is machinery, not prose, and it is tested like machinery.** The plugin ships two
 gates that hold a takeover to its order — refusing a mutating call before the debt list exists,
