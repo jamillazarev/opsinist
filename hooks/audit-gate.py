@@ -360,13 +360,16 @@ def shell_only(cmd):
 
 
 def command_end(c, i):
-    """Where the simple command holding the act at `i` ends — read from the START of the command,
-    because a window that starts at the act cannot tell an opening backtick from a closing one.
+    """Where the simple command holding the act at `i` ends — read from index 0 of the whole text
+    the hook received, NOT from the previous separator, because a window that starts anywhere after
+    the outermost context cannot tell an opening backtick from a closing one.
 
     Bash's own state is kept on the way: quotes, a backslash escaping the next character outside
-    single quotes, and every `$(…)` or backtick pair on a stack with its own quoting. The command
-    holding the act ends at the first `\n ; & | )` outside quotes at the act's own depth, or where
-    the substitution holding the act closes. A bare character split stopped at a `)` inside a quoted
+    single quotes, and every `$(…)`, `$((…))`, `<(…)`, `>(…)` or backtick pair on a stack with its
+    own quoting. The act's *depth* is how many of those are open where it starts; the command holding
+    it ends at the first `\n ; & | )` outside quotes at that depth, or where the pair holding the act
+    closes. Arithmetic and process substitution were read as bare parentheses until 2026-09-24, so
+    `branch$((1+1)) --dry-run` was refused as a publish. A bare character split stopped at a `)` inside a quoted
     release note; a flat quote flag was fooled by `"… $(date "+%Y (UTC)") …"`; and a window started
     at the act read the backtick that closed `` `git push` --dry-run `` as opening another pair —
     three misreadings on 2026-09-24, two loud and one a hole."""
@@ -382,26 +385,35 @@ def command_end(c, i):
         if ch == "\\":
             k += 2
             continue
-        opens = c.startswith("$(", k) and not c.startswith("$((", k)
+        if c.startswith("$((", k):
+            opener = ("))", 3)                       # arithmetic, closed by its own doubled paren
+        elif c.startswith("$(", k) or (q is None and c.startswith(("<(", ">("), k)):
+            opener = (")", 2)                        # a command or process substitution
+        elif ch == "`":
+            opener = ("`", 1)
+        else:
+            opener = None
         if q == '"':
             if ch == '"':
                 q = None
-            elif opens or ch == "`":
-                stack.append((q, ")" if opens else "`"))
+            elif opener:
+                stack.append((q, opener[0]))
                 q = None
-                k += 1 if ch == "`" else 2
+                k += opener[1]
                 continue
             k += 1
             continue
-        if stack and ch == stack[-1][1]:
+        if stack and c.startswith(stack[-1][1], k):
             if depth is not None and len(stack) == depth:
-                return k                             # the substitution holding the act closes
+                return k                             # the pair holding the act closes
+            k += len(stack[-1][1])
             q = stack.pop()[0]
-        elif ch in "'\"":
+            continue
+        if ch in "'\"":
             q = ch
-        elif opens or ch == "`":
-            stack.append((None, ")" if opens else "`"))
-            k += 1 if ch == "`" else 2
+        elif opener:
+            stack.append((None, opener[0]))
+            k += opener[1]
             continue
         elif depth is not None and len(stack) == depth and ch in "\n;&|)":
             return k
@@ -946,21 +958,28 @@ def main():
             # publish`, `gh -R pr-team/r release create`, `git -c "user.name=x y" push` and a quoted path with
             # a space in it all passed while this read `\S` and `\b` (an adversarial lens, 2026-09-24). A
             # path, or a bare name, may open a quote the name closes — `"git" push`, 2026-09-24 — which is
-            # what the optional quote after each name is for. **What is not read, by design**: a verb the
-            # shell assembles from parts — `pu'sh'`, `$v` — is a decision to hide the act, and this gate
-            # does not claim to parse bash against the one it constrains.
+            # what the optional quote after each name is for — and every word of the act may be quoted whole,
+            # `git "push"`, since quoting each word is an ordinary habit (2026-09-24). **What is not read, by
+            # design**: a verb the shell assembles from parts — `pu'sh'`, `$v` — is a decision to hide the
+            # act, and this gate does not claim to parse bash against the one it constrains.
             _W = r"""(?:[^\s"'\\]|\\.|"(?:[^"\\]|\\.)*"|'[^']*')"""
-            _O = (r"(?:\s+-" + _W + r"*(?:\s+(?!(?:push|publish|release|pr|run|deploy)(?:\s|$))(?!-)"
+            _O = (r"(?:\s+-" + _W + r"*(?:\s+(?![\"']?(?:push|publish|release|pr|run|deploy)[\"']?(?:\s|$))(?!-)"
                   + _W + r"+)?)*")
             _Q = r"""["']?"""
+            def _say(*words):                         # the act's words, each may be quoted whole
+                return "".join(r"\s+" + _Q + w + _Q for w in words)
+
             _acts = re.compile(
                 r"(?:(?:^|[\n;&|(){}`]|\$\()\s*"
                 r"|\b(?:bash|sh|zsh|dash|eval|xargs)\b[^\n]*?[\"']\s*)" + _WRAP +
-                r"((?:[\"'][^\"'\n]*/|[\"']|[\w.~/-]*/)?(?:git" + _Q + _O + r"\s+push|gh" + _Q + _O +
-                r"\s+(?:release\s+create|pr\s+create)|npm" + _Q + _O + r"\s+publish|docker" + _Q +
-                _O + r"\s+push|(?:npm|yarn|pnpm)" + _Q + _O + r"\s+run\s+deploy|(?:make|just)" + _Q +
-                _O + r"\s+deploy|(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)" + _Q + _O +
-                r"\s+deploy)|"
+                r"((?:[\"'][^\"'\n]*/|[\"']|[\w.~/-]*/)?(?:"
+                r"git" + _Q + _O + _say("push") +
+                r"|gh" + _Q + _O + r"(?:" + _say("release", "create") + r"|" + _say("pr", "create") + r")"
+                r"|npm" + _Q + _O + _say("publish") +
+                r"|docker" + _Q + _O + _say("push") +
+                r"|(?:npm|yarn|pnpm)" + _Q + _O + _say("run", "deploy") +
+                r"|(?:make|just)" + _Q + _O + _say("deploy") +
+                r"|(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)" + _Q + _O + _say("deploy") + r")|"
                 r"(?:[\w./-]*[/_.-])?(?<!pre[-_])deploy)(?=[\s;&|)<>\"'`]|$)", re.I)
             # **And the flag has to be a word of that command.** `git push origin mainX--dry-run` was
             # excused because the pattern found the flag glued to another word (2026-09-24), so the command is
