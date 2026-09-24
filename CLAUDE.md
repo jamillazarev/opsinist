@@ -180,6 +180,13 @@ nothing accumulates outside versions.
   commands trusted to see into a script. `scripts/test-gate-vs-bash.sh` is the closed way to run such
   a check, and [`lenses.md`](lenses.md) holds the rule that nothing runs an outward verb any other way.
 
+- **bash 3.2 misreads a heredoc inside `$(…)`** (measured 2026-09-24, on the `/bin/bash` macOS
+  ships). A `$(python3 - <<'PY' … PY)` whose body held quotes and backticks failed `bash -n` with
+  *unexpected EOF while looking for matching `)`* — the quoted delimiter does not stop bash 3.2's
+  `$(` scanner from reading the body. Send the program's output to a temp file instead, which also
+  leaves its exit status where `|| say_fail` can read it — the reason the construct was being
+  replaced in the first place.
+
 - **`open(p, "w").write(open(p).read()…)` truncates before it reads** (measured 2026-09-18, and it
   emptied [`diagrams.md`](diagrams.md) — 500 lines to zero). Python evaluates the call's *object* first, so the
   write-open truncates the file, and the read inside the argument then returns `""`. Nothing warns:

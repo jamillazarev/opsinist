@@ -27,6 +27,14 @@ ok(){ pass=$((pass+1)); }; bad(){ fail=$((fail+1)); echo "  ✗ $1"; }
   && bad "a skill description holding ': ' unquoted passed" || ok
 grep -q "is not valid YAML" "$T/oy" && ok || bad "the YAML refusal does not say what is wrong"
 ( cd "$T/c" && git checkout -q skills/decide/SKILL.md )
+# …a value wrapped onto a second line is read too, and a file that is not UTF-8 fails closed
+( cd "$T/c" && perl -0pi -e 's/^description: "(.*?)"\n/description: Run one decision loop\n  with steps: $1\n/m' \
+    skills/decide/SKILL.md && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy2" 2>&1 \
+  && bad "a wrapped plain value holding ': ' passed" || ok
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md && printf '\n\377\n' >> skills/decide/SKILL.md \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) >/dev/null 2>&1 \
+  && bad "a skill file that is not UTF-8 passed — the check failed open" || ok
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md )
 
 # mutant 1: the guide template loses the transition door → refused, and the refusal names it
 perl -pi -e 's{_ops/scripts/transition\.py}{}g' "$T/c/templates/GUIDE-template.md"

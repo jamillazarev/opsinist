@@ -31,8 +31,8 @@ record of how it got here, round by round.
   is not read; an option whose argument is one of the act's own words (`npm --workspace publish
   install`) is read as the act and refused.
 - **If the gate stops a sentence about publishing** — text it took for the act — the agent it
-  stopped is told, in the refusal's closing line, to say so to you, never to reword the command to
-  get past it.
+  stopped is told, in the refusal itself, to say so to you, never to reword the command to get
+  past it.
 
 **And the refusal now quotes what you last asked for.** Not to decide with — a gate cannot read
 intent, and asking the party it is stopping for theirs is asking the thing being stopped to grade
@@ -953,11 +953,27 @@ sentence in the block above sat under an item it did not describe, and the windo
 **The pre-tag scan found what seventeen lens rounds had not: seven of this repository's skill
 descriptions were not valid YAML.** A plain value holding `: ` —
 `description: Run one decision loop: frame, search, …` — is a mapping inside a mapping to a strict
-parser, and SkillSpector's rejected the manifest outright and reported the skill as uninspected.
+parser, and SkillSpector's parser rejected the manifest outright and reported the skill only
+partly inspected — `status: partial`, coverage 0%.
 Claude Code reads such a value leniently, which is no promise about the next runtime. The seven are
 quoted, all twenty-one parse strictly, `agy plugin validate` still reads all twenty-one, and
-preflight §5 now refuses a plain frontmatter value holding `: ` or ` #`, with its mutant in
-`test-corpus-preflight.sh`. The eighteenth round goes over this repair.
+preflight §5 now refuses a plain frontmatter value a strict parser rejects, with its mutant in
+`test-corpus-preflight.sh`. The eighteenth round went over this repair.
+
+**The eighteenth round found the new check weaker than the repair it guards.** The sibling
+repository's copy fed its checker's output through a here-string and never read its exit status, so
+a skill file that was not UTF-8 stopped the scan silently and every skill after it went unchecked —
+while this copy, one process guarded by `|| FAIL=1`, failed closed on the same file: two copies of
+one check, opposite on a crash. Both fail closed now, on one function written identically into
+both. And the heuristic was narrower and wider than strict YAML at once — it missed a tab before
+`#`, a plain value wrapped onto a second line, a quoted key and a value opening with `@` or a
+backtick, and refused a flow collection strict YAML reads. It is still a heuristic, and it says so
+in its docstring, since the Python that runs preflight has no YAML parser to ask; the pre-tag scan
+is the strict one. The refusal now names every shape it refuses. The other lenses: *bare* was
+still in the window's docstring after this entry said it was gone; SkillSpector's own word for the
+skill it could not parse is *partial*, not *uninspected*; and the stop for a sentence about
+publishing sits in the refusal, not always at its close, because the owner's quoted instruction can
+follow it. The nineteenth round goes over this repair.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest

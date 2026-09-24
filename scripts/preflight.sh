@@ -358,14 +358,32 @@ for p in cmds:
 # is a mapping inside a mapping to YAML; thirteen descriptions across the two repositories were
 # written that way and a strict parser — SkillSpector's, in the pre-tag scan of 2026-09-24 —
 # rejected the manifest outright. One runtime reading it leniently is no promise about the next.
-for p in sorted(pathlib.Path("skills").glob("*/SKILL.md")):
+def frontmatter_faults(p):
+    """Plain frontmatter values a strict YAML parser rejects — a heuristic, stated as one: it reads
+    `: `, a `#` after a space or a tab, a trailing `:`, a plain value opening with `@` or a
+    backtick, and the continuation lines of a plain value; it leaves quoted, block and flow values
+    to the parser. A file that is not UTF-8 raises, and the caller fails closed on it."""
     fm = re.match(r"---\n(.*?)\n---\n", p.read_text(encoding="utf-8"), re.S)
+    faults, plain, key = [], False, None
     for line in (fm.group(1).split("\n") if fm else []):
-        kv = re.match(r"^([\w-]+):[ \t]+(.*)$", line)
-        if kv and kv.group(2)[:1] not in "\"'|>" and (": " in kv.group(2) or " #" in kv.group(2)
-                                                   or kv.group(2).endswith(":")):
-            bad.append(f"{p}: frontmatter `{kv.group(1)}` is not valid YAML — a plain value holding "
-                       f"': ' or ' #'; quote it")
+        kv = re.match(r"""^([\w-]+|"[^"]*"|'[^']*'):(?:[ \t]+(.*))?$""", line)
+        if kv:
+            key, v = kv.group(1), kv.group(2) or ""
+            plain = bool(v) and v[:1] not in "\"'|>[{"
+            body = v if plain else ""
+        elif plain and line[:1] in " \t":
+            body = line.strip()                  # a plain value wrapped onto the next line
+        else:
+            plain, body = False, ""
+        if body and (": " in body or re.search(r"[ \t]#", body) or body.endswith(":")
+                     or body[:1] in "@`"):
+            faults.append(f"{p}: frontmatter `{key}` is not valid YAML — a plain value holding ': ' "
+                          f"or ' #', ending in ':', or opening with '@' or a backtick; quote it")
+    return faults
+
+
+for p in sorted(pathlib.Path("skills").glob("*/SKILL.md")):
+    bad += frontmatter_faults(p)
 for b in bad:
     print(f"  \033[31m✗\033[0m {b}")
 if bad: sys.exit(1)
