@@ -359,6 +359,30 @@ def shell_only(cmd):
     return "".join(out)
 
 
+def command_end(c, i):
+    """Where the simple command starting at `i` ends: the first `\n ; & | )` or backtick OUTSIDE
+    quotes. A dry-run window cut by a bare character split stopped at a `)` inside a quoted release
+    note and missed the real `--dry-run` after it (2026-09-24) — loud, but wrong."""
+    q = None
+    while i < len(c):
+        ch = c[i]
+        if q:
+            if ch == "\\" and q == '"':
+                i += 2
+                continue
+            if ch == q:
+                q = None
+        elif ch == "\\":
+            i += 2
+            continue
+        elif ch in "'\"":
+            q = ch
+        elif ch in "\n;&|)`":
+            return i
+        i += 1
+    return len(c)
+
+
 def last_owner_instruction(transcript, limit=240):
     """The owner's most recent message — **context for the person, never consent.**
 
@@ -891,14 +915,22 @@ def main():
             # 2026-09-24, the absolute path by an adversarial lens and the options by checking what else that
             # shape covered. Any run of option tokens is allowed between the two now, each with at most one
             # argument that is not itself a subcommand, and any path before the name.
-            _O = r"(?:\s+-\S+(?:\s+(?!(?:push|publish|release|pr|run|deploy)\b)[^\s\-]\S*)?)*"
+            # **A word is read the way a shell reads one** — quoted parts may hold spaces — **and an argument
+            # that merely STARTS with a subcommand word is still an argument.** `npm --prefix publish-tools
+            # publish`, `gh -R pr-team/r release create`, `git -c "user.name=x y" push` and a quoted path with
+            # a space in it all passed while this read `\S` and `\b` (an adversarial lens, 2026-09-24).
+            _W = r"""(?:[^\s"'\\]|\\.|"(?:[^"\\]|\\.)*"|'[^']*')"""
+            _O = (r"(?:\s+-" + _W + r"*(?:\s+(?!(?:push|publish|release|pr|run|deploy)(?:\s|$))(?!-)"
+                  + _W + r"+)?)*")
+            _Q = r"""["']?"""
             _acts = re.compile(
                 r"(?:(?:^|[\n;&|(){}`]|\$\()\s*"
                 r"|\b(?:bash|sh|zsh|dash|eval|xargs)\b[^\n]*?[\"']\s*)" + _WRAP +
-                r"((?:[\w.~/-]*/)?(?:git" + _O + r"\s+push|gh" + _O +
-                r"\s+(?:release\s+create|pr\s+create)|npm" + _O + r"\s+publish|docker" + _O +
-                r"\s+push|(?:npm|yarn|pnpm)" + _O + r"\s+run\s+deploy|(?:make|just)" + _O +
-                r"\s+deploy|(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)" + _O + r"\s+deploy)|"
+                r"((?:[\"'][^\"'\n]*/|[\w.~/-]*/)?(?:git" + _Q + _O + r"\s+push|gh" + _Q + _O +
+                r"\s+(?:release\s+create|pr\s+create)|npm" + _Q + _O + r"\s+publish|docker" + _Q +
+                _O + r"\s+push|(?:npm|yarn|pnpm)" + _Q + _O + r"\s+run\s+deploy|(?:make|just)" + _Q +
+                _O + r"\s+deploy|(?:flyctl|fly|vercel|netlify|wrangler|kamal|cap)" + _Q + _O +
+                r"\s+deploy)|"
                 r"(?:[\w./-]*[/_.-])?(?<!pre[-_])deploy)(?=[\s;&|)<>\"'`]|$)", re.I)
             # **And the flag has to be a word of that command.** `git push origin mainX--dry-run` was
             # excused because the pattern found the flag glued to another word (2026-09-24), so the command is
@@ -910,10 +942,10 @@ def main():
                 try:
                     return any(_dry.fullmatch(w) for w in shlex.split(words))
                 except ValueError:
-                    return False                      # will not split: not excused
+                    return False
 
             hit = next((m for m in _acts.finditer(_c)
-                        if not _is_dry(re.split(r"[\n;&|)`]", _c[m.start(1):], 1)[0])), None)
+                        if not _is_dry(_c[m.start(1):command_end(_c, m.start(1))])), None)
             if hit:
                 # **The owner's own last words, quoted — context for the person, never consent.**
                 # A gate cannot read intent, and asking the constrained party for theirs is asking

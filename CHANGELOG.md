@@ -816,7 +816,7 @@ line and a dry-run scope that runs past a `)`. Against the tenth round's gate it
 round's four holes and nothing else — the trailing comment, the flag outside `$(…)`, the same
 outside a backtick pair (`` `git push origin main` --dry-run ``), and `--dry-run=false`.
 
-**It is closed three ways because a lens proved it had to be.** On 2026-09-24 a lens checking a claim
+**It was closed three ways because a lens proved it had to be** — a fourth came the next round. On 2026-09-24 a lens checking a claim
 about bash wrote a script carrying `git push` for a stub `git`; the installed gate refused the
 command that would have made the stub, the lens did not notice, `PATH` fell through to the real
 binary, and the sibling repository's `main` took eighteen commits of its untagged release. So the
@@ -833,8 +833,9 @@ create`, `npm --prefix x publish` and `docker --context x push` all passed both 
 pattern wanted the subcommand straight after the tool's name; so did `/usr/bin/git push`, a tool named
 by its path. An adversarial lens found the path; checking what else that shape covered found the
 options, and **`git -C <dir> push` is the form an agent working across repositories writes most**.
-Any run of option tokens between the tool and its subcommand is allowed now, each with at most one
-argument that is not itself a subcommand, and any path before the name. **And the dry-run flag had
+**The gate now reads any run of option tokens between the tool and its subcommand, and any path
+before the name, as the same act, and refuses it** — so a command of those shapes that went through
+before is stopped now, which is the change a user upgrading will notice. **And the dry-run flag had
 no left edge**: `git push origin mainX--dry-run` was excused, the flag found glued to another word,
 so the command is split the way a shell splits it and only a whole word counts — the act's own
 options included, since `npm --dry-run publish` is a dry run too.
@@ -849,7 +850,34 @@ written where a case using another one has to add it, and the stubs log each arg
 quoting survives. Against the eleventh round's gate the suite reports nine holes, every one this
 round's. Reading: the four holes of the round before are named where they are counted, and the
 suite's header now says how to add a case and what a `SYNTAX:` reason means. `test-audit-gate.sh`
-**200/200**, `test-gate-vs-bash.sh` **52/52**; the thirteenth round goes over this repair.
+The thirteenth round went over this repair.
+
+**The thirteenth round lost all four lenses to the session limit in their first calls, was run
+again, and its adversarial lens found the option reading approximate in four ways.** An argument
+that merely *starts* with a subcommand word — `npm --prefix publish-tools publish`,
+`gh -R pr-team/repo release create`, `npm --prefix run-scripts run deploy` — ended the option run
+early and hid the act; so did an option value quoted because it holds a space, `git -c "user.name=x
+y" push`, and a tool path quoted for the same reason, `"./my tools/git" push`. And the dry-run window
+was still cut by a bare character split, so a `)` inside a quoted release note stopped it before a
+real `--dry-run` — a false refusal. **Three of the four had one cause, a pattern reading `\S` for a
+shell word**: a word is read the way a shell reads one now, quoted parts and escapes included; an
+argument is refused as a subcommand only when it IS the whole word; a path may be quoted; and the
+window ends at the first `\n ; & | )` or backtick *outside* quotes. The suite had passed all four,
+because none of its cases used an argument like that — so each is a case now, and adding the path
+case turned up one more thing the suite could not see: a script refused by the sandbox is reported
+by bash as a *bad interpreter*, not as the refusal the suite looked for. Both wordings count now.
+
+The other lenses found the record behind the code again: the round-eleven paragraph still called
+the suite *closed three ways* after the next round added a fourth; a sentence said a run of options
+*is allowed now* where the gate now **refuses** such a command, which is the one thing a reader
+upgrading needs to hear; the suite's *adding a case is one line* omitted the model of each tool's
+options the oracle reads; one case repeated another's branch and became a long option with its own
+argument; a comment repeated the paragraph above it. **One finding was declined**: that this entry
+says `CLAUDE.md` carries a machine note it no longer does — the note is still there, and what the
+previous round cut was only its restatement of the suite's mechanism. Every case for this round's
+shapes fails against the twelfth round's gate, and the second mutant now breaks the window where it
+is cut. `test-audit-gate.sh` **200/200**,
+`test-gate-vs-bash.sh` **59/59**; the fourteenth round goes over this repair.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest
