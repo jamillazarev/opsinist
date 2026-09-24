@@ -50,7 +50,7 @@ and was blind to a newline, a pipe, a subshell and a wrapper's quoted argument �
 demanded whitespace after the verb, so **a subshell's closing paren made it silent**, which no case
 had ever exercised. Six new assertions here and seven in the sibling, each a shape one of the two
 got wrong: `test-audit-gate.sh` **154/154**, `test-outward-gate.sh` **57/57**. **The refusal also
-gained a closing line** — *if this is a sentence about the act and not the act, say so to the owner*
+gained a line** — *if this is a sentence about the act and not the act, say so to the owner*
 — because a message offering only *the owner runs it* or *turn the gate off* has no answer for a
 false positive, and inviting a reword would be the failure itself.
 
@@ -817,7 +817,7 @@ suite, and a suite whose oracle is real bash went into [`LATER.md`](LATER.md) as
 no defect in the code, only in how it read: two measurements with no date, a sentence whose *them*
 garden-pathed, a docstring that stopped naming `<<<`, the clause *"three sentences were rewritten
 for a reader who was not here"*, which named none of them, and this entry still calling the
-refusal's closing line a *third door* after the code's comment had stopped. Every case for a shape
+refusal's line about a sentence a *third door* after the code's comment had stopped. Every case for a shape
 this round reproduced fails against the ninth round's code. The eleventh round went over this repair.
 
 **The eleventh round found the dry-run scope leaking two more ways, and the owed suite exists now.**
@@ -957,7 +957,7 @@ parser, and SkillSpector's parser rejected the manifest outright and reported th
 partly inspected — `status: partial`, coverage 0%.
 Claude Code reads such a value leniently, which is no promise about the next runtime. The seven are
 quoted, all twenty-one parse strictly, `agy plugin validate` still reads all twenty-one, and
-preflight §5 now refuses a plain frontmatter value a strict parser rejects, with its mutant in
+preflight §5 now refuses a plain frontmatter value a strict parser rejects or cuts short, with its mutant in
 `test-corpus-preflight.sh`. The eighteenth round went over this repair.
 
 **The eighteenth round found the new check weaker than the repair it guards.** The sibling
@@ -966,14 +966,31 @@ a skill file that was not UTF-8 stopped the scan silently and every skill after 
 while this copy, one process guarded by `|| FAIL=1`, failed closed on the same file: two copies of
 one check, opposite on a crash. Both fail closed now, on one function written identically into
 both. And the heuristic was narrower and wider than strict YAML at once — it missed a tab before
-`#`, a plain value wrapped onto a second line, a quoted key and a value opening with `@` or a
-backtick, and refused a flow collection strict YAML reads. It is still a heuristic, and it says so
+`#`, a plain value wrapped onto a second line, a quoted key, and a value opening with `@` or a
+backtick; and it refused a flow collection, which strict YAML reads. It is still a heuristic, and it says so
 in its docstring, since the Python that runs preflight has no YAML parser to ask; the pre-tag scan
-is the strict one. The refusal now names every shape it refuses. The other lenses: *bare* was
-still in the window's docstring after this entry said it was gone; SkillSpector's own word for the
-skill it could not parse is *partial*, not *uninspected*; and the stop for a sentence about
-publishing sits in the refusal, not always at its close, because the owner's quoted instruction can
-follow it. The nineteenth round goes over this repair.
+is the strict one. The refusal now names every shape it refuses. The other lenses: *bare* still
+named a kind of parenthesis in the window's docstring after this entry said it no longer did, and
+two sentences above said more than the facts under them — the skill SkillSpector could not parse,
+and where in a refusal the stop for a sentence about publishing sits. The nineteenth round went
+over this repair.
+
+**The nineteenth round found one hole, and a claim wider than the check.** Its adversarial lens
+reported that a skill file with Windows line endings passed unread; it did not — Python's text mode
+had been reading those as plain newlines all along, and the mutant written for the finding said so
+by passing against the old code. The hole was one step over: a file opening with a byte-order mark
+never matched the frontmatter pattern, so the check read nothing in it and passed it, whatever its
+values held. The mark is read past now, and a file whose frontmatter the check cannot find is
+refused instead of passed. A `#` after a space was refused as
+*not valid YAML*, when YAML reads it as a comment and drops the rest of the value; it is still
+refused, since a description cut short is the defect, and the refusal now says what YAML does. A
+nested or dotted key goes unread — no skill here has one — and the docstring now says so instead of
+claiming every value. Each of the three has its mutant. The other lenses found only words: a tab
+the refusal did not name, a line of the refusal still called its *closing* line in the gate's
+comment and twice in this entry, *bare* still in the window's docstring, a mutant whose output
+nobody read, a clause said twice, a list above that read as one case or as two, and a machine note
+quoting an error bash 3.2 does not print — it names the backtick, not the parenthesis. The
+twentieth round goes over this repair.
 
 **The re-round reads the repair, not the range again.** Nine round attempts across two releases,
 five lost whole to the session limit — and the sharpest finding of each re-round sat in the latest

@@ -31,9 +31,27 @@ grep -q "is not valid YAML" "$T/oy" && ok || bad "the YAML refusal does not say 
 ( cd "$T/c" && perl -0pi -e 's/^description: "(.*?)"\n/description: Run one decision loop\n  with steps: $1\n/m' \
     skills/decide/SKILL.md && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy2" 2>&1 \
   && bad "a wrapped plain value holding ': ' passed" || ok
+grep -q "is not valid YAML" "$T/oy2" && ok || bad "a wrapped value was refused for some other reason"
 ( cd "$T/c" && git checkout -q skills/decide/SKILL.md && printf '\n\377\n' >> skills/decide/SKILL.md \
   && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) >/dev/null 2>&1 \
   && bad "a skill file that is not UTF-8 passed — the check failed open" || ok
+# …a byte-order mark is read past instead of hiding the file, a file whose frontmatter cannot be
+# found is refused, and a `#` after a space is refused for what it does — YAML cuts the value there
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
+  && perl -pi -e 's/^description: "(.*)"$/description: $1/; s/\A/\xef\xbb\xbf/ if $. == 1' skills/decide/SKILL.md \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy3" 2>&1 \
+  && bad "a skill file opening with a byte-order mark and holding ': ' unquoted passed" || ok
+grep -q "is not valid YAML" "$T/oy3" && ok || bad "a byte-order-marked skill file was refused for some other reason"
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md && perl -0pi -e 's/\A---\n//' skills/decide/SKILL.md \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy4" 2>&1 \
+  && bad "a skill file whose frontmatter the check cannot find passed" || ok
+grep -q "no frontmatter this check can read" "$T/oy4" && ok \
+  || bad "a file with no readable frontmatter was refused for some other reason"
+( cd "$T/c" && git checkout -q skills/decide/SKILL.md \
+  && perl -pi -e 's/^description: .*$/description: One loop # and the rest is lost/' skills/decide/SKILL.md \
+  && CORPUS_PF_TEST=1 bash scripts/preflight.sh ) > "$T/oy5" 2>&1 \
+  && bad "a plain value cut short by ' #' passed" || ok
+grep -q "as a comment" "$T/oy5" && ok || bad "the ' #' refusal does not say what YAML does with it"
 ( cd "$T/c" && git checkout -q skills/decide/SKILL.md )
 
 # mutant 1: the guide template loses the transition door → refused, and the refusal names it

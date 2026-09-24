@@ -359,13 +359,22 @@ for p in cmds:
 # written that way and a strict parser — SkillSpector's, in the pre-tag scan of 2026-09-24 —
 # rejected the manifest outright. One runtime reading it leniently is no promise about the next.
 def frontmatter_faults(p):
-    """Plain frontmatter values a strict YAML parser rejects — a heuristic, stated as one: it reads
-    `: `, a `#` after a space or a tab, a trailing `:`, a plain value opening with `@` or a
-    backtick, and the continuation lines of a plain value; it leaves quoted, block and flow values
-    to the parser. A file that is not UTF-8 raises, and the caller fails closed on it."""
-    fm = re.match(r"---\n(.*?)\n---\n", p.read_text(encoding="utf-8"), re.S)
+    """Plain frontmatter values a strict YAML parser rejects or cuts short — a heuristic, stated as
+    one. It refuses `: `, a trailing `:` and a value opening with `@` or a backtick, which a strict
+    parser rejects, and a `#` after a space or a tab, which YAML reads as a comment that drops the
+    rest of the value (after a tab, PyYAML rejects it outright) — on the key's line and on any line
+    the value is wrapped onto. It reads top-level keys only, plain (letters, digits, `_`, `-`) or
+    quoted, which is every key a skill's frontmatter has; a nested or dotted key goes unread. Quoted
+    scalars, block scalars and flow collections are left to the parser. A byte-order mark is read
+    past (text mode already reads Windows line endings as plain newlines), a file whose frontmatter
+    it cannot find is refused rather than passed, and a file that is not UTF-8 raises, which the
+    caller fails closed on."""
+    fm = re.match(r"---\n(.*?)\n---\n", p.read_text(encoding="utf-8-sig"), re.S)
+    if not fm:
+        return [f"{p}: no frontmatter this check can read — the file must open with a `---` line "
+                f"and the frontmatter close with another"]
     faults, plain, key = [], False, None
-    for line in (fm.group(1).split("\n") if fm else []):
+    for line in fm.group(1).split("\n"):
         kv = re.match(r"""^([\w-]+|"[^"]*"|'[^']*'):(?:[ \t]+(.*))?$""", line)
         if kv:
             key, v = kv.group(1), kv.group(2) or ""
@@ -375,10 +384,13 @@ def frontmatter_faults(p):
             body = line.strip()                  # a plain value wrapped onto the next line
         else:
             plain, body = False, ""
-        if body and (": " in body or re.search(r"[ \t]#", body) or body.endswith(":")
-                     or body[:1] in "@`"):
-            faults.append(f"{p}: frontmatter `{key}` is not valid YAML — a plain value holding ': ' "
-                          f"or ' #', ending in ':', or opening with '@' or a backtick; quote it")
+        if body and (": " in body or body.endswith(":") or body[:1] in "@`"):
+            faults.append(f"{p}: frontmatter `{key}` is not valid YAML — a plain value holding ': ', "
+                          f"ending in ':', or opening with '@' or a backtick; quote it")
+        elif body and re.search(r"[ \t]#", body):
+            faults.append(f"{p}: frontmatter `{key}` loses everything after its '#' — YAML reads a "
+                          f"'#' after a space or a tab as a comment, and PyYAML rejects one after a "
+                          f"tab; quote it")
     return faults
 
 
