@@ -66,14 +66,14 @@ same misreading had been catching real acts by accident — `echo "a; …" | bas
 where a reading command holds the quote — grep, rg, echo, printf, a git message — **and** nothing in
 the command can run text; everywhere else the old, loud reading stands. **And `timeout 60 …` had been
 walking past both gates**, because the wrapper list did not name it; `timeout` and `doas` are
-wrappers now. Held against bash itself: `test-gate-vs-bash.sh` **88/88**, with two new mutants that
-each open a hole, and `test-audit-gate.sh` **207/207**.
+wrappers now. Held against bash itself: `test-gate-vs-bash.sh` **90/90**, with two new mutants that
+each open a hole, and `test-audit-gate.sh` **208/208**.
 
 **If you rely on the publish gate, this is what changed for you:**
 - **Let through now, where it was refused before:** a search whose pattern holds `|` or `;` before
   the verb; a commit message holding either, or a newline, before it; the same search behind a wrapper (`nice`, `env X=1`, `timeout 5`).
 - **Refused now, where it went through before:** a publish behind `timeout` or `doas`; a quoted command run by a shell the list did not
-  name — `csh -c "…"`, `tcsh`, `ksh`, `ash`, `mksh`.
+  name — `csh -c "…"`, `tcsh`, `ksh`, `ash`, `mksh`, `yash`.
 - **Unchanged, on purpose:** any quote in a command that also names a shell, `eval`, `xargs`,
   `ssh`, `su`, an interpreter, `awk`, `sed`, `find` or a scheduler — the loud side, because that is
   where a quoted string can run.
@@ -86,7 +86,7 @@ last tag added — mermaid blocks, situation rows, new fact numbers — and **pr
 line that disagrees, or that names what it added in words the script cannot read**; no line yet is
 a warning, since the entry is written last. A released entry is frozen, so a marked correction of
 its Trio line is what the script reads instead — **and 0.2.19 carries one now**, with that release's GitHub
-notes reissued to match it. `test-check-trio.sh` **21/21**, six code mutants. **The trio 0.2.19's late
+notes reissued to match it. `test-check-trio.sh` **24/24**, six code mutants. **The trio 0.2.19's late
 mechanics owed is paid here**: a diagram of how the publish gate reads a command, and a diagram, a
 situation and a fact for the frontmatter check and the scan read as JSON.
 
@@ -100,8 +100,8 @@ that governs the part you use may not be the one the row names. And if your proj
 skills with SkillSpector, read the JSON, not the summary: `grep -c manifest_parse_error` must print
 `0`.
 
-Eval state: **not run.** The forms are measured by their suites — shelf links **19**, trio **21**,
-the gate **207** and **88** against bash — but **a suite measures a form and an eval measures a
+Eval state: **not run.** The forms are measured by their suites — shelf links **19**, trio **24**,
+the gate **208** and **90** against bash — but **a suite measures a form and an eval measures a
 run**, and every rule this release borrows is the kind only a run shows: whether a session reads
 the body of a 200 before quoting it, whether it opens a stranger's document as its rendering,
 whether it writes an observation instead of a score into a record it keeps, and whether it offers

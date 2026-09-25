@@ -327,8 +327,8 @@ confidence. So the `prose-only` list is written out by name rather than left imp
 - **a 200 is believed only after its body is read, and an external call has a contract** —
   one source, bounded, its response data, its answer repeatable ([`resources.md`](resources.md) → *An API that fails
   with 200*). The call happens where no check sees it
-- **a citation at depth `standing` supports the sentence carrying it** ([`resources.md`](resources.md) — `standing` is the
-  depth meant to be quotable in a year) — read against the passage, landing as supported ·
+- **a citation at depth `standing` supports the sentence carrying it** ([`templates/ANSWER-template.md`](templates/ANSWER-template.md) → *Depth* —
+  `standing` is the depth meant to be quotable in a year) — read against the passage, landing as supported ·
   overstated · not supported · cannot be checked; `fetch-source.py --resolve` and
   `--verify-reads` prove that the source exists and was read beside its neighbours, and neither
   reads the sentence

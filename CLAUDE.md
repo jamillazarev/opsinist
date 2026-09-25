@@ -235,6 +235,24 @@ nothing accumulates outside versions.
   lenses on a smaller model than the one that wrote the corpus**, which [`lenses.md`](lenses.md) already prefers
   for independence and which the deaths had quietly stopped anyone doing.
 
+- **A lens in worktree isolation reads an older tree than the one you just committed** (measured
+  2026-09-25, twice in one round). The worktree was cut at the last *pushed* state — two local
+  commits behind `main` — so a shelf lens ran the link check on the stale copy and reported 43
+  unlinked names that the committed file no longer had, and a contradiction lens found its own HEAD
+  at the previous tag. **Brief every lens to read the main checkout by absolute path** and name its
+  working directory as a stale copy; the isolation still does its job, which is to keep the lens's
+  writes out of the real tree.
+
+- **A subagent cannot write a file here, so its report exists only as its final message**
+  (measured 2026-09-25, nine readers of the owner's link batch). Every `Write` a subagent tried was
+  refused; the ones told to save a report finished believing they had, and the text survived only
+  inside the transcript, recovered by a script. **Brief a subagent to return the whole report as its
+  final message** — and never read its transcript file into the main context, which overflows it.
+
+- **A model's cyber safeguard stops the whole reader, not the one item** (measured 2026-09-25: a
+  Sonnet reader of a mixed batch died on a pack of offensive-security skills). Route such items to the
+  coordinator, read by their metadata only, and relaunch the reader without them.
+
 - **`timeout` is Homebrew's, not macOS's** (measured 2026-08-20): a suite that wrapped calls in
   `timeout 90` was green on this machine and failed every assertion with **127** on a macos-latest
   runner. Third instance of the grep/awk class — the tool the author has is not the tool the
