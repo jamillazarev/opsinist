@@ -379,15 +379,19 @@ def shell_only(cmd):
 # by accident: `echo "a; git push" | bash`, `python3 -c "os.system('git push')"`, `su -c "…"`,
 # a file written and then run by `sh`. So a quote is data only when (1) the simple command holding
 # it starts with a reader — grep, rg, ag, ack, echo, printf, or git commit · log · grep · show ·
-# tag · notes — and (2) nothing in the command, outside such a quote, is a word that runs text: a
+# tag · notes, behind any wrapper (`nice`, `env X=1`, `timeout 5`) — and (2) nothing in the command, outside such a quote, is a word that runs text: a
 # shell, `eval`, `source` or `.`, `exec`, `xargs`, `ssh`, `su`, `sudo`, `watch`, `tmux`, `screen`,
-# `parallel`, an interpreter, `awk`, `sed`, `find`, or a scheduler taking a pipe. Anything else
+# `parallel`, an interpreter, `awk`, `sed`, `find`, or a scheduler taking a pipe — and every shell
+# by name, `csh` and `tcsh` included: both ship with macOS, and a reader's quote piped into either
+# published while this list named five (an adversarial lens, 2026-09-25). Anything else
 # keeps the old reading, which is the loud side. `$(…)` and backticks inside `"…"` run, so the
 # scanner never marks them quoted.
-_READERS = re.compile(r"[ \t]*(?:[\w.~/-]*/)?(?:grep|egrep|fgrep|rg|ag|ack|echo|printf"
+_READERS = re.compile(r"[ \t]*(?:(?:env|sudo|doas|nohup|time|timeout|command|nice|ionice|stdbuf)"
+                      r"(?:[ \t]+(?:-\S+(?:[ \t]+[^-\s]\S*)?|\w+=\S*|\d\S*))*[ \t]+)*"
+                      r"(?:[\w.~/-]*/)?(?:grep|egrep|fgrep|rg|ag|ack|echo|printf"
                       r"|git(?:[ \t]+-C[ \t]+\S+)?[ \t]+(?:commit|log|grep|show|tag|notes))(?=[ \t]|$)")
 _RUNS_TEXT = re.compile(
-    r"(?:^|[\s;&|(){}`/\"'])((?:ba|z|da|k)?sh|fish|pwsh|eval|source|exec|xargs|ssh|su|sudo|watch|tmux"
+    r"(?:^|[\s;&|(){}`/\"'])((?:ba|z|da|k|c|tc|a|mk|pdk|y)?sh|ksh93|fish|pwsh|nu|elvish|xonsh|busybox|eval|source|exec|xargs|ssh|su|sudo|watch|tmux"
     r"|screen|parallel|python[0-9.]*|perl|ruby|node|deno|bun|php|osascript|awk|gawk|sed|find)"
     r"(?=[\s;&|)}`\"']|$)"
     r"|(?:^|[;&|(`\n])[ \t]*(at|batch|crontab|\.)(?=[ \t])")
@@ -1032,7 +1036,7 @@ def main():
 
             _acts = re.compile(
                 r"(?:(?:^|[\n;&|(){}`]|\$\()\s*"
-                r"|\b(?:bash|sh|zsh|dash|eval|xargs)\b[^\n]*?[\"']\s*)" + _WRAP +
+                r"|\b(?:(?:ba|z|da|k|c|tc|a|mk|pdk|y)?sh|ksh93|fish|pwsh|nu|elvish|xonsh|busybox|eval|xargs)\b[^\n]*?[\"']\s*)" + _WRAP +
                 r"((?:[\"'][^\"'\n]*/|[\"']|[\w.~/-]*/)?(?:"
                 r"git" + _Q + _O + _say("push") +
                 r"|gh" + _Q + _O + r"(?:" + _say("release", "create") + r"|" + _say("pr", "create") + r")"

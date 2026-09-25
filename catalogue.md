@@ -415,7 +415,8 @@ same link is not re-evaluated every quarter. Each was read the day named, and a 
 **The second batch: two hundred links read in one day, by the same rule.** It taught three things
 about reading a repository that change how every row above is checked. **A star count on a young
 repository is not evidence** — several had tens of thousands of stars on a few dozen watchers, and
-two rows already on this shelf tripled in eight days; watchers, forks, contributors and the commit
+two rows already on this shelf moved more in eight days than any audience could, one of them
+threefold; watchers, forks, contributors and the commit
 log are what was read instead. **A description can contradict its own licence** — two projects call
 themselves open source and are not. **And a push date can be years newer than the last real commit**
 — a framework dead since 2022 shows a 2026 push. Where an idea was worth more than the tool, the

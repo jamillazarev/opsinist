@@ -238,7 +238,7 @@ itself):
 flowchart TD
   C["a Bash command"] --> B["heredoc bodies and comments blanked ·<br/>line continuations folded"]
   B --> P{"a publish verb at a command position?<br/>the start · a newline · ; && || | ·<br/>inside ( ) · $( ) · backticks —<br/>past wrappers (env · sudo · timeout …),<br/>a tool's global options, a path"}
-  B -.->|"a separator inside a quote that grep,<br/>echo or a commit message holds —<br/>and nothing in the command runs text"| S(["a character of a string"])
+  B -.->|"a separator inside a quote that grep,<br/>echo or a commit message holds —<br/>and nothing in the command runs text"| S(["a character of a string — allowed"])
   P -->|"after a word, inside a sentence"| R(["prose — allowed"])
   P -->|"inside a quote"| Q{"a quote after something<br/>that runs a shell?<br/>bash -c · sh -c · eval · xargs"}
   Q -->|"no — grep 'npm publish'"| R
@@ -327,8 +327,9 @@ confidence. So the `prose-only` list is written out by name rather than left imp
 - **a 200 is believed only after its body is read, and an external call has a contract** —
   one source, bounded, its response data, its answer repeatable ([`resources.md`](resources.md) → *An API that fails
   with 200*). The call happens where no check sees it
-- **a citation at depth `standing` supports the sentence carrying it** — read against the passage,
-  landing as supported · overstated · not supported · cannot be checked; `--resolve` and
+- **a citation at depth `standing` supports the sentence carrying it** ([`resources.md`](resources.md) — `standing` is the
+  depth meant to be quotable in a year) — read against the passage, landing as supported ·
+  overstated · not supported · cannot be checked; `fetch-source.py --resolve` and
   `--verify-reads` prove that the source exists and was read beside its neighbours, and neither
   reads the sentence
 - **a document from outside is read as its rendering, never its bytes** ([`security.md`](security.md)) — nothing

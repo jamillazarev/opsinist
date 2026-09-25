@@ -14,7 +14,7 @@ reasoned list of methods and measures that are not projects. Its first honest ru
 names here and forty-three in the sibling's shelf** — SwiftUI, Vitest, CodeQL, Unity, Google Search
 Console among them — and **linking one corrected its row**: PACT had been listed as *the callable
 layer* of the agent web, and its source says Private Access Control Tokens, a site vouching for an
-agent anonymously. Preflight §7c runs it; `test-check-shelf-links.sh` holds it, **17/17**, with five
+agent anonymously. Preflight §7c runs it; `test-check-shelf-links.sh` holds it, **19/19**, with five
 code mutants. **What it cannot see is named in its docstring**: a name inside a sentence, a name in
 lowercase, an entry that already holds one link.
 
@@ -66,13 +66,14 @@ same misreading had been catching real acts by accident — `echo "a; …" | bas
 where a reading command holds the quote — grep, rg, echo, printf, a git message — **and** nothing in
 the command can run text; everywhere else the old, loud reading stands. **And `timeout 60 …` had been
 walking past both gates**, because the wrapper list did not name it; `timeout` and `doas` are
-wrappers now. Held against bash itself: `test-gate-vs-bash.sh` **83/83**, with two new mutants that
+wrappers now. Held against bash itself: `test-gate-vs-bash.sh` **88/88**, with two new mutants that
 each open a hole, and `test-audit-gate.sh` **207/207**.
 
 **If you rely on the publish gate, this is what changed for you:**
 - **Let through now, where it was refused before:** a search whose pattern holds `|` or `;` before
-  the verb; a commit message holding either, or a newline, before it.
-- **Refused now, where it went through before:** a publish behind `timeout` or `doas`.
+  the verb; a commit message holding either, or a newline, before it; the same search behind a wrapper (`nice`, `env X=1`, `timeout 5`).
+- **Refused now, where it went through before:** a publish behind `timeout` or `doas`; a quoted command run by a shell the list did not
+  name — `csh -c "…"`, `tcsh`, `ksh`, `ash`, `mksh`.
 - **Unchanged, on purpose:** any quote in a command that also names a shell, `eval`, `xargs`,
   `ssh`, `su`, an interpreter, `awk`, `sed`, `find` or a scheduler — the loud side, because that is
   where a quoted string can run.
@@ -84,8 +85,8 @@ against the range. `scripts/check-trio.py` reads the Trio line and counts what t
 last tag added — mermaid blocks, situation rows, new fact numbers — and **preflight §1b-ter fails a
 line that disagrees, or that names what it added in words the script cannot read**; no line yet is
 a warning, since the entry is written last. A released entry is frozen, so a marked correction of
-its Trio line is what the script reads instead — **and 0.2.19 carries one now**, with the release
-re-published beside it. `test-check-trio.sh` **19/19**, six code mutants. **The trio 0.2.19's late
+its Trio line is what the script reads instead — **and 0.2.19 carries one now**, with that release's GitHub
+notes reissued to match it. `test-check-trio.sh` **21/21**, six code mutants. **The trio 0.2.19's late
 mechanics owed is paid here**: a diagram of how the publish gate reads a command, and a diagram, a
 situation and a fact for the frontmatter check and the scan read as JSON.
 
@@ -99,8 +100,8 @@ that governs the part you use may not be the one the row names. And if your proj
 skills with SkillSpector, read the JSON, not the summary: `grep -c manifest_parse_error` must print
 `0`.
 
-Eval state: **not run.** The forms are measured by their suites — shelf links **17**, trio **19**,
-the gate **207** and **83** against bash — but **a suite measures a form and an eval measures a
+Eval state: **not run.** The forms are measured by their suites — shelf links **19**, trio **21**,
+the gate **207** and **88** against bash — but **a suite measures a form and an eval measures a
 run**, and every rule this release borrows is the kind only a run shows: whether a session reads
 the body of a 200 before quoting it, whether it opens a stranger's document as its rendering,
 whether it writes an observation instead of a score into a record it keeps, and whether it offers
