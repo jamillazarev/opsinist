@@ -165,7 +165,11 @@ behind and filed a defect against work that was present and verified three ways.
 reader who did not write the text; it does not guarantee a reader who sees the current one. **Two
 of four lenses that day noticed the staleness themselves and diffed against the newest ref** —
 which is the habit, not the exception: check `git rev-parse HEAD` first, and if a finding is an
-absence, confirm it where the work actually lives.
+absence, confirm it where the work actually lives. **The cause was measured on 2026-09-25**: the
+worktree is cut at the last *pushed* state, so every local commit since is invisible to it — a
+lens ran the shelf check on that copy and reported 43 names the committed file no longer lacked.
+So **the brief names the main checkout by absolute path for every read**, and the absence check
+above is what catches a lens that read the copy anyway.
 
 **A lens never runs an outward act — not against a stub, not to prove a hole — except through
 [`scripts/test-gate-vs-bash.sh`](scripts/test-gate-vs-bash.sh)**, which puts only stubs and harmless tools on `PATH`, checks every

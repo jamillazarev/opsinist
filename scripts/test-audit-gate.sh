@@ -113,6 +113,7 @@ check "outward: a quote piped into at"                2 "$(pl Bash 'echo "cd rep
 check "outward: timeout is a wrapper"                 2 "$(pl Bash "timeout 60 git push origin main" "$TE")"
 check "outward: doas is a wrapper"                    2 "$(pl Bash "doas git push origin main" "$TE")"
 check "outward: yash runs its quoted command"         2 "$(pl Bash 'yash -c "git push origin main"' "$TE")"
+check "outward: nu runs its quoted command"           2 "$(pl Bash 'nu -c "git push origin main"' "$TE")"
 # **The owner's own last words are quoted beside the refusal, and quoting is not consenting.**
 # A gate cannot read intent, and asking the party it is stopping for theirs is asking the thing
 # being stopped to grade itself — measured, 5 runs of 5 reported a publish nobody authorised. So

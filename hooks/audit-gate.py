@@ -385,8 +385,10 @@ def shell_only(cmd):
 # by name: bash · sh · zsh · dash · ksh · ksh93 · csh · tcsh · ash · mksh · pdksh · yash · fish ·
 # pwsh · elvish · xonsh. `csh` and `tcsh` ship with macOS, and a reader's quote piped into either
 # published while this list named five (an adversarial lens, 2026-09-25). **Not read, and named
-# for it**: `nu`, a two-letter word too common to refuse on, and `busybox`, whose shells are read
-# by their own name (`busybox sh`). Anything else
+# for it**: `nu` as a bare word anywhere on a line — two letters too common to refuse on — though
+# `nu -c "…"` is still a runner of its quoted command, which is the other list's job; and
+# `busybox`, whose shells are read by their own name (`busybox sh`). The two lists differ on
+# purpose: one decides where an act can start, the other whether a quote can be trusted. Anything else
 # keeps the old reading, which is the loud side. `$(…)` and backticks inside `"…"` run, so the
 # scanner never marks them quoted.
 _READERS = re.compile(r"[ \t]*(?:(?:env|sudo|doas|nohup|time|timeout|command|nice|ionice|stdbuf)"
@@ -1039,7 +1041,7 @@ def main():
 
             _acts = re.compile(
                 r"(?:(?:^|[\n;&|(){}`]|\$\()\s*"
-                r"|\b(?:(?:ba|z|da|k|c|tc|a|mk|pdk|ya)?sh|ksh93|fish|pwsh|elvish|xonsh|eval|xargs)\b[^\n]*?[\"']\s*)" + _WRAP +
+                r"|\b(?:(?:ba|z|da|k|c|tc|a|mk|pdk|ya)?sh|ksh93|fish|pwsh|elvish|xonsh|nu|eval|xargs)\b[^\n]*?[\"']\s*)" + _WRAP +
                 r"((?:[\"'][^\"'\n]*/|[\"']|[\w.~/-]*/)?(?:"
                 r"git" + _Q + _O + _say("push") +
                 r"|gh" + _Q + _O + r"(?:" + _say("release", "create") + r"|" + _say("pr", "create") + r")"
