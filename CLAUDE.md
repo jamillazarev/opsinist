@@ -236,10 +236,9 @@ nothing accumulates outside versions.
   for independence and which the deaths had quietly stopped anyone doing.
 
 - **A lens in worktree isolation reads an older tree than the one you just committed** (measured
-  2026-09-25, twice in one round): the worktree is cut at the last *pushed* state, so a release
-  prepared in local commits is invisible to it. The rule that follows lives in [`lenses.md`](lenses.md) → *a
-  finding of the shape "X is not there"*; the isolation still does its job, which is to keep a
-  lens's writes out of the real tree.
+  2026-09-25, twice in one round) — the cause and the rule are in [`lenses.md`](lenses.md) → *a finding of the
+  shape "X is not there"*. The isolation still does its job, which is to keep a lens's writes out
+  of the real tree.
 
 - **A subagent cannot write a file here, so its report exists only as its final message**
   (measured 2026-09-25, nine readers of the owner's link batch). Every `Write` a subagent tried was

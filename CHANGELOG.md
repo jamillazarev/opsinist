@@ -75,9 +75,10 @@ each open a hole, and `test-audit-gate.sh` **210/210**.
 - **Refused now, where it went through before:** a publish behind `timeout` or `doas`; a quoted command run by a shell the list did not
   name — `csh -c "…"`, `tcsh`, `ksh`, `ash`, `mksh`, `yash`, `nu`; `ssh host "…"`
   and `su -c "…"`.
-- **Unchanged, on purpose:** any quote in a command that also names a shell, `eval`, `xargs`,
-  `ssh`, `su`, an interpreter, `awk`, `sed`, `find` or a scheduler — the loud side, because that is
-  where a quoted string can run.
+- **Unchanged, on purpose:** a `|` or a `;` inside a quote is still read as a separator when the
+  same command names anything that can run text — a shell, `eval`, `xargs`, `ssh`, `su`, an
+  interpreter, `awk`, `sed`, `find` or a scheduler — the loud side, because that is where a quoted
+  string can run.
 
 **A release's Trio line is measured against the release now.** 0.2.19's Trio line said diagrams
 8 · situations 21 · facts 262–277, over a range that added 10 · 24 · 262–282:
