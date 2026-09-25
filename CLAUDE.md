@@ -244,12 +244,13 @@ nothing accumulates outside versions.
 - **A subagent cannot write a file here, so its report exists only as its final message**
   (measured 2026-09-25, nine readers of the owner's link batch). Every `Write` a subagent tried was
   refused; the ones told to save a report finished believing they had, and the text survived only
-  inside the transcript, recovered by a script. **Brief a subagent to return the whole report as its
+  inside the transcript, recovered from it by hand. **Brief a subagent to return the whole report as its
   final message** — and never read its transcript file into the main context, which overflows it.
 
 - **A model's cyber safeguard stops the whole reader, not the one item** (measured 2026-09-25: a
   Sonnet reader of a mixed batch died on a pack of offensive-security skills). Route such items to the
-  coordinator, read by their metadata only, and relaunch the reader without them.
+  session that dispatched the reader, read there by their metadata only, and relaunch the
+  reader without them.
 
 - **`timeout` is Homebrew's, not macOS's** (measured 2026-08-20): a suite that wrapped calls in
   `timeout 90` was green on this machine and failed every assertion with **127** on a macos-latest

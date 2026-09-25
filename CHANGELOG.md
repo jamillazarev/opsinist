@@ -66,14 +66,15 @@ same misreading had been catching real acts by accident — `echo "a; …" | bas
 where a reading command holds the quote — grep, rg, echo, printf, a git message — **and** nothing in
 the command can run text; everywhere else the old, loud reading stands. **And `timeout 60 …` had been
 walking past both gates**, because the wrapper list did not name it; `timeout` and `doas` are
-wrappers now. Held against bash itself: `test-gate-vs-bash.sh` **90/90**, with two new mutants that
-each open a hole, and `test-audit-gate.sh` **209/209**.
+wrappers now. Held against bash itself: `test-gate-vs-bash.sh` **91/91**, with two new mutants that
+each open a hole, and `test-audit-gate.sh` **210/210**.
 
 **If you rely on the publish gate, this is what changed for you:**
 - **Let through now, where it was refused before:** a search whose pattern holds `|` or `;` before
   the verb; a commit message holding either, or a newline, before it; the same search behind a wrapper (`nice`, `env X=1`, `timeout 5`).
 - **Refused now, where it went through before:** a publish behind `timeout` or `doas`; a quoted command run by a shell the list did not
-  name — `csh -c "…"`, `tcsh`, `ksh`, `ash`, `mksh`, `yash`, `nu`.
+  name — `csh -c "…"`, `tcsh`, `ksh`, `ash`, `mksh`, `yash`, `nu`; `ssh host "…"`
+  and `su -c "…"`.
 - **Unchanged, on purpose:** any quote in a command that also names a shell, `eval`, `xargs`,
   `ssh`, `su`, an interpreter, `awk`, `sed`, `find` or a scheduler — the loud side, because that is
   where a quoted string can run.
@@ -101,7 +102,7 @@ skills with SkillSpector, read the JSON, not the summary: `grep -c manifest_pars
 `0`.
 
 Eval state: **not run.** The forms are measured by their suites — shelf links **19**, trio **24**,
-the gate **209** and **90** against bash — but **a suite measures a form and an eval measures a
+the gate **210** and **91** against bash — but **a suite measures a form and an eval measures a
 run**, and every rule this release borrows is the kind only a run shows: whether a session reads
 the body of a 200 before quoting it, whether it opens a stranger's document as its rendering,
 whether it writes an observation instead of a score into a record it keeps, and whether it offers

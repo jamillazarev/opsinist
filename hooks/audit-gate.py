@@ -386,9 +386,13 @@ def shell_only(cmd):
 # pwsh · elvish · xonsh. `csh` and `tcsh` ship with macOS, and a reader's quote piped into either
 # published while this list named five (an adversarial lens, 2026-09-25). **Not read, and named
 # for it**: `nu` as a bare word anywhere on a line — two letters too common to refuse on — though
-# `nu -c "…"` is still a runner of its quoted command, which is the other list's job; and
-# `busybox`, whose shells are read by their own name (`busybox sh`). The two lists differ on
-# purpose: one decides where an act can start, the other whether a quote can be trusted. Anything else
+# `nu -c "…"` is still a runner of its quoted command, which is the act-start pattern's job
+# (`_acts` in one copy of this gate, `CMD_START` in the other); and `busybox`, whose shells are
+# read by their own name (`busybox sh`). The two lists differ on purpose: one decides where an
+# act can start, the other whether a quote can be trusted. **A match is judged at its ACT as
+# well as at its anchor**: the runner branch reaches from a runner word to any later quote on
+# the line, so a bare `nu` earlier armed it into a later `grep "…"` and refused a read (a lens,
+# 2026-09-25) — an act inside a quote a reader holds, where nothing runs text, is text. Anything else
 # keeps the old reading, which is the loud side. `$(…)` and backticks inside `"…"` run, so the
 # scanner never marks them quoted.
 _READERS = re.compile(r"[ \t]*(?:(?:env|sudo|doas|nohup|time|timeout|command|nice|ionice|stdbuf)"
@@ -1041,7 +1045,7 @@ def main():
 
             _acts = re.compile(
                 r"(?:(?:^|[\n;&|(){}`]|\$\()\s*"
-                r"|\b(?:(?:ba|z|da|k|c|tc|a|mk|pdk|ya)?sh|ksh93|fish|pwsh|elvish|xonsh|nu|eval|xargs)\b[^\n]*?[\"']\s*)" + _WRAP +
+                r"|\b(?:(?:ba|z|da|k|c|tc|a|mk|pdk|ya)?sh|ksh93|fish|pwsh|elvish|xonsh|nu|eval|xargs|ssh|su)\b[^\n]*?[\"']\s*)" + _WRAP +
                 r"((?:[\"'][^\"'\n]*/|[\"']|[\w.~/-]*/)?(?:"
                 r"git" + _Q + _O + _say("push") +
                 r"|gh" + _Q + _O + r"(?:" + _say("release", "create") + r"|" + _say("pr", "create") + r")"
@@ -1064,7 +1068,7 @@ def main():
                     return False
 
             hit = next((m for m in _acts.finditer(_c)
-                        if not quoted_data(_c, _qs, m.start())
+                        if not (quoted_data(_c, _qs, m.start()) or quoted_data(_c, _qs, m.start(1)))
                         and not _is_dry(_c[m.start(1):command_end(_c, m.start(1))])), None)
             if hit:
                 # **The owner's own last words, quoted — context for the person, never consent.**
