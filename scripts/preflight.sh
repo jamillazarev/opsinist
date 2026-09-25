@@ -286,6 +286,23 @@ from here — this line exists so the question is asked out loud rather than rem
     ( git diff --quiet "$last_tag" -- evals/runsheet.tsv 2>/dev/null ) \
       && say_warn "version bumped $tag_ver → $sv and evals/runsheet.tsv is unchanged — a release \
 that adds behaviour and no scenario measures the new behaviour with the old questions"
+    # 1b-ter · the entry's Trio line is measured against the release it describes. 0.2.19 shipped
+    #          saying 8 diagrams, 21 situations and facts 262–277 while adding 10, 24 and 262–282
+    #          — every lens round read one repair's diff and nothing read the entry against the
+    #          whole range (found by the owner on 2026-09-25). No Trio line yet is a warning, since
+    #          the entry is written last; a Trio line that disagrees, or one this cannot read, fails.
+    if [ -f scripts/check-trio.py ]; then
+      _tr=$(python3 scripts/check-trio.py 2>&1); _trc=$?
+      case "$_trc" in
+        0) say_ok "$(printf '%s\n' "$_tr" | tail -1)" ;;
+        2) say_warn "$(printf '%s\n' "$_tr" | tail -1)" ;;
+        *) if [ "$(printf '%s\n' "$_tr" | grep -c 'has no \*\*Trio:\*\* line')" -gt 0 ]; then
+             say_warn "$_tr"
+           else
+             while IFS= read -r l; do say_fail "$l"; done <<< "$_tr"
+           fi ;;
+      esac
+    fi
   fi
 fi
 for stray in $(grep -oE '\b[0-9]+\.[0-9]+\.[0-9]+\b' "$ROOT/README.md" | sort -u); do
@@ -459,6 +476,22 @@ if [ -f scripts/link-names.py ]; then
     say_fail "$(printf '%s\n' "$_ln" | tail -1) — first: $(printf '%s\n' "$_ln" | head -1)"
   else
     say_ok "every backticked name of a file in this tree is a link"
+  fi
+fi
+
+# 7c · every project on the shelf carries a link — the owner's rule, 2026-09-25. A rough count
+#      before the check found ~96 bold names without one, and most were licences and emphasis:
+#      a shelf's bold is not its names. So the check reads what a project IS on this shelf — the
+#      head of an entry in a shelf column — and names what it cannot see in its own docstring.
+#      Its first honest run found 45 heads, and every one was a real project or a real miscount.
+#      The script's exit code is asserted in its suite, not assumed (the machine note on
+#      check-structure.py, which reports without exiting).
+if [ -f scripts/check-shelf-links.py ]; then
+  _sl=$(python3 scripts/check-shelf-links.py 2>&1); _slc=$?
+  if [ "$_slc" -ne 0 ]; then
+    while IFS= read -r l; do say_fail "$l"; done <<< "$_sl"
+  else
+    say_ok "$(printf '%s\n' "$_sl" | tail -1)"
   fi
 fi
 

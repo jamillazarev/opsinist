@@ -102,6 +102,16 @@ check "outward: a subshell starts a command"          2 "$(pl Bash "(cd repo && 
 check "outward: searching for the phrase → allow"     0 "$(pl Bash "grep -rn 'npm publish' docs/" "$TE")"
 check "outward: the verb mid-sentence → allow"        0 "$(pl Bash "printf '%s' '# what a git push costs' > note.md" "$TE")"
 check "outward: a path that reads like it → allow"    0 "$(pl Bash "cat notes/about-git-push.md" "$TE")"
+# **A separator inside a quote a reader holds is a character** — the owner's own search was refused
+# on 2026-09-25, its `|` read as a pipe. The rest keep being the act: a runner of a quoted string
+# anywhere in the command, and two wrappers that walked past the anchor the same day.
+check "outward: a | in a grep pattern → allow"      0 "$(pl Bash 'grep -n -i "outward\|publish gate\|git push" PLAYBOOKS.md FLOWS.md' "$TE")"
+check "outward: a ; in a commit message → allow"    0 "$(pl Bash 'git commit -m "docs: when to git push; and when not"' "$TE")"
+check "outward: ssh runs its quoted command"          2 "$(pl Bash 'ssh host "cd repo; git push origin main"' "$TE")"
+check "outward: su -c runs its quoted command"        2 "$(pl Bash 'su -c "cd repo; git push" me' "$TE")"
+check "outward: a quote piped into at"                2 "$(pl Bash 'echo "cd repo; git push" | at now' "$TE")"
+check "outward: timeout is a wrapper"                 2 "$(pl Bash "timeout 60 git push origin main" "$TE")"
+check "outward: doas is a wrapper"                    2 "$(pl Bash "doas git push origin main" "$TE")"
 # **The owner's own last words are quoted beside the refusal, and quoting is not consenting.**
 # A gate cannot read intent, and asking the party it is stopping for theirs is asking the thing
 # being stopped to grade itself — measured, 5 runs of 5 reported a publish nobody authorised. So

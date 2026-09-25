@@ -129,6 +129,17 @@ static run is evidence about patterns, not about intent. **Read it as JSON** (`-
 the tag, and the failing skill's `skill.source` names it. It is where the shapes preflight's
 frontmatter check names as its limits are caught.
 
+```mermaid
+flowchart LR
+  F["a skill's frontmatter"] --> P{"preflight §5 —<br/>a strict reading"}
+  P -->|"a tab · a plain value holding ': ' ·<br/>' #' eating the rest of a line"| X(("refused on the commit,<br/>naming the skill"))
+  P -->|"passes, and so do the<br/>four shapes it names as limits"| S["before the tag:<br/>skillspector scan --format json"]
+  S --> J{"grep -c manifest_parse_error"}
+  J -->|"0"| T(["the tag may be cut"])
+  J -->|"1 or more"| W(("the tag waits —<br/>skills[].skill.source names it"))
+  S -.->|"the printed summary"| L["says 'successful' either way —<br/>so it is never what is read"]
+```
+
 **`hooks/` is machinery, not prose, and it is tested like machinery.** The plugin ships two
 gates that hold a takeover to its order — refusing a mutating call before the debt list exists,
 and stopping a run that presented deferrable findings and wrote no `LATER.md`. **Every rule in
@@ -221,7 +232,25 @@ in one true sentence ([`facts.md`](facts.md))? **A showcase total is guarded whe
 a count that drifts is reported as a warning, never a failure (`preflight.sh` §10 renders all of
 `check-structure`'s output as warnings) — **but the trio's own counts are deltas, and are not**:
 an entry's `**Trio:**` line says what that release added, which no corpus total can confirm, so the
-check exempts it rather than misread a delta as drift. And **whether the trio exists at all is
+check exempts it rather than misread a delta as drift. **The deltas are measured against the range
+instead**: `scripts/check-trio.py` reads the Trio line and counts what the diff since the last tag
+added — mermaid blocks, situation rows, fact numbers — and preflight §1b-ter fails a line that
+disagrees or that it cannot read, because 0.2.19's Trio line said diagrams 8 · situations 21 · facts
+262–277 over a range that added 10 · 24 · 262–282, and every lens round had read
+one repair's diff rather than the entry against the release.
+
+```mermaid
+flowchart LR
+  E["the entry's Trio line"] --> R["read: diagrams ·<br/>situations · facts"]
+  G["last tag .. the tree"] --> M["measured: mermaid blocks ·<br/>situation rows · new fact numbers"]
+  R --> C{"the same?"}
+  M --> C
+  C -->|"yes"| OK(["§1b-ter passes"])
+  C -->|"no — or a kind the release added<br/>and the line does not name"| X(("§1b-ter fails,<br/>naming both numbers"))
+  E -.->|"no Trio line yet"| W["a warning — the entry<br/>is the last thing written"]
+```
+
+And **whether the trio exists at all is
 judgement, so it is a named step, not a hope**. Wording-only changes owe nothing; say so. **A
 repair owes only the fact — and which one a change is, is judgement too.** A test that would read
 it off the diff was drafted and held back for the week the promotion ladder charges; until it has

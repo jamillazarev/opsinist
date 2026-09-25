@@ -94,7 +94,11 @@ verified**; past its recheck it is **unknown, not fine**.
 *Applies to:* the tooling register · catalogue rows · sources · facts quoted inside tasks.
 
 **12 · Distil at rotation.** Compression happens **inside** the rotation step, so "we'll compress
-it someday" is not expressible.
+it someday" is not expressible. **Distil in steps, each pointing at the one below**: the exchange
+itself → one fact, preference or decision per line, each dated → what those mean together for this
+counterpart → the standing picture. A wrong line at the top is then traced to the exchange that
+produced it rather than argued about (the ladder is TencentDB-Agent-Memory's L0→L3, read
+2026-09-25 — the ladder was taken, the store was not).
 *Applies to:* threads · archives · DM attachments.
 
 ## Evidence and honesty

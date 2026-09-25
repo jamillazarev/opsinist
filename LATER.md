@@ -123,8 +123,12 @@ project's habits.**
 2026-08-14: Agent-Reach (71k★, MIT) — declined; despite the name it is **inbound only** (agents
 reading platforms via cookie scrapers, ToS-gray, churn-prone), it contains no notification
 surface at all. The honest candidates remain the harness's own push notifications and a
-Telegram-bot shelf row (one token, owner-controlled, off-terminal). **Revisit when:** a request
-ages past its threshold unseen in a real project — that is the moment the need names the row.
+Telegram-bot shelf row (one token, owner-controlled, off-terminal). **The row exists since
+2026-09-25**: [Apprise](https://github.com/caronc/apprise) (BSD-2-Clause, one CLI for ~100 destinations, Telegram among
+them) — [`catalogue.md`](catalogue.md) → *A channel to the owner who is away*. **What stays deferred is wiring it
+in**, and the trigger for that has not fired: a shelf row answers *which tool*, not *whether the
+need is real*. **Revisit when:** a request ages past its threshold unseen in a real project — that
+is the moment the need names the wiring.
 
 ## A market-recon distillate template for `research/`
 

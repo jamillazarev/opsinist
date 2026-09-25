@@ -181,6 +181,12 @@ time because they recur → [`security.md`](security.md).
 **Depth is chosen by risk, not by default.** A landing page gets dependency scanning; anything
 holding user data or money earns a real penetration test before it ships.
 
+**Sign-in starts at passkeys.** A product that holds accounts offers **passkeys (WebAuthn) first**,
+with a password as the fallback rather than the default: a passkey cannot be phished onto another
+site, reused across sites or leaked from a database, because the server holds only a public key.
+The standard is the [W3C's](https://github.com/w3c/webauthn) (read 2026-09-25); the library comes
+from the shelf by the ladder above, never written by hand.
+
 ---
 
 ## No per-industry catalogue here, and that is deliberate

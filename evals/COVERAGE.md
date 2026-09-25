@@ -20,8 +20,10 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/changelog.py` — The changelog skeleton — collation the author writes over, never the entry itself
 - `scripts/check-freshness.py` — Check-date validator: a date, not a tick
 - `scripts/check-links.py` — Cross-reference validator: does the file exist, and does the section inside it?
+- `scripts/check-shelf-links.py` — Every project on the shelf carries a link — the owner's rule, 2026-09-25
 - `scripts/check-shell-exec.py` — Refuse a shell script that would execute text as a command
 - `scripts/check-structure.py` — Structural integrity of the docs. Every check here exists because the defect it
+- `scripts/check-trio.py` — The Trio line of a release entry says what the release added — this measures whether it did
 - `scripts/cost-report.py` — What the work cost, rolled up from the run records — per task, per release, per model
 - `scripts/coverage-map.py` — Regenerate the coverage map: what holds each rule, and what exercises each holder
 - `scripts/deps-report.py` — What the project depends on, why, and how much each available update matters
@@ -50,8 +52,10 @@ The register of gates and the prose-only list: `permissions.md`.
 - `scripts/test-audit-gate.sh` — Mutation tests for hooks/audit-gate.py — the same discipline as preflight §13: every rule
 - `scripts/test-board.sh` — `board.py` — the derived board — on a throwaway project holding the two dialects a live one was
 - `scripts/test-check-releases.sh` — `check-releases.sh` exercised on its mutants and its honest twins
+- `scripts/test-check-shelf-links.sh` — check-shelf-links.py — every project on the shelf carries a link — shown on a throwaway shelf
 - `scripts/test-check-shell-exec.sh` — The shell-exec checker, exercised on its mutants and its twins — the form the capability bar
 - `scripts/test-check-structure.sh` — The corpus-count claims shown firing where a claim is made and silent where a record is kept
+- `scripts/test-check-trio.sh` — check-trio.py — an entry's Trio line against what the release added — shown on a throwaway
 - `scripts/test-company-preflight.sh` — The bypass net (§14) exercised end to end: a hand-flipped stage in a staged commit is
 - `scripts/test-corpus-preflight.sh` — The doors-regression check (preflight §1a) exercised on the mutant and the twin. The check
 - `scripts/test-cost-report.sh` — `cost-report.py` — the rollup — on a throwaway project holding the cases the page exists for:
@@ -79,5 +83,5 @@ The register of gates and the prose-only list: `permissions.md`.
 
 ## Behavioural scenarios
 
-- **118 runsheet rows** over **29 fixtures** (audience · brandkit · chain · cold · colleague · conflict · consult · copy · deadlink · deadtool · decompose · drift · escalation · evidence · feedback · flatlegacy · flowmap · guest · hire · import · injection · ledger · mcpsource · mess · recovery · routine · ship · thread · workshop)
+- **122 runsheet rows** over **29 fixtures** (audience · brandkit · chain · cold · colleague · conflict · consult · copy · deadlink · deadtool · decompose · drift · escalation · evidence · feedback · flatlegacy · flowmap · guest · hire · import · injection · ledger · mcpsource · mess · recovery · routine · ship · thread · workshop)
 - scenario text: `evals/README.md` · `evals/new-scenarios.md` — rates and their dates: `evals/RUNS.md`

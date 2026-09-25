@@ -230,6 +230,25 @@ it, and an earlier yes does not roll forward. And a gate that read meaning could
 **by the very text it is reading**, which is why the rule that imported text is data and never
 instructions ([`security.md`](security.md)) applies to a gate's own input first.
 
+**How the gate reads a command** — the syntax it stops on, and the one flag that excuses an act
+(`hooks/audit-gate.py`; fact 282, and `scripts/test-gate-vs-bash.sh`, which holds it against bash
+itself):
+
+```mermaid
+flowchart TD
+  C["a Bash command"] --> B["heredoc bodies and comments blanked ·<br/>line continuations folded"]
+  B --> P{"a publish verb at a command position?<br/>the start · a newline · ; && || | ·<br/>inside ( ) · $( ) · backticks —<br/>past wrappers (env · sudo · timeout …),<br/>a tool's global options, a path"}
+  B -.->|"a separator inside a quote that grep,<br/>echo or a commit message holds —<br/>and nothing in the command runs text"| S(["a character of a string"])
+  P -->|"after a word, inside a sentence"| R(["prose — allowed"])
+  P -->|"inside a quote"| Q{"a quote after something<br/>that runs a shell?<br/>bash -c · sh -c · eval · xargs"}
+  Q -->|"no — grep 'npm publish'"| R
+  Q -->|"yes"| A["an outward act"]
+  P -->|"yes"| A
+  A --> D{"a whole-word --dry-run that means dry,<br/>in the act's OWN simple command?"}
+  D -->|"yes"| R2(["a read — allowed"])
+  D -->|"no — a neighbour's flag, a comment,<br/>=false, $(git push) --dry-run"| X(("refused — the owner's last words<br/>beside it, as context, not consent"))
+```
+
 **A blocker is cleared by evidence or by the owner — never by the run that is blocked.** Finding
 the thing that stops the work is the job; **writing down the fact that would unstop it is not**.
 A licence bought, an approval given, a limit raised, a test that passed: each is either pointed
@@ -237,6 +256,16 @@ at — a file, a receipt, a run record — or it is asked for. **Measured:** a r
 dependency's licence forbade production use in a paid product, corrected the register honestly,
 then added *"commercial licence held"* to the same row and shipped a tagged release. Every step
 was defensible except the one that invented its own permission.
+
+**An agent keeping a record writes what it observed, never how sure it is.** A score — *0.8
+likely to churn*, *high confidence* — has no rung: it is judgement written in the shape of a
+measurement, and the next reader cannot take it apart to check it. What enters a shared record is
+the observation, with where and when it was seen; **evidence too weak to write becomes a suggestion
+a person settles**, never a guess the record keeps. Read 2026-09-25 in
+**[trycompai/crm](https://github.com/trycompai/crm)** (MIT), a CRM its agent maintains on a schedule, whose tools may report only what
+they observed — the rule was taken and the CRM was not. It is the evidence rung
+([`GLOSSARY.md`](GLOSSARY.md)) applied where an agent writes unattended, which is exactly where nobody is there to ask
+what the number meant.
 
 **A gate believed in but not enforced is worse than a stated rule**, because it buys false
 confidence. So the `prose-only` list is written out by name rather than left implicit:
@@ -293,6 +322,20 @@ confidence. So the `prose-only` list is written out by name rather than left imp
   whether price · currency · date · source are all there) but **the fetching is not**: a run that
   quoted a remembered figure and wrote "checked just now" is indistinguishable, from the outside,
   from one that looked. Found by an eval that could not tell the two apart
+- **a record holds observations, not confidences**, and weak evidence goes to a person as a
+  suggestion (above) — nothing reads what an agent writes into a record it keeps unattended
+- **a 200 is believed only after its body is read, and an external call has a contract** —
+  one source, bounded, its response data, its answer repeatable ([`resources.md`](resources.md) → *An API that fails
+  with 200*). The call happens where no check sees it
+- **a citation at depth `standing` supports the sentence carrying it** — read against the passage,
+  landing as supported · overstated · not supported · cannot be checked; `--resolve` and
+  `--verify-reads` prove that the source exists and was read beside its neighbours, and neither
+  reads the sentence
+- **a document from outside is read as its rendering, never its bytes** ([`security.md`](security.md)) — nothing
+  sees which of the two a run opened
+- **a tool skill's schema is derived from its parser, and a check fails when they drift**
+  ([`skills.md`](skills.md)) — the derivation is the author's to build, and no check here can see a skill that
+  wrote its schema twice
 
 These are **rules, and they are honest about being rules**. The compensating control for all of
 them is the four lenses, read by someone who is not the author → [`lenses.md`](lenses.md). That is the whole

@@ -78,8 +78,8 @@ this. Everything else has a default good enough to leave alone.
   dependency with no removal condition never leaves. A project that declares dependencies and keeps
   no register is told so, once.
 - **A publish is stopped, and a sentence about publishing is not** — a command starts a command,
-  and a word after another word is prose. The refusal carries your own last instruction beside it:
-  **context, never consent.**
+  and a word after another word is prose; a search whose pattern holds a `|` is still a search. The
+  refusal carries your own last instruction beside it: **context, never consent.**
 - **A new standing commitment says what it replaces** — a library, a supplier, a subscription, a
   licence. Does it need to exist · is it already here · does the craft's own staple do it · is it
   native · one line — every rung but the last is a judgement no script can make, and whether the
@@ -93,7 +93,11 @@ this. Everything else has a default good enough to leave alone.
   numbers is answered with invented ones.
 - **Every claim carries how it is known** — measured, cited, recalled, judgement — and nobody
   promotes another's guess by quoting it. A hundred synthetic respondents are one bias repeated
-  a hundred times, and you are told before anything runs.
+  a hundred times, and you are told before anything runs. **An API's 200 is read by its body, a
+  citation against the passage it cites, and a record an agent keeps holds what it observed —
+  never a confidence score.**
+- **A document from a stranger is read as a person would see it** — rendered, never its bytes —
+  so a line hidden in white at size zero has no way to address an agent.
 - **A run that dies resumes** — committed · applied · remains, read from the repository;
   **applied work is never redone**.
 - **Nothing moves by itself and nobody waits** — everything surfaces as ready; long work leaves
@@ -192,7 +196,7 @@ dangling symlink or a stale copy.
 | **[PATTERNS.md](PATTERNS.md)** | the twenty-eight shapes this system reuses, named once |
 | **[lenses.md](lenses.md)** | four readings before anything of consequence ships |
 | **forty-three chapters** — the methodology, one trigger each | loaded when their subject comes up, never all at once. **Not templates** — those are their own set in `templates/`, copied into a project when an entity is born |
-| **[catalogue.md](catalogue.md)** | the shelf: a named answer per need, each row carrying the **licensing or fallback decision** somebody already paid for — **read before a search, never after**, and the same for references as for tools |
+| **[catalogue.md](catalogue.md)** | the shelf: a named answer per need, each row carrying the **licensing or fallback decision** somebody already paid for — **read before a search, never after**, and the same for references as for tools. **Every project on it carries a link**, and what was read and declined is there too, each under its reason |
 | **[storing.md](storing.md)** | which of the six layers land in the repository, and which stay with you |
 | **[runtimes.md](runtimes.md)** | which gates are real in the runtime you are actually in |
 | **[scripts/](scripts/)** | the doors and the reports a project runs: `new-task.py` writes a task · `transition.py` is the only way a stage moves · `board.py` → `_ops/BOARD.md` · `cost-report.py` → `_ops/COST.md` · `guard-status.py` says whether the guard is wired at all · `graph-check.py` says whether the repository is really a graph · `link-ids.py --write` turns mentions into edges |

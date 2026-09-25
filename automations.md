@@ -149,3 +149,19 @@ neither is urgency.
 **A rule you have not yet been able to keep by hand.** Automating a process nobody has run
 successfully once produces a reliable version of a bad process — and the reliability makes it
 harder to notice.
+
+---
+
+## When the automation lives in someone else's tool
+
+**Rank a workflow tool by what it costs to leave.** A workflow built in an external engine is a
+record of the project's process, and where that record lives decides whether it can be read,
+diffed and moved like everything else here. From cheapest to leave: **[Apache Camel](https://github.com/apache/camel)** — a
+route is a text file in the repository, with no interface to click through · **[Node-RED](https://github.com/node-red/node-red)**
+— a flow is one `flows.json` that can live in git, plus an admin API · **[Activepieces](https://github.com/activepieces/activepieces)**
+— the flows live in its own database behind a dashboard, and its core is MIT beside a proprietary
+`packages/ee`. All three read 2026-09-25 ([`catalogue.md`](catalogue.md) → *Visual / node-based pipelines*).
+**Prefer the one whose workflow is a file**, and when a dashboard wins on merit, export its flows
+into the repository on every change, because a process nobody can diff is a process nobody reviews.
+**Everything above still holds inside the tool**: a schedule there is not consent, and a webhook
+there is still the credential.

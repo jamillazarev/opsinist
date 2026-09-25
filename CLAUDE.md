@@ -22,7 +22,10 @@ this file exists to stop anyone re-deriving per session.
    again over the repair they caused, before the tag** — the range still contains it — until a
    round reports clean ([`lenses.md`](lenses.md) → *Running them*, which holds its input and its cost).
 3. **The showcase trio** for every new mechanic: a diagram · a situation ([`use-cases.md`](use-cases.md)) ·
-   a fact ([`facts.md`](facts.md)). Wording-only changes owe nothing — say so.
+   a fact ([`facts.md`](facts.md)). Wording-only changes owe nothing — say so. **The entry's `**Trio:**` line
+   is measured, not trusted**: `scripts/check-trio.py` counts what the range since the last tag
+   added, and preflight §1b-ter fails a line that disagrees — 0.2.19 said 8 · 21 · 262–277 and had
+   added 10 · 24 · 262–282, found by the owner rather than by anything here (2026-09-25).
 4. **Checks**: `bash scripts/preflight.sh` (runs every shipped test suite itself) ·
    `python3 scripts/check-links.py .` · `bash scripts/test-audit-gate.sh` ·
    **`skillspector scan ./skills --recursive`** before a tag, read as JSON ([AGENTS.md](AGENTS.md) says

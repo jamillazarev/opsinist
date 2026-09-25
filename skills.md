@@ -90,6 +90,14 @@ in the store — and a hand-written number table that let a wrong count through 
 not to contain. **Both looked correct on the page.** Both were caught the first time something was
 handed to them that they were supposed to stop.
 
+**A skill that ships its own tools writes their contract once.** Where the tools are scripts, the
+schema an agent or a server reads is **derived from the same parser that defines the command
+line**, and a check fails the build when the two drift — so the description can never promise an
+argument the code no longer takes. Read 2026-09-25 in **[ffmpeg-skill](https://github.com/kajisho5/ffmpeg-skill)** (MIT): 42
+typed tools whose schema comes from their own `argparse`, **no shell strings and no raw fallback**
+when a request needs something none of them exposes — the skill says so instead of guessing an
+invocation. It is on the shelf as the default when an agent edits video ([`catalogue.md`](catalogue.md)).
+
 **When the budget is hit later: move, don't squeeze.** The newest rarely-needed block becomes a
 chapter and the core keeps one pointer line. Compression is the second resort, deletion the
 third, and **raising the budget is a decision with a stated cost, never a reflex**.

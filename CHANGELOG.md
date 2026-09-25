@@ -2,6 +2,117 @@
 
 Newest first. Each entry leads with what you can now do, not with which files moved.
 
+## 0.2.20 — 2026-09-25
+
+**Every project on the shelf carries a link now, and a check refuses one that does not.** The
+owner's rule, said on 2026-09-25 while reading the shelf: a reader who meets a name has to be able
+to open it. A rough count found about ninety-six bold names without a link, and most of them were
+licences and emphasis rather than projects — **a shelf's bold is not its names** — so
+`scripts/check-shelf-links.py` reads what a project IS on this shelf: the head of each entry in a
+shelf column, a link in that entry or a link to the same name elsewhere on the shelf, and a short,
+reasoned list of methods and measures that are not projects. Its first honest run found **forty-five
+names here and forty-three in the sibling's shelf** — SwiftUI, Vitest, CodeQL, Unity, Google Search
+Console among them — and **linking one corrected its row**: PACT had been listed as *the callable
+layer* of the agent web, and its source says Private Access Control Tokens, a site vouching for an
+agent anonymously. Preflight §7c runs it; `test-check-shelf-links.sh` holds it, **17/17**, with five
+code mutants. **What it cannot see is named in its docstring**: a name inside a sentence, a name in
+lowercase, an entry that already holds one link.
+
+**Two hundred links read, and the shelf says what came of each.** Nine readers and the coordinator
+read every repository the owner sent — watchers, forks, contributors and the commit log, not the
+star count — and **nothing went into the core**. Nineteen new rows (a reverse proxy with internal
+certificates, remote desktop, container logs, serving a model yourself, a database client, machine
+translation, video calls, HR and payroll, a blog with memberships, live co-editing, routing, IP
+geolocation, a chart as an image, model prices and deprecations, opening a document from a
+stranger, watching an agent session as a graph, a channel to the owner who is away, and more),
+dozens of rows extended, and **a hundred and six declined, each under the reason it earns no row**,
+every one a link. **Seven rows we already trusted misstated a licence**, and say it now: Twenty and
+Chatwoot keep enterprise parts under a closed licence, Dub has a proprietary `ee/`, a Strapi cloud
+account voids its MIT terms, Lago was called the cleanest when Kill Bill is Apache-2.0 throughout,
+and Cachet and Duix-Avatar call themselves open source over licences that are not. **Three things
+the reading taught about reading**: a star count on a young repository is not evidence (a security
+skill at 21k stars on 76 watchers, eight days after 7.2k), a push date is not a commit date (a
+framework dead since 2022 shows a 2026 push), and a description can contradict its own licence.
+
+**Ten ideas were worth more than their tools, and each went into the rule it belongs to** — the tool
+is on the shelf or declined, the idea is here:
+- **An API that fails with 200** ([`resources.md`](resources.md)) — six free scholarly APIs answer a failure as a
+  success, so the body is read before the answer is believed; **an external call has a contract**
+  (one source, bounded, its response data, its answer repeatable); and **a citation that resolves is
+  not one that supports** — for a finding meant to stand, each sentence is read against the passage
+  it cites. From K-Dense's MIT pack and from academic-research-skills, whose CC BY-NC licence means
+  the method is taken and none of the text.
+- **A document from outside is read as its rendering, never its bytes** ([`security.md`](security.md)) — hidden
+  text is an injection channel; Dangerzone is the tool for a project that receives documents all day.
+- **A record holds observations, never confidences** ([`permissions.md`](permissions.md)) — weak evidence goes to a
+  person as a suggestion.
+- **A tool skill's schema is derived from its parser** ([`skills.md`](skills.md)), **distillation climbs a ladder
+  whose every step points at the one below** ([`PATTERNS.md`](PATTERNS.md) §12), **sign-in starts at passkeys**
+  ([`choosing-tools.md`](choosing-tools.md)), and **a workflow engine is ranked by what it costs to leave**
+  ([`automations.md`](automations.md)).
+- **The channel to the owner who is away has a row** — Apprise — and [`LATER.md`](LATER.md) says why the wiring still
+  waits: a shelf row answers *which tool*, not *whether the need is real*.
+
+**And one lesson of this repository's own went the same way**: a scan is read as JSON, never as its
+summary ([`security.md`](security.md)) — learned by the release ritual on 2026-09-24, now told to every project
+that scans its skills. Every one of these is a rule nothing enforces, and each is on the
+`prose-only` list by name.
+
+**The publish gate let the owner's own search through at last, and closed a wrapper it had missed.**
+`grep -n "outward\|…" PLAYBOOKS.md` was refused on 2026-09-25: the `|` of the regular expression
+read as a pipe, and the verb after it as a command. **The repair is narrow on purpose**, because the
+same misreading had been catching real acts by accident — `echo "a; …" | bash`, an interpreter's
+`-c` program, a file written and then run by `sh`. So a separator inside a quote is a character only
+where a reading command holds the quote — grep, rg, echo, printf, a git message — **and** nothing in
+the command can run text; everywhere else the old, loud reading stands. **And `timeout 60 …` had been
+walking past both gates**, because the wrapper list did not name it; `timeout` and `doas` are
+wrappers now. Held against bash itself: `test-gate-vs-bash.sh` **83/83**, with two new mutants that
+each open a hole, and `test-audit-gate.sh` **207/207**.
+
+**If you rely on the publish gate, this is what changed for you:**
+- **Let through now, where it was refused before:** a search whose pattern holds `|` or `;` before
+  the verb; a commit message holding either, or a newline, before it.
+- **Refused now, where it went through before:** a publish behind `timeout` or `doas`.
+- **Unchanged, on purpose:** any quote in a command that also names a shell, `eval`, `xargs`,
+  `ssh`, `su`, an interpreter, `awk`, `sed`, `find` or a scheduler — the loud side, because that is
+  where a quoted string can run.
+
+**A release's Trio line is measured against the release now.** 0.2.19's Trio line said diagrams
+8 · situations 21 · facts 262–277, over a range that added 10 · 24 · 262–282:
+twenty-six lens rounds had read that release, each over one repair's diff, and none held the entry
+against the range. `scripts/check-trio.py` reads the Trio line and counts what the diff since the
+last tag added — mermaid blocks, situation rows, new fact numbers — and **preflight §1b-ter fails a
+line that disagrees, or that names what it added in words the script cannot read**; no line yet is
+a warning, since the entry is written last. A released entry is frozen, so a marked correction of
+its Trio line is what the script reads instead — **and 0.2.19 carries one now**, with the release
+re-published beside it. `test-check-trio.sh` **19/19**, six code mutants. **The trio 0.2.19's late
+mechanics owed is paid here**: a diagram of how the publish gate reads a command, and a diagram, a
+situation and a fact for the frontmatter check and the scan read as JSON.
+
+**Migration — one re-copy, and it changes no rule.** Re-copy `_ops/scripts/preflight.sh` from
+`templates/company-preflight.sh`: its sections are unchanged, but its stamp moves with the version,
+and a guard stamped older than the guide warns on every commit that it is stale. Everything else
+arrives with the plugin — the chapters, the shelf, and the publish gate, which is a hook of the
+plugin and not a file in your project. **One thing worth doing once**: if your `_ops/TOOLING.md` records Twenty, Chatwoot, Dub, Strapi, Cachet or
+Duix-Avatar as plainly open source, re-read that row against [`catalogue.md`](catalogue.md) — the licence
+that governs the part you use may not be the one the row names. And if your project scans its own
+skills with SkillSpector, read the JSON, not the summary: `grep -c manifest_parse_error` must print
+`0`.
+
+Eval state: **not run.** The forms are measured by their suites — shelf links **17**, trio **19**,
+the gate **207** and **83** against bash — but **a suite measures a form and an eval measures a
+run**, and every rule this release borrows is the kind only a run shows: whether a session reads
+the body of a 200 before quoting it, whether it opens a stranger's document as its rendering,
+whether it writes an observation instead of a score into a record it keeps, and whether it offers
+passkeys first. **Four behaviours, no scenario covering any of them**, said here rather than left to
+a reader to assume otherwise.
+
+**Trio:** four diagrams — `permissions.md` one, `AGENTS.md` two, `resources.md` one — eight
+situations in `use-cases.md`, and `facts.md` **283–290**. **The two checks this repository runs on
+itself owe no situation**: no owner of a project meets `check-shelf-links.py` or `check-trio.py`
+— the person who does is this repository's developer, and meets them in [`CLAUDE.md`](CLAUDE.md) — so they carry
+a diagram or a fact each (285, 286), and the shelf check needs no picture of *a name has a link*.
+
 ## 0.2.19 — 2026-09-25
 
 **The outward gate refused a sentence about publishing, and both copies of it were wrong in
@@ -1164,6 +1275,15 @@ conversation that happened; a blank is one that did not.
 `permissions.md` one, `hiring.md` one, `grouping.md` one, `visual.md` one — twenty-one situations in `use-cases.md`, and
 `facts.md` **262–277**. The ck situation is the one with no diagram or fact of its own, and owes none: ck adds
 no mechanism, it is declared like any tool and rides §21's.
+
+> **Correction, 2026-09-25 — the Trio line undercounts its own release.** The range from `v0.2.18` to
+> `v0.2.19` added ten diagrams · twenty-four situations · `facts.md` **262–282** — not the eight,
+> twenty-one and 262–277 above, which were written before the late rounds added the rest (thirty-four
+> situation rows went in, ten of them rewrites of rows already there). Every one of those rounds read
+> one repair's diff and none read this line against the release; the owner found it by asking.
+> Measured by `scripts/check-trio.py`, which 0.2.20 adds for exactly this. **And the trio those late
+> mechanics owed shipped in 0.2.20**: a diagram of how the publish gate reads a command, and a
+> diagram, a situation and a fact for the frontmatter check and the JSON read of the scan.
 
 ## 0.2.18 — 2026-09-11
 
