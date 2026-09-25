@@ -109,9 +109,15 @@ the hard gates always-on there.
 
 ## Codex / ChatGPT
 
-The `.codex-plugin/plugin.json` manifest follows the documented format (name, version,
-description, `skills: ./skills/`). Distribution goes through the OpenAI plugin directory;
-for local testing use the `$plugin-creator` flow described in their docs. Plugins surface in
+```sh
+codex plugin marketplace add jamillazarev/opsinist
+codex plugin add opsinist@opsinist
+```
+
+The marketplace is this repository, and the plugin reads `.codex-plugin/plugin.json` (name,
+version, description, `skills: ./skills/`). **`add` needs the `@opsinist`** — without the
+marketplace it refuses. This is the route the table above measured, and the one this machine's
+install was made with (read off its `~/.codex/config.toml`, 2026-09-25). Plugins surface in
 ChatGPT Work and Codex (desktop + CLI) — not in consumer Chat or mobile.
 
 ## Kimi Code CLI

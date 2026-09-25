@@ -29,9 +29,22 @@ on: the machinery a company runs on, as files, in a repository you already own.
 
 ## One minute in
 
+Pick the lines for the runtime you already use — the same repository installs into each:
+
 ```sh
+# Claude Code — a plugin, with slash commands
 claude plugin marketplace add jamillazarev/opsinist
 claude plugin install opsinist@opsinist
+
+# Codex — a plugin
+codex plugin marketplace add jamillazarev/opsinist
+codex plugin add opsinist@opsinist
+
+# Antigravity — the IDE and the agy CLI
+agy plugin install https://github.com/jamillazarev/opsinist
+
+# anything that reads Agent Skills — Cursor, OpenCode, Copilot CLI, Kimi, Factory Droid, Pi…
+npx skills add jamillazarev/opsinist
 ```
 
 Then say what you need — no command required, any language. It reads what you have and takes
@@ -144,17 +157,11 @@ plus twenty verbs, each a door to a flow that exists anyway:
 
 ---
 
-## Install everywhere else
+## Every runtime, and what each one lets an agent do
 
-The packaging is the open [Agent Skills](https://agentskills.my/specification/) standard —
-some thirty tools read it. As a bare skill:
-
-```sh
-npx skills add jamillazarev/opsinist
-```
-
-Antigravity (IDE and `agy` CLI), Codex / ChatGPT, Kimi, Cursor, OpenCode, Copilot CLI, Factory
-Droid and Pi each have their route → **[INSTALL.md](INSTALL.md)**. Installing is solved; **what each
+The packaging is the open [Agent Skills](https://agentskills.my/specification/) standard — some
+thirty tools read it, which is why the last line above works almost anywhere. Every route, with
+the date it was verified, is in **[INSTALL.md](INSTALL.md)**. Installing is solved; **what each
 runtime lets an agent do differs**, and the row that matters most is delegation:
 
 | | Installs | Delegation | Enforced tool allowlist | Worktrees | How we know |
